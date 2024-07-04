@@ -1,0 +1,8 @@
+{
+  "name": "funwithjavascript-public",
+  "version": "1.0.0",
+  "description": "Fun With JavaScript - Public Monorepo (www.virtuoid.com)",
+  "author": "TheVirtuoid <thevirtuoid@gmail.com>",
+  "license": "MIT",
+  "type": "module"
+}
