@@ -10,4 +10,8 @@ export default class Animals {
 		{ "type": "Whale", "name": "Moby Dick", "class": "Mammalia"},
 		{ "type": "Lizard", "name": "Larry", "class": "Reptilia"}
 	];
+
+	static LIST_MAP = new Map(
+			Animals.LIST.map((entry) => [entry.type, entry])
+	);
 }

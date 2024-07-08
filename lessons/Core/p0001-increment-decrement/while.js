@@ -1,5 +1,5 @@
-import Animals from '../../Utilities/Animals.js';
-import Table from "../../Utilities/Table.js";
+import Animals from '../../../Utilities/Animals.js';
+import Table from "../../../Utilities/Table.js";
 
 const header = ['Index', 'Animal', 'Name', 'Class'];
 const data = [];
