@@ -1,7 +1,7 @@
 import Animals from "../../Utilities/Animals.js";
 import SetTable from "../../Utilities/SetTable.js";
 
-const animals = Animals.LIST_SET_STRING;
+const animals = Animals.ListSetString();
 
 console.log('\n\nBefore Clear');
 SetTable.render(animals);

@@ -1,6 +1,6 @@
 import Animals from "../../Utilities/Animals.js";
 
-const animals = Animals.LIST_SET_STRING;
+const animals = Animals.ListSetString();
 
 console.log(animals);
 
