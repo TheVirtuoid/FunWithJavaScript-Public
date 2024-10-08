@@ -31,4 +31,9 @@ export default class Animals {
 	static ListSetString() {
 		return new Set([...Animals.LIST.map((entry) => entry.name)])
 	}
+
+	static ListSetTypeString() {
+		return new Set([...Animals.LIST.map((entry) => entry.type)])
+	}
+
 }
