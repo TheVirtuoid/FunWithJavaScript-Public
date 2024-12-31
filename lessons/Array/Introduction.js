@@ -32,6 +32,7 @@ const wierd = [
 		{ name: 'TheVirtuoid' },
 		[1, 2, 3]
 ];
+console.log(wierd);
 
 /*
 	Each object within the Array is said to be an "element" of the array

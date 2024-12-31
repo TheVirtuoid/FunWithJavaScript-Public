@@ -6,7 +6,7 @@ const animals = Animals.ListSetString();
 SetTable.render(animals);
 
 animals.forEach((value, key) => {
-	console.log(value);
+	console.log(key, value);
 });
 
 animals.add('Godzilla');
@@ -14,5 +14,5 @@ console.log('\n\n\n');
 SetTable.render(animals);
 
 animals.forEach((value, key) => {
-	console.log(value);
+	console.log(key, value);
 });

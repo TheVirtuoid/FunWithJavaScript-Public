@@ -1,7 +1,5 @@
 import Animals from "../../Utilities/Animals.js";
 import MapTable from "../../Utilities/MapTable.js";
-import ArraySimpleTable from "../../Utilities/ArraySimpleTable.js";
-import MapArrayTable from "../../Utilities/MapArrayTable.js";
 
 const animals = Animals.ListMapString();
 
@@ -20,7 +18,7 @@ console.log(valuesIterator.next().value);
 
 console.log('\n\n------What is Left');
 valuesIterator.forEach((value, key) => {
-	console.log(value);
+	console.log(key, value);
 });
 
 

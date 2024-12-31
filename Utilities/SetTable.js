@@ -2,7 +2,7 @@ import Table from "./Table.js";
 
 export default class SetTable {
 
-	static extractHeaders(set) {
+	static extractHeaders() {
 		return ['Value'];
 	}
 
@@ -12,7 +12,7 @@ export default class SetTable {
 	}
 
 	static render(set) {
-		const header = SetTable.extractHeaders(set);
+		const header = SetTable.extractHeaders();
 		const data = SetTable.extractData(set);
 		const table = new Table({ header, data });
 		table.render();

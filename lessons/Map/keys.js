@@ -19,7 +19,7 @@ console.log(keysIterator.next().value);
 
 console.log('\n\n------What is Left');
 keysIterator.forEach((value, key) => {
-	console.log(value);
+	console.log(key, value);
 });
 
 console.log('\n\n-----The Map as an Array');

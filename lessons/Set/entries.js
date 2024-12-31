@@ -15,7 +15,7 @@ console.log(entriesIterator.next().value);
 console.log(entriesIterator.next().value);
 
 entriesIterator.forEach((value, key) => {
-	console.log(value);
+	console.log(key, value);
 });
 
 const animalArray = [...animals.entries()];

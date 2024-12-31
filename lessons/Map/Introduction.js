@@ -12,8 +12,6 @@
 	Each paint color will have a name (key) and a position (value).
  */
 
-import Animals from "../../Utilities/Animals.js";
-
 const paints = ['red', 'blue', 'green', 'yellow', 'black', 'white'];
 const paintMap = new Map([
 	['red', 0],

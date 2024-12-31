@@ -2,7 +2,7 @@ import Table from "./Table.js";
 
 export default class MapTable {
 
-	static extractHeaders(map) {
+	static extractHeaders() {
 		return ['Key', 'Value'];
 	}
 
@@ -15,7 +15,7 @@ export default class MapTable {
 	}
 
 	static render(map) {
-		const header = MapTable.extractHeaders(map);
+		const header = MapTable.extractHeaders();
 		const data = MapTable.extractData(map);
 		const table = new Table({ header, data });
 		table.render();

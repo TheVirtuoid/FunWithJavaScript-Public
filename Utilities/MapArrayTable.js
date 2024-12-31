@@ -3,7 +3,6 @@ import Table from "./Table.js";
 export default class MapArrayTable {
 
 	static extractHeaders(array, includeIndex) {
-		// const headers = Object.keys(array[0]);
 		const headers = ['Key', 'Data'];
 		if (includeIndex) {
 			headers.unshift('index');
@@ -13,7 +12,6 @@ export default class MapArrayTable {
 
 	static extractData(array, includeIndex) {
 		return array.map((row, index) => {
-			// const rowValues = Object.values(row);
 			const rowValues = [row[0], JSON.stringify(row[1])];
 			if (includeIndex) {
 				rowValues.unshift(index);
