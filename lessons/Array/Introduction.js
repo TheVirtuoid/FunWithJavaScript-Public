@@ -35,20 +35,21 @@ const wierd = [
 console.log(wierd);
 
 /*
-	Each object within the Array is said to be an "element" of the array
+	Each object within the Array is said to be an "entry" of the array
 
-	JavaScript assigns numbers to each element in the array, starting from 0.
+	JavaScript assigns numbers to each entry in the array, starting from 0.
 */
-
+console.log('\n\n');
 console.log(numbers[0]); // 1
 console.log(strings[1]); // 'name'
 console.log(mix[3]); // 'name'
+console.log('\n\n');
 
 /*
 	For example, going back to the "paints" array, if someone needed you to get the 'yellow' paint,
 	you would go to the paints shelf and get the paint at position 3.
 
-	Why 3 when it's the 4th element? JavaScript starts counting from 0, so the 1st element is 0, the
+	Why 3 when it's the 4th entry? JavaScript starts counting from 0, so the 1st element is 0, the
 	second is 1, the third is 2, and so on.
  */
 

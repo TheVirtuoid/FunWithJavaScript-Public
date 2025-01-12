@@ -4,5 +4,8 @@
   "description": "Fun With JavaScript - Public Monorepo (www.virtuoid.com)",
   "author": "TheVirtuoid <thevirtuoid@gmail.com>",
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "cypress": "^13.17.0"
+  }
 }
