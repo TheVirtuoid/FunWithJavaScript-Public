@@ -13,7 +13,7 @@ const createAnimal = () => {
 	if (Math.random() < 0.4) {
 		errors.push(errorFeedClogged);
 	}
-	if (errors.length) {
+	if (errors.length > 0) {
 		throw new AggregateError(errors, 'Could not create the animal.');
 	} else {
 		console.log('\n\n*** New Animal Created! ***');

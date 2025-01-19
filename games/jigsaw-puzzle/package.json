@@ -1,0 +1,13 @@
+{
+  "name": "fwjs-jigsaw-puzzle",
+  "version": "0.0.1",
+  "description": "Fun With JavaScript - Jigsaw Puzzle Game",
+  "author": "TheVirtuoid <thevirtuoid@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "npx cypress open --config-file cypress.config.js"
+  }
+}
