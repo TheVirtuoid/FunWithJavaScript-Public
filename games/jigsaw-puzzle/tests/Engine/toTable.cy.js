@@ -1,10 +1,23 @@
+import Engine from "../../src/classes/Engine/Engine.js";
+import Table from "../../src/classes/Table/Table.js";
+import CutType from "../../src/classes/support/CutType.js";
+
 describe('When I send communications to the Table', () => {
-	it('should create a new Table', () => {});
-	it('should send new image', () => {});
-	it('should send new dimensions', () => {});
-	it('should send new cut type', () => {});
-	it('should send new number of pieces', () => {});
-	it('should cut the puzzle', () => {});
-	it('should shuffle the puzzle', () => {});
-	it('should send a piece move notification', () => {});
+	let engine;
+	let table;
+	beforeEach(() => {
+		engine = new Engine();
+		table = engine.addTable();
+	});
+
+	it('should create a new Table', () => {
+		expect(table).to.be.instanceOf(Table);
+	});
+
+	it('should NOT expect a notification if the move was valid', () => {});
+
+	it('should except an updated position if the move was invalid', () => {});
+
+	it('should get the number of pieces', () => {});
+
 });
