@@ -16,6 +16,6 @@ export default class Position2d {
 	}
 
 	static valid(args) {
-		return !!args.x && !!args.y;
+		return args.x !== undefined && args.y !== undefined;
 	}
 }
