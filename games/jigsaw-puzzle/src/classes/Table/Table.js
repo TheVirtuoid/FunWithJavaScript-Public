@@ -2,6 +2,7 @@ import Position2d from "../support/Position2d.js";
 import CutType from "../support/CutType.js";
 import Piece from "../Piece/Piece.js";
 import Picture from "../support/Picture.js";
+import Status from "../support/Status.js";
 
 export default class Table {
 	#image;
@@ -129,6 +130,6 @@ export default class Table {
 				y: Math.floor(Math.random() * (this.#dimension.y - this.#pieceHeight))
 			});
 		});
-		this.#pieces = this.#pieces.sort(() => Math.random() - 0.5);
+		return new Status({ code: Status.PUZZLE_READY, data: null });
 	}
 }
