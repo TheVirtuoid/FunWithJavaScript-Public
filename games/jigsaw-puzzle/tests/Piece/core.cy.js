@@ -1,4 +1,4 @@
-import Piece from "../../../src/classes/Piece/Piece.js";
+import Piece from "../../src/classes/Piece/Piece.js";
 
 describe('When I create a new Piece', () => {
 	it('should have a position', () => {

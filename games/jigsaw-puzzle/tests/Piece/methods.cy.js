@@ -1,4 +1,4 @@
-import Piece from "../../../src/classes/Piece/Piece.js";
+import Piece from "../../src/classes/Piece/Piece.js";
 
 describe('When I perform methods on a Piece', () => {
 	it('should move to another position', () => {

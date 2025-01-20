@@ -1,5 +1,5 @@
-import Table from './../../../src/classes/Table/Table.js';
-import CutType from "../../../src/classes/support/CutType.js";
+import Table from '../../src/classes/Table/Table.js';
+import CutType from "../../src/classes/support/CutType.js";
 
 describe('When I create a new Table', () => {
 	let table;

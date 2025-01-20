@@ -8,6 +8,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "npx cypress open --config-file cypress.config.js"
+    "preview": "vite preview",
+    "test": "npx cypress open --config-file cypress.config.js",
+    "test:ci": "npx cypress run --config-file cypress.config.js"
   }
 }
