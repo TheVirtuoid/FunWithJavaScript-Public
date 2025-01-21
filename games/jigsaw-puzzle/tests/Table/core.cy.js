@@ -13,7 +13,7 @@ describe('When I create a new Table', () => {
 	});
 
 	it('should create a table with no pieces', () => {
-		expect(table.pieceCount).to.be.equal(0);
+		expect(table.numberOfPieces).to.be.equal(0);
 	});
 
 	it('should create a table with no dimensions', () => {

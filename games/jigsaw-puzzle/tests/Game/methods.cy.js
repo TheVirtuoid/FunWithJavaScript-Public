@@ -43,8 +43,10 @@ describe('When I get certain return values from a Table', () => {
 		const status = table.movePiece(piece2, { x: 100, y: 0 });
 		const { code, data } = status;
 		expect(code).to.equal(Status.CONNECTED);
-
-		expect(status).to.be.true;
+		const piece = data.piece;
+		expect(piece).to.equal(piece1);
+		expect(piece.children.length).to.equal(1);
+		expect(piece.children[0]).to.equal(piece2);
 	});
 
 	it('should return a connection status if there is connection between a double piece and a single piece', () => {});

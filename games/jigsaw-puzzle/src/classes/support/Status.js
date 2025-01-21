@@ -4,6 +4,7 @@ export default class Status {
 	static NO_CHANGE = Symbol();
 	static MOVED = Symbol();
 	static CONNECTED = Symbol();
+	static NO_CONNECTION = Symbol();
 
 	#code;
 	#data
