@@ -2,15 +2,15 @@ import Position2d from "../support/Position2d.js";
 
 export default class Piece {
 	#position;
-	#connections;
-	#attached;
+	#children;
 	#ordinal;
+	#parent;
 
 	constructor( args = {}) {
 		this.#position = new Position2d(args.position) || new Position2d({ x: 0, y: 0 });
 		this.#ordinal = new Position2d(args.ordinal) || new Position2d({ x: 0, y: 0 });
-		this.#connections = [];
-		this.#attached = [];
+		this.#children = [];
+		this.#parent = null;
 	}
 
 	get x() {
@@ -29,9 +29,41 @@ export default class Piece {
 		return { x: this.#ordinal.x, y: this.#ordinal.y };
 	}
 
+	get children() {
+		return this.#children;
+	}
+
+	get parent() {
+		return this.#parent;
+	}
+
 	move(args = {}) {
 		if (Position2d.valid(args)) {
 			this.#position = new Position2d(args);
 		}
+	}
+
+	moveRelative(args = {}) {
+		if (Position2d.valid(args)) {
+			this.move({ x: this.x + args.x, y: this.y + args.y });
+		}
+	}
+
+	setParent(parent) {
+		this.#parent = parent;
+	}
+
+	addChild(child) {
+		child.setParent(this);
+		this.#children.push(child);
+	}
+
+	hasChild(piece) {
+		return this.children.some((child) => child === piece);
+	}
+
+	getChildByOrdinal(ordinal) {
+		const foundChild = this.children.filter((child) => child.ordinal.x === ordinal.x && child.ordinal.y === ordinal.y);
+		return foundChild[0] || null;
 	}
 }

@@ -1,10 +1,11 @@
 export default class Status {
-	static PUZZLE_READY = Symbol();
-	static NOOP = Symbol();
-	static NO_CHANGE = Symbol();
-	static MOVED = Symbol();
-	static CONNECTED = Symbol();
-	static NO_CONNECTION = Symbol();
+	static PUZZLE_READY = Symbol('puzzle ready');
+	static NOOP = Symbol('no operation');
+	static NO_CHANGE = Symbol('no change');
+	static MOVED = Symbol('moved');
+	static CONNECTED = Symbol('connected');
+	static NO_CONNECTION = Symbol('no connection');
+	static GAME_FINISHED = Symbol('game finished');
 
 	#code;
 	#data
@@ -21,5 +22,24 @@ export default class Status {
 
 	get data() {
 		return this.#data;
+	}
+
+	get connections() {
+		return this.#data?.connections;
+	}
+
+	get piecesRemaining() {
+		return this.#data?.piecesRemaining;
+	}
+
+	getConnection(index) {
+		const connections = this.connections || []
+		const connection = connections[index];
+		return {
+			child: connection?.data.child,
+			distanceX: connection?.data.distanceX,
+			distanceY: connection?.data.distanceY,
+			parent: connection?.data.parent
+		}
 	}
 }

@@ -3,8 +3,11 @@ import CutType from "../support/CutType.js";
 import Piece from "../Piece/Piece.js";
 import Picture from "../support/Picture.js";
 import Status from "../support/Status.js";
+import { moveAllPieces } from './move.js';
 
 export default class Table {
+	static CONNECTION_TOLERANCE = 3;
+
 	#image;
 	#cut;
 	#dimension;
@@ -14,10 +17,10 @@ export default class Table {
 	#columns;
 	#pieceWidth;
 	#pieceHeight;
-	#tolerance = 3;
+	#tolerance = Table.CONNECTION_TOLERANCE;
+	#piecesRemaining;
 
-	static STATUS_NORMAL = Symbol();
-	static STATUS_MOVE_CHANGED = Symbol();
+	#moveAllPieces = moveAllPieces;
 
 	constructor(args = {}) {
 		const { dimension, pieces, image, cut, numberOfPieces } = args;
@@ -26,6 +29,7 @@ export default class Table {
 		this.setCut(cut || CutType.NONE);
 		this.setNumberOfPieces(numberOfPieces || 0);
 		this.#pieces = pieces || [];
+		this.#piecesRemaining = 0;
 	}
 
 	get columns() {
@@ -103,17 +107,46 @@ export default class Table {
 		}
 		return piece;
 	}
-//
+
+	#print(piece) {
+		console.log(`Ord: ${piece.ordinal.x},${piece.ordinal.y}, Pos: ${piece.x},${piece.y}`);
+	}
+
 	movePiece(piece, position) {
 		let { x, y } = position;
 		let statusCode;
-		let statusData = piece;
+		let statusData = { piece, piecesRemaining: this.#piecesRemaining };
 
 		x = Math.max(0, Math.min(x, this.#dimension.x - this.#pieceWidth));
 		y = Math.max(0, Math.min(y, this.#dimension.y - this.#pieceHeight));
 		statusCode = x !== position.x || y !== position.y ? Status.MOVED : Status.NO_CHANGE;
-		piece.move(new Position2d({ x, y }));
-		this.#checkConnection(piece);
+		// move not only the piece, but all the children or the parent
+
+		this.#print(piece);
+		this.#moveAllPieces(piece, new Position2d({ x, y }));
+		this.#print(piece);
+		console.log('----');
+		// piece.move(new Position2d({ x, y }));
+		const connection = this.#checkConnection(piece);
+		if (connection.code === Status.CONNECTED) {
+			const movedChildren = new Set();
+			connection.data.forEach((connectionData) => {
+				// TODO: what happens when a multi-piece is moved to another single piece?
+				/** Each multi-piece becomes the child of the single piece */
+				const multiPiece = !!piece.parent || !!piece.children.length;
+				console.log(multiPiece, piece.parent, piece.children.length, `(${piece.ordinal.x},${piece.ordinal.y})`);
+				// TODO: what happens when a multi-piece is moved ao another multi-piece?
+				const { parent, child, distanceX, distanceY } = connectionData.data;
+				if (!movedChildren.has(child)) {
+					child.move(new Position2d({ x: child.x - distanceX, y: child.y - distanceY }));
+					this.#piecesRemaining -= 1;
+					parent.addChild(child);
+					movedChildren.add(child);
+				}
+			});
+			statusCode = this.#piecesRemaining === 1 ? Status.GAME_FINISHED : Status.CONNECTED;
+			statusData = { connections: connection.data, piecesRemaining: this.#piecesRemaining };
+		}
 		return new Status({ code: statusCode, data: statusData });
 	}
 
@@ -144,50 +177,64 @@ export default class Table {
 				y: Math.floor(Math.random() * (this.#dimension.y - this.#pieceHeight))
 			});
 		});
-		return new Status({ code: Status.PUZZLE_READY, data: null });
+		this.#piecesRemaining = this.numberOfPieces;
+		return new Status({ code: Status.PUZZLE_READY, data: this.#piecesRemaining });
 	}
 
 	#checkConnection(piece) {
-		console.log(`Checking connections for piece at positions [${piece.x}, ${piece.y}]`);
+		// console.log(`Checking connections for piece at positions [${piece.x}, ${piece.y}]`);
 		const { x, y } = piece.ordinal;
 		const north = this.#checkPieceConnection(piece, { x, y: y - 1 }, 0, 1);
 		const east = this.#checkPieceConnection(piece, { x: x + 1, y }, 1, 0);
 		const south = this.#checkPieceConnection(piece, { x , y: y + 1 }, 0, 1);
 		const west = this.#checkPieceConnection(piece, { x: x - 1, y }, 1, 0);
-		/*console.log(north.code === Status.CONNECTED, east.code === Status.CONNECTED, south.code === Status.CONNECTED, west.code === Status.CONNECTED)
-		console.log(north, east, south, west);*/
+		console.log(north.code === Status.CONNECTED, east.code === Status.CONNECTED, south.code === Status.CONNECTED, west.code === Status.CONNECTED)
+		// console.log(north, east, south, west);
+		const connections = [];
 		if (north.code === Status.CONNECTED) {
-			return north;
+			// console.log('North is connected');
+			connections.push(north);
 		}
 		if (east.code === Status.CONNECTED) {
-			return north;
+			// console.log('East is connected');
+			connections.push(east);
 		}
 		if (south.code === Status.CONNECTED) {
-			return north;
+			// console.log('South is connected');
+			connections.push(south);
 		}
 		if (west.code === Status.CONNECTED) {
-			return north;
+			// console.log('West is connected');
+			connections.push(west);
 		}
-		return new Status({ code: Status.NO_CONNECTION, data: null });
+		const code = connections.length ? Status.CONNECTED : Status.NO_CONNECTION;
+		return new Status({ code, data: connections });
 	}
 
 	// checkX, checkY refers to if we take into account the pieceWidth or pieceHeight (1) or not (0)
 	#checkPieceConnection(piece, ordinal, checkX, checkY) {
+		// console.log(`      checking (${ordinal.x}, ${ordinal.y}) with (${checkX}, ${checkY})`);
+		if (piece.parent) {
+			const { x, y } = piece.parent.ordinal;
+			console.log(`           checkPieceConnection: ordinals: parent = ${x}, ${y}, checking = ${ordinal.x}, ${ordinal.y}`);
+			if (x === ordinal.x && y === ordinal.y) {
+				return new Status({ code: Status.NOOP });
+			}
+		}
 		let code = Status.NO_CONNECTION;
 		let data = null;
 		const { x, y } = ordinal;
 		if (x >= 0 && x < this.#columns && y >= 0 && y < this.#rows) {
 			const piece2 = this.getPieceByOrdinal({ x, y });
+			// console.log(`      looking at piece (${piece2.ordinal.x}, ${piece2.ordinal.y}) with position (${piece2.x}, ${piece2.y})`);
 			const { x: x1, y: y1 } = piece;
 			const { x: x2, y: y2 } = piece2;
-			// I should be using the distance formula here, but I can't get it to work correctly using the pieceWidth and pieceHeight offsets
-			// so we'll do it the old fashioned, brute force way
-			const distanceX  = Math.abs(x1 - x2 - this.#pieceWidth * checkX);
-			const distanceY = Math.abs(y1 - y2 - this.#pieceHeight * checkY);
-			// console.log(`   Positions: [${x1}, ${y1}] - [${x2}, ${y2}] (Ordinals: [${x}, ${y}]), Distances: ${distanceX}, ${distanceY}`);
+			const distanceX = Math.sqrt((x2 - x1) ** 2) - this.#pieceWidth * checkX;
+			const distanceY = Math.sqrt((y2 - y1) ** 2) - this.#pieceHeight * checkY;
+			// console.log(`      Positions: [${x1}, ${y1}] - [${x2}, ${y2}] (Ordinals: [${x}, ${y}]), Distances: ${distanceX}, ${distanceY}`);
 			if (distanceX <= this.#tolerance && distanceY <= this.#tolerance) {
 				code = Status.CONNECTED;
-				data = { parent: piece, child: piece2 };
+				data = { parent: piece2, child: piece, distanceX, distanceY };
 			}
 		}
 		return new Status({ code, data });
