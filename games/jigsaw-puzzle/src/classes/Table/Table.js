@@ -122,21 +122,24 @@ export default class Table {
 		statusCode = x !== position.x || y !== position.y ? Status.MOVED : Status.NO_CHANGE;
 		// move not only the piece, but all the children or the parent
 
-		this.#print(piece);
+		// this.#print(piece);
 		this.#moveAllPieces(piece, new Position2d({ x, y }));
-		this.#print(piece);
-		console.log('----');
+		// this.#print(piece);
+		// console.log('--------------------------------------------------------------------------');
 		// piece.move(new Position2d({ x, y }));
 		const connection = this.#checkConnection(piece);
 		if (connection.code === Status.CONNECTED) {
+			console.log(`        CONNECTION!!!! Length = ${connection.data.length}`);
 			const movedChildren = new Set();
 			connection.data.forEach((connectionData) => {
 				// TODO: what happens when a multi-piece is moved to another single piece?
 				/** Each multi-piece becomes the child of the single piece */
 				const multiPiece = !!piece.parent || !!piece.children.length;
-				console.log(multiPiece, piece.parent, piece.children.length, `(${piece.ordinal.x},${piece.ordinal.y})`);
+				console.log(`            Piece parent: ${piece.parent}, children: ${piece.children?.length}`);
+				// console.log(multiPiece, piece.parent, piece.children.length, `(${piece.ordinal.x},${piece.ordinal.y})`);
 				// TODO: what happens when a multi-piece is moved ao another multi-piece?
 				const { parent, child, distanceX, distanceY } = connectionData.data;
+				console.log(`            P: ${parent}, C: ${child}, DX: ${distanceX}, DY: ${distanceY}`);
 				if (!movedChildren.has(child)) {
 					child.move(new Position2d({ x: child.x - distanceX, y: child.y - distanceY }));
 					this.#piecesRemaining -= 1;
@@ -213,26 +216,31 @@ export default class Table {
 
 	// checkX, checkY refers to if we take into account the pieceWidth or pieceHeight (1) or not (0)
 	#checkPieceConnection(piece, ordinal, checkX, checkY) {
-		// console.log(`      checking (${ordinal.x}, ${ordinal.y}) with (${checkX}, ${checkY})`);
+		console.log(`      checking piece (${piece.ordinal.x},${piece.ordinal.y}) against piece (${ordinal.x}, ${ordinal.y}) with (${checkX}, ${checkY})`);
+		let code = Status.NO_CONNECTION;
+		let data = null;
+		if (piece.getChildByOrdinal(ordinal)) {
+			return new Status({ code, data });
+		}
 		if (piece.parent) {
+			console.log('             checking a parent');
 			const { x, y } = piece.parent.ordinal;
-			console.log(`           checkPieceConnection: ordinals: parent = ${x}, ${y}, checking = ${ordinal.x}, ${ordinal.y}`);
+			// console.log(`           checkPieceConnection: ordinals: parent = ${x}, ${y}, checking = ${ordinal.x}, ${ordinal.y}`);
 			if (x === ordinal.x && y === ordinal.y) {
 				return new Status({ code: Status.NOOP });
 			}
 		}
-		let code = Status.NO_CONNECTION;
-		let data = null;
+
 		const { x, y } = ordinal;
 		if (x >= 0 && x < this.#columns && y >= 0 && y < this.#rows) {
 			const piece2 = this.getPieceByOrdinal({ x, y });
-			// console.log(`      looking at piece (${piece2.ordinal.x}, ${piece2.ordinal.y}) with position (${piece2.x}, ${piece2.y})`);
+			console.log(`        looking at piece (${piece2.ordinal.x}, ${piece2.ordinal.y}) with position (${piece2.x}, ${piece2.y})`);
 			const { x: x1, y: y1 } = piece;
 			const { x: x2, y: y2 } = piece2;
 			const distanceX = Math.sqrt((x2 - x1) ** 2) - this.#pieceWidth * checkX;
 			const distanceY = Math.sqrt((y2 - y1) ** 2) - this.#pieceHeight * checkY;
-			// console.log(`      Positions: [${x1}, ${y1}] - [${x2}, ${y2}] (Ordinals: [${x}, ${y}]), Distances: ${distanceX}, ${distanceY}`);
-			if (distanceX <= this.#tolerance && distanceY <= this.#tolerance) {
+			console.log(`        Positions: [${x1}, ${y1}] - [${x2}, ${y2}] (Ordinals: [${x}, ${y}]), Distances: ${distanceX}, ${distanceY}`);
+			if (Math.abs(distanceX) <= this.#tolerance && Math.abs(distanceY) <= this.#tolerance) {
 				code = Status.CONNECTED;
 				data = { parent: piece2, child: piece, distanceX, distanceY };
 			}

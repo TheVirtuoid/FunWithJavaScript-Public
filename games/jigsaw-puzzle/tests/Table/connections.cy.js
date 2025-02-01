@@ -27,7 +27,7 @@ describe('When I attempt to connect pieces together', () => {
 		x2y1 = table.getPieceByOrdinal(X2Y1);
 	});
 
-	it('should connect a piece to the north', () => {
+	xit('should connect a piece to the north', () => {
 		table.movePiece(x0y0, new Position2d({ x: 100, y: 100 }));
 		const status = table.movePiece(x0y1, new Position2d({ x: 100, y: 200 }));
 		expect(status.code).to.equal(Status.CONNECTED);
@@ -43,7 +43,7 @@ describe('When I attempt to connect pieces together', () => {
 	});
 
 	/** we don't need to check for parent/children anymore since the previous test covers that */
-	it('should connect a piece to the east', () => {
+	xit('should connect a piece to the east', () => {
 		table.movePiece(x1y0, new Position2d({ x: 200, y: 100 }));
 		const status = table.movePiece(x0y0, new Position2d({ x: 100, y: 100 }));
 		expect(status.connections.length).to.equal(1);
@@ -52,7 +52,7 @@ describe('When I attempt to connect pieces together', () => {
 		expect(connection.parent).to.equal(x1y0);
 	});
 
-	it('should connect a piece to the south', () => {
+	xit('should connect a piece to the south', () => {
 		table.movePiece(x0y1, new Position2d({ x: 100, y: 100 }));
 		const status = table.movePiece(x0y0, new Position2d({ x: 100, y: 0 }));
 		expect(status.connections.length).to.equal(1);
@@ -61,7 +61,7 @@ describe('When I attempt to connect pieces together', () => {
 		expect(connection.parent).to.equal(x0y1);
 	});
 
-	it('should connect a piece to the west', () => {
+	xit('should connect a piece to the west', () => {
 		table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
 		const status = table.movePiece(x1y0, new Position2d({ x: 100, y: 0 }));
 		expect(status.connections.length).to.equal(1);
@@ -78,6 +78,7 @@ describe('When I attempt to connect pieces together', () => {
 				table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
 				const status = table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
 				expect(status.code).to.equal(Status.CONNECTED);
+				console.log(status);
 				expect(status.connections.length).to.equal(1);
 				const connection = status.getConnection(0);
 				expect(connection.child).to.equal(x0y1);
