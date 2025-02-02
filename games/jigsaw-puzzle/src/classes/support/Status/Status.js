@@ -7,8 +7,8 @@ export default class Status {
 	static NO_CONNECTION = Symbol('no connection');
 	static GAME_FINISHED = Symbol('game finished');
 
+	#data;
 	#code;
-	#data
 
 	constructor(args = {}) {
 		const { code = Status.NOOP, data = null } = args;
@@ -24,22 +24,23 @@ export default class Status {
 		return this.#data;
 	}
 
-	get connections() {
-		return this.#data?.connections;
+	/*get piecesRemaining() {
+		return this.#piecesRemaining;
 	}
 
-	get piecesRemaining() {
-		return this.#data?.piecesRemaining;
+	get parent() {
+		return this.#parent;
 	}
 
-	getConnection(index) {
-		const connections = this.connections || []
-		const connection = connections[index];
-		return {
-			child: connection?.data.child,
-			distanceX: connection?.data.distanceX,
-			distanceY: connection?.data.distanceY,
-			parent: connection?.data.parent
-		}
+	get distanceX() {
+		return this.#distanceX;
 	}
+
+	get distanceY() {
+		return this.#distanceY;
+	}
+
+	get piece() {
+		return this.#piece;
+	}*/
 }

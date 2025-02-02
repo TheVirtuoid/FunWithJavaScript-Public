@@ -2,7 +2,7 @@ import Position2d from "../support/Position2d.js";
 import CutType from "../support/CutType.js";
 import Piece from "../Piece/Piece.js";
 import Picture from "../support/Picture.js";
-import Status from "../support/Status.js";
+import Status from "../support/Status/Status.js";
 import { moveAllPieces } from './move.js';
 
 export default class Table {
@@ -131,11 +131,15 @@ export default class Table {
 		if (connection.code === Status.CONNECTED) {
 			console.log(`        CONNECTION!!!! Length = ${connection.data.length}`);
 			const movedChildren = new Set();
-			connection.data.forEach((connectionData) => {
+			connection.data.forEach((status) => {
+				const { parent, distanceX, distanceY, piecesRemaining } = status;
+
+
+
 				// TODO: what happens when a multi-piece is moved to another single piece?
 				/** Each multi-piece becomes the child of the single piece */
 				const multiPiece = !!piece.parent || !!piece.children.length;
-				console.log(`            Piece parent: ${piece.parent}, children: ${piece.children?.length}`);
+				console.log(`            Piece parent: ${piece.parent}, children: ${piece.children?.length}, multipiece? ${multiPiece}`);
 				// console.log(multiPiece, piece.parent, piece.children.length, `(${piece.ordinal.x},${piece.ordinal.y})`);
 				// TODO: what happens when a multi-piece is moved ao another multi-piece?
 				const { parent, child, distanceX, distanceY } = connectionData.data;
@@ -218,9 +222,11 @@ export default class Table {
 	#checkPieceConnection(piece, ordinal, checkX, checkY) {
 		console.log(`      checking piece (${piece.ordinal.x},${piece.ordinal.y}) against piece (${ordinal.x}, ${ordinal.y}) with (${checkX}, ${checkY})`);
 		let code = Status.NO_CONNECTION;
-		let data = null;
+		let parent = null;
+		let distanceX = null;
+		let distanceY = null;
 		if (piece.getChildByOrdinal(ordinal)) {
-			return new Status({ code, data });
+			return new Status({ code });
 		}
 		if (piece.parent) {
 			console.log('             checking a parent');
@@ -237,14 +243,18 @@ export default class Table {
 			console.log(`        looking at piece (${piece2.ordinal.x}, ${piece2.ordinal.y}) with position (${piece2.x}, ${piece2.y})`);
 			const { x: x1, y: y1 } = piece;
 			const { x: x2, y: y2 } = piece2;
-			const distanceX = Math.sqrt((x2 - x1) ** 2) - this.#pieceWidth * checkX;
-			const distanceY = Math.sqrt((y2 - y1) ** 2) - this.#pieceHeight * checkY;
+			distanceX = Math.sqrt((x2 - x1) ** 2) - this.#pieceWidth * checkX;
+			distanceY = Math.sqrt((y2 - y1) ** 2) - this.#pieceHeight * checkY;
 			console.log(`        Positions: [${x1}, ${y1}] - [${x2}, ${y2}] (Ordinals: [${x}, ${y}]), Distances: ${distanceX}, ${distanceY}`);
 			if (Math.abs(distanceX) <= this.#tolerance && Math.abs(distanceY) <= this.#tolerance) {
 				code = Status.CONNECTED;
-				data = { parent: piece2, child: piece, distanceX, distanceY };
+				parent = piece2;
 			}
 		}
-		return new Status({ code, data });
+		return new Status({ code, parent, distanceX, distanceY });
 	}
+
+	/**
+	 * CONNECTION ROUTINES
+	 */
 }

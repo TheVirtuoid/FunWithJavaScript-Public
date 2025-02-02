@@ -1,7 +1,7 @@
 import Table from "../../src/classes/Table/Table.js";
 import CutType from "../../src/classes/support/CutType.js";
 import Piece from "../../src/classes/Piece/Piece.js";
-import Status from "../../src/classes/support/Status.js";
+import Status from "../../src/classes/support/Status/Status.js";
 
 describe('When I perform methods on a Table', () => {
 	let table;

@@ -1,6 +1,6 @@
 import Table from "../../src/classes/Table/Table.js";
 import Position2d from "../../src/classes/support/Position2d.js";
-import Status from "../../src/classes/support/Status.js";
+import Status from "../../src/classes/support/Status/Status.js";
 
 describe('When I perform methods on a Game', () => {
 	it('should create a new Table', () => {});

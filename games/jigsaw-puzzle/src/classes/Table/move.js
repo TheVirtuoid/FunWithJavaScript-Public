@@ -1,5 +1,5 @@
 import Position2d from "../support/Position2d.js";
-import Status from "../support/Status.js";
+import Status from "../support/Status/Status.js";
 
 const moveAllPieces = (piece, position) => {
 	const { x, y } = position;

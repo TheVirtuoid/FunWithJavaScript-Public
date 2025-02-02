@@ -1,5 +1,5 @@
 import Table from "../../src/classes/Table/Table.js";
-import Status from "../../src/classes/support/Status.js";
+import Status from "../../src/classes/support/Status/Status.js";
 
 describe('When I am moving a piece', () => {
 

@@ -1,4 +1,4 @@
-import Status from "../../src/classes/support/Status.js";
+import Status from "../../src/classes/support/Status/Status.js";
 import Table from "../../src/classes/Table/Table.js";
 
 describe('When I move a piece, and I want to test the status', () => {
