@@ -62,6 +62,14 @@ export default class Piece {
 		return this.children.some((child) => child === piece);
 	}
 
+	hasParent() {
+		return !!this.parent;
+	}
+
+	hasChildren() {
+		return this.children.length > 0;
+	}
+
 	getChildByOrdinal(ordinal) {
 		const foundChild = this.children.filter((child) => child.ordinal.x === ordinal.x && child.ordinal.y === ordinal.y);
 		return foundChild[0] || null;

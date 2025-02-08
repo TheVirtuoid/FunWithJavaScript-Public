@@ -4,6 +4,11 @@ import Piece from "../Piece/Piece.js";
 import Picture from "../support/Picture.js";
 import Status from "../support/Status/Status.js";
 import { moveAllPieces } from './move.js';
+import StatusNoop from "../support/Status/StatusNoop.js";
+import StatusNoConnection from "../support/Status/StatusNoConnection.js";
+import StatusConnected from "../support/Status/StatusConnected.js";
+import StatusMoved from "../support/Status/StatusMoved.js";
+import StatusNoChange from "../support/Status/StatusNoChange.js";
 
 export default class Table {
 	static CONNECTION_TOLERANCE = 3;
@@ -114,47 +119,42 @@ export default class Table {
 
 	movePiece(piece, position) {
 		let { x, y } = position;
-		let statusCode;
-		let statusData = { piece, piecesRemaining: this.#piecesRemaining };
+		let status;
+		let statusObject;
+		let toPiece;
+		let fromPiece;
+		let adjustment;
+		let piecesRemaining;
 
 		x = Math.max(0, Math.min(x, this.#dimension.x - this.#pieceWidth));
 		y = Math.max(0, Math.min(y, this.#dimension.y - this.#pieceHeight));
-		statusCode = x !== position.x || y !== position.y ? Status.MOVED : Status.NO_CHANGE;
-		// move not only the piece, but all the children or the parent
-
-		// this.#print(piece);
+		const statusCode = x !== position.x || y !== position.y ? Status.MOVED : Status.NO_CHANGE;
 		this.#moveAllPieces(piece, new Position2d({ x, y }));
-		// this.#print(piece);
-		// console.log('--------------------------------------------------------------------------');
-		// piece.move(new Position2d({ x, y }));
 		const connection = this.#checkConnection(piece);
-		if (connection.code === Status.CONNECTED) {
-			console.log(`        CONNECTION!!!! Length = ${connection.data.length}`);
-			const movedChildren = new Set();
-			connection.data.forEach((status) => {
-				const { parent, distanceX, distanceY, piecesRemaining } = status;
-
-
-
-				// TODO: what happens when a multi-piece is moved to another single piece?
-				/** Each multi-piece becomes the child of the single piece */
-				const multiPiece = !!piece.parent || !!piece.children.length;
-				console.log(`            Piece parent: ${piece.parent}, children: ${piece.children?.length}, multipiece? ${multiPiece}`);
-				// console.log(multiPiece, piece.parent, piece.children.length, `(${piece.ordinal.x},${piece.ordinal.y})`);
-				// TODO: what happens when a multi-piece is moved ao another multi-piece?
-				const { parent, child, distanceX, distanceY } = connectionData.data;
-				console.log(`            P: ${parent}, C: ${child}, DX: ${distanceX}, DY: ${distanceY}`);
-				if (!movedChildren.has(child)) {
-					child.move(new Position2d({ x: child.x - distanceX, y: child.y - distanceY }));
-					this.#piecesRemaining -= 1;
-					parent.addChild(child);
-					movedChildren.add(child);
-				}
-			});
-			statusCode = this.#piecesRemaining === 1 ? Status.GAME_FINISHED : Status.CONNECTED;
-			statusData = { connections: connection.data, piecesRemaining: this.#piecesRemaining };
+		if (!(connection instanceof StatusNoConnection)) {
+			return statusCode === Status.MOVED
+				? new StatusMoved({piece, newPosition: new Position2d({ x, y })})
+				: new StatusNoChange({piece});
 		}
-		return new Status({ code: statusCode, data: statusData });
+		// north
+
+
+		/*connection.data.forEach((status) => {
+			const { toPiece, fromPiece, adjustment } = status;
+
+			// SINGLE PIECE ...
+			if (!fromPiece.hasParent() && !fromPiece.hasChildren()) {
+				// to single piece
+				if (!toPiece.hasParent() && !toPiece.hasChildren()) {
+					fromPiece.moveRelative(adjustment);
+					toPiece.addChild(fromPiece);
+					this.#piecesRemaining --;
+				}
+			}
+		});*/
+		/*piecesRemaining = this.#piecesRemaining;
+		statusData = { toPiece, fromPiece, piecesRemaining: this.#piecesRemaining };*/
+		return new Status({ code: Status.NOOP });
 	}
 
 	setCut(cut) {
@@ -196,62 +196,40 @@ export default class Table {
 		const south = this.#checkPieceConnection(piece, { x , y: y + 1 }, 0, 1);
 		const west = this.#checkPieceConnection(piece, { x: x - 1, y }, 1, 0);
 		console.log(north.code === Status.CONNECTED, east.code === Status.CONNECTED, south.code === Status.CONNECTED, west.code === Status.CONNECTED)
-		// console.log(north, east, south, west);
-		const connections = [];
-		if (north.code === Status.CONNECTED) {
-			// console.log('North is connected');
-			connections.push(north);
+		const connections = { north, east, south, west };
+		if (north instanceof StatusConnected || east instanceof StatusConnected || south instanceof StatusConnected || west instanceof StatusConnected) {
+			return new Status({ code: Status.CONNECTED, data: connections });
+		} else {
+			return new StatusNoConnection({ piece });
 		}
-		if (east.code === Status.CONNECTED) {
-			// console.log('East is connected');
-			connections.push(east);
-		}
-		if (south.code === Status.CONNECTED) {
-			// console.log('South is connected');
-			connections.push(south);
-		}
-		if (west.code === Status.CONNECTED) {
-			// console.log('West is connected');
-			connections.push(west);
-		}
-		const code = connections.length ? Status.CONNECTED : Status.NO_CONNECTION;
-		return new Status({ code, data: connections });
 	}
 
 	// checkX, checkY refers to if we take into account the pieceWidth or pieceHeight (1) or not (0)
 	#checkPieceConnection(piece, ordinal, checkX, checkY) {
 		console.log(`      checking piece (${piece.ordinal.x},${piece.ordinal.y}) against piece (${ordinal.x}, ${ordinal.y}) with (${checkX}, ${checkY})`);
-		let code = Status.NO_CONNECTION;
-		let parent = null;
-		let distanceX = null;
-		let distanceY = null;
 		if (piece.getChildByOrdinal(ordinal)) {
-			return new Status({ code });
+			return new StatusNoConnection({ piece });
 		}
-		if (piece.parent) {
-			console.log('             checking a parent');
-			const { x, y } = piece.parent.ordinal;
-			// console.log(`           checkPieceConnection: ordinals: parent = ${x}, ${y}, checking = ${ordinal.x}, ${ordinal.y}`);
-			if (x === ordinal.x && y === ordinal.y) {
-				return new Status({ code: Status.NOOP });
-			}
+		const piece2 = this.getPieceByOrdinal(ordinal);
+		if (piece.parent === piece2) {
+			return new StatusNoConnection({ piece });
 		}
-
+		// at this point, we know the ordinal we're checking isn't a child of the piece nor the parent of the piece
 		const { x, y } = ordinal;
-		if (x >= 0 && x < this.#columns && y >= 0 && y < this.#rows) {
-			const piece2 = this.getPieceByOrdinal({ x, y });
-			console.log(`        looking at piece (${piece2.ordinal.x}, ${piece2.ordinal.y}) with position (${piece2.x}, ${piece2.y})`);
-			const { x: x1, y: y1 } = piece;
-			const { x: x2, y: y2 } = piece2;
-			distanceX = Math.sqrt((x2 - x1) ** 2) - this.#pieceWidth * checkX;
-			distanceY = Math.sqrt((y2 - y1) ** 2) - this.#pieceHeight * checkY;
-			console.log(`        Positions: [${x1}, ${y1}] - [${x2}, ${y2}] (Ordinals: [${x}, ${y}]), Distances: ${distanceX}, ${distanceY}`);
-			if (Math.abs(distanceX) <= this.#tolerance && Math.abs(distanceY) <= this.#tolerance) {
-				code = Status.CONNECTED;
-				parent = piece2;
-			}
+		if (x < 0 || x >= this.#columns || y < 0 || y >= this.#rows) {
+			return new StatusNoConnection({ piece });
 		}
-		return new Status({ code, parent, distanceX, distanceY });
+		// at this point, it's a valid piece on the table. Let's check it!!
+		console.log(`        looking at piece (${piece2.ordinal.x}, ${piece2.ordinal.y}) with position (${piece2.x}, ${piece2.y})`);
+		const { x: x1, y: y1 } = piece;
+		const { x: x2, y: y2 } = piece2;
+		const distanceX = Math.sqrt((x2 - x1) ** 2) - this.#pieceWidth * checkX;
+		const distanceY = Math.sqrt((y2 - y1) ** 2) - this.#pieceHeight * checkY;
+		console.log(`        Positions: [${x1}, ${y1}] - [${x2}, ${y2}] (Ordinals: [${x}, ${y}]), Distances: ${distanceX}, ${distanceY}`);
+		if (Math.abs(distanceX) <= this.#tolerance && Math.abs(distanceY) <= this.#tolerance) {
+			return new StatusConnected({ toPiece: piece2, fromPiece: piece, adjustment: new Position2d({ x: distanceX, y: distanceY}) });
+		}
+		return new StatusNoConnection({ piece });
 	}
 
 	/**

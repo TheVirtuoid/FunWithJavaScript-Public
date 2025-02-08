@@ -52,4 +52,33 @@ describe('When I perform methods on a Piece', () => {
 		piece.addChild(child);
 		expect(piece.getChildByOrdinal(new Position2d({ x: 1, y: 0 }))).to.equal(child);
 	});
+
+	it('should report that is has a parent', () => {
+		const piece = new Piece();
+		const parent = new Piece();
+		parent.addChild(piece);
+		expect(piece.hasParent()).to.equal(true);
+	});
+
+	it('should report that is does NOT have a parent', () => {
+		const piece = new Piece();
+		const parent = new Piece();
+		parent.addChild(piece);
+		expect(parent.hasParent()).to.equal(false);
+	});
+
+	it('should report that is has at least one child', () => {
+		const piece = new Piece();
+		const parent = new Piece();
+		parent.addChild(piece);
+		expect(parent.hasChildren()).to.equal(true);
+	});
+
+	it('should report that is does NOT have any children', () => {
+		const piece = new Piece();
+		const parent = new Piece();
+		parent.addChild(piece);
+		expect(piece.hasChildren()).to.equal(false);
+	});
+
 });

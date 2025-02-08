@@ -6,6 +6,7 @@ export default class Status {
 	static CONNECTED = Symbol('connected');
 	static NO_CONNECTION = Symbol('no connection');
 	static GAME_FINISHED = Symbol('game finished');
+	static INITIAL_CONNECTION = Symbol('initial connection');
 
 	#data;
 	#code;

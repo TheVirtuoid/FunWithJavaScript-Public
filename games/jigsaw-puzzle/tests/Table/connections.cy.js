@@ -1,10 +1,46 @@
 import Table from "../../src/classes/Table/Table.js";
 import Position2d from "../../src/classes/support/Position2d.js";
 import Status from "../../src/classes/support/Status/Status.js";
+import StatusConnected from "../../src/classes/support/Status/StatusConnected.js";
+import StatusNoChange from "../../src/classes/support/Status/StatusNoChange.js";
+import StatusMoved from "../../src/classes/support/Status/StatusMoved.js";
 
 describe('When I attempt to connect pieces together', () => {
 	let table;
 	let x0y0, x1y0, x2y0, x0y1, x1y1, x2y1, x0y2, x1y2, x2y2;
+
+	/**
+	 * Single piece
+	 * 		single piece
+	 * 			by itself
+	 * 			+ single piece (s)
+	 * 			+ child of multi-piece
+	 * 			+ parent of multi-piece
+	 * 		child of multi-piece
+	 * 		parent of multi-piece
+	 * 		multi-connect
+	 * 			single piece
+	 * 			child of multi-piece
+	 * 			parent of multi-piece
+	 *
+	 * 	Multipiece - child
+	 * 		single piece
+	 * 		child of multi-piece
+	 * 		parent of multi-piece
+	 * 		multi-connect
+	 * 			single piece
+	 * 			child of multi-piece
+	 * 			parent of multi-piece
+	 *
+	 * 	Multipiece - parent
+	 * 		single piece
+	 * 		child of multi-piece
+	 * 		parent of multi-piece
+	 * 		multi-connect
+	 * 			single piece
+	 * 			child of multi-piece
+	 * 			parent of multi-piece
+	 */
 
 	beforeEach( () => {
 		table = new Table();
@@ -23,58 +59,70 @@ describe('When I attempt to connect pieces together', () => {
 		x2y2 = table.getPieceByOrdinal(new Position2d({ x: 2, y: 2 }));
 	});
 
+	it('should not make a connection with no movement', () => {
+		const status = table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
+		expect(status instanceof StatusNoChange).to.be.true;
+		expect(status.piece).to.equal(x0y0);
+	});
+
+	it('should not make a connection with movement', () => {
+		let status = table.movePiece(x0y0, new Position2d({ x: -1000, y: 8000 }));
+		expect(status instanceof StatusMoved).to.be.true;
+		expect(status.piece).to.equal(x0y0);
+		expect(status.newPosition.x).to.equal(0);
+		expect(status.newPosition.y).to.equal(300);
+		status = table.movePiece(x0y0, new Position2d({ x: 1000, y: -8000 }));
+		expect(status instanceof StatusMoved).to.be.true;
+		expect(status.piece).to.equal(x0y0);
+		expect(status.newPosition.x).to.equal(500);
+		expect(status.newPosition.y).to.equal(0);
+	});
+
 	describe('When I want to check for directional connections', () => {
 		it('should connect to a piece to the north', () => {
 			table.movePiece(x0y0, new Position2d({ x: 100, y: 100 }));
 			const status = table.movePiece(x0y1, new Position2d({ x: 100, y: 200 }));
-			const { code, parent, numberOfPieces } = status;
-			expect(code).to.equal(Status.CONNECTED);
+			expect(status).to.be.instanceof(StatusConnected);
+			const { toPiece, fromPiece, piecesRemaining } = status;
+			expect(toPiece).to.equal(x0y0);
+			expect(fromPiece).to.equal(x0y1);
+			expect(piecesRemaining).to.equal(23);
+
+			// now, check to make sure the parent/child works correctly;
 			expect(parent).to.equal(x0y0);
 			expect(x0y0.children.length).to.equal(1);
-			expect(x0y0.children[0]).to.equal(x0y1);
+			expect(x0y0.hasChild(x0y1)).to.be.true;
 			expect(x0y0.parent).to.be.null;
 			expect(x0y1.children.length).to.equal(0);
 			expect(x0y1.parent).to.equal(x0y0);
-			expect(numberOfPieces).to.equal(23);
 		});
 
+		// the north test checks for parent/child relationships, for the others we just check that there was a connection
 		xit('should connect to a piece to the east', () => {
-			table.movePiece(x1y0, new Position2d({ x: 200, y: 100 }));
-			const status = table.movePiece(x0y0, new Position2d({ x: 100, y: 100 }));
-			const { code, parent, numberOfPieces } = status;
-			expect(code).to.equal(Status.CONNECTED);
-			expect(parent).to.equal(x1y0);
-			expect(x1y0.hasChild(x0y0)).to.be.true;
-			expect(x1y0.parent).to.be.null;
-			expect(x0y0.children.length).to.equal(0);
-			expect(x0y0.parent).to.equal(x1y0);
-			expect(numberOfPieces).to.equal(23);
+			table.movePiece(x1y0, new Position2d({ x: 100, y: 0 }));
+			const status = table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
+			expect(status).to.be.instanceof(StatusConnected);
+			const { toPiece, fromPiece } = status;
+			expect(toPiece).to.equal(x1y0);
+			expect(fromPiece).to.equal(x0y0);
 		});
 
 		xit('should connect to a piece to the south', () => {
-			table.movePiece(x0y1, new Position2d({ x: 100, y: 100 }));
-			const status = table.movePiece(x0y0, new Position2d({ x: 100, y: 0 }));
-			const { code, parent, numberOfPieces } = status;
-			expect(code).to.equal(Status.CONNECTED);
-			expect(parent).to.equal(x0y1);
-			expect(x0y1.hasChild(x0y0)).to.be.true;
-			expect(x0y1.parent).to.be.null;
-			expect(x0y0.children.length).to.equal(0);
-			expect(x0y0.parent).to.equal(x0y1);
-			expect(numberOfPieces).to.equal(23);
+			table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
+			const status = table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
+			expect(status).to.be.instanceof(StatusConnected);
+			const { toPiece, fromPiece } = status;
+			expect(toPiece).to.equal(x0y1);
+			expect(fromPiece).to.equal(x0y0);
 		});
 
 		xit('should connect to a piece to the west', () => {
 			table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
 			const status = table.movePiece(x1y0, new Position2d({ x: 100, y: 0 }));
-			const { code, parent, numberOfPieces } = status;
-			expect(code).to.equal(Status.CONNECTED);
-			expect(parent).to.equal(x0y0);
-			expect(x0y0.hasChild(x0y0)).to.be.true;
-			expect(x0y0.parent).to.be.null;
-			expect(x1y0.children.length).to.equal(0);
-			expect(x1y0.parent).to.equal(x0y0);
-			expect(numberOfPieces).to.equal(23);
+			expect(status).to.be.instanceof(StatusConnected);
+			const { toPiece, fromPiece } = status;
+			expect(toPiece).to.equal(x0y0);
+			expect(fromPiece).to.equal(x1y0);
 		});
 
 		xit('should connect to pieces north and east', () => {
@@ -115,19 +163,19 @@ describe('When I attempt to connect pieces together', () => {
 		it('should connect to pieces north, south, east, and west', () => {});
 	});
 
-	describe('When I drop a single piece', () => {
+	xdescribe('When I drop a single piece', () => {
 		describe('And I connect with a single piece', () => {});
 		describe('And I connect with a child of a multi-piece', () => {});
 		describe('And I connect with a parent of a multi-piece', () => {});
 	});
 
-	describe('When I drop a child of a multi-piece', () => {
+	xdescribe('When I drop a child of a multi-piece', () => {
 		describe('And I connect with a single piece', () => {});
 		describe('And I connect with a child of a multi-piece', () => {});
 		describe('And I connect with a parent of a multi-piece', () => {});
 	});
 
-	describe('When I drop a parent of a multi-piece', () => {
+	xdescribe('When I drop a parent of a multi-piece', () => {
 		describe('And I connect with a single piece', () => {});
 		describe('And I connect with a child of a multi-piece', () => {});
 		describe('And I connect with a parent of a multi-piece', () => {});
@@ -135,7 +183,7 @@ describe('When I attempt to connect pieces together', () => {
 
 	xdescribe('And when I am moving a multi-piece to a single piece', () => {
 		describe('And when I am moving the parent piece', () => {
-			it('should only connect to the north', () => {
+			xit('should only connect to the north', () => {
 				table.movePiece(x0y1, new Position2d({ x: 0, y: 0 }));
 				table.movePiece(x1y1, new Position2d({ x: 100, y: 0 }));
 				table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
