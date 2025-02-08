@@ -83,63 +83,50 @@ describe('When I attempt to connect pieces together', () => {
 			table.movePiece(x0y0, new Position2d({ x: 100, y: 100 }));
 			const status = table.movePiece(x0y1, new Position2d({ x: 100, y: 200 }));
 			expect(status).to.be.instanceof(StatusConnected);
-			const { toPiece, fromPiece, piecesRemaining } = status;
-			expect(toPiece).to.equal(x0y0);
-			expect(fromPiece).to.equal(x0y1);
+			const { piecesRemaining } = status;
 			expect(piecesRemaining).to.equal(23);
-
-			// now, check to make sure the parent/child works correctly;
-			expect(parent).to.equal(x0y0);
-			expect(x0y0.children.length).to.equal(1);
 			expect(x0y0.hasChild(x0y1)).to.be.true;
-			expect(x0y0.parent).to.be.null;
-			expect(x0y1.children.length).to.equal(0);
 			expect(x0y1.parent).to.equal(x0y0);
 		});
 
-		// the north test checks for parent/child relationships, for the others we just check that there was a connection
-		xit('should connect to a piece to the east', () => {
+		it('should connect to a piece to the east', () => {
 			table.movePiece(x1y0, new Position2d({ x: 100, y: 0 }));
 			const status = table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
 			expect(status).to.be.instanceof(StatusConnected);
-			const { toPiece, fromPiece } = status;
-			expect(toPiece).to.equal(x1y0);
-			expect(fromPiece).to.equal(x0y0);
+			expect(x1y0.hasChild(x0y0)).to.be.true;
+			expect(x0y0.parent).to.equal(x1y0);
 		});
 
-		xit('should connect to a piece to the south', () => {
+		it('should connect to a piece to the south', () => {
 			table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
 			const status = table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
 			expect(status).to.be.instanceof(StatusConnected);
-			const { toPiece, fromPiece } = status;
-			expect(toPiece).to.equal(x0y1);
-			expect(fromPiece).to.equal(x0y0);
+			expect(x0y1.hasChild(x0y0)).to.be.true;
+			expect(x0y0.parent).to.equal(x0y1);
 		});
 
-		xit('should connect to a piece to the west', () => {
+		it('should connect to a piece to the west', () => {
 			table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
 			const status = table.movePiece(x1y0, new Position2d({ x: 100, y: 0 }));
 			expect(status).to.be.instanceof(StatusConnected);
-			const { toPiece, fromPiece } = status;
-			expect(toPiece).to.equal(x0y0);
-			expect(fromPiece).to.equal(x1y0);
+			expect(x0y0.hasChild(x1y0)).to.be.true;
+			expect(x1y0.parent).to.equal(x0y0);
 		});
 
-		xit('should connect to pieces north and east', () => {
+		it('should connect to pieces north and east', () => {
 			table.movePiece(x0y0, new Position2d({x : 0, y: 0 }));
 			table.movePiece(x1y1, new Position2d({ x: 100, y: 100 }));
 			const status = table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
-			const { code, parent, numberOfPieces } = status;
-			expect(code).to.equal(Status.CONNECTED);
-			expect(parent).to.equal(x0y0);
-			expect(x0y0.hasChild(x0y1)).to.be.true;
-			expect(x0y0.hasChild(x1y1)).to.be.true;
-			expect(x0y0.parent).to.be.null;
-			expect(x0y1.children.length).to.equal(0);
-			expect(x0y1.parent).to.equal(x0y0);
-			expect(x0y2.children.length).to.equal(0);
-			expect(x0y2.parent).to.equal(x0y0);
-			expect(numberOfPieces).to.equal(22);
+			// east should be the parent of both north and piece
+			expect(status).to.be.instanceof(StatusConnected);
+			const { piecesRemaining } = status;
+			expect(piecesRemaining).to.equal(22);
+			console.log(x1y1);
+			expect(x1y1.hasChild(x0y0)).to.be.true;
+			expect(x1y1.hasChild(x0y1)).to.be.true;
+			expect(x0y0.parent).to.equal(x1y1);
+			expect(x0y1.parent).to.equal(x1y1);
+			expect(x0y0.hasChildren()).to.be.false;	// we test this since x0y0 would have been a parent of x0y1 at one point
 		});
 
 		it('should connect to pieces north and south', () => {});

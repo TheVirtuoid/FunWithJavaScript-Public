@@ -74,4 +74,32 @@ export default class Piece {
 		const foundChild = this.children.filter((child) => child.ordinal.x === ordinal.x && child.ordinal.y === ordinal.y);
 		return foundChild[0] || null;
 	}
+
+	removeChild(child) {
+		if (!this.hasChild(child)) {
+			return null;
+		}
+		this.#children = this.children.filter((piece) => piece !== child);
+		child.setParent(null);
+		return child;
+	}
+
+	moveTo(target) {
+		this.children.forEach((child) => {
+			this.#transfer(child, target);
+		});
+		this.#children = [];
+		if (this.parent) {
+			this.parent.removeChild(this);
+		}
+		this.#transfer(this, target);
+	}
+
+	#transfer(fromPiece, toPiece) {
+		if (toPiece.parent) {
+			toPiece.parent.addChild(fromPiece);
+		} else {
+			toPiece.addChild(fromPiece);
+		}
+	}
 }

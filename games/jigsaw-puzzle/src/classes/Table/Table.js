@@ -9,6 +9,7 @@ import StatusNoConnection from "../support/Status/StatusNoConnection.js";
 import StatusConnected from "../support/Status/StatusConnected.js";
 import StatusMoved from "../support/Status/StatusMoved.js";
 import StatusNoChange from "../support/Status/StatusNoChange.js";
+import StatusInitialConnection from '../support/Status/StatusInitialConnection.js';
 
 export default class Table {
 	static CONNECTION_TOLERANCE = 3;
@@ -131,12 +132,29 @@ export default class Table {
 		const statusCode = x !== position.x || y !== position.y ? Status.MOVED : Status.NO_CHANGE;
 		this.#moveAllPieces(piece, new Position2d({ x, y }));
 		const connection = this.#checkConnection(piece);
-		if (!(connection instanceof StatusNoConnection)) {
+		if (connection instanceof StatusNoConnection) {
 			return statusCode === Status.MOVED
 				? new StatusMoved({piece, newPosition: new Position2d({ x, y })})
 				: new StatusNoChange({piece});
 		}
-		// north
+		// we now have a STATUS_INITIAL_CONNECTION
+		const { north, east, south, west } = connection;
+		[north, east, south, west].forEach((connection) => {
+			if (connection instanceof StatusConnected) {
+				this.#piecesRemaining --;
+				const { toPiece, fromPiece, adjustment } = connection;
+				fromPiece.moveRelative(adjustment);
+				// if fromPiece is already a child, then it and the parent and all the children of the parent become children of toPiece
+				if (fromPiece.hasParent()) {
+					const parent = fromPiece.parent;
+					parent.children.forEach((child) => {
+						toPiece.addChild(child);
+						fromPiece.removeChild(child);
+					});
+				}
+				toPiece.addChild(fromPiece);
+			}
+		});
 
 
 		/*connection.data.forEach((status) => {
@@ -154,7 +172,7 @@ export default class Table {
 		});*/
 		/*piecesRemaining = this.#piecesRemaining;
 		statusData = { toPiece, fromPiece, piecesRemaining: this.#piecesRemaining };*/
-		return new Status({ code: Status.NOOP });
+		return new StatusConnected({ fromPiece: piece, piecesRemaining: this.#piecesRemaining });
 	}
 
 	setCut(cut) {
@@ -196,9 +214,8 @@ export default class Table {
 		const south = this.#checkPieceConnection(piece, { x , y: y + 1 }, 0, 1);
 		const west = this.#checkPieceConnection(piece, { x: x - 1, y }, 1, 0);
 		console.log(north.code === Status.CONNECTED, east.code === Status.CONNECTED, south.code === Status.CONNECTED, west.code === Status.CONNECTED)
-		const connections = { north, east, south, west };
 		if (north instanceof StatusConnected || east instanceof StatusConnected || south instanceof StatusConnected || west instanceof StatusConnected) {
-			return new Status({ code: Status.CONNECTED, data: connections });
+			return new StatusInitialConnection({ piece, north, east, south, west });
 		} else {
 			return new StatusNoConnection({ piece });
 		}
@@ -206,7 +223,7 @@ export default class Table {
 
 	// checkX, checkY refers to if we take into account the pieceWidth or pieceHeight (1) or not (0)
 	#checkPieceConnection(piece, ordinal, checkX, checkY) {
-		console.log(`      checking piece (${piece.ordinal.x},${piece.ordinal.y}) against piece (${ordinal.x}, ${ordinal.y}) with (${checkX}, ${checkY})`);
+		// console.log(`      checking piece (${piece.ordinal.x},${piece.ordinal.y}) against piece (${ordinal.x}, ${ordinal.y}) with (${checkX}, ${checkY})`);
 		if (piece.getChildByOrdinal(ordinal)) {
 			return new StatusNoConnection({ piece });
 		}
@@ -220,12 +237,12 @@ export default class Table {
 			return new StatusNoConnection({ piece });
 		}
 		// at this point, it's a valid piece on the table. Let's check it!!
-		console.log(`        looking at piece (${piece2.ordinal.x}, ${piece2.ordinal.y}) with position (${piece2.x}, ${piece2.y})`);
+		// console.log(`        looking at piece (${piece2.ordinal.x}, ${piece2.ordinal.y}) with position (${piece2.x}, ${piece2.y})`);
 		const { x: x1, y: y1 } = piece;
 		const { x: x2, y: y2 } = piece2;
 		const distanceX = Math.sqrt((x2 - x1) ** 2) - this.#pieceWidth * checkX;
 		const distanceY = Math.sqrt((y2 - y1) ** 2) - this.#pieceHeight * checkY;
-		console.log(`        Positions: [${x1}, ${y1}] - [${x2}, ${y2}] (Ordinals: [${x}, ${y}]), Distances: ${distanceX}, ${distanceY}`);
+		// console.log(`        Positions: [${x1}, ${y1}] - [${x2}, ${y2}] (Ordinals: [${x}, ${y}]), Distances: ${distanceX}, ${distanceY}`);
 		if (Math.abs(distanceX) <= this.#tolerance && Math.abs(distanceY) <= this.#tolerance) {
 			return new StatusConnected({ toPiece: piece2, fromPiece: piece, adjustment: new Position2d({ x: distanceX, y: distanceY}) });
 		}
