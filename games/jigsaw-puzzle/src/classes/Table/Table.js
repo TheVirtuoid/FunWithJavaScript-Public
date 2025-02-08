@@ -144,15 +144,7 @@ export default class Table {
 				this.#piecesRemaining --;
 				const { toPiece, fromPiece, adjustment } = connection;
 				fromPiece.moveRelative(adjustment);
-				// if fromPiece is already a child, then it and the parent and all the children of the parent become children of toPiece
-				if (fromPiece.hasParent()) {
-					const parent = fromPiece.parent;
-					parent.children.forEach((child) => {
-						toPiece.addChild(child);
-						fromPiece.removeChild(child);
-					});
-				}
-				toPiece.addChild(fromPiece);
+				fromPiece.moveTo(toPiece);
 			}
 		});
 

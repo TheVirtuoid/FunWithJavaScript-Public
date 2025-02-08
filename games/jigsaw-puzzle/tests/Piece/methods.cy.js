@@ -103,50 +103,129 @@ describe('When I perform methods on a Piece', () => {
 	});
 
 	describe('and when I attempt to move a piece to another piece', () => {
-		it('should move when there is no parent nor children', () => {
-			const target = new Piece();
-			const piece = new Piece();
-			piece.moveTo(target);
-			expect(target.hasChild(piece)).to.be.true;
-			expect(piece.parent).to.equal(target);
+		describe('and when the piece has no children nor parent', () => {
+			it('should move the piece as a child when target has no parent or children', () => {
+				const target = new Piece();
+				const piece = new Piece();
+				piece.moveTo(target);
+				expect(target.hasChild(piece)).to.be.true;
+				expect(piece.parent).to.equal(target);
+			});
+
+			it('should move the piece as a child when target is a parent', () => {
+				const target = new Piece();
+				const child = new Piece();
+				const piece = new Piece();
+				target.addChild(child);
+				piece.moveTo(target);
+				expect(target.hasChild(piece)).to.be.true;
+				expect(piece.parent).to.equal(target);
+			});
+
+			it('should move the piece as a child to target.parent if target is a child', () => {
+				const target = new Piece();
+				const parent = new Piece();
+				const piece = new Piece();
+				parent.addChild(target);
+				piece.moveTo(target);
+				expect(parent.hasChild(piece)).to.be.true;
+				expect(piece.parent).to.equal(parent);
+				expect(target.hasChild(piece)).to.be.false;
+			});
 		});
 
-		it('should move when piece is a parent (all children should also move)', () => {
-			const piece = new Piece();
-			const child1 = new Piece();
-			const child2 = new Piece();
-			piece.addChild(child1);
-			piece.addChild(child2);
-			const target = new Piece();
-			piece.moveTo(target);
-			expect(target.hasChild(child1)).to.be.true;
-			expect(target.hasChild(child2)).to.be.true;
-			expect(target.hasChild(piece)).to.be.true;
-			expect(child1.parent).to.equal(target);
-			expect(child2.parent).to.equal(target);
-			expect(piece.parent).to.equal(target);
+		describe('and when the piece is a parent', () => {
+			it('should move itself and all the children as children to the target when target has no parent or children', () => {
+				const piece = new Piece();
+				const child1 = new Piece();
+				const child2 = new Piece();
+				piece.addChild(child1);
+				piece.addChild(child2);
+				const target = new Piece();
+				piece.moveTo(target);
+				expect(target.hasChild(child1)).to.be.true;
+				expect(target.hasChild(child2)).to.be.true;
+				expect(target.hasChild(piece)).to.be.true;
+				expect(child1.parent).to.equal(target);
+				expect(child2.parent).to.equal(target);
+				expect(piece.parent).to.equal(target);
+			});
+
+			it('should move itself and all the children as children to the target when target is a parent', () => {
+				const piece = new Piece();
+				const child1 = new Piece();
+				const child2 = new Piece();
+				const target = new Piece();
+				const targetChild = new Piece();
+				piece.addChild(child1);
+				piece.addChild(child2);
+				target.addChild(targetChild);
+				piece.moveTo(target);
+				expect(target.hasChild(child1)).to.be.true;
+				expect(target.hasChild(child2)).to.be.true;
+				expect(target.hasChild(piece)).to.be.true;
+				expect(target.hasChild(targetChild)).to.be.true;
+				expect(child1.parent).to.equal(target);
+				expect(child2.parent).to.equal(target);
+				expect(piece.parent).to.equal(target);
+			});
+
+			it('should move itself and all the children as children to the target.parent when target is a child', () => {
+				const piece = new Piece();
+				const child1 = new Piece();
+				const child2 = new Piece();
+				const target = new Piece();
+				const targetParent = new Piece();
+				piece.addChild(child1);
+				piece.addChild(child2);
+				targetParent.addChild(target);
+				piece.moveTo(target);
+				expect(targetParent.hasChild(child1)).to.be.true;
+				expect(targetParent.hasChild(child2)).to.be.true;
+				expect(targetParent.hasChild(piece)).to.be.true;
+				expect(child1.parent).to.equal(targetParent);
+				expect(child2.parent).to.equal(targetParent);
+				expect(piece.parent).to.equal(targetParent);
+			});
 		});
 
-		it('should move when there piece is a child (parent loses the piece)', () => {
-			const piece = new Piece();
-			const parent = new Piece();
-			const target = new Piece();
-			parent.addChild(piece);
-			piece.moveTo(target);
-			expect(parent.hasChild(piece)).to.be.false;
-			expect(target.hasChild(piece)).to.be.true;
-			expect(piece.parent).to.equal(target);
-		});
+		describe('and when the piece is a child', () => {
+			it('should move itself as a child to the target when target has no parent or children, and remove itself from the original parent', () => {
+				const piece = new Piece();
+				const parent = new Piece();
+				parent.addChild(piece);
+				const target = new Piece();
+				piece.moveTo(target);
+				expect(target.hasChild(piece)).to.be.true;
+				expect(parent.hasChild(piece)).to.be.false;
+				expect(piece.parent).to.equal(target);
+			});
 
-		it('should move when the target piece is a child (it becomes a child of the target parent', () => {
-			const piece = new Piece();
-			const target = new Piece();
-			const parent = new Piece();
-			parent.addChild(target);
-			piece.moveTo(target);
-			expect(target.hasChild(piece)).to.be.false;
-			expect(parent.hasChild(piece)).to.be.true;
+			it('should move itself as a child to the target when target is a parent, and remove itself from the original parent', () => {
+				const piece = new Piece();
+				const parent = new Piece();
+				const target = new Piece();
+				const targetChild = new Piece();
+				parent.addChild(piece);
+				target.addChild(targetChild);
+				piece.moveTo(target);
+				expect(target.hasChild(piece)).to.be.true;
+				expect(parent.hasChild(piece)).to.be.false;
+				expect(piece.parent).to.equal(target);
+			});
+
+			it('should move itself as a child to the target.parent when target is a child, and remove itself from the original parent', () => {
+				const piece = new Piece();
+				const parent = new Piece();
+				const target = new Piece();
+				const targetParent = new Piece();
+				parent.addChild(piece);
+				targetParent.addChild(target);
+				piece.moveTo(target);
+				expect(targetParent.hasChild(piece)).to.be.true;
+				expect(parent.hasChild(piece)).to.be.false;
+				expect(piece.parent).to.equal(targetParent);
+			});
 		});
 	});
-
 });
