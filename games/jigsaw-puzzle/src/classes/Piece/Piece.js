@@ -85,12 +85,12 @@ export default class Piece {
 	}
 
 	moveTo(target) {
-		this.children.forEach((child) => {
-			this.#transfer(child, target);
-		});
-		this.#children = [];
-		if (this.parent) {
-			this.parent.removeChild(this);
+		this.#transferChildren(this, target);
+		const parent = this.parent;
+		if (parent) {
+			parent.removeChild(this);
+			this.#transferChildren(parent, target);
+			this.#transfer(parent, target);
 		}
 		this.#transfer(this, target);
 	}
@@ -101,5 +101,12 @@ export default class Piece {
 		} else {
 			toPiece.addChild(fromPiece);
 		}
+	}
+
+	#transferChildren(fromPiece, toPiece) {
+		fromPiece.children.forEach((child) => {
+			fromPiece.#transfer(child, toPiece);
+		});
+		fromPiece.#children = [];
 	}
 }

@@ -143,8 +143,13 @@ export default class Table {
 			if (connection instanceof StatusConnected) {
 				this.#piecesRemaining --;
 				const { toPiece, fromPiece, adjustment } = connection;
+				console.log('----------------------------------------------------------------');
+				console.log(`Moving piece from [${fromPiece.ordinal.x}, ${fromPiece.ordinal.y}] to [${toPiece.ordinal.x}, ${toPiece.ordinal.y}]`);
 				fromPiece.moveRelative(adjustment);
 				fromPiece.moveTo(toPiece);
+				console.log(`    Piece at [${fromPiece.ordinal.x}, ${fromPiece.ordinal.y}] is now a child of piece at [${toPiece.ordinal.x}, ${toPiece.ordinal.y}]`);
+				console.log(`        toPiece parent: [${toPiece.parent?.ordinal.x}, ${toPiece.parent?.ordinal.y}]`);
+				console.log(`        fromPiece parent: [${fromPiece.parent?.ordinal.x}, ${fromPiece.parent?.ordinal.y}]`);
 			}
 		});
 

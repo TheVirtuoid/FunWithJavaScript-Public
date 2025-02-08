@@ -190,41 +190,60 @@ describe('When I perform methods on a Piece', () => {
 		});
 
 		describe('and when the piece is a child', () => {
-			it('should move itself as a child to the target when target has no parent or children, and remove itself from the original parent', () => {
+			it('should move itself as a child to the target when target has no parent or children, and move parent as a child plus all children of parent', () => {
 				const piece = new Piece();
 				const parent = new Piece();
+				const child = new Piece();
 				parent.addChild(piece);
+				parent.addChild(child);
 				const target = new Piece();
 				piece.moveTo(target);
 				expect(target.hasChild(piece)).to.be.true;
+				expect(target.hasChild(parent)).to.be.true;
+				expect(target.hasChild(child)).to.be.true;
 				expect(parent.hasChild(piece)).to.be.false;
 				expect(piece.parent).to.equal(target);
+				expect(parent.parent).to.equal(target);
+				expect(child.parent).to.equal(target);
 			});
 
-			it('should move itself as a child to the target when target is a parent, and remove itself from the original parent', () => {
+			it('should move itself as a child to the target when target is a parent, and move parent as a child plus all children of parent', () => {
 				const piece = new Piece();
 				const parent = new Piece();
 				const target = new Piece();
 				const targetChild = new Piece();
+				const child = new Piece();
 				parent.addChild(piece);
+				parent.addChild(child);
 				target.addChild(targetChild);
 				piece.moveTo(target);
 				expect(target.hasChild(piece)).to.be.true;
+				expect(target.hasChild(parent)).to.be.true;
+				expect(target.hasChild(child)).to.be.true;
 				expect(parent.hasChild(piece)).to.be.false;
 				expect(piece.parent).to.equal(target);
+				expect(parent.parent).to.equal(target);
+				expect(child.parent).to.equal(target);
 			});
 
-			it('should move itself as a child to the target.parent when target is a child, and remove itself from the original parent', () => {
+			it('should move itself as a child to the target.parent when target is a child, and move parent as a child plus all children of parent', () => {
 				const piece = new Piece();
 				const parent = new Piece();
 				const target = new Piece();
 				const targetParent = new Piece();
+				const child = new Piece();
 				parent.addChild(piece);
+				parent.addChild(child);
 				targetParent.addChild(target);
+				console.log('--------------everywhere');
 				piece.moveTo(target);
 				expect(targetParent.hasChild(piece)).to.be.true;
+				expect(targetParent.hasChild(parent)).to.be.true;
+				expect(targetParent.hasChild(child)).to.be.true;
 				expect(parent.hasChild(piece)).to.be.false;
 				expect(piece.parent).to.equal(targetParent);
+				expect(parent.parent).to.equal(targetParent);
+				expect(child.parent).to.equal(targetParent);
 			});
 		});
 	});
