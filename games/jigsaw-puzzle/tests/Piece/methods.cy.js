@@ -235,7 +235,6 @@ describe('When I perform methods on a Piece', () => {
 				parent.addChild(piece);
 				parent.addChild(child);
 				targetParent.addChild(target);
-				console.log('--------------everywhere');
 				piece.moveTo(target);
 				expect(targetParent.hasChild(piece)).to.be.true;
 				expect(targetParent.hasChild(parent)).to.be.true;

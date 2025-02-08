@@ -1,6 +1,6 @@
 import Status from "./Status.js";
 
-export default class StatusConnected extends Status {
+export default class StatusInitialConnection extends Status {
 	#north;
 	#south;
 	#east;

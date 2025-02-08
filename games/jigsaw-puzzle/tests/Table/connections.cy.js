@@ -6,8 +6,8 @@ import StatusNoChange from "../../src/classes/support/Status/StatusNoChange.js";
 import StatusMoved from "../../src/classes/support/Status/StatusMoved.js";
 
 describe('When I attempt to connect pieces together', () => {
-	let table;
-	let x0y0, x1y0, x2y0, x0y1, x1y1, x2y1, x0y2, x1y2, x2y2;
+	/*let table;
+	let x0y0, x1y0, x2y0, x0y1, x1y1, x2y1, x0y2, x1y2, x2y2;*/
 
 	/**
 	 * Single piece
@@ -42,7 +42,25 @@ describe('When I attempt to connect pieces together', () => {
 	 * 			parent of multi-piece
 	 */
 
-	beforeEach( () => {
+	const generate = () => {
+		const table = new Table();
+		table.setDimensions({ x: 600, y: 400 });
+		table.setNumberOfPieces(24);
+		table.cutPuzzle();
+		table.shufflePuzzle();
+		const x0y0 = table.getPieceByOrdinal(new Position2d({ x: 0, y: 0 }));
+		const x1y0 = table.getPieceByOrdinal(new Position2d({ x: 1, y: 0 }));
+		const x2y0 = table.getPieceByOrdinal(new Position2d({ x: 2, y: 0 }));
+		const x0y1 = table.getPieceByOrdinal(new Position2d({ x: 0, y: 1 }));
+		const x1y1 = table.getPieceByOrdinal(new Position2d({ x: 1, y: 1 }));
+		const x2y1 = table.getPieceByOrdinal(new Position2d({ x: 2, y: 1 }));
+		const x0y2 = table.getPieceByOrdinal(new Position2d({ x: 0, y: 2 }));
+		const x1y2 = table.getPieceByOrdinal(new Position2d({ x: 1, y: 2 }));
+		const x2y2 = table.getPieceByOrdinal(new Position2d({ x: 2, y: 2 }));
+		return { table, x0y0, x1y0, x2y0, x0y1, x1y1, x2y1, x0y2, x1y2, x2y2 };
+	}
+
+	/*beforeEach( () => {
 		table = new Table();
 		table.setDimensions({ x: 600, y: 400 });
 		table.setNumberOfPieces(24);
@@ -57,15 +75,17 @@ describe('When I attempt to connect pieces together', () => {
 		x0y2 = table.getPieceByOrdinal(new Position2d({ x: 0, y: 2 }));
 		x1y2 = table.getPieceByOrdinal(new Position2d({ x: 1, y: 2 }));
 		x2y2 = table.getPieceByOrdinal(new Position2d({ x: 2, y: 2 }));
-	});
+	});*/
 
 	it('should not make a connection with no movement', () => {
+		const { table, x0y0 } = generate();
 		const status = table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
 		expect(status instanceof StatusNoChange).to.be.true;
 		expect(status.piece).to.equal(x0y0);
 	});
 
 	it('should not make a connection with movement', () => {
+		const { table, x0y0 } = generate();
 		let status = table.movePiece(x0y0, new Position2d({ x: -1000, y: 8000 }));
 		expect(status instanceof StatusMoved).to.be.true;
 		expect(status.piece).to.equal(x0y0);
@@ -80,6 +100,7 @@ describe('When I attempt to connect pieces together', () => {
 
 	describe('When I want to check for directional connections', () => {
 		it('should connect to a piece to the north', () => {
+			const { table, x0y0, x0y1 } = generate();
 			table.movePiece(x0y0, new Position2d({ x: 100, y: 100 }));
 			const status = table.movePiece(x0y1, new Position2d({ x: 100, y: 200 }));
 			expect(status).to.be.instanceof(StatusConnected);
@@ -90,6 +111,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to a piece to the east', () => {
+			const { table, x0y0, x1y0 } = generate();
 			table.movePiece(x1y0, new Position2d({ x: 100, y: 0 }));
 			const status = table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
 			expect(status).to.be.instanceof(StatusConnected);
@@ -98,6 +120,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to a piece to the south', () => {
+			const { table, x0y0, x0y1 } = generate();
 			table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
 			const status = table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
 			expect(status).to.be.instanceof(StatusConnected);
@@ -106,6 +129,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to a piece to the west', () => {
+			const { table, x0y0, x1y0 } = generate();
 			table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
 			const status = table.movePiece(x1y0, new Position2d({ x: 100, y: 0 }));
 			expect(status).to.be.instanceof(StatusConnected);
@@ -114,6 +138,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to pieces north and east', () => {
+			const { table, x0y0, x0y1, x1y1 } = generate();
 			table.movePiece(x0y0, new Position2d({x : 0, y: 0 }));
 			table.movePiece(x1y1, new Position2d({ x: 100, y: 100 }));
 			const status = table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
@@ -129,6 +154,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to pieces north and south', () => {
+			const { table, x0y0, x0y1, x0y2 } = generate();
 			table.movePiece(x0y0, new Position2d({x : 0, y: 0 }));
 			table.movePiece(x0y2, new Position2d({ x: 0, y: 200 }));
 			const status = table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
@@ -142,6 +168,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to pieces north and west', () => {
+			const { table, x1y0, x0y1, x1y1 } = generate();
 			table.movePiece(x1y0, new Position2d({x : 100, y: 0 }));
 			table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
 			const status = table.movePiece(x1y1, new Position2d({ x: 100, y: 100 }));
@@ -155,6 +182,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to pieces east and south', () => {
+			const { table, x0y0, x0y1, x1y0 } = generate();
 			table.movePiece(x1y0, new Position2d({x : 100, y: 0 }));
 			table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
 			const status = table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
@@ -168,6 +196,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to pieces east and west', () => {
+			const { table, x0y0, x2y0, x1y0 } = generate();
 			table.movePiece(x2y0, new Position2d({x : 200, y: 0 }));
 			table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
 			const status = table.movePiece(x1y0, new Position2d({ x: 100, y: 0 }));
@@ -181,6 +210,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to pieces south and west', () => {
+			const { table, x0y0, x1y0, x1y1 } = generate();
 			table.movePiece(x1y1, new Position2d({x : 100, y: 100 }));
 			table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
 			const status = table.movePiece(x1y0, new Position2d({ x: 100, y: 0 }));
@@ -194,6 +224,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to pieces north, east, and south', () => {
+			const { table, x0y0, x0y1, x1y1, x0y2 } = generate();
 			table.movePiece(x0y0, new Position2d({x : 0, y: 0 }));
 			table.movePiece(x1y1, new Position2d({ x: 100, y: 100 }));
 			table.movePiece(x0y2, new Position2d({ x: 0, y: 200 }));
@@ -210,6 +241,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to pieces north, east, and west', () => {
+			const { table, x1y0, x0y1, x1y1, x2y1 } = generate();
 			table.movePiece(x1y0, new Position2d({x : 100, y: 0 }));
 			table.movePiece(x2y1, new Position2d({ x: 200, y: 100 }));
 			table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
@@ -226,6 +258,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to pieces north, south, and west', () => {
+			const { table, x1y0, x0y1, x1y1, x1y2 } = generate();
 			table.movePiece(x1y0, new Position2d({x : 100, y: 0 }));
 			table.movePiece(x1y2, new Position2d({ x: 100, y: 200 }));
 			table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
@@ -242,6 +275,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to pieces east, south, and west', () => {
+			const { table, x0y0, x2y0, x1y1, x1y0 } = generate();
 			table.movePiece(x2y0, new Position2d({x : 200, y: 0 }));
 			table.movePiece(x1y1, new Position2d({ x: 100, y: 100 }));
 			table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
@@ -258,6 +292,7 @@ describe('When I attempt to connect pieces together', () => {
 		});
 
 		it('should connect to pieces north, south, east, and west', () => {
+			const { table, x1y0, x0y1, x1y1, x2y1, x1y2 } = generate();
 			table.movePiece(x1y0, new Position2d({x : 100, y: 0 }));
 			table.movePiece(x2y1, new Position2d({ x: 200, y: 100 }));
 			table.movePiece(x1y2, new Position2d({ x: 100, y: 200 }));

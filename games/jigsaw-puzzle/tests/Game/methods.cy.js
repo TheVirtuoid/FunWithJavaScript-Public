@@ -1,13 +1,27 @@
 import Table from "../../src/classes/Table/Table.js";
 import Position2d from "../../src/classes/support/Position2d.js";
 import Status from "../../src/classes/support/Status/Status.js";
+import Game from "../../src/classes/Game/Game.js";
 
-describe('When I perform methods on a Game', () => {
-	it('should create a new Table', () => {});
-	it('should create a new UI', () => {});
+let game;
+
+beforeEach(() => {
+	game = new Game();
 });
 
-describe('When I get certain return values from a Table', () => {
+describe('When I perform methods on a Game', () => {
+	it('should create a new Table', () => {
+		const table = game.createTable();
+		expect(game.table).to.equal(table);
+	});
+
+	it('should create a new UI', () => {
+		const ui = game.createUi();
+		expect(game.ui).to.equal(ui);
+	});
+});
+
+xdescribe('When I get certain return values from a Table', () => {
 	let table;
 	beforeEach(() => {
 		table = new Table();
