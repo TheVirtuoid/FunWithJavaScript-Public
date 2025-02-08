@@ -143,32 +143,10 @@ export default class Table {
 			if (connection instanceof StatusConnected) {
 				this.#piecesRemaining --;
 				const { toPiece, fromPiece, adjustment } = connection;
-				console.log('----------------------------------------------------------------');
-				console.log(`Moving piece from [${fromPiece.ordinal.x}, ${fromPiece.ordinal.y}] to [${toPiece.ordinal.x}, ${toPiece.ordinal.y}]`);
 				fromPiece.moveRelative(adjustment);
 				fromPiece.moveTo(toPiece);
-				console.log(`    Piece at [${fromPiece.ordinal.x}, ${fromPiece.ordinal.y}] is now a child of piece at [${toPiece.ordinal.x}, ${toPiece.ordinal.y}]`);
-				console.log(`        toPiece parent: [${toPiece.parent?.ordinal.x}, ${toPiece.parent?.ordinal.y}]`);
-				console.log(`        fromPiece parent: [${fromPiece.parent?.ordinal.x}, ${fromPiece.parent?.ordinal.y}]`);
 			}
 		});
-
-
-		/*connection.data.forEach((status) => {
-			const { toPiece, fromPiece, adjustment } = status;
-
-			// SINGLE PIECE ...
-			if (!fromPiece.hasParent() && !fromPiece.hasChildren()) {
-				// to single piece
-				if (!toPiece.hasParent() && !toPiece.hasChildren()) {
-					fromPiece.moveRelative(adjustment);
-					toPiece.addChild(fromPiece);
-					this.#piecesRemaining --;
-				}
-			}
-		});*/
-		/*piecesRemaining = this.#piecesRemaining;
-		statusData = { toPiece, fromPiece, piecesRemaining: this.#piecesRemaining };*/
 		return new StatusConnected({ fromPiece: piece, piecesRemaining: this.#piecesRemaining });
 	}
 
