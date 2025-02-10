@@ -120,25 +120,36 @@ export default class Table {
 		y = Math.max(0, Math.min(y, this.#dimension.y - this.#pieceHeight));
 		const statusCode = x !== position.x || y !== position.y ? Status.MOVED : Status.NO_CHANGE;
 		this.#moveAllPieces(piece, new Position2d({ x, y }));
-		const connection = this.#checkConnection(piece);
-		// console.log(connection);
-		if (connection instanceof StatusNoConnection) {
+		const connections = this.#checkAllConnections(piece);
+		/*console.log('ALL THE CONNECTIONS', connections);
+		console.log(`                 length = ${connections.length}`);
+		console.log(`                 type = ${connections[0]}, ${Array.isArray(connections[0])}`);*/
+
+		let noConnectionInstances = 0;
+		connections.forEach((connection) => {
+			// console.log(connection, connection instanceof StatusNoConnection);
+			if (connection instanceof StatusNoConnection) {
+				noConnectionInstances++;
+			} else {
+				// we now have a STATUS_INITIAL_CONNECTION
+				const { north, east, south, west } = connection;
+				[north, east, south, west].forEach((connection) => {
+					if (connection instanceof StatusConnected) {
+						this.#piecesRemaining --;
+						const { toPiece, fromPiece, adjustment } = connection;
+						// console.log(toPiece, fromPiece, adjustment);
+						fromPiece.moveRelative(new Position2d({ x: adjustment.x * -1, y: adjustment.y * -1 }));
+						fromPiece.moveTo(toPiece);
+					}
+				});
+			}
+		});
+		// console.log('>>>>>>', noConnectionInstances, connections.length);
+		if (noConnectionInstances === connections.length) {
 			return statusCode === Status.MOVED
 				? new StatusMoved({piece, newPosition: new Position2d({ x, y })})
 				: new StatusNoChange({piece});
 		}
-		// we now have a STATUS_INITIAL_CONNECTION
-		const { north, east, south, west } = connection;
-		[north, east, south, west].forEach((connection) => {
-			if (connection instanceof StatusConnected) {
-				this.#piecesRemaining --;
-				const { toPiece, fromPiece, adjustment } = connection;
-				// console.log(toPiece, fromPiece, adjustment);
-				fromPiece.moveRelative(new Position2d({ x: adjustment.x * -1, y: adjustment.y * -1 }));
-				fromPiece.moveTo(toPiece);
-			}
-		});
-		console.log(this.#piecesRemaining);
 		if (this.#piecesRemaining === 1) {
 			return new StatusGameFinished({ fromPiece: piece, piecesRemaining: this.#piecesRemaining });
 		}
@@ -174,6 +185,27 @@ export default class Table {
 		});
 		this.#piecesRemaining = this.numberOfPieces;
 		return new Status({ code: Status.PUZZLE_READY, data: this.#piecesRemaining });
+	}
+
+	#checkAllConnections(piece, excludePiece = null) {
+		const allConnections = [];
+		const pieceConnection = this.#checkConnection(piece);
+		// console.log('--------------piece connection', pieceConnection);
+		allConnections.push(pieceConnection);
+		piece.children.forEach((child) => {
+			if (child !== excludePiece) {
+				allConnections.push(this.#checkConnection(child));
+			}
+		});
+		if (piece.parent) {
+			// console.log('------PARENT');
+			const parentConnection = this.#checkConnection(piece.parent);
+			// const parentChildrenConnections = this.#checkAllConnections(piece.parent);
+			allConnections.push(parentConnection);
+		}
+		// console.log(pieceConnection);
+		// console.log('----Returning: ', allConnections);
+		return allConnections;
 	}
 
 	#checkConnection(piece) {
