@@ -190,21 +190,15 @@ export default class Table {
 	#checkAllConnections(piece, excludePiece = null) {
 		const allConnections = [];
 		const pieceConnection = this.#checkConnection(piece);
-		// console.log('--------------piece connection', pieceConnection);
 		allConnections.push(pieceConnection);
+		if (piece.parent) {
+			this.#checkAllConnections(piece.parent, piece).forEach((connection) => allConnections.push(connection));
+		}
 		piece.children.forEach((child) => {
 			if (child !== excludePiece) {
 				allConnections.push(this.#checkConnection(child));
 			}
 		});
-		if (piece.parent) {
-			// console.log('------PARENT');
-			const parentConnection = this.#checkConnection(piece.parent);
-			// const parentChildrenConnections = this.#checkAllConnections(piece.parent);
-			allConnections.push(parentConnection);
-		}
-		// console.log(pieceConnection);
-		// console.log('----Returning: ', allConnections);
 		return allConnections;
 	}
 

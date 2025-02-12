@@ -431,62 +431,30 @@ describe('When I attempt to connect pieces together', () => {
 		});
 	});
 
-	xdescribe('When I drop a parent of a multi-piece', () => {
-		describe('And I connect with a single piece', () => {});
-		describe('And I connect with a child of a multi-piece', () => {});
-		describe('And I connect with a parent of a multi-piece', () => {});
-	});
+	describe('and when I have m multiple independent connections', () => {
+		it('should make the correct connections', () => {
+			// set of 2
+			table.movePiece(x2y3, new Position2d({ x: 200, y: 300 }));
+			table.movePiece(x3y3, new Position2d({ x: 300, y: 300 }));
 
-	xdescribe('And when I am moving a multi-piece to a single piece', () => {
-		describe('And when I am moving the parent piece', () => {
-			xit('should only connect to the north', () => {});
+			// set of 3
+			table.movePiece(x1y1, new Position2d({ x: 400, y: 100 }));
+			table.movePiece(x1y2, new Position2d({ x: 400, y: 200 }));
+			table.movePiece(x1y3, new Position2d({ x: 400, y: 300 }));
 
-			it('should only connect to the east', () => {});
-			it('should only connect to the south', () => {});
-			it('should only connect to the west', () => {});
-		});
+			// single piece
+			table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
 
-		describe('And when I am moving the child piece', () => {
-			it('should only connect to the north', () => {});
-			it('should only connect to the east', () => {});
-			it('should only connect to the south', () => {});
-			it('should only connect to the west', () => {});
-		});
-	});
-
-	xdescribe('And when I am moving a multi-piece to a multi-piece', () => {
-		describe('And when I am moving the parent piece', () => {
-			describe('And when it connects to a child piece', () => {
-				it('should only connect to the north', () => {});
-				it('should only connect to the east', () => {});
-				it('should only connect to the south', () => {});
-				it('should only connect to the west', () => {});
-			});
-
-			describe('And when it connects to a parent piece', () => {
-				it('should only connect to the north', () => {});
-				it('should only connect to the east', () => {});
-				it('should only connect to the south', () => {});
-				it('should only connect to the west', () => {});
-			});
-		});
-
-		xdescribe('And when I am moving the child piece', () => {
-			describe('And when it connects to a child piece', () => {
-				it('should only connect to the north', () => {});
-				it('should only connect to the east', () => {});
-				it('should only connect to the south', () => {});
-				it('should only connect to the west', () => {});
-			});
-
-			describe('And when it connects to a parent piece', () => {
-				it('should only connect to the north', () => {});
-				it('should only connect to the east', () => {});
-				it('should only connect to the south', () => {});
-				it('should only connect to the west', () => {});
-			});
+			// move the child to make the double connection!!!
+			const status = table.movePiece(x1y3, new Position2d({ x: 100, y: 300 }));
+			expect(status instanceof StatusConnected).to.be.true;
+			expect(x0y1.hasChild(x2y3)).to.be.true;
+			expect(x0y1.hasChild(x3y3)).to.be.true;
+			expect(x0y1.hasChild(x1y1)).to.be.true;
+			expect(x0y1.hasChild(x1y2)).to.be.true;
+			expect(x0y1.hasChild(x1y3)).to.be.true;
+			expect(x2y3.hasChildren()).to.be.false;
+			expect(x1y1.hasChildren()).to.be.false;
 		});
 	});
-
-
 });
