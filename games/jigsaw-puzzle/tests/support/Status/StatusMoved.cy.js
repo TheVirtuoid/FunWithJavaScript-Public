@@ -12,5 +12,6 @@ describe('When working with the StatusMoved class', () => {
 		expect(status.piece).to.equal(piece);
 		expect(status.newPosition.x).to.equal(10);
 		expect(status.newPosition.y).to.equal(10);
+		expect(status.piecesRemaining).to.be.null;
 	});
 });

@@ -9,5 +9,6 @@ describe('When working with the StatusNoChange class', () => {
 		expect(status.code).to.equal(Status.NO_CHANGE);
 		expect(status.data).to.be.null;
 		expect(status.piece).to.equal(piece);
+		expect(status.piecesRemaining).to.be.null;
 	});
 });

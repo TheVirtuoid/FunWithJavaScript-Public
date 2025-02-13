@@ -146,9 +146,10 @@ export default class Table {
 		});
 		// console.log('>>>>>>', noConnectionInstances, connections.length);
 		if (noConnectionInstances === connections.length) {
+			const piecesRemaining = this.#piecesRemaining;
 			return statusCode === Status.MOVED
-				? new StatusMoved({piece, newPosition: new Position2d({ x, y })})
-				: new StatusNoChange({piece});
+				? new StatusMoved({piece, newPosition: new Position2d({ x, y }), piecesRemaining })
+				: new StatusNoChange({ piece, piecesRemaining });
 		}
 		if (this.#piecesRemaining === 1) {
 			return new StatusGameFinished({ fromPiece: piece, piecesRemaining: this.#piecesRemaining });
@@ -229,7 +230,13 @@ export default class Table {
 		// console.log(`          Initial: [${fromPiece.x},${fromPiece.y}], [${toPiece.x},${toPiece.y}]`);
 
 		// check if the toPiece is a child of the fromPiece or vice versa
-		if (fromPiece.hasChild(toPiece) || toPiece.hasChild(fromPiece)) {
+		// console.log('            Checking for Child Parent connections:');
+		const test = [];
+		fromPiece.children.forEach((child) => test.push(`[${child.ordinal.x},${child.ordinal.y}]`));
+		// console.log(`                fromPiece: ${fromPiece.hasChild(toPiece)}, toPiece: ${toPiece.hasChild(fromPiece)}`);
+		// console.log(`                fromPiece children: ${test.join(', ')}`);
+		if (fromPiece.hasChild(toPiece) || toPiece.hasChild(fromPiece) || (fromPiece.parent === toPiece.parent && fromPiece.parent !== null)) {
+			// console.log(`            ---> Child connection`);
 			return new StatusNoConnection({ piece: fromPiece });
 		}
 		// at this point, it's a valid piece on the table. Let's check it!!
