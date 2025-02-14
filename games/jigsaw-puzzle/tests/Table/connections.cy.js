@@ -3,6 +3,7 @@ import Position2d from "../../src/classes/support/Position2d.js";
 import StatusConnected from "../../src/classes/support/Status/StatusConnected.js";
 import StatusNoChange from "../../src/classes/support/Status/StatusNoChange.js";
 import StatusMoved from "../../src/classes/support/Status/StatusMoved.js";
+import StatusGameFinished from "../../src/classes/support/Status/StatusGameFinished.js";
 
 describe('When I attempt to connect pieces together', () => {
 	let table;
@@ -356,6 +357,32 @@ describe('When I attempt to connect pieces together', () => {
 			expect(x0y1.hasChild(x1y2)).to.be.true;
 			expect(x0y1.hasChild(x1y3)).to.be.true;
 			expect(x2y3.hasChildren()).to.be.false;
+			expect(x1y1.hasChildren()).to.be.false;
+		});
+
+		it('should make the correct connection if piece connects to more than one piece in same family', () => {
+			table.movePiece(x0y0, new Position2d({ x: 0, y: 0 }));
+			table.movePiece(x1y0, new Position2d({ x: 100, y: 0 }));
+			expect(x0y0.hasChild(x1y0)).to.be.true;
+			expect(x1y0.parent).to.equal(x0y0);
+
+			table.movePiece(x0y1, new Position2d({ x: 0, y: 100 }));
+			expect(x0y0.hasChild(x1y0)).to.be.true;
+			expect(x0y0.hasChild(x0y1)).to.be.true;
+			expect(x1y0.parent).to.equal(x0y0);
+			expect(x0y1.parent).to.equal(x0y0);
+
+
+			const status = table.movePiece(x1y1, new Position2d({ x: 100, y: 100 }));
+
+			expect(status instanceof StatusConnected).to.be.true;
+			let children = '';
+			x0y0.children.forEach((child) => children = children.concat(`[${child.ordinal.x},${child.ordinal.y}] `));
+			expect(x0y0.hasChild(x1y0)).to.be.true;
+			expect(x0y0.hasChild(x0y1)).to.be.true;
+			expect(x0y0.hasChild(x1y1)).to.be.true;
+			expect(x1y0.hasChildren()).to.be.false;
+			expect(x0y1.hasChildren()).to.be.false;
 			expect(x1y1.hasChildren()).to.be.false;
 		});
 	});

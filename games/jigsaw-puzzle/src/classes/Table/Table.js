@@ -135,11 +135,14 @@ export default class Table {
 				const { north, east, south, west } = connection;
 				[north, east, south, west].forEach((connection) => {
 					if (connection instanceof StatusConnected) {
-						this.#piecesRemaining --;
 						const { toPiece, fromPiece, adjustment } = connection;
-						// console.log(toPiece, fromPiece, adjustment);
-						fromPiece.moveRelative(new Position2d({ x: adjustment.x * -1, y: adjustment.y * -1 }));
-						fromPiece.moveTo(toPiece);
+						// console.log('---------checking the connection');
+						// console.log(fromPiece.parent === null, fromPiece.parent !== toPiece, fromPiece.parent !== toPiece.parent);
+						if (fromPiece.parent === null || (fromPiece.parent !== toPiece && fromPiece.parent !== toPiece.parent)) {
+							fromPiece.moveRelative(new Position2d({x: adjustment.x * -1, y: adjustment.y * -1}));
+							fromPiece.moveTo(toPiece);
+							this.#piecesRemaining --;
+						}
 					}
 				});
 			}
