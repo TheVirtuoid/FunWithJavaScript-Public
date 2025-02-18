@@ -3,8 +3,26 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Title</title>
+	<script src="src/jigsaw-puzzle.js" type="module"></script>
 </head>
 <body>
-	<main>Hello World</main>
+	<header>
+		<section id="stats">
+			<div id="time">Time:<span>00:00:00</span></div>
+			<div id="moves">Moves:<span>0</span></div>
+		</section>
+		<section id="actions">
+			<button data-testid="button-new" class="small primary" id="button-new"><span>New</span></button>
+			<button data-testid="button-start" class="small primary" id="button-start"><span>Start</span></button>
+			<button data-testid="button-pause" class="small primary" id="button-pause"><span>Pause</span></button>
+			<button data-testid="button-continue" class="small primary" id="button-continue"><span>Continue</span></button>
+			<button data-testid="button-exit" class="small primary" id="button-exit"><span>Exit</span></button>
+			<button data-testid="button-cancel" class="small primary" id="button-cancel"><span>Cancel</span></button>
+		</section>
+	</header>
+	<main>
+		<div id="blank-screen">jigsaw-puzzle</div>
+	</main>
+	<footer>&copy; 2012-2025 m. parker smith a.k.a. TheVirtuoid</footer>
 </body>
 </html>

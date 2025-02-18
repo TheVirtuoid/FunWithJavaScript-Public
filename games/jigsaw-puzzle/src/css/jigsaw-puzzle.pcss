@@ -1,0 +1,142 @@
+/* virtuoid root variables */
+:root {
+    --v-color-primary900: #00138f;
+    --v-color-primary800: #0029a2;      /* original primary color */
+    --v-color-primary700: #1333ad;
+    --v-color-primary600: #203db9;
+    --v-color-primary500: #2645c4;
+    --v-color-primary400: #4e61cd;
+    --v-color-primary300: #6f7ed6;
+    --v-color-primary200: #99a2e2;
+    --v-color-primary100: #c2c6ed;
+    --v-color-primary50: #e7e9f8;
+
+    --v-color-secondary900: #a27a00;
+    --v-color-secondary800: #c29f0e;
+    --v-color-secondary700: #d7b614;
+    --v-color-secondary600: #ebcc1b;
+    --v-color-secondary500: #fade1e;
+    --v-color-secondary400: #fde349;
+    --v-color-secondary300: #ffe96c;
+    --v-color-secondary200: #ffef97;
+    --v-color-secondary100: #fff4c0;
+    --v-color-secondary50: #fffbe6;
+
+    --v-color-tertiary900: #5f0b68;
+    --v-color-tertiary800: #7e0f8a;
+    --v-color-tertiary700: #9e13ad;
+    --v-color-tertiary600: #a82bb5;
+    --v-color-tertiary500: #b142bd;
+    --v-color-tertiary400: #bb5ac6;
+    --v-color-tertiary300: #cf89d6;
+    --v-color-tertiary200: #d8a1de;
+    --v-color-tertiary100: #e2b8e6;
+    --v-color-tertiary50: #f5e7f7;
+
+    --v-color-quaternary900: #134351;
+    --v-color-quaternary800: #195a6c;
+    --v-color-quaternary700: #1f7087;
+    --v-color-quaternary600: #357e93;
+    --v-color-quaternary500: #4c8d9f;
+    --v-color-quaternary400: #629bab;
+    --v-color-quaternary300: #8fb8c3;
+    --v-color-quaternary200: #a5c6cf;
+    --v-color-quaternary100: #bcd4db;
+    --v-color-quaternary50: #e9f1f3;
+
+    --v-color-opacity-disabled: 50%;
+}
+
+html {
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+body {
+    background: repeating-linear-gradient(145.47deg, var(--v-color-tertiary400) 24%, var(--v-color-quaternary50) 5%, var(--v-color-primary100) 55.08%, var(--v-color-tertiary50) 77%, var(--v-color-primary50) 93%, var(--v-color-quaternary50) 100%);
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    justify-content: space-between;
+    font-size: 1rem;
+    align-items: center;
+
+    > header {
+        background: repeating-linear-gradient(90deg, rgb(0 0 0 / 0) 0%, rgb( from var(--v-color-quaternary900) r g b / 10%) 50%, rgb(0 0 0 / 0) 100%);
+        padding: .5rem 2rem;
+        text-align: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    > footer {
+        background: repeating-linear-gradient(90deg, rgb(0 0 0 / 0) 0%, rgb( from var(--v-color-primary900) r g b / 10%) 50%, rgb(0 0 0 / 0) 100%);
+        padding: .5rem 2rem;
+        text-align: center;
+        font-size: .85rem;
+    }
+}
+
+button {
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 1rem 2rem;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color .2s ease-in-out;
+
+    &.small {
+        border-radius: .5em;
+        font-size: 1rem;
+        padding: .5em 1em;
+    }
+
+    &.primary {
+        background-color: var(--v-color-primary500);
+        color: var(--v-color-secondary100);
+        &:hover {
+            background-color: var(--v-color-primary800);
+        }
+        &:focus {
+            outline-offset: 2px;
+            outline: var(--v-color-primary900) solid 2px;
+        }
+        &[disabled] {
+            background-color: rgb(from var(--v-color-primary500) r g b /  var(--v-color-opacity-disabled));
+            opacity: var(--v-color-opacity-disabled);
+            color: var(--v-color-tertiary900);
+            cursor: default;
+        }
+    }
+}
+
+#stats {
+    background-color: var(--v-color-secondary200);
+    text-align: left;
+    padding: .5rem;
+    border-radius: 1rem;
+
+    > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+
+#blank-screen {
+    font-size: 5rem;
+    color: var(--v-color-tertiary900);
+}
+
+.hidden {
+    display: none;
+}
