@@ -1,7 +1,7 @@
 import ImageDb from "../../src/classes/ImageDb/ImageDb.js";
 
 const images = new Map([
-	['beach', [{ url: 'beach1.jpg' }, { url: 'beach2.jpg' }, { url: 'beach3.jpg' }]],
+	['beach', [{ url: 'src/images/beach-41872_1280.jpg' }, { url: 'beach2.jpg' }, { url: 'beach3.jpg' }]],
 	['landscape', [{ url: 'landscape1.jpg' }, { url: 'landscape2.jpg' }, { url: 'landscape3.jpg' }]],
 	['insects', [{ url: 'insects1.jpg' }, { url: 'insects2.jpg' }, { url: 'insects3.jpg' }]],
 	['cities', [{ url: 'cities1.jpg' }, { url: 'cities2.jpg' }, { url: 'cities3.jpg' }]]
@@ -52,5 +52,21 @@ describe('When I work with the ImageDb class', () => {
 		expect(images.get('beach')).to.have.lengthOf(3);
 		expect(images.get('insects')).to.have.lengthOf(3);
 		expect(images.get('cities')).to.have.lengthOf(3);
+	});
+
+	it('should import an image', () => {
+		const imageDb = new ImageDb();
+		const beach = imageDb.getImages('beach');
+		const target = beach[0];
+		console.log(target);
+		imageDb.getImage(target)
+			.then(image => {
+				console.log(image);
+				expect(false).to.be.true;
+			})
+			.catch(err => {
+				console.log(err);
+				expect(false).to.be.true;
+			});
 	});
 });

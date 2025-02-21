@@ -116,6 +116,24 @@ button {
             cursor: default;
         }
     }
+
+    &.secondary {
+        background-color: var(--v-color-secondary500);
+        color: var(--v-color-primary900);
+        &:hover {
+            background-color: var(--v-color-secondary600);
+        }
+        &:focus {
+            outline-offset: 2px;
+            outline: var(--v-color-secondary900) solid 2px;
+        }
+        &[disabled] {
+            background-color: rgb(from var(--v-color-secondary500) r g b /  var(--v-color-opacity-disabled));
+            opacity: var(--v-color-opacity-disabled);
+            color: var(--v-color-tertiary900);
+            cursor: default;
+        }
+    }
 }
 
 #stats {

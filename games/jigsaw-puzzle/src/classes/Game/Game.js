@@ -2,12 +2,20 @@ import Table from "../Table/Table.js";
 import Ui from "../Ui/Ui.js";
 import GameStatus from "./GameStatus.js";
 import Statistics from "../Statistics/Statistics.js";
+import ImageDb from "../ImageDb/ImageDb.js";
 
 const imageDb = new Map([
 	['beach', []],
 	['landscape', []],
 	['insects', []],
 	['cities', []]
+]);
+
+const images = new Map([
+	['beach', [{ url: 'src/images/beach-418742_1280.jpg' }, { url: '/images/beach-6292382_1280.jpg' }]],
+	['landscape', [{ url: '/images/mountains-8451480_1280.jpg' }]],
+	['insects', [{ url: '/images/butterfly-7954767_1280.jpg' }]],
+	['cities', [{ url: '/images/london-7965770_1280.jpg' }]]
 ]);
 
 export default class Game {
@@ -27,9 +35,13 @@ export default class Game {
 	#ui;
 	#statistics;
 
+	#imageDb;
+
 	constructor() {
 		this.#table = null;
 		this.#ui = new Ui(this);
+		this.#imageDb = new ImageDb();
+		ImageDb.reset(images);
 	}
 
 	get table() {
