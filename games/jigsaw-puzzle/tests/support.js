@@ -5,4 +5,14 @@ const images = new Map([
 	['cities', [{ url: '/images/london-7965770_1280.jpg' }]]
 ]);
 
-export { images };
+let imagesLength = 0;
+images.forEach((categoryImages) => {
+	imagesLength += categoryImages.length;
+});
+
+const cuts = new Map([
+	['square', { name: 'Square', description: 'A square cut', url: '/images/cut-square.jpg' }],
+	['jigsaw', { name: 'Jigsaw', description: 'A jigsaw cut', url: '/images/cut-jigsaw.jpg' }]
+])
+
+export { images, imagesLength, cuts };

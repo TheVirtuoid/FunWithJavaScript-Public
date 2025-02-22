@@ -1,0 +1,68 @@
+
+import { cuts } from '../support.js';
+import CutDb from "../../src/classes/CutDb/CutDb.js";
+import ImageDb from "../../src/classes/ImageDb/ImageDb.js";
+
+describe('When I work with the CutDb class', () => {
+
+	beforeEach(() => {
+		CutDb.reset(cuts);
+	});
+
+	it('should initialize the class', () => {
+		const cutDb = new CutDb();
+		expect(cutDb instanceof CutDb).to.be.true;
+	});
+
+	it('should throw an exception if the class is initialized a second time', () => {
+		const cutDb = new CutDb();
+		expect(() => new CutDb()).to.throw();
+	});
+
+	it('should get a list of cuts', () => {
+		const cutDb = new CutDb();
+		const categories = cutDb.getCutNames();
+		expect(categories).to.have.lengthOf(2);
+		expect(categories).to.include('square');
+		expect(categories).to.include('jigsaw');
+	});
+
+	it('should get a cut from a named cut', () => {
+		const cutDb = new CutDb();
+		const square = cutDb.getCut('square');
+		expect(square).to.have.property('name', 'Square');
+		expect(square).to.have.property('description', 'A square cut');
+	});
+
+	it('should return undefined cut is invalid', () => {
+		const cutDb = new CutDb();
+		const invalid = cutDb.getCut('invalid');
+		expect(invalid).to.be.undefined;
+	});
+
+	it('should import an image from the cut', () => {
+		const cutDb = new CutDb();
+		const square = cutDb.getCut('square');
+
+		const getImagePromise = () => {
+			return new Cypress.Promise((resolve, reject) => {
+				cutDb.getImage(square)
+					.then(image => {
+						resolve(image);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		}
+
+		cy.wrap(null)
+			.then(() => {
+				return getImagePromise()
+					.then((image) => {
+						expect(image instanceof Image).to.be.true;
+					})
+			});
+	});
+
+});
