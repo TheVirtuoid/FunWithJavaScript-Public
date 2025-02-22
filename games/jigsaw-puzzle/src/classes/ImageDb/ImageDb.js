@@ -11,6 +11,11 @@ export default class ImageDb {
 		instance = null;
 	}
 
+	static IMAGE_WIDTH = 800;
+	static IMAGE_HEIGHT = 600;
+	static THUMBNAIL_WIDTH = 80;
+	static THUMBNAIL_HEIGHT = 60;
+
 	constructor() {
 		if (instance) {
 			throw new Error('ImageDb class has already been initialized');
@@ -22,26 +27,25 @@ export default class ImageDb {
 		return Array.from(imageDatabase.keys());
 	}
 
-	getImages(categoryName) {
+	getImagesFromCategory(categoryName) {
 		const category = imageDatabase.get(categoryName);
 		return !category ? [] : category;
 	}
 
-	getAllImages() {
+	getAllImageData() {
 		return imageDatabase;
 	}
 
-	getImage(entry) {
+	getImage(entry, thumbnail = false) {
 		const { url } = entry;
+		const width = thumbnail ? ImageDb.THUMBNAIL_WIDTH : ImageDb.IMAGE_WIDTH;
+		const height = thumbnail ? ImageDb.THUMBNAIL_HEIGHT : ImageDb.IMAGE_HEIGHT;
 		return new Promise((resolve, reject) => {
-			console.log('there');
-			const imgElement = new Image(800, 600);
+			const imgElement = new Image(width, height);
 			imgElement.onload = () => {
-				console.log('asiodjaiod');
 				resolve(imgElement);
 			};
 			imgElement.onerror = () => {
-				console.log('reject');
 				reject('Image could not be loaded');
 			};
 			imgElement.src = url;

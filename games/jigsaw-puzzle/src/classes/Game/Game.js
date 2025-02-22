@@ -4,19 +4,7 @@ import GameStatus from "./GameStatus.js";
 import Statistics from "../Statistics/Statistics.js";
 import ImageDb from "../ImageDb/ImageDb.js";
 
-const imageDb = new Map([
-	['beach', []],
-	['landscape', []],
-	['insects', []],
-	['cities', []]
-]);
-
-const images = new Map([
-	['beach', [{ url: 'src/images/beach-418742_1280.jpg' }, { url: '/images/beach-6292382_1280.jpg' }]],
-	['landscape', [{ url: '/images/mountains-8451480_1280.jpg' }]],
-	['insects', [{ url: '/images/butterfly-7954767_1280.jpg' }]],
-	['cities', [{ url: '/images/london-7965770_1280.jpg' }]]
-]);
+import images from '../../database/images.js';
 
 export default class Game {
 
@@ -83,7 +71,19 @@ export default class Game {
 		const { code, event } = incomingEvent;
 		switch(code) {
 			case Game.EVENT_NEW_GAME:
-				this.#ui.newGame();
+				const imagePromises = [];
+				let imageList = [];
+				this.#imageDb.getCategories().forEach((category) => {
+					this.#imageDb.getImagesFromCategory(category).forEach((imageData) => {
+						imagePromises.push(this.#imageDb.getImage(imageData, true));
+					});
+				});
+				Promise.allSettled(imagePromises).then((images) => {
+					imageList = images
+						.filter((image) => image.status === 'fulfilled')
+						.map((image) => image.value);
+					this.#ui.newGame(imageList);
+				});
 				break;
 			case Game.EVENT_START_GAME:
 				this.#ui.startGame();

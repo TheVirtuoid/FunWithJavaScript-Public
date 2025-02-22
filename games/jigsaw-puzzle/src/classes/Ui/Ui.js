@@ -1,6 +1,7 @@
 import GameStatus from "../Game/GameStatus.js";
 import RenderStatus from "./RenderStatus.js";
 import Game from "../Game/Game.js";
+import ImageDb from "../ImageDb/ImageDb.js";
 
 export default class Ui {
 
@@ -78,13 +79,25 @@ export default class Ui {
 		this.#buttonCancel.disabled = true;
 	}
 
-	newGame() {
+	newGame(imageList) {
 		this.#buttonNew.disabled = true;
 		this.#buttonStart.disabled = true;
 		this.#buttonPause.disabled = true;
 		this.#buttonContinue.disabled = false;
 		this.#buttonExit.disabled = false;
 		this.#buttonCancel.disabled = false;
+		const newGameDialogImageList = document.getElementById('new-game-dialog-image-list');
+		const ul = document.createElement('ul');
+		ul.style.maxHeight = `${ImageDb.THUMBNAIL_HEIGHT * 4}px`;
+		imageList.forEach((image) => {
+			const li = document.createElement('li');
+			const button = document.createElement('button');
+			button.classList.add('small');
+			button.appendChild(image);
+			li.appendChild(button);
+			ul.appendChild(li);
+		});
+		newGameDialogImageList.insertAdjacentElement('beforeend', ul);
 		this.#dialogNewGame.showModal();
 	}
 

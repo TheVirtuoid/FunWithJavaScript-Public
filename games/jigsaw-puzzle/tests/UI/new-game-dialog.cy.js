@@ -1,3 +1,5 @@
+import { images } from '../support.js';
+
 describe('When I click on the New Game button', () => {
 	beforeEach(() => {
 		cy.visit('http://localhost:4173');

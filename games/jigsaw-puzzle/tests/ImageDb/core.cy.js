@@ -1,11 +1,6 @@
 import ImageDb from "../../src/classes/ImageDb/ImageDb.js";
 
-const images = new Map([
-	['beach', [{ url: 'src/images/beach-41872_1280.jpg' }, { url: 'beach2.jpg' }, { url: 'beach3.jpg' }]],
-	['landscape', [{ url: 'landscape1.jpg' }, { url: 'landscape2.jpg' }, { url: 'landscape3.jpg' }]],
-	['insects', [{ url: 'insects1.jpg' }, { url: 'insects2.jpg' }, { url: 'insects3.jpg' }]],
-	['cities', [{ url: 'cities1.jpg' }, { url: 'cities2.jpg' }, { url: 'cities3.jpg' }]]
-]);
+import { images } from '../support.js';
 
 describe('When I work with the ImageDb class', () => {
 
@@ -35,38 +30,80 @@ describe('When I work with the ImageDb class', () => {
 
 	it('should get a list of image URLs for a category', () => {
 		const imageDb = new ImageDb();
-		const beach = imageDb.getImages('beach');
-		expect(beach).to.have.lengthOf(3);
+		const beach = imageDb.getImagesFromCategory('beach');
+		expect(beach).to.have.lengthOf(2);
 	});
 
 	it('should return an empty array if category is invalid', () => {
 		const imageDb = new ImageDb();
-		const invalid = imageDb.getImages('invalid');
+		const invalid = imageDb.getImagesFromCategory('invalid');
 		expect(invalid).to.have.lengthOf(0);
 	});
 
 	it('should make that image URL list available', () => {
 		const imageDb = new ImageDb();
-		const images = imageDb.getAllImages();
-		expect(images.get('landscape')).to.have.lengthOf(3);
-		expect(images.get('beach')).to.have.lengthOf(3);
-		expect(images.get('insects')).to.have.lengthOf(3);
-		expect(images.get('cities')).to.have.lengthOf(3);
+		const images = imageDb.getAllImageData();
+		expect(images.get('landscape')).to.have.lengthOf(1);
+		expect(images.get('beach')).to.have.lengthOf(2);
+		expect(images.get('insects')).to.have.lengthOf(1);
+		expect(images.get('cities')).to.have.lengthOf(1);
 	});
 
 	it('should import an image', () => {
 		const imageDb = new ImageDb();
-		const beach = imageDb.getImages('beach');
+		const beach = imageDb.getImagesFromCategory('beach');
 		const target = beach[0];
-		console.log(target);
-		imageDb.getImage(target)
-			.then(image => {
-				console.log(image);
-				expect(false).to.be.true;
-			})
-			.catch(err => {
-				console.log(err);
-				expect(false).to.be.true;
+
+		const getImagePromise = () => {
+			return new Cypress.Promise((resolve, reject) => {
+				imageDb.getImage(target)
+					.then(image => {
+						resolve(image);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		}
+
+		cy.wrap(null)
+			.then(() => {
+				return getImagePromise()
+					.then((image) => {
+						expect(image instanceof Image).to.be.true;
+						expect(image.width).to.equal(ImageDb.IMAGE_WIDTH);
+						expect(image.height).to.equal(ImageDb.IMAGE_HEIGHT);
+					})
 			});
 	});
+
+	it('should import an image thumbnail', () => {
+		const imageDb = new ImageDb();
+		const beach = imageDb.getImagesFromCategory('beach');
+		const target = beach[0];
+
+		const getImagePromise = () => {
+			return new Cypress.Promise((resolve, reject) => {
+				imageDb.getImage(target, true)
+					.then(image => {
+						resolve(image);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		}
+
+		cy.wrap(null)
+			.then(() => {
+				return getImagePromise()
+					.then((image) => {
+						expect(image instanceof Image).to.be.true;
+						expect(image.width).to.equal(ImageDb.THUMBNAIL_WIDTH);
+						expect(image.height).to.equal(ImageDb.THUMBNAIL_HEIGHT);
+					})
+			});
+	});
+
+
 });

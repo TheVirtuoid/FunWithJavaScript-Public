@@ -164,13 +164,88 @@ button {
 }
 
 #new-game-dialog {
-    section {
+    padding: 0;
+    border: none;
+    border-radius: 1rem;
+
+    section.selections {
         display: flex;
         flex-direction: row;
-        gap: 1rem;
 
         h2 {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
+            margin-top: 0;
         }
+
+        div {
+            padding: .5rem;
+        }
+
+        div:nth-child(1) {
+            background-color: var(--v-color-secondary50);
+
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                gap: .5rem;
+                overflow-y: scroll;
+
+                li {
+                    > button {
+                        &.selected {
+                            background-color: var(--v-color-primary900);
+                        }
+                    }
+                }
+            }
+        }
+
+        div:nth-child(2) {
+            background-color: var(--v-color-primary50);
+        }
+
+        div:nth-child(3) {
+            background-color: var(--v-color-tertiary50);
+
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: row;
+
+                li {
+                    color: var(--v-color-quaternary50);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: .5rem;
+                    margin: .5rem;
+                    width: 2rem;
+                    border-color: var(--v-color-primary900);
+                    border: 3px solid var(--v-color-primary900);
+                    background-color: var(--v-color-tertiary700);
+                    cursor: pointer;
+                    &:hover {
+                        background-color: var(--v-color-tertiary900);
+                    }
+                    &.selected {
+                        background-color: var(--v-color-primary900);
+                    }
+                }
+            }
+        }
+    }
+
+    section.button-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem;
+        background-color: var(--v-color-quaternary50);
     }
 }
