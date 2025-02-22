@@ -3,8 +3,10 @@ import Ui from "../Ui/Ui.js";
 import GameStatus from "./GameStatus.js";
 import Statistics from "../Statistics/Statistics.js";
 import ImageDb from "../ImageDb/ImageDb.js";
+import CutDb from "../CutDb/CutDb.js";
 
 import images from '../../database/images.js';
+import cuts from '../../database/cuts.js';
 
 export default class Game {
 
@@ -23,13 +25,16 @@ export default class Game {
 	#ui;
 	#statistics;
 
+	#cutDb;
 	#imageDb;
 
 	constructor() {
 		this.#table = null;
 		this.#ui = new Ui(this);
 		this.#imageDb = new ImageDb();
+		this.#cutDb = new CutDb();
 		ImageDb.reset(images);
+		CutDb.reset(cuts);
 	}
 
 	get table() {
@@ -71,18 +76,44 @@ export default class Game {
 		const { code, event } = incomingEvent;
 		switch(code) {
 			case Game.EVENT_NEW_GAME:
-				const imagePromises = [];
-				let imageList = [];
-				this.#imageDb.getCategories().forEach((category) => {
-					this.#imageDb.getImagesFromCategory(category).forEach((imageData) => {
-						imagePromises.push(this.#imageDb.getImage(imageData, true));
+				const allSelections = [];
+
+				const selectImagePromise = new Promise((resolve, reject) => {
+					const imagePromises = [];
+					let imageList = [];
+					this.#imageDb.getCategories().forEach((category) => {
+						this.#imageDb.getImagesFromCategory(category).forEach((imageData) => {
+							imagePromises.push(this.#imageDb.getImage(imageData, true));
+						});
+					});
+					Promise.allSettled(imagePromises).then((images) => {
+						imageList = images
+							.filter((image) => image.status === 'fulfilled')
+							.map((image) => image.value);
+						resolve({ select: 'image', data: imageList });
 					});
 				});
-				Promise.allSettled(imagePromises).then((images) => {
-					imageList = images
-						.filter((image) => image.status === 'fulfilled')
-						.map((image) => image.value);
-					this.#ui.newGame(imageList);
+				allSelections.push(selectImagePromise);
+
+				const selectCutPromise = new Promise((resolve, reject) => {
+					const cutPromises = [];
+					let imageList = [];
+					this.#cutDb.getCutNames().forEach((cutName) => {
+						const cut = this.#cutDb.getCut(cutName);
+						cutPromises.push(this.#cutDb.getImage(cut));
+					});
+					Promise.allSettled(cutPromises).then((images) => {
+						imageList = images
+							.filter((image) => image.status === 'fulfilled')
+							.map((image) => image.value);
+						resolve({ select: 'cut', data: imageList });
+					});
+				});
+				allSelections.push(selectCutPromise);
+
+
+				Promise.all(allSelections).then((selections) => {
+					this.#ui.newGame(selections[0].data, selections[1].data);
 				});
 				break;
 			case Game.EVENT_START_GAME:

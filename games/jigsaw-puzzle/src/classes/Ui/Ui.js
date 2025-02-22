@@ -79,7 +79,7 @@ export default class Ui {
 		this.#buttonCancel.disabled = true;
 	}
 
-	newGame(imageList) {
+	newGame(imageList, cutList) {
 		this.#buttonNew.disabled = true;
 		this.#buttonStart.disabled = true;
 		this.#buttonPause.disabled = true;
@@ -87,17 +87,32 @@ export default class Ui {
 		this.#buttonExit.disabled = false;
 		this.#buttonCancel.disabled = false;
 		const newGameDialogImageList = document.getElementById('new-game-dialog-image-list');
-		const ul = document.createElement('ul');
-		ul.style.maxHeight = `${ImageDb.THUMBNAIL_HEIGHT * 4}px`;
+		const imageUl = document.createElement('ul');
+		imageUl.style.maxHeight = `${ImageDb.THUMBNAIL_HEIGHT * 4}px`;
 		imageList.forEach((image) => {
 			const li = document.createElement('li');
 			const button = document.createElement('button');
 			button.classList.add('small');
 			button.appendChild(image);
 			li.appendChild(button);
-			ul.appendChild(li);
+			imageUl.appendChild(li);
 		});
-		newGameDialogImageList.insertAdjacentElement('beforeend', ul);
+		newGameDialogImageList.insertAdjacentElement('beforeend', imageUl);
+
+		const newGameDialogCutList = document.getElementById('new-game-dialog-cut-list');
+		const cutUl = document.createElement('ul');
+		cutUl.style.maxHeight = `${ImageDb.THUMBNAIL_HEIGHT * 4}px`;
+		cutList.forEach((image) => {
+			const li = document.createElement('li');
+			const button = document.createElement('button');
+			button.classList.add('small');
+			button.appendChild(image);
+			li.appendChild(button);
+			cutUl.appendChild(li);
+		});
+		newGameDialogCutList.insertAdjacentElement('beforeend', cutUl);
+
+
 		this.#dialogNewGame.showModal();
 	}
 

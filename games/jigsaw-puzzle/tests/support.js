@@ -15,4 +15,9 @@ const cuts = new Map([
 	['jigsaw', { name: 'Jigsaw', description: 'A jigsaw cut', url: '/images/cut-jigsaw.jpg' }]
 ])
 
-export { images, imagesLength, cuts };
+const cutsLength = cuts.size;
+
+const numPieces = [8, 16, 32];
+const numPiecesLength = numPieces.length;
+
+export { images, imagesLength, cuts, cutsLength, numPieces, numPiecesLength };

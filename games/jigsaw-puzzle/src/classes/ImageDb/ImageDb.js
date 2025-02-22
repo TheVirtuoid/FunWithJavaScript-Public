@@ -2,7 +2,6 @@ const defaultImages = new Map([]);
 
 let instance = null;
 let imageDatabase = null;
-const { origin } = window?.location;
 
 export default class ImageDb {
 

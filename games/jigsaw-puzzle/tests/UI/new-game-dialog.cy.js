@@ -1,4 +1,4 @@
-import { images, imagesLength } from '../support.js';
+import { imagesLength, cutsLength } from '../support.js';
 
 describe('When I click on the New Game button', () => {
 	beforeEach(() => {
@@ -14,4 +14,10 @@ describe('When I click on the New Game button', () => {
 		cy.get('[data-testid="new-game-dialog-image-list"] ul').should('exist');
 		cy.get('[data-testid="new-game-dialog-image-list"] ul li').should('have.length', imagesLength);
 	});
+
+	it('should display the images in the "select cuts" element', () => {
+		cy.get('[data-testid="new-game-dialog-cut-list"] ul').should('exist');
+		cy.get('[data-testid="new-game-dialog-cut-list"] ul li').should('have.length', cutsLength);
+	});
+
 });
