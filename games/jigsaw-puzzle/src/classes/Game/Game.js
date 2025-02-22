@@ -4,9 +4,11 @@ import GameStatus from "./GameStatus.js";
 import Statistics from "../Statistics/Statistics.js";
 import ImageDb from "../ImageDb/ImageDb.js";
 import CutDb from "../CutDb/CutDb.js";
+import NumPiecesDb from "../NumPiecesDb/NumPiecesDb.js";
 
 import images from '../../database/images.js';
 import cuts from '../../database/cuts.js';
+import numPieces from '../../database/numPieces.js';
 
 export default class Game {
 
@@ -27,14 +29,17 @@ export default class Game {
 
 	#cutDb;
 	#imageDb;
+	#numPiecesDb;
 
 	constructor() {
 		this.#table = null;
 		this.#ui = new Ui(this);
 		this.#imageDb = new ImageDb();
 		this.#cutDb = new CutDb();
+		this.#numPiecesDb = new NumPiecesDb();
 		ImageDb.reset(images);
 		CutDb.reset(cuts);
+		NumPiecesDb.reset(numPieces);
 	}
 
 	get table() {
@@ -111,9 +116,23 @@ export default class Game {
 				});
 				allSelections.push(selectCutPromise);
 
+				const selectNumPiecesPromise = new Promise((resolve, reject) => {
+					const numPiecesPromises = [];
+					let imageList = [];
+					this.#numPiecesDb.getNumPieces().forEach((numPiecesNumber) => {
+						numPiecesPromises.push(this.#numPiecesDb.getImage(numPiecesNumber));
+					});
+					Promise.allSettled(numPiecesPromises).then((images) => {
+						imageList = images
+							.filter((image) => image.status === 'fulfilled')
+							.map((image) => image.value);
+						resolve({ select: 'numPieces', data: imageList });
+					});
+				});
+				allSelections.push(selectNumPiecesPromise);
 
 				Promise.all(allSelections).then((selections) => {
-					this.#ui.newGame(selections[0].data, selections[1].data);
+					this.#ui.newGame(selections[0].data, selections[1].data, selections[2].data);
 				});
 				break;
 			case Game.EVENT_START_GAME:

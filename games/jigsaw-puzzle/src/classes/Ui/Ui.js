@@ -79,7 +79,7 @@ export default class Ui {
 		this.#buttonCancel.disabled = true;
 	}
 
-	newGame(imageList, cutList) {
+	newGame(imageList, cutList, numPiecesList) {
 		this.#buttonNew.disabled = true;
 		this.#buttonStart.disabled = true;
 		this.#buttonPause.disabled = true;
@@ -112,6 +112,18 @@ export default class Ui {
 		});
 		newGameDialogCutList.insertAdjacentElement('beforeend', cutUl);
 
+		const newGameDialogNumPiecesList = document.getElementById('new-game-dialog-numpiece-list');
+		const numPiecesUl = document.createElement('ul');
+		numPiecesUl.style.maxHeight = `${ImageDb.THUMBNAIL_HEIGHT * 4}px`;
+		numPiecesList.forEach((image) => {
+			const li = document.createElement('li');
+			const button = document.createElement('button');
+			button.classList.add('small');
+			button.appendChild(image);
+			li.appendChild(button);
+			numPiecesUl.appendChild(li);
+		});
+		newGameDialogNumPiecesList.insertAdjacentElement('beforeend', numPiecesUl);
 
 		this.#dialogNewGame.showModal();
 	}

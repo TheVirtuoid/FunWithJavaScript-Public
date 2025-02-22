@@ -33,6 +33,7 @@ export default class NumPiecesDb {
 
 		const imageSpan = document.createElement('span');
 		imageSpan.textContent = `${number}`;
+		imageSpan.classList.add('number');
 
 		span.appendChild(imageSpan);
 		return Promise.resolve(span);
