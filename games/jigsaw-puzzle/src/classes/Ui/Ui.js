@@ -2,6 +2,7 @@ import GameStatus from "../Game/GameStatus.js";
 import RenderStatus from "./RenderStatus.js";
 import Game from "../Game/Game.js";
 import ImageDb from "../ImageDb/ImageDb.js";
+import NewGame from "./NewGame.js";
 
 export default class Ui {
 
@@ -16,6 +17,9 @@ export default class Ui {
 
 	#game;
 
+	/* classes */
+	#newGame;
+
 	#newDialogData = {
 		image: null,
 		cut: null,
@@ -26,6 +30,7 @@ export default class Ui {
 
 	constructor(game) {
 		this.#game = game;
+		this.#newGame = new NewGame('new-game-dialog');
 	}
 
 	initialize() {
@@ -42,8 +47,6 @@ export default class Ui {
 		this.#buttonContinue.addEventListener('click', this.#onContinue.bind(this));
 		this.#buttonExit.addEventListener('click', this.#onExit.bind(this));
 		this.#buttonCancel.addEventListener('click', this.#onCancel.bind(this));
-
-		this.#dialogNewGame = document.getElementById('new-game-dialog');
 	}
 
 	render(renderState) {
@@ -95,7 +98,10 @@ export default class Ui {
 		this.#buttonExit.disabled = false;
 		this.#buttonCancel.disabled = false;
 
-		this.#buildNewDialogImageList('new-game-dialog-image-list', imageList);
+		this.#newGame.show(imageList, cutList, numPiecesList);
+
+
+		/*this.#buildNewDialogImageList('new-game-dialog-image-list', imageList);
 		this.#buildNewDialogImageList('new-game-dialog-cut-list', cutList);
 		this.#buildNewDialogImageList('new-game-dialog-numpiece-list', numPiecesList);
 
@@ -104,7 +110,10 @@ export default class Ui {
 		this.#newDialogData.buttonContinue.disabled = true;
 		this.#newDialogData.buttonCancel.disabled = false;
 
-		this.#dialogNewGame.showModal();
+		this.#newDialogData.buttonContinue.addEventListener('click', this.#onNewDialogContinue.bind(this));
+		this.#newDialogData.buttonCancel.addEventListener('click', this.#onNewDialogCancel.bind(this));
+
+		this.#dialogNewGame.showModal();*/
 	}
 
 	startGame() {
@@ -160,39 +169,5 @@ export default class Ui {
 		this.#buttonCancel.disabled = true;
 	}
 
-	#buildNewDialogImageList(imageListId, list) {
-		const imageList = document.getElementById(imageListId);
-		const ul = document.createElement('ul');
-		ul.style.maxHeight = `${ImageDb.THUMBNAIL_HEIGHT * 4}px`;
-		list.forEach((image) => {
-			const li = document.createElement('li');
-			const button = document.createElement('button');
-			button.classList.add('small');
-			button.appendChild(image);
-			li.appendChild(button);
-			ul.appendChild(li);
-		});
-		imageList.insertAdjacentElement('beforeend', ul);
-		ul.addEventListener('click', this.#processSelectionEvent.bind(this));
-	}
-
-	#processSelectionEvent(event) {
-		const allowedTargets = ['BUTTON', 'SPAN', 'IMG'];
-		if (allowedTargets.includes(event.target.tagName)) {
-			const selected = event.target.closest('button');
-			const target = selected.querySelector('[target]');
-			const selectedId = target.getAttribute('target');
-			this.#newDialogData[selectedId] = target.dataset.id;
-			if (this.#newDialogData.image && this.#newDialogData.cut && this.#newDialogData.numPieces) {
-				this.#newDialogData.buttonContinue.disabled = false;
-			}
-			const ul = selected.closest('ul');
-			ul.querySelectorAll('button').forEach((button) => {
-				button.classList.remove('selected');
-			});
-			ul.dataset.selected = selected.dataset.value;
-			selected.classList.add('selected');
-		}
-	}
 
 }

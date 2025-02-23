@@ -7,7 +7,7 @@ describe('When I click on the New Game button', () => {
 	});
 
 	it('should display the new game dialog', () => {
-		cy.get('[data-testid="new-game-dialog"]').should('exist');
+		cy.get('[data-testid="new-game-dialog"]').should('be.visible');
 	});
 
 	it('should display the images in the "select image" element', () => {
@@ -39,4 +39,18 @@ describe('When I click on the New Game button', () => {
 		cy.get('[data-testid="new-game-dialog-numpiece-list"] ul li:first-child button').click();
 		cy.get('[data-testid="new-dialog-button-continue"]').should('not.be.disabled');
 	});
+
+	it('should close the screen when the cancel button is clicked', () => {
+		cy.get('[data-testid="new-dialog-button-cancel"]').click();
+		cy.get('[data-testid="new-game-dialog"]').should('not.be.visible');
+	});
+
+	it('should close the screen when the continue button is clicked', () => {
+		cy.get('[data-testid="new-game-dialog-image-list"] ul li:first-child button').click();
+		cy.get('[data-testid="new-game-dialog-cut-list"] ul li:first-child button').click();
+		cy.get('[data-testid="new-game-dialog-numpiece-list"] ul li:first-child button').click();
+		cy.get('[data-testid="new-dialog-button-continue"]').click();
+		cy.get('[data-testid="new-game-dialog"]').should('not.be.visible');
+	});
+
 });
