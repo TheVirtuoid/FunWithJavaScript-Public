@@ -63,7 +63,7 @@ describe('When I work with the CutDb class', () => {
 					.then((image) => {
 						expect(image instanceof Image).to.be.true;
 						expect(image.dataset.id).to.equal(squareId);
-						expect(image.getAttribute('target')).to.equal('');
+						expect(image.getAttribute('target')).to.equal('cut');
 					})
 			});
 	});
@@ -91,7 +91,7 @@ describe('When I work with the CutDb class', () => {
 					.then((image) => {
 						expect(image instanceof Image).to.be.true;
 						expect(image.dataset.id).to.equal(squareId);
-						expect(image.getAttribute('target')).to.equal('');
+						expect(image.getAttribute('target')).to.equal('cut');
 					})
 			});
 	});

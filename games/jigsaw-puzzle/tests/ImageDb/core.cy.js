@@ -75,7 +75,7 @@ describe('When I work with the ImageDb class', () => {
 						expect(image.width).to.equal(ImageDb.IMAGE_WIDTH);
 						expect(image.height).to.equal(ImageDb.IMAGE_HEIGHT);
 						expect(image.dataset.id).to.equal(targetId);
-						expect(image.getAttribute('target')).to.equal('');
+						expect(image.getAttribute('target')).to.equal('image');
 					})
 			});
 	});
@@ -106,7 +106,7 @@ describe('When I work with the ImageDb class', () => {
 						expect(image.width).to.equal(ImageDb.THUMBNAIL_WIDTH);
 						expect(image.height).to.equal(ImageDb.THUMBNAIL_HEIGHT);
 						expect(image.dataset.id).to.equal(targetId);
-						expect(image.getAttribute('target')).to.equal('');
+						expect(image.getAttribute('target')).to.equal('image');
 					})
 			});
 	});
@@ -137,7 +137,7 @@ describe('When I work with the ImageDb class', () => {
 						expect(image.width).to.equal(ImageDb.IMAGE_WIDTH);
 						expect(image.height).to.equal(ImageDb.IMAGE_HEIGHT);
 						expect(image.dataset.id).to.equal(targetId);
-						expect(image.getAttribute('target')).to.equal('');
+						expect(image.getAttribute('target')).to.equal('image');
 					})
 			});
 	});

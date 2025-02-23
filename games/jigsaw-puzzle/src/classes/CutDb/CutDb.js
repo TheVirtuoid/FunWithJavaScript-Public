@@ -50,7 +50,7 @@ export default class CutDb {
 		return new Promise((resolve, reject) => {
 			const imgElement = new Image(width, height);
 			imgElement.dataset.id = id;
-			imgElement.setAttribute('target', '');
+			imgElement.setAttribute('target', 'cut');
 			imgElement.onload = () => {
 				resolve(imgElement);
 			};

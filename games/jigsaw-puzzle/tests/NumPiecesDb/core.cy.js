@@ -50,7 +50,7 @@ describe('When I work with the NumPieces class', () => {
 				return getImagePromise()
 					.then((image) => {
 						expect(image instanceof HTMLSpanElement).to.be.true;
-						expect(image.getAttribute('target')).to.equal('');
+						expect(image.getAttribute('target')).to.equal('numPieces');
 						expect(image.dataset.id).to.equal(`${number}`);
 					})
 			});

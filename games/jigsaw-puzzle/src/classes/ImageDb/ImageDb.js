@@ -60,7 +60,7 @@ export default class ImageDb {
 		return new Promise((resolve, reject) => {
 			const imgElement = new Image(width, height);
 			imgElement.dataset.id = id;
-			imgElement.setAttribute('target', '');
+			imgElement.setAttribute('target', 'image');
 			imgElement.onload = () => {
 				resolve(imgElement);
 			};

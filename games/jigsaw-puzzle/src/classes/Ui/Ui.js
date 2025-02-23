@@ -16,6 +16,14 @@ export default class Ui {
 
 	#game;
 
+	#newDialogData = {
+		image: null,
+		cut: null,
+		numPieces: null,
+		buttonContinue: null,
+		buttonCancel: null
+	}
+
 	constructor(game) {
 		this.#game = game;
 	}
@@ -91,6 +99,11 @@ export default class Ui {
 		this.#buildNewDialogImageList('new-game-dialog-cut-list', cutList);
 		this.#buildNewDialogImageList('new-game-dialog-numpiece-list', numPiecesList);
 
+		this.#newDialogData.buttonContinue = document.getElementById('new-dialog-button-continue');
+		this.#newDialogData.buttonCancel = document.getElementById('new-dialog-button-cancel');
+		this.#newDialogData.buttonContinue.disabled = true;
+		this.#newDialogData.buttonCancel.disabled = false;
+
 		this.#dialogNewGame.showModal();
 	}
 
@@ -160,15 +173,20 @@ export default class Ui {
 			ul.appendChild(li);
 		});
 		imageList.insertAdjacentElement('beforeend', ul);
-		ul.addEventListener('click', this.#processSelectionEvent.bind(ul));
+		ul.addEventListener('click', this.#processSelectionEvent.bind(this));
 	}
 
 	#processSelectionEvent(event) {
 		const allowedTargets = ['BUTTON', 'SPAN', 'IMG'];
 		if (allowedTargets.includes(event.target.tagName)) {
 			const selected = event.target.closest('button');
-			const image = selected.querySelector('img');
-			const ul = this.closest('ul');
+			const target = selected.querySelector('[target]');
+			const selectedId = target.getAttribute('target');
+			this.#newDialogData[selectedId] = target.dataset.id;
+			if (this.#newDialogData.image && this.#newDialogData.cut && this.#newDialogData.numPieces) {
+				this.#newDialogData.buttonContinue.disabled = false;
+			}
+			const ul = selected.closest('ul');
 			ul.querySelectorAll('button').forEach((button) => {
 				button.classList.remove('selected');
 			});
@@ -176,4 +194,5 @@ export default class Ui {
 			selected.classList.add('selected');
 		}
 	}
+
 }
