@@ -86,44 +86,10 @@ export default class Ui {
 		this.#buttonContinue.disabled = false;
 		this.#buttonExit.disabled = false;
 		this.#buttonCancel.disabled = false;
-		const newGameDialogImageList = document.getElementById('new-game-dialog-image-list');
-		const imageUl = document.createElement('ul');
-		imageUl.style.maxHeight = `${ImageDb.THUMBNAIL_HEIGHT * 4}px`;
-		imageList.forEach((image) => {
-			const li = document.createElement('li');
-			const button = document.createElement('button');
-			button.classList.add('small');
-			button.appendChild(image);
-			li.appendChild(button);
-			imageUl.appendChild(li);
-		});
-		newGameDialogImageList.insertAdjacentElement('beforeend', imageUl);
 
-		const newGameDialogCutList = document.getElementById('new-game-dialog-cut-list');
-		const cutUl = document.createElement('ul');
-		cutUl.style.maxHeight = `${ImageDb.THUMBNAIL_HEIGHT * 4}px`;
-		cutList.forEach((image) => {
-			const li = document.createElement('li');
-			const button = document.createElement('button');
-			button.classList.add('small');
-			button.appendChild(image);
-			li.appendChild(button);
-			cutUl.appendChild(li);
-		});
-		newGameDialogCutList.insertAdjacentElement('beforeend', cutUl);
-
-		const newGameDialogNumPiecesList = document.getElementById('new-game-dialog-numpiece-list');
-		const numPiecesUl = document.createElement('ul');
-		numPiecesUl.style.maxHeight = `${ImageDb.THUMBNAIL_HEIGHT * 4}px`;
-		numPiecesList.forEach((image) => {
-			const li = document.createElement('li');
-			const button = document.createElement('button');
-			button.classList.add('small');
-			button.appendChild(image);
-			li.appendChild(button);
-			numPiecesUl.appendChild(li);
-		});
-		newGameDialogNumPiecesList.insertAdjacentElement('beforeend', numPiecesUl);
+		this.#buildNewDialogImageList('new-game-dialog-image-list', imageList);
+		this.#buildNewDialogImageList('new-game-dialog-cut-list', cutList);
+		this.#buildNewDialogImageList('new-game-dialog-numpiece-list', numPiecesList);
 
 		this.#dialogNewGame.showModal();
 	}
@@ -179,5 +145,35 @@ export default class Ui {
 		this.#buttonContinue.disabled = false;
 		this.#buttonExit.disabled = false;
 		this.#buttonCancel.disabled = true;
+	}
+
+	#buildNewDialogImageList(imageListId, list) {
+		const imageList = document.getElementById(imageListId);
+		const ul = document.createElement('ul');
+		ul.style.maxHeight = `${ImageDb.THUMBNAIL_HEIGHT * 4}px`;
+		list.forEach((image) => {
+			const li = document.createElement('li');
+			const button = document.createElement('button');
+			button.classList.add('small');
+			button.appendChild(image);
+			li.appendChild(button);
+			ul.appendChild(li);
+		});
+		imageList.insertAdjacentElement('beforeend', ul);
+		ul.addEventListener('click', this.#processSelectionEvent.bind(ul));
+	}
+
+	#processSelectionEvent(event) {
+		const allowedTargets = ['BUTTON', 'SPAN', 'IMG'];
+		if (allowedTargets.includes(event.target.tagName)) {
+			const selected = event.target.closest('button');
+			const image = selected.querySelector('img');
+			const ul = this.closest('ul');
+			ul.querySelectorAll('button').forEach((button) => {
+				button.classList.remove('selected');
+			});
+			ul.dataset.selected = selected.dataset.value;
+			selected.classList.add('selected');
+		}
 	}
 }

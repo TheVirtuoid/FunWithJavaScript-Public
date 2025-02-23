@@ -24,4 +24,19 @@ describe('When I click on the New Game button', () => {
 		cy.get('[data-testid="new-game-dialog-numpiece-list"] ul').should('exist');
 		cy.get('[data-testid="new-game-dialog-numpiece-list"] ul li').should('have.length', numPiecesLength);
 	});
+
+	it('should have the Continue button disabled, the Cancel button enabled', () => {
+		cy.get('[data-testid="new-dialog-button-continue"]').should('be.disabled');
+		cy.get('[data-testid="new-dialog-button-cancel"]').should('not.be.disabled');
+	});
+
+	it('should not activate the continue button until all selections are made', () => {
+		cy.get('[data-testid="new-dialog-button-continue"]').should('be.disabled');
+		cy.get('[data-testid="new-game-dialog-image-list"] ul li:first-child button').click();
+		cy.get('[data-testid="new-dialog-button-continue"]').should('be.disabled');
+		cy.get('[data-testid="new-game-dialog-cut-list"] ul li:first-child button').click();
+		cy.get('[data-testid="new-dialog-button-continue"]').should('be.disabled');
+		cy.get('[data-testid="new-game-dialog-numpiece-list"] ul li:first-child button').click();
+		cy.get('[data-testid="new-dialog-button-continue"]').should('not.be.disabled');
+	});
 });

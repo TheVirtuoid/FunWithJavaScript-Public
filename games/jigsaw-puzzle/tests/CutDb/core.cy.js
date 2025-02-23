@@ -43,6 +43,7 @@ describe('When I work with the CutDb class', () => {
 	it('should import an image from the cut', () => {
 		const cutDb = new CutDb();
 		const square = cutDb.getCut('square');
+		const squareId = square.id;
 
 		const getImagePromise = () => {
 			return new Cypress.Promise((resolve, reject) => {
@@ -61,8 +62,50 @@ describe('When I work with the CutDb class', () => {
 				return getImagePromise()
 					.then((image) => {
 						expect(image instanceof Image).to.be.true;
+						expect(image.dataset.id).to.equal(squareId);
+						expect(image.getAttribute('target')).to.equal('');
 					})
 			});
+	});
+
+	it('should import an image from the cutId', () => {
+		const cutDb = new CutDb();
+		const square = cutDb.getCut('square');
+		const squareId = square.id;
+
+		const getImagePromise = () => {
+			return new Cypress.Promise((resolve, reject) => {
+				cutDb.getImageById(squareId)
+					.then(image => {
+						resolve(image);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		}
+
+		cy.wrap(null)
+			.then(() => {
+				return getImagePromise()
+					.then((image) => {
+						expect(image instanceof Image).to.be.true;
+						expect(image.dataset.id).to.equal(squareId);
+						expect(image.getAttribute('target')).to.equal('');
+					})
+			});
+	});
+
+	it('should import not return an invalid cutId', () => {
+		const cutDb = new CutDb();
+		const cut = cutDb.getImageById('invalid');
+		expect(cut).to.be.undefined;
+	});
+
+	it('should import not return an invalid cut', () => {
+		const cutDb = new CutDb();
+		const cut = cutDb.getImage('invalid');
+		expect(cut).to.be.undefined;
 	});
 
 });

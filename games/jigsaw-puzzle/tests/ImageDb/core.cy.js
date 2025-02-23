@@ -53,6 +53,7 @@ describe('When I work with the ImageDb class', () => {
 		const imageDb = new ImageDb();
 		const beach = imageDb.getImagesFromCategory('beach');
 		const target = beach[0];
+		const targetId = target.id;
 
 		const getImagePromise = () => {
 			return new Cypress.Promise((resolve, reject) => {
@@ -73,6 +74,8 @@ describe('When I work with the ImageDb class', () => {
 						expect(image instanceof Image).to.be.true;
 						expect(image.width).to.equal(ImageDb.IMAGE_WIDTH);
 						expect(image.height).to.equal(ImageDb.IMAGE_HEIGHT);
+						expect(image.dataset.id).to.equal(targetId);
+						expect(image.getAttribute('target')).to.equal('');
 					})
 			});
 	});
@@ -81,6 +84,7 @@ describe('When I work with the ImageDb class', () => {
 		const imageDb = new ImageDb();
 		const beach = imageDb.getImagesFromCategory('beach');
 		const target = beach[0];
+		const targetId = target.id;
 
 		const getImagePromise = () => {
 			return new Cypress.Promise((resolve, reject) => {
@@ -101,9 +105,53 @@ describe('When I work with the ImageDb class', () => {
 						expect(image instanceof Image).to.be.true;
 						expect(image.width).to.equal(ImageDb.THUMBNAIL_WIDTH);
 						expect(image.height).to.equal(ImageDb.THUMBNAIL_HEIGHT);
+						expect(image.dataset.id).to.equal(targetId);
+						expect(image.getAttribute('target')).to.equal('');
 					})
 			});
 	});
 
+	it('should import an image based upon ID', () => {
+		const imageDb = new ImageDb();
+		const beach = imageDb.getImagesFromCategory('beach');
+		const target = beach[0];
+		const targetId = target.id;
+
+		const getImagePromise = () => {
+			return new Cypress.Promise((resolve, reject) => {
+				imageDb.getImageById(targetId)
+					.then(image => {
+						resolve(image);
+					})
+					.catch(err => {
+						reject(err);
+					});
+			});
+		}
+
+		cy.wrap(null)
+			.then(() => {
+				return getImagePromise()
+					.then((image) => {
+						expect(image instanceof Image).to.be.true;
+						expect(image.width).to.equal(ImageDb.IMAGE_WIDTH);
+						expect(image.height).to.equal(ImageDb.IMAGE_HEIGHT);
+						expect(image.dataset.id).to.equal(targetId);
+						expect(image.getAttribute('target')).to.equal('');
+					})
+			});
+	});
+
+	it('should return undefined if imageId is not there', () => {
+		const imageDb = new ImageDb();
+		const image = imageDb.getImageById('invalid');
+		expect(image).to.be.undefined;
+	});
+
+	it('should return undefined if image is not there', () => {
+		const imageDb = new ImageDb();
+		const image = imageDb.getImage('invalid');
+		expect(image).to.be.undefined;
+	});
 
 });

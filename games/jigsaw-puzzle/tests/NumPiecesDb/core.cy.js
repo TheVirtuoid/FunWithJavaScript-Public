@@ -30,7 +30,8 @@ describe('When I work with the NumPieces class', () => {
 
 	it('should create an image from the number of pieces', () => {
 		const numPiecesDb = new NumPiecesDb();
-		const number = numPiecesDb[0];
+		const numPieces = numPiecesDb.getNumPieces();
+		const number = numPieces[0];
 
 		const getImagePromise = () => {
 			return new Cypress.Promise((resolve, reject) => {
@@ -49,8 +50,16 @@ describe('When I work with the NumPieces class', () => {
 				return getImagePromise()
 					.then((image) => {
 						expect(image instanceof HTMLSpanElement).to.be.true;
+						expect(image.getAttribute('target')).to.equal('');
+						expect(image.dataset.id).to.equal(`${number}`);
 					})
 			});
+	});
+
+	it('should return undefined if number is not valid', () => {
+		const numPiecesDb = new NumPiecesDb();
+		const invalid = numPiecesDb.getImage(0);
+		expect(invalid).to.be.undefined;
 	});
 
 });
