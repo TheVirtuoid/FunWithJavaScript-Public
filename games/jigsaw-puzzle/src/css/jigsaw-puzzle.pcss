@@ -69,10 +69,27 @@ body {
         padding: .5rem 2rem;
         text-align: center;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        gap: 2rem;
+
+        > section {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            width: 100%;
+
+            #puzzle-information {
+                display: flex;
+                flex-direction: row;
+                gap: .5rem;
+                justify-content: space-between;
+                width: 100%;
+                font-size: .9rem;
+            }
+        }
     }
 
     > footer {
@@ -156,7 +173,7 @@ button {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 ::backdrop {

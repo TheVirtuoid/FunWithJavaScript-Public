@@ -7,21 +7,31 @@
 </head>
 <body>
 	<header>
-		<section id="stats">
-			<div id="time">Time:<span>00:00:00</span></div>
-			<div id="moves">Moves:<span>0</span></div>
+		<section>
+			<section id="stats">
+				<div id="time">Time:<span>00:00:00</span></div>
+				<div id="moves">Moves:<span>0</span></div>
+			</section>
+			<section id="actions">
+				<button data-testid="button-new" class="small primary" id="button-new"><span>New</span></button>
+				<button data-testid="button-start" class="small primary" id="button-start"><span>Start</span></button>
+				<button data-testid="button-pause" class="small primary" id="button-pause"><span>Pause</span></button>
+				<button data-testid="button-continue" class="small primary" id="button-continue"><span>Continue</span></button>
+				<button data-testid="button-exit" class="small primary" id="button-exit"><span>Exit</span></button>
+				<button data-testid="button-cancel" class="small primary" id="button-cancel"><span>Cancel</span></button>
+			</section>
 		</section>
-		<section id="actions">
-			<button data-testid="button-new" class="small primary" id="button-new"><span>New</span></button>
-			<button data-testid="button-start" class="small primary" id="button-start"><span>Start</span></button>
-			<button data-testid="button-pause" class="small primary" id="button-pause"><span>Pause</span></button>
-			<button data-testid="button-continue" class="small primary" id="button-continue"><span>Continue</span></button>
-			<button data-testid="button-exit" class="small primary" id="button-exit"><span>Exit</span></button>
-			<button data-testid="button-cancel" class="small primary" id="button-cancel"><span>Cancel</span></button>
+		<section>
+			<div data-testid="puzzle-information" id="puzzle-information" class="hidden">
+				<div>Name: <span class="puzzle-name"></span></div>
+				<div>Cut: <span class="puzzle-cut"></span></div>
+				<div>Number of Pieces: <span class="puzzle-num-pieces"></span></div>
+			</div>
 		</section>
 	</header>
 	<main>
-		<div id="blank-screen">jigsaw-puzzle</div>
+		<div data-testid="blank-screen" id="blank-screen">jigsaw-puzzle</div>
+		<div data-testid="puzzle" id="puzzle" class="hidden">Puzzle</div>
 	</main>
 	<footer>&copy; 2012-2025 m. parker smith a.k.a. TheVirtuoid</footer>
 

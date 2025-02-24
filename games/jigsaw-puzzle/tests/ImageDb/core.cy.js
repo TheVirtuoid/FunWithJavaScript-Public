@@ -13,9 +13,9 @@ describe('When I work with the ImageDb class', () => {
 		expect(imageDb instanceof ImageDb).to.be.true;
 	});
 
-	it('should throw an exception if the class is initialized a second time', () => {
+	it('should return same instance if the class is initialized a second time', () => {
 		const imageDb = new ImageDb();
-		expect(() => new ImageDb()).to.throw();
+		expect(new ImageDb()).to.equal(imageDb);
 	});
 
 	it('should get a list of categories', () => {
@@ -47,6 +47,24 @@ describe('When I work with the ImageDb class', () => {
 		expect(images.get('beach')).to.have.lengthOf(2);
 		expect(images.get('insects')).to.have.lengthOf(1);
 		expect(images.get('cities')).to.have.lengthOf(1);
+	});
+
+	it('should retrieve the imageData based upon Id', () => {
+		const imageDb = new ImageDb();
+		const beach = imageDb.getImagesFromCategory('beach');
+		const target = beach[0];
+		const targetId = target.id;
+		const imageData = imageDb.getImageData(targetId);
+		expect(imageData.url).to.equal(beach[0].url);
+		expect(imageData.id).to.equal(beach[0].id);
+		expect(imageData.name).to.equal(beach[0].name);
+		expect(imageData.category).to.equal(beach[0].category);
+	});
+
+	it('should return undefined if the ID is invalid accessing getImageData', () => {
+		const imageDb = new ImageDb();
+		const image = imageDb.getImageData('invalid');
+		expect(image).to.be.undefined;
 	});
 
 	it('should import an image', () => {

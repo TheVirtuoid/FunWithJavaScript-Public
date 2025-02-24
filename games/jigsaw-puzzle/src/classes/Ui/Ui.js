@@ -3,6 +3,8 @@ import RenderStatus from "./RenderStatus.js";
 import Game from "../Game/Game.js";
 import ImageDb from "../ImageDb/ImageDb.js";
 import NewGame from "./NewGame.js";
+import NumPiecesDb from "../NumPiecesDb/NumPiecesDb.js";
+import CutDb from "../CutDb/CutDb.js";
 
 export default class Ui {
 
@@ -13,24 +15,29 @@ export default class Ui {
 	#buttonExit;
 	#buttonCancel;
 
-	#dialogNewGame;
+	#blankScreen;
+	#puzzleInformation;
+	#puzzle;
+	#puzzleInformationName;
+	#puzzleInformationCut;
+	#puzzleInformationNumPieces;
 
 	#game;
 
 	/* classes */
 	#newGame;
 
-	#newDialogData = {
-		image: null,
-		cut: null,
-		numPieces: null,
-		buttonContinue: null,
-		buttonCancel: null
-	}
+	/* database */
+	#imageDb;
+	#cutDb;
+	#numPiecesDb;
 
 	constructor(game) {
 		this.#game = game;
-		this.#newGame = new NewGame('new-game-dialog');
+		this.#newGame = new NewGame('new-game-dialog', this);
+		this.#imageDb = new ImageDb();
+		this.#cutDb = new CutDb();
+		this.#numPiecesDb = new NumPiecesDb();
 	}
 
 	initialize() {
@@ -47,6 +54,14 @@ export default class Ui {
 		this.#buttonContinue.addEventListener('click', this.#onContinue.bind(this));
 		this.#buttonExit.addEventListener('click', this.#onExit.bind(this));
 		this.#buttonCancel.addEventListener('click', this.#onCancel.bind(this));
+
+		this.#blankScreen = document.getElementById('blank-screen');
+		this.#puzzleInformation = document.getElementById('puzzle-information');
+		this.#puzzle = document.getElementById('puzzle');
+
+		this.#puzzleInformationName = this.#puzzleInformation.querySelector('span.puzzle-name');
+		this.#puzzleInformationCut = this.#puzzleInformation.querySelector('span.puzzle-cut');
+		this.#puzzleInformationNumPieces = this.#puzzleInformation.querySelector('span.puzzle-num-pieces');
 	}
 
 	render(renderState) {
@@ -57,28 +72,32 @@ export default class Ui {
 		}
 	}
 
+	dispatchEvent(event) {
+		this.#game.dispatchEvent(event);
+	}
+
 	#onExit(event) {
-		this.#game.dispatchEvent({ code: Game.EVENT_EXIT_GAME, event});
+		this.#game.dispatchEvent({ code: GameStatus.EVENT_EXIT, event});
 	}
 
 	#onNew(event) {
-		this.#game.dispatchEvent({ code: Game.EVENT_NEW_GAME, event });
+		this.#game.dispatchEvent({ code: GameStatus.EVENT_NEW, event });
 	}
 
 	#onStart(event) {
-		this.#game.dispatchEvent({ code: Game.EVENT_START_GAME, event });
+		this.#game.dispatchEvent({ code: GameStatus.EVENT_START, event });
 	}
 
 	#onPause(event) {
-		this.#game.dispatchEvent({ code: Game.EVENT_PAUSE_GAME, event });
+		this.#game.dispatchEvent({ code: GameStatus.EVENT_PAUSE, event });
 	}
 
 	#onContinue(event) {
-		this.#game.dispatchEvent({ code: Game.EVENT_CONTINUE_GAME, event });
+		this.#game.dispatchEvent({ code: GameStatus.EVENT_CONTINUE, event });
 	}
 
 	#onCancel(event) {
-		this.#game.dispatchEvent({ code: Game.EVENT_CANCEL_GAME, event });
+		this.#game.dispatchEvent({ code: GameStatus.EVENT_CANCEL, event });
 	}
 
 	beginGame() {
@@ -88,6 +107,10 @@ export default class Ui {
 		this.#buttonContinue.disabled = true;
 		this.#buttonExit.disabled = false;
 		this.#buttonCancel.disabled = true;
+
+		this.#blankScreen.classList.remove('hidden');
+		this.#puzzleInformation.classList.add('hidden');
+		this.#puzzle.classList.add('hidden');
 	}
 
 	newGame(imageList, cutList, numPiecesList) {
@@ -98,22 +121,35 @@ export default class Ui {
 		this.#buttonExit.disabled = false;
 		this.#buttonCancel.disabled = false;
 
+		this.#blankScreen.classList.add('hidden');
 		this.#newGame.show(imageList, cutList, numPiecesList);
+	}
 
+	readyGame(data) {
+		this.#buttonNew.disabled = false;
+		this.#buttonStart.disabled = false;
+		this.#buttonPause.disabled = true;
+		this.#buttonContinue.disabled = true;
+		this.#buttonExit.disabled = false;
+		this.#buttonCancel.disabled = false;
 
-		/*this.#buildNewDialogImageList('new-game-dialog-image-list', imageList);
-		this.#buildNewDialogImageList('new-game-dialog-cut-list', cutList);
-		this.#buildNewDialogImageList('new-game-dialog-numpiece-list', numPiecesList);
+		const readyPromises = [];
+		readyPromises.push(this.#imageDb.getImageById(data.image));
+		readyPromises.push(this.#cutDb.getImageById(data.cut));
+		Promise.all(readyPromises).then((returnedImages) => {
+			const [ imageElement, cutElement ] = returnedImages;
+			const imageData = this.#imageDb.getImageData(data.image);
+			const cutData = this.#cutDb.getCutData(data.cut);
 
-		this.#newDialogData.buttonContinue = document.getElementById('new-dialog-button-continue');
-		this.#newDialogData.buttonCancel = document.getElementById('new-dialog-button-cancel');
-		this.#newDialogData.buttonContinue.disabled = true;
-		this.#newDialogData.buttonCancel.disabled = false;
-
-		this.#newDialogData.buttonContinue.addEventListener('click', this.#onNewDialogContinue.bind(this));
-		this.#newDialogData.buttonCancel.addEventListener('click', this.#onNewDialogCancel.bind(this));
-
-		this.#dialogNewGame.showModal();*/
+			this.#puzzle.replaceChildren();
+			this.#puzzle.appendChild(imageElement);
+			this.#puzzleInformationName.textContent = imageData.name;
+			this.#puzzleInformationCut.textContent = cutData.name;
+			this.#puzzleInformationNumPieces.textContent = `${data.numPieces}`;
+			this.#blankScreen.classList.add('hidden');
+			this.#puzzleInformation.classList.remove('hidden');
+			this.#puzzle.classList.remove('hidden');
+		});
 	}
 
 	startGame() {
@@ -149,15 +185,6 @@ export default class Ui {
 		this.#buttonContinue.disabled = true;
 		this.#buttonExit.disabled = true;
 		this.#buttonCancel.disabled = true;
-	}
-
-	readyGame() {
-		this.#buttonNew.disabled = false;
-		this.#buttonStart.disabled = false;
-		this.#buttonPause.disabled = true;
-		this.#buttonContinue.disabled = true;
-		this.#buttonExit.disabled = false;
-		this.#buttonCancel.disabled = false;
 	}
 
 	finishGame() {

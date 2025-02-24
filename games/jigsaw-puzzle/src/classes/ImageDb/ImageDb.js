@@ -24,7 +24,7 @@ export default class ImageDb {
 
 	constructor() {
 		if (instance) {
-			throw new Error('ImageDb class has already been initialized');
+			return instance;
 		}
 		instance = this;
 	}
@@ -48,6 +48,10 @@ export default class ImageDb {
 			return imageEntry;
 		}
 		return this.getImage(imageEntry);
+	}
+
+	getImageData(id) {
+		return imageIdDatabase.get(id);
 	}
 
 	getImage(entry, thumbnail = false) {

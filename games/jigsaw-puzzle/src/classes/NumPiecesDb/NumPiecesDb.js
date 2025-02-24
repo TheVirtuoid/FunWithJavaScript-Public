@@ -14,7 +14,7 @@ export default class NumPiecesDb {
 
 	constructor() {
 		if (instance) {
-			throw new Error('NumPiecesDb class has already been initialized');
+			return instance;
 		}
 		instance = this;
 	}

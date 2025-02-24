@@ -14,9 +14,10 @@ describe('When I work with the NumPieces class', () => {
 		expect(numPiecesDb instanceof NumPiecesDb).to.be.true;
 	});
 
-	it('should throw an exception if the class is initialized a second time', () => {
+	it('should return the same instance if the class is initialized a second time', () => {
 		const numPiecesDb = new NumPiecesDb();
-		expect(() => new NumPiecesDb()).to.throw();
+		const extraInstance = new NumPiecesDb();
+		expect(numPiecesDb).to.equal(extraInstance);
 	});
 
 	it('should get a list of num pieces', () => {

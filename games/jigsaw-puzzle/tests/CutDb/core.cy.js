@@ -14,9 +14,9 @@ describe('When I work with the CutDb class', () => {
 		expect(cutDb instanceof CutDb).to.be.true;
 	});
 
-	it('should throw an exception if the class is initialized a second time', () => {
+	it('should return the same instance if the class is initialized a second time', () => {
 		const cutDb = new CutDb();
-		expect(() => new CutDb()).to.throw();
+		expect(new CutDb()).to.equal(cutDb);
 	});
 
 	it('should get a list of cuts', () => {
@@ -39,6 +39,24 @@ describe('When I work with the CutDb class', () => {
 		const invalid = cutDb.getCut('invalid');
 		expect(invalid).to.be.undefined;
 	});
+
+	it('should retrieve the cutData based upon Id', () => {
+		const cutDb = new CutDb();
+		const square = cutDb.getCut('square');
+		const id = square.id;
+		const cutData = cutDb.getCutData(id);
+		expect(cutData.url).to.equal(square.url);
+		expect(cutData.id).to.equal(square.id);
+		expect(cutData.name).to.equal(square.name);
+		expect(cutData.description).to.equal(square.description);
+	});
+
+	it('should return undefined if the ID is invalid accessing getImageData', () => {
+		const cutDb = new CutDb();
+		const cutData = cutDb.getCutData('invalid');
+		expect(cutData).to.be.undefined;
+	});
+
 
 	it('should import an image from the cut', () => {
 		const cutDb = new CutDb();

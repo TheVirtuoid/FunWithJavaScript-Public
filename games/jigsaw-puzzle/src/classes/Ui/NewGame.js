@@ -1,8 +1,11 @@
 import ImageDb from "../ImageDb/ImageDb.js";
+import GameStatus from "../Game/GameStatus.js";
 
 export default class NewGame {
 
 	#dom;
+	#parent;
+
 	#data = {
 		image: null,
 		cut: null,
@@ -11,8 +14,9 @@ export default class NewGame {
 		buttonCancel: null
 	};
 
-	constructor(newGameId) {
+	constructor(newGameId, parent) {
 		this.#dom = document.getElementById(newGameId);
+		this.#parent = parent;
 	}
 
 	show(imageList, cutList, numPiecesList) {
@@ -43,6 +47,7 @@ export default class NewGame {
 			li.appendChild(button);
 			ul.appendChild(li);
 		});
+		imageList.replaceChildren();
 		imageList.insertAdjacentElement('beforeend', ul);
 		ul.addEventListener('click', this.#processSelectionEvent.bind(this));
 	}
@@ -68,11 +73,11 @@ export default class NewGame {
 
 	#onCancel(event) {
 		this.#dom.close();
-		// this.#game.dispatchEvent({ code: Game.EVENT_CANCEL_GAME, event });
+		this.#parent.dispatchEvent({ code: GameStatus.EVENT_BEGIN, event });
 	}
 
 	#onContinue(event) {
 		this.#dom.close();
-		// this.#game.dispatchEvent({ code: Game.EVENT_CONTINUE_GAME, event });
+		this.#parent.dispatchEvent({ code: GameStatus.EVENT_READY, data: { image: this.#data.image, cut: this.#data.cut, numPieces: this.#data.numPieces }});
 	}
 }

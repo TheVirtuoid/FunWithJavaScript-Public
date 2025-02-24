@@ -12,6 +12,7 @@ import numPieces from '../../database/numPieces.js';
 
 export default class Game {
 
+/*
 	static EVENT_NEW_GAME = Symbol('new-game');
 	static EVENT_EXIT_GAME = 'exit-game';
 	static EVENT_CANCEL_GAME = Symbol('cancel-game');
@@ -20,8 +21,11 @@ export default class Game {
 	static EVENT_CONTINUE_GAME = Symbol('continue-game');
 	static EVENT_READY_GAME = Symbol('ready-game');
 	static EVENT_FINISH_GAME = Symbol('finish-game');
+*/
 	static EVENT_PIECE_DRAGGED = Symbol('piece-dragged');
 	static EVENT_PIECE_DROPPED = Symbol('piece-dropped');
+
+	#status;
 
 	#table;
 	#ui;
@@ -54,9 +58,13 @@ export default class Game {
 		return this.#statistics;
 	}
 
+	get status() {
+		return this.#status;
+	}
+
 	initialize() {
 		this.#ui.initialize();
-		this.render(GameStatus.BEGIN);
+		this.dispatchEvent({ code: GameStatus.EVENT_BEGIN });
 	}
 
 	createTable() {
@@ -78,9 +86,13 @@ export default class Game {
 	}
 
 	dispatchEvent(incomingEvent) {
-		const { code, event } = incomingEvent;
+		const { code, data } = incomingEvent;
 		switch(code) {
-			case Game.EVENT_NEW_GAME:
+			case GameStatus.EVENT_BEGIN:
+				this.#status = GameStatus.BEGIN;
+				this.render(this.#status);
+				break;
+			case GameStatus.EVENT_NEW:
 				const allSelections = [];
 
 				const selectImagePromise = new Promise((resolve, reject) => {
@@ -135,25 +147,22 @@ export default class Game {
 					this.#ui.newGame(selections[0].data, selections[1].data, selections[2].data);
 				});
 				break;
-			case Game.EVENT_START_GAME:
+			case GameStatus.EVENT_READY:
+				this.#ui.readyGame(data);
+				break;
+			case GameStatus.EVENT_START:
 				this.#ui.startGame();
 				break;
-			case Game.EVENT_PAUSE_GAME:
+			case GameStatus.EVENT_PAUSE:
 				this.#ui.pauseGame();
 				break;
-			case Game.EVENT_CONTINUE_GAME:
+			case GameStatus.EVENT_CONTINUE:
 				this.#ui.continueGame();
 				break;
-			case Game.EVENT_EXIT_GAME:
+			case GameStatus.EVENT_EXIT:
 				this.#ui.exitGame();
 				break;
-			case Game.EVENT_CANCEL_GAME:
-				this.#ui.cancelGame();
-				break;
-			case Game.EVENT_READY_GAME:
-				this.#ui.readyGame();
-				break;
-			case Game.EVENT_FINISH_GAME:
+			case GameStatus.EVENT_FINISHED:
 				this.#ui.finishGame();
 				break;
 		}

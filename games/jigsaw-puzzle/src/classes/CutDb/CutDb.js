@@ -19,7 +19,7 @@ export default class CutDb {
 
 	constructor() {
 		if (instance) {
-			throw new Error('CutDb class has already been initialized');
+			return instance;
 		}
 		instance = this;
 	}
@@ -38,6 +38,10 @@ export default class CutDb {
 			return cut;
 		}
 		return this.getImage(cut);
+	}
+
+	getCutData(id) {
+		return cutIdDatabase.get(id);
 	}
 
 	getImage(cut) {
