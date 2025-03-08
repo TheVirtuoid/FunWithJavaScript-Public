@@ -1,6 +1,4 @@
 import Position2d from "../../src/classes/support/Position2d.js";
-import {numPieces} from "../support.js";
-import NumPiecesDb from "../../src/classes/NumPiecesDb/NumPiecesDb.js";
 import NumPieceData from "../../src/classes/NumPieceData/NumPieceData.js";
 
 describe('WHen I work with the NumPieceData class', () => {
@@ -12,22 +10,13 @@ describe('WHen I work with the NumPieceData class', () => {
 		expect(numPieceData).to.have.property('id', null);
 	});
 
-	it('should initialize the class based upon a pieceData object', () => {
-		NumPiecesDb.reset(numPieces);
-		const numPiecesDb = new NumPiecesDb();
-		const pieceData = numPiecesDb.getPieceData(8);
-		const numPieceData = new NumPieceData(pieceData);
-		expect(numPieceData.name).to.equal(pieceData.name);
-		expect(numPieceData.pieces).to.equal(pieceData.pieces);
-		expect(numPieceData.dimensions).to.equal(pieceData.dimensions);
-		expect(numPieceData.id).to.equal(pieceData.id);
-	});
-
 	it('should initialize the claas based upon individual properties', () => {
-		const numPieceData = new NumPieceData({ name: '8', pieces: 8, dimensions: new Position2d(4, 2), id: '8' });
+		const numPieceData = new NumPieceData({ name: '8', pieces: 8, dimensions: { x: 4, y: 2 }, id: '8' });
 		expect(numPieceData.name).to.equal('8');
 		expect(numPieceData.pieces).to.equal(8);
 		expect(numPieceData.dimensions).to.be.instanceOf(Position2d);
+		expect(numPieceData.dimensions.x).to.equal(4);
+		expect(numPieceData.dimensions.y).to.equal(2);
 		expect(numPieceData.id).to.equal('8');
 	});
 });

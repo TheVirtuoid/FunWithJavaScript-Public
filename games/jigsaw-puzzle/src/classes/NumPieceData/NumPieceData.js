@@ -10,7 +10,7 @@ export default class NumPieceData {
 		const { name, pieces, dimensions, id } = args;
 		this.#name = name || null;
 		this.#pieces = pieces || null;
-		this.#dimensions = new Position2d(dimensions || null);
+		this.#dimensions = dimensions ? new Position2d(dimensions) : null;
 		this.#id = id || null;
 	};
 
