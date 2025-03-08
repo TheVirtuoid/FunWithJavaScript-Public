@@ -2,6 +2,8 @@
 import { cuts } from '../support.js';
 import CutDb from "../../src/classes/CutDb/CutDb.js";
 import ImageDb from "../../src/classes/ImageDb/ImageDb.js";
+import Position2d from "../../src/classes/support/Position2d.js";
+import CutData from "../../src/classes/CutData/CutData.js";
 
 describe('When I work with the CutDb class', () => {
 
@@ -23,15 +25,14 @@ describe('When I work with the CutDb class', () => {
 		const cutDb = new CutDb();
 		const categories = cutDb.getCutNames();
 		expect(categories).to.have.lengthOf(2);
-		expect(categories).to.include('square');
-		expect(categories).to.include('jigsaw');
+		expect(categories).to.include('Square');
+		expect(categories).to.include('Jigsaw');
 	});
 
 	it('should get a cut from a named cut', () => {
 		const cutDb = new CutDb();
-		const square = cutDb.getCut('square');
-		expect(square).to.have.property('name', 'Square');
-		expect(square).to.have.property('description', 'A square cut');
+		const square = cutDb.getCut('Square');
+		expect(square).to.be.instanceOf(CutData);
 	});
 
 	it('should return undefined cut is invalid', () => {
@@ -42,9 +43,9 @@ describe('When I work with the CutDb class', () => {
 
 	it('should retrieve the cutData based upon Id', () => {
 		const cutDb = new CutDb();
-		const square = cutDb.getCut('square');
-		const id = square.id;
-		const cutData = cutDb.getCutData(id);
+		const square = cutDb.getCut('Square');
+		const cutData = cutDb.getCutData(square.id);
+		expect(cutData).to.be.instanceOf(CutData);
 		expect(cutData.url).to.equal(square.url);
 		expect(cutData.id).to.equal(square.id);
 		expect(cutData.name).to.equal(square.name);
@@ -60,7 +61,7 @@ describe('When I work with the CutDb class', () => {
 
 	it('should import an image from the cut', () => {
 		const cutDb = new CutDb();
-		const square = cutDb.getCut('square');
+		const square = cutDb.getCut('Square');
 		const squareId = square.id;
 
 		const getImagePromise = () => {
@@ -88,7 +89,7 @@ describe('When I work with the CutDb class', () => {
 
 	it('should import an image from the cutId', () => {
 		const cutDb = new CutDb();
-		const square = cutDb.getCut('square');
+		const square = cutDb.getCut('Square');
 		const squareId = square.id;
 
 		const getImagePromise = () => {

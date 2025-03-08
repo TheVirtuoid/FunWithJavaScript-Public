@@ -1,4 +1,6 @@
 import ImageDb from "../ImageDb/ImageDb.js";
+import NumPieceData from "../NumPieceData/NumPieceData.js";
+import CutData from "../CutData/CutData.js";
 
 const defaultCuts = new Map([]);
 
@@ -8,13 +10,16 @@ let cutIdDatabase = null;
 
 export default class CutDb {
 
-	static reset(cuts) {
-		cutDatabase = cuts ? cuts : defaultCuts;
-		instance = null;
+	static reset(cuts = []) {
+		cutDatabase = new Map();
 		cutIdDatabase = new Map();
-		cutDatabase.forEach((cut) => {
-			cutIdDatabase.set(cut.id, cut);
+		instance = null;
+		cuts.forEach((cut) => {
+			const cutData = new CutData(cut);
+			cutDatabase.set(cutData.name, cutData);
+			cutIdDatabase.set(cutData.id, cutData);
 		});
+
 	}
 
 	constructor() {
