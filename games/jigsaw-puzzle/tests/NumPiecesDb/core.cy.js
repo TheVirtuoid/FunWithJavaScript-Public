@@ -31,6 +31,10 @@ describe('When I work with the NumPiecesDb class', () => {
 		const pieceData = numPiecesDb.getPieceData(8);
 		expect(pieceData).to.have.property('name', '8');
 		expect(pieceData).to.have.property('pieces', 8);
+		expect(pieceData).to.have.property('dimensions');
+		const { dimensions } = pieceData;
+		expect(dimensions).to.have.property('x', 4);
+		expect(dimensions).to.have.property('y', 2);
 	});
 
 	it('should return undefined pieceName is invalid', () => {
