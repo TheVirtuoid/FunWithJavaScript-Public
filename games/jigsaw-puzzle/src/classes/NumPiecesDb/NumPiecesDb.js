@@ -1,4 +1,5 @@
 import ImageDb from "../ImageDb/ImageDb.js";
+import NumPieceData from "../NumPieceData/NumPieceData.js";
 
 const defaultNumPieces = new Map();
 
@@ -8,12 +9,14 @@ let numPiecesIdDatabase = null;
 
 export default class NumPiecesDb {
 
-	static reset(numPieces) {
-		numPiecesDatabase = numPieces ? numPieces : defaultNumPieces;
-		instance = null;
+	static reset(numPieces = []) {
+		numPiecesDatabase = new Map();
 		numPiecesIdDatabase = new Map();
-		numPiecesDatabase.forEach((pieceData) => {
-			numPiecesIdDatabase.set(pieceData.id, pieceData);
+		instance = null;
+		numPieces.forEach((pieceData) => {
+			const numPieceData = new NumPieceData(pieceData);
+			numPiecesDatabase.set(pieceData.name, numPieceData);
+			numPiecesIdDatabase.set(pieceData.id, numPieceData);
 		});
 	}
 

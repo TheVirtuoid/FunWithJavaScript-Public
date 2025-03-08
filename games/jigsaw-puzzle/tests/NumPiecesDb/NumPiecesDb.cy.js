@@ -22,26 +22,26 @@ describe('When I work with the NumPiecesDb class', () => {
 		const numPiecesDb = new NumPiecesDb();
 		const pieceNames = numPiecesDb.getPieceNames();
 		expect(pieceNames).to.have.lengthOf(3);
-		expect(pieceNames).to.include(8);
-		expect(pieceNames).to.include(16);
-		expect(pieceNames).to.include(32);
+		expect(pieceNames).to.include('8');
+		expect(pieceNames).to.include('16');
+		expect(pieceNames).to.include('32');
 	});
 
 	it('should get a piece from a named pieceName', () => {
 		const numPiecesDb = new NumPiecesDb();
-		const pieceData = numPiecesDb.getPieceData(8);
+		const pieceData = numPiecesDb.getPieceData('8');
 		expect(pieceData).to.be.instanceOf(NumPieceData);
 	});
 
 	it('should return undefined pieceName is invalid', () => {
 		const numPiecesDb = new NumPiecesDb();
-		const invalid = numPiecesDb.getPieceData(0);
+		const invalid = numPiecesDb.getPieceData('0');
 		expect(invalid).to.be.undefined;
 	});
 
 	it('should retrieve the pieceData based upon Id', () => {
 		const numPiecesDb = new NumPiecesDb();
-		const testPieceData = numPiecesDb.getPieceData(8);
+		const testPieceData = numPiecesDb.getPieceData('8');
 		const id = testPieceData.id;
 		const pieceData = numPiecesDb.getPieceDataById(id);
 		expect(pieceData).to.be.instanceOf(NumPieceData);
@@ -58,7 +58,7 @@ describe('When I work with the NumPiecesDb class', () => {
 
 	it('should import an image from the piece', () => {
 		const numPiecesDb = new NumPiecesDb();
-		const pieceData = numPiecesDb.getPieceData(8);
+		const pieceData = numPiecesDb.getPieceData('8');
 
 		const getImagePromise = () => {
 			return new Cypress.Promise((resolve, reject) => {
@@ -85,7 +85,7 @@ describe('When I work with the NumPiecesDb class', () => {
 
 	it('should import an image from the id', () => {
 		const numPiecesDb = new NumPiecesDb();
-		const pieceData = numPiecesDb.getPieceData(8);
+		const pieceData = numPiecesDb.getPieceData('8');
 
 		const getImagePromise = () => {
 			return new Cypress.Promise((resolve, reject) => {

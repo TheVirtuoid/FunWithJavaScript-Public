@@ -14,6 +14,7 @@ describe('When I use the Reset static method on numPiecesDb', () => {
 		NumPiecesDb.reset(numPieces);
 		const numPiecesDb = new NumPiecesDb();
 		const pieceData = numPiecesDb.getPieceData(8);
+		console.log(pieceData);
 		expect(typeof pieceData.name).to.equal('string');
 		expect(typeof pieceData.pieces).to.equal('number');
 		expect(pieceData.dimensions).to.be.instanceOf(Position2d);
