@@ -1,5 +1,6 @@
 import { numPieces } from '../support.js';
 import NumPiecesDb from "../../src/classes/NumPiecesDb/NumPiecesDb.js";
+import NumPieceData from "../../src/classes/NumPieceData/NumPieceData.js";
 
 describe('When I work with the NumPiecesDb class', () => {
 
@@ -29,12 +30,7 @@ describe('When I work with the NumPiecesDb class', () => {
 	it('should get a piece from a named pieceName', () => {
 		const numPiecesDb = new NumPiecesDb();
 		const pieceData = numPiecesDb.getPieceData(8);
-		expect(pieceData).to.have.property('name', '8');
-		expect(pieceData).to.have.property('pieces', 8);
-		expect(pieceData).to.have.property('dimensions');
-		const { dimensions } = pieceData;
-		expect(dimensions).to.have.property('x', 4);
-		expect(dimensions).to.have.property('y', 2);
+		expect(pieceData).to.be.instanceOf(NumPieceData);
 	});
 
 	it('should return undefined pieceName is invalid', () => {
@@ -48,6 +44,7 @@ describe('When I work with the NumPiecesDb class', () => {
 		const testPieceData = numPiecesDb.getPieceData(8);
 		const id = testPieceData.id;
 		const pieceData = numPiecesDb.getPieceDataById(id);
+		expect(pieceData).to.be.instanceOf(NumPieceData);
 		expect(pieceData.id).to.equal(testPieceData.id);
 		expect(pieceData.name).to.equal(testPieceData.name);
 	});

@@ -1,31 +1,40 @@
 import Table from '../../src/classes/Table/Table.js';
 import CutType from "../../src/classes/support/CutType.js";
+import ImageDb from "../../src/classes/ImageDb/ImageDb.js";
+import { cuts, images, numPieces } from "../support.js";
+import CutDb from "../../src/classes/CutDb/CutDb.js";
+import NumPiecesDb from "../../src/classes/NumPiecesDb/NumPiecesDb.js";
 
 describe('When I create a new Table', () => {
-	let table;
+	/*let table;
 
 	beforeEach( () => {
 		table = new Table();
-	});
+	});*/
 
-	it('should create a table with no image', () => {
+	it('should create a table with empty objects', () => {
+		const table = new Table();
 		expect(table.image).to.be.null;
-	});
-
-	it('should create a table with no pieces', () => {
-		expect(table.numberOfPieces).to.be.equal(0);
-	});
-
-	it('should create a table with no dimensions', () => {
-		expect(table.x).to.be.equal(0);
-		expect(table.y).to.be.equal(0);
-	});
-
-	it('should create a table with no cut type', () => {
-		expect(table.cut).to.be.equal(CutType.NONE);
-	});
-
-	it('should create a table with 0 pieces', () => {
+		expect(table.numPieces).to.be.null;
+		expect(table.cut).to.be.null;
 		expect(table.numberOfPieces).to.equal(0);
 	});
+
+	it('should create a table with complete objects', () => {
+		ImageDb.reset(images);
+		CutDb.reset(cuts);
+		NumPiecesDb.reset(numPieces);
+		const imageDb = new ImageDb();
+		const cutDb = new CutDb();
+		const numPiecesDb = new NumPiecesDb();
+		const image = imageDb.getImagesFromCategory('beach')[0];
+		const numPieces = numPiecesDb.getPieceData(8);
+		const cut = cutDb.getCut('square');
+		const table = new Table({	image, cut, numPieces	});
+		expect(table.image).to.equal(image);
+		expect(table.numPieces).to.equal(numPieces);
+		expect(table.cut).to.equal(cut);
+		expect(table.numberOfPieces).to.equal(8);
+	});
+
 });

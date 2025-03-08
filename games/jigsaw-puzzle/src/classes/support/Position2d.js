@@ -3,8 +3,8 @@ export default class Position2d {
 	#y;
 
 	constructor(args = {}) {
-		this.#x = args.x || 0;
-		this.#y = args.y || 0;
+		this.#x = args?.x || 0;
+		this.#y = args?.y || 0;
 	}
 
 	get x() {

@@ -30,13 +30,18 @@ export default class Table {
 	#moveAllPieces = moveAllPieces;
 
 	constructor(args = {}) {
-		const { dimension, pieces, image, cut, numberOfPieces } = args;
+		/*const { dimension, pieces, image, cut, numberOfPieces } = args;
 		this.setDimensions(dimension || new Position2d({ x: 0, y: 0 }));
 		this.setImage(image || null);
 		this.setCut(cut || null);
 		this.setNumberOfPieces(numberOfPieces || 0);
 		this.#pieces = pieces || [];
-		this.#piecesRemaining = 0;
+		this.#piecesRemaining = 0;*/
+		const { image, cut, numPieces } = args;
+		this.#image = image || null;
+		this.#cut = cut || null;
+		this.#numPieces = numPieces || null;
+		this.#numberOfPieces = this.#numPieces
 	}
 
 	get columns() {
