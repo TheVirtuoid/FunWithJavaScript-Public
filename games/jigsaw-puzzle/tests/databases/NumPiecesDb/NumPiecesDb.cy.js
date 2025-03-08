@@ -1,6 +1,6 @@
 import { numPieces } from '../support.js';
-import NumPiecesDb from "../../src/classes/NumPiecesDb/NumPiecesDb.js";
-import NumPieceData from "../../src/classes/NumPieceData/NumPieceData.js";
+import NumPiecesDb from "../../../src/classes/databases/NumPiecesDb/NumPiecesDb.js";
+import NumPieceDbData from "../../../src/classes/databases/NumPieceDbData/NumPieceDbData.js";
 
 describe('When I work with the NumPiecesDb class', () => {
 
@@ -30,7 +30,7 @@ describe('When I work with the NumPiecesDb class', () => {
 	it('should get a piece from a named pieceName', () => {
 		const numPiecesDb = new NumPiecesDb();
 		const pieceData = numPiecesDb.getPieceData('8');
-		expect(pieceData).to.be.instanceOf(NumPieceData);
+		expect(pieceData).to.be.instanceOf(NumPieceDbData);
 	});
 
 	it('should return undefined pieceName is invalid', () => {
@@ -44,7 +44,7 @@ describe('When I work with the NumPiecesDb class', () => {
 		const testPieceData = numPiecesDb.getPieceData('8');
 		const id = testPieceData.id;
 		const pieceData = numPiecesDb.getPieceDataById(id);
-		expect(pieceData).to.be.instanceOf(NumPieceData);
+		expect(pieceData).to.be.instanceOf(NumPieceDbData);
 		expect(pieceData.id).to.equal(testPieceData.id);
 		expect(pieceData.name).to.equal(testPieceData.name);
 	});

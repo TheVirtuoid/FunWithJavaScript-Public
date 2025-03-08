@@ -1,7 +1,7 @@
-import NumPiecesDb from "../../src/classes/NumPiecesDb/NumPiecesDb.js";
+import NumPiecesDb from "../../../src/classes/databases/NumPiecesDb/NumPiecesDb.js";
 import {cuts, numPieces} from "../support.js";
-import Position2d from "../../src/classes/support/Position2d.js";
-import CutDb from "../../src/classes/CutDb/CutDb.js";
+import Position2d from "../../../src/classes/support/Position2d.js";
+import CutDb from "../../../src/classes/databases/CutDb/CutDb.js";
 
 describe('When I use the Reset static method on CutDb', () => {
 	it('should reset the CutDb to an empty state', () => {

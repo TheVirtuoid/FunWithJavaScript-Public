@@ -1,10 +1,10 @@
 import GameStatus from "../Game/GameStatus.js";
 import RenderStatus from "./RenderStatus.js";
 import Game from "../Game/Game.js";
-import ImageDb from "../ImageDb/ImageDb.js";
+import ImageDb from "../databases/ImageDb/ImageDb.js";
 import NewGame from "./NewGame.js";
-import NumPiecesDb from "../NumPiecesDb/NumPiecesDb.js";
-import CutDb from "../CutDb/CutDb.js";
+import NumPiecesDb from "../databases/NumPiecesDb/NumPiecesDb.js";
+import CutDb from "../databases/CutDb/CutDb.js";
 
 export default class Ui {
 

@@ -1,12 +1,11 @@
-import ImageDbCategory from "../../src/classes/ImageDbCategory/ImageDbCategory.js";
-import ImageDbData from "../../src/classes/ImageDbData/ImageDbData.js";
+import ImageDbCategory from "../../../src/classes/databases/ImageDbCategory/ImageDbCategory.js";
+import ImageDbData from "../../../src/classes/databases/ImageDbData/ImageDbData.js";
 
 describe('WHen I work with the ImageDbCategory class', () => {
 	it('should initialize an empty class', () => {
 		const imageDbCategoryData = new ImageDbCategory();
 		expect(imageDbCategoryData).to.have.property('category', null);
-		expect(imageDbCategoryData).to.have.property('images');
-		expect(imageDbCategoryData.images).to.have.length(0);
+		expect(imageDbCategoryData).to.have.property('images', null);
 	});
 
 	it('should initialize the claas based upon individual properties', () => {
@@ -16,7 +15,7 @@ describe('WHen I work with the ImageDbCategory class', () => {
 			] };
 		const imageDbCategoryData = new ImageDbCategory(testData);
 		expect(imageDbCategoryData.category).to.equal(testData.category);
-		expect(imageDbCategoryData.images).to.have.length(testData.images.length);
+		expect(imageDbCategoryData.images.size).to.equal(testData.images.length);
 		expect(imageDbCategoryData.images[0]).to.be.instanceOf(ImageDbData);
 	});
 });

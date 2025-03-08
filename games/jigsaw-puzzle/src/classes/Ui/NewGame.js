@@ -1,4 +1,4 @@
-import ImageDb from "../ImageDb/ImageDb.js";
+import ImageDb from "../databases/ImageDb/ImageDb.js";
 import GameStatus from "../Game/GameStatus.js";
 
 export default class NewGame {

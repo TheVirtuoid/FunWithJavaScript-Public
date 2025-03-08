@@ -2,9 +2,9 @@ import Table from "../Table/Table.js";
 import Ui from "../Ui/Ui.js";
 import GameStatus from "./GameStatus.js";
 import Statistics from "../Statistics/Statistics.js";
-import ImageDb from "../ImageDb/ImageDb.js";
-import CutDb from "../CutDb/CutDb.js";
-import NumPiecesDb from "../NumPiecesDb/NumPiecesDb.js";
+import ImageDb from "../databases/ImageDb/ImageDb.js";
+import CutDb from "../databases/CutDb/CutDb.js";
+import NumPiecesDb from "../databases/NumPiecesDb/NumPiecesDb.js";
 
 import images from '../../database/images.js';
 import cuts from '../../database/cuts.js';

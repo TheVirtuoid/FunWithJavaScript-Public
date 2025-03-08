@@ -1,6 +1,6 @@
-import Position2d from "../../src/classes/support/Position2d.js";
-import NumPieceData from "../../src/classes/NumPieceData/NumPieceData.js";
-import ImageDbData from "../../src/classes/ImageDbData/ImageDbData.js";
+import Position2d from "../../../src/classes/support/Position2d.js";
+import NumPieceDbData from "../../../src/classes/databases/NumPieceDbData/NumPieceDbData.js";
+import ImageDbData from "../../../src/classes/databases/ImageDbData/ImageDbData.js";
 
 describe('When I work with the ImageDbData class', () => {
 	it('should initialize an empty class', () => {

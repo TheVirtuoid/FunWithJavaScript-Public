@@ -1,4 +1,4 @@
-export default class CutData {
+export default class CutDbData {
 	#name;
 	#description;
 	#url;

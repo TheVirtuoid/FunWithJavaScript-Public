@@ -1,3 +1,6 @@
+import ImageDbCategory from "../ImageDbCategory/ImageDbCategory.js";
+import ImageDbData from "../ImageDbData/ImageDbData.js";
+
 const defaultImages = new Map([]);
 
 let instance = null;
@@ -6,13 +9,16 @@ let imageIdDatabase = null;
 
 export default class ImageDb {
 
-	static reset(images) {
-		imageDatabase = images ? images : defaultImages;
-		instance = null;
+	static reset(images = []) {
+		imageDatabase = new Map();
 		imageIdDatabase = new Map();
-		images.forEach((category) => {
-			category.forEach((imageData) => {
-				imageIdDatabase.set(imageData.id, imageData);
+		instance = null;
+		images.forEach(categoryData => {
+			const category = new ImageDbCategory(categoryData);
+			imageDatabase.set(category.category, category);
+			category.images.forEach((imageData) => {
+				const imageDbData = new ImageDbData(imageData);
+				imageIdDatabase.set(imageData.id, imageDbData);
 			});
 		});
 	}

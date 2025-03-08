@@ -1,9 +1,9 @@
 
 import { cuts } from '../support.js';
-import CutDb from "../../src/classes/CutDb/CutDb.js";
-import ImageDb from "../../src/classes/ImageDb/ImageDb.js";
-import Position2d from "../../src/classes/support/Position2d.js";
-import CutData from "../../src/classes/CutData/CutData.js";
+import CutDb from "../../../src/classes/databases/CutDb/CutDb.js";
+import ImageDb from "../../../src/classes/databases/ImageDb/ImageDb.js";
+import Position2d from "../../../src/classes/support/Position2d.js";
+import CutDbData from "../../../src/classes/databases/CutDbData/CutDbData.js";
 
 describe('When I work with the CutDb class', () => {
 
@@ -32,7 +32,7 @@ describe('When I work with the CutDb class', () => {
 	it('should get a cut from a named cut', () => {
 		const cutDb = new CutDb();
 		const square = cutDb.getCut('Square');
-		expect(square).to.be.instanceOf(CutData);
+		expect(square).to.be.instanceOf(CutDbData);
 	});
 
 	it('should return undefined cut is invalid', () => {
@@ -45,7 +45,7 @@ describe('When I work with the CutDb class', () => {
 		const cutDb = new CutDb();
 		const square = cutDb.getCut('Square');
 		const cutData = cutDb.getCutData(square.id);
-		expect(cutData).to.be.instanceOf(CutData);
+		expect(cutData).to.be.instanceOf(CutDbData);
 		expect(cutData.url).to.equal(square.url);
 		expect(cutData.id).to.equal(square.id);
 		expect(cutData.name).to.equal(square.name);

@@ -1,6 +1,6 @@
-import Position2d from "../support/Position2d.js";
+import Position2d from "../../support/Position2d.js";
 
-export default class NumPieceData {
+export default class NumPieceDbData {
 	#name;
 	#pieces;
 	#dimensions;

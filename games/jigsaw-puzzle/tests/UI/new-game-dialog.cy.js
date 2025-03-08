@@ -1,4 +1,4 @@
-import {imagesLength, cutsLength, numPiecesLength} from '../support.js';
+import {imagesLength, cutsLength, numPiecesLength} from '../databases/support.js';
 
 describe('When I click on the New Game button', () => {
 	beforeEach(() => {

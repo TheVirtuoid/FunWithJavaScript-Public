@@ -1,6 +1,6 @@
-import NumPiecesDb from "../../src/classes/NumPiecesDb/NumPiecesDb.js";
+import NumPiecesDb from "../../../src/classes/databases/NumPiecesDb/NumPiecesDb.js";
 import {numPieces} from "../support.js";
-import Position2d from "../../src/classes/support/Position2d.js";
+import Position2d from "../../../src/classes/support/Position2d.js";
 
 describe('When I use the Reset static method on numPiecesDb', () => {
 	it('should reset the numPiecesDb to an empty state', () => {
@@ -13,7 +13,7 @@ describe('When I use the Reset static method on numPiecesDb', () => {
 	it('should setup the Database with the correct typed parameters', () => {
 		NumPiecesDb.reset(numPieces);
 		const numPiecesDb = new NumPiecesDb();
-		const pieceData = numPiecesDb.getPieceData(8);
+		const pieceData = numPiecesDb.getPieceData('8');
 		expect(typeof pieceData.name).to.equal('string');
 		expect(typeof pieceData.pieces).to.equal('number');
 		expect(pieceData.dimensions).to.be.instanceOf(Position2d);

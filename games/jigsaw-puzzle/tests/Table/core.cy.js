@@ -1,9 +1,9 @@
 import Table from '../../src/classes/Table/Table.js';
 import CutType from "../../src/classes/support/CutType.js";
-import ImageDb from "../../src/classes/ImageDb/ImageDb.js";
-import { cuts, images, numPieces } from "../support.js";
-import CutDb from "../../src/classes/CutDb/CutDb.js";
-import NumPiecesDb from "../../src/classes/NumPiecesDb/NumPiecesDb.js";
+import ImageDb from "../../src/classes/databases/ImageDb/ImageDb.js";
+import { cuts, images, numPieces } from "../databases/support.js";
+import CutDb from "../../src/classes/databases/CutDb/CutDb.js";
+import NumPiecesDb from "../../src/classes/databases/NumPiecesDb/NumPiecesDb.js";
 
 describe('When I create a new Table', () => {
 	/*let table;

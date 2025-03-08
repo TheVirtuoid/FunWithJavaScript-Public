@@ -1,4 +1,4 @@
-import ImageDb from "../../src/classes/ImageDb/ImageDb.js";
+import ImageDb from "../../../src/classes/databases/ImageDb/ImageDb.js";
 
 import { images } from '../support.js';
 
