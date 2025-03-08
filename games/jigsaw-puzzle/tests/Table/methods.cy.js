@@ -2,6 +2,9 @@ import Table from "../../src/classes/Table/Table.js";
 import CutType from "../../src/classes/support/CutType.js";
 import Piece from "../../src/classes/Piece/Piece.js";
 import Status from "../../src/classes/support/Status/Status.js";
+import CutDb from "../../src/classes/CutDb/CutDb.js";
+
+import { cuts } from '../support.js';
 
 describe('When I perform methods on a Table', () => {
 	let table;
@@ -27,8 +30,11 @@ describe('When I perform methods on a Table', () => {
 	});
 
 	it('should receive the cut type', () => {
-		table.setCut(CutType.SQUARE);
-		expect(table.cut).to.equal(CutType.SQUARE);
+		const cutDb = new CutDb();
+		CutDb.reset(cuts);
+		const cut = cutDb.getCut('square');
+		table.setCut(cut);
+		expect(table.cut).to.equal(cut);
 	});
 
 	it('should receive the number of pieces', () => {

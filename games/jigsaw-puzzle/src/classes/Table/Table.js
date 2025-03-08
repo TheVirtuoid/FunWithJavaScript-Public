@@ -33,7 +33,7 @@ export default class Table {
 		const { dimension, pieces, image, cut, numberOfPieces } = args;
 		this.setDimensions(dimension || new Position2d({ x: 0, y: 0 }));
 		this.setImage(image || null);
-		this.setCut(cut || CutType.NONE);
+		this.setCut(cut || null);
 		this.setNumberOfPieces(numberOfPieces || 0);
 		this.#pieces = pieces || [];
 		this.#piecesRemaining = 0;
@@ -161,9 +161,7 @@ export default class Table {
 	}
 
 	setCut(cut) {
-		if (CutType.valid(cut)) {
-			this.#cut = cut || CutType.NONE;
-		}
+		this.#cut = cut || null;
 	}
 
 	setDimensions(args = {}) {

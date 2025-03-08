@@ -148,6 +148,12 @@ export default class Game {
 				});
 				break;
 			case GameStatus.EVENT_READY:
+				console.log(data);
+				this.#table = this.createTable();
+				this.#table.setCut(data.cut);
+				this.#table.setNumberOfPieces(data.numPieces);
+				this.#table.setImage(data.image);
+				console.log(this.#table);
 				this.#ui.readyGame(data);
 				break;
 			case GameStatus.EVENT_START:
