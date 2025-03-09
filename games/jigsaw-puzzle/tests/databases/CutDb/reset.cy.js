@@ -7,14 +7,15 @@ describe('When I use the Reset static method on CutDb', () => {
 	it('should reset the CutDb to an empty state', () => {
 		CutDb.reset();
 		const numPiecesDb = new CutDb();
-		const cutNames = numPiecesDb.getCutNames();
+		const cutNames = numPiecesDb.getNames();
 		expect(cutNames.length).to.equal(0);
 	});
 
 	it('should setup the Database with the correct typed parameters', () => {
 		CutDb.reset(cuts);
+		const cut = cuts[0];
 		const cutDb = new CutDb();
-		const cutData = cutDb.getCut('Square');
+		const cutData = cutDb.get(cut.id);
 		expect(typeof cutData.name).to.equal('string');
 		expect(typeof cutData.description).to.equal('string');
 		expect(typeof cutData.url).to.equal('string');

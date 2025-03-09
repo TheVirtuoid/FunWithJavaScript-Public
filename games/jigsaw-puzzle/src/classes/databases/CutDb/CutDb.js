@@ -1,23 +1,17 @@
 import ImageDb from "../ImageDb/ImageDb.js";
-import NumPieceDbData from "../NumPieceDbData/NumPieceDbData.js";
 import CutDbData from "../CutDbData/CutDbData.js";
 
-const defaultCuts = new Map([]);
-
 let instance = null;
-let cutDatabase = null;
-let cutIdDatabase = null;
+let database = null;
 
 export default class CutDb {
 
 	static reset(cuts = []) {
-		cutDatabase = new Map();
-		cutIdDatabase = new Map();
+		database = new Map();
 		instance = null;
 		cuts.forEach((cut) => {
 			const cutData = new CutDbData(cut);
-			cutDatabase.set(cutData.name, cutData);
-			cutIdDatabase.set(cutData.id, cutData);
+			database.set(cutData.id, cutData);
 		});
 
 	}
@@ -29,31 +23,24 @@ export default class CutDb {
 		instance = this;
 	}
 
-	getCutNames() {
-		return Array.from(cutDatabase.keys());
+	get(id) {
+		return database.get(id);
 	}
 
-	getCut(cutName) {
-		return cutDatabase.get(cutName);
+	getNames() {
+		const names = [];
+		database.forEach((cutData) => {
+			names.push(cutData.name);
+		});
+		return names;
 	}
 
-	getImageById(id) {
-		const cut = cutIdDatabase.get(id);
+	getImage(id) {
+		const cut = this.get(id);
 		if (!cut) {
 			return cut;
 		}
-		return this.getImage(cut);
-	}
-
-	getCutData(id) {
-		return cutIdDatabase.get(id);
-	}
-
-	getImage(cut) {
-		const { url, id } = cut || {};
-		if (!url || !id) {
-			return undefined;
-		}
+		const { url } = cut;
 		const width = ImageDb.THUMBNAIL_WIDTH;
 		const height = ImageDb.THUMBNAIL_HEIGHT;
 		return new Promise((resolve, reject) => {
