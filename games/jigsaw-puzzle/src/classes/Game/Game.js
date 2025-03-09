@@ -36,14 +36,15 @@ export default class Game {
 	#numPiecesDb;
 
 	constructor() {
+		ImageDb.reset(images);
+		CutDb.reset(cuts);
+		NumPiecesDb.reset(numPieces);
 		this.#table = null;
 		this.#ui = new Ui(this);
 		this.#imageDb = new ImageDb();
 		this.#cutDb = new CutDb();
 		this.#numPiecesDb = new NumPiecesDb();
-		ImageDb.reset(images);
-		CutDb.reset(cuts);
-		NumPiecesDb.reset(numPieces);
+
 	}
 
 	get table() {

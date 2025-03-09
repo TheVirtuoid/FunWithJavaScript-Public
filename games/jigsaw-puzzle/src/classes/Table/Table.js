@@ -25,21 +25,11 @@ export default class Table {
 	#piecesRemaining;
 	#puzzleDimensions;
 
-
-	#dimension;
-	#numberOfPieces;
 	#tolerance = Table.CONNECTION_TOLERANCE;
 
 	#moveAllPieces = moveAllPieces;
 
 	constructor(args = {}) {
-		/*const { dimension, pieces, image, cut, numberOfPieces } = args;
-		this.setDimensions(dimension || new Position2d({ x: 0, y: 0 }));
-		this.setImage(image || null);
-		this.setCut(cut || null);
-		this.setNumberOfPieces(numberOfPieces || 0);
-		this.#pieces = pieces || [];
-		this.#piecesRemaining = 0;*/
 		const { image, cut, numPieces } = args;
 		this.#image = image || null;
 		this.#cut = cut || null;
@@ -90,14 +80,6 @@ export default class Table {
 	get puzzleHeight() {
 		return this.#puzzleDimensions.y;
 	}
-
-	/*get x() {
-		return this.#dimension.x;
-	}*/
-
-	/*get y() {
-		return this.#dimension.y;
-	}*/
 
 	addPiece(args = {}) {
 		const piece = new Piece(args);
