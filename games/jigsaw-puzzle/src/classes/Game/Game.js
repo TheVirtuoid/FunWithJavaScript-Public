@@ -78,20 +78,19 @@ export default class Game {
 		return this.#ui;
 	}
 
-	render(status) {
+	/*render(status) {
 		switch (status) {
 			case GameStatus.BEGIN:
 				this.#statistics = new Statistics();
 				return this.#ui.render(status);
 		}
-	}
+	}*/
 
 	dispatchEvent(incomingEvent) {
 		const { code, data } = incomingEvent;
 		switch(code) {
 			case GameStatus.EVENT_BEGIN:
-				this.#status = GameStatus.BEGIN;
-				this.render(this.#status);
+				this.#eventBegin();
 				break;
 			case GameStatus.EVENT_NEW:
 				const allSelections = [];
@@ -99,7 +98,7 @@ export default class Game {
 				const selectImagePromise = new Promise((resolve, reject) => {
 					const imagePromises = [];
 					let imageList = [];
-					this.#imageDb.getCategories().forEach((category) => {
+					this.#imageDb.getCategoryNames().forEach((category) => {
 						this.#imageDb.getImagesFromCategory(category).forEach((imageData) => {
 							imagePromises.push(this.#imageDb.getImage(imageData, true));
 						});
@@ -174,4 +173,12 @@ export default class Game {
 				break;
 		}
 	}
+
+	#eventBegin() {
+		this.#status = GameStatus.BEGIN;
+		this.#statistics = new Statistics();
+		this.#ui.render(this.#status);
+	}
+
+	#eventNew() {}
 }

@@ -49,6 +49,14 @@ export default class ImageDb {
 		return database.get(id)?.images;
 	}
 
+	getAllImageIds() {
+		const ids = [];
+		imageDatabase.forEach(image => {
+			ids.push(image.id);
+		});
+		return ids;
+	}
+
 	get(id) {
 		return imageDatabase.get(id);
 	}

@@ -113,4 +113,14 @@ describe('When I work with the ImageDb class', () => {
 		const image = imageDb.getImage('invalid');
 		expect(image).to.be.undefined;
 	});
+
+	it('should return all images Ids', () => {
+		const imageDb = new ImageDb();
+		const allImages = imageDb.getAllImageIds();
+		let imageCount = 0;
+		for (let category of images) {
+			imageCount += category.images.length;
+		}
+		expect(allImages).to.have.lengthOf(imageCount);
+	});
 });
