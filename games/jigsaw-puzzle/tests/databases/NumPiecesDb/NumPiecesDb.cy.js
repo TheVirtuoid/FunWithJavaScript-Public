@@ -71,4 +71,10 @@ describe('When I work with the NumPiecesDb class', () => {
 		expect(cut).to.be.undefined;
 	});
 
+	it('should get a list of ids', () => {
+		const numPiecesDb = new NumPiecesDb();
+		const ids = numPiecesDb.getIds();
+		expect(ids).to.have.lengthOf(3);
+	});
+
 });

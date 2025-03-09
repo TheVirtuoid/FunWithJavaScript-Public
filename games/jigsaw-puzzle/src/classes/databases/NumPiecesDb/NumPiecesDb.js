@@ -34,6 +34,14 @@ export default class NumPiecesDb {
 		return names;
 	}
 
+	getIds() {
+		const ids = [];
+		database.forEach((pieceData) => {
+			ids.push(pieceData.id);
+		});
+		return ids;
+	}
+
 	getImage(id) {
 		const pieceData = this.get(id);
 		if (!pieceData) {
