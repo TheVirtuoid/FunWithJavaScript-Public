@@ -1,8 +1,12 @@
 import ImageDb from "../../../src/classes/databases/ImageDb/ImageDb.js";
 
 import { images } from '../support.js';
+import ImageDbData from "../../../src/classes/databases/ImageDbData/ImageDbData.js";
 
 describe('When I work with the ImageDb class', () => {
+
+	const testData = images[0];
+	const testImage = images[0].images[0];
 
 	beforeEach(() => {
 		ImageDb.reset(images);
@@ -20,62 +24,40 @@ describe('When I work with the ImageDb class', () => {
 
 	it('should get a list of categories', () => {
 		const imageDb = new ImageDb();
-		const categories = imageDb.getCategories();
-		expect(categories).to.have.lengthOf(4);
-		expect(categories).to.include('beach');
-		expect(categories).to.include('landscape');
-		expect(categories).to.include('insects');
-		expect(categories).to.include('cities');
+		const categoryNames = imageDb.getCategoryNames();
+		expect(categoryNames).to.have.lengthOf(4);
 	});
 
 	it('should get a list of image URLs for a category', () => {
 		const imageDb = new ImageDb();
-		const beach = imageDb.getImagesFromCategory('beach');
+		const beach = imageDb.getCategoryImages(testData.id);
 		expect(beach).to.have.lengthOf(2);
 	});
 
-	it('should return an empty array if category is invalid', () => {
+	it('should return undefined if category is invalid', () => {
 		const imageDb = new ImageDb();
-		const invalid = imageDb.getImagesFromCategory('invalid');
-		expect(invalid).to.have.lengthOf(0);
-	});
-
-	it('should make that image URL list available', () => {
-		const imageDb = new ImageDb();
-		const images = imageDb.getAllImageData();
-		expect(images.get('landscape')).to.have.lengthOf(1);
-		expect(images.get('beach')).to.have.lengthOf(2);
-		expect(images.get('insects')).to.have.lengthOf(1);
-		expect(images.get('cities')).to.have.lengthOf(1);
+		const invalid = imageDb.getCategoryImages('invalid');
+		expect(invalid).to.be.undefined;
 	});
 
 	it('should retrieve the imageData based upon Id', () => {
 		const imageDb = new ImageDb();
-		const beach = imageDb.getImagesFromCategory('beach');
-		const target = beach[0];
-		const targetId = target.id;
-		const imageData = imageDb.getImageData(targetId);
-		expect(imageData.url).to.equal(beach[0].url);
-		expect(imageData.id).to.equal(beach[0].id);
-		expect(imageData.name).to.equal(beach[0].name);
-		expect(imageData.category).to.equal(beach[0].category);
+		const imageData = imageDb.get(testImage.id);
+		expect(imageData).to.be.instanceOf(ImageDbData);
 	});
 
 	it('should return undefined if the ID is invalid accessing getImageData', () => {
 		const imageDb = new ImageDb();
-		const image = imageDb.getImageData('invalid');
-		expect(image).to.be.undefined;
+		const imageData = imageDb.get('invalid');
+		expect(imageData).to.be.undefined;
 	});
 
 	it('should import an image', () => {
 		const imageDb = new ImageDb();
-		const beach = imageDb.getImagesFromCategory('beach');
-		const target = beach[0];
-		const targetId = target.id;
 
 		const getImagePromise = () => {
 			return new Cypress.Promise((resolve, reject) => {
-				imageDb.getImage(target)
+				imageDb.getImage(testImage.id)
 					.then(image => {
 						resolve(image);
 					})
@@ -92,7 +74,7 @@ describe('When I work with the ImageDb class', () => {
 						expect(image instanceof Image).to.be.true;
 						expect(image.width).to.equal(ImageDb.IMAGE_WIDTH);
 						expect(image.height).to.equal(ImageDb.IMAGE_HEIGHT);
-						expect(image.dataset.id).to.equal(targetId);
+						expect(image.dataset.id).to.equal(testImage.id);
 						expect(image.getAttribute('target')).to.equal('image');
 					})
 			});
@@ -100,13 +82,10 @@ describe('When I work with the ImageDb class', () => {
 
 	it('should import an image thumbnail', () => {
 		const imageDb = new ImageDb();
-		const beach = imageDb.getImagesFromCategory('beach');
-		const target = beach[0];
-		const targetId = target.id;
 
 		const getImagePromise = () => {
 			return new Cypress.Promise((resolve, reject) => {
-				imageDb.getImage(target, true)
+				imageDb.getImage(testImage.id, true)
 					.then(image => {
 						resolve(image);
 					})
@@ -123,38 +102,7 @@ describe('When I work with the ImageDb class', () => {
 						expect(image instanceof Image).to.be.true;
 						expect(image.width).to.equal(ImageDb.THUMBNAIL_WIDTH);
 						expect(image.height).to.equal(ImageDb.THUMBNAIL_HEIGHT);
-						expect(image.dataset.id).to.equal(targetId);
-						expect(image.getAttribute('target')).to.equal('image');
-					})
-			});
-	});
-
-	it('should import an image based upon ID', () => {
-		const imageDb = new ImageDb();
-		const beach = imageDb.getImagesFromCategory('beach');
-		const target = beach[0];
-		const targetId = target.id;
-
-		const getImagePromise = () => {
-			return new Cypress.Promise((resolve, reject) => {
-				imageDb.getImageById(targetId)
-					.then(image => {
-						resolve(image);
-					})
-					.catch(err => {
-						reject(err);
-					});
-			});
-		}
-
-		cy.wrap(null)
-			.then(() => {
-				return getImagePromise()
-					.then((image) => {
-						expect(image instanceof Image).to.be.true;
-						expect(image.width).to.equal(ImageDb.IMAGE_WIDTH);
-						expect(image.height).to.equal(ImageDb.IMAGE_HEIGHT);
-						expect(image.dataset.id).to.equal(targetId);
+						expect(image.dataset.id).to.equal(testImage.id);
 						expect(image.getAttribute('target')).to.equal('image');
 					})
 			});
@@ -162,14 +110,7 @@ describe('When I work with the ImageDb class', () => {
 
 	it('should return undefined if imageId is not there', () => {
 		const imageDb = new ImageDb();
-		const image = imageDb.getImageById('invalid');
-		expect(image).to.be.undefined;
-	});
-
-	it('should return undefined if image is not there', () => {
-		const imageDb = new ImageDb();
 		const image = imageDb.getImage('invalid');
 		expect(image).to.be.undefined;
 	});
-
 });

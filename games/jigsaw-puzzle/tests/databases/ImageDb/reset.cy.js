@@ -6,14 +6,14 @@ describe('When I use the Reset static method on ImageDb', () => {
 	it('should reset the ImageDb to an empty state', () => {
 		ImageDb.reset();
 		const imageDb = new ImageDb();
-		const categoryNames = imageDb.getCategories();
+		const categoryNames = imageDb.getCategoryNames();
 		expect(categoryNames.length).to.equal(0);
 	});
 
 	it('should setup the Database with the correct typed parameters', () => {
 		ImageDb.reset(images);
 		const imageDb = new ImageDb();
-		const category = imageDb.getCategories()[0];
+		const category = imageDb.getCategory(images[0].id);
 		expect(category).to.be.instanceOf(ImageDbCategory);
 	});
 });

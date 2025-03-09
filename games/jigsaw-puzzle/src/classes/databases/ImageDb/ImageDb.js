@@ -1,24 +1,22 @@
 import ImageDbCategory from "../ImageDbCategory/ImageDbCategory.js";
 import ImageDbData from "../ImageDbData/ImageDbData.js";
 
-const defaultImages = new Map([]);
-
 let instance = null;
+let database = null;
 let imageDatabase = null;
-let imageIdDatabase = null;
 
 export default class ImageDb {
 
 	static reset(images = []) {
+		database = new Map();
 		imageDatabase = new Map();
-		imageIdDatabase = new Map();
 		instance = null;
 		images.forEach(categoryData => {
 			const category = new ImageDbCategory(categoryData);
-			imageDatabase.set(category.category, category);
+			database.set(category.id, category);
 			category.images.forEach((imageData) => {
 				const imageDbData = new ImageDbData(imageData);
-				imageIdDatabase.set(imageData.id, imageDbData);
+				imageDatabase.set(imageData.id, imageDbData);
 			});
 		});
 	}
@@ -35,36 +33,32 @@ export default class ImageDb {
 		instance = this;
 	}
 
-	getCategories() {
-		return Array.from(imageDatabase.keys());
+	getCategoryNames() {
+		const names = [];
+		database.forEach(category => {
+			names.push(category.name);
+		});
+		return names;
 	}
 
-	getImagesFromCategory(categoryName) {
-		const category = imageDatabase.get(categoryName);
-		return !category ? [] : category;
+	getCategory(id) {
+		return database.get(id);
 	}
 
-	getAllImageData() {
-		return imageDatabase;
+	getCategoryImages(id) {
+		return database.get(id)?.images;
 	}
 
-	getImageById(id) {
-		const imageEntry = imageIdDatabase.get(id);
-		if (!imageEntry) {
-			return imageEntry;
-		}
-		return this.getImage(imageEntry);
+	get(id) {
+		return imageDatabase.get(id);
 	}
 
-	getImageData(id) {
-		return imageIdDatabase.get(id);
-	}
-
-	getImage(entry, thumbnail = false) {
-		const { url, id } = entry || {};
-		if (!url || !id) {
+	getImage(id, thumbnail = false) {
+		const imageDbData = this.get(id);
+		if (!imageDbData) {
 			return undefined;
 		}
+		const { url } = imageDbData;
 		const width = thumbnail ? ImageDb.THUMBNAIL_WIDTH : ImageDb.IMAGE_WIDTH;
 		const height = thumbnail ? ImageDb.THUMBNAIL_HEIGHT : ImageDb.IMAGE_HEIGHT;
 		return new Promise((resolve, reject) => {
