@@ -1,10 +1,10 @@
 import Table from "../../src/classes/Table/Table.js";
-import CutType from "../../src/classes/support/CutType.js";
 import Piece from "../../src/classes/Piece/Piece.js";
 import Status from "../../src/classes/support/Status/Status.js";
 import CutDb from "../../src/classes/databases/CutDb/CutDb.js";
 
 import { cuts } from '../databases/support.js';
+import tableBuilder from "./tableBuilder.js";
 
 describe('When I perform methods on a Table', () => {
 	let table;
@@ -19,27 +19,9 @@ describe('When I perform methods on a Table', () => {
 	});
 
 	it('should set the dimensions of the table', () => {
-		table.setDimensions({ x: 3, y: 3 });
-		expect(table.x).to.equal(3);
-		expect(table.y).to.equal(3);
-	});
-
-	it('should receive an image', () => {
-		table.setImage('image here');
-		expect(table.image).to.equal('image here');
-	});
-
-	it('should receive the cut type', () => {
-		const cutDb = new CutDb();
-		CutDb.reset(cuts);
-		const cut = cutDb.getCut('square');
-		table.setCut(cut);
-		expect(table.cut).to.equal(cut);
-	});
-
-	it('should receive the number of pieces', () => {
-		table.setNumberOfPieces(9);
-		expect(table.numberOfPieces).to.equal(9);
+		table.setPuzzleDimensions({ x: 3, y: 3 });
+		expect(table.puzzleWidth).to.equal(3);
+		expect(table.puzzleHeight).to.equal(3);
 	});
 
 	it('should get a piece based upon a valid ordinal', () => {
@@ -55,19 +37,21 @@ describe('When I perform methods on a Table', () => {
 	});
 
 	it('should cut the puzzle', () => {
-		table.setDimensions({ x: 600, y: 400 });
-		table.setNumberOfPieces(24);
+		const { imageData, numPiecesData, cutData, dimensions, rows, columns } = tableBuilder();
+		const table = new Table({	image: imageData, cut: cutData, numPieces: numPiecesData	});
+		table.setPuzzleDimensions(dimensions);
 		table.cutPuzzle();
-		expect(table.rows).to.equal(4);
-		expect(table.columns).to.equal(6);
+		const piece = table.getPieceByOrdinal({ x: 0, y: 0 });
+		expect(piece).to.be.instanceOf(Piece);
 	});
 
 	it('should shuffle the puzzle', () => {
-		table.setDimensions({ x: 600, y: 400 });
-		table.setNumberOfPieces(24);
+		const { imageData, numPiecesData, cutData, dimensions, rows, columns } = tableBuilder();
+		const table = new Table({	image: imageData, cut: cutData, numPieces: numPiecesData	});
+		table.setPuzzleDimensions(dimensions);
 		table.cutPuzzle();
 		const status = table.shufflePuzzle();
 		expect(status.code).to.equal(Status.PUZZLE_READY);
-		expect(status.data).to.equal(24);
+		expect(status.data).to.equal(table.numberOfPieces);
 	});
 });

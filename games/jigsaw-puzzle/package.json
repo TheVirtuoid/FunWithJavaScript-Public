@@ -11,5 +11,8 @@
     "preview": "vite preview",
     "test": "npx cypress open --config-file cypress.config.js",
     "test:ci": "npx cypress run --config-file cypress.config.js"
+  },
+  "devDependencies": {
+    "cypress": "^14.1.0"
   }
 }

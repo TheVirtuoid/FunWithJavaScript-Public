@@ -1,5 +1,4 @@
 import Position2d from "../support/Position2d.js";
-import CutType from "../support/CutType.js";
 import Piece from "../Piece/Piece.js";
 import Picture from "../support/Picture.js";
 import Status from "../support/Status/Status.js";
@@ -17,15 +16,19 @@ export default class Table {
 
 	#image;
 	#cut;
-	#dimension;
+	#numPieces;
 	#pieces;
-	#numberOfPieces;
 	#rows;
 	#columns;
 	#pieceWidth;
 	#pieceHeight;
-	#tolerance = Table.CONNECTION_TOLERANCE;
 	#piecesRemaining;
+	#puzzleDimensions;
+
+
+	#dimension;
+	#numberOfPieces;
+	#tolerance = Table.CONNECTION_TOLERANCE;
 
 	#moveAllPieces = moveAllPieces;
 
@@ -41,11 +44,11 @@ export default class Table {
 		this.#image = image || null;
 		this.#cut = cut || null;
 		this.#numPieces = numPieces || null;
-		this.#numberOfPieces = this.#numPieces
-	}
-
-	get columns() {
-		return this.#columns;
+		this.#pieceWidth = null;
+		this.#pieceHeight = null;
+		this.#columns = numPieces?.dimensions.x || null;
+		this.#rows = numPieces?.dimensions.y || null;
+		this.#pieces = [];
 	}
 
 	get cut() {
@@ -53,24 +56,48 @@ export default class Table {
 	}
 
 	get image() {
-		return this.#image.image;
+		return this.#image;
+	}
+
+	get numPieces() {
+		return this.#numPieces;
 	}
 
 	get numberOfPieces() {
-		return this.#numberOfPieces;
+		return this.#numPieces?.pieces || 0;
+	}
+
+	get pieceHeight() {
+		return this.#pieceHeight;
+	}
+
+	get pieceWidth() {
+		return this.#pieceWidth;
 	}
 
 	get rows() {
 		return this.#rows;
 	}
 
-	get x() {
-		return this.#dimension.x;
+	get columns() {
+		return this.#columns;
 	}
 
-	get y() {
-		return this.#dimension.y;
+	get puzzleWidth() {
+		return this.#puzzleDimensions.x;
 	}
+
+	get puzzleHeight() {
+		return this.#puzzleDimensions.y;
+	}
+
+	/*get x() {
+		return this.#dimension.x;
+	}*/
+
+	/*get y() {
+		return this.#dimension.y;
+	}*/
 
 	addPiece(args = {}) {
 		const piece = new Piece(args);
@@ -83,17 +110,6 @@ export default class Table {
 	}
 
 	cutPuzzle() {
-		const { x, y } = this.#dimension;
-		const { numberOfPieces } = this;
-		// determine the closest factors of the number of pieces
-		this.#rows = Math.floor(Math.sqrt(numberOfPieces));
-		this.#columns = numberOfPieces / this.#rows;
-		while (this.#columns % 1 !== 0) {
-			this.#rows--;
-			this.#columns = numberOfPieces / this.#rows;
-		}
-		this.#pieceWidth = x / this.#columns;
-		this.#pieceHeight = y / this.#rows;
 		this.#pieces = [];
 		for (let i = 0; i < this.#rows; i++) {
 			for (let j = 0; j < this.#columns; j++) {
@@ -120,19 +136,15 @@ export default class Table {
 	}
 
 	movePiece(piece, position) {
+		const dimension = this.#puzzleDimensions;
 		let { x, y } = position;
-		x = Math.max(0, Math.min(x, this.#dimension.x - this.#pieceWidth));
-		y = Math.max(0, Math.min(y, this.#dimension.y - this.#pieceHeight));
+		x = Math.max(0, Math.min(x, dimension.x - this.#pieceWidth));
+		y = Math.max(0, Math.min(y, dimension.y - this.#pieceHeight));
 		const statusCode = x !== position.x || y !== position.y ? Status.MOVED : Status.NO_CHANGE;
 		this.#moveAllPieces(piece, new Position2d({ x, y }));
 		const connections = this.#checkAllConnections(piece);
-		/*console.log('ALL THE CONNECTIONS', connections);
-		console.log(`                 length = ${connections.length}`);
-		console.log(`                 type = ${connections[0]}, ${Array.isArray(connections[0])}`);*/
-
 		let noConnectionInstances = 0;
 		connections.forEach((connection) => {
-			// console.log(connection, connection instanceof StatusNoConnection);
 			if (connection instanceof StatusNoConnection) {
 				noConnectionInstances++;
 			} else {
@@ -141,8 +153,6 @@ export default class Table {
 				[north, east, south, west].forEach((connection) => {
 					if (connection instanceof StatusConnected) {
 						const { toPiece, fromPiece, adjustment } = connection;
-						// console.log('---------checking the connection');
-						// console.log(fromPiece.parent === null, fromPiece.parent !== toPiece, fromPiece.parent !== toPiece.parent);
 						if (fromPiece.parent === null || (fromPiece.parent !== toPiece && fromPiece.parent !== toPiece.parent)) {
 							fromPiece.moveRelative(new Position2d({x: adjustment.x * -1, y: adjustment.y * -1}));
 							fromPiece.moveTo(toPiece);
@@ -152,7 +162,6 @@ export default class Table {
 				});
 			}
 		});
-		// console.log('>>>>>>', noConnectionInstances, connections.length);
 		if (noConnectionInstances === connections.length) {
 			const piecesRemaining = this.#piecesRemaining;
 			return statusCode === Status.MOVED
@@ -165,29 +174,21 @@ export default class Table {
 		return new StatusConnected({ fromPiece: piece, piecesRemaining: this.#piecesRemaining });
 	}
 
-	setCut(cut) {
-		this.#cut = cut || null;
-	}
-
-	setDimensions(args = {}) {
+	setPuzzleDimensions(args = {}) {
 		if (Position2d.valid(args)) {
-			this.#dimension = new Position2d(args);
+			this.#puzzleDimensions = new Position2d(args);
+			const { x, y } = this.#puzzleDimensions;
+			this.#pieceWidth = x / this.#columns;
+			this.#pieceHeight = y / this.#rows;
 		}
 	}
 
-	setImage(image) {
-		this.#image = new Picture(image || null);
-	}
-
-	setNumberOfPieces(numberOfPieces) {
-		this.#numberOfPieces = numberOfPieces || 0;
-	}
-
 	shufflePuzzle() {
+		const dimension = this.#puzzleDimensions;
 		this.#pieces.flat().forEach((piece) => {
 			piece.move({
-				x: Math.floor(Math.random() * (this.#dimension.x - this.#pieceWidth)),
-				y: Math.floor(Math.random() * (this.#dimension.y - this.#pieceHeight))
+				x: Math.floor(Math.random() * (dimension.x - this.#pieceWidth)),
+				y: Math.floor(Math.random() * (dimension.y - this.#pieceHeight))
 			});
 		});
 		this.#piecesRemaining = this.numberOfPieces;
@@ -210,13 +211,11 @@ export default class Table {
 	}
 
 	#checkConnection(piece) {
-		// console.log(`Checking connections for piece at positions [${piece.x}, ${piece.y}]`);
 		const { x, y } = piece.ordinal;
 		const north = this.#checkPieceConnection(piece, { x, y: y - 1 }, 0, -1);
 		const east = this.#checkPieceConnection(piece, { x: x + 1, y }, 1, 0);
 		const south = this.#checkPieceConnection(piece, { x , y: y + 1 }, 0, 1);
 		const west = this.#checkPieceConnection(piece, { x: x - 1, y }, -1, 0);
-		// console.log(north.code === Status.CONNECTED, east.code === Status.CONNECTED, south.code === Status.CONNECTED, west.code === Status.CONNECTED)
 		if (north instanceof StatusConnected || east instanceof StatusConnected || south instanceof StatusConnected || west instanceof StatusConnected) {
 			return new StatusInitialConnection({ piece, north, east, south, west });
 		} else {
@@ -232,19 +231,14 @@ export default class Table {
 			return new StatusNoConnection({ piece: fromPiece });
 		}
 		const toPiece = this.getPieceByOrdinal(ordinal);
-		// console.log(`      checking piece (${fromPiece.ordinal.x},${fromPiece.ordinal.y}) against piece (${toPiece.ordinal.x}, ${toPiece.ordinal.y}) with (${checkX}, ${checkY})`);
-		// console.log(`          Initial: [${fromPiece.x},${fromPiece.y}], [${toPiece.x},${toPiece.y}]`);
 
 		// check if the toPiece is a child of the fromPiece or vice versa
-		// console.log('            Checking for Child Parent connections:');
 		const test = [];
 		fromPiece.children.forEach((child) => test.push(`[${child.ordinal.x},${child.ordinal.y}]`));
-		// console.log(`                fromPiece: ${fromPiece.hasChild(toPiece)}, toPiece: ${toPiece.hasChild(fromPiece)}`);
-		// console.log(`                fromPiece children: ${test.join(', ')}`);
 		if (fromPiece.hasChild(toPiece) || toPiece.hasChild(fromPiece) || (fromPiece.parent === toPiece.parent && fromPiece.parent !== null)) {
-			// console.log(`            ---> Child connection`);
 			return new StatusNoConnection({ piece: fromPiece });
 		}
+
 		// at this point, it's a valid piece on the table. Let's check it!!
 		let { x: fromPieceX, y: fromPieceY } = fromPiece;
 		let { x: toPieceX, y: toPieceY } = toPiece;
@@ -256,10 +250,6 @@ export default class Table {
 		const distanceX = fromPieceX - toPieceX;
 		const distanceY = fromPieceY - toPieceY;
 
-
-		// const distanceX = Math.sqrt((x2 - x1) ** 2) - this.#pieceWidth * checkX;
-		// const distanceY = Math.sqrt((y2 - y1) ** 2) - this.#pieceHeight * checkY;
-		// console.log(`          Positions: [${fromPieceX}, ${fromPieceY}] - [${toPieceX}, ${toPieceY}] Distances: ${distanceX}, ${distanceY}`);
 		if (Math.abs(distanceX) <= this.#tolerance && Math.abs(distanceY) <= this.#tolerance) {
 			return new StatusConnected({ toPiece, fromPiece, adjustment: new Position2d({ x: distanceX, y: distanceY}) });
 		}
