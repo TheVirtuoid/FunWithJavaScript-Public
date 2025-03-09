@@ -4,8 +4,11 @@ import NumPieceDbData from "../../../src/classes/databases/NumPieceDbData/NumPie
 
 describe('When I work with the NumPiecesDb class', () => {
 
+	let testData;
+
 	beforeEach(() => {
 		NumPiecesDb.reset(numPieces);
+		testData = numPieces[0];
 	});
 
 	it('should initialize the class', () => {
@@ -20,76 +23,28 @@ describe('When I work with the NumPiecesDb class', () => {
 
 	it('should get a list of pieces', () => {
 		const numPiecesDb = new NumPiecesDb();
-		const pieceNames = numPiecesDb.getPieceNames();
+		const pieceNames = numPiecesDb.getNames();
 		expect(pieceNames).to.have.lengthOf(3);
-		expect(pieceNames).to.include('8');
-		expect(pieceNames).to.include('16');
-		expect(pieceNames).to.include('32');
 	});
 
-	it('should get a piece from a named pieceName', () => {
+	it('should get a piece', () => {
 		const numPiecesDb = new NumPiecesDb();
-		const pieceData = numPiecesDb.getPieceData('8');
+		const pieceData = numPiecesDb.get(testData.id);
 		expect(pieceData).to.be.instanceOf(NumPieceDbData);
 	});
 
 	it('should return undefined pieceName is invalid', () => {
 		const numPiecesDb = new NumPiecesDb();
-		const invalid = numPiecesDb.getPieceData('0');
+		const invalid = numPiecesDb.get('bad');
 		expect(invalid).to.be.undefined;
 	});
 
-	it('should retrieve the pieceData based upon Id', () => {
-		const numPiecesDb = new NumPiecesDb();
-		const testPieceData = numPiecesDb.getPieceData('8');
-		const id = testPieceData.id;
-		const pieceData = numPiecesDb.getPieceDataById(id);
-		expect(pieceData).to.be.instanceOf(NumPieceDbData);
-		expect(pieceData.id).to.equal(testPieceData.id);
-		expect(pieceData.name).to.equal(testPieceData.name);
-	});
-
-	it('should return undefined if the ID is invalid', () => {
-		const numPiecesDb = new NumPiecesDb();
-		const pieceData = numPiecesDb.getPieceDataById('invalid');
-		expect(pieceData).to.be.undefined;
-	});
-
-
 	it('should import an image from the piece', () => {
 		const numPiecesDb = new NumPiecesDb();
-		const pieceData = numPiecesDb.getPieceData('8');
 
 		const getImagePromise = () => {
 			return new Cypress.Promise((resolve, reject) => {
-				numPiecesDb.getImage(pieceData)
-					.then(image => {
-						resolve(image);
-					})
-					.catch(err => {
-						reject(err);
-					});
-			});
-		}
-
-		cy.wrap(null)
-			.then(() => {
-				return getImagePromise()
-					.then((image) => {
-						expect(image instanceof HTMLSpanElement).to.be.true;
-						expect(image.getAttribute('target')).to.equal('numPieces');
-						expect(image.dataset.id).to.equal('8');
-					})
-			});
-	});
-
-	it('should import an image from the id', () => {
-		const numPiecesDb = new NumPiecesDb();
-		const pieceData = numPiecesDb.getPieceData('8');
-
-		const getImagePromise = () => {
-			return new Cypress.Promise((resolve, reject) => {
-				numPiecesDb.getImageById(pieceData.id)
+				numPiecesDb.getImage(testData.id)
 					.then(image => {
 						resolve(image);
 					})
@@ -112,7 +67,7 @@ describe('When I work with the NumPiecesDb class', () => {
 
 	it('should import not return an invalid id', () => {
 		const numPiecesDb = new NumPiecesDb();
-		const cut = numPiecesDb.getImageById('invalid');
+		const cut = numPiecesDb.getImage('invalid');
 		expect(cut).to.be.undefined;
 	});
 

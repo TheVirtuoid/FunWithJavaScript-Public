@@ -1,22 +1,17 @@
 import ImageDb from "../ImageDb/ImageDb.js";
 import NumPieceDbData from "../NumPieceDbData/NumPieceDbData.js";
 
-const defaultNumPieces = new Map();
-
 let instance = null;
-let numPiecesDatabase = null;
-let numPiecesIdDatabase = null;
+let database = null;
 
 export default class NumPiecesDb {
 
 	static reset(numPieces = []) {
-		numPiecesDatabase = new Map();
-		numPiecesIdDatabase = new Map();
+		database = new Map();
 		instance = null;
 		numPieces.forEach((pieceData) => {
 			const numPieceData = new NumPieceDbData(pieceData);
-			numPiecesDatabase.set(pieceData.name, numPieceData);
-			numPiecesIdDatabase.set(pieceData.id, numPieceData);
+			database.set(pieceData.id, numPieceData);
 		});
 	}
 
@@ -27,26 +22,22 @@ export default class NumPiecesDb {
 		instance = this;
 	}
 
-	getPieceNames() {
-		return Array.from(numPiecesDatabase.keys());
+	get(id) {
+		return database.get(id);
 	}
 
-	getPieceData(pieceName) {
-		return numPiecesDatabase.get(pieceName);
+	getNames() {
+		const names = [];
+		database.forEach((pieceData) => {
+			names.push(pieceData.name);
+		});
+		return names;
 	}
 
-	getPieceDataById(id) {
-		return numPiecesIdDatabase.get(id);
-	}
-
-	getImageById(id) {
-		const pieceData = this.getPieceDataById(id);
-		return this.getImage(pieceData);
-	}
-
-	getImage(pieceData) {
+	getImage(id) {
+		const pieceData = this.get(id);
 		if (!pieceData) {
-			return undefined;
+			return pieceData;
 		}
 		const width = ImageDb.THUMBNAIL_WIDTH;
 		const height = ImageDb.THUMBNAIL_HEIGHT;
