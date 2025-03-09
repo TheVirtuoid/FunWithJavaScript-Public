@@ -74,4 +74,10 @@ describe('When I work with the CutDb class', () => {
 		expect(cut).to.be.undefined;
 	});
 
+	it('should get a list of cut ids', () => {
+		const cutDb = new CutDb();
+		const ids = cutDb.getIds();
+		expect(ids).to.have.lengthOf(2);
+	});
+
 });

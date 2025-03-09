@@ -98,11 +98,9 @@ export default class Game {
 				const selectImagePromise = new Promise((resolve, reject) => {
 					const imagePromises = [];
 					let imageList = [];
-					this.#imageDb.getCategoryNames().forEach((category) => {
-						this.#imageDb.getImagesFromCategory(category).forEach((imageData) => {
-							imagePromises.push(this.#imageDb.getImage(imageData, true));
-						});
-					});
+					for (let imageId of this.#imageDb.getAllImageIds()) {
+						imagePromises.push(this.#imageDb.getImage(imageId, true));
+					}
 					Promise.allSettled(imagePromises).then((images) => {
 						imageList = images
 							.filter((image) => image.status === 'fulfilled')
@@ -115,10 +113,9 @@ export default class Game {
 				const selectCutPromise = new Promise((resolve, reject) => {
 					const cutPromises = [];
 					let imageList = [];
-					this.#cutDb.getCutNames().forEach((cutName) => {
-						const cut = this.#cutDb.getCut(cutName);
-						cutPromises.push(this.#cutDb.getImage(cut));
-					});
+					for(let cutId of this.#cutDb.getIds()) {
+						cutPromises.push(this.#cutDb.getImage(cutId));
+					}
 					Promise.allSettled(cutPromises).then((images) => {
 						imageList = images
 							.filter((image) => image.status === 'fulfilled')

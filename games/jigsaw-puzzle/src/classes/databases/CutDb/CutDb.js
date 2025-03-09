@@ -35,6 +35,14 @@ export default class CutDb {
 		return names;
 	}
 
+	getIds() {
+		const ids = [];
+		database.forEach((cutData) => {
+			ids.push(cutData.id);
+		});
+		return ids;
+	}
+
 	getImage(id) {
 		const cut = this.get(id);
 		if (!cut) {
