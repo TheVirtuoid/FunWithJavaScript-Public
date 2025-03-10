@@ -125,7 +125,7 @@ export default class Ui {
 		this.#newGame.show(imageList, cutList, numPiecesList);
 	}
 
-	readyGame(data) {
+	readyGame(table) {
 		this.#buttonNew.disabled = false;
 		this.#buttonStart.disabled = false;
 		this.#buttonPause.disabled = true;
@@ -134,18 +134,18 @@ export default class Ui {
 		this.#buttonCancel.disabled = false;
 
 		const readyPromises = [];
-		readyPromises.push(this.#imageDb.getImageById(data.image));
-		readyPromises.push(this.#cutDb.getImageById(data.cut));
+		readyPromises.push(this.#imageDb.getImage(table.image.id));
+		readyPromises.push(this.#cutDb.getImage(table.cut.id));
 		Promise.all(readyPromises).then((returnedImages) => {
 			const [ imageElement, cutElement ] = returnedImages;
-			const imageData = this.#imageDb.getImageData(data.image);
-			const cutData = this.#cutDb.getCutData(data.cut);
+			const imageData = this.#imageDb.get(table.image.id);
+			const cutData = this.#cutDb.get(table.cut.id);
 
 			this.#puzzle.replaceChildren();
 			this.#puzzle.appendChild(imageElement);
 			this.#puzzleInformationName.textContent = imageData.name;
 			this.#puzzleInformationCut.textContent = cutData.name;
-			this.#puzzleInformationNumPieces.textContent = `${data.numPieces}`;
+			this.#puzzleInformationNumPieces.textContent = `${table.numberOfPieces}`;
 			this.#blankScreen.classList.add('hidden');
 			this.#puzzleInformation.classList.remove('hidden');
 			this.#puzzle.classList.remove('hidden');
