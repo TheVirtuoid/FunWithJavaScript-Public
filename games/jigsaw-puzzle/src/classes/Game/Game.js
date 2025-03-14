@@ -9,6 +9,7 @@ import NumPiecesDb from "../databases/NumPiecesDb/NumPiecesDb.js";
 import images from '../../database/images.js';
 import cuts from '../../database/cuts.js';
 import numPieces from '../../database/numPieces.js';
+import Position2d from "../support/Position2d.js";
 
 export default class Game {
 
@@ -82,7 +83,7 @@ export default class Game {
 				const cutData = this.#cutDb.get(data.cut);
 				const numPiecesData = this.#numPiecesDb.get(data.numPieces);
 				this.#table = new Table({ image: imageData, cut: cutData, numPieces: numPiecesData });
-				this.#table.setPuzzleDimensions(numPiecesData.dimensions);
+				this.#table.setPuzzleDimensions(new Position2d({x: 800, y: 600 }));
 				this.#ui.readyGame(this.#table);
 				break;
 			case GameStatus.EVENT_START:

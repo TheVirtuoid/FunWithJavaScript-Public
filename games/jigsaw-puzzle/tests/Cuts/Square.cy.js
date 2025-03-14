@@ -30,11 +30,11 @@ describe('When I work with the Square cut class', () => {
 		const image = new Image();
 		image.width = 800;
 		image.height = 600;
-		const square = new Square({ width: 100, height: 100, image });
+		const square = new Square({ width: 80, height: 60, image });
 		const piece = square.cut(new Position2d({ x: 0, y: 0 }));
 		expect(piece).to.be.instanceOf(HTMLSpanElement);
 		const canvas = piece.querySelector('canvas');
-		expect(canvas.width).to.equal(100);
-		expect(canvas.height).to.equal(100);
+		expect(canvas.width).to.equal(80);
+		expect(canvas.height).to.equal(60);
 	});
 });

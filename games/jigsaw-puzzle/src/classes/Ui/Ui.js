@@ -5,6 +5,8 @@ import ImageDb from "../databases/ImageDb/ImageDb.js";
 import NewGame from "./NewGame.js";
 import NumPiecesDb from "../databases/NumPiecesDb/NumPiecesDb.js";
 import CutDb from "../databases/CutDb/CutDb.js";
+import Square from "../cuts/Square.js";
+import Position2d from "../support/Position2d.js";
 
 export default class Ui {
 
@@ -139,11 +141,32 @@ export default class Ui {
 		Promise.all(readyPromises).then((returnedImages) => {
 			const [ imageElement, cutElement ] = returnedImages;
 			const { image: imageData, cut: cutData, numPieces: numPiecesData } = table;
-			console.log(table);
-			console.log(imageData, cutData, numPiecesData);
 
+			const square = new Square({ width: table.pieceWidth, height: table.pieceHeight, image: imageElement });
+
+			table.cutPuzzle();
+			/*console.log(table);
+			console.log(imageData, cutData, numPiecesData);*/
+			for(let row = 0; row < table.rows; row++ ) {
+				for(let column = 0; column < table.columns; column++) {
+					const piece = table.getPieceByOrdinal({ x: column, y: row });
+					const pieceElement = square.cut(new Position2d({ x: column, y: row }));
+					piece.setDom(pieceElement);
+					// this.#puzzle.appendChild(pieceElement);
+				}
+			}
+			table.shufflePuzzle();
+			console.log(table);
 			this.#puzzle.replaceChildren();
-			this.#puzzle.appendChild(imageElement);
+			for(let row = 0; row < table.rows; row++ ) {
+				for(let column = 0; column < table.columns; column++) {
+					const piece = table.getPieceByOrdinal({ x: column, y: row });
+					piece.dom.style.left = `${piece.x}px`;
+					piece.dom.style.top = `${piece.y}px`;
+					this.#puzzle.appendChild(piece.dom);
+				}
+			}
+			// this.#puzzle.appendChild(imageElement);
 			this.#puzzleInformationName.textContent = imageData.name;
 			this.#puzzleInformationCut.textContent = cutData.name;
 			this.#puzzleInformationNumPieces.textContent = `${table.numberOfPieces}`;

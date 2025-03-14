@@ -102,6 +102,13 @@ describe('When I perform methods on a Piece', () => {
 		expect(child.parent).to.equal(piece);
 	});
 
+	it('should add a DOM element', () => {
+		const piece = new Piece();
+		const dom = document.createElement('div');
+		piece.setDom(dom);
+		expect(piece.dom).to.be.instanceof(HTMLDivElement);
+	});
+
 	describe('and when I attempt to move a piece to another piece', () => {
 		describe('and when the piece has no children nor parent', () => {
 			it('should move the piece as a child when target has no parent or children', () => {

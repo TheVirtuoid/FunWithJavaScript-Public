@@ -5,12 +5,14 @@ export default class Piece {
 	#children;
 	#ordinal;
 	#parent;
+	#dom;
 
 	constructor( args = {}) {
 		this.#position = new Position2d(args.position) || new Position2d({ x: 0, y: 0 });
 		this.#ordinal = new Position2d(args.ordinal) || new Position2d({ x: 0, y: 0 });
 		this.#children = [];
 		this.#parent = null;
+		this.#dom = null;
 	}
 
 	get x() {
@@ -37,6 +39,10 @@ export default class Piece {
 		return this.#parent;
 	}
 
+	get dom() {
+		return this.#dom;
+	}
+
 	move(args = {}) {
 		if (Position2d.valid(args)) {
 			this.#position = new Position2d(args);
@@ -51,6 +57,10 @@ export default class Piece {
 
 	setParent(parent) {
 		this.#parent = parent;
+	}
+
+	setDom(dom) {
+		this.#dom = dom;
 	}
 
 	addChild(child) {
