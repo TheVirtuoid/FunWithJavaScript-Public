@@ -138,8 +138,9 @@ export default class Ui {
 		readyPromises.push(this.#cutDb.getImage(table.cut.id));
 		Promise.all(readyPromises).then((returnedImages) => {
 			const [ imageElement, cutElement ] = returnedImages;
-			const imageData = this.#imageDb.get(table.image.id);
-			const cutData = this.#cutDb.get(table.cut.id);
+			const { image: imageData, cut: cutData, numPieces: numPiecesData } = table;
+			console.log(table);
+			console.log(imageData, cutData, numPiecesData);
 
 			this.#puzzle.replaceChildren();
 			this.#puzzle.appendChild(imageElement);
