@@ -92,6 +92,12 @@ body {
         }
     }
 
+    > main {
+        &.playing {
+            margin: 0 auto;
+        }
+    }
+
     > footer {
         background: repeating-linear-gradient(90deg, rgb(0 0 0 / 0) 0%, rgb( from var(--v-color-primary900) r g b / 10%) 50%, rgb(0 0 0 / 0) 100%);
         padding: .5rem 2rem;
@@ -257,6 +263,13 @@ button {
         padding: 1rem;
         background-color: var(--v-color-quaternary50);
     }
+}
+
+#puzzle-wrapper {
+    padding: .5rem;
+    height: 100%;
+    background-color: var(--v-color-quaternary300);
+    border-radius: 1rem;
 }
 
 #puzzle {

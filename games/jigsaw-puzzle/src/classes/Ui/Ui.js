@@ -20,6 +20,7 @@ export default class Ui {
 	#blankScreen;
 	#puzzleInformation;
 	#puzzle;
+	#puzzleWrapper;
 	#puzzleInformationName;
 	#puzzleInformationCut;
 	#puzzleInformationNumPieces;
@@ -33,6 +34,9 @@ export default class Ui {
 	#imageDb;
 	#cutDb;
 	#numPiecesDb;
+
+	/* doms */
+	#main;
 
 	constructor(game) {
 		this.#game = game;
@@ -60,6 +64,9 @@ export default class Ui {
 		this.#blankScreen = document.getElementById('blank-screen');
 		this.#puzzleInformation = document.getElementById('puzzle-information');
 		this.#puzzle = document.getElementById('puzzle');
+		this.#puzzleWrapper = document.getElementById('puzzle-wrapper');
+
+		this.#main = document.querySelector('main');
 
 		this.#puzzleInformationName = this.#puzzleInformation.querySelector('span.puzzle-name');
 		this.#puzzleInformationCut = this.#puzzleInformation.querySelector('span.puzzle-cut');
@@ -112,7 +119,7 @@ export default class Ui {
 
 		this.#blankScreen.classList.remove('hidden');
 		this.#puzzleInformation.classList.add('hidden');
-		this.#puzzle.classList.add('hidden');
+		this.#puzzleWrapper.classList.add('hidden');
 	}
 
 	newGame(imageList, cutList, numPiecesList) {
@@ -145,14 +152,11 @@ export default class Ui {
 			const square = new Square({ width: table.pieceWidth, height: table.pieceHeight, image: imageElement });
 
 			table.cutPuzzle();
-			/*console.log(table);
-			console.log(imageData, cutData, numPiecesData);*/
 			for(let row = 0; row < table.rows; row++ ) {
 				for(let column = 0; column < table.columns; column++) {
 					const piece = table.getPieceByOrdinal({ x: column, y: row });
 					const pieceElement = square.cut(new Position2d({ x: column, y: row }));
 					piece.setDom(pieceElement);
-					// this.#puzzle.appendChild(pieceElement);
 				}
 			}
 			table.shufflePuzzle();
@@ -166,13 +170,14 @@ export default class Ui {
 					this.#puzzle.appendChild(piece.dom);
 				}
 			}
-			// this.#puzzle.appendChild(imageElement);
 			this.#puzzleInformationName.textContent = imageData.name;
 			this.#puzzleInformationCut.textContent = cutData.name;
 			this.#puzzleInformationNumPieces.textContent = `${table.numberOfPieces}`;
 			this.#blankScreen.classList.add('hidden');
 			this.#puzzleInformation.classList.remove('hidden');
-			this.#puzzle.classList.remove('hidden');
+			this.#main.style.width = `calc(${table.puzzleWidth}px + 1rem)`;
+			this.#main.style.height = `calc(${table.puzzleHeight}px + 1rem)`;
+			this.#puzzleWrapper.classList.remove('hidden');
 		});
 	}
 

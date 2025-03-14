@@ -83,7 +83,7 @@ export default class Game {
 				const cutData = this.#cutDb.get(data.cut);
 				const numPiecesData = this.#numPiecesDb.get(data.numPieces);
 				this.#table = new Table({ image: imageData, cut: cutData, numPieces: numPiecesData });
-				this.#table.setPuzzleDimensions(new Position2d({x: 800, y: 600 }));
+				this.#table.setPuzzleDimensions(new Position2d({x: ImageDb.IMAGE_WIDTH, y: ImageDb.IMAGE_HEIGHT }));
 				this.#ui.readyGame(this.#table);
 				break;
 			case GameStatus.EVENT_START:

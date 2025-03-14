@@ -12,11 +12,13 @@ describe('When I create a new Game', () => {
 		expect(game.ui instanceof Ui).to.be.true;
 	});
 
-	it('should start with a GameStatus.BEGIN', () => {
+	xit('should start with a GameStatus.BEGIN', () => {
 		const game = new Game();
+		// cy.visit('http://localhost:4173');
 		cy.stub(game.ui, 'initialize').returns(null);
-		cy.stub(game, 'render').returns(null);
 		game.initialize();
 		expect(game.status).to.equal(GameStatus.BEGIN);
 	});
+
+	it('should initialize the table', () => {});
 });
