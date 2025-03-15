@@ -38,6 +38,9 @@ export default class Ui {
 	/* doms */
 	#main;
 
+	/* mousey events */
+	#mousedownHandle;
+
 	constructor(game) {
 		this.#game = game;
 		this.#newGame = new NewGame('new-game-dialog', this);
@@ -73,6 +76,8 @@ export default class Ui {
 		this.#puzzleInformationNumPieces = this.#puzzleInformation.querySelector('span.puzzle-num-pieces');
 
 		this.#game.statistics.setDom({ movesDom: document.querySelector('#moves span'), timeDom: document.querySelector('#time span') });
+
+		this.#mousedownHandle = this.#mousedown.bind(this);
 	}
 
 	render(renderState) {
@@ -158,7 +163,6 @@ export default class Ui {
 				for(let column = 0; column < table.columns; column++) {
 					const piece = table.getPieceByOrdinal({ x: column, y: row });
 					const pieceElement = square.cut(new Position2d({ x: column, y: row }));
-					pieceElement.dataset.ordinal = `${column}-${row}`;
 					piece.setDom(pieceElement);
 				}
 			}
@@ -191,7 +195,7 @@ export default class Ui {
 		this.#buttonContinue.disabled = true;
 		this.#buttonExit.disabled = false;
 		this.#buttonCancel.disabled = false;
-		this.#game.dispatchEvent(GameStatus.START);
+		this.#puzzle.addEventListener('mousedown', this.#mousedownHandle);
 	}
 
 	pauseGame() {
@@ -201,6 +205,7 @@ export default class Ui {
 		this.#buttonContinue.disabled = false;
 		this.#buttonExit.disabled = false;
 		this.#buttonCancel.disabled = false;
+		this.#puzzle.removeEventListener('mousedown', this.#mousedownHandle);
 	}
 
 	continueGame() {
@@ -229,5 +234,8 @@ export default class Ui {
 		this.#buttonCancel.disabled = true;
 	}
 
+	#mousedown(event) {
+		console.log(event);
+	}
 
 }

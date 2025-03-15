@@ -8,6 +8,6 @@ describe('When I create a new Piece', () => {
 		expect(piece.y).to.be.equal(1);
 		expect(piece.ordinal.x).to.be.equal(2);
 		expect(piece.ordinal.y).to.be.equal(2);
-		expect(piece.id).to.equal('2-2');
+		expect(typeof piece.id).to.equal('string');
 	});
 });

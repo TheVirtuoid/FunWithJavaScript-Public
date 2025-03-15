@@ -36,6 +36,8 @@ export default class Game {
 	#imageDb;
 	#numPiecesDb;
 
+	#timer;
+
 	constructor() {
 		ImageDb.reset(images);
 		CutDb.reset(cuts);
@@ -46,6 +48,7 @@ export default class Game {
 		this.#cutDb = new CutDb();
 		this.#numPiecesDb = new NumPiecesDb();
 		this.#statistics = new Statistics();
+		this.#timer = null;
 	}
 
 	get table() {
@@ -87,12 +90,17 @@ export default class Game {
 				this.#ui.readyGame(this.#table);
 				break;
 			case GameStatus.EVENT_START:
+				this.#statistics.resetTime();
+				this.#statistics.resetMoves();
+				this.#startTimer();
 				this.#ui.startGame();
 				break;
 			case GameStatus.EVENT_PAUSE:
+				this.#stopTimer();
 				this.#ui.pauseGame();
 				break;
 			case GameStatus.EVENT_CONTINUE:
+				this.#startTimer();
 				this.#ui.continueGame();
 				break;
 			case GameStatus.EVENT_EXIT:
@@ -102,6 +110,18 @@ export default class Game {
 				this.#ui.finishGame();
 				break;
 		}
+	}
+
+	#incrementTimer() {
+		this.#statistics.incrementTime();
+	}
+
+	#startTimer() {
+		this.#timer = setInterval(this.#incrementTimer.bind(this), 10);
+	}
+
+	#stopTimer() {
+		clearInterval(this.#timer);
 	}
 
 	#eventBegin() {

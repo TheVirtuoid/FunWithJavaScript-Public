@@ -9,6 +9,7 @@ export default class Piece {
 	#ordinal;
 	#parent;
 	#dom;
+	#id;
 
 	#mousedownHandle;
 	#mousemoveHandle;
@@ -26,6 +27,7 @@ export default class Piece {
 		this.#parent = null;
 		this.#dom = null;
 		this.#table = table;
+		this.#id = window?.crypto.randomUUID() || `FWJS${Math.random().toString().substring(2)}`;
 
 	/*	this.#mousemoveHandle = this.#mousemove.bind(this);
 		this.#mouseupHandle = this.#mouseup.bind(this);
@@ -94,6 +96,7 @@ export default class Piece {
 
 	setDom(dom) {
 		this.#dom = dom;
+		this.#dom.dataset.id = this.#id;
 	}
 
 	addChild(child) {
