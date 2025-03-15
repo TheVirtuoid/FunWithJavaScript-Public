@@ -71,6 +71,8 @@ export default class Ui {
 		this.#puzzleInformationName = this.#puzzleInformation.querySelector('span.puzzle-name');
 		this.#puzzleInformationCut = this.#puzzleInformation.querySelector('span.puzzle-cut');
 		this.#puzzleInformationNumPieces = this.#puzzleInformation.querySelector('span.puzzle-num-pieces');
+
+		this.#game.statistics.setDom({ movesDom: document.querySelector('#moves span'), timeDom: document.querySelector('#time span') });
 	}
 
 	render(renderState) {

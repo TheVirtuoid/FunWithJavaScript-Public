@@ -4,15 +4,21 @@ export default class Statistics {
 	#timeDom;
 	#movesDom;
 
+	#centiSeconds;
+	#seconds;
+	#minutes;
+
 	constructor() {
-		this.#time = 0;
 		this.#moves = 0;
 		this.#timeDom = null;
 		this.#movesDom = null;
+		this.#centiSeconds = 0;
+		this.#seconds = 0;
+		this.#minutes = 0;
 	}
 
 	get time() {
-		return this.#time;
+		return this.#minutes * 100 * 60 + this.#seconds * 60 + this.#centiSeconds;
 	}
 
 	get moves() {
@@ -20,9 +26,18 @@ export default class Statistics {
 	}
 
 	incrementTime() {
-		this.#time++;
-		if (this.#timeDom) {}
-
+		this.#centiSeconds++;
+		if (this.#centiSeconds >= 100) {
+			this.#centiSeconds = 0;
+			this.#seconds++;
+			if (this.#seconds >= 60) {
+				this.#seconds = 0;
+				this.#minutes++;
+			}
+		}
+		if (this.#timeDom) {
+			this.#timeDom.textContent = this.formattedTime();
+		}
 	}
 
 	incrementMoves() {
@@ -36,5 +51,19 @@ export default class Statistics {
 		const { timeDom = null, movesDom = null } = args;
 		this.#timeDom = timeDom;
 		this.#movesDom = movesDom;
+	}
+
+	resetTime() {
+		this.#centiSeconds = 0;
+		this.#seconds = 0;
+		this.#minutes = 0;
+	}
+
+	resetMoves() {
+		this.#moves = 0;
+	}
+
+	formattedTime() {
+		return `${this.#minutes}:${this.#seconds < 10 ? '0' : ''}${this.#seconds}.${this.#centiSeconds < 10 ? '0' : ''}${this.#centiSeconds}`;
 	}
 }
