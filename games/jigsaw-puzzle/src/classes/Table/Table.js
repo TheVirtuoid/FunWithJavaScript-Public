@@ -10,6 +10,7 @@ import StatusMoved from "../support/Status/StatusMoved.js";
 import StatusNoChange from "../support/Status/StatusNoChange.js";
 import StatusInitialConnection from '../support/Status/StatusInitialConnection.js';
 import StatusGameFinished from "../support/Status/StatusGameFinished.js";
+import InGameEvent from "../Game/InGameEvent.js";
 
 export default class Table {
 	static CONNECTION_TOLERANCE = 3;
@@ -82,6 +83,7 @@ export default class Table {
 	}
 
 	addPiece(args = {}) {
+		args.table = this;
 		const piece = new Piece(args);
 		const { x, y } = piece.ordinal;
 		if (!this.#pieces[y]) {
@@ -175,6 +177,19 @@ export default class Table {
 		});
 		this.#piecesRemaining = this.numberOfPieces;
 		return new Status({ code: Status.PUZZLE_READY, data: this.#piecesRemaining });
+	}
+
+	dispatchEvent(event) {
+		const { code, data } = event;
+		switch(code) {
+			case InGameEvent.PIECE_MOVED:
+				const piece = data;
+				const status = this.movePiece(piece, new Position2d({ x: piece.x, y: piece.y }));
+				if (status instanceof StatusMoved) {
+					piece.move(new Position2d({ x: piece.x, y: piece.y }));
+				}
+				break;
+		}
 	}
 
 	#checkAllConnections(piece, excludePiece = null) {

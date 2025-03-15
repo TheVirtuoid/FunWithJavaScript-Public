@@ -156,17 +156,18 @@ export default class Ui {
 				for(let column = 0; column < table.columns; column++) {
 					const piece = table.getPieceByOrdinal({ x: column, y: row });
 					const pieceElement = square.cut(new Position2d({ x: column, y: row }));
+					pieceElement.dataset.ordinal = `${column}-${row}`;
 					piece.setDom(pieceElement);
 				}
 			}
 			table.shufflePuzzle();
-			console.log(table);
 			this.#puzzle.replaceChildren();
 			for(let row = 0; row < table.rows; row++ ) {
 				for(let column = 0; column < table.columns; column++) {
 					const piece = table.getPieceByOrdinal({ x: column, y: row });
 					piece.dom.style.left = `${piece.x}px`;
 					piece.dom.style.top = `${piece.y}px`;
+					piece.startDragDrop();
 					this.#puzzle.appendChild(piece.dom);
 				}
 			}
@@ -188,6 +189,7 @@ export default class Ui {
 		this.#buttonContinue.disabled = true;
 		this.#buttonExit.disabled = false;
 		this.#buttonCancel.disabled = false;
+		this.#game.dispatchEvent(GameStatus.START);
 	}
 
 	pauseGame() {

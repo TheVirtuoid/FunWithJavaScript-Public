@@ -253,4 +253,29 @@ describe('When I perform methods on a Piece', () => {
 			});
 		});
 	});
+
+	describe('When I move a piece with either parent or children', () => {
+		it('should move child if parent is moved', () => {
+			const parent = new Piece();
+			const child = new Piece();
+			parent.addChild(child);
+			parent.move({ x: 1, y: 1 });
+			expect(child.x).to.equal(1);
+			expect(child.y).to.equal(1);
+		});
+		it('should move parent if child is moved', () => {
+			const parent = new Piece();
+			const child = new Piece();
+			parent.addChild(child);
+			child.move({ x: 1, y: 1 });
+			expect(parent.x).to.equal(1);
+			expect(parent.y).to.equal(1);
+		});
+		it('should set the position without a move', () => {
+			const piece = new Piece();
+			piece.setPosition({ x: 1, y: 1 });
+			expect(piece.x).to.equal(1);
+			expect(piece.y).to.equal(1);
+		});
+	});
 });
