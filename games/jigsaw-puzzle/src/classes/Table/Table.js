@@ -26,6 +26,8 @@ export default class Table {
 	#piecesRemaining;
 	#puzzleDimensions;
 
+	#piecesId;
+
 	#tolerance = Table.CONNECTION_TOLERANCE;
 
 	#moveAllPieces = moveAllPieces;
@@ -40,6 +42,7 @@ export default class Table {
 		this.#columns = numPieces?.dimensions.x || null;
 		this.#rows = numPieces?.dimensions.y || null;
 		this.#pieces = [];
+		this.#piecesId = new Map();
 	}
 
 	get cut() {
@@ -90,6 +93,7 @@ export default class Table {
 			this.#pieces[y] = [];
 		}
 		this.#pieces[y][x] = piece;
+		this.#piecesId.set(piece.id, piece);
 		return piece;
 	}
 
@@ -117,6 +121,10 @@ export default class Table {
 			piece = undefined;
 		}
 		return piece;
+	}
+
+	getPieceById(id) {
+		return this.#piecesId.get(id);
 	}
 
 	movePiece(piece, position) {

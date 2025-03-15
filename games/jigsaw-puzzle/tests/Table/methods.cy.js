@@ -70,4 +70,16 @@ describe('When I perform methods on a Table', () => {
 		expect(piece1.x).not.to.equal((columns - 1) * pieceWidth);
 		expect(piece1.y).not.to.equal((rows - 1) * pieceHeight);
 	});
+
+	it('should get a piece by ID', () => {
+		const { imageData, numPiecesData, cutData, dimensions } = tableBuilder();
+		const table = new Table({	image: imageData, cut: cutData, numPieces: numPiecesData	});
+		table.setPuzzleDimensions(dimensions);
+		table.cutPuzzle();
+		const testPiece = table.getPieceByOrdinal({ x: 0, y: 0 });
+		const id = testPiece.id;
+		const piece = table.getPieceById(id);
+		expect(piece).to.equal(testPiece);
+
+	});
 });
