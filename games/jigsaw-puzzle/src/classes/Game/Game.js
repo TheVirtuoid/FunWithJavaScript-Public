@@ -45,7 +45,7 @@ export default class Game {
 		this.#imageDb = new ImageDb();
 		this.#cutDb = new CutDb();
 		this.#numPiecesDb = new NumPiecesDb();
-
+		this.#statistics = new Statistics();
 	}
 
 	get table() {
@@ -106,7 +106,8 @@ export default class Game {
 
 	#eventBegin() {
 		this.#status = GameStatus.BEGIN;
-		this.#statistics = new Statistics();
+		this.#statistics.resetMoves();
+		this.#statistics.resetTime();
 		this.#ui.render(this.#status);
 	}
 

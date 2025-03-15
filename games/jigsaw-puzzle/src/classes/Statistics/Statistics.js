@@ -1,5 +1,4 @@
 export default class Statistics {
-	#time;
 	#moves;
 	#timeDom;
 	#movesDom;
@@ -35,16 +34,12 @@ export default class Statistics {
 				this.#minutes++;
 			}
 		}
-		if (this.#timeDom) {
-			this.#timeDom.textContent = this.formattedTime();
-		}
+		this.#updateDom();
 	}
 
 	incrementMoves() {
 		this.#moves++;
-		if (this.#movesDom) {
-			this.#movesDom.textContent = `${this.#moves}`;
-		}
+		this.#updateDom();
 	}
 
 	setDom(args = {}) {
@@ -57,13 +52,24 @@ export default class Statistics {
 		this.#centiSeconds = 0;
 		this.#seconds = 0;
 		this.#minutes = 0;
+		this.#updateDom();
 	}
 
 	resetMoves() {
 		this.#moves = 0;
+		this.#updateDom();
 	}
 
 	formattedTime() {
 		return `${this.#minutes}:${this.#seconds < 10 ? '0' : ''}${this.#seconds}.${this.#centiSeconds < 10 ? '0' : ''}${this.#centiSeconds}`;
+	}
+
+	#updateDom() {
+		if (this.#timeDom) {
+			this.#timeDom.textContent = this.formattedTime();
+		}
+		if (this.#movesDom) {
+			this.#movesDom.textContent = `${this.#moves}`;
+		}
 	}
 }
