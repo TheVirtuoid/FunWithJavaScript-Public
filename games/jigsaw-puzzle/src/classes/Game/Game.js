@@ -11,6 +11,8 @@ import cuts from '../../database/cuts.js';
 import numPieces from '../../database/numPieces.js';
 import Position2d from "../support/Position2d.js";
 import InGameEvent from "./InGameEvent.js";
+import StatusMoved from "../support/Status/StatusMoved.js";
+import StatusGameFinished from "../support/Status/StatusGameFinished.js";
 
 export default class Game {
 
@@ -120,6 +122,10 @@ export default class Game {
 				const status = this.table.dispatchEvent(InGameEvent.Event(InGameEvent.PIECE_MOVED, data));
 				this.#statistics.incrementMoves();
 				this.#ui.updatePiecesRemaining(status.piecesRemaining);
+				if (status instanceof StatusGameFinished) {
+					this.#statistics.gameFinished();
+				}
+				console.log(status);
 				break;
 		}
 	}
