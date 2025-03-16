@@ -7,6 +7,7 @@ import NumPiecesDb from "../databases/NumPiecesDb/NumPiecesDb.js";
 import CutDb from "../databases/CutDb/CutDb.js";
 import Square from "../cuts/Square.js";
 import Position2d from "../support/Position2d.js";
+import InGameEvent from "../Game/InGameEvent.js";
 
 export default class Ui {
 
@@ -44,6 +45,7 @@ export default class Ui {
 	#mouseupHandle;
 	#activeElement;
 	#activePiece;
+	#zindex;
 
 	constructor(game) {
 		this.#game = game;
@@ -51,6 +53,7 @@ export default class Ui {
 		this.#imageDb = new ImageDb();
 		this.#cutDb = new CutDb();
 		this.#numPiecesDb = new NumPiecesDb();
+		this.#zindex = 10;
 	}
 
 	initialize() {
@@ -242,6 +245,10 @@ export default class Ui {
 	#mousedown(event) {
 		this.#activeElement = this.#getMouseEventElement(event);
 		this.#activePiece =this.#game.table.getPieceById(this.#activeElement.dataset.id);
+		this.#zindex++;
+		for(const piece of this.#activePiece.getFamily()) {
+			piece.dom.style.zIndex = this.#zindex;
+		}
 		/*pieceElement.addEventListener('mousemove', this.#mousemoveHandle);
 		pieceElement.addEventListener('mouseup', this.#mouseupHandle, { once: true});*/
 		this.#puzzle.addEventListener('mousemove', this.#mousemoveHandle);
@@ -265,6 +272,8 @@ export default class Ui {
 		}
 		pieceElement.removeEventListener('mousemove', this.#mousemoveHandle);*/
 		this.#puzzle.removeEventListener('mousemove', this.#mousemoveHandle);
+		this.#game.dispatchInGameEvent(InGameEvent.Event(InGameEvent.PIECE_MOVED, this.#activePiece));
+		this.#activePiece = null;
 	}
 
 	#getMouseEventElement(event) {
@@ -274,5 +283,4 @@ export default class Ui {
 		}
 		return pieceElement;
 	}
-
 }

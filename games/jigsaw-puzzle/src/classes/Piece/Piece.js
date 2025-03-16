@@ -68,7 +68,7 @@ export default class Piece {
 
 	move(args = {}) {
 		if (Position2d.valid(args)) {
-			const pieces= this.#getListOfPiecesToMove();
+			const pieces= this.getFamily();
 			const position = this.#getRelativePosition(new Position2d(args));
 			for (const piece of pieces) {
 				piece.setPosition(new Position2d({ x: piece.x + position.x, y: piece.y + position.y }));
@@ -141,12 +141,7 @@ export default class Piece {
 		this.#transfer(this, target);
 	}
 
-	startDragDrop() {
-		/*this.#dom.addEventListener('mousedown', this.#mousedownHandle);
-		this.#dom.addEventListener('mouseup', this.#mouseupHandle);*/
-	}
-
-	#getListOfPiecesToMove() {
+	getFamily() {
 		const pieces = [this];
 		if (this.hasChildren()) {
 			this.children.forEach((child) => {
@@ -173,7 +168,7 @@ export default class Piece {
 		console.log(`mousedown: ${this.id}`);
 		this.#active = this.#dom;
 		zIndex++;
-		for (const piece of this.#getListOfPiecesToMove()) {
+		for (const piece of this.getFamily()) {
 			piece.dom.style.zIndex = zIndex;
 		}
 	}

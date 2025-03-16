@@ -109,6 +109,41 @@ describe('When I perform methods on a Piece', () => {
 		expect(piece.dom).to.be.instanceof(HTMLDivElement);
 	});
 
+	describe('When dealing with a family of piece', () => {
+		it('should return only the piece is it is by itself', () => {
+			const piece = new Piece();
+			const family = piece.getFamily();
+			expect(family.length).to.equal(1);
+			expect(family).to.include(piece);
+		});
+
+		it('should return the family if the piece is a child', () => {
+			const piece = new Piece();
+			const parent = new Piece();
+			const otherChild = new Piece();
+			parent.addChild(piece);
+			parent.addChild(otherChild);
+			const family = piece.getFamily();
+			expect(family.length).to.equal(3);
+			expect(family).to.include(piece);
+			expect(family).to.include(parent);
+			expect(family).to.include(otherChild);
+		});
+
+		it('should return the family if the piece is a parent', () => {
+			const piece = new Piece();
+			const parent = new Piece();
+			const otherChild = new Piece();
+			parent.addChild(piece);
+			parent.addChild(otherChild);
+			const family = parent.getFamily();
+			expect(family.length).to.equal(3);
+			expect(family).to.include(piece);
+			expect(family).to.include(parent);
+			expect(family).to.include(otherChild);
+		});
+	});
+
 	describe('and when I attempt to move a piece to another piece', () => {
 		describe('and when the piece has no children nor parent', () => {
 			it('should move the piece as a child when target has no parent or children', () => {

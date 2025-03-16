@@ -10,6 +10,7 @@ import images from '../../database/images.js';
 import cuts from '../../database/cuts.js';
 import numPieces from '../../database/numPieces.js';
 import Position2d from "../support/Position2d.js";
+import InGameEvent from "./InGameEvent.js";
 
 export default class Game {
 
@@ -108,6 +109,16 @@ export default class Game {
 				break;
 			case GameStatus.EVENT_FINISHED:
 				this.#ui.finishGame();
+				break;
+		}
+	}
+
+	dispatchInGameEvent(incomingEvent) {
+		const { code, data } = incomingEvent;
+		switch(code) {
+			case InGameEvent.PIECE_MOVED:
+				this.table.dispatchEvent(InGameEvent.Event(InGameEvent.PIECE_MOVED, data));
+				this.#statistics.incrementMoves();
 				break;
 		}
 	}

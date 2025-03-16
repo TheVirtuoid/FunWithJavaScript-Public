@@ -193,6 +193,7 @@ export default class Table {
 			case InGameEvent.PIECE_MOVED:
 				const piece = data;
 				const status = this.movePiece(piece, new Position2d({ x: piece.x, y: piece.y }));
+				console.log(status);
 				if (status instanceof StatusMoved) {
 					piece.move(new Position2d({ x: piece.x, y: piece.y }));
 				}
