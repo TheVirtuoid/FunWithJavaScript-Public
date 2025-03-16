@@ -117,8 +117,9 @@ export default class Game {
 		const { code, data } = incomingEvent;
 		switch(code) {
 			case InGameEvent.PIECE_MOVED:
-				this.table.dispatchEvent(InGameEvent.Event(InGameEvent.PIECE_MOVED, data));
+				const status = this.table.dispatchEvent(InGameEvent.Event(InGameEvent.PIECE_MOVED, data));
 				this.#statistics.incrementMoves();
+				this.#ui.updatePiecesRemaining(status.piecesRemaining);
 				break;
 		}
 	}

@@ -163,30 +163,6 @@ export default class Piece {
 		return new Position2d({ x: position.x - this.x, y: position.y - this.y });
 	}
 
-	/*#mousedown(event) {
-		this.#dom.addEventListener('mousemove', this.#mousemoveHandle);
-		console.log(`mousedown: ${this.id}`);
-		this.#active = this.#dom;
-		zIndex++;
-		for (const piece of this.getFamily()) {
-			piece.dom.style.zIndex = zIndex;
-		}
-	}
-
-	#mousemove(event) {
-		if (event.target !== this.#active) {
-			console.log(`mousemove: ${this.#active ? this.id : 'unk'} = ${event.target.parentElement.dataset.ordinal}`);
-		}
-		this.moveRelative({ x: event.movementX, y: event.movementY });
-	}
-
-	#mouseup(event) {
-		this.#dom.removeEventListener('mousemove', this.#mousemoveHandle);
-		this.#table.dispatchEvent(InGameEvent.Event(InGameEvent.PIECE_MOVED, this));
-		console.log(`mouseup: ${this.id}`);
-		this.#active = null;
-	}*/
-
 	#transfer(fromPiece, toPiece) {
 		if (toPiece.parent) {
 			toPiece.parent.addChild(fromPiece);

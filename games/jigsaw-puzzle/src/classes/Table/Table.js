@@ -189,16 +189,17 @@ export default class Table {
 
 	dispatchEvent(event) {
 		const { code, data } = event;
+		let status = new StatusNoop();
 		switch(code) {
 			case InGameEvent.PIECE_MOVED:
 				const piece = data;
-				const status = this.movePiece(piece, new Position2d({ x: piece.x, y: piece.y }));
-				console.log(status);
+				status = this.movePiece(piece, new Position2d({ x: piece.x, y: piece.y }));
 				if (status instanceof StatusMoved) {
 					piece.move(new Position2d({ x: piece.x, y: piece.y }));
 				}
 				break;
 		}
+		return status;
 	}
 
 	#checkAllConnections(piece, excludePiece = null) {

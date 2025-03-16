@@ -25,6 +25,7 @@ export default class Ui {
 	#puzzleInformationName;
 	#puzzleInformationCut;
 	#puzzleInformationNumPieces;
+	#puzzleInformationNumPiecesRemaining;
 
 	#game;
 
@@ -81,6 +82,7 @@ export default class Ui {
 		this.#puzzleInformationName = this.#puzzleInformation.querySelector('span.puzzle-name');
 		this.#puzzleInformationCut = this.#puzzleInformation.querySelector('span.puzzle-cut');
 		this.#puzzleInformationNumPieces = this.#puzzleInformation.querySelector('span.puzzle-num-pieces');
+		this.#puzzleInformationNumPiecesRemaining = this.#puzzleInformation.querySelector('span.puzzle-num-pieces-remaining');
 
 		this.#game.statistics.setDom({ movesDom: document.querySelector('#moves span'), timeDom: document.querySelector('#time span') });
 
@@ -188,6 +190,7 @@ export default class Ui {
 			this.#puzzleInformationName.textContent = imageData.name;
 			this.#puzzleInformationCut.textContent = cutData.name;
 			this.#puzzleInformationNumPieces.textContent = `${table.numberOfPieces}`;
+			this.#puzzleInformationNumPiecesRemaining.textContent = `${table.numberOfPieces}`;
 			this.#blankScreen.classList.add('hidden');
 			this.#puzzleInformation.classList.remove('hidden');
 			this.#main.style.width = `calc(${table.puzzleWidth}px + 1rem)`;
@@ -242,6 +245,10 @@ export default class Ui {
 		this.#buttonCancel.disabled = true;
 	}
 
+	updatePiecesRemaining(numPieces) {
+		this.#puzzleInformationNumPiecesRemaining.textContent = numPieces;
+	}
+
 	#mousedown(event) {
 		this.#activeElement = this.#getMouseEventElement(event);
 		this.#activePiece =this.#game.table.getPieceById(this.#activeElement.dataset.id);
@@ -249,8 +256,6 @@ export default class Ui {
 		for(const piece of this.#activePiece.getFamily()) {
 			piece.dom.style.zIndex = this.#zindex;
 		}
-		/*pieceElement.addEventListener('mousemove', this.#mousemoveHandle);
-		pieceElement.addEventListener('mouseup', this.#mouseupHandle, { once: true});*/
 		this.#puzzle.addEventListener('mousemove', this.#mousemoveHandle);
 		this.#puzzle.addEventListener('mouseup', this.#mouseupHandle, { once: true});
 	}
@@ -260,17 +265,10 @@ export default class Ui {
 			this.#mouseup();
 			return;
 		}
-		// console.log(pieceElement, pieceId, piece);
 		this.#activePiece.moveRelative({ x: event.movementX, y: event.movementY });
-		// console.log(event);
 	}
 
 	#mouseup(event) {
-		/*let pieceElement = event.target;
-		if (pieceElement.tagName === 'CANVAS') {
-			pieceElement = pieceElement.parentElement;
-		}
-		pieceElement.removeEventListener('mousemove', this.#mousemoveHandle);*/
 		this.#puzzle.removeEventListener('mousemove', this.#mousemoveHandle);
 		this.#game.dispatchInGameEvent(InGameEvent.Event(InGameEvent.PIECE_MOVED, this.#activePiece));
 		this.#activePiece = null;
