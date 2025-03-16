@@ -40,6 +40,10 @@ export default class Ui {
 
 	/* mousey events */
 	#mousedownHandle;
+	#mousemoveHandle;
+	#mouseupHandle;
+	#activeElement;
+	#activePiece;
 
 	constructor(game) {
 		this.#game = game;
@@ -78,6 +82,8 @@ export default class Ui {
 		this.#game.statistics.setDom({ movesDom: document.querySelector('#moves span'), timeDom: document.querySelector('#time span') });
 
 		this.#mousedownHandle = this.#mousedown.bind(this);
+		this.#mousemoveHandle = this.#mousemove.bind(this);
+		this.#mouseupHandle = this.#mouseup.bind(this);
 	}
 
 	render(renderState) {
@@ -173,7 +179,6 @@ export default class Ui {
 					const piece = table.getPieceByOrdinal({ x: column, y: row });
 					piece.dom.style.left = `${piece.x}px`;
 					piece.dom.style.top = `${piece.y}px`;
-					piece.startDragDrop();
 					this.#puzzle.appendChild(piece.dom);
 				}
 			}
@@ -235,7 +240,39 @@ export default class Ui {
 	}
 
 	#mousedown(event) {
-		console.log(event);
+		this.#activeElement = this.#getMouseEventElement(event);
+		this.#activePiece =this.#game.table.getPieceById(this.#activeElement.dataset.id);
+		/*pieceElement.addEventListener('mousemove', this.#mousemoveHandle);
+		pieceElement.addEventListener('mouseup', this.#mouseupHandle, { once: true});*/
+		this.#puzzle.addEventListener('mousemove', this.#mousemoveHandle);
+		this.#puzzle.addEventListener('mouseup', this.#mouseupHandle, { once: true});
+	}
+
+	#mousemove(event) {
+		if (this.#activeElement !== this.#getMouseEventElement(event)) {
+			this.#mouseup();
+			return;
+		}
+		// console.log(pieceElement, pieceId, piece);
+		this.#activePiece.moveRelative({ x: event.movementX, y: event.movementY });
+		// console.log(event);
+	}
+
+	#mouseup(event) {
+		/*let pieceElement = event.target;
+		if (pieceElement.tagName === 'CANVAS') {
+			pieceElement = pieceElement.parentElement;
+		}
+		pieceElement.removeEventListener('mousemove', this.#mousemoveHandle);*/
+		this.#puzzle.removeEventListener('mousemove', this.#mousemoveHandle);
+	}
+
+	#getMouseEventElement(event) {
+		let pieceElement = event.target;
+		if (pieceElement.tagName === 'CANVAS') {
+			pieceElement = pieceElement.parentElement;
+		}
+		return pieceElement;
 	}
 
 }

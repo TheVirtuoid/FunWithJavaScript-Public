@@ -27,7 +27,7 @@ export default class Piece {
 		this.#parent = null;
 		this.#dom = null;
 		this.#table = table;
-		this.#id = window?.crypto.randomUUID() || `FWJS${Math.random().toString().substring(2)}`;
+		this.#id = window?.crypto?.randomUUID() || `FWJS${Math.random().toString().substring(2)}`;
 
 	/*	this.#mousemoveHandle = this.#mousemove.bind(this);
 		this.#mouseupHandle = this.#mouseup.bind(this);
@@ -43,7 +43,7 @@ export default class Piece {
 	}
 
 	get id() {
-		return `${this.ordinal.x}-${this.ordinal.y}`;
+		return this.#id;
 	}
 
 	get position() {
