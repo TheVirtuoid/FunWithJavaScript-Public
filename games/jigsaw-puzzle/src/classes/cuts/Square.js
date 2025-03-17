@@ -1,6 +1,8 @@
 import Position2d from "../support/Position2d.js";
 
 export default class Square {
+	static EDGE = Symbol('edge');
+
 	#width;
 	#height;
 	#image;
@@ -45,5 +47,24 @@ export default class Square {
 		piece.classList.add("piece");
 		piece.appendChild(canvas);
 		return piece;
+	}
+
+	createPieceEdges(args = {}) {
+		const { rows = 0, columns = 0 } = args;
+		const pieceEdges = [];
+		for (let row = 0; row < rows; row++) {
+			const rowEdges = [];
+			for (let column = 0; column < columns; column++) {
+				const piece = {
+					north: Square.EDGE,
+					east: Square.EDGE,
+					south: Square.EDGE,
+					west: Square.EDGE
+				};
+				rowEdges.push(piece);
+			}
+			pieceEdges.push(rowEdges);
+		}
+		return pieceEdges;
 	}
 }

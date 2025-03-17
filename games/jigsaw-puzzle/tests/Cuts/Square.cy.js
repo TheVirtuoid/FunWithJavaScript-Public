@@ -37,4 +37,23 @@ describe('When I work with the Square cut class', () => {
 		expect(canvas.width).to.equal(80);
 		expect(canvas.height).to.equal(60);
 	});
+
+	it('should return ordinal pieces with edge specifications', () => {
+		const image = new Image();
+		image.width = 800;
+		image.height = 600;
+		const rows = 6;
+		const columns = 8;
+		const square = new Square({ width: 100, height: 100, image });
+		const pieceEdges = square.createPieceEdges({ rows, columns });
+		for(let x = 0; x < rows; x++) {
+			for(let y = 0; y < columns; y++) {
+				const piece = pieceEdges[x][y];
+				expect(piece.north).to.equal(Square.EDGE);
+				expect(piece.east).to.equal(Square.EDGE);
+				expect(piece.south).to.equal(Square.EDGE);
+				expect(piece.west).to.equal(Square.EDGE);
+			}
+		}
+	});
 });
