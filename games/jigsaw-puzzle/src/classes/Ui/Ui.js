@@ -8,6 +8,7 @@ import CutDb from "../databases/CutDb/CutDb.js";
 import Square from "../cuts/Square.js";
 import Position2d from "../support/Position2d.js";
 import InGameEvent from "../Game/InGameEvent.js";
+import Jigsaw from "../cuts/Jigsaw.js";
 
 export default class Ui {
 
@@ -167,7 +168,8 @@ export default class Ui {
 			const [ imageElement, cutElement ] = returnedImages;
 			const { image: imageData, cut: cutData, numPieces: numPiecesData } = table;
 
-			const square = new Square({ width: table.pieceWidth, height: table.pieceHeight, image: imageElement });
+			// const square = new Square({ width: table.pieceWidth, height: table.pieceHeight, image: imageElement });
+			const square = new Jigsaw({ width: table.pieceWidth, height: table.pieceHeight, image: imageElement });
 
 			table.cutPuzzle();
 			for(let row = 0; row < table.rows; row++ ) {
