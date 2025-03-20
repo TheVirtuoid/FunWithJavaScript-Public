@@ -56,10 +56,10 @@ export default class Square {
 			const rowEdges = [];
 			for (let column = 0; column < columns; column++) {
 				const piece = {
-					north: Square.EDGE,
-					east: Square.EDGE,
-					south: Square.EDGE,
-					west: Square.EDGE
+					north: { shape: Square.EDGE, width: this.width, height: this.height },
+					east: { shape: Square.EDGE, width: this.width, height: this.height },
+					south: { shape: Square.EDGE, width: this.width, height: this.height },
+					west: { shape: Square.EDGE, width: this.width, height: this.height }
 				};
 				rowEdges.push(piece);
 			}

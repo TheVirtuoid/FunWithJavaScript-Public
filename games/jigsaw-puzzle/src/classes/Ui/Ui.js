@@ -161,6 +161,13 @@ export default class Ui {
 		this.#buttonExit.disabled = false;
 		this.#buttonCancel.disabled = false;
 
+		const cutMapping = {
+			'Square': Square,
+			'Jigsaw': Jigsaw
+		}
+
+		const DeclaredCut = cutMapping[table.cut.name];
+
 		const readyPromises = [];
 		readyPromises.push(this.#imageDb.getImage(table.image.id));
 		readyPromises.push(this.#cutDb.getImage(table.cut.id));
@@ -168,14 +175,13 @@ export default class Ui {
 			const [ imageElement, cutElement ] = returnedImages;
 			const { image: imageData, cut: cutData, numPieces: numPiecesData } = table;
 
-			// const square = new Square({ width: table.pieceWidth, height: table.pieceHeight, image: imageElement });
-			const square = new Jigsaw({ width: table.pieceWidth, height: table.pieceHeight, image: imageElement });
-
+			const cut = new DeclaredCut({ width: table.pieceWidth, height: table.pieceHeight, image: imageElement });
 			table.cutPuzzle();
+			cut.createPieceEdges({ rows: table.rows, columns: table.columns });
 			for(let row = 0; row < table.rows; row++ ) {
 				for(let column = 0; column < table.columns; column++) {
 					const piece = table.getPieceByOrdinal({ x: column, y: row });
-					const pieceElement = square.cut(new Position2d({ x: column, y: row }));
+					const pieceElement = cut.cut(new Position2d({ x: column, y: row }));
 					piece.setDom(pieceElement);
 				}
 			}

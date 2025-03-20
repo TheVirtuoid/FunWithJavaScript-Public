@@ -49,10 +49,18 @@ describe('When I work with the Square cut class', () => {
 		for(let x = 0; x < rows; x++) {
 			for(let y = 0; y < columns; y++) {
 				const piece = pieceEdges[x][y];
-				expect(piece.north).to.equal(Square.EDGE);
-				expect(piece.east).to.equal(Square.EDGE);
-				expect(piece.south).to.equal(Square.EDGE);
-				expect(piece.west).to.equal(Square.EDGE);
+				expect(piece.north.shape).to.equal(Square.EDGE);
+				expect(piece.north.width).to.equal(100);
+				expect(piece.north.height).to.equal(100);
+				expect(piece.east.shape).to.equal(Square.EDGE);
+				expect(piece.east.width).to.equal(100);
+				expect(piece.east.height).to.equal(100);
+				expect(piece.south.shape).to.equal(Square.EDGE);
+				expect(piece.south.width).to.equal(100);
+				expect(piece.south.height).to.equal(100);
+				expect(piece.west.shape).to.equal(Square.EDGE);
+				expect(piece.west.width).to.equal(100);
+				expect(piece.west.height).to.equal(100);
 			}
 		}
 	});
