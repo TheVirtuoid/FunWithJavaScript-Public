@@ -177,7 +177,7 @@ export default class Ui {
 
 			const cut = new DeclaredCut({ width: table.pieceWidth, height: table.pieceHeight, image: imageElement });
 			table.cutPuzzle();
-			cut.createPieceEdges({ rows: table.rows, columns: table.columns });
+			cut.configurePuzzleCut({ rows: table.rows, columns: table.columns, pieceWidth: table.pieceWidth, pieceHeight: table.pieceHeight });
 			for(let row = 0; row < table.rows; row++ ) {
 				for(let column = 0; column < table.columns; column++) {
 					const piece = table.getPieceByOrdinal({ x: column, y: row });

@@ -41,34 +41,7 @@ export default class Jigsaw {
 		if (!(ordinal instanceof Position2d)) {
 			throw new Error('Jigsaw: Cut(): Invalid Position');
 		}
-		let { width, height } = this;
-		const tabSize = this.#tabSize;
-
-		// get the directions based upon the ordinal position
-		const { north, east, south, west } = this.#pieceEdges[ordinal.y][ordinal.x];
-
-		// next, determine the actual width and height of the canvas based upon the cut of jigsaw and the starting position
-		//    if it is an edge, no change
-		//    if it is an innyTab, add the tabSize to the width or height
-		//    if it is an outyTab, subtract the tabSize from the width or height
-		let sx = ordinal.x * width;
-		let sy = ordinal.y * height;
-		if (north.shape === Jigsaw.INNYTAB) {
-			height += tabSize;
-			sy -= tabSize;
-		} else if (north.shape === Jigsaw.OUTYTAB) {
-			height -= tabSize;
-			sy += tabSize;
-		}
-		height += (south.shape === Jigsaw.INNYTAB ? tabSize : 0);
-		if (west === Jigsaw.INNYTAB) {
-			width += tabSize;
-			sx -= tabSize;
-		} else if (west.shape === Jigsaw.OUTYTAB) {
-			width -= tabSize;
-			sx += tabSize;
-		}
-		width += (east.shape === Jigsaw.INNYTAB ? tabSize : 0);
+		const { north, east, south, west, width, height, startingX, startingY } = this.#pieceEdges[ordinal.y][ordinal.x];
 
 		const canvas = document.createElement('canvas');
 		canvas.width = width;
@@ -79,8 +52,8 @@ export default class Jigsaw {
 		const ctx = canvas.getContext('2d');
 		ctx.beginPath();
 
-		let x = west.shape === Jigsaw.OUTYTAB ? this.#tabSize : 0;
-		let y = north.shape === Jigsaw.OUTYTAB ? this.#tabSize : 0;
+		let x = west === Jigsaw.OUTYTAB ? this.#tabSize : 0;
+		let y = north === Jigsaw.OUTYTAB ? this.#tabSize : 0;
 
 		if (north.shape === Jigsaw.INNYTAB) {
 
@@ -118,8 +91,8 @@ export default class Jigsaw {
 		ctx.clip();
 		ctx.drawImage(
 			this.image,
-			sx,
-			sy,
+			startingX,
+			startingY,
 			width,
 			height,
 			0,
@@ -172,47 +145,63 @@ export default class Jigsaw {
 		return piece;
 	}
 
-	createPieceEdges(args = {}) {
-		const { rows = 0, columns = 0 } = args;
+	configurePuzzleCut(args = {}) {
+		const { rows = 0, columns = 0, pieceWidth = 0, pieceHeight = 0 } = args;
 		this.#pieceEdges = [];
 		for (let row = 0; row < rows; row++) {
 			const rowEdges = [];
 			for (let column = 0; column < columns; column++) {
 				rowEdges.push({
-					north: { shape: null, width: null, height: null },
-					east: { shape: null, width: null, height: null },
-					south: { shape: null, width: null, height: null },
-					west: { shape: null, width: null, height: null } });
+					north: null,
+					east: null,
+					south: null,
+					west: null,
+					width: 0,
+					height: 0,
+					startingX: 0,
+					startingY: 0
+				});
 			}
 			this.#pieceEdges.push(rowEdges);
 		}
 		for (let row = 0; row < rows; row++) {
 			for (let column = 0; column < columns; column++) {
 				const piece = this.#pieceEdges[row][column];
+				piece.width = pieceWidth;
+				piece.height = pieceHeight;
 				if (row === 0) {
-					piece.north.shape = Jigsaw.EDGE;
+					piece.north = Jigsaw.EDGE;
 				}
 				if (row === rows - 1) {
-					piece.south.shape = Jigsaw.EDGE;
+					piece.south = Jigsaw.EDGE;
 				}
 				if (column === 0) {
-					piece.west.shape = Jigsaw.EDGE;
+					piece.west = Jigsaw.EDGE;
 				}
 				if (column === columns - 1) {
-					piece.east.shape = Jigsaw.EDGE;
+					piece.east = Jigsaw.EDGE;
 				}
-				if (piece.south.shape === null) {
-					piece.south.shape = Math.random() < .5 ? Jigsaw.INNYTAB : Jigsaw.OUTYTAB;
-					this.#pieceEdges[row + 1][column].north.shape = piece.south.shape === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB;
+				if (piece.south === null) {
+					piece.south = Math.random() < .5 ? Jigsaw.INNYTAB : Jigsaw.OUTYTAB;
+					this.#pieceEdges[row + 1][column].north = piece.south === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB;
 				}
-				if (piece.east.shape === null) {
-					piece.east.shape = Math.random() < .5 ? Jigsaw.INNYTAB : Jigsaw.OUTYTAB;
-					this.#pieceEdges[row][column + 1].west.shape = piece.east.shape === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB
+				if (piece.east === null) {
+					piece.east = Math.random() < .5 ? Jigsaw.INNYTAB : Jigsaw.OUTYTAB;
+					this.#pieceEdges[row][column + 1].west = piece.east === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB
 				}
+				piece.width += (piece.east === Jigsaw.INNYTAB ? this.#tabSize : 0) + (piece.west === Jigsaw.INNYTAB ? this.#tabSize : 0);
+				piece.height += (piece.north === Jigsaw.INNYTAB ? this.#tabSize : 0) + (piece.south === Jigsaw.INNYTAB ? this.#tabSize : 0);
+				piece.width -= (piece.east === Jigsaw.OUTYTAB ? this.#tabSize : 0) + (piece.west === Jigsaw.OUTYTAB ? this.#tabSize : 0);
+				piece.height -= (piece.north === Jigsaw.OUTYTAB ? this.#tabSize : 0) + (piece.south === Jigsaw.OUTYTAB ? this.#tabSize : 0);
+
+				const previousPieceX = column > 0 ? this.#pieceEdges[row][column - 1] : null
+				const previousPieceY = row > 0 ? this.#pieceEdges[row - 1][column] : null
+				piece.startingX = previousPieceX?.startingX + previousPieceX?.width || 0;
+				piece.startingY = previousPieceY?.startingY + previousPieceY?.height || 0;
 			}
 		}
 		return this.#pieceEdges;
-	}
+	};
 
 	#innyNorth(args) {
 		let { x, y, ctx } = args;

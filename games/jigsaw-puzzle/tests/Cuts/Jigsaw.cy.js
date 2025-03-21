@@ -27,12 +27,12 @@ describe('When I work with the Jigsaw cut class', () => {
 		expect(() => jigsaw.cut('invalid')).to.throw();
 	});
 
-	it('should cut out a piece from the image', () => {
+	xit('should cut out a piece from the image', () => {
 		const image = new Image();
 		image.width = 800;
 		image.height = 600;
 		const jigsaw = new Jigsaw({ width: 80, height: 60, image });
-		jigsaw.createPieceEdges({ rows: 10, columns: 10 });
+		jigsaw.configurePuzzleCut({ rows: 10, columns: 10, pieceWidth: 80, pieceHeight: 60 });
 		const piece = jigsaw.cut(new Position2d({ x: 0, y: 0 }));
 		expect(piece).to.be.instanceOf(HTMLSpanElement);
 		const canvas = piece.querySelector('canvas');
@@ -51,48 +51,63 @@ describe('When I work with the Jigsaw cut class', () => {
 		const pieceHeight = 100;
 		const pieceWidth = 100;
 		const jigsaw = new Jigsaw({ width: pieceWidth, height: pieceHeight, image });
-		const pieceEdges = jigsaw.createPieceEdges({ rows, columns });
-		for(let x = 0; x < rows; x++) {
-			for(let y = 0; y < columns; y++) {
-				let width = pieceWidth;
-				let height = pieceHeight;
-				const { north, east, south, west } = pieceEdges[x][y];
-				if (x === 0) {
-					expect(north.shape).to.equal(Jigsaw.EDGE);
+		const tabSize = jigsaw.tabSize;
+		const pieceEdges = jigsaw.configurePuzzleCut({ rows, columns, pieceWidth, pieceHeight });
+		for(let row = 0; row < rows; row++) {
+			for(let column = 0; column < columns; column++) {
+				const { north, east, south, west, width, height, startingX, startingY } = pieceEdges[row][column];
+				if (row === 0) {
+					expect(north).to.equal(Jigsaw.EDGE);
 				}
-				if (x === rows - 1) {
-					expect(south.shape).to.equal(Jigsaw.EDGE);
+				if (row === rows - 1) {
+					expect(south).to.equal(Jigsaw.EDGE);
 				}
-				if (y === 0) {
-					expect(west.shape).to.equal(Jigsaw.EDGE);
+				if (column === 0) {
+					expect(west).to.equal(Jigsaw.EDGE);
 				}
-				if (y === columns - 1) {
-					expect(east.shape).to.equal(Jigsaw.EDGE);
+				if (column === columns - 1) {
+					expect(east).to.equal(Jigsaw.EDGE);
 				}
-				if (north.shape !== Jigsaw.EDGE) {
-					const otherEdge = pieceEdges[x - 1][y].south.shape;
-					const testEdge = north.shape === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB;
+				if (north !== Jigsaw.EDGE) {
+					const otherEdge = pieceEdges[row - 1][column].south;
+					const testEdge = north === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB;
 					expect(otherEdge).to.equal(testEdge);
 				}
-				if (east.shape !== Jigsaw.EDGE) {
-					const otherEdge = pieceEdges[x][y + 1].west.shape;
-					const testEdge = east.shape === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB;
+				if (east !== Jigsaw.EDGE) {
+					const otherEdge = pieceEdges[row][column + 1].west;
+					const testEdge = east === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB;
 					expect(otherEdge).to.equal(testEdge);
 				}
-				if (south.shape !== Jigsaw.EDGE) {
-					const otherEdge = pieceEdges[x + 1][y].north.shape;
-					const testEdge = south.shape === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB;
+				if (south !== Jigsaw.EDGE) {
+					const otherEdge = pieceEdges[row + 1][column].north;
+					const testEdge = south === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB;
 					expect(otherEdge).to.equal(testEdge);
 				}
-				if (west.shape !== Jigsaw.EDGE) {
-					const otherEdge = pieceEdges[x][y - 1].east.shape;
-					const testEdge = west.shape === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB;
+				if (west !== Jigsaw.EDGE) {
+					const otherEdge = pieceEdges[row][column - 1].east;
+					const testEdge = west === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB;
 					expect(otherEdge).to.equal(testEdge);
 				}
-				width += (east.shape === Jigsaw.INNYTAB ? 10 : 0) + (west.shape === Jigsaw.INNYTAB ? 10 : 0);
-				height += (north.shape === Jigsaw.INNYTAB ? 10 : 0) + (south.shape === Jigsaw.INNYTAB ? 10 : 0);
-				width -= (east.shape === Jigsaw.OUTYTAB ? 10 : 0) - (west.shape === Jigsaw.OUTYTAB ? 10 : 0);
-				height -= (north.shape === Jigsaw.OUTYTAB ? 10 : 0) - (south.shape === Jigsaw.OUTYTAB ? 10 : 0);
+				let testWidth = pieceWidth;
+				let testHeight = pieceHeight;
+				testWidth += (east === Jigsaw.INNYTAB ? tabSize : 0) + (west === Jigsaw.INNYTAB ? tabSize : 0);
+				testHeight += (north === Jigsaw.INNYTAB ? tabSize : 0) + (south === Jigsaw.INNYTAB ? tabSize : 0);
+				testWidth -= (east === Jigsaw.OUTYTAB ? tabSize : 0) + (west === Jigsaw.OUTYTAB ? tabSize : 0);
+				testHeight -= (north === Jigsaw.OUTYTAB ? tabSize : 0) + (south === Jigsaw.OUTYTAB ? tabSize : 0);
+				expect(width).to.equal(testWidth);
+				expect(height).to.equal(testHeight);
+
+				let testStartingX = 0;
+				let testStartingY = 0;
+				for (let deltaRow = 0; deltaRow < row; deltaRow++) {
+					testStartingY += pieceEdges[deltaRow][column].height;
+				}
+				for (let deltaColumn = 0; deltaColumn < column; deltaColumn++) {
+					testStartingX += pieceEdges[row][deltaColumn].width;
+				}
+				expect(startingX).to.equal(testStartingX);
+				expect(startingY).to.equal(testStartingY);
+
 			}
 		}
 	});

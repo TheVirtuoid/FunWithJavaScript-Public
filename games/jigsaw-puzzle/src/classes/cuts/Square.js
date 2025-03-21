@@ -6,11 +6,13 @@ export default class Square {
 	#width;
 	#height;
 	#image;
+	#puzzleCut;
 
 	constructor(args = {}) {
 		this.#width = args.width || 0;
 		this.#height = args.height || 0;
 		this.#image = args.image || null;
+		this.#puzzleCut = null;
 	}
 
 	get width() {
@@ -49,22 +51,26 @@ export default class Square {
 		return piece;
 	}
 
-	createPieceEdges(args = {}) {
-		const { rows = 0, columns = 0 } = args;
-		const pieceEdges = [];
+	configurePuzzleCut(args = {}) {
+		const { rows = 0, columns = 0, pieceWidth = 0, pieceHeight = 0 } = args;
+		this.#puzzleCut = [];
 		for (let row = 0; row < rows; row++) {
-			const rowEdges = [];
+			const rowCut = [];
 			for (let column = 0; column < columns; column++) {
 				const piece = {
-					north: { shape: Square.EDGE, width: this.width, height: this.height },
-					east: { shape: Square.EDGE, width: this.width, height: this.height },
-					south: { shape: Square.EDGE, width: this.width, height: this.height },
-					west: { shape: Square.EDGE, width: this.width, height: this.height }
+					north: Square.EDGE,
+					east: Square.EDGE,
+					south: Square.EDGE,
+					west: Square.EDGE,
+					width: pieceWidth,
+					height: pieceHeight,
+					startingX: column * pieceWidth,
+					startingY: row * pieceHeight,
 				};
-				rowEdges.push(piece);
+				rowCut.push(piece);
 			}
-			pieceEdges.push(rowEdges);
+			this.#puzzleCut.push(rowCut);
 		}
-		return pieceEdges;
+		return this.#puzzleCut;
 	}
 }
