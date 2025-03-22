@@ -7,31 +7,25 @@ export default class Piece {
 	#position;
 	#children;
 	#ordinal;
+	#center;
 	#parent;
 	#dom;
 	#id;
-
-	#mousedownHandle;
-	#mousemoveHandle;
-	#mouseupHandle;
 
 	#table;
 
 	#active = null;
 
 	constructor( args = {}) {
-		const { position, ordinal, table = null } = args;
+		const { position, ordinal, center, table = null } = args;
 		this.#position = new Position2d(position) || new Position2d({ x: 0, y: 0 });
 		this.#ordinal = new Position2d(ordinal) || new Position2d({ x: 0, y: 0 });
+		this.#center = new Position2d(center) || new Position2d({ x: 0, y: 0 });
 		this.#children = [];
 		this.#parent = null;
 		this.#dom = null;
 		this.#table = table;
 		this.#id = window?.crypto?.randomUUID() || `FWJS${Math.random().toString().substring(2)}`;
-
-	/*	this.#mousemoveHandle = this.#mousemove.bind(this);
-		this.#mouseupHandle = this.#mouseup.bind(this);
-		this.#mousedownHandle = this.#mousedown.bind(this);*/
 	}
 
 	get x() {
@@ -52,6 +46,14 @@ export default class Piece {
 
 	get ordinal() {
 		return { x: this.#ordinal.x, y: this.#ordinal.y };
+	}
+
+	/**
+	 * Returns the center of the piece. Read only, used to determine if matches occur
+	 * @returns {{x, y}}
+	 */
+	get center() {
+		return { x: this.#center.x, y: this.#center.y };
 	}
 
 	get children() {
@@ -87,7 +89,9 @@ export default class Piece {
 	}
 
 	setPosition(position) {
+		const { x, y } = this.#position;
 		this.#position = position;
+		this.#center = new Position2d({ x: position.x - x, y: position.y - y });
 	}
 
 	setParent(parent) {

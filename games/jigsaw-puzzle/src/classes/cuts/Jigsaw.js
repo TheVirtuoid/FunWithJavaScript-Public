@@ -47,7 +47,7 @@ export default class Jigsaw {
 		canvas.width = width;
 		canvas.height = height;
 
-		// console.log(ordinal.y,ordinal.x,north,east,south,west, sx, sy, width, height);
+		console.log(ordinal.y,ordinal.x,north,east,south,west, startingX, startingY, width, height);
 
 		const ctx = canvas.getContext('2d');
 		ctx.beginPath();
@@ -191,8 +191,6 @@ export default class Jigsaw {
 				}
 				piece.width += (piece.east === Jigsaw.INNYTAB ? this.#tabSize : 0) + (piece.west === Jigsaw.INNYTAB ? this.#tabSize : 0);
 				piece.height += (piece.north === Jigsaw.INNYTAB ? this.#tabSize : 0) + (piece.south === Jigsaw.INNYTAB ? this.#tabSize : 0);
-				piece.width -= (piece.east === Jigsaw.OUTYTAB ? this.#tabSize : 0) + (piece.west === Jigsaw.OUTYTAB ? this.#tabSize : 0);
-				piece.height -= (piece.north === Jigsaw.OUTYTAB ? this.#tabSize : 0) + (piece.south === Jigsaw.OUTYTAB ? this.#tabSize : 0);
 
 				const previousPieceX = column > 0 ? this.#pieceEdges[row][column - 1] : null
 				const previousPieceY = row > 0 ? this.#pieceEdges[row - 1][column] : null

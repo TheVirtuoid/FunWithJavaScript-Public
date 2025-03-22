@@ -3,11 +3,13 @@ import Table from "../../../../Utilities/Table.js";
 
 describe('When I create a new Piece', () => {
 	it('should have a position', () => {
-		const piece = new Piece({ position: { x: 1, y: 1 }, ordinal: { x: 2, y: 2 }});
+		const piece = new Piece({ position: { x: 1, y: 1 }, ordinal: { x: 2, y: 2 }, center: { x: 3, y: 3 } });
 		expect(piece.x).to.be.equal(1);
 		expect(piece.y).to.be.equal(1);
 		expect(piece.ordinal.x).to.be.equal(2);
 		expect(piece.ordinal.y).to.be.equal(2);
 		expect(typeof piece.id).to.equal('string');
+		expect(piece.center.x).to.equal(3);
+		expect(piece.center.y).to.equal(3);
 	});
 });
