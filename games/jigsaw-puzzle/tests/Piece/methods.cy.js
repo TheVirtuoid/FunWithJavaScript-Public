@@ -7,8 +7,6 @@ describe('When I perform methods on a Piece', () => {
 		piece.move({ x: 2, y: 2 });
 		expect(piece.x).to.be.equal(2);
 		expect(piece.y).to.be.equal(2);
-		expect(piece.center.x).to.equal(1);
-		expect(piece.center.y).to.equal(1);
 	});
 
 	it('should move a piece relative to its current position', () => {
@@ -16,8 +14,14 @@ describe('When I perform methods on a Piece', () => {
 		piece.moveRelative({ x: 1, y: 1 });
 		expect(piece.x).to.be.equal(2);
 		expect(piece.y).to.be.equal(2);
-		expect(piece.center.x).to.equal(1);
-		expect(piece.center.y).to.equal(1);
+	});
+
+	it('should move checkingPoint of the piece', () => {
+		const piece = new Piece({ position: { x: 1, y: 1 } });
+		piece.setCheckingPoint({ x: 2, y: 2, width: 10, height: 10 });
+		piece.move({ x: 2, y: 2 });
+		expect(piece.checkingPoint.x).to.be.equal(3);
+		expect(piece.checkingPoint.y).to.be.equal(3);
 	});
 
 	it('should add a child', () => {

@@ -7,20 +7,19 @@ export default class Piece {
 	#position;
 	#children;
 	#ordinal;
-	#center;
 	#parent;
 	#dom;
 	#id;
 
 	#table;
+	#checking;
 
 	#active = null;
 
 	constructor( args = {}) {
-		const { position, ordinal, center, table = null } = args;
+		const { position, ordinal, table = null } = args;
 		this.#position = new Position2d(position) || new Position2d({ x: 0, y: 0 });
 		this.#ordinal = new Position2d(ordinal) || new Position2d({ x: 0, y: 0 });
-		this.#center = new Position2d(center) || new Position2d({ x: 0, y: 0 });
 		this.#children = [];
 		this.#parent = null;
 		this.#dom = null;
@@ -48,12 +47,8 @@ export default class Piece {
 		return { x: this.#ordinal.x, y: this.#ordinal.y };
 	}
 
-	/**
-	 * Returns the center of the piece. Read only, used to determine if matches occur
-	 * @returns {{x, y}}
-	 */
-	get center() {
-		return { x: this.#center.x, y: this.#center.y };
+	get checkingPoint() {
+		return { x: this.#checking.x, y: this.#checking.y, width: this.#checking.width, height: this.#checking.height };
 	}
 
 	get children() {
@@ -91,7 +86,15 @@ export default class Piece {
 	setPosition(position) {
 		const { x, y } = this.#position;
 		this.#position = position;
-		this.#center = new Position2d({ x: position.x - x, y: position.y - y });
+		if (this.#checking) {
+			const checkingPoint = new Position2d({ x: position.x - x, y: position.y - y });
+			this.#checking = {
+				x: this.#checking.x + checkingPoint.x,
+				y: this.#checking.y + checkingPoint.y,
+				width: this.#checking.width,
+				height: this.#checking.height
+			};
+		}
 	}
 
 	setParent(parent) {
@@ -101,6 +104,10 @@ export default class Piece {
 	setDom(dom) {
 		this.#dom = dom;
 		this.#dom.dataset.id = this.#id;
+	}
+
+	setCheckingPoint(checkingPoint) {
+		this.#checking = checkingPoint;
 	}
 
 	addChild(child) {
