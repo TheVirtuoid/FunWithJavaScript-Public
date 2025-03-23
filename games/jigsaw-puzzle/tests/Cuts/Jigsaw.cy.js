@@ -27,7 +27,7 @@ describe('When I work with the Jigsaw cut class', () => {
 		expect(() => jigsaw.cut('invalid')).to.throw();
 	});
 
-	xit('should cut out a piece from the image', () => {
+	it('should cut out a piece from the image', () => {
 		const image = new Image();
 		image.width = 800;
 		image.height = 600;
@@ -37,12 +37,11 @@ describe('When I work with the Jigsaw cut class', () => {
 		expect(piece).to.be.instanceOf(HTMLSpanElement);
 		const canvas = piece.querySelector('canvas');
 		const tabSize = jigsaw.tabSize;
-		let width =
 		expect(canvas.width).to.be.below(80 + tabSize + 1);
 		expect(canvas.height).to.be.below(60 + tabSize + 1);
 	});
 
-	it('should return ordinal pieces with edge specifications', () => {
+	it('should return ordinal pieces with edge specifications (configurePuzzleCut)', () => {
 		const image = new Image();
 		image.width = 800;
 		image.height = 600;
@@ -55,7 +54,7 @@ describe('When I work with the Jigsaw cut class', () => {
 		const pieceEdges = jigsaw.configurePuzzleCut({ rows, columns, pieceWidth, pieceHeight });
 		for(let row = 0; row < rows; row++) {
 			for(let column = 0; column < columns; column++) {
-				const { north, east, south, west, width, height, startingX, startingY } = pieceEdges[row][column];
+				const { north, east, south, west, width, height, startingX, startingY, checkingPoint } = pieceEdges[row][column];
 				if (row === 0) {
 					expect(north).to.equal(Jigsaw.EDGE);
 				}
@@ -92,22 +91,20 @@ describe('When I work with the Jigsaw cut class', () => {
 				let testHeight = pieceHeight;
 				testWidth += (east === Jigsaw.INNYTAB ? tabSize : 0) + (west === Jigsaw.INNYTAB ? tabSize : 0);
 				testHeight += (north === Jigsaw.INNYTAB ? tabSize : 0) + (south === Jigsaw.INNYTAB ? tabSize : 0);
-				testWidth -= (east === Jigsaw.OUTYTAB ? tabSize : 0) + (west === Jigsaw.OUTYTAB ? tabSize : 0);
-				testHeight -= (north === Jigsaw.OUTYTAB ? tabSize : 0) + (south === Jigsaw.OUTYTAB ? tabSize : 0);
 				expect(width).to.equal(testWidth);
 				expect(height).to.equal(testHeight);
 
-				let testStartingX = 0;
-				let testStartingY = 0;
-				for (let deltaRow = 0; deltaRow < row; deltaRow++) {
-					testStartingY += pieceEdges[deltaRow][column].height;
-				}
-				for (let deltaColumn = 0; deltaColumn < column; deltaColumn++) {
-					testStartingX += pieceEdges[row][deltaColumn].width;
-				}
+				let testStartingX = column * pieceWidth;
+				let testStartingY = row * pieceHeight;
+				testStartingX -= (west === Jigsaw.INNYTAB ? tabSize : 0);
+				testStartingY -= (north === Jigsaw.INNYTAB ? tabSize : 0);
 				expect(startingX).to.equal(testStartingX);
 				expect(startingY).to.equal(testStartingY);
 
+				expect(checkingPoint.x).to.equal(column * pieceWidth + pieceWidth / 2);
+				expect(checkingPoint.y).to.equal(row * pieceHeight + pieceHeight / 2);
+				expect(checkingPoint.width).to.equal(pieceWidth);
+				expect(checkingPoint.height).to.equal(pieceHeight);
 			}
 		}
 	});

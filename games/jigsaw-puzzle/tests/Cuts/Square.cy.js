@@ -48,18 +48,22 @@ describe('When I work with the Square cut class', () => {
 		const pieceHeight = 100;
 		const square = new Square({ width: pieceWidth, height: pieceHeight, image });
 		const pieceEdges = square.configurePuzzleCut({ rows, columns, pieceWidth, pieceHeight });
-		for(let x = 0; x < rows; x++) {
-			for(let y = 0; y < columns; y++) {
-				const piece = pieceEdges[x][y];
-				const { north, east, south, west, width, height, startingX, startingY } = piece;
+		for(let row = 0; row < rows; row++) {
+			for(let column = 0; column < columns; column++) {
+				const piece = pieceEdges[row][column];
+				const { north, east, south, west, width, height, startingX, startingY, checkingPoint } = piece;
 				expect(north).to.equal(Square.EDGE);
 				expect(east).to.equal(Square.EDGE);
 				expect(south).to.equal(Square.EDGE);
 				expect(west).to.equal(Square.EDGE);
 				expect(width).to.equal(pieceWidth);
 				expect(height).to.equal(pieceHeight);
-				expect(startingX).to.equal(y * pieceWidth);
-				expect(startingY).to.equal(x * pieceHeight);
+				expect(startingX).to.equal(column * pieceWidth);
+				expect(startingY).to.equal(row * pieceHeight);
+				expect(checkingPoint.x).to.equal(column * pieceWidth + pieceWidth / 2);
+				expect(checkingPoint.y).to.equal(row * pieceHeight + pieceHeight / 2);
+				expect(checkingPoint.width).to.equal(pieceWidth);
+				expect(checkingPoint.height).to.equal(pieceHeight);
 			}
 		}
 	});

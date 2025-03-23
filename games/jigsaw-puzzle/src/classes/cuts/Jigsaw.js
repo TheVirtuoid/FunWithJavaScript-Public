@@ -159,7 +159,13 @@ export default class Jigsaw {
 					width: 0,
 					height: 0,
 					startingX: 0,
-					startingY: 0
+					startingY: 0,
+					checkingPoint: {
+						x: 0,
+						y: 0,
+						width: 0,
+						height: 0
+					}
 				});
 			}
 			this.#pieceEdges.push(rowEdges);
@@ -192,10 +198,13 @@ export default class Jigsaw {
 				piece.width += (piece.east === Jigsaw.INNYTAB ? this.#tabSize : 0) + (piece.west === Jigsaw.INNYTAB ? this.#tabSize : 0);
 				piece.height += (piece.north === Jigsaw.INNYTAB ? this.#tabSize : 0) + (piece.south === Jigsaw.INNYTAB ? this.#tabSize : 0);
 
-				const previousPieceX = column > 0 ? this.#pieceEdges[row][column - 1] : null
-				const previousPieceY = row > 0 ? this.#pieceEdges[row - 1][column] : null
-				piece.startingX = previousPieceX?.startingX + previousPieceX?.width || 0;
-				piece.startingY = previousPieceY?.startingY + previousPieceY?.height || 0;
+				piece.startingX = column * pieceWidth - (piece.west === Jigsaw.INNYTAB ? this.#tabSize : 0);
+				piece.startingY = row * pieceHeight - (piece.north === Jigsaw.INNYTAB ? this.#tabSize : 0);
+
+				piece.checkingPoint.x = column * pieceWidth + pieceWidth / 2;
+				piece.checkingPoint.y = row * pieceHeight + pieceHeight / 2;
+				piece.checkingPoint.width = pieceWidth;
+				piece.checkingPoint.height = pieceHeight;
 			}
 		}
 		return this.#pieceEdges;

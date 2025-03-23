@@ -50,6 +50,12 @@ export default class Square extends CutBase {
 					height: pieceHeight,
 					startingX: column * pieceWidth,
 					startingY: row * pieceHeight,
+					checkingPoint: {
+						x: column * pieceWidth + pieceWidth / 2,
+						y: row * pieceHeight + pieceHeight / 2,
+						width: pieceWidth,
+						height: pieceHeight
+					}
 				};
 				rowCut.push(piece);
 			}
