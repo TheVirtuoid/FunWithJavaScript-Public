@@ -49,6 +49,9 @@ export default class Ui {
 	#activePiece;
 	#zindex;
 
+	// cut piece information
+	#pieceCutConfiguration;
+
 	constructor(game) {
 		this.#game = game;
 		this.#newGame = new NewGame('new-game-dialog', this);
@@ -177,21 +180,33 @@ export default class Ui {
 
 			const cut = new DeclaredCut({ width: table.pieceWidth, height: table.pieceHeight, image: imageElement });
 			table.cutPuzzle();
-			cut.configurePuzzleCut({ rows: table.rows, columns: table.columns, pieceWidth: table.pieceWidth, pieceHeight: table.pieceHeight });
+			this.#pieceCutConfiguration = cut.configurePuzzleCut({
+				rows: table.rows,
+				columns: table.columns,
+				pieceWidth: table.pieceWidth,
+				pieceHeight: table.pieceHeight
+			});
 			for(let row = 0; row < table.rows; row++ ) {
 				for(let column = 0; column < table.columns; column++) {
 					const piece = table.getPieceByOrdinal({ x: column, y: row });
 					const pieceElement = cut.cut(new Position2d({ x: column, y: row }));
 					piece.setDom(pieceElement);
+					piece.setCheckingPoint(this.#pieceCutConfiguration[row][column].checkingPoint);
 				}
 			}
-			table.shufflePuzzle();
+			// table.shufflePuzzle();
 			this.#puzzle.replaceChildren();
 			for(let row = 0; row < table.rows; row++ ) {
 				for(let column = 0; column < table.columns; column++) {
 					const piece = table.getPieceByOrdinal({ x: column, y: row });
 					piece.dom.style.left = `${piece.x}px`;
 					piece.dom.style.top = `${piece.y}px`;
+					// TODO: MAKE SURE YOU DELETE THE THIS NEXT CODE ONCE THE JIGSAW HAS BEEN IMPLEMENTED
+					//if (this.#pieceCutConfiguration[row][column].west !== Jigsaw.OUTYTAB) {
+					piece.dom.classList.add('hidden');
+					if (row ===0 && column === 0) {
+						piece.dom.classList.remove('hidden');
+					}
 					this.#puzzle.appendChild(piece.dom);
 				}
 			}

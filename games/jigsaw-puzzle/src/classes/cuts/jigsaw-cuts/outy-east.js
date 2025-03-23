@@ -1,0 +1,37 @@
+import Jigsaw from "../Jigsaw.js";
+
+const outyEast = (args) => {
+	let { x, y, height, ctx, north, south, tabSize } = args;
+	const midPoint = height / 2;
+	const tabSizeHalf = tabSize / 2;
+
+	y = y + midPoint - tabSizeHalf;
+	ctx.lineTo(x, y);
+	ctx.bezierCurveTo(
+		x + tabSizeHalf / 3,
+		y + tabSizeHalf,
+		x + 2 * tabSizeHalf / 3,
+		y,
+		x + tabSizeHalf,
+		y);
+	ctx.bezierCurveTo(
+		x + tabSize,
+		y + tabSizeHalf / 2,
+		x + tabSize,
+		y + 3 * tabSizeHalf / 2,
+		x + tabSizeHalf,
+		y + tabSize);
+	ctx.bezierCurveTo(
+		x + 2 * tabSizeHalf / 3,
+		y + tabSize,
+		x + tabSizeHalf / 3,
+		y + tabSizeHalf,
+		x,
+		y + tabSize
+	);
+	// y = height - (south === Jigsaw.OUTYTAB ? tabSize : 0);
+	y = height;
+	ctx.lineTo(x, y);
+}
+
+export default outyEast;
