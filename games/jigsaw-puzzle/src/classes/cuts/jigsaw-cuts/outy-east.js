@@ -32,6 +32,7 @@ const outyEast = (args) => {
 	// y = height - (south === Jigsaw.OUTYTAB ? tabSize : 0);
 	y = height;
 	ctx.lineTo(x, y);
+	return { x, y };
 }
 
 export default outyEast;

@@ -5,9 +5,6 @@ const innyEast = (args) => {
 	const midPoint = height / 2;
 	const tabSizeHalf = tabSize / 2;
 
-	y += north === Jigsaw.OUTYTAB ? tabSize : 0;
-	// ctx.moveTo(x, y);
-
 	y = midPoint - tabSize;
 	ctx.lineTo(x, y);
 	ctx.bezierCurveTo(
@@ -33,7 +30,7 @@ const innyEast = (args) => {
 		y + tabSize);
 	y = height - (south === Jigsaw.OUTYTAB ? tabSize : 0);
 	ctx.lineTo(x, y);
-	// return { x, y };
+	return { x, y };
 }
 
 export default innyEast;

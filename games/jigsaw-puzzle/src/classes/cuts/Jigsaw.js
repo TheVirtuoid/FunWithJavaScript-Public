@@ -4,6 +4,8 @@ import outyEast from "./jigsaw-cuts/outy-east.js";
 import innyEast from "./jigsaw-cuts/inny-east.js";
 import edgeSouth from "./jigsaw-cuts/edge-south.js";
 import edgeNorth from "./jigsaw-cuts/edge-north.js";
+import innySouth from "./jigsaw-cuts/inny-south.js";
+import outySouth from "./jigsaw-cuts/outy-south.js";
 
 export default class Jigsaw {
 
@@ -78,34 +80,32 @@ export default class Jigsaw {
 		}
 
 		// x += width;
-		ctx.lineTo(x, y);
+		// ctx.lineTo(x, y);
 		switch(east) {
 			case Jigsaw.INNYTAB:
-				this.#innyEast({ x, y, height, tabSize, ctx, north, south });
+				({ x, y } = this.#innyEast({ x, y, height, tabSize, ctx, north, south }));
 				break;
 			case Jigsaw.OUTYTAB:
-				this.#outyEast({ x, y, height, tabSize, ctx, north, south });
+				({ x, y } = this.#outyEast({ x, y, height, tabSize, ctx, north, south }));
 				break;
 			case Jigsaw.EDGE:
-				this.#edgeEast({ x, y, height, tabSize, ctx, north, south });
+				({ x, y } = this.#edgeEast({ x, y, height, tabSize, ctx, north, south }));
 				break;
 		}
 
-		y += height;
-		ctx.lineTo(x, y);
-		/*switch(south) {
+		/*y += height;
+		ctx.lineTo(x, y);*/
+		switch(south) {
 			case Jigsaw.INNYTAB:
-				// this.#innySouth({ x, y, width, tabSize, ctx, west, east });
-				this.#edgeSouth({ x, y, width, tabSize, ctx, west, east });
+				({ x, y } = this.#innySouth({ x, y, width, tabSize, ctx, west, east }));
 				break;
 			case Jigsaw.OUTYTAB:
-				// this.#outySouth({ x, y, width, tabSize, ctx, west, east });
-				this.#edgeSouth({ x, y, width, tabSize, ctx, west, east });
+				({ x, y } = this.#outySouth({ x, y, width, tabSize, ctx, west, east }));
 				break;
 			case Jigsaw.EDGE:
-				this.#edgeSouth({ x, y, width, tabSize, ctx, west, east });
+				({ x, y } = this.#edgeSouth({ x, y, width, tabSize, ctx, west, east }));
 				break;
-		}*/
+		}
 
 		x -= width;
 		ctx.lineTo(x, y);
@@ -214,13 +214,15 @@ export default class Jigsaw {
 	}
 
 	#edgeEast(args) {
+		// return edgeEast(args);
 		let { x, y, height, ctx, north, south } = args;
 		ctx.moveTo(x, y);
 		ctx.lineTo(x, y + height - (south === Jigsaw.OUTYTAB ? this.#tabSize : 0));
+		return { x, y };
 	}
 
 	#edgeSouth(args) {
-		edgeSouth(args);
+		return edgeSouth(args);
 	}
 
 	#edgeWest(args) {
@@ -268,44 +270,12 @@ export default class Jigsaw {
 
 	// render from east to west
 	#innySouth(args) {
-		let { x, y, width, ctx, west, east } = args;
-		const tabSize = this.#tabSize;
-		const midPoint = width / 2;
-		const tabSizeHalf = tabSize / 2;
-
-		x -= east === Jigsaw.OUTYTAB ? tabSize : 0;
-		ctx.moveTo(x, y);
-
-		x = midPoint + tabSizeHalf;
-		ctx.lineTo(x, y);
-		ctx.bezierCurveTo(
-			x - tabSizeHalf,
-			y - tabSizeHalf / 3,
-			x,
-			y - 2 * tabSizeHalf / 3,
-			x,
-			y - tabSizeHalf);
-		ctx.bezierCurveTo(
-			x - tabSizeHalf / 2,
-			y - tabSize,
-			x - 3 * tabSizeHalf / 2,
-			y - tabSize,
-			x - tabSize,
-			y - tabSizeHalf);
-		ctx.bezierCurveTo(
-			x - tabSize,
-			y - 2 * tabSizeHalf / 3,
-			x - tabSizeHalf,
-			y - tabSizeHalf / 3,
-			x - tabSize,
-			y);
-		x = 0 + (west === Jigsaw.INNYTAB ? tabSize : 0);
-		ctx.lineTo(x, y);
+		return innySouth(args);
 	}
 
 	// east moves from north to south
 	#innyEast(args) {
-		innyEast(args)
+		return innyEast(args)
 	}
 
 	// west moves from south to north
@@ -384,45 +354,11 @@ export default class Jigsaw {
 		ctx.lineTo(x, y);
 	}
 	#outySouth(args) {
-		let { x, y, width, ctx, west, east } = args;
-		const tabSize = this.#tabSize;
-		const midPoint = width / 2;
-		const tabSizeHalf = tabSize / 2;
-
-		y += tabSize;
-		x += west === Jigsaw.OUTYTAB ? tabSize : 0;
-
-		ctx.moveTo(x,y);
-
-		x = midPoint - tabSizeHalf;
-		ctx.lineTo(x, y);
-		ctx.bezierCurveTo(
-			x + tabSizeHalf,
-			y - tabSizeHalf / 3,
-			x,
-			y - 2 * tabSizeHalf / 3,
-			x,
-			y - tabSizeHalf);
-		ctx.bezierCurveTo(
-			x + tabSizeHalf / 2,
-			y - tabSize,
-			x + 3 * tabSizeHalf / 2,
-			y - tabSize,
-			x + tabSize,
-			y - tabSizeHalf);
-		ctx.bezierCurveTo(
-			x + tabSize,
-			y - 2 * tabSizeHalf / 3,
-			x + tabSizeHalf,
-			y - tabSizeHalf / 3,
-			x + tabSize,
-			y);
-		x = width - (east === Jigsaw.OUTYTAB ? tabSize : 0);
-		ctx.lineTo(x, y);
+		return outySouth(args);
 	}
 
 	#outyEast(args) {
-		outyEast(args);
+		return outyEast(args);
 	}
 
 	// west is drawn from south to north (bottom to top);
