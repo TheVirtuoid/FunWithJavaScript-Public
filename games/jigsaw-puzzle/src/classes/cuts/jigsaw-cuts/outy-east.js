@@ -1,7 +1,9 @@
 import Jigsaw from "../Jigsaw.js";
 
 const outyEast = (args) => {
-	let { x, y, height, ctx, north, south, tabSize } = args;
+	let { x, y, height, tabLocationOffset, ctx, north, south, tabSize } = args;
+
+	height -= south === Jigsaw.OUTYTAB ? tabSize : 0;
 	const midPoint = height / 2;
 	const tabSizeHalf = tabSize / 2;
 
@@ -29,8 +31,7 @@ const outyEast = (args) => {
 		x,
 		y + tabSize
 	);
-	// y = height - (south === Jigsaw.OUTYTAB ? tabSize : 0);
-	y = height;
+	y = y + tabSizeHalf + midPoint; 				// tabSizeHalf gets is back to midpoint
 	ctx.lineTo(x, y);
 	return { x, y };
 }

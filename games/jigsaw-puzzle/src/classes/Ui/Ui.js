@@ -204,7 +204,7 @@ export default class Ui {
 					// TODO: MAKE SURE YOU DELETE THE THIS NEXT CODE ONCE THE JIGSAW HAS BEEN IMPLEMENTED
 					//if (this.#pieceCutConfiguration[row][column].west !== Jigsaw.OUTYTAB) {
 					piece.dom.classList.add('hidden');
-					if (row ===0 && column === 0) {
+					if (row === 0 && column === 0) {
 						piece.dom.classList.remove('hidden');
 					}
 					this.#puzzle.appendChild(piece.dom);
