@@ -1,9 +1,9 @@
 import Jigsaw from "../Jigsaw.js";
 
 const innyNorth = (args) => {
-	let { x, y, width, tabSize, tabLocationOffset, ctx, west, east } = args;
+	let { x, y, width, tabSize, east, west, ctx } = args;
 
-	width -= east === Jigsaw.OUTYTAB ? tabSize : 0;
+	width -= (east === Jigsaw.OUTYTAB ? tabSize : 0) + (west === Jigsaw.OUTYTAB ? tabSize : 0);
 	const midPoint = width / 2;
 	const tabSizeHalf = tabSize / 2;
 
@@ -11,23 +11,23 @@ const innyNorth = (args) => {
 	ctx.lineTo(x, y);
 	ctx.bezierCurveTo(
 		x + tabSizeHalf,
-		y - tabSizeHalf / 3,
+		y + tabSizeHalf / 3,
 		x,
-		y - 2 * tabSizeHalf / 3,
+		y + 2 * tabSizeHalf / 3,
 		x,
-		y - tabSizeHalf);
+		y + tabSizeHalf);
 	ctx.bezierCurveTo(
 		x + tabSizeHalf / 2,
-		y - tabSize,
+		y + tabSize,
 		x + 3 * tabSizeHalf / 2,
-		y - tabSize,
+		y + tabSize,
 		x + tabSize,
-		y - tabSizeHalf);
+		y + tabSizeHalf);
 	ctx.bezierCurveTo(
 		x + tabSize,
-		y - 2 * tabSizeHalf / 3,
+		y + 2 * tabSizeHalf / 3,
 		x + tabSizeHalf,
-		y - tabSizeHalf / 3,
+		y + tabSizeHalf / 3,
 		x + tabSize,
 		y
 	);

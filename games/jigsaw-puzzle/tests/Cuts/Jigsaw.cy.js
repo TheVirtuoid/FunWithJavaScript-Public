@@ -12,7 +12,7 @@ describe('When I work with the Jigsaw cut class', () => {
 
 	it('should initialize for tabSize, width, height, and image', () => {
 		const image = new Image();
-		const jigsaw = new Jigsaw({ width: 100, height: 100, image });
+		const jigsaw = new Jigsaw({ width: 100, height: 100, image, tabSizeDivisor: 4, tabSizeMinimum: 10 });
 		expect(jigsaw.width).to.equal(100);
 		expect(jigsaw.height).to.equal(100);
 		expect(jigsaw.image).to.equal(image);
@@ -31,7 +31,7 @@ describe('When I work with the Jigsaw cut class', () => {
 		const image = new Image();
 		image.width = 800;
 		image.height = 600;
-		const jigsaw = new Jigsaw({ width: 80, height: 60, image });
+		const jigsaw = new Jigsaw({ width: 80, height: 60, image,  tabSizeDivisor: 4, tabSizeMinimum: 10 });
 		jigsaw.configurePuzzleCut({ rows: 10, columns: 10, pieceWidth: 80, pieceHeight: 60 });
 		const piece = jigsaw.cut(new Position2d({ x: 0, y: 0 }));
 		expect(piece).to.be.instanceOf(HTMLSpanElement);
@@ -49,7 +49,7 @@ describe('When I work with the Jigsaw cut class', () => {
 		const columns = 8;
 		const pieceHeight = 100;
 		const pieceWidth = 100;
-		const jigsaw = new Jigsaw({ width: pieceWidth, height: pieceHeight, image });
+		const jigsaw = new Jigsaw({ width: pieceWidth, height: pieceHeight, image,  tabSizeDivisor: 4, tabSizeMinimum: 10 });
 		const tabSize = jigsaw.tabSize;
 		const pieceEdges = jigsaw.configurePuzzleCut({ rows, columns, pieceWidth, pieceHeight });
 		for(let row = 0; row < rows; row++) {
@@ -89,15 +89,13 @@ describe('When I work with the Jigsaw cut class', () => {
 				}
 				let testWidth = pieceWidth;
 				let testHeight = pieceHeight;
-				testWidth += (east === Jigsaw.INNYTAB ? tabSize : 0) + (west === Jigsaw.INNYTAB ? tabSize : 0);
-				testHeight += (north === Jigsaw.INNYTAB ? tabSize : 0) + (south === Jigsaw.INNYTAB ? tabSize : 0);
+				testWidth += (east === Jigsaw.OUTYTAB ? tabSize : 0) + (west === Jigsaw.OUTYTAB ? tabSize : 0);
+				testHeight += (north === Jigsaw.OUTYTAB ? tabSize : 0) + (south === Jigsaw.OUTYTAB ? tabSize : 0);
 				expect(width).to.equal(testWidth);
 				expect(height).to.equal(testHeight);
 
-				let testStartingX = column * pieceWidth;
-				let testStartingY = row * pieceHeight;
-				testStartingX -= (west === Jigsaw.INNYTAB ? tabSize : 0);
-				testStartingY -= (north === Jigsaw.INNYTAB ? tabSize : 0);
+				let testStartingX = column * pieceWidth - (west === Jigsaw.OUTYTAB ? tabSize : 0);
+				let testStartingY = row * pieceHeight - (north === Jigsaw.OUTYTAB ? tabSize : 0);
 				expect(startingX).to.equal(testStartingX);
 				expect(startingY).to.equal(testStartingY);
 

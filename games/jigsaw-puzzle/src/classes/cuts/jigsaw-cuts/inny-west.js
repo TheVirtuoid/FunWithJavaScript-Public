@@ -1,9 +1,10 @@
 import Jigsaw from "../Jigsaw.js";
 
 const innyWest = (args) => {
-	let { x, y, height, tabSize, tabLocationOffset, ctx, north, south } = args;
+	let { x, y, height, tabSize, north, south, ctx } = args;
 
-	height -= north === Jigsaw.OUTYTAB ? tabSize : 0;
+	height -= (north === Jigsaw.OUTYTAB ? tabSize : 0) + (south === Jigsaw.OUTYTAB ? tabSize : 0);
+
 	const midPoint = height / 2;
 	const tabSizeHalf = tabSize / 2;
 

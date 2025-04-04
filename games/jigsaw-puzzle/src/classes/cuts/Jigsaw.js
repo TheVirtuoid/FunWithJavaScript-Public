@@ -9,6 +9,9 @@ import outySouth from "./jigsaw-cuts/outy-south.js";
 import edgeWest from "./jigsaw-cuts/edge-west.js";
 import innyWest from "./jigsaw-cuts/inny-west.js";
 import outyWest from "./jigsaw-cuts/outy-west.js";
+import edgeEast from "./jigsaw-cuts/edge-east.js";
+import innyNorth from "./jigsaw-cuts/inny-north.js";
+import outyNorth from "./jigsaw-cuts/outy-north.js";
 
 export default class Jigsaw {
 
@@ -20,8 +23,10 @@ export default class Jigsaw {
 	#height;
 	#image;
 
+	#tabSizeDivisor;
+	#tabSizeMinimum;
+
 	#tabSize;
-	#tabLocationOffset; // this is the offset for each piece to take into account the tab
 
 	#pieceEdges;
 
@@ -29,9 +34,9 @@ export default class Jigsaw {
 		this.#width = args.width || 0;
 		this.#height = args.height || 0;
 		this.#image = args.image || null;
-		this.#tabSize = Math.max(10, Math.min(this.#width, this.#height) / 4);
-		// this.#tabLocationOffset = this.#tabSize / 2;
-		this.#tabLocationOffset = this.#tabSize;
+		this.#tabSizeDivisor = args.tabSizeDivisor || 5;
+		this.#tabSizeMinimum = args.tabSizeMinimum || 10;
+		this.#tabSize = Math.max(this.#tabSizeMinimum, Math.min(this.#width, this.#height) / this.#tabSizeDivisor);
 	}
 
 	get width() {
@@ -56,7 +61,6 @@ export default class Jigsaw {
 		}
 		const { north, east, south, west, width, height, startingX, startingY } = this.#pieceEdges[ordinal.y][ordinal.x];
 		const tabSize = this.#tabSize;
-		const tabLocationOffset = this.#tabLocationOffset;
 
 		const canvas = document.createElement('canvas');
 		canvas.width = width;
@@ -75,55 +79,52 @@ export default class Jigsaw {
 		console.log('----north: ',x,y);
 		switch(north) {
 			case Jigsaw.INNYTAB:
-				// this.#innyNorth({ x, y, width, tabSize, ctx, west, east });
-				({ x, y } = this.#edgeNorth({ x, y, width, tabSize, tabLocationOffset, ctx, west, east }));
+				({ x, y } = this.#innyNorth({ x, y, width, tabSize, ctx, west, east }));
 				break;
 			case Jigsaw.OUTYTAB:
-				// this.#outyNorth({ x, y, width, tabSize, ctx, west, east });
-				this.#edgeNorth({ x, y, width, tabSize, tabLocationOffset,ctx, west, east });
+				({ x, y } = this.#outyNorth({ x, y, width, tabSize, ctx, west, east }));
 				break;
 			case Jigsaw.EDGE:
-				({ x, y } = this.#edgeNorth({ x, y, width, tabLocationOffset, tabSize, ctx, west, east }));
+				({ x, y } = this.#edgeNorth({ x, y, width, tabSize, ctx, west, east }));
 				break;
 		}
 
 		console.log('----east: ',x,y);
 		switch(east) {
 			case Jigsaw.INNYTAB:
-				({ x, y } = this.#innyEast({ x, y, height, tabSize, tabLocationOffset, ctx, north, south }));
+				({ x, y } = this.#innyEast({ x, y, height, tabSize, ctx, north, south }));
 				break;
 			case Jigsaw.OUTYTAB:
-				({ x, y } = this.#outyEast({ x, y, height, tabSize, tabLocationOffset, ctx, north, south }));
+				({ x, y } = this.#outyEast({ x, y, height, tabSize, ctx, north, south }));
 				break;
 			case Jigsaw.EDGE:
-				({ x, y } = this.#edgeEast({ x, y, height, tabSize, tabLocationOffset, ctx, north, south }));
+				({ x, y } = this.#edgeEast({ x, y, height, tabSize, ctx, north, south }));
 				break;
 		}
 
 		console.log('----south: ',x,y);
 		switch(south) {
 			case Jigsaw.INNYTAB:
-				({ x, y } = this.#innySouth({ x, y, width, tabSize, tabLocationOffset, ctx, west, east }));
+				({ x, y } = this.#innySouth({ x, y, width, tabSize, ctx, west, east }));
 				break;
 			case Jigsaw.OUTYTAB:
-				({ x, y } = this.#outySouth({ x, y, width, tabSize, tabLocationOffset, ctx, west, east }));
+				({ x, y } = this.#outySouth({ x, y, width, tabSize, ctx, west, east }));
 				break;
 			case Jigsaw.EDGE:
-				({ x, y } = this.#edgeSouth({ x, y, width, tabSize, tabLocationOffset, ctx, west, east }));
+				({ x, y } = this.#edgeSouth({ x, y, width, tabSize, ctx, west, east }));
 				break;
 		}
 
 		console.log('----west: ',x,y);
 		switch(west) {
 			case Jigsaw.INNYTAB:
-				({ x, y } = this.#innyWest({ x, y, height, tabSize, tabLocationOffset, ctx, north, south }));
+				({ x, y } = this.#innyWest({ x, y, height, tabSize, ctx, north, south }));
 				break;
 			case Jigsaw.OUTYTAB:
-				// ({ x, y } = this.#outyWest({ x, y, height, tabSize, ctx, north, south }));
-				({ x, y } = this.#edgeWest({ x, y, height, tabSize, tabLocationOffset, ctx, north, south }));
+				({ x, y } = this.#outyWest({ x, y, height, tabSize, ctx, north, south }));
 				break;
 			case Jigsaw.EDGE:
-				({ x, y } = this.#edgeWest({ x, y, height, tabSize, tabLocationOffset, ctx, north, south }));
+				({ x, y } = this.#edgeWest({ x, y, height, tabSize, ctx, north, south }));
 				break;
 		}
 
@@ -199,11 +200,11 @@ export default class Jigsaw {
 					piece.east = Math.random() < .5 ? Jigsaw.INNYTAB : Jigsaw.OUTYTAB;
 					this.#pieceEdges[row][column + 1].west = piece.east === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB
 				}
-				piece.width += (piece.east === Jigsaw.INNYTAB ? this.#tabSize : 0) + (piece.west === Jigsaw.INNYTAB ? this.#tabSize : 0);
-				piece.height += (piece.north === Jigsaw.INNYTAB ? this.#tabSize : 0) + (piece.south === Jigsaw.INNYTAB ? this.#tabSize : 0);
+				piece.width += (piece.east === Jigsaw.OUTYTAB ? this.#tabSize : 0) + (piece.west === Jigsaw.OUTYTAB ? this.#tabSize : 0);
+				piece.height += (piece.north === Jigsaw.OUTYTAB ? this.#tabSize : 0) + (piece.south === Jigsaw.OUTYTAB ? this.#tabSize : 0);
 
-				piece.startingX = column * pieceWidth - (piece.west === Jigsaw.INNYTAB ? this.#tabSize : 0);
-				piece.startingY = row * pieceHeight - (piece.north === Jigsaw.INNYTAB ? this.#tabSize : 0);
+				piece.startingX = column * pieceWidth - (piece.west === Jigsaw.OUTYTAB ? this.#tabSize : 0);
+				piece.startingY = row * pieceHeight - (piece.north === Jigsaw.OUTYTAB ? this.#tabSize : 0);
 
 				piece.checkingPoint.x = column * pieceWidth + pieceWidth / 2;
 				piece.checkingPoint.y = row * pieceHeight + pieceHeight / 2;
@@ -219,11 +220,7 @@ export default class Jigsaw {
 	}
 
 	#edgeEast(args) {
-		// return edgeEast(args);
-		let { x, y, height, ctx, north, south } = args;
-		ctx.moveTo(x, y);
-		ctx.lineTo(x, y + height - (south === Jigsaw.OUTYTAB ? this.#tabSize : 0));
-		return { x, y };
+		return edgeEast(args);
 	}
 
 	#edgeSouth(args) {
@@ -234,95 +231,26 @@ export default class Jigsaw {
 		return edgeWest(args);
 	}
 
-	// render from east to west
 	#innyNorth(args) {
-		let { x, y, width, ctx, west, east } = args;
-		const tabSize = this.#tabSize;
-		const midPoint = width / 2;
-		const tabSizeHalf = tabSize / 2;
-
-		x += west === Jigsaw.OUTYTAB ? tabSize : 0;
-		ctx.moveTo(x, y);
-
-		x = midPoint - tabSizeHalf;
-		ctx.lineTo(x, y);
-		ctx.bezierCurveTo(
-			x + tabSizeHalf,
-			y + tabSizeHalf / 3,
-			x,
-			y + 2 * tabSizeHalf / 3,
-			x,
-			y + tabSizeHalf);
-		ctx.bezierCurveTo(
-			x + tabSizeHalf / 2,
-			y + tabSize,
-			x + 3 * tabSizeHalf / 2,
-			y + tabSize,
-			x + tabSize,
-			y + tabSizeHalf);
-		ctx.bezierCurveTo(
-			x + tabSize,
-			y + 2 * tabSizeHalf / 3,
-			x + tabSizeHalf,
-			y + tabSizeHalf / 3,
-			x + tabSize,
-			y);
-		x = width - (east === Jigsaw.INNYTAB ? tabSize : 0);
-		ctx.lineTo(x, y);
+		return innyNorth(args);
 	}
 
-	// render from east to west
 	#innySouth(args) {
 		return innySouth(args);
 	}
 
-	// east moves from north to south
 	#innyEast(args) {
 		return innyEast(args)
 	}
 
-	// west moves from south to north
 	#innyWest(args) {
 		return innyWest(args);
 	}
 
 	#outyNorth(args = {}) {
-		let { x, y, width, ctx, west, east } = args;
-		const tabSize = this.#tabSize;
-		const midPoint = width / 2;
-		const tabSizeHalf = tabSize / 2;
-
-		y += tabSize;
-		x += west === Jigsaw.OUTYTAB ? tabSize : 0;
-
-		ctx.moveTo(x,y);
-
-		x = midPoint - tabSizeHalf;
-		ctx.lineTo(x, y);
-		ctx.bezierCurveTo(
-			x + tabSizeHalf,
-			y - tabSizeHalf / 3,
-			x,
-			y - 2 * tabSizeHalf / 3,
-			x,
-			y - tabSizeHalf);
-		ctx.bezierCurveTo(
-			x + tabSizeHalf / 2,
-			y - tabSize,
-			x + 3 * tabSizeHalf / 2,
-			y - tabSize,
-			x + tabSize,
-			y - tabSizeHalf);
-		ctx.bezierCurveTo(
-			x + tabSize,
-			y - 2 * tabSizeHalf / 3,
-			x + tabSizeHalf,
-			y - tabSizeHalf / 3,
-			x + tabSize,
-			y);
-		x = width - (east === Jigsaw.OUTYTAB ? tabSize : 0);
-		ctx.lineTo(x, y);
+		return outyNorth(args);
 	}
+
 	#outySouth(args) {
 		return outySouth(args);
 	}
@@ -331,7 +259,6 @@ export default class Jigsaw {
 		return outyEast(args);
 	}
 
-	// west is drawn from south to north (bottom to top);
 	#outyWest(args) {
 		return outyWest(args);
 	}
