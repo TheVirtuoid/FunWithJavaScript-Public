@@ -124,13 +124,30 @@ export default class Table {
 		return this.#piecesId.get(id);
 	}
 
+	// this is actually called when a piece has FINISHED its move. However, it can also be called to physically move a piece
 	movePiece(piece, position) {
+		console.trace();
 		const dimension = this.#puzzleDimensions;
 		let { x, y } = position;
 		x = Math.max(0, Math.min(x, dimension.x - this.#pieceWidth));
 		y = Math.max(0, Math.min(y, dimension.y - this.#pieceHeight));
 		const statusCode = x !== position.x || y !== position.y ? Status.MOVED : Status.NO_CHANGE;
+		console.log(`Moving piece ${piece.ordinal.y},${piece.ordinal.x} from ${piece.x},${piece.y} to ${x},${y}`);
+		console.log('----before move-----');
+		for (let row = 0; row < this.rows; row++) {
+			for (let column = 0; column < this.columns; column++) {
+				const { ordinal, checkingPoint, position } = this.#pieces[row][column];
+				console.log(`    ${ordinal.y},${ordinal.x}: pos=${position.x},${position.y} checkingPoint=${checkingPoint.x},${checkingPoint.y}`);
+			}
+		}
 		this.#moveAllPieces(piece, new Position2d({ x, y }));
+		console.log('----after move-----');
+		for (let row = 0; row < this.rows; row++) {
+			for (let column = 0; column < this.columns; column++) {
+				const { ordinal, checkingPoint, position } = this.#pieces[row][column];
+				console.log(`    ${ordinal.y},${ordinal.x}: pos=${position.x},${position.y} checkingPoint=${checkingPoint.x},${checkingPoint.y}`);
+			}
+		}
 		const connections = this.#checkAllConnections(piece);
 		let noConnectionInstances = 0;
 		connections.forEach((connection) => {
@@ -270,6 +287,8 @@ export default class Table {
 
 		const distanceX = fromPieceX - toPieceX;
 		const distanceY = fromPieceY - toPieceY;
+
+		console.log(`     Checking connection from ${fromPiece.ordinal.y},${fromPiece.ordinal.x} to ${toPiece.ordinal.y},${toPiece.ordinal.x} distanceX=${distanceX} distanceY=${distanceY}`);
 
 		if (Math.abs(distanceX) <= this.#tolerance && Math.abs(distanceY) <= this.#tolerance) {
 			return new StatusConnected({ toPiece, fromPiece, adjustment: new Position2d({ x: distanceX, y: distanceY}) });

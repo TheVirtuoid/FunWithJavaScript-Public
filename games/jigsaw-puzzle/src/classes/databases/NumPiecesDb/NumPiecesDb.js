@@ -53,6 +53,7 @@ export default class NumPiecesDb {
 		span.style.width = `${width}px`;
 		span.style.height = `${height}px`;
 		span.dataset.id = pieceData.id;
+		span.dataset.numPieces = pieceData.pieces;
 		span.setAttribute('target', 'numPieces');
 
 		const imageSpan = document.createElement('span');

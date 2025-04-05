@@ -54,7 +54,7 @@ describe('When I work with the Jigsaw cut class', () => {
 		const pieceEdges = jigsaw.configurePuzzleCut({ rows, columns, pieceWidth, pieceHeight });
 		for(let row = 0; row < rows; row++) {
 			for(let column = 0; column < columns; column++) {
-				const { north, east, south, west, width, height, startingX, startingY, checkingPoint } = pieceEdges[row][column];
+				const { north, east, south, west, width, height, startingX, startingY, checkingPoint, xAdjust, yAdjust } = pieceEdges[row][column];
 				if (row === 0) {
 					expect(north).to.equal(Jigsaw.EDGE);
 				}
@@ -103,6 +103,9 @@ describe('When I work with the Jigsaw cut class', () => {
 				expect(checkingPoint.y).to.equal(row * pieceHeight + pieceHeight / 2);
 				expect(checkingPoint.width).to.equal(pieceWidth);
 				expect(checkingPoint.height).to.equal(pieceHeight);
+
+				expect(xAdjust).to.equal(west === Jigsaw.OUTYTAB ? -tabSize : 0);
+				expect(yAdjust).to.equal(north === Jigsaw.OUTYTAB ? -tabSize : 0);
 			}
 		}
 	});

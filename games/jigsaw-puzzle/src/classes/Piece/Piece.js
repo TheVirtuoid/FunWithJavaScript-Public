@@ -80,6 +80,7 @@ export default class Piece {
 	moveRelative(args = {}) {
 		if (Position2d.valid(args)) {
 			this.move({ x: this.x + args.x, y: this.y + args.y });
+			console.log(`moveRelative: (${this.ordinal.y},${this.ordinal.x}) - ${this.x},${this.y} checking=${this.checkingPoint.x},${this.checkingPoint.y}`);
 		}
 	}
 

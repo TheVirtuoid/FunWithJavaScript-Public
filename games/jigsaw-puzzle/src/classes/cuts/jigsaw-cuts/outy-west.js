@@ -10,7 +10,6 @@ const outyWest = (args) => {
 
 
 	y = y - midPoint + tabSizeHalf;
-	console.log(`     midpoint: ${midPoint}, height: ${height}, new y: ${y}`);
 	ctx.lineTo(x, y);
 	ctx.bezierCurveTo(
 		x - tabSizeHalf / 3,

@@ -189,23 +189,38 @@ export default class Ui {
 			for(let row = 0; row < table.rows; row++ ) {
 				for(let column = 0; column < table.columns; column++) {
 					const piece = table.getPieceByOrdinal({ x: column, y: row });
+					const pieceConfiguration = this.#pieceCutConfiguration[row][column];
 					const pieceElement = cut.cut(new Position2d({ x: column, y: row }));
+					// since we now know the design, we need to adjust the position of the piece
+					piece.setPosition(new Position2d({
+						x: piece.x + pieceConfiguration.xAdjust,
+						y: piece.y + pieceConfiguration.yAdjust }));
 					piece.setDom(pieceElement);
 					piece.setCheckingPoint(this.#pieceCutConfiguration[row][column].checkingPoint);
+
+				}
+			}
+			console.log('-----------------------------BEFORE SHUFFLING-----------------------------');
+			for (let row = 0; row < table.rows; row++ ) {
+				for (let column = 0; column < table.columns; column++) {
+					const piece = table.getPieceByOrdinal({ x: column, y: row });
+					console.log(`(${piece.ordinal.y},${piece.ordinal.x}): ${piece.x},${piece.y} (${piece.width},${piece.height}) checkingPoint=${piece.checkingPoint.x},${piece.checkingPoint.y}`);
 				}
 			}
 			table.shufflePuzzle();
+			console.log('-----------------------------AFTER SHUFFLING-----------------------------');
+			for (let row = 0; row < table.rows; row++ ) {
+				for (let column = 0; column < table.columns; column++) {
+					const piece = table.getPieceByOrdinal({ x: column, y: row });
+					console.log(`(${piece.ordinal.y},${piece.ordinal.x}): ${piece.x},${piece.y} (${piece.north},${piece.height}) checkingPoint=${piece.checkingPoint.x},${piece.checkingPoint.y}`);
+				}
+			}
 			this.#puzzle.replaceChildren();
 			for(let row = 0; row < table.rows; row++ ) {
 				for(let column = 0; column < table.columns; column++) {
 					const piece = table.getPieceByOrdinal({ x: column, y: row });
 					piece.dom.style.left = `${piece.x}px`;
 					piece.dom.style.top = `${piece.y}px`;
-					// TODO: MAKE SURE YOU DELETE THE THIS NEXT CODE ONCE THE JIGSAW HAS BEEN IMPLEMENTED
-					/*piece.dom.classList.add('hidden');
-					if (row === 0 && column <= 1) {
-						piece.dom.classList.remove('hidden');
-					}*/
 					this.#puzzle.appendChild(piece.dom);
 				}
 			}

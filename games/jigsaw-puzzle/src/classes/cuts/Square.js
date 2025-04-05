@@ -55,7 +55,9 @@ export default class Square extends CutBase {
 						y: row * pieceHeight + pieceHeight / 2,
 						width: pieceWidth,
 						height: pieceHeight
-					}
+					},
+					xAdjust: 0,
+					yAdjust: 0
 				};
 				rowCut.push(piece);
 			}

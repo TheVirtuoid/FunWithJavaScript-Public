@@ -60,7 +60,7 @@ describe('When I work with the NumPiecesDb class', () => {
 					.then((image) => {
 						expect(image instanceof HTMLSpanElement).to.be.true;
 						expect(image.getAttribute('target')).to.equal('numPieces');
-						expect(image.dataset.id).to.equal('8');
+						expect(image.dataset.numPieces).to.equal('8');
 					})
 			});
 	});

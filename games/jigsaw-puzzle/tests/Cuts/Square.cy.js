@@ -51,7 +51,7 @@ describe('When I work with the Square cut class', () => {
 		for(let row = 0; row < rows; row++) {
 			for(let column = 0; column < columns; column++) {
 				const piece = pieceEdges[row][column];
-				const { north, east, south, west, width, height, startingX, startingY, checkingPoint } = piece;
+				const { north, east, south, west, width, height, startingX, startingY, checkingPoint, xAdjust, yAdjust } = piece;
 				expect(north).to.equal(Square.EDGE);
 				expect(east).to.equal(Square.EDGE);
 				expect(south).to.equal(Square.EDGE);
@@ -64,6 +64,8 @@ describe('When I work with the Square cut class', () => {
 				expect(checkingPoint.y).to.equal(row * pieceHeight + pieceHeight / 2);
 				expect(checkingPoint.width).to.equal(pieceWidth);
 				expect(checkingPoint.height).to.equal(pieceHeight);
+				expect(xAdjust).to.equal(0);
+				expect(yAdjust).to.equal(0);
 			}
 		}
 	});

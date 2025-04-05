@@ -37,7 +37,6 @@ export default class Jigsaw {
 		this.#tabSizeDivisor = args.tabSizeDivisor || 5;
 		this.#tabSizeMinimum = args.tabSizeMinimum || 10;
 		this.#tabSize = Math.max(this.#tabSizeMinimum, Math.min(this.#width, this.#height) / this.#tabSizeDivisor);
-		console.log(`----TABSIZE: ${this.#tabSize}`);
 	}
 
 	get width() {
@@ -170,7 +169,9 @@ export default class Jigsaw {
 						y: 0,
 						width: 0,
 						height: 0
-					}
+					},
+					xAdjust: 0,
+					yAdjust: 0
 				});
 			}
 			this.#pieceEdges.push(rowEdges);
@@ -210,6 +211,9 @@ export default class Jigsaw {
 				piece.checkingPoint.y = row * pieceHeight + pieceHeight / 2;
 				piece.checkingPoint.width = pieceWidth;
 				piece.checkingPoint.height = pieceHeight;
+
+				piece.xAdjust = piece.west === Jigsaw.OUTYTAB ? -this.#tabSize : 0;
+				piece.yAdjust = piece.north === Jigsaw.OUTYTAB ? -this.#tabSize : 0;
 			}
 		}
 		return this.#pieceEdges;
