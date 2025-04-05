@@ -17,6 +17,17 @@ describe('When I am moving a piece', () => {
 		table = new Table({	image: imageData, cut: cutData, numPieces: numPiecesData	});
 		table.setPuzzleDimensions({ x: 600, y: 400 });
 		table.cutPuzzle();
+		for(let row = 0; row < table.rows; row++ ) {
+			for(let column = 0; column < table.columns; column++) {
+				const piece = table.getPieceByOrdinal({ x: column, y: row });
+				piece.setCheckingPoint({
+					x: column * table.pieceWidth + table.pieceWidth / 2,
+					y: row * table.pieceHeight + table.pieceHeight / 2,
+					width: table.pieceWidth,
+					height: table.pieceHeight
+				});
+			}
+		}
 		table.shufflePuzzle();
 		piece1 = table.getPieceByOrdinal({ x: 0, y: 0 });
 		piece2 = table.getPieceByOrdinal({ x: 1, y: 0 });

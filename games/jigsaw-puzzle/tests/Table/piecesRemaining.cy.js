@@ -15,6 +15,18 @@ describe('When I attempt to connect pieces together', () => {
 		table = new Table({ image: imageData, cut: cutData, numPieces: numPieces32 });
 		table.setPuzzleDimensions(dimensions);
 		table.cutPuzzle();
+		for(let row = 0; row < table.rows; row++ ) {
+			for(let column = 0; column < table.columns; column++) {
+				const piece = table.getPieceByOrdinal({ x: column, y: row });
+				piece.setCheckingPoint({
+					x: column * table.pieceWidth + table.pieceWidth / 2,
+					y: row * table.pieceHeight + table.pieceHeight / 2,
+					width: table.pieceWidth,
+					height: table.pieceHeight
+				});
+			}
+		}
+
 		table.shufflePuzzle();
 		x0y0 = table.getPieceByOrdinal(new Position2d({ x: 0, y: 0 }));
 		x1y0 = table.getPieceByOrdinal(new Position2d({ x: 1, y: 0 }));

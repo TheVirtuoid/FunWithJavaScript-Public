@@ -2,7 +2,6 @@ import Position2d from "../support/Position2d.js";
 import Piece from "../Piece/Piece.js";
 import Picture from "../support/Picture.js";
 import Status from "../support/Status/Status.js";
-import { moveAllPieces } from './move.js';
 import StatusNoop from "../support/Status/StatusNoop.js";
 import StatusNoConnection from "../support/Status/StatusNoConnection.js";
 import StatusConnected from "../support/Status/StatusConnected.js";
@@ -29,8 +28,6 @@ export default class Table {
 	#piecesId;
 
 	#tolerance = Table.CONNECTION_TOLERANCE;
-
-	#moveAllPieces = moveAllPieces;
 
 	constructor(args = {}) {
 		const { image, cut, numPieces } = args;
@@ -202,6 +199,21 @@ export default class Table {
 		return status;
 	}
 
+	#moveAllPieces(piece, position) {
+		const { x, y } = position;
+		const { x: x1, y: y1 } = piece;
+		const distanceX = x - x1;
+		const distanceY = y - y1;
+		// if the piece has no parent and no children, it is the only thing to move.
+		// if the piece has no parent but has children, then move the piece and move the children relatively
+		if (piece.parent) {
+			const parent = piece.parent;
+			parent.moveRelative( new Position2d({ x: distanceX, y: distanceY }));
+		} else {
+			piece.move({ x, y });
+		}
+	}
+
 	#checkAllConnections(piece, excludePiece = null) {
 		const allConnections = [];
 		const pieceConnection = this.#checkConnection(piece);
@@ -247,12 +259,14 @@ export default class Table {
 		}
 
 		// at this point, it's a valid piece on the table. Let's check it!!
-		let { x: fromPieceX, y: fromPieceY } = fromPiece;
-		let { x: toPieceX, y: toPieceY } = toPiece;
+		const fromCheckingPoint = fromPiece.checkingPoint;
+		const toCheckingPoint = toPiece.checkingPoint;
+		let { x: fromPieceX, y: fromPieceY } = fromCheckingPoint;
+		let { x: toPieceX, y: toPieceY } = toCheckingPoint;
 
 		// adjust for puzzle width and/or height.
-		fromPieceX += checkX * this.#pieceWidth;
-		fromPieceY += checkY * this.#pieceHeight;
+		fromPieceX += checkX * fromCheckingPoint.width;
+		fromPieceY += checkY * fromCheckingPoint.height;
 
 		const distanceX = fromPieceX - toPieceX;
 		const distanceY = fromPieceY - toPieceY;

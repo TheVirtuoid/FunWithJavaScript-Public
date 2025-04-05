@@ -15,6 +15,18 @@ describe('When I move a piece, and I want to test the status', () => {
 		table = new Table({ image: imageData, cut: cutData, numPieces: numPieces32 });
 		table.setPuzzleDimensions(dimensions);
 		table.cutPuzzle();
+		for(let row = 0; row < table.rows; row++ ) {
+			for(let column = 0; column < table.columns; column++) {
+				const piece = table.getPieceByOrdinal({ x: column, y: row });
+				piece.setCheckingPoint({
+					x: column * table.pieceWidth + table.pieceWidth / 2,
+					y: row * table.pieceHeight + table.pieceHeight / 2,
+					width: table.pieceWidth,
+					height: table.pieceHeight
+				});
+			}
+		}
+
 		table.shufflePuzzle();
 		pieceWidth = table.pieceWidth;
 		pieceHeight = table.pieceHeight;

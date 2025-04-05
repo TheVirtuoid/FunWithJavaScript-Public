@@ -85,7 +85,6 @@ export default class Piece {
 
 	setPosition(position) {
 		const { x, y } = this.#position;
-		this.#position = position;
 		if (this.#checking) {
 			const checkingPoint = new Position2d({ x: position.x - x, y: position.y - y });
 			this.#checking = {
@@ -95,6 +94,7 @@ export default class Piece {
 				height: this.#checking.height
 			};
 		}
+		this.#position = position;
 	}
 
 	setParent(parent) {
