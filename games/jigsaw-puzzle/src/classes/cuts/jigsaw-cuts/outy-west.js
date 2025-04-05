@@ -8,7 +8,9 @@ const outyWest = (args) => {
 	const midPoint = height / 2;
 	const tabSizeHalf = tabSize / 2;
 
-	y = y - midPoint + tabSize;
+
+	y = y - midPoint + tabSizeHalf;
+	console.log(`     midpoint: ${midPoint}, height: ${height}, new y: ${y}`);
 	ctx.lineTo(x, y);
 	ctx.bezierCurveTo(
 		x - tabSizeHalf / 3,
@@ -32,7 +34,7 @@ const outyWest = (args) => {
 		x,
 		y - tabSize
 	);
-	y = y - tabSize - midPoint;
+	y = y - tabSizeHalf - midPoint;
 	ctx.lineTo(x, y);
 	return { x, y };
 }

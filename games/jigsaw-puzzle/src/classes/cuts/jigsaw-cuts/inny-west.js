@@ -8,7 +8,7 @@ const innyWest = (args) => {
 	const midPoint = height / 2;
 	const tabSizeHalf = tabSize / 2;
 
-	y = y - midPoint + tabSize;
+	y = y - midPoint + tabSizeHalf;
 	ctx.lineTo(x, y);
 	ctx.bezierCurveTo(
 		x + tabSizeHalf / 3,
@@ -32,7 +32,7 @@ const innyWest = (args) => {
 		x,
 		y - tabSize
 	);
-	y = y - tabSize - midPoint;
+	y = y - tabSizeHalf - midPoint;
 	ctx.lineTo(x, y);
 	return { x, y };}
 export default innyWest;

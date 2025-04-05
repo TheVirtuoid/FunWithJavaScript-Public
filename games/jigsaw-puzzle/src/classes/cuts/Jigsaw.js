@@ -37,6 +37,7 @@ export default class Jigsaw {
 		this.#tabSizeDivisor = args.tabSizeDivisor || 5;
 		this.#tabSizeMinimum = args.tabSizeMinimum || 10;
 		this.#tabSize = Math.max(this.#tabSizeMinimum, Math.min(this.#width, this.#height) / this.#tabSizeDivisor);
+		console.log(`----TABSIZE: ${this.#tabSize}`);
 	}
 
 	get width() {
@@ -66,17 +67,16 @@ export default class Jigsaw {
 		canvas.width = width;
 		canvas.height = height;
 
-		console.log(ordinal.y,ordinal.x,north,east,south,west, startingX, startingY, width, height);
+		// console.log(ordinal.y,ordinal.x,north,east,south,west, startingX, startingY, width, height);
 
 		const ctx = canvas.getContext('2d');
 		ctx.beginPath();
 
-		let x = north === Jigsaw.OUTYTAB ? tabSize : 0;
-		let y = west === Jigsaw.OUTYTAB ? tabSize : 0;
-
+		let x = west === Jigsaw.OUTYTAB ? tabSize : 0;
+		let y = north === Jigsaw.OUTYTAB ? tabSize : 0;
 		ctx.moveTo(x,y);
 
-		console.log('----north: ',x,y);
+		// console.log('----north: ',x,y);
 		switch(north) {
 			case Jigsaw.INNYTAB:
 				({ x, y } = this.#innyNorth({ x, y, width, tabSize, ctx, west, east }));
@@ -89,7 +89,7 @@ export default class Jigsaw {
 				break;
 		}
 
-		console.log('----east: ',x,y);
+		// console.log('----east: ',x,y);
 		switch(east) {
 			case Jigsaw.INNYTAB:
 				({ x, y } = this.#innyEast({ x, y, height, tabSize, ctx, north, south }));
@@ -102,7 +102,7 @@ export default class Jigsaw {
 				break;
 		}
 
-		console.log('----south: ',x,y);
+		// console.log('----south: ',x,y);
 		switch(south) {
 			case Jigsaw.INNYTAB:
 				({ x, y } = this.#innySouth({ x, y, width, tabSize, ctx, west, east }));
@@ -115,7 +115,7 @@ export default class Jigsaw {
 				break;
 		}
 
-		console.log('----west: ',x,y);
+		// console.log('----west: ',x,y);
 		switch(west) {
 			case Jigsaw.INNYTAB:
 				({ x, y } = this.#innyWest({ x, y, height, tabSize, ctx, north, south }));
@@ -128,9 +128,9 @@ export default class Jigsaw {
 				break;
 		}
 
-		console.log('----end: ',x,y);
+		// console.log('----end: ',x,y);
 		ctx.closePath();
-		ctx.stroke();
+		// ctx.stroke();
 
 		ctx.clip();
 		ctx.drawImage(

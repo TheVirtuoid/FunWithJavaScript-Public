@@ -194,7 +194,7 @@ export default class Ui {
 					piece.setCheckingPoint(this.#pieceCutConfiguration[row][column].checkingPoint);
 				}
 			}
-			// table.shufflePuzzle();
+			table.shufflePuzzle();
 			this.#puzzle.replaceChildren();
 			for(let row = 0; row < table.rows; row++ ) {
 				for(let column = 0; column < table.columns; column++) {
@@ -202,11 +202,10 @@ export default class Ui {
 					piece.dom.style.left = `${piece.x}px`;
 					piece.dom.style.top = `${piece.y}px`;
 					// TODO: MAKE SURE YOU DELETE THE THIS NEXT CODE ONCE THE JIGSAW HAS BEEN IMPLEMENTED
-					//if (this.#pieceCutConfiguration[row][column].west !== Jigsaw.OUTYTAB) {
-					piece.dom.classList.add('hidden');
-					if (row === 0 && column === 0) {
+					/*piece.dom.classList.add('hidden');
+					if (row === 0 && column <= 1) {
 						piece.dom.classList.remove('hidden');
-					}
+					}*/
 					this.#puzzle.appendChild(piece.dom);
 				}
 			}
