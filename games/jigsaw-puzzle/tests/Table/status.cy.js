@@ -70,6 +70,17 @@ describe('When I move a piece, and I want to test the status', () => {
 
 	it('should move a piece and return a status of GAME_FINISHED', () => {
 		table.cutPuzzle();
+		for(let row = 0; row < table.rows; row++ ) {
+			for(let column = 0; column < table.columns; column++) {
+				const piece = table.getPieceByOrdinal({ x: column, y: row });
+				piece.setCheckingPoint({
+					x: column * table.pieceWidth + table.pieceWidth / 2,
+					y: row * table.pieceHeight + table.pieceHeight / 2,
+					width: table.pieceWidth,
+					height: table.pieceHeight
+				});
+			}
+		}
 		table.shufflePuzzle();
 		let status;
 		for (let row = 0; row < table.rows; row++) {
