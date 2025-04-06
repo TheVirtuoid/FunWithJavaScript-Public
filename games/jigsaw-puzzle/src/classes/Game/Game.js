@@ -110,6 +110,8 @@ export default class Game {
 				this.#ui.exitGame();
 				break;
 			case GameStatus.EVENT_FINISHED:
+				this.#stopTimer();
+				this.#statistics.gameFinished();
 				this.#ui.finishGame();
 				break;
 		}
@@ -123,9 +125,8 @@ export default class Game {
 				this.#statistics.incrementMoves();
 				this.#ui.updatePiecesRemaining(status.piecesRemaining);
 				if (status instanceof StatusGameFinished) {
-					this.#statistics.gameFinished();
+					this.dispatchEvent({ code: GameStatus.EVENT_FINISHED });
 				}
-				console.log(status);
 				break;
 		}
 	}

@@ -52,16 +52,23 @@ export default class Statistics {
 		this.#centiSeconds = 0;
 		this.#seconds = 0;
 		this.#minutes = 0;
+		this.#timeDom?.parentElement.classList.remove('finished');
 		this.#updateDom();
 	}
 
 	resetMoves() {
 		this.#moves = 0;
+		this.#movesDom?.parentElement.classList.remove('finished');
 		this.#updateDom();
 	}
 
 	formattedTime() {
 		return `${this.#minutes}:${this.#seconds < 10 ? '0' : ''}${this.#seconds}.${this.#centiSeconds < 10 ? '0' : ''}${this.#centiSeconds}`;
+	}
+
+	gameFinished() {
+		this.#timeDom?.parentElement.classList.add('finished');
+		this.#movesDom?.parentElement.classList.add('finished');
 	}
 
 	#updateDom() {

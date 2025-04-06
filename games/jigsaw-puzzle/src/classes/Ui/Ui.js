@@ -200,21 +200,7 @@ export default class Ui {
 
 				}
 			}
-			console.log('-----------------------------BEFORE SHUFFLING-----------------------------');
-			for (let row = 0; row < table.rows; row++ ) {
-				for (let column = 0; column < table.columns; column++) {
-					const piece = table.getPieceByOrdinal({ x: column, y: row });
-					console.log(`(${piece.ordinal.y},${piece.ordinal.x}): ${piece.x},${piece.y} (${piece.width},${piece.height}) checkingPoint=${piece.checkingPoint.x},${piece.checkingPoint.y}`);
-				}
-			}
 			table.shufflePuzzle();
-			console.log('-----------------------------AFTER SHUFFLING-----------------------------');
-			for (let row = 0; row < table.rows; row++ ) {
-				for (let column = 0; column < table.columns; column++) {
-					const piece = table.getPieceByOrdinal({ x: column, y: row });
-					console.log(`(${piece.ordinal.y},${piece.ordinal.x}): ${piece.x},${piece.y} (${piece.north},${piece.height}) checkingPoint=${piece.checkingPoint.x},${piece.checkingPoint.y}`);
-				}
-			}
 			this.#puzzle.replaceChildren();
 			for(let row = 0; row < table.rows; row++ ) {
 				for(let column = 0; column < table.columns; column++) {

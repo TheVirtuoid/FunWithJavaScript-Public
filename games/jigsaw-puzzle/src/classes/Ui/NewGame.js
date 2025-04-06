@@ -32,6 +32,10 @@ export default class NewGame {
 		this.#data.buttonContinue.addEventListener('click', this.#onContinue.bind(this));
 		this.#data.buttonCancel.addEventListener('click', this.#onCancel.bind(this));
 
+		this.#data.image = null;
+		this.#data.cut = null;
+		this.#data.numPieces = null;
+
 		this.#dom.showModal();
 	}
 
