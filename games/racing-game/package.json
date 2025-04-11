@@ -1,0 +1,15 @@
+{
+  "name": "fwjs-racing-game",
+  "version": "0.0.1",
+  "description": "Fun With JavaScript - Racing Game",
+  "author": "TheVirtuoid <thevirtuoid@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "npx cypress open --config-file cypress.config.js",
+    "test:ci": "npx cypress run --config-file cypress.config.js"
+  }
+}
