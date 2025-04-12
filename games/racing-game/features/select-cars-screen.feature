@@ -2,6 +2,7 @@ Feature: Select Cars Screen
 
   Scenario: Displaying the screen
     Given I see the "Select Cars" screen
+    When I take a look at it
     Then I should see the "Select Cars" title
     Then I should see the a Selection list of 10 carst
     Then I should see a blank Selected list
