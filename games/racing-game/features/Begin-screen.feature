@@ -33,9 +33,10 @@ Feature: Game Flow - Begin
   Scenario: Activating the "New" button
     Given I have launched the racing game
     When I click on the "New" button
-    Then I should see the "New Game" screen
+    Then I should see the "Select Cars" screen
 
   Scenario: Activating the "Exit" button
     Given I have launched the racing game
     When I click on the "Exit" button
-    Then I should see the "Exit Game" screen
+    Then I should see the "Confirm Exit" dialog box
+
