@@ -9,8 +9,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "npx cypress open --config-file cypress.config.js",
-    "test:ci": "npx cypress run --config-file cypress.config.js",
-    "test:bdd": "cucumber-js"
+    "test": "npx cypress open --config-file cypress-cucumber.config.js",
+    "test:ci": "npx cypress run --config-file cypress-cucumber.config.js",
+    "test:bdd": "npx cypress open --config-file cypress-cucumber.config.js"
   }
 }
