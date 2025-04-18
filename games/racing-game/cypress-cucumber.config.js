@@ -7,7 +7,7 @@ export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:4173',
     specPattern: [
-      "features/**/*.feature",
+      "bdd/**/*.feature",
     ],
     async setupNodeEvents(on, config){
       // This is required for the preprocessor to be able to generate JSON reports after each run, and more,
