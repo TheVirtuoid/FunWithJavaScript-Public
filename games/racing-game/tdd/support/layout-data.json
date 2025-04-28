@@ -1,0 +1,47 @@
+{
+  "id": "layout-one",
+  "name": "Layout One",
+  "description": "This is the first layout.",
+  "layout": [
+    {
+      "type": "anchor",
+      "startingPosition": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "startingVector": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      }
+    },
+    {
+      "type": "starting-line",
+      "carDepth": 2,
+      "carWidth": 2
+    },
+    {
+      "type": "straight",
+      "length": 100,
+      "contour": "unknown"
+    },
+    {
+      "type": "curve",
+      "degrees": 90,
+      "radius": 50,
+      "dropDepth": 0
+    },
+    {
+      "type": "straight",
+      "length": 100,
+      "contour": "unknown"
+    },
+    {
+      "type": "finish-line"
+    },
+    {
+      "type": "anchor"
+    }
+  ]
+}
