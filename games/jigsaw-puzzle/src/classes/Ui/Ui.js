@@ -190,7 +190,9 @@ export default class Ui {
 				for(let column = 0; column < table.columns; column++) {
 					const piece = table.getPieceByOrdinal({ x: column, y: row });
 					const pieceConfiguration = this.#pieceCutConfiguration[row][column];
-					const pieceElement = cut.cut(new Position2d({ x: column, y: row }));
+					const pieceElement = cut.cut(
+						new Position2d({ x: column, y: row })
+					);
 					// since we now know the design, we need to adjust the position of the piece
 					piece.setPosition(new Position2d({
 						x: piece.x + pieceConfiguration.xAdjust,

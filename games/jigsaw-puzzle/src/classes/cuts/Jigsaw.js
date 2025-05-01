@@ -12,16 +12,13 @@ import outyWest from "./jigsaw-cuts/outy-west.js";
 import edgeEast from "./jigsaw-cuts/edge-east.js";
 import innyNorth from "./jigsaw-cuts/inny-north.js";
 import outyNorth from "./jigsaw-cuts/outy-north.js";
+import CutBase from "./CutBase.js";
 
-export default class Jigsaw {
+export default class Jigsaw extends CutBase {
 
 	static EDGE = Symbol('edge');
 	static INNYTAB = Symbol('innyTab');
 	static OUTYTAB = Symbol('outyTab');
-
-	#width;
-	#height;
-	#image;
 
 	#tabSizeDivisor;
 	#tabSizeMinimum;
@@ -31,24 +28,10 @@ export default class Jigsaw {
 	#pieceEdges;
 
 	constructor(args = {}) {
-		this.#width = args.width || 0;
-		this.#height = args.height || 0;
-		this.#image = args.image || null;
+		super(args);
 		this.#tabSizeDivisor = args.tabSizeDivisor || 5;
 		this.#tabSizeMinimum = args.tabSizeMinimum || 10;
-		this.#tabSize = Math.max(this.#tabSizeMinimum, Math.min(this.#width, this.#height) / this.#tabSizeDivisor);
-	}
-
-	get width() {
-		return this.#width;
-	}
-
-	get height() {
-		return this.#height;
-	}
-
-	get image() {
-		return this.#image;
+		this.#tabSize = Math.max(this.#tabSizeMinimum, Math.min(this.width, this.height) / this.#tabSizeDivisor);
 	}
 
 	get tabSize() {
@@ -59,7 +42,8 @@ export default class Jigsaw {
 		if (!(ordinal instanceof Position2d)) {
 			throw new Error('Jigsaw: Cut(): Invalid Position');
 		}
-		const { north, east, south, west, width, height, startingX, startingY } = this.#pieceEdges[ordinal.y][ordinal.x];
+		const { north, east, south, west, width, height, startingX, startingY } =
+			this.#pieceEdges[ordinal.y][ordinal.x];
 		const tabSize = this.#tabSize;
 
 		const canvas = document.createElement('canvas');
@@ -195,11 +179,15 @@ export default class Jigsaw {
 				}
 				if (piece.south === null) {
 					piece.south = Math.random() < .5 ? Jigsaw.INNYTAB : Jigsaw.OUTYTAB;
-					this.#pieceEdges[row + 1][column].north = piece.south === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB;
+					this.#pieceEdges[row + 1][column].north = piece.south === Jigsaw.INNYTAB
+						? Jigsaw.OUTYTAB
+						: Jigsaw.INNYTAB;
 				}
 				if (piece.east === null) {
 					piece.east = Math.random() < .5 ? Jigsaw.INNYTAB : Jigsaw.OUTYTAB;
-					this.#pieceEdges[row][column + 1].west = piece.east === Jigsaw.INNYTAB ? Jigsaw.OUTYTAB : Jigsaw.INNYTAB
+					this.#pieceEdges[row][column + 1].west = piece.east === Jigsaw.INNYTAB
+						? Jigsaw.OUTYTAB
+						: Jigsaw.INNYTAB
 				}
 				piece.width += (piece.east === Jigsaw.OUTYTAB ? this.#tabSize : 0) + (piece.west === Jigsaw.OUTYTAB ? this.#tabSize : 0);
 				piece.height += (piece.north === Jigsaw.OUTYTAB ? this.#tabSize : 0) + (piece.south === Jigsaw.OUTYTAB ? this.#tabSize : 0);
@@ -267,3 +255,23 @@ export default class Jigsaw {
 		return outyWest(args);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

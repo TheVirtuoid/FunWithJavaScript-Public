@@ -66,3 +66,20 @@ export default class Square extends CutBase {
 		return this.#puzzleCut;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

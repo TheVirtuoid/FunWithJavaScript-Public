@@ -36,8 +36,8 @@ export default class App {
 
 		this.#renderLoopHandle = this.renderLoop.bind(this);
 
-		this.#addToScene()
-			.then(this.#renderLoopHandle);
+		/*this.#addToScene()
+			.then(this.#renderLoopHandle);*/
 
 		// hide/show the Inspector
 		/*window.addEventListener("keydown", (ev) => {
