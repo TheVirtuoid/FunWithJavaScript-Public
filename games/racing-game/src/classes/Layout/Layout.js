@@ -1,52 +1,60 @@
 import LayoutDb from "../databases/LayoutDb/LayoutDb.js";
+import Track from "../Track/Track.js";
 
 export default class Layout {
 	#id;
-	#name;
-	#description;
-	#layoutId;
-	#layout;
+	#tracks;
 
 	constructor(args = {}) {
-		this.#id = args.id || window?.crypto.randomUUID() || '';
-		this.#name = args.name || '';
-		this.#description = args.description || '';
-		this.#layoutId = args.layoutId || '';
-		this.#layout = null;
+		const { tracks } = args;
+		this.#id = window?.crypto.randomUUID() || '';
+		if (tracks === undefined) {
+			this.#tracks = [];
+		} else if (!Array.isArray(tracks)) {
+			throw new Error('Layout constructor: tracks must be an array');
+		} else if (tracks.some((track) => !(track instanceof Track))) {
+			throw new Error('Layout constructor: all elements in tracks must be instances of Track');
+		} else {
+			this.#tracks = tracks;
+		}
 	}
 
 	get id() {
 		return this.#id;
 	}
 
-	get name() {
-		return this.#name;
+	getSize() {
+		return this.#tracks.length;
 	}
 
-	get description() {
-		return this.#description;
+	getTrack(trackId) {
+		return this.#tracks.find((track) => track.id === trackId);
 	}
 
-	get layoutId() {
-		return this.#layoutId;
-	}
-
-	get layout() {
-		return this.#layout;
-	}
-
-	getLayout(layoutId = this.#layoutId) {
-		if (layoutId === this.#layoutId && this.layout) {
-			return this.layout;
+	addTrack(track) {
+		if (!(track instanceof Track)) {
+			throw new Error('Layout.addTrack(): Argument must be an instance of Track');
 		}
-		const newLayout = LayoutDb.getLayoutById(layoutId) || null
-		if (newLayout) {
-			this.#layout = newLayout;
-			this.#layoutId = layoutId;
-		} else {
-			return undefined;
-		}
-		return this.layout;
+		this.#tracks.push(track);
 	}
 
+	removeTrack(track) {
+		const index = this.#tracks.indexOf(track);
+		if (index !== -1) {
+			return this.#tracks.splice(index, 1)[0];
+		}
+		return undefined;
+	}
+
+	removeTrackById(trackId) {
+		const track = this.getTrack(trackId);
+		if (track) {
+			return this.removeTrack(track);
+		}
+		return undefined;
+	}
+
+	clear() {
+		this.#tracks = [];
+	}
 }
