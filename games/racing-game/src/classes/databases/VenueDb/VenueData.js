@@ -1,17 +1,18 @@
-import layoutData from "./LayoutDb.js";
+import venueData from "./VenueDb.js";
 
-export default class LayoutData {
+export default class VenueData {
 	#id;
 	#name;
 	#description;
-	#layout;
+	#url;
+	#blueprint;
 
 	constructor(args = {}) {
-		const { id = '', name = '', description = '' } = args;
+		const { id = '', name = '', description = '', url = '' } = args;
 		this.#id = id;
 		this.#name = name;
 		this.#description = description;
-		this.#layout = null;
+		this.#url = url;
 	}
 
 	get id() {
@@ -26,14 +27,23 @@ export default class LayoutData {
 		return this.#description;
 	}
 
+	get url() {
+		return this.#url;
+	}
+
+	get models() {
+		return this.#blueprint?.models;
+	}
+
 	get layout() {
-		return this.#layout;
+		return this.#blueprint?.layout;
 	}
 
 	// TODO: When the database is official, replace this with a proper URL load function
-	getLayout() {
-		if (this.#layout === null) {
-			this.#layout = 'This is a layout';
+	loadVenue() {
+		this.#blueprint = {
+			models: null,
+			layout: null
 		}
 	}
 }

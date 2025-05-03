@@ -1,106 +1,80 @@
-import LayoutData from "../../src/classes/databases/LayoutDb/LayoutData.js";
-import LayoutDb from "../../src/classes/databases/LayoutDb/LayoutDb.js";
-import layoutData from '../support/layout-data.json';
-import Layout from "../../src/classes/Layout/Layout.js";
-import Track from "../../src/classes/Track/Track.js";
-LayoutDb.setDatabase(JSON.stringify(layoutData));
+import VenueData from "../../src/classes/databases/VenueDb/VenueData.js";
+import VenueDb from "../../src/classes/databases/VenueDb/VenueDb.js";
+import venueData from '../support/venue-data.json';
+import Venue from "../../src/classes/Venue/Venue.js";
+VenueDb.setDatabase(JSON.stringify(venueData));
 
-describe('When I work with the Layout class', () => {
-	let layout;
+describe('When I work with the Venue class', () => {
+	let venue;
 	beforeEach(() => {
-		layout = new Layout();
+		venue = new Venue();
 	});
 
 	it('should initialize the class', () => {
-		expect(layout).to.be.instanceOf(Layout);
+		expect(venue).to.be.instanceOf(Venue);
 	});
 
 	describe('And when I work with the properties', () => {
 		it('should have a id property', () => {
-			expect(layout.id).to.be.a('string');
+			expect(venue.id).to.be.a('string');
 		});
 
 		it('should have a name property', () => {
-			expect(layout.name).to.be.a('string');
+			expect('name' in venue).to.be.true;
 		});
 
 		it('should have a description property', () => {
-			expect(layout.description).to.be.a('string');
+			expect('description' in venue).to.be.true;
 		});
 
-		it('should have a layoutId property', () => {
-			expect(layout.layoutId).to.be.a('string');
+		it('should have a venueId property', () => {
+			expect(venue.venueId).to.be.a('string');
+		});
+
+		it('should have a models property', () => {
+			expect('models' in venue).to.be.true;
 		});
 
 		it('should have a layout property', () => {
-			expect(layout.layout).to.be.null;
+			expect('layout' in venue).to.be.true;
 		});
 
 		it('should allow me to set the properties upon initialization', () => {
-			const id = 'layout-one';
-			const name = 'name';
-			const description = 'description';
-			const layoutId = 'layout-one';
-			const layout = new Layout({ id, name, description, layoutId });
-			expect(layout.id).to.equal(id);
-			expect(layout.name).to.equal(name);
-			expect(layout.description).to.equal(description);
-			expect(layout.layoutId).to.equal(layoutId);
-			expect(layout.layout).to.be.null;
+			const id = 'test';
+			const venueId = venueData[0].id;
+			const venue = new Venue({ id, venueId });
+			expect(venue.id).to.equal(id);
+			expect(venue.name).to.be.undefined;
+			expect(venue.description).to.be.undefined;
+			expect(venue.venueId).to.equal(venueId);
+			expect(venue.models).to.be.undefined;
+			expect(venue.layout).to.be.undefined;
 		})
 	});
 
 	describe('And when I work with the methods', () => {
-		let layout;
+		let venue;
 
 		beforeEach(() => {
-			const id = 'id';
-			const name = 'name';
-			const description = 'description';
-			const layoutId = 'layout-one';
-			layout = new Layout({id, name, description, layoutId});
-		});
-		it('getLayout() should get the layout by layoutId', () => {
-			const newLayout = layout.getLayout();
-			expect(newLayout).to.be.instanceOf(LayoutData);
-			expect(layout.layout).to.equal(newLayout);
-		});
-		it('getLayout() should get the layout by layoutId when an ID is passed', () => {
-			const newLayoutId = 'layout-two';
-			const newLayout = layout.getLayout(newLayoutId);
-			expect(newLayout).to.be.instanceOf(LayoutData);
-			expect(layout.layoutId).to.equal(newLayoutId);
-			expect(layout.layout).to.equal(newLayout);
-		});
-		it('getLayout() should return undefined if the layout id is not found', () => {
-			const newLayout = layout.getLayout('bad');
-			expect(newLayout).to.be.undefined;
-			expect(layout.layout).to.be.null;
+			const id = 'test';
+			const venueId = venueData[0].id;
+			venue = new Venue({ id, venueId });
 		});
 
-		describe('And when I work with adding/removing tracks from the layout', () => {
-			beforeEach(()=> {
-				layout.getLayout();
-			});
+		it('getVenue() should get the venue by venueId', () => {
+			venue.getVenue();
+			expect(venue.description).to.equal(venueData[0].description);
+			expect(venue.name).to.equal(venueData[0].name);
+			expect(venue.models).to.be.null;
+			expect(venue.layout).to.be.null;
+		});
 
-			it('should add a track to the layout', () => {
-				const track = new Track({id: 'test', type: 'straight' });
-				layout.addTrack(track);
-				expect(layout.layout.tracks).to.include(track);
-			});
-			it('should remove a track from the layout', () => {
-				const trackId = 'track-one';
-				layout.addTrack(trackId);
-				expect(layout.layout.tracks).to.include(trackId);
-				layout.removeTrack(trackId);
-				expect(layout.layout.tracks).to.not.include(trackId);
-			});
-			it('should clear a layout', () => {});
-			it('should throw an error if trying to add a track to a layout that is not found', () => {});
-			it('should throw an error if trying to remove a track from a layout that is not found', () => {});
-			it('should throw an error if trying to clear a layout that is not found', () => {});
-			it('should find a track based upon id', () => {});
-			it('should return undefined if the track cannot be found based upon id', () => {});
+		it('getVenue() should return undefined if the venue id is not found', () => {
+			const id = 'test';
+			const venueId = 'baddie';
+			venue = new Venue({ id, venueId });
+			const newVenue = venue.getVenue();
+			expect(newVenue).to.be.undefined;
 		});
 	});
 });

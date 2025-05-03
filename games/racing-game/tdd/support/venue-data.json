@@ -1,0 +1,32 @@
+[
+  {
+    "id": "venue-one",
+    "name": "Venue One",
+    "description": "A fast venue",
+    "url": "https://example.com/venue.png"
+  },
+  {
+    "id": "venue-two",
+    "name": "Venue Two",
+    "description": "A faster venue",
+    "url": "https://example.com/venue.png"
+  },
+  {
+    "id": "venue-three",
+    "name": "Venue Three",
+    "description": "A slow venue",
+    "url": "https://example.com/venue.png"
+  },
+  {
+    "id": "venue-four",
+    "name": "Venue Four",
+    "description": "A slower venue",
+    "url": "https://example.com/venue.png"
+  },
+  {
+    "id": "venue-five",
+    "name": "Venue Five",
+    "description": "Friggin' rocket",
+    "url": "https://example.com/venue.png"
+  }
+]
