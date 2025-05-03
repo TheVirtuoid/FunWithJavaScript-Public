@@ -96,8 +96,8 @@ export default class App {
 		this.#light1 = new HemisphericLight("light1", new Vector3(1, 1, 0), this.#scene);
 
 		this.#sphere = MeshBuilder.CreateSphere("sphere", { diameter: .5 }, this.#scene);
-		this.#sphere.position.y = 9.25;
-		this.#sphere.position.z = -49.5;
+		this.#sphere.position.y = 39.25;
+		this.#sphere.position.z = -54.5;
 
 		this.#ground = MeshBuilder.CreateBox("ground", { width: 60, height: .1, depth: 60}, this.#scene);
 		const groundMaterial = new StandardMaterial("green", this.#scene);
@@ -110,13 +110,13 @@ export default class App {
 		this.#scene.enablePhysics(this.#gravityVector, this.#physicsPlugin);
 
 		// Create a sphere shape and the associated body. Size will be determined automatically.
-		this.#sphereAggregate = new PhysicsAggregate(this.#sphere, PhysicsShapeType.SPHERE, { mass: 1, restitution: 0 }, this.#scene);
+		this.#sphereAggregate = new PhysicsAggregate(this.#sphere, PhysicsShapeType.SPHERE, { mass: 1, restitution: 0, friction: .05 }, this.#scene);
 		// Create a static box shape.
 		this.#groundAggregate = new PhysicsAggregate(this.#ground, PhysicsShapeType.BOX, { mass: 0 }, this.#scene);
 
 		let straightRoad = this.generateAStraightRoad();
 		straightRoad.position.y = 9;
-		straightRoad.position.z = -50;
+		straightRoad.position.z = -15;
 		const straightRoadAggregate = new PhysicsAggregate(
 			straightRoad,
 			PhysicsShapeType.MESH,
@@ -129,20 +129,45 @@ export default class App {
 			PhysicsShapeType.MESH,
 			{ mass: 0 }, this.#scene
 		);
+
+		let railingArray = this.generateRailing(this.railingArray, 1.5);
+		let railing = MeshBuilder.CreateRibbon("railing", {
+			pathArray: [this.railingArray, railingArray],
+			sideOrientation: Mesh.DOUBLESIDE,
+			updatable: true
+		}, this.#scene);
+		const railingAggregate = new PhysicsAggregate(
+			railing,
+			PhysicsShapeType.MESH,
+			{ mass: 0 }, this.#scene
+		);
+
+		let innerRailingArray = this.generateRailing(this.innerRail, .6);
+		let innerRailing = MeshBuilder.CreateRibbon("railing", {
+			pathArray: [this.innerRail, innerRailingArray],
+			sideOrientation: Mesh.DOUBLESIDE,
+			updatable: true
+		}, this.#scene);
+		const innerRailingAggregate = new PhysicsAggregate(
+			innerRailing,
+			PhysicsShapeType.MESH,
+			{ mass: 0 }, this.#scene
+		);
+
+
 	}
 
 	generateAStraightRoad() {
-		const startPoint = { x: 0, y: 0, z: 0 };
-		const controlPoint1 = { x: 0, y: -.75, z: 5 };
-		const controlPoint2 = { x: 0, y: -9, z: 15 };
-		const endPoint = { x: 0, y: -9, z: 50};
+		const startPoint = { x: 0, y: 30, z: -40 };
+		const controlPoint1 = { x: 0, y: -.75, z: 4 };
+		const controlPoint2 = { x: 0, y: -9, z: 6 };
+		const endPoint = { x: 0, y: -9, z: 15};
 		const segments = 100;
 
 		const originalPoints = this.bezierCurve3d({ startPoint, controlPoint1, controlPoint2, endPoint, segments})
 
 		const offsetDistance = 2;
 		const { offsetPoints1, offsetPoints2 } = this.generateOffsetPoints(originalPoints, offsetDistance);
-		console.log(offsetPoints1, offsetPoints2);
 
 		return MeshBuilder.CreateRibbon("ribbon", {
 			pathArray: [offsetPoints1, offsetPoints2],
@@ -180,8 +205,8 @@ export default class App {
 		const maxBankAngle = 75; // Maximum bank angle in degrees
 
 		const { offsetPoints1, offsetPoints2 } = this.generateOffsetPointsWithBanking(originalPoints, offsetDistance, maxBankAngle);
-		console.log(originalPoints);
-		console.log(offsetPoints1, offsetPoints2);
+		this.railingArray = offsetPoints2.map((point => new Vector3(point.x, point.y, point.z)));
+		this.innerRail = offsetPoints1.map((point) => new Vector3(point.x, point.y, point.z));
 		return MeshBuilder.CreateRibbon("ribbon", {
 			pathArray: [offsetPoints1, offsetPoints2],
 			sideOrientation: Mesh.DOUBLESIDE,
@@ -306,4 +331,14 @@ export default class App {
 
 		return { offsetPoints1, offsetPoints2 };
 	}
+
+	generateRailing(edge, scale = .4) {
+		const railing = [];
+		for(let i = 0; i < edge.length; i++) {
+			const point = edge[i];
+			railing.push(new Vector3(point.x, point.y + scale, point.z ));
+		}
+		return railing;
+	}
+
 }
