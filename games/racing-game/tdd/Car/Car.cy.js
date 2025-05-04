@@ -1,6 +1,10 @@
 import Car from "../../src/classes/Car/Car.js";
 import ModelData from "../../src/classes/databases/Model/ModelData.js";
+import CarDb from "../../src/classes/databases/CarDb/CarDb.js";
 import Model from "../../src/classes/databases/Model/Model.js";
+
+import carData from '../support/car-data.json';
+CarDb.setDatabase(JSON.stringify(carData));
 import modelData from '../support/model-data.json';
 Model.setDatabase(JSON.stringify(modelData));
 

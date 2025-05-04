@@ -1,0 +1,32 @@
+[
+  {
+    "id": "car-one",
+    "name": "Car One",
+    "description": "A fast car",
+    "url": "https://example.com/car.png"
+  },
+  {
+    "id": "car-two",
+    "name": "Car Two",
+    "description": "A faster car",
+    "url": "https://example.com/car.png"
+  },
+  {
+    "id": "car-three",
+    "name": "Car Three",
+    "description": "A slow car",
+    "url": "https://example.com/car.png"
+  },
+  {
+    "id": "car-four",
+    "name": "Car Four",
+    "description": "A slower car",
+    "url": "https://example.com/car.png"
+  },
+  {
+    "id": "car-five",
+    "name": "Car Five",
+    "description": "Friggin' rocket",
+    "url": "https://example.com/car.png"
+  }
+]

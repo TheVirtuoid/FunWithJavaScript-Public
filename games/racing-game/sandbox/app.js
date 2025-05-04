@@ -161,16 +161,10 @@ export default class App {
 		/*
 		 180 degrees
 		*/
-		/*const sy = this.#sy - 39;
-		const sz = this.#sz + 55;
-		const startPoint = { x: this.#sx, y: sy, z: sz };
-		const controlPoint1 = { x: this.#sx + .7, y: sy, z: sz + 25 };
-		const controlPoint2 = { x: this.#sx - 30.7, y: sy, z: sz + 25 };
-		const endPoint = { x: this.#sx - 30, y: sy, z: sz };*/
 		const { startPoint, controlPoint1, controlPoint2, endPoint } = args;
-		const angle = 75;
+		const angle = 70;
 		const firstGuardRailScale = { startScale: .6, endScale: .6 };
-		const secondGuardRailScale = { startScale: .6, endScale: 2 };
+		const secondGuardRailScale = { startScale: .6, endScale: 1.5 };
 		const segments = 100;
 		const trackWidth = 4;
 
