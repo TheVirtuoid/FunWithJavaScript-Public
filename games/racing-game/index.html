@@ -2,18 +2,55 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Title</title>
+	<title>Virtuoid Presents a Racing Game</title>
 	<script src="src/racing-game.js" type="module"></script>
 </head>
 <body>
-	<header></header>
-	<main>
-		<h1>Welcome!</h1>
-		<p id="javascript-alive"></p>
-		<p>And if the background is a light-blue color, then the CSS works!</p>
-		<p><button id="hello-world">Hello World</button></p>
-		<p id="hello-world-text" class="hidden">This is the Hello World Text</p>
-	</main>
-	<footer>&copy; 2012-2025 m. parker smith a.k.a. TheVirtuoid</footer>
+<header data-testid="header">
+	<section>
+		<section data-testid="actions" id="actions">
+			<button data-testid="button-new" class="small primary" id="button-new"><span>New</span></button>
+			<button data-testid="button-start" disabled class="small primary" id="button-start"><span>Start</span></button>
+			<button data-testid="button-back" disabled class="small primary" id="button-back"><span>Back</span></button>
+			<button data-testid="button-pause" disabled class="small primary" id="button-pause"><span>Pause</span></button>
+			<button data-testid="button-resume" disabled class="small primary" id="button-resume"><span>Resume</span></button>
+			<button data-testid="button-exit" class="small primary" id="button-exit"><span>Exit</span></button>
+			<button data-testid="button-cancel" disabled class="small primary" id="button-cancel"><span>Cancel</span></button>
+		</section>
+	</section>
+</header>
+<main data-testid="main">
+	<div data-testid="blank-screen" id="blank-screen">racing game</div>
+	<div data-testid="select-cars-screen" id="select-cars-screen" class="hidden">
+		<div data-testid="select-cars" id="select-cars">select cars</div>
+	</div>
+	<div data-testid="venue-screen" id="venue-screen" class="hidden">
+		<div data-testid="venue" id="venue"></div>
+	</div>
+</main>
+<footer data-testid="footer">&copy; 2012-<span id="last-year">2025</span> m. parker smith a.k.a. TheVirtuoid</footer>
+
+<dialog data-testid="exit-game-dialog" id="exit-game-dialog">
+	<p data-testid="exit-game-dialog-message">Exit the game</p>
+</dialog>
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -106,3 +106,16 @@ describe('When I work with the Car class', () => {
 		});
 	});
 });
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,7 +1,45 @@
 import './css/racing-game.pcss';
 
-document.getElementById('javascript-alive').textContent = 'And JavaScript is also alive!';
+const thisYear = new Date().getFullYear();
+document.getElementById('last-year').textContent = thisYear;
 
-document.getElementById('hello-world').addEventListener('click', (e) => {
-	document.getElementById('hello-world-text').classList.remove('hidden');
+const exitDialog = document.getElementById('exit-game-dialog');
+const blankScreen = document.getElementById('blank-screen');
+const selectCarsScreen = document.getElementById('select-cars-screen');
+
+document.getElementById('button-exit').addEventListener('click', () => {
+	exitDialog.showModal();
 });
+
+document.getElementById('button-new').addEventListener('click', () => {
+	blankScreen.classList.add('hidden');
+	selectCarsScreen.classList.remove('hidden');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -8,12 +8,12 @@ export default class Car {
 	#frame;
 	#chassis;
 
+
 	constructor(args = {}) {
 		this.#id = args.id || window?.crypto.randomUUID() || '';
 		this.#name = args.name || '';
 		this.#description = args.description || '';
 		this.#modelId = args.modelId || '';
-
 		this.#frame = {
 			model: null,
 			shape: null,
@@ -89,5 +89,23 @@ export default class Car {
 		}
 		return this.model;
 	}
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
