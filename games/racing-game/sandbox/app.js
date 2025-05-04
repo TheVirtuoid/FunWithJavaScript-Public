@@ -5,7 +5,7 @@ import {
 	HemisphericLight,
 	MeshBuilder,
 	PhysicsAggregate, PhysicsShapeType,
-	Scene, StandardMaterial,
+	Scene, StandardMaterial, UniversalCamera,
 	Vector3
 } from "@babylonjs/core";
 import { Inspector } from '@babylonjs/inspector';
@@ -15,6 +15,10 @@ import {renderCurve, renderStraight} from "./utilities.js";
 export default class App {
 
 	static GRAVITY = 1;
+	static SX = 0;
+	static SY = 39;
+	static SZ = -55;
+	static TRACKWIDTH = 4;
 	#engine;
 	#scene;
 	#canvas;
@@ -40,14 +44,16 @@ export default class App {
 
 	#renderLoopHandle;
 
-	constructor() {
+	#layout = [];
+
+	constructor(layout) {
 		this.#canvas = document.getElementById('world');
 		this.#engine = new Engine(this.#canvas, true);
 		this.#scene = new Scene(this.#engine);
 
 		this.#renderLoopHandle = this.renderLoop.bind(this);
 
-		this.#addToScene()
+		this.#addToScene(layout)
 			.then(this.#renderLoopHandle);
 
 		// hide/show the Inspector
@@ -72,12 +78,16 @@ export default class App {
 		})
 	}
 
-	async #addToScene() {
-		this.#sx = 0;
-		this.#sy = 39;
-		this.#sz = -55;
-		this.#camera = new ArcRotateCamera("Camera", Math.PI, Math.PI / 2.5, 20, Vector3.Zero(), this.#scene);
+	async #addToScene(layout) {
+		this.#sx = App.SX;
+		this.#sy = App.SY;
+		this.#sz = App.SZ;
+
+		this.#camera = new UniversalCamera("UniversalCamera", new Vector3(App.SX, App.SY + 10, App.SZ + -10), this.#scene);
+		this.#camera.inputs.addMouseWheel();
+		this.#camera.setTarget(Vector3.Zero());
 		this.#camera.attachControl(this.#canvas, true);
+
 		this.#light1 = new HemisphericLight("light1", new Vector3(1, 1, 0), this.#scene);
 
 		this.#sphere = MeshBuilder.CreateSphere("sphere", { diameter: .5 }, this.#scene);
@@ -93,7 +103,6 @@ export default class App {
 		sphere1Material.diffuseColor = new Color3(0, 0, 1);
 		this.#sphere1.material = sphere1Material;
 		this.#sphere1.position.y = this.#sy + .3;
-		// this.#sphere1.position.z = this.#sz - 14.5;
 		this.#sphere1.position.z = this.#sz + .5;
 		this.#sphere1.position.x = this.#sx - 1;
 
@@ -111,53 +120,54 @@ export default class App {
 		this.#ground.material = groundMaterial;
 		this.#ground.position.y = this.#sy - 39.06;
 		this.#ground.position.x = this.#sx - 20;
+		this.#ground.position.z = this.#sz + 85;
 
 		this.#physicsPlugin = new HavokPlugin(true, await HavokPhysics());
 		this.#scene.enablePhysics(this.#gravityVector, this.#physicsPlugin);
 
 		// Create a sphere shape and the associated body. Size will be determined automatically.
-		this.#sphereAggregate = new PhysicsAggregate(this.#sphere, PhysicsShapeType.SPHERE, { mass: App.GRAVITY, restitution: 0, friction: .05 }, this.#scene);
+		new PhysicsAggregate(this.#sphere, PhysicsShapeType.SPHERE, { mass: App.GRAVITY, restitution: 0, friction: .05 }, this.#scene);
 		new PhysicsAggregate(this.#sphere1, PhysicsShapeType.SPHERE, { mass: App.GRAVITY, restitution: 0, friction: .05 }, this.#scene);
 		new PhysicsAggregate(this.#sphere2, PhysicsShapeType.SPHERE, { mass: App.GRAVITY, restitution: 0, friction: .05 }, this.#scene);
 		// Create a static box shape.
-		this.#groundAggregate = new PhysicsAggregate(this.#ground, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, this.#scene);
+		new PhysicsAggregate(this.#ground, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, this.#scene);
 
-		let straightRoad = this.generateAStraightRoad();
-		const straightRoadAggregate = new PhysicsAggregate(
-			straightRoad,
-			PhysicsShapeType.MESH,
-			{ mass: 0 }, this.#scene
-		);
+		layout.forEach((track) => {
+			if (track.type === 'straight') {
+				this.#layout.push(this.generateAStraightRoad(track));
+			} else if (track.type === 'curve') {
+				this.#layout.push(this.generateACurve(track));
+			}
+		});
 
-		let curveRoad = this.generateACurve();
-		const curveRoadAggregate = new PhysicsAggregate(
-			curveRoad,
-			PhysicsShapeType.MESH,
-			{ mass: 0 }, this.#scene
-		);
+		this.#layout.forEach((track) => {
+			new PhysicsAggregate(
+				track,
+				PhysicsShapeType.MESH,
+				{ mass: 0, friction: 0 }, this.#scene
+			);
+
+		});
 	}
 
-	generateAStraightRoad() {
-		// const startPoint = { x: this.#sx, y: this.#sy, z: -40 };
-		 const startPoint = { x: this.#sx, y: this.#sy, z: this.#sz };
-		const controlPoint1 = { x: this.#sx, y: this.#sy - 29.25, z: this.#sz + 40 };
-		const controlPoint2 = { x: this.#sx, y: this.#sy - 39, z: this.#sz + 42 };
-		const endPoint = { x: this.#sx, y: this.#sy - 39, z: this.#sz + 55};
+	generateAStraightRoad(args) {
+		const { startPoint, controlPoint1, controlPoint2, endPoint } = args;
 		const segments = 100;
 		const trackWidth = 4;
 		return renderStraight({ startPoint, controlPoint1, controlPoint2, endPoint, segments, trackWidth, scene: this.#scene });
 	}
 
-	generateACurve() {
+	generateACurve(args) {
 		/*
 		 180 degrees
 		*/
-		const sy = this.#sy - 39;
+		/*const sy = this.#sy - 39;
 		const sz = this.#sz + 55;
 		const startPoint = { x: this.#sx, y: sy, z: sz };
 		const controlPoint1 = { x: this.#sx + .7, y: sy, z: sz + 25 };
 		const controlPoint2 = { x: this.#sx - 30.7, y: sy, z: sz + 25 };
-		const endPoint = { x: this.#sx - 30, y: sy, z: sz };
+		const endPoint = { x: this.#sx - 30, y: sy, z: sz };*/
+		const { startPoint, controlPoint1, controlPoint2, endPoint } = args;
 		const angle = 75;
 		const firstGuardRailScale = { startScale: .6, endScale: .6 };
 		const secondGuardRailScale = { startScale: .6, endScale: 2 };
