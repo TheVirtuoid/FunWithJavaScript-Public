@@ -6,3 +6,21 @@ body {
 #world {
     background-color: black;
 }
+
+#world2 {
+    background-color: grey;
+    display: none;
+}
+
+.scene {
+    display: flex;
+    flex-direction: row;
+}
+
+.scene.camera-view canvas {
+    width: 800px;
+    height: 600px;
+    display: inline !important;
+    border: 1px solid red;
+    margin: 2px;
+}

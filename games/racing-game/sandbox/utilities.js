@@ -52,8 +52,6 @@ export function renderStraight(args = {}) {
 	const secondGuardRail = generateRailing(secondGuardRailPoints, secondGuardRailScale.startScale, secondGuardRailScale.endScale);
 
 	const lastPoint = originalPoints.length - 1;
-	console.log('---------------------------------------------straight-');
-	console.log(lastPoint, firstGuardRail[lastPoint], offsetPoints1[lastPoint], offsetPoints2[lastPoint], secondGuardRail[lastPoint]);
 	return MeshBuilder.CreateRibbon("ribbon", {
 		pathArray: [firstGuardRail, offsetPoints1, offsetPoints2, secondGuardRail],
 		sideOrientation: Mesh.DOUBLESIDE,
@@ -83,8 +81,6 @@ export function renderCurve(args) {
 	const secondGuardRailPoints = offsetPoints2.map((point => new Vector3(point.x, point.y, point.z)));
 	const firstGuardRail = generateRailing(firstGuardRailPoints, firstGuardRailScale.startScale, firstGuardRailScale.endScale);
 	const secondGuardRail = generateRailing(secondGuardRailPoints, secondGuardRailScale.startScale, secondGuardRailScale.endScale);
-	console.log('---------------------------------------------curve-');
-	console.log(firstGuardRail[0], offsetPoints1[0], offsetPoints2[0], secondGuardRail[0]);
 
 	return MeshBuilder.CreateRibbon("ribbon", {
 		pathArray: [firstGuardRail, offsetPoints1, offsetPoints2, secondGuardRail],
