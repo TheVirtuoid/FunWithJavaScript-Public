@@ -1,4 +1,6 @@
-import {Vector3} from "@babylonjs/core";
+const checkVector3 = (vector) => {
+	return !(vector !== null && (!('x' in vector) || !('y' in vector) || !('z' in vector)));
+}
 
 export default class Track {
 	static NONE = Symbol('none');
@@ -98,20 +100,19 @@ export default class Track {
 		return this.#attributes.curveDirection;
 	}
 
-
 	static CreateStraight(args = {}) {
 		const { endingPosition = null, endingDirectionVector = null, length = 0, contour = null } = args;
-		if (!(endingPosition instanceof Vector3) && endingPosition !== null) {
+		if (!(checkVector3(endingPosition)) && endingPosition !== null) {
 			throw new Error('Track.CreateStraight: endingPosition must be a Vector3');
 		}
-		if (!(endingDirectionVector instanceof Vector3) && endingDirectionVector !== null) {
+		if (!(checkVector3(endingDirectionVector)) && endingDirectionVector !== null) {
 			throw new Error('Track.CreateStraight: endingDirectionVector must be a Vector3');
 		}
 		if (contour !== null) {
 			if (!'controlPoint1' in contour || !'controlPoint2' in contour) {
 				throw new Error('Track.CreateStraight: contour must be an object with controlPoint1 and controlPoint2 properties');
 			}
-			if (!(contour.controlPoint1 instanceof Vector3) || !(contour.controlPoint2 instanceof Vector3)) {
+			if (!(checkVector3(contour.controlPoint1)) || !(checkVector3(contour.controlPoint2))) {
 				throw new Error('Track.CreateStraight: contour controlPoint1 and controlPoint2 properties must both be Vector3');
 			}
 		}
@@ -158,10 +159,10 @@ export default class Track {
 
 	static CreateAnchor(args = {}) {
 		const { startingPosition = null, startingDirectionVector = null } = args;
-		if (startingPosition !== null && !(startingPosition instanceof Vector3)) {
+		if (startingPosition !== null && !(checkVector3(startingPosition))) {
 			throw new Error('Track.CreateAnchor: startingPosition must be a Vector3 or null');
 		}
-		if (startingDirectionVector !== null && !(startingDirectionVector instanceof Vector3)) {
+		if (startingDirectionVector !== null && !(checkVector3(startingDirectionVector))) {
 			throw new Error('Track.CreateAnchor: startingDirectionVector must be a Vector3 or null');
 		}
 		return new Track({

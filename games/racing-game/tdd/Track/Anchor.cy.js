@@ -1,5 +1,4 @@
 import Track from "../../src/classes/Track/Track.js";
-import {Vector3} from "@babylonjs/core";
 
 describe('When I create a Anchor piece of track', () => {
 	it('should create the anchor piece', () => {
@@ -10,18 +9,18 @@ describe('When I create a Anchor piece of track', () => {
 
 	describe('And when I instantiate an empty piece', () => {
 		let track;
-		let startingPosition = new Vector3(0, 0, 0);
-		let startingDirectionVector = new Vector3(0, 0, 0);
+		let startingPosition = { x: 0, y: 0, z: 0 };
+		let startingDirectionVector = { x: 0, y: 0, z: 0 };
 		beforeEach(() => {
 			track = Track.CreateAnchor({ startingPosition, startingDirectionVector });
 		});
 
 		it('should have a Vector3 starting position', () => {
-			expect(track.startingPosition).to.be.instanceof(Vector3);
+			expect(track.startingPosition).to.equal(startingPosition);
 		});
 
 		it('should have a Vector3 starting direction vector', () => {
-			expect(track.startingDirectionVector).to.be.instanceof(Vector3);
+			expect(track.startingDirectionVector).to.equal(startingDirectionVector);
 		});
 
 		it('should have an ending position that equals starting position', () => {

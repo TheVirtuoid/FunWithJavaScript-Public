@@ -1,5 +1,4 @@
 import Track from "../../src/classes/Track/Track.js";
-import {Vector3} from "@babylonjs/core";
 
 describe('When I create a Straight piece of track', () => {
 	it('should create the straight piece', () => {
@@ -10,12 +9,12 @@ describe('When I create a Straight piece of track', () => {
 
 	describe('And when I instantiate an empty piece', () => {
 		let track;
-		let endingPosition = new Vector3(0, 0, 0);
-		let endingDirectionVector = new Vector3(0, 0, 0);
+		let endingPosition = { x: 0, y: 0, z: 0 };
+		let endingDirectionVector = { x: 0, y: 0, z: 0 };
 		let length = 10;
 		let contour = {
-			controlPoint1: new Vector3(0, 0, 0),
-			controlPoint2: new Vector3(0, 0, 0)
+			controlPoint1: { x: 0, y: 0, z: 0 },
+			controlPoint2: { x: 0, y: 0, z: 0 }
 		}
 		beforeEach(() => {
 			track = Track.CreateStraight({endingPosition, endingDirectionVector, length, contour});
@@ -30,11 +29,11 @@ describe('When I create a Straight piece of track', () => {
 		});
 
 		it('should have a Vector3 ending position', () => {
-			expect(track.endingPosition).to.be.instanceOf(Vector3);
+			expect(track.endingPosition).to.equal(endingPosition);
 		});
 
 		it('should have a Vector3 ending direction vector', () => {
-			expect(track.endingDirectionVector).to.be.instanceOf(Vector3);
+			expect(track.endingDirectionVector).to.equal(endingDirectionVector);
 		});
 
 		it('should have a length property', () => {
@@ -53,17 +52,19 @@ describe('When I create a Straight piece of track', () => {
 		});
 
 		it('should allow for an object with controlPoint1, controlPoint2', () => {
+			const controlPoint1 = { x: 0, y: 0, z: 0 };
+			const controlPoint2 = { x: 0, y: 0, z: 0 };
 			const track = Track.CreateStraight({
 				contour: {
-					controlPoint1: new Vector3(0, 0, 0),
-					controlPoint2: new Vector3(0, 0, 0)
+					controlPoint1,
+					controlPoint2
 				}
 			});
 			expect(track.contour).to.be.instanceOf(Object);
 			expect('controlPoint1' in track.contour).to.be.true;
 			expect('controlPoint2' in track.contour).to.be.true;
-			expect(track.contour.controlPoint1).to.be.instanceOf(Vector3);
-			expect(track.contour.controlPoint2).to.be.instanceOf(Vector3);
+			expect(track.contour.controlPoint1).to.equal(controlPoint1);
+			expect(track.contour.controlPoint2).to.equal(controlPoint2);
 		});
 
 		it('should throw an error if not null nor controlPoint1, controlPoint2', () => {
@@ -82,7 +83,7 @@ describe('When I create a Straight piece of track', () => {
 		});
 
 		it('should throw an error when trying to set the contour', () => {
-			expect(() => track.contour = {controlPoint1: new Vector3(0, 0, 0), controlPoint2: new Vector3(0, 0, 0)}).to.throw();
+			expect(() => track.contour = {controlPoint1: { x: 0, y: 0, z: 0 }, controlPoint2: { x: 0, y: 0, z: 0 }}).to.throw();
 		});
 	});
 

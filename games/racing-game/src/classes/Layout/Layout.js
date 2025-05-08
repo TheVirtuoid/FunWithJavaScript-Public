@@ -18,7 +18,6 @@ export default class Layout {
 			this.#tracks = tracks;
 		}
 	}
-
 	get id() {
 		return this.#id;
 	}

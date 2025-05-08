@@ -1,6 +1,4 @@
 import Track from "../../src/classes/Track/Track.js";
-import {Vector3} from "@babylonjs/core";
-import TRack from "../../src/classes/Track/Track.js";
 
 describe('When I create a Curve piece of track', () => {
 	it('should create the curve piece', () => {

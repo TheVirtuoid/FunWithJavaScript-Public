@@ -6,7 +6,6 @@ describe('When I work with the Layout class', () => {
 		const layout = new Layout();
 		expect(layout).to.be.instanceOf(Layout);
 	});
-
 	it('should have a id property', () => {
 		const layout = new Layout();
 		expect(layout.id).to.be.a('string');

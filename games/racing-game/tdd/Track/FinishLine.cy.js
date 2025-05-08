@@ -1,5 +1,4 @@
 import Track from "../../src/classes/Track/Track.js";
-import {Vector3} from "@babylonjs/core";
 
 describe('When I create a FinishLine piece of track', () => {
 	it('should create the finishLine piece', () => {
