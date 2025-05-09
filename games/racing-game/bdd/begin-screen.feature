@@ -9,35 +9,23 @@ Feature: Game Flow - Begin
     Then I should see the footer
     Then I should see the "racing game" title
     Then I should not see the "select cars" screen
+    Then I should not see the "select venue" screen
     Then I should not see the "venue" screen
 
   Scenario: What buttons are displayed
     Given I have launched the racing game
     When The first screen appears
-    Then I should see the "New" button
+    Then I should see the "Select Cars" button
     Then I should see the "Exit" button
-    Then I should see the "Back" button
-    Then I should see the "Start" button
-    Then I should see the "Pause" button
-    Then I should see the "Resume" button
-    Then I should see the "Cancel" button
-    Then I should see no other buttons than the ones mentioned
+    Then I should not see the "Select Venue" button
+    Then I should not see the "Start" button
+    Then I should not see the "Pause" button
+    Then I should not see the "Resume" button
 
-  Scenario: What buttons are active
+  Scenario: Activating the "Select Cars" button
     Given I have launched the racing game
     When The first screen appears
-    Then I should see the "New" button is active
-    Then I should see the "Exit" button is active
-    Then I should see the "Back" button is inactive
-    Then I should see the "Start" button is inactive
-    Then I should see the "Pause" button is inactive
-    Then I should see the "Resume" button is inactive
-    Then I should see the "Cancel" button is inactive
-
-  Scenario: Activating the "New" button
-    Given I have launched the racing game
-    When The first screen appears
-    And I click on the "New" button
+    And I click on the "Select Cars" button
     Then I should see the "Select Cars" screen
 
   Scenario: Activating the "Exit" button

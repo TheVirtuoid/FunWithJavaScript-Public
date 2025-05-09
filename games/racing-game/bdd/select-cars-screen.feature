@@ -4,7 +4,7 @@ Feature: Select Cars Screen
     Given I see the "Select Cars" screen
     When I take a look at it
     Then I should see the "Select Cars" title
-    Then I should see the a Selection list of 10 carst
+    Then I should see the a Selection list of 8 cars
     Then I should see a blank Selected list
     Then I should see a "Select" button that is inactive
     Then I should see a "Unselect" button that is inactive

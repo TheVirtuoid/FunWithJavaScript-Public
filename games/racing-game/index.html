@@ -9,20 +9,22 @@
 <header data-testid="header">
 	<section>
 		<section data-testid="actions" id="actions">
-			<button data-testid="button-new" class="small primary" id="button-new"><span>New</span></button>
-			<button data-testid="button-start" disabled class="small primary" id="button-start"><span>Start</span></button>
-			<button data-testid="button-back" disabled class="small primary" id="button-back"><span>Back</span></button>
-			<button data-testid="button-pause" disabled class="small primary" id="button-pause"><span>Pause</span></button>
-			<button data-testid="button-resume" disabled class="small primary" id="button-resume"><span>Resume</span></button>
+			<button data-testid="button-select-cars" class="small primary" id="button-select-cars"><span>Select Cars</span></button>
+			<button data-testid="button-select-venue" class="small primary hidden" id="button-select-venue"><span>Select Venue</span></button>
+			<button data-testid="button-start" class="small primary hidden" id="button-start"><span>Start</span></button>
+			<button data-testid="button-pause" class="small primary hidden" id="button-pause"><span>Pause</span></button>
+			<button data-testid="button-resume" class="small primary hidden" id="button-resume"><span>Resume</span></button>
 			<button data-testid="button-exit" class="small primary" id="button-exit"><span>Exit</span></button>
-			<button data-testid="button-cancel" disabled class="small primary" id="button-cancel"><span>Cancel</span></button>
 		</section>
 	</section>
 </header>
 <main data-testid="main">
-	<div data-testid="blank-screen" id="blank-screen">racing game</div>
+	<div data-testid="begin-screen" id="begin-screen">racing game</div>
 	<div data-testid="select-cars-screen" id="select-cars-screen" class="hidden">
 		<div data-testid="select-cars" id="select-cars">select cars</div>
+	</div>
+	<div data-testid="select-venue-screen" id="select-venue-screen" class="hidden">
+		<div data-testid="venue" id="select-venue"></div>
 	</div>
 	<div data-testid="venue-screen" id="venue-screen" class="hidden">
 		<div data-testid="venue" id="venue"></div>
@@ -31,7 +33,9 @@
 <footer data-testid="footer">&copy; 2012-<span id="last-year">2025</span> m. parker smith a.k.a. TheVirtuoid</footer>
 
 <dialog data-testid="exit-game-dialog" id="exit-game-dialog">
-	<p data-testid="exit-game-dialog-message">Exit the game</p>
+	<p data-testid="exit-game-dialog-message">Exit the game?</p>
+	<button class="secondary" data-testid="exit-game-dialog-button-yes" id="exit-game-dialog-button-yes">Yes</button>
+	<button class="primary" data-testid="exit-game-dialog-button-no" id="exit-game-dialog-button-no">No</button>
 </dialog>
 
 </body>
