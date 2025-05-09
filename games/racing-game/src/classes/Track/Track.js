@@ -13,6 +13,18 @@ export default class Track {
 	static STARTLINE_LENGTH = 10;
 	static FINISHLINE_LENGTH = 1;
 
+	static STARTING_GUARDRAIL_START_HEIGHT = 0.6;
+	static STARTING_GUARDRAIL_END_HEIGHT = 0.6;
+	static ENDING_GUARDRAIL_START_HEIGHT = 0.6;
+	static ENDING_GUARDRAIL_END_HEIGHT = 0.6;
+
+	static STARTING_CIRCLE_GUARDRAIL_START_HEIGHT = 0.6;
+	static STARTING_CIRCLE_GUARDRAIL_END_HEIGHT = 0.6;
+	static ENDING_CIRCLE_GUARDRAIL_START_HEIGHT = 0.6;
+	static ENDING_CIRCLE_GUARDRAIL_END_HEIGHT = 3;
+
+	static TRACK_WIDTH = 4;
+
 	#id;
 	#type;
 	#name;
@@ -36,7 +48,16 @@ export default class Track {
 			depthDrop: null,
 			curveDirection: null,
 			contour: null,
-			length: null
+			length: null,
+			startingGuardRail: {
+				startingHeight: Track.STARTING_GUARDRAIL_START_HEIGHT,
+				endingHeight: Track.STARTING_GUARDRAIL_END_HEIGHT,
+			},
+			endingGuardRail: {
+				startingHeight: Track.ENDING_GUARDRAIL_START_HEIGHT,
+				endingHeight: Track.ENDING_GUARDRAIL_END_HEIGHT,
+			},
+			trackWidth: Track.TRACK_WIDTH
 		};
 	}
 
@@ -100,6 +121,18 @@ export default class Track {
 		return this.#attributes.curveDirection;
 	}
 
+	get startingGuardRail() {
+		return this.#attributes.startingGuardRail;
+	}
+
+	get endingGuardRail() {
+		return this.#attributes.endingGuardRail;
+	}
+
+	get trackWidth() {
+		return this.#attributes.trackWidth;
+	}
+
 	static CreateStraight(args = {}) {
 		const { endingPosition = null, endingDirectionVector = null, length = 0, contour = null } = args;
 		if (!(checkVector3(endingPosition)) && endingPosition !== null) {
@@ -145,14 +178,18 @@ export default class Track {
 		return new Track({
 			type: Track.CURVE,
 			attributes: {
-				startingPosition: null,
-				startingDirectionVector: null,
-				endingPosition: null,
-				endingDirectionVector: null,
 				radius: radius,
 				degrees: degrees,
 				depthDrop: depthDrop,
-				curveDirection: curveDirection
+				curveDirection: curveDirection,
+				startingGuardRail: {
+					startingHeight: Track.STARTING_CIRCLE_GUARDRAIL_START_HEIGHT,
+					endingHeight: Track.STARTING_CIRCLE_GUARDRAIL_END_HEIGHT,
+				},
+				endingGuardRail: {
+					startingHeight: Track.ENDING_CIRCLE_GUARDRAIL_START_HEIGHT,
+					endingHeight: Track.ENDING_CIRCLE_GUARDRAIL_END_HEIGHT,
+				},
 			}
 		});
 	}
@@ -171,7 +208,8 @@ export default class Track {
 				startingPosition: startingPosition,
 				startingDirectionVector: startingDirectionVector,
 				endingPosition: startingPosition,
-				endingDirectionVector: startingDirectionVector
+				endingDirectionVector: startingDirectionVector,
+				length: 1
 			}
 		});
 	}

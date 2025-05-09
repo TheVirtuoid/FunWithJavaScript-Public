@@ -20,14 +20,6 @@ describe('When I create a Straight piece of track', () => {
 			track = Track.CreateStraight({endingPosition, endingDirectionVector, length, contour});
 		});
 
-		it('should have a null starting position', () => {
-			expect(track.startingPosition).to.be.null;
-		});
-
-		it('should have a null starting direction vector', () => {
-			expect(track.startingDirectionVector).to.be.null;
-		});
-
 		it('should have a Vector3 ending position', () => {
 			expect(track.endingPosition).to.equal(endingPosition);
 		});

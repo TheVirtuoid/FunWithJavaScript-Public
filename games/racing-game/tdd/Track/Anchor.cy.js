@@ -30,6 +30,10 @@ describe('When I create a Anchor piece of track', () => {
 		it('should have an ending direction vector that equals starting direction vector', () => {
 			expect(track.endingDirectionVector).to.equal(track.startingDirectionVector);
 		});
+
+		it('should have a length of 1', () => {
+			expect(track.length).to.equal(1);
+		});
 	});
 
 	describe('And when I pass bad data', () => {

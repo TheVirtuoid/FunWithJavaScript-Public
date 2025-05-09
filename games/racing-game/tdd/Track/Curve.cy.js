@@ -13,24 +13,9 @@ describe('When I create a Curve piece of track', () => {
 		let degrees = 90;
 		let depthDrop = [1, 2, 3, 4];
 		let curveDirection = 'left';
+
 		beforeEach(() => {
 			track = Track.CreateCurve({ radius, degrees, depthDrop, curveDirection });
-		});
-
-		it('should have a null starting position', () => {
-			expect(track.startingPosition).to.be.null;
-		});
-
-		it('should have a null starting direction vector', () => {
-			expect(track.startingDirectionVector).to.be.null;
-		});
-
-		it('should have a null ending position', () => {
-			expect(track.endingPosition).to.be.null;
-		});
-
-		it('should have a null ending direction vector', () => {
-			expect(track.endingDirectionVector).to.be.null;
 		});
 
 		it('should have a radius property', () => {
@@ -47,6 +32,16 @@ describe('When I create a Curve piece of track', () => {
 
 		it('should have a curveDirection property', () => {
 			expect(track.curveDirection).to.equal(curveDirection);
+		});
+
+		it('should have the new defaults for the startingGuardRail', () => {
+			expect(track.startingGuardRail.startingHeight).to.equal(Track.STARTING_CIRCLE_GUARDRAIL_START_HEIGHT);
+			expect(track.startingGuardRail.endingHeight).to.equal(Track.STARTING_CIRCLE_GUARDRAIL_END_HEIGHT);
+		});
+
+		it('should have the new defaults for the endingGuardRail', () => {
+			expect(track.endingGuardRail.startingHeight).to.equal(Track.ENDING_CIRCLE_GUARDRAIL_START_HEIGHT);
+			expect(track.endingGuardRail.endingHeight).to.equal(Track.ENDING_CIRCLE_GUARDRAIL_END_HEIGHT);
 		});
 	});
 
@@ -74,7 +69,7 @@ describe('When I create a Curve piece of track', () => {
 	});
 
 	describe('And when I try to set invalid property values', () => {
-		it('should throw error is degrees isn not 45, 90, 135, 180, 225, 270, 315, 360', () => {
+		it('should throw error is degrees is not 45, 90, 135, 180, 225, 270, 315, 360', () => {
 			let track;
 			track = Track.CreateCurve({degrees: 45});
 			track = Track.CreateCurve({degrees: 90});

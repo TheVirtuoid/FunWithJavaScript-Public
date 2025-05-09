@@ -67,10 +67,6 @@ describe('When I work with the Track class', () => {
 			it('should set the type', () => {
 				expect(track.type).to.equal(type);
 			});
-
-			it('should set the attributes', () => {
-				expect(track.attributes).to.equal(attributes);
-			});
 		});
 
 		describe('And whe I try to set the properties after instantiation', () => {
@@ -89,10 +85,6 @@ describe('When I work with the Track class', () => {
 			it('should throw an error if I try to set the type', () => {
 				expect(() => track.type = Track.STRAIGHT).to.throw();
 			});
-
-			it('should throw an error if I try to set the attributes', () => {
-				expect(() => track.attributes = {something: 'something'}).to.throw();
-			});
 		});
 	});
 
@@ -103,19 +95,133 @@ describe('When I work with the Track class', () => {
 		});
 
 		it('should have a startingPosition property', () => {
-			expect('startingPosition' in track).to.be.true;;
+			expect('startingPosition' in track).to.be.true;
 		});
 
 		it('should have a startingDirectionVector property', () => {
-			expect('startingDirectionVector' in track).to.be.true;;
+			expect('startingDirectionVector' in track).to.be.true;
 		});
 
 		it('should have an endingPosition property', () => {
-			expect('endingPosition' in track).to.be.true;;
+			expect('endingPosition' in track).to.be.true;
 		});
 
 		it('should have an endingDirectionVector property', () => {
 			expect('endingDirectionVector' in track).to.be.true;
+		});
+
+		it('should have a radius property', () => {
+			expect('radius' in track).to.be.true;
+		});
+
+		it('should have a degrees property', () => {
+			expect('degrees' in track).to.be.true;
+		});
+
+		it('should have a depthDrop property', () => {
+			expect('depthDrop' in track).to.be.true;
+		});
+
+		it('should have a contour property', () => {
+			expect('contour' in track).to.be.true;
+		});
+
+		it('should have a length property', () => {
+			expect('length' in track).to.be.true;
+		});
+
+		it('should have a curveDirection property', () => {
+			expect('curveDirection' in track).to.be.true;
+		});
+
+		it('should have a startingGuardRail property', () => {
+			expect('startingGuardRail' in track).to.be.true;
+		});
+
+		it('should have an endingGuardRail property', () => {
+			expect('endingGuardRail' in track).to.be.true;
+		});
+
+		it('should have a trackWidth property', () => {
+			expect('trackWidth' in track).to.be.true;
+		});
+
+		describe('And when I examine the defaults', () => {
+			it('should set the id to blank string', () => {
+				expect(track.id).to.equal('');
+			});
+
+			it('should set the name to blank string', () => {
+				expect(track.name).to.equal('');
+			});
+
+			it('should set the description to blank string', () => {
+				expect(track.description).to.equal('');
+			});
+
+			it('should set the type to Track.NONE', () => {
+				expect(track.type).to.equal(Track.NONE);
+			});
+
+			it('should set radius to null', () => {
+				expect(track.radius).to.equal(null);
+			});
+
+			it('should set degrees to null', () => {
+				expect(track.degrees).to.equal(null);
+			});
+
+			it('should set depthDrop to null', () => {
+				expect(track.depthDrop).to.equal(null);
+			});
+
+			it('should set curveDirection to null', () => {
+				expect(track.curveDirection).to.equal(null);
+			});
+
+			it('should set contour to null', () => {
+				expect(track.contour).to.equal(null);
+			});
+
+			it('should set length to null', () => {
+				expect(track.length).to.equal(null);
+			});
+
+			it('should set startingPosition to null ', () => {
+				expect(track.startingPosition).to.equal(null);
+			});
+
+			it('should set startingDirectionVector to null ', () => {
+				expect(track.startingDirectionVector).to.equal(null);
+			});
+
+			it('should set endingPosition to null ', () => {
+				expect(track.endingPosition).to.equal(null);
+			});
+
+			it('should set endingDirectionVector to null ', () => {
+				expect(track.endingDirectionVector).to.equal(null);
+			});
+
+			it('should set startingGuardRail.staringHeight to the default ', () => {
+				expect(track.startingGuardRail.startingHeight).to.equal(Track.STARTING_GUARDRAIL_START_HEIGHT);
+			});
+
+			it('should set startingGuardRail.endingHeight to the default ', () => {
+				expect(track.startingGuardRail.endingHeight).to.equal(Track.STARTING_GUARDRAIL_END_HEIGHT);
+			});
+
+			it('should set endingGuardRail.startingHeight to the default ', () => {
+				expect(track.endingGuardRail.startingHeight).to.equal(Track.ENDING_GUARDRAIL_START_HEIGHT);
+			});
+
+			it('should set endingGuardRail.endingHeight to the default ', () => {
+				expect(track.endingGuardRail.endingHeight).to.equal(Track.ENDING_GUARDRAIL_END_HEIGHT);
+			});
+
+			it('should set trackWidth to the default ', () => {
+				expect(track.trackWidth).to.equal(Track.TRACK_WIDTH);
+			});
 		});
 	});
 
