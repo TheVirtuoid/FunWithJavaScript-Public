@@ -16,7 +16,8 @@ import Marble from "./Marble.js";
 export default class App {
 
 	static GRAVITY = 1;
-	static CAMERA_VIEW = true;
+	static CAMERA_VIEW = false;
+	static MODELS = true;
 	static SX = 0;
 	static SY = 39;
 	static SZ = -55;
@@ -53,7 +54,7 @@ export default class App {
 
 	#marbles = [];
 
-	constructor(layout) {
+	constructor(layout, realLayout) {
 		this.#emptyCanvas = document.createElement("canvas");
 		this.#canvas = document.getElementById('world');
 		this.#canvas2 = document.getElementById('world2');
@@ -68,6 +69,8 @@ export default class App {
 
 		this.#renderLoopHandle = this.renderLoop.bind(this);
 		this.#loadBuildingHandle = this.loadBuilding.bind(this);
+
+		this.#processRealLayout(realLayout);
 
 		const colors = [
 			new Color3(0, 0, 0),
@@ -104,25 +107,27 @@ export default class App {
 			new Color3(.1, 0, .1)
 		]
 
-		colors.forEach((color, index) => {
-			let position;
-			if (index < 8) {
-				position = { x: App.SX - 1.75 + (index * .5), y: App.SY + .25, z: App.SZ + .25 }
-			} else if (index < 16) {
-				position = { x: App.SX - 1.75 + ((index - 8) * .5), y: App.SY - .35, z: App.SZ + 1.25 }
-			} else if (index < 24) {
-				position = { x: App.SX - 1.75 + ((index - 16) * .5), y: App.SY - 1.05, z: App.SZ + 2.25 }
-			} else {
-				position = { x: App.SX - 1.75 + ((index - 24) * .5), y: App.SY - 1.75, z: App.SZ + 3.25 }
-			}
-			const marble = new Marble({
-				name: `marble-${index}`,
-				color: color,
-				scene: this.#scene,
-				position:  position
+		if (App.MODELS) {
+			colors.forEach((color, index) => {
+				let position;
+				if (index < 8) {
+					position = { x: App.SX - 1.75 + (index * .5), y: App.SY + .25, z: App.SZ + .25 }
+				} else if (index < 16) {
+					position = { x: App.SX - 1.75 + ((index - 8) * .5), y: App.SY - .35, z: App.SZ + 1.25 }
+				} else if (index < 24) {
+					position = { x: App.SX - 1.75 + ((index - 16) * .5), y: App.SY - 1.05, z: App.SZ + 2.25 }
+				} else {
+					position = { x: App.SX - 1.75 + ((index - 24) * .5), y: App.SY - 1.75, z: App.SZ + 3.25 }
+				}
+				const marble = new Marble({
+					name: `marble-${index}`,
+					color: color,
+					scene: this.#scene,
+					position:  position
+				});
+				this.#marbles.push(marble.getMarble());
 			});
-			this.#marbles.push(marble.getMarble());
-		});
+		}
 
 		this.#addToScene(layout)
 			.then(this.#loadBuildingHandle)
@@ -160,14 +165,16 @@ export default class App {
 		/*ImportMeshAsync("/sandbox/building.obj", this.#scene, {
 			meshNames: "semi_house"
 		});*/
-		ImportMeshAsync("/sandbox/test.glb", this.#scene, {
-			meshNames: ["building_3_Cube.016", "Cube.010_Cube.014", "Cube.011_Cube.015", "pegangan.003_Plane.008"]
-		}).then((result) => {
-			result.meshes[0].position = new Vector3(-25,0,35);
-			result.meshes[0].scaling = new Vector3(4,4,4);
-			// result.meshes[0].rotation = new Vector3(0,0,0);
-			console.log(result);
-		});
+		if (App.MODELS) {
+			ImportMeshAsync("/sandbox/test.glb", this.#scene, {
+				meshNames: ["building_3_Cube.016", "Cube.010_Cube.014", "Cube.011_Cube.015", "pegangan.003_Plane.008"]
+			}).then((result) => {
+				result.meshes[0].position = new Vector3(-25, 0, 35);
+				result.meshes[0].scaling = new Vector3(4, 4, 4);
+				// result.meshes[0].rotation = new Vector3(0,0,0);
+				console.log(result);
+			});
+		}
 	}
 
 	async #addToScene(layout) {
@@ -201,9 +208,11 @@ export default class App {
 		this.#physicsPlugin = new HavokPlugin(true, await HavokPhysics());
 		this.#scene.enablePhysics(this.#gravityVector, this.#physicsPlugin);
 
-		this.#marbles.forEach((marble) => {
-			new PhysicsAggregate(marble, PhysicsShapeType.SPHERE, { mass: App.GRAVITY, restitution: 0, friction: Math.random() }, this.#scene);
-		});
+		if (App.MODELS) {
+			this.#marbles.forEach((marble) => {
+				new PhysicsAggregate(marble, PhysicsShapeType.SPHERE, { mass: App.GRAVITY, restitution: 0, friction: Math.random() }, this.#scene);
+			});
+		}
 
 		// Create a static box shape.
 		new PhysicsAggregate(this.#ground, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, this.#scene);
@@ -244,20 +253,6 @@ export default class App {
 		const segments = 100;
 		const trackWidth = 4;
 
-		/*
-		90 degrees
-
-		const startPoint = { x: 0, y: 0, z: 0 };
-		const controlPoint1 = { x: 0, y: 0, z: 10};
-		const controlPoint2 = { x: -10, y: 0, z: 15 };
-		const endPoint = { x: -15, y: 0, z: 15 };
-		const angle = 45;
-		const segments = 100;
-		const trackWidth = 4;
-		const firstGuardRailScale = { startScale: .6, endScale: .6 };
-		const secondGuardRailScale = { startScale: .6, endScale: 2 };
-
-		*/
 		return renderCurve({
 			startPoint,
 			controlPoint1,
@@ -269,6 +264,21 @@ export default class App {
 			firstGuardRailScale,
 			secondGuardRailScale,
 			scene: this.#scene
+		});
+	}
+
+	#processRealLayout(realLayout) {
+		const layout = [];
+		realLayout.forEach((track) => {
+			console.log(track);
+			switch (track.type) {
+				case 'straight':
+					break;
+				case 'curve':
+					break;
+				case 'anchor':
+					break;
+			}
 		});
 	}
 
