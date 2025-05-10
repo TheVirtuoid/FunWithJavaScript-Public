@@ -1,10 +1,10 @@
 import Track from "../../src/classes/Track/Track.js";
 
-describe('When I create a Anchor piece of track', () => {
-	it('should create the anchor piece', () => {
-		const track = Track.CreateAnchor({});
+describe('When I create a StartingAnchor piece of track', () => {
+	it('should create the startinganchor piece', () => {
+		const track = Track.CreateStartingAnchor({});
 		expect(track).to.be.instanceOf(Track);
-		expect(track.type).to.be.equal(Track.ANCHOR);
+		expect(track.type).to.be.equal(Track.STARTING_ANCHOR);
 	});
 
 	describe('And when I instantiate an empty piece', () => {
@@ -12,7 +12,7 @@ describe('When I create a Anchor piece of track', () => {
 		let startingPosition = { x: 0, y: 0, z: 0 };
 		let startingDirectionVector = { x: 0, y: 0, z: 0 };
 		beforeEach(() => {
-			track = Track.CreateAnchor({ startingPosition, startingDirectionVector });
+			track = Track.CreateStartingAnchor({ startingPosition, startingDirectionVector });
 		});
 
 		it('should have a Vector3 starting position', () => {
@@ -36,13 +36,13 @@ describe('When I create a Anchor piece of track', () => {
 		});
 	});
 
-	describe('And when I pass bad data', () => {
+	describe('And when I attempt to change things', () => {
 		it('should throw an error if startingPosition is not a Vector3', () => {
-			expect(() => Track.CreateAnchor({ startingPosition: 'bad' })).to.throw();
+			expect(() => Track.CreateStartingAnchor({ startingPosition: 'bad' })).to.throw();
 		});
 
 		it('should throw an error if startingDirectionVector is not a Vector3', () => {
-			expect(() => Track.CreateAnchor({ startingDirectionVector: 'bad' })).to.throw();
+			expect(() => Track.CreateStartingAnchor({ startingDirectionVector: 'bad' })).to.throw();
 		});
 	});
 

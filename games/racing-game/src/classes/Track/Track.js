@@ -6,7 +6,8 @@ export default class Track {
 	static NONE = Symbol('none');
 	static STRAIGHT = Symbol('straight');
 	static CURVE = Symbol('curve');
-	static ANCHOR = Symbol('anchor');
+	static STARTING_ANCHOR = Symbol('starting-anchor');
+	static ENDING_ANCHOR = Symbol('ending-anchor');
 	static STARTLINE = Symbol('startLine');
 	static FINISHLINE = Symbol('finishLine');
 
@@ -194,21 +195,30 @@ export default class Track {
 		});
 	}
 
-	static CreateAnchor(args = {}) {
+	static CreateStartingAnchor(args = {}) {
 		const { startingPosition = null, startingDirectionVector = null } = args;
 		if (startingPosition !== null && !(checkVector3(startingPosition))) {
-			throw new Error('Track.CreateAnchor: startingPosition must be a Vector3 or null');
+			throw new Error('Track.CreateStartingAnchor: startingPosition must be a Vector3 or null');
 		}
 		if (startingDirectionVector !== null && !(checkVector3(startingDirectionVector))) {
-			throw new Error('Track.CreateAnchor: startingDirectionVector must be a Vector3 or null');
+			throw new Error('Track.CreateStartingAnchor: startingDirectionVector must be a Vector3 or null');
 		}
 		return new Track({
-			type: Track.ANCHOR,
+			type: Track.STARTING_ANCHOR,
 			attributes: {
 				startingPosition: startingPosition,
 				startingDirectionVector: startingDirectionVector,
 				endingPosition: startingPosition,
 				endingDirectionVector: startingDirectionVector,
+				length: 1
+			}
+		});
+	}
+
+	static CreateEndingAnchor(args = {}) {
+		return new Track({
+			type: Track.ENDING_ANCHOR,
+			attributes: {
 				length: 1
 			}
 		});
