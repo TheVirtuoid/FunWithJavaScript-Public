@@ -95,17 +95,81 @@ describe('When I work with the Track class', () => {
 	});
 
 	describe('And when I use the connectTo method', () => {
+		let startingAnchor;
+		let straight;
+		let straightContour;
+		let curve;
+		let endingAnchor;
+		let startLine;
+		let finishLine;
+
 		const startingPosition = new V3(1, 1, 1);
 		const startingDirectionVector = new V3(1, 0, 0);
-		const track1 = Track.CreateStartingAnchor({ startingPosition, startingDirectionVector });
-		const track2 = Track.CreateStraight({ length: 10 });
-		it('should throw error if connectTo is not a Track', () => {
-			expect(() => track2.connectTo('not a track')).to.throw('Track.connectTo(): Argument must be an instance of Track');
+
+		beforeEach(() => {
+			startingAnchor = Track.CreateStartingAnchor({ startingPosition, startingDirectionVector});
+			straight = Track.CreateStraight({length: 10});
+			straightContour = Track.CreateStraight({
+				length: 10,
+				contour: {
+					controlPoint1: new V3(0, .5, 0),
+					controlPoint2: new V3(1, 1, 0)
+				},
+			});
+			curve = Track.CreateCurve({radius: 10, degrees: 90});
+			endingAnchor = Track.CreateEndingAnchor({});
+			startLine = Track.CreateStartLine({});
+			finishLine = Track.CreateFinishLine({});
 		});
-		it('should have changed the startingPosition of the STRAIGHT', () => {
-			track2.connectTo(track1);
-			expect(track2.startingPosition.compareTo(startingPosition)).to.be.true;
-			expect(track2.startingDirectionVector.compareTo(startingDirectionVector)).to.be.true;
+
+		it('should throw error if connectTo is not a Track', () => {
+			expect(() => straight.connectTo('not a track')).to.throw('Track.connectTo(): Argument must be an instance of Track');
+		});
+
+		it('should have changed the startingPosition, endingPosition of the STRAIGHT', () => {
+			straight.connectTo(startingAnchor);
+			expect(straight.startingPosition.compareTo(startingAnchor.endingPosition)).to.be.true;
+			expect(straight.startingDirectionVector.compareTo(startingAnchor.endingDirectionVector)).to.be.true;
+			const endingX = startingAnchor.startingPosition.x + startingAnchor.length + straight.length;
+			expect(straight.endingPosition.compareTo(new V3(endingX, 1, 1))).to.be.true;
+			expect(straight.endingDirectionVector.compareTo(straight.startingDirectionVector)).to.be.true;
+		});
+
+		it('should have changed the startingPosition, endingPosition of the STARTLINE', () => {
+			startLine.connectTo(startingAnchor);
+			expect(startLine.startingPosition.compareTo(startingAnchor.endingPosition)).to.be.true;
+			expect(startLine.startingDirectionVector.compareTo(startingAnchor.endingDirectionVector)).to.be.true;
+			const endingX = startingAnchor.startingPosition.x + startingAnchor.length + startLine.length;
+			expect(startLine.endingPosition.compareTo(new V3(endingX, 1, 1))).to.be.true;
+			expect(startLine.endingDirectionVector.compareTo(startLine.startingDirectionVector)).to.be.true;
+		});
+
+		it('should have changed the startingPosition, endingPosition of the FINISHLINE', () => {
+			finishLine.connectTo(startingAnchor);
+			expect(finishLine.startingPosition.compareTo(startingAnchor.endingPosition)).to.be.true;
+			expect(finishLine.startingDirectionVector.compareTo(startingAnchor.endingDirectionVector)).to.be.true;
+			const endingX = startingAnchor.startingPosition.x + startingAnchor.length + finishLine.length;
+			expect(finishLine.endingPosition.compareTo(new V3(endingX, 1, 1))).to.be.true;
+			expect(finishLine.endingDirectionVector.compareTo(finishLine.startingDirectionVector)).to.be.true;
+		});
+
+		it('should have changed the startingPosition, endingPosition of the ENDINGANCHOR', () => {
+			straight.connectTo(startingAnchor);
+			endingAnchor.connectTo(straight);
+			expect(endingAnchor.startingPosition.compareTo(straight.endingPosition)).to.be.true;
+			expect(endingAnchor.startingDirectionVector.compareTo(straight.endingDirectionVector)).to.be.true;
+			expect(endingAnchor.endingPosition).to.be.null
+			expect(endingAnchor.endingDirectionVector).to.be.null;
+		});
+
+		it('should have changed the endingPosition of the STRAIGHT with contour', () => {
+			straightContour.connectTo(startingAnchor);
+			console.log(straightContour.startingDirectionVector.coordinates());
+			console.log(straightContour.endingDirectionVector.coordinates());
+			console.log(straightContour.contour);
+			const endingX = startingAnchor.startingPosition.x + startingAnchor.length + straightContour.length;
+			expect(straightContour.endingPosition.compareTo(new V3(endingX, 1, 1))).to.be.true;
+			expect(straightContour.endingDirectionVector.compareTo(straightContour.startingDirectionVector)).to.be.true;
 		});
 	});
 

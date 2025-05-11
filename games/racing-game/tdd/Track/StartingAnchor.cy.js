@@ -25,12 +25,11 @@ describe('When I create a StartingAnchor piece of track', () => {
 			expect(track.startingDirectionVector.compareTo(startingDirectionVector)).to.be.true;
 		});
 
-		it('should have an ending position that equals starting position', () => {
-			expect(track.endingPosition.compareTo(startingPosition)).to.be.true;
+		it('should have an ending position "length" away from the starting position', () => {
+			expect(track.endingPosition.compareTo(new V3(2, 1, 1))).to.be.true;
 		});
 
 		it('should have an ending direction vector that equals starting direction vector', () => {
-			console.log(track);
 			expect(track.endingDirectionVector.compareTo(startingDirectionVector)).to.be.true;
 		});
 

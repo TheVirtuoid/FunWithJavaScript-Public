@@ -59,14 +59,22 @@ describe('When I work with the V3 Class', () => {
 		});
 	});
 
-	describe('getNewPosition()', () => {
+	describe('setDirectedPosition()', () => {
 		it('should return the correct new position', () => {
 			const vector = new V3(1, 1, 1);
 			const startingPosition = new V3(0, 0, 0);
-			const newPosition = vector.getNewPosition(startingPosition, 5);
+			const newPosition = vector.setDirectedPosition(startingPosition, 5);
 			expect(newPosition.x).to.be.closeTo(2.8868, 0.0001); // 1/sqrt(3) * 5
 			expect(newPosition.y).to.be.closeTo(2.8868, 0.0001);
 			expect(newPosition.z).to.be.closeTo(2.8868, 0.0001);
+		});
+	});
+
+	describe('clone()', () => {
+		it('should clone', () => {
+			const vector = new V3(1, 2, 3);
+			const clone = vector.clone();
+			expect(clone.compareTo(vector)).to.be.true;
 		});
 	});
 });

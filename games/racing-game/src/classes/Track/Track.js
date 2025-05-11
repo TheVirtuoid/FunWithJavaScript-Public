@@ -23,6 +23,7 @@ export default class Track {
 	static ENDING_CIRCLE_GUARDRAIL_END_HEIGHT = 3;
 
 	static TRACK_WIDTH = 4;
+	static ANCHOR_DEFAULT_LENGTH = 1;
 
 	#id;
 	#type;
@@ -134,9 +135,47 @@ export default class Track {
 		}
 		this.#attributes.startingPosition = new V3(...track.endingPosition.coordinates());
 		this.#attributes.startingDirectionVector = new V3(...track.endingDirectionVector.coordinates());
+		switch(this.type) {
+			case Track.STRAIGHT:
+				this.#attributes.endingPosition = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.length);
+				if (this.contour === null) {
+					this.#attributes.endingDirectionVector = this.startingDirectionVector.clone();
+				} else {
+					const tangent = {
+						x: 3 * (this.endingPosition.x - this.contour.controlPoint2.x),
+						y: 3 * (this.endingPosition.y - this.contour.controlPoint2.y),
+						z: 3 * (this.endingPosition.z - this.contour.controlPoint2.z),
+					};
+					const magnitude = Math.sqrt(tangent.x ** 2 + tangent.y ** 2 + tangent.z ** 2);
+					this.#attributes.endingDirectionVector = new V3(
+						tangent.x / magnitude,
+						tangent.y / magnitude,
+						tangent.z / magnitude
+					);
+				}
+				break;
+			case Track.STARTLINE:
+				this.#attributes.endingPosition = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.length);
+				this.#attributes.endingDirectionVector = this.startingDirectionVector.clone();
+				break;
+			case Track.FINISHLINE:
+				this.#attributes.endingPosition = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.length);
+				this.#attributes.endingDirectionVector = this.startingDirectionVector.clone();
+				break;
+			case Track.ENDING_ANCHOR: // not really required, but doing so for completeness. Both endPos and endDir are already null
+				this.#attributes.endingPosition = null;
+				this.#attributes.endingDirectionVector = null;
+				break;
+		}
 	}
 
 	setEndPoints() {
+		if (this.startingPosition === null || this.startingDirectionVector === null) {
+			throw new Error('Track.getEndPoints(): startingPosition and startingDirectionVector must be set. Use connectTo() to set them.');
+		}
+	}
+
+	/*setEndPoints() {
 		if (this.startingPosition === null || this.startingDirectionVector === null) {
 			throw new Error('Track.getEndPoints(): startingPosition and startingDirectionVector must be set. Use connectTo() to set them.');
 		}
@@ -175,16 +214,10 @@ export default class Track {
 			default:
 				throw new Error('Track.getEndPoints(): Invalid track type');
 		}
-	}
+	}*/
 
 	static CreateStraight(args = {}) {
-		const { id = '', endingPosition = null, endingDirectionVector = null, length, contour = null } = args;
-		if (!(endingPosition instanceof V3) && endingPosition !== null) {
-			throw new Error('Track.CreateStraight: endingPosition must be a Vector3');
-		}
-		if (!(endingDirectionVector instanceof V3) && endingDirectionVector !== null) {
-			throw new Error('Track.CreateStraight: endingDirectionVector must be a Vector3');
-		}
+		const { id = '', length, contour = null } = args;
 		if (isNaN(length)) {
 			throw new Error('Track.CreateStraight: length must be a number');
 		}
@@ -200,10 +233,6 @@ export default class Track {
 			id,
 			type: Track.STRAIGHT,
 			attributes: {
-				startingPosition: null,
-				startingDirectionVector: null,
-				endingPosition: endingPosition,
-				endingDirectionVector: endingDirectionVector,
 				length: length,
 				contour: contour
 			}
@@ -257,9 +286,9 @@ export default class Track {
 			attributes: {
 				startingPosition: startingPosition,
 				startingDirectionVector: startingDirectionVector,
-				endingPosition: startingPosition,
+				endingPosition: startingDirectionVector?.setDirectedPosition(startingPosition, 1) || null,
 				endingDirectionVector: startingDirectionVector,
-				length: 1
+				length: Track.ANCHOR_DEFAULT_LENGTH
 			}
 		});
 	}
@@ -270,7 +299,7 @@ export default class Track {
 			id,
 			type: Track.ENDING_ANCHOR,
 			attributes: {
-				length: 1
+				length: Track.ANCHOR_DEFAULT_LENGTH,
 			}
 		});
 	}

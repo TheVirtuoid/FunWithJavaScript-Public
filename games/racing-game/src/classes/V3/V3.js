@@ -40,7 +40,7 @@ export default class V3 {
 		return new V3(normalizedVector.x * length, normalizedVector.y * length, normalizedVector.z * length);
 	}
 
-	getNewPosition(startingPosition, length) {
+	setDirectedPosition(startingPosition, length) {
 		const scaledVector = this.scale(length);
 		return new V3(
 			startingPosition.x + scaledVector.x,
@@ -55,5 +55,9 @@ export default class V3 {
 
 	coordinates() {
 		return [this.x, this.y, this.z];
+	}
+
+	clone() {
+		return new V3(this.#x, this.#y, this.#z);
 	}
 }
