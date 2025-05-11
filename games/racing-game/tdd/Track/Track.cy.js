@@ -1,4 +1,5 @@
 import Track from "../../src/classes/Track/Track.js";
+import V3 from "../../src/classes/V3/V3.js";
 
 describe('When I work with the Track class', () => {
 	it('should return an instance of the class', () => {
@@ -11,20 +12,25 @@ describe('When I work with the Track class', () => {
 		beforeEach(() => {
 			track = new Track();
 		});
+
 		it('should have an id property', () => {
 			expect(track.id).to.equal('');
 		});
+
 		it('should have a name property', () => {
 			expect(track.name).to.equal('');
 		});
+
 		it('should have a description property', () => {
 			expect(track.description).to.equal('');
 		});
+
 		it('should have a type property', () => {
 			expect(track.type).to.equal(Track.NONE);
 		});
-		it('should have an attributes property', () => {
-			expect('attributes' in track).to.be.true;
+
+		it('should NOT have an attributes property', () => {
+			expect('attributes' in track).to.be.false;
 		});
 
 		describe('And when I try to set the properties upon instantiation', () => {
@@ -85,6 +91,30 @@ describe('When I work with the Track class', () => {
 			it('should throw an error if I try to set the type', () => {
 				expect(() => track.type = Track.STRAIGHT).to.throw();
 			});
+		});
+	});
+
+	describe('And when I use the connectTo method', () => {
+		const startingPosition = new V3(1, 1, 1);
+		const startingDirectionVector = new V3(1, 0, 0);
+		const track1 = Track.CreateStartingAnchor({ startingPosition, startingDirectionVector });
+		const track2 = Track.CreateStraight({ length: 10 });
+		it('should throw error if connectTo is not a Track', () => {
+			expect(() => track2.connectTo('not a track')).to.throw('Track.connectTo(): Argument must be an instance of Track');
+		});
+		it('should have changed the startingPosition of the STRAIGHT', () => {
+			track2.connectTo(track1);
+			expect(track2.startingPosition.compareTo(startingPosition)).to.be.true;
+			expect(track2.startingDirectionVector.compareTo(startingDirectionVector)).to.be.true;
+		});
+	});
+
+	describe('And when I use the setEndPoints method', () => {
+		const id = 'id';
+		const length = 10;
+		it('should throw error if startingPoints has not been set', () => {
+			const track = Track.CreateStraight({ id, length });
+			expect(() => track.setEndPoints()).to.throw();
 		});
 	});
 
@@ -161,6 +191,22 @@ describe('When I work with the Track class', () => {
 
 			it('should set the type to Track.NONE', () => {
 				expect(track.type).to.equal(Track.NONE);
+			});
+
+			it('should set startingPosition to null', () => {
+				expect(track.startingPosition).to.equal(null);
+			});
+
+			it('should set startingDirectionVector to null', () => {
+				expect(track.startingDirectionVector).to.equal(null);
+			});
+
+			it('should set endingPosition to null', () => {
+				expect(track.endingPosition).to.equal(null);
+			});
+
+			it('should set endingDirectionVector to null', () => {
+				expect(track.endingDirectionVector).to.equal(null);
 			});
 
 			it('should set radius to null', () => {

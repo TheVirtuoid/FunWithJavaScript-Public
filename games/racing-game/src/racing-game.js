@@ -1,4 +1,5 @@
 import './css/racing-game.pcss';
+import { Vector3 } from "@babylonjs/core";
 
 const thisYear = new Date().getFullYear();
 document.getElementById('last-year').textContent = thisYear;
@@ -46,6 +47,17 @@ document.getElementById('button-select-cars').addEventListener('click', () => {
 	selectCarsScreen.classList.remove('hidden');
 });
 
+const start = new Vector3(20, 0, 0);
+const direction = new Vector3(.5, 0, 1);
+const length = 10;
+console.log(direction.normalize());
+console.log(direction);
+
+const multi = direction.scale(length);
+console.log(multi);
+
+const end = start.add(multi);
+console.log(end);
 
 
 

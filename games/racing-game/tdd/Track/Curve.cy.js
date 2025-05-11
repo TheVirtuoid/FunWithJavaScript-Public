@@ -13,9 +13,10 @@ describe('When I create a Curve piece of track', () => {
 		let degrees = 90;
 		let depthDrop = [1, 2, 3, 4];
 		let curveDirection = 'left';
+		let id = 'curve';
 
 		beforeEach(() => {
-			track = Track.CreateCurve({ radius, degrees, depthDrop, curveDirection });
+			track = Track.CreateCurve({ id, radius, degrees, depthDrop, curveDirection });
 		});
 
 		it('should have a radius property', () => {
@@ -34,6 +35,10 @@ describe('When I create a Curve piece of track', () => {
 			expect(track.curveDirection).to.equal(curveDirection);
 		});
 
+		it('should have the id property', () => {
+			expect(track.id).to.equal(id);
+		});
+
 		it('should have the new defaults for the startingGuardRail', () => {
 			expect(track.startingGuardRail.startingHeight).to.equal(Track.STARTING_CIRCLE_GUARDRAIL_START_HEIGHT);
 			expect(track.startingGuardRail.endingHeight).to.equal(Track.STARTING_CIRCLE_GUARDRAIL_END_HEIGHT);
@@ -43,6 +48,7 @@ describe('When I create a Curve piece of track', () => {
 			expect(track.endingGuardRail.startingHeight).to.equal(Track.ENDING_CIRCLE_GUARDRAIL_START_HEIGHT);
 			expect(track.endingGuardRail.endingHeight).to.equal(Track.ENDING_CIRCLE_GUARDRAIL_END_HEIGHT);
 		});
+
 	});
 
 	describe('And when I try to change the new properties', () => {

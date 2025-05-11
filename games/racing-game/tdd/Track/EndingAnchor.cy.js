@@ -9,12 +9,19 @@ describe('When I create a EndingAnchor piece of track', () => {
 
 	describe('And when I instantiate an empty piece', () => {
 		let track;
+		const id = 'end-anchor';
 		beforeEach(() => {
-			track = Track.CreateEndingAnchor();
+			track = Track.CreateEndingAnchor({ id });
 		});
 
 		it('should have a length of 1', () => {
 			expect(track.length).to.equal(1);
 		});
+
+		it('should have the id property', () => {
+			expect(track.id).to.equal(id);
+		});
+
+
 	});
 });

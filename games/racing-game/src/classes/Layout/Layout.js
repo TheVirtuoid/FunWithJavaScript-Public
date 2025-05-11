@@ -14,10 +14,10 @@ export default class Layout {
 			throw new Error('Layout constructor: tracks must be an array');
 		} else if (tracks.some((track) => !(track instanceof Track))) {
 			throw new Error('Layout constructor: all elements in tracks must be instances of Track');
-		} else if (tracks.at(0).type !== Track.ANCHOR) {
-			throw new Error('Layout constructor: tracks property must begin with an Anchor track');
-		} else if (tracks.at(-1).type !== Track.ANCHOR) {
-			throw new Error('Layout constructor: tracks property must end with an Anchor track');
+		} else if (tracks.at(0).type !== Track.STARTING_ANCHOR) {
+			throw new Error('Layout constructor: tracks property must begin with a StartingAnchor track');
+		} else if (tracks.at(-1).type !== Track.ENDING_ANCHOR) {
+			throw new Error('Layout constructor: tracks property must end with an EndingAnchor track');
 		} else {
 			this.#tracks = tracks;
 		}
@@ -38,15 +38,11 @@ export default class Layout {
 		if (!(track instanceof Track)) {
 			throw new Error('Layout.addTrack(): Argument must be an instance of Track');
 		}
-		if (this.#tracks.length === 0 && track.type !== Track.ANCHOR) {
+		if (this.#tracks.length === 0 && track.type !== Track.STARTING_ANCHOR) {
 			throw new Error('Layout.addTrack(): First track added must be an Anchor');
 		}
-		if (track.type === Track.ANCHOR) {
-			if (this.#tracks.length === 0) {
-				track.#attributes.endingPosition = track.startingPosition;
-			} else {
-				track.endingPosition = null;
-			}
+		if (this.#tracks.length !== 0) {
+			track.connectTo(this.#tracks.at(-1));
 		}
 		this.#tracks.push(track);
 	}
