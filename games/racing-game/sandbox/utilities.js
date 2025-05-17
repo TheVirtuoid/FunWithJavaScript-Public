@@ -5,6 +5,7 @@ import {
 	Tools,
 	Vector3
 } from "@babylonjs/core";
+import V3 from "../src/classes/V3/V3.js";
 
 export function bezierCurve3d(args = {}) {
 	const { startPoint, controlPoint1, controlPoint2, endPoint, segments = 10, zAdjust = 0 } = args;
@@ -34,8 +35,8 @@ export function bezierCurve3d(args = {}) {
 export function renderStraight(args = {}) {
 	const {
 		startPoint,
-		controlPoint1,
-		controlPoint2,
+		controlPoint1: cp1,
+		controlPoint2: cp2,
 		endPoint,
 		scene,
 		roadWidth = 4,
@@ -43,6 +44,16 @@ export function renderStraight(args = {}) {
 		firstGuardRailScale = { startScale: .6, endScale: .6 },
 		secondGuardRailScale = { startScale: .6, endScale: .6 }
 	} = args;
+	const controlPoint1 = new V3(
+		cp1.x + startPoint.x,
+		cp1.y + startPoint.y,
+		cp1.z + startPoint.z
+	);
+	const controlPoint2 = new V3(
+		cp2.x + startPoint.x,
+		cp2.y + startPoint.y,
+		cp2.z + startPoint.z
+	);
 	const originalPoints = bezierCurve3d({ startPoint, controlPoint1, controlPoint2, endPoint, segments});
 	const offsetDistance = roadWidth / 2;
 	const { offsetPoints1, offsetPoints2 } = generateOffsetPoints(originalPoints, offsetDistance);

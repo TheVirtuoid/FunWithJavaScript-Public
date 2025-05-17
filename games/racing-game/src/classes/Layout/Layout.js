@@ -22,8 +22,13 @@ export default class Layout {
 			this.addTrack(track);
 		});
 	}
+
 	get id() {
 		return this.#id;
+	}
+
+	get tracks() {
+		return this.#tracks;
 	}
 
 	getSize() {

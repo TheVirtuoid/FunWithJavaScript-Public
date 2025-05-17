@@ -12,15 +12,17 @@ import { Inspector } from '@babylonjs/inspector';
 import HavokPhysics from "@babylonjs/havok";
 import {renderCurve, renderStraight} from "./utilities.js";
 import Marble from "./Marble.js";
+import Track from "../src/classes/Track/Track.js";
+import V3 from "../src/classes/V3/V3.js";
 
 export default class App {
 
 	static GRAVITY = 1;
 	static CAMERA_VIEW = false;
-	static MODELS = true;
-	static SX = 0;
-	static SY = 39;
-	static SZ = -55;
+	static MODELS = false;
+	static SX = 5;
+	static SY = 0;
+	static SZ = 5;
 	static TRACKWIDTH = 4;
 
 	#emptyCanvas;
@@ -69,8 +71,6 @@ export default class App {
 
 		this.#renderLoopHandle = this.renderLoop.bind(this);
 		this.#loadBuildingHandle = this.loadBuilding.bind(this);
-
-		this.#processRealLayout(realLayout);
 
 		const colors = [
 			new Color3(0, 0, 0),
@@ -129,8 +129,8 @@ export default class App {
 			});
 		}
 
-		this.#addToScene(layout)
-			.then(this.#loadBuildingHandle)
+		this.#addToScene(realLayout)
+			// .then(this.#loadBuildingHandle)
 			.then(this.#renderLoopHandle)
 			.catch((event) => {
 				console.log('CAUGHT ERROR', event);
@@ -217,29 +217,82 @@ export default class App {
 		// Create a static box shape.
 		new PhysicsAggregate(this.#ground, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, this.#scene);
 
-		layout.forEach((track) => {
+		layout.tracks.forEach((track) => {
+			if (track.type === Track.STARTING_ANCHOR) {
+				this.#layout.push(this.generateAStraightRoad(track));
+			} else if (track.type === Track.STRAIGHT) {
+				this.#layout.push(this.generateAStraightRoad(track));
+			} else if (track.type === Track.ENDING_ANCHOR) {
+				this.#layout.push(this.generateAStraightRoad(track));
+			}
+		});
+
+		/*layout.forEach((track) => {
 			if (track.type === 'straight') {
 				this.#layout.push(this.generateAStraightRoad(track));
 			} else if (track.type === 'curve') {
 				this.#layout.push(this.generateACurve(track));
 			}
-		});
+		});*/
 
-		this.#layout.forEach((track) => {
+		/*this.#layout.forEach((track) => {
 			new PhysicsAggregate(
 				track,
 				PhysicsShapeType.MESH,
 				{ mass: 0, friction: 0 }, this.#scene
 			);
-
-		});
+		});*/
 	}
 
-	generateAStraightRoad(args) {
+	/*generateAStraightRoad(args) {
 		const { startPoint, controlPoint1, controlPoint2, endPoint } = args;
 		const segments = 100;
 		const trackWidth = 4;
 		return renderStraight({ startPoint, controlPoint1, controlPoint2, endPoint, segments, trackWidth, scene: this.#scene });
+	}*/
+
+	generateAStraightRoad(track) {
+		const startPoint = track.startingPosition;
+		const endPoint = track.endingPosition
+			? track.endingPosition
+			: track.startingDirectionVector.setDirectedPosition(track.startingPosition, track.length);
+		// console.log(startPoint, endPoint);
+		const { controlPoint1: cp1, controlPoint2: cp2} = track.contour ? track.contour : this.#getStraightBezierCurve(startPoint, endPoint);
+		// control points are adjusted in the renderStraight function.
+		const controlPoint1 = new V3(cp1.x, cp1.y, cp1.z);
+		const controlPoint2 = new V3(cp2.x, cp2.y, cp2.z);
+		const segments = 100;
+		const trackWidth = App.TRACKWIDTH;
+		return renderStraight({ startPoint, controlPoint1, controlPoint2, endPoint, segments, trackWidth, scene: this.#scene });
+	}
+
+	#getStraightBezierCurve(startPoint, endPoint) {
+		// Calculate control points at 1/3 and 2/3 along the straight line
+		/*const controlPoint1 = {
+			x: startPoint.x + (endPoint.x - startPoint.x) / 3,
+			y: startPoint.y + (endPoint.y - startPoint.y) / 3,
+			z: startPoint.z + (endPoint.z - startPoint.z) / 3
+		};
+
+		const controlPoint2 = {
+			x: startPoint.x + 2 * (endPoint.x - startPoint.x) / 3,
+			y: startPoint.y + 2 * (endPoint.y - startPoint.y) / 3,
+			z: startPoint.z + 2 * (endPoint.z - startPoint.z) / 3
+		};*/
+
+		const controlPoint1 = {
+			x: (endPoint.x - startPoint.x) / 3,
+			y: (endPoint.y - startPoint.y) / 3,
+			z: (endPoint.z - startPoint.z) / 3
+		};
+
+		const controlPoint2 = {
+			x: 2 * (endPoint.x - startPoint.x) / 3,
+			y: 2 * (endPoint.y - startPoint.y) / 3,
+			z: 2 * (endPoint.z - startPoint.z) / 3
+		};
+
+		return { controlPoint1, controlPoint2 };
 	}
 
 	generateACurve(args) {
@@ -264,21 +317,6 @@ export default class App {
 			firstGuardRailScale,
 			secondGuardRailScale,
 			scene: this.#scene
-		});
-	}
-
-	#processRealLayout(realLayout) {
-		const layout = [];
-		realLayout.forEach((track) => {
-			console.log(track);
-			switch (track.type) {
-				case 'straight':
-					break;
-				case 'curve':
-					break;
-				case 'anchor':
-					break;
-			}
 		});
 	}
 
