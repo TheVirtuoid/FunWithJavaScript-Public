@@ -1,9 +1,6 @@
 import Track from "../Track/Track.js";
 
 export default class V3 {
-	static PERPENDICULAR_NEGATIVE = Symbol('perpendicular-negative');
-	static PERPENDICULAR_POSITIVE = Symbol('perpendicular-positive');
-
 	static DIRECTION_POSITIVE = Symbol('direction-positive');		// clockwise
 	static DIRECTION_NEGATIVE = Symbol('direction-negative');		// counter-clockwise
 
@@ -73,13 +70,13 @@ export default class V3 {
 		if (this.x === 0 && this.y === 0 && this.z === 0) {
 			throw new Error('V3.perpendicular: Cannot find a perpendicular vector for the zero vector');
 		}
-		if (direction !== V3.PERPENDICULAR_NEGATIVE && direction !== V3.PERPENDICULAR_POSITIVE) {
-			throw new Error('V3.perpendicular: Argument must be V3.PERPENDICULAR_NEGATIVE or V3.PERPENDICULAR_POSITIVE');
+		if (direction !== V3.DIRECTION_NEGATIVE && direction !== V3.DIRECTION_POSITIVE) {
+			throw new Error('V3.perpendicular: Argument must be V3.DIRECTION_NEGATIVE or V3.DIRECTION_POSITIVE');
 		}
-		if (direction === V3.PERPENDICULAR_POSITIVE) {
-			return new V3(this.z, this.y, this.x * -1);
+		if (direction === V3.DIRECTION_POSITIVE) {
+			return new V3(-this.z, this.y, this.x);
 		} else {
-			return new V3(this.z * -1, this.y, this.x);
+			return new V3(this.z, this.y, -this.x);
 		}
 	}
 

@@ -107,9 +107,17 @@ describe('When I work with the Track class', () => {
 		let finishLine;
 
 		const radius = 50;
+		const tolerance = 0.0001;
 
 		const startingPosition = new V3(1, 1, 1);
 		const startingDirectionVector = new V3(1, 0, 0);
+
+		const inTolerance = (source, destination) => {
+			const x = Math.abs(source.x - destination.x);
+			const y = Math.abs(source.y - destination.y);
+			const z = Math.abs(source.z - destination.z);
+			return x < tolerance && y < tolerance && z < tolerance;
+		}
 
 		beforeEach(() => {
 			startingAnchor = Track.CreateStartingAnchor({ startingPosition, startingDirectionVector});
@@ -187,14 +195,25 @@ describe('When I work with the Track class', () => {
 
 				const { x: svx, y: svy, z: svz } = curve180Positive.startingDirectionVector;
 				const { x: spx, y: spy, z: spz } = curve180Positive.startingPosition;
-				expect(curve180Positive.endingDirectionVector.compareTo(new V3(svx * -1, svy, svz * -1))).to.be.true;
-				const endingPosition = new V3(spx, spy, spz - 2 * curve180Positive.radius);
-				expect(curve180Positive.endingPosition.compareTo(endingPosition)).to.be.true;
+				const { x: evx, y: evy, z: evz } = curve180Positive.endingDirectionVector;
+				const { x: epx, y: epy, z: epz } = curve180Positive.endingPosition;
+				expect(evx).to.be.closeTo(svx * -1, tolerance);
+				expect(evy).to.be.closeTo(svy, tolerance);
+				expect(evz).to.be.closeTo(svz * -1, tolerance);
+
+				const endingPosition = new V3(spx, spy, spz + 2 * curve180Positive.radius);
+				expect(epx).to.be.closeTo(endingPosition.x, tolerance);
+				expect(epy).to.be.closeTo(endingPosition.y, tolerance);
+				expect(epz).to.be.closeTo(endingPosition.z, tolerance);
 				const cp1 = new V3(spx + radius, spy, spz);
-				const cp2 = new V3(spx + radius, spy, spz - radius * 2);
+				const cp2 = new V3(spx + radius, spy, spz + radius * 2);
 				const { controlPoint1, controlPoint2 } = curve180Positive.contour;
-				expect(controlPoint1.compareTo(cp1)).to.be.true;
-				expect(controlPoint2.compareTo(cp2)).to.be.true;
+				expect(controlPoint1.x).to.be.closeTo(cp1.x, tolerance);
+				expect(controlPoint1.y).to.be.closeTo(cp1.y, tolerance);
+				expect(controlPoint1.z).to.be.closeTo(cp1.z, tolerance);
+				expect(controlPoint2.x).to.be.closeTo(cp2.x, tolerance);
+				expect(controlPoint2.y).to.be.closeTo(cp2.y, tolerance);
+				expect(controlPoint2.z).to.be.closeTo(cp2.z, tolerance);
 			});
 
 			it('should have changed the startingPosition, endingPosition of the CURVE180Negative', () => {
@@ -204,14 +223,26 @@ describe('When I work with the Track class', () => {
 
 				const { x: svx, y: svy, z: svz } = curve180Negative.startingDirectionVector;
 				const { x: spx, y: spy, z: spz } = curve180Negative.startingPosition;
-				expect(curve180Negative.endingDirectionVector.compareTo(new V3(svx * -1, svy, svz * -1))).to.be.true;
-				const endingPosition = new V3(spx, spy, spz + 2 * curve180Negative.radius);
-				expect(curve180Negative.endingPosition.compareTo(endingPosition)).to.be.true;
+				const { x: evx, y: evy, z: evz } = curve180Negative.endingDirectionVector;
+				const { x: epx, y: epy, z: epz } = curve180Negative.endingPosition;
+				expect(evx).to.be.closeTo(svx * -1, tolerance);
+				expect(evy).to.be.closeTo(svy, tolerance);
+				expect(evz).to.be.closeTo(svz * -1, tolerance);
+
+				const endingPosition = new V3(spx, spy, spz - 2 * curve180Negative.radius);
+				expect(epx).to.be.closeTo(endingPosition.x, tolerance);
+				expect(epy).to.be.closeTo(endingPosition.y, tolerance);
+				expect(epz).to.be.closeTo(endingPosition.z, tolerance);
+
 				const cp1 = new V3(spx + radius, spy, spz);
-				const cp2 = new V3(spx + radius, spy, spz + radius * 2);
+				const cp2 = new V3(spx + radius, spy, spz - radius * 2);
 				const { controlPoint1, controlPoint2 } = curve180Negative.contour;
-				expect(controlPoint1.compareTo(cp1)).to.be.true;
-				expect(controlPoint2.compareTo(cp2)).to.be.true;
+				expect(controlPoint1.x).to.be.closeTo(cp1.x, tolerance);
+				expect(controlPoint1.y).to.be.closeTo(cp1.y, tolerance);
+				expect(controlPoint1.z).to.be.closeTo(cp1.z, tolerance);
+				expect(controlPoint2.x).to.be.closeTo(cp2.x, tolerance);
+				expect(controlPoint2.y).to.be.closeTo(cp2.y, tolerance);
+				expect(controlPoint2.z).to.be.closeTo(cp2.z, tolerance);
 			});
 
 			it('should have changed the startingPosition, endingPosition of the CURVE90Positive', () => {
@@ -219,19 +250,40 @@ describe('When I work with the Track class', () => {
 				expect(curve90Positive.startingPosition.compareTo(startingAnchor.endingPosition)).to.be.true;
 				expect(curve90Positive.startingDirectionVector.compareTo(startingAnchor.endingDirectionVector)).to.be.true;
 
-				const { x: svx, y: svy, z: svz } = curve90Positive.startingDirectionVector;
 				const { x: spx, y: spy, z: spz } = curve90Positive.startingPosition;
-				expect(curve90Positive.endingDirectionVector.compareTo(new V3(svz * -1, svy, svx * -1))).to.be.true;
+
+				const exp = curve90Positive.startingDirectionVector.perpendicular(V3.DIRECTION_POSITIVE);
+				expect(inTolerance(curve90Positive.endingDirectionVector, exp)).to.be.true;
+
 				const endingPosition = new V3(spx + radius, spy, spz + radius);
-				console.log(endingPosition, curve90Positive.endingPosition);
-				expect(curve90Positive.endingPosition.compareTo(endingPosition)).to.be.true;
-				/*const cp1 = new V3(spx + radius, spy, spz);
-				const cp2 = new V3(spx + radius, spy, spz - radius * 2);
+				expect(inTolerance(curve90Positive.endingPosition, endingPosition)).to.be.true;
+
+				const cp1 = new V3(spx + radius / 2, spy, spz);
+				const cp2 = new V3(spx + radius, spy, spz + radius / 2);
 				const { controlPoint1, controlPoint2 } = curve90Positive.contour;
-				expect(controlPoint1.compareTo(cp1)).to.be.true;
-				expect(controlPoint2.compareTo(cp2)).to.be.true;*/
+				expect(inTolerance(controlPoint1, cp1)).to.be.true;
+				expect(inTolerance(controlPoint2, cp2)).to.be.true;
 			});
 
+			it('should have changed the startingPosition, endingPosition of the CURVE90Negative', () => {
+				curve90Negative.connectTo(startingAnchor);
+				expect(curve90Negative.startingPosition.compareTo(startingAnchor.endingPosition)).to.be.true;
+				expect(curve90Negative.startingDirectionVector.compareTo(startingAnchor.endingDirectionVector)).to.be.true;
+
+				const { x: spx, y: spy, z: spz } = curve90Negative.startingPosition;
+
+				const exp = curve90Negative.startingDirectionVector.perpendicular(V3.DIRECTION_NEGATIVE);
+				expect(inTolerance(curve90Negative.endingDirectionVector, exp)).to.be.true;
+
+				const endingPosition = new V3(spx + radius, spy, spz - radius);
+				expect(inTolerance(curve90Negative.endingPosition, endingPosition)).to.be.true;
+
+				const cp1 = new V3(spx + radius / 2, spy, spz);
+				const cp2 = new V3(spx + radius, spy, spz - radius / 2);
+				const { controlPoint1, controlPoint2 } = curve90Negative.contour;
+				expect(inTolerance(controlPoint1, cp1)).to.be.true;
+				expect(inTolerance(controlPoint2, cp2)).to.be.true;
+			});
 
 		});
 	});

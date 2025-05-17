@@ -145,11 +145,11 @@ export default class Track {
 				const { x: svx, y: svy, z: svz } = this.startingDirectionVector;
 				const { x: spx, y: spy, z: spz } = this.startingPosition;
 				const vectorDirection = this.curveDirection === Track.CURVE_DIRECTION_POSITIVE
-					? V3.PERPENDICULAR_POSITIVE
-					: V3.PERPENDICULAR_NEGATIVE
+					? V3.DIRECTION_POSITIVE
+					: V3.DIRECTION_NEGATIVE
 				switch(this.degrees) {
-					case 180:
-						this.#attributes.endingDirectionVector = new V3( svx * -1, svy, svz * -1);
+					case 180: {
+						this.#attributes.endingDirectionVector = this.startingDirectionVector.getDirectionVectorFromDegrees(180, vectorDirection);
 						normalized = this.startingDirectionVector.normalize();
 						perpendicular = normalized.perpendicular(vectorDirection);
 						this.#attributes.endingPosition = new V3(
@@ -160,9 +160,10 @@ export default class Track {
 						const controlPoint1 = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.radius);
 						const cpDirectionVector = this.startingDirectionVector.perpendicular(vectorDirection);
 						const controlPoint2 = cpDirectionVector.setDirectedPosition(controlPoint1, this.radius * 2);
-						this.#attributes.contour = { controlPoint1, controlPoint2 };
+						this.#attributes.contour = {controlPoint1, controlPoint2};
 						break;
-					case 90:
+					}
+					case 90: {
 						this.#attributes.endingDirectionVector = this.startingDirectionVector.perpendicular(vectorDirection);
 						normalized = this.startingDirectionVector.normalize();
 						perpendicular = normalized.perpendicular(vectorDirection);
@@ -171,17 +172,17 @@ export default class Track {
 							spy,
 							spz + this.radius * perpendicular.z
 						);
-						console.log('---> P=', perpendicular, this.endingDirectionVector);
 						this.#attributes.endingPosition = new V3(
 							center.x + this.radius * normalized.x,
 							spy,
 							center.z + this.radius * normalized.z,
 						);
-						/*const controlPoint1 = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.radius);
-						const cpDirectionVector = this.startingDirectionVector.perpendicular(vectorDirection);
-						const controlPoint2 = cpDirectionVector.setDirectedPosition(controlPoint1, this.radius * 2);
-						this.#attributes.contour = { controlPoint1, controlPoint2 };*/
+						const controlPoint1 = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.radius / 2);
+						const cp2StartPosition = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.radius);
+						const controlPoint2 = this.endingDirectionVector.setDirectedPosition(cp2StartPosition, this.radius / 2);
+						this.#attributes.contour = {controlPoint1, controlPoint2};
 						break;
+					}
 				}
 				break;
 			case Track.STRAIGHT:

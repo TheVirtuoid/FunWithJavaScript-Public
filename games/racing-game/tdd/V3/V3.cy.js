@@ -90,23 +90,82 @@ describe('When I work with the V3 Class', () => {
 		describe('And I work with perpendicular()', () => {
 			it('should return a perpendicular vector on x-axis', () => {
 				const vector = new V3(1, 0, 2);
-				const perpendicular = vector.perpendicular(V3.PERPENDICULAR_NEGATIVE);
-				expect(perpendicular.x).to.equal(-2);
+				const perpendicular = vector.perpendicular(V3.DIRECTION_NEGATIVE);
+				expect(perpendicular.x).to.equal(2);
 				expect(perpendicular.y).to.equal(0);
-				expect(perpendicular.z).to.equal(1);
+				expect(perpendicular.z).to.equal(-1);
 			});
 
 			it('should return a perpendicular vector on z-axis', () => {
 				const vector = new V3(2, 0, 1);
-				const perpendicular = vector.perpendicular(V3.PERPENDICULAR_POSITIVE);
-				expect(perpendicular.x).to.equal(1);
+				const perpendicular = vector.perpendicular(V3.DIRECTION_POSITIVE);
+				expect(perpendicular.x).to.equal(-1);
 				expect(perpendicular.y).to.equal(0);
-				expect(perpendicular.z).to.equal(-2);
+				expect(perpendicular.z).to.equal(2);
+			});
+
+			describe('And when I try the positives and negatives on (1, 0, 0)', () => {
+				it('should return a perpendicular vector on x-axis positive', () => {
+					const vector = new V3(1, 0, 0);
+					const perpendicular = vector.perpendicular(V3.DIRECTION_POSITIVE);
+					expect(perpendicular.x).to.equal(0);
+					expect(perpendicular.y).to.equal(0);
+					expect(perpendicular.z).to.equal(1);
+				});
+				it('should return a perpendicular vector on x-axis negative', () => {
+					const vector = new V3(1, 0, 0);
+					const perpendicular = vector.perpendicular(V3.DIRECTION_NEGATIVE);
+					expect(perpendicular.x).to.equal(0);
+					expect(perpendicular.y).to.equal(0);
+					expect(perpendicular.z).to.equal(-1);
+				});
+				it('should return a perpendicular vector on (-)x-axis positive', () => {
+					const vector = new V3(-1, 0, 0);
+					const perpendicular = vector.perpendicular(V3.DIRECTION_POSITIVE);
+					expect(perpendicular.x).to.equal(0);
+					expect(perpendicular.y).to.equal(0);
+					expect(perpendicular.z).to.equal(-1);
+				});
+				it('should return a perpendicular vector on (-)x-axis negative', () => {
+					const vector = new V3(-1, 0, 0);
+					const perpendicular = vector.perpendicular(V3.DIRECTION_NEGATIVE);
+					expect(perpendicular.x).to.equal(0);
+					expect(perpendicular.y).to.equal(0);
+					expect(perpendicular.z).to.equal(1);
+				});
+				it('should return a perpendicular vector on z-axis positive', () => {
+					const vector = new V3(0, 0, 1);
+					const perpendicular = vector.perpendicular(V3.DIRECTION_POSITIVE);
+					expect(perpendicular.x).to.equal(-1);
+					expect(perpendicular.y).to.equal(0);
+					expect(perpendicular.z).to.equal(0);
+				});
+				it('should return a perpendicular vector on z-axis negative', () => {
+					const vector = new V3(0, 0, 1);
+					const perpendicular = vector.perpendicular(V3.DIRECTION_NEGATIVE);
+					expect(perpendicular.x).to.equal(1);
+					expect(perpendicular.y).to.equal(0);
+					expect(perpendicular.z).to.equal(0);
+				});
+				it('should return a perpendicular vector on (-)z-axis positive', () => {
+					const vector = new V3(0, 0, -1);
+					const perpendicular = vector.perpendicular(V3.DIRECTION_POSITIVE);
+					expect(perpendicular.x).to.equal(1);
+					expect(perpendicular.y).to.equal(0);
+					expect(perpendicular.z).to.equal(0);
+				});
+				it('should return a perpendicular vector on (-)z-axis negative', () => {
+					const vector = new V3(0, 0, -1);
+					const perpendicular = vector.perpendicular(V3.DIRECTION_NEGATIVE);
+					expect(perpendicular.x).to.equal(-1);
+					expect(perpendicular.y).to.equal(0);
+					expect(perpendicular.z).to.equal(0);
+				});
 			});
 
 			it('should throw error if trying to perpendicular on a zero vector', () => {
 				const vector = new V3(0, 0, 0);
-				expect( () => vector.perpendicular(V3.PERPENDICULAR_POSITIVE)).to.throw();
+				expect( () => vector.perpendicular(V3.DIRECTION_POSITIVE)).to.throw();
 			});
 
 			it('should throw error if thar argument is invalid', () => {
