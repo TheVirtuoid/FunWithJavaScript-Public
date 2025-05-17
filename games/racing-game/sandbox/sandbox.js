@@ -1,6 +1,7 @@
 import './sandbox.pcss';
 import App from "./app.js";
 import Track from "../src/classes/Track/Track.js";
+import V3 from "../src/classes/V3/V3.js";
 
 const layout = [
 	{
@@ -34,12 +35,16 @@ const layout = [
 ];
 
 const realLayout = [
-	Track.CreateAnchor({ startingPoint: { x: App.SX, y: App.SY, z: App.SZ } }),
+	Track.CreateStartingAnchor({
+		startingPosition: new V3(App.SX, App.SY, App.SZ),
+		startingDirectionVector: new V3(.5, 0, .5),
+	}),
 	Track.CreateStraight({
-		endPoint: { x: App.SX, y: App.SY - 39, z: App.SZ + 55 },
+		length: 13,
+		// endPoint: { x: App.SX, y: App.SY - 39, z: App.SZ + 55 },
 		contour: {
-			controlPoint1: { x: App.SX, y: App.SY - 29.25, z: App.SZ + 40 },
-			controlPoint2: { x: App.SX, y: App.SY - 39, z: App.SZ + 42 },
+			controlPoint1: new V3(App.SX, App.SY - 29.25, App.SZ + 40),
+			controlPoint2: new V3(App.SX, App.SY - 39, App.SZ + 42)
 		},
 	}),
 	Track.CreateCurve({

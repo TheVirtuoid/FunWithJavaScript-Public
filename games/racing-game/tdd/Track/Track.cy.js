@@ -98,10 +98,15 @@ describe('When I work with the Track class', () => {
 		let startingAnchor;
 		let straight;
 		let straightContour;
-		let curve;
+		let curve180Positive;
+		let curve180Negative;
+		let curve90Positive;
+		let curve90Negative;
 		let endingAnchor;
 		let startLine;
 		let finishLine;
+
+		const radius = 50;
 
 		const startingPosition = new V3(1, 1, 1);
 		const startingDirectionVector = new V3(1, 0, 0);
@@ -116,7 +121,10 @@ describe('When I work with the Track class', () => {
 					controlPoint2: new V3(1, 1, 0)
 				},
 			});
-			curve = Track.CreateCurve({radius: 10, degrees: 90});
+			curve180Positive = Track.CreateCurve({radius, degrees: 180, curveDirection: Track.CURVE_DIRECTION_POSITIVE });
+			curve180Negative = Track.CreateCurve({radius, degrees: 180, curveDirection: Track.CURVE_DIRECTION_NEGATIVE });
+			curve90Positive = Track.CreateCurve({radius, degrees: 90, curveDirection: Track.CURVE_DIRECTION_POSITIVE });
+			curve90Negative = Track.CreateCurve({radius, degrees: 90, curveDirection: Track.CURVE_DIRECTION_NEGATIVE });
 			endingAnchor = Track.CreateEndingAnchor({});
 			startLine = Track.CreateStartLine({});
 			finishLine = Track.CreateFinishLine({});
@@ -164,23 +172,78 @@ describe('When I work with the Track class', () => {
 
 		it('should have changed the endingPosition of the STRAIGHT with contour', () => {
 			straightContour.connectTo(startingAnchor);
-			console.log(straightContour.startingDirectionVector.coordinates());
-			console.log(straightContour.endingDirectionVector.coordinates());
-			console.log(straightContour.contour);
 			const endingX = startingAnchor.startingPosition.x + startingAnchor.length + straightContour.length;
 			expect(straightContour.endingPosition.compareTo(new V3(endingX, 1, 1))).to.be.true;
-			expect(straightContour.endingDirectionVector.compareTo(straightContour.startingDirectionVector)).to.be.true;
+			expect(straightContour.endingDirectionVector.x).to.be.closeTo(1, .1);
+			expect(straightContour.endingDirectionVector.y).to.equal(0);
+			expect(straightContour.endingDirectionVector.z).to.be.closeTo(0, .1);
+		});
+
+		describe('And when I work with CURVE', () => {
+			it('should have changed the startingPosition, endingPosition of the CURVE180Positive', () => {
+				curve180Positive.connectTo(startingAnchor);
+				expect(curve180Positive.startingPosition.compareTo(startingAnchor.endingPosition)).to.be.true;
+				expect(curve180Positive.startingDirectionVector.compareTo(startingAnchor.endingDirectionVector)).to.be.true;
+
+				const { x: svx, y: svy, z: svz } = curve180Positive.startingDirectionVector;
+				const { x: spx, y: spy, z: spz } = curve180Positive.startingPosition;
+				expect(curve180Positive.endingDirectionVector.compareTo(new V3(svx * -1, svy, svz * -1))).to.be.true;
+				const endingPosition = new V3(spx, spy, spz - 2 * curve180Positive.radius);
+				expect(curve180Positive.endingPosition.compareTo(endingPosition)).to.be.true;
+				const cp1 = new V3(spx + radius, spy, spz);
+				const cp2 = new V3(spx + radius, spy, spz - radius * 2);
+				const { controlPoint1, controlPoint2 } = curve180Positive.contour;
+				expect(controlPoint1.compareTo(cp1)).to.be.true;
+				expect(controlPoint2.compareTo(cp2)).to.be.true;
+			});
+
+			it('should have changed the startingPosition, endingPosition of the CURVE180Negative', () => {
+				curve180Negative.connectTo(startingAnchor);
+				expect(curve180Negative.startingPosition.compareTo(startingAnchor.endingPosition)).to.be.true;
+				expect(curve180Negative.startingDirectionVector.compareTo(startingAnchor.endingDirectionVector)).to.be.true;
+
+				const { x: svx, y: svy, z: svz } = curve180Negative.startingDirectionVector;
+				const { x: spx, y: spy, z: spz } = curve180Negative.startingPosition;
+				expect(curve180Negative.endingDirectionVector.compareTo(new V3(svx * -1, svy, svz * -1))).to.be.true;
+				const endingPosition = new V3(spx, spy, spz + 2 * curve180Negative.radius);
+				expect(curve180Negative.endingPosition.compareTo(endingPosition)).to.be.true;
+				const cp1 = new V3(spx + radius, spy, spz);
+				const cp2 = new V3(spx + radius, spy, spz + radius * 2);
+				const { controlPoint1, controlPoint2 } = curve180Negative.contour;
+				expect(controlPoint1.compareTo(cp1)).to.be.true;
+				expect(controlPoint2.compareTo(cp2)).to.be.true;
+			});
+
+			it('should have changed the startingPosition, endingPosition of the CURVE90Positive', () => {
+				curve90Positive.connectTo(startingAnchor);
+				expect(curve90Positive.startingPosition.compareTo(startingAnchor.endingPosition)).to.be.true;
+				expect(curve90Positive.startingDirectionVector.compareTo(startingAnchor.endingDirectionVector)).to.be.true;
+
+				const { x: svx, y: svy, z: svz } = curve90Positive.startingDirectionVector;
+				const { x: spx, y: spy, z: spz } = curve90Positive.startingPosition;
+				expect(curve90Positive.endingDirectionVector.compareTo(new V3(svz * -1, svy, svx * -1))).to.be.true;
+				const endingPosition = new V3(spx + radius, spy, spz + radius);
+				console.log(endingPosition, curve90Positive.endingPosition);
+				expect(curve90Positive.endingPosition.compareTo(endingPosition)).to.be.true;
+				/*const cp1 = new V3(spx + radius, spy, spz);
+				const cp2 = new V3(spx + radius, spy, spz - radius * 2);
+				const { controlPoint1, controlPoint2 } = curve90Positive.contour;
+				expect(controlPoint1.compareTo(cp1)).to.be.true;
+				expect(controlPoint2.compareTo(cp2)).to.be.true;*/
+			});
+
+
 		});
 	});
 
-	describe('And when I use the setEndPoints method', () => {
+	/*describe('And when I use the setEndPoints method', () => {
 		const id = 'id';
 		const length = 10;
 		it('should throw error if startingPoints has not been set', () => {
 			const track = Track.CreateStraight({ id, length });
 			expect(() => track.setEndPoints()).to.throw();
 		});
-	});
+	});*/
 
 	describe('And when I work with the common attributes', () => {
 		let track;

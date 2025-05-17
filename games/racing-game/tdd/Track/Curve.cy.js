@@ -12,7 +12,7 @@ describe('When I create a Curve piece of track', () => {
 		let radius = 10;
 		let degrees = 90;
 		let depthDrop = [1, 2, 3, 4];
-		let curveDirection = 'left';
+		let curveDirection = Track.CURVE_DIRECTION_POSITIVE;
 		let id = 'curve';
 
 		beforeEach(() => {
@@ -70,7 +70,7 @@ describe('When I create a Curve piece of track', () => {
 		});
 
 		it('should throw an error when trying to set the curveDirection', () => {
-			expect(() => track.curveDirection = 'right').to.throw();
+			expect(() => track.curveDirection = Track.CURVE_DIRECTION_NEGATIVE).to.throw();
 		});
 	});
 
@@ -93,10 +93,10 @@ describe('When I create a Curve piece of track', () => {
 			expect(() => Track.CreateCurve({depthDrop: 'bad'})).to.throw();
 		});
 
-		it('should throw error if curveDirection is not left or right', () => {
+		it('should throw error if curveDirection is not XAXIS or ZAXIS', () => {
 			let track;
-			track = Track.CreateCurve({ curveDirection: 'left'});
-			track = Track.CreateCurve({ curveDirection: 'right'});
+			track = Track.CreateCurve({ curveDirection: Track.CURVE_DIRECTION_POSITIVE});
+			track = Track.CreateCurve({ curveDirection: Track.CURVE_DIRECTION_POSITIVE});
 			expect(() => Track.CreateCurve({curveDirection: 'up'})).to.throw();
 		});
 

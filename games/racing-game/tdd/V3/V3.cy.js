@@ -1,4 +1,5 @@
 import V3 from "../../src/classes/V3/V3.js";
+import Track from "../../src/classes/Track/Track.js";
 
 describe('When I work with the V3 Class', () => {
 	it('should instantiate the class', () => {
@@ -30,7 +31,7 @@ describe('When I work with the V3 Class', () => {
 		expect(() => v3.z = 2).to.throw;
 	});
 
-	describe('normalize()', () => {
+	describe('And when I work with the methods', () => {
 		it('should return a vector with a magnitude of 1', () => {
 			const vector = new V3(3, 4, 0);
 			const normalized = vector.normalize();
@@ -42,9 +43,7 @@ describe('When I work with the V3 Class', () => {
 			const vector = new V3(0, 0, 0);
 			expect(() => vector.normalize()).to.throw('Cannot normalize a zero vector');
 		});
-	});
 
-	describe('scale()', () => {
 		it('should return a vector with the correct magnitude', () => {
 			const vector = new V3(1, 0, 0);
 			const scaled = vector.scale(5);
@@ -57,9 +56,7 @@ describe('When I work with the V3 Class', () => {
 			const vector = new V3(1, 1, 1);
 			expect(() => vector.scale(-1)).to.throw('Length must be a positive number');
 		});
-	});
 
-	describe('setDirectedPosition()', () => {
 		it('should return the correct new position', () => {
 			const vector = new V3(1, 1, 1);
 			const startingPosition = new V3(0, 0, 0);
@@ -68,13 +65,48 @@ describe('When I work with the V3 Class', () => {
 			expect(newPosition.y).to.be.closeTo(2.8868, 0.0001);
 			expect(newPosition.z).to.be.closeTo(2.8868, 0.0001);
 		});
-	});
 
-	describe('clone()', () => {
+		it('should correctly compare two vectors', () => {
+			const vector1 = new V3(1, 2, 3);
+			const vector2 = new V3(1, 2, 3);
+			const vector3 = new V3(4, 5, 6);
+			expect(vector1.compareTo(vector2)).to.be.true;
+			expect(vector1.compareTo(vector3)).to.be.false;
+		});
+
 		it('should clone', () => {
 			const vector = new V3(1, 2, 3);
 			const clone = vector.clone();
 			expect(clone.compareTo(vector)).to.be.true;
+		});
+
+		describe('And I work with perpendicular()', () => {
+			it('should return a perpendicular vector on x-axis', () => {
+				const vector = new V3(1, 0, 2);
+				const perpendicular = vector.perpendicular(V3.PERPENDICULAR_NEGATIVE);
+				expect(perpendicular.x).to.equal(-2);
+				expect(perpendicular.y).to.equal(0);
+				expect(perpendicular.z).to.equal(1);
+			});
+
+			it('should return a perpendicular vector on z-axis', () => {
+				const vector = new V3(2, 0, 1);
+				const perpendicular = vector.perpendicular(V3.PERPENDICULAR_POSITIVE);
+				expect(perpendicular.x).to.equal(1);
+				expect(perpendicular.y).to.equal(0);
+				expect(perpendicular.z).to.equal(-2);
+			});
+
+			it('should throw error if trying to perpendicular on a zero vector', () => {
+				const vector = new V3(0, 0, 0);
+				expect( () => vector.perpendicular(V3.PERPENDICULAR_POSITIVE)).to.throw();
+			});
+
+			it('should throw error if thar argument is invalid', () => {
+				const vector = new V3(0, 0, 1);
+				expect( () => vector.perpendicular('baddie')).to.throw();
+			});
+
 		});
 	});
 });

@@ -1,4 +1,9 @@
+import Track from "../Track/Track.js";
+
 export default class V3 {
+	static PERPENDICULAR_NEGATIVE = Symbol('perpendicular-negative');
+	static PERPENDICULAR_POSITIVE = Symbol('perpendicular-positive');
+
 	#x;
 	#y;
 	#z;
@@ -59,5 +64,19 @@ export default class V3 {
 
 	clone() {
 		return new V3(this.#x, this.#y, this.#z);
+	}
+
+	perpendicular(direction) {
+		if (this.x === 0 && this.y === 0 && this.z === 0) {
+			throw new Error('V3.perpendicular: Cannot find a perpendicular vector for the zero vector');
+		}
+		if (direction !== V3.PERPENDICULAR_NEGATIVE && direction !== V3.PERPENDICULAR_POSITIVE) {
+			throw new Error('V3.perpendicular: Argument must be V3.PERPENDICULAR_NEGATIVE or V3.PERPENDICULAR_POSITIVE');
+		}
+		if (direction === V3.PERPENDICULAR_POSITIVE) {
+			return new V3(this.z, this.y, this.x * -1);
+		} else {
+			return new V3(this.z * -1, this.y, this.x);
+		}
 	}
 }

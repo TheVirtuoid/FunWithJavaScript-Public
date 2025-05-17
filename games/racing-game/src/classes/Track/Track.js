@@ -25,6 +25,9 @@ export default class Track {
 	static TRACK_WIDTH = 4;
 	static ANCHOR_DEFAULT_LENGTH = 1;
 
+	static CURVE_DIRECTION_POSITIVE = Symbol('curve-direction-positive');
+	static CURVE_DIRECTION_NEGATIVE = Symbol('curve-direction-negative');
+
 	#id;
 	#type;
 	#name;
@@ -135,7 +138,52 @@ export default class Track {
 		}
 		this.#attributes.startingPosition = new V3(...track.endingPosition.coordinates());
 		this.#attributes.startingDirectionVector = new V3(...track.endingDirectionVector.coordinates());
+		let normalized;
+		let perpendicular;
 		switch(this.type) {
+			case Track.CURVE:
+				const { x: svx, y: svy, z: svz } = this.startingDirectionVector;
+				const { x: spx, y: spy, z: spz } = this.startingPosition;
+				const vectorDirection = this.curveDirection === Track.CURVE_DIRECTION_POSITIVE
+					? V3.PERPENDICULAR_POSITIVE
+					: V3.PERPENDICULAR_NEGATIVE
+				switch(this.degrees) {
+					case 180:
+						this.#attributes.endingDirectionVector = new V3( svx * -1, svy, svz * -1);
+						normalized = this.startingDirectionVector.normalize();
+						perpendicular = normalized.perpendicular(vectorDirection);
+						this.#attributes.endingPosition = new V3(
+							spx + 2 * this.radius * perpendicular.x,
+							spy,
+							spz + 2 * this.radius * perpendicular.z,
+						);
+						const controlPoint1 = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.radius);
+						const cpDirectionVector = this.startingDirectionVector.perpendicular(vectorDirection);
+						const controlPoint2 = cpDirectionVector.setDirectedPosition(controlPoint1, this.radius * 2);
+						this.#attributes.contour = { controlPoint1, controlPoint2 };
+						break;
+					case 90:
+						this.#attributes.endingDirectionVector = this.startingDirectionVector.perpendicular(vectorDirection);
+						normalized = this.startingDirectionVector.normalize();
+						perpendicular = normalized.perpendicular(vectorDirection);
+						const center = new V3(
+							spx + this.radius * perpendicular.x,
+							spy,
+							spz + this.radius * perpendicular.z
+						);
+						console.log('---> P=', perpendicular, this.endingDirectionVector);
+						this.#attributes.endingPosition = new V3(
+							center.x + this.radius * normalized.x,
+							spy,
+							center.z + this.radius * normalized.z,
+						);
+						/*const controlPoint1 = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.radius);
+						const cpDirectionVector = this.startingDirectionVector.perpendicular(vectorDirection);
+						const controlPoint2 = cpDirectionVector.setDirectedPosition(controlPoint1, this.radius * 2);
+						this.#attributes.contour = { controlPoint1, controlPoint2 };*/
+						break;
+				}
+				break;
 			case Track.STRAIGHT:
 				this.#attributes.endingPosition = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.length);
 				if (this.contour === null) {
@@ -169,11 +217,11 @@ export default class Track {
 		}
 	}
 
-	setEndPoints() {
+	/*setEndPoints() {
 		if (this.startingPosition === null || this.startingDirectionVector === null) {
 			throw new Error('Track.getEndPoints(): startingPosition and startingDirectionVector must be set. Use connectTo() to set them.');
 		}
-	}
+	}*/
 
 	/*setEndPoints() {
 		if (this.startingPosition === null || this.startingDirectionVector === null) {
@@ -249,8 +297,8 @@ export default class Track {
 				throw new Error('Track.CreateCurve: depthDrop must be an array of numbers');
 			}
 		}
-		if (curveDirection !== null && curveDirection !== 'left' && curveDirection !== 'right') {
-			throw new Error('Track.CreateCurve: curveDirection must be "left" or "right"');
+		if (curveDirection !== null && curveDirection !== Track.CURVE_DIRECTION_POSITIVE && curveDirection !== Track.CURVE_DIRECTION_NEGATIVE) {
+			throw new Error('Track.CreateCurve: curveDirection must be Track.CURVE_DIRECTION_POSITIVE or Track.CURVE_DIRECTION_NEGATIVE');
 		}
 		return new Track({
 			id,
