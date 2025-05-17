@@ -3,6 +3,7 @@ import Track from "../Track/Track.js";
 export default class V3 {
 	static DIRECTION_POSITIVE = Symbol('direction-positive');		// clockwise
 	static DIRECTION_NEGATIVE = Symbol('direction-negative');		// counter-clockwise
+	static TOLERANCE = 0.0001;
 
 	#x;
 	#y;
@@ -56,6 +57,13 @@ export default class V3 {
 
 	compareTo(vector3) {
 		return this.x === vector3.x && this.y === vector3.y && this.z === vector3.z;
+	}
+
+	compareWithTolerance(vector3, tolerance = V3.TOLERANCE) {
+		const x = Math.abs(this.x - vector3.x);
+		const y = Math.abs(this.y - vector3.y);
+		const z = Math.abs(this.z - vector3.z);
+		return x <= tolerance && y <= tolerance && z <= tolerance;
 	}
 
 	coordinates() {

@@ -74,6 +74,22 @@ describe('When I work with the V3 Class', () => {
 			expect(vector1.compareTo(vector3)).to.be.false;
 		});
 
+		it('should correctly compare two vectors with tolerance', () => {
+			const vector1 = new V3(1, 2, 3);
+			const vector2 = new V3(.99993, 2, 3.00002);
+			const vector3 = new V3(1, 2, 3.1);
+			expect(vector1.compareWithTolerance(vector2)).to.be.true;
+			expect(vector1.compareWithTolerance(vector3)).to.be.false;
+		});
+
+		it('should correctly compare two vectors with specifying tolerance', () => {
+			const vector1 = new V3(1, 2, 3);
+			const vector2 = new V3(.99993, 2, 3.00002);
+			const vector3 = new V3(1, 2, 3.1);
+			expect(vector1.compareWithTolerance(vector2, 0.0001)).to.be.true;
+			expect(vector1.compareWithTolerance(vector3, 0.0001)).to.be.false;
+		});
+
 		it('should set the right coordinates', () => {
 			const vector = new V3(1, 2, 3);
 			const test = [1, 2, 3];
