@@ -6,21 +6,21 @@ export default class Layout {
 	#tracks;
 
 	constructor(args = {}) {
-		const { tracks } = args;
+		const { tracks = [] } = args;
 		this.#id = window?.crypto.randomUUID() || '';
-		if (tracks === undefined) {
-			this.#tracks = [];
-		} else if (!Array.isArray(tracks)) {
+		if (!Array.isArray(tracks)) {
 			throw new Error('Layout constructor: tracks must be an array');
 		} else if (tracks.some((track) => !(track instanceof Track))) {
 			throw new Error('Layout constructor: all elements in tracks must be instances of Track');
-		} else if (tracks.at(0).type !== Track.STARTING_ANCHOR) {
+		} else if (tracks.length !== 0 && tracks.at(0).type !== Track.STARTING_ANCHOR) {
 			throw new Error('Layout constructor: tracks property must begin with a StartingAnchor track');
-		} else if (tracks.at(-1).type !== Track.ENDING_ANCHOR) {
+		} else if (tracks.length !== 0 && tracks.at(-1).type !== Track.ENDING_ANCHOR) {
 			throw new Error('Layout constructor: tracks property must end with an EndingAnchor track');
-		} else {
-			this.#tracks = tracks;
 		}
+		this.#tracks = [];
+		tracks.forEach((track) => {
+			this.addTrack(track);
+		});
 	}
 	get id() {
 		return this.#id;
@@ -50,7 +50,12 @@ export default class Layout {
 	removeTrack(track) {
 		const index = this.#tracks.indexOf(track);
 		if (index !== -1) {
-			return this.#tracks.splice(index, 1)[0];
+			const removedTracks = this.#tracks.splice(index);
+			const removedTrack = removedTracks.shift();
+			removedTracks.forEach((track) => {
+				this.addTrack(track);
+			});
+			return removedTrack;
 		}
 		return undefined;
 	}

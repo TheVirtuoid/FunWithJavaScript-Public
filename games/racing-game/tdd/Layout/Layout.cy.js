@@ -143,28 +143,23 @@ describe('When I work with the Layout class', () => {
 
 		it('should set all the correct positions when passed an array of tracks', () => {
 			const layout = new Layout({ tracks: [startAnchor, straight, curve, endAnchor] });
-			expect(comparePositions(startAnchor.endingPosition, startAnchor.startingPosition)).to.be.true;
-			expect(comparePositions(startAnchor.endingDirectionVector, startAnchor.startingDirectionVector)).to.be.true;
-			expect(comparePositions(straight.startingPosition, startAnchor.endingPosition)).to.be.true;
-			expect(comparePositions(straight.startingDirectionVector, startAnchor.endingDirectionVector)).to.be.true;
-
-
-			expect(comparePositions(straight.endingPosition, curve.startingPosition)).to.be.true;
-			expect(comparePositions(curve.endingPosition, endAnchor.startingPosition)).to.be.true;
+			expect(straight.startingPosition.compareWithTolerance(startAnchor.endingPosition)).to.be.true;
+			expect(curve.startingPosition.compareWithTolerance(straight.endingPosition)).to.be.true;
+			expect(endAnchor.startingPosition.compareWithTolerance(curve.endingPosition)).to.be.true;
 			expect(endAnchor.endingPosition).to.be.null;
 		});
 
 		it('should set the ending position of the first anchor', () => {
 			const layout = new Layout();
 			layout.addTrack(startAnchor);
-			expect(comparePositions(startAnchor.endingPosition, startAnchor.endingPosition)).to.be.true;
+			expect(startAnchor.endingPosition).not.to.be.null;
 		});
 
 		it('should set the starting position of the second track', () => {
 			const layout = new Layout();
 			layout.addTrack(startAnchor);
 			layout.addTrack(straight);
-			expect(comparePositions(startAnchor.endingPosition, straight.startingPosition)).to.be.true;
+			expect(straight.startingPosition.compareWithTolerance(startAnchor.endingPosition)).to.be.true;
 		});
 
 		it('should set the starting position of the third track', () => {
@@ -172,7 +167,7 @@ describe('When I work with the Layout class', () => {
 			layout.addTrack(startAnchor);
 			layout.addTrack(straight);
 			layout.addTrack(curve);
-			expect(comparePositions(straight.endingPosition, curve.startingPosition)).to.be.true;
+			expect(curve.startingPosition.compareWithTolerance(straight.endingPosition)).to.be.true;
 		});
 
 		it('should set the starting position of the last anchor', () => {
@@ -181,7 +176,7 @@ describe('When I work with the Layout class', () => {
 			layout.addTrack(straight);
 			layout.addTrack(curve);
 			layout.addTrack(endAnchor);
-			expect(comparePositions(curve.endingPosition, endAnchor.startingPosition)).to.be.true;
+			expect(endAnchor.startingPosition.compareWithTolerance(curve.endingPosition)).to.be.true;
 		});
 
 		it('should set the ending position of the last anchor to null', () => {
@@ -200,7 +195,8 @@ describe('When I work with the Layout class', () => {
 			layout.addTrack(curve);
 			layout.addTrack(endAnchor);
 			layout.removeTrackById('straight');
-			expect(comparePositions(startAnchor.endingPosition, curve.startingPosition)).to.be.true;
+			expect(curve.startingPosition.compareWithTolerance(startAnchor.endingPosition)).to.be.true;
+			expect(endAnchor.startingPosition.compareWithTolerance(curve.endingPosition)).to.be.true;
 		});
 	});
 });

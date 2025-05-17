@@ -1,5 +1,4 @@
 import V3 from "../../src/classes/V3/V3.js";
-import Track from "../../src/classes/Track/Track.js";
 
 describe('When I work with the V3 Class', () => {
 	it('should instantiate the class', () => {
