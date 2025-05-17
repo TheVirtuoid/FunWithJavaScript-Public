@@ -74,6 +74,13 @@ describe('When I work with the V3 Class', () => {
 			expect(vector1.compareTo(vector3)).to.be.false;
 		});
 
+		it('should set the right coordinates', () => {
+			const vector = new V3(1, 2, 3);
+			const test = [1, 2, 3];
+			const result = vector.coordinates();
+			expect(result).to.deep.equal(test);
+		})
+
 		it('should clone', () => {
 			const vector = new V3(1, 2, 3);
 			const clone = vector.clone();
@@ -107,6 +114,147 @@ describe('When I work with the V3 Class', () => {
 				expect( () => vector.perpendicular('baddie')).to.throw();
 			});
 
+		});
+	});
+
+	describe('And when I work with curving vectors', () => {
+		it('should throw an error if the curve is not a number', () => {
+			const vector = new V3(1, 0, 0);
+			expect(() => vector.getDirectionVectorFromDegrees('a', V3.DIRECTION_POSITIVE)).to.throw('V3.getDirectionVectorFromDegrees: curve must be a number');
+		});
+		it('should throw error is direction if not V3.DIRECTION_POSITIVE or V3.DIRECTION_NEGATIVE', () => {
+			const vector = new V3(1, 0, 0);
+			expect(() => vector.getDirectionVectorFromDegrees(90, 'a')).to.throw('V3.getDirectionVectorFromDegrees: direction must be V3.DIRECTION_POSITIVE or V3.DIRECTION_NEGATIVE');
+		});
+
+		// POSITIVE directions are clockwise
+		// NEGATIVE directions are counter-clockwise
+		describe('And when I work with 90 degree curves', () => {
+			describe('And when I work with positive curves', () => {
+				it('should correctly calculate from an X-Positive direction', () => {
+					const vector = new V3(1, 0, 0);
+					const direction = vector.getDirectionVectorFromDegrees(90, V3.DIRECTION_POSITIVE);
+					expect(direction.x).to.be.closeTo(0, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(1, 0.0001);
+				});
+				it('should correctly calculate from an X-Negative direction', () => {
+					const vector = new V3(-1, 0, 0);
+					const direction = vector.getDirectionVectorFromDegrees(90, V3.DIRECTION_POSITIVE);
+					expect(direction.x).to.be.closeTo(0, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(-1, 0.0001);
+				});
+				it('should correctly calculate from an Z-Positive direction', () => {
+					const vector = new V3(0, 0, 1);
+					const direction = vector.getDirectionVectorFromDegrees(90, V3.DIRECTION_POSITIVE);
+					expect(direction.x).to.be.closeTo(-1, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(0, 0.0001);
+				});
+				it('should correctly calculate from an Z-Negative direction', () => {
+					const vector = new V3(0, 0, -1);
+					const direction = vector.getDirectionVectorFromDegrees(90, V3.DIRECTION_POSITIVE);
+					expect(direction.x).to.be.closeTo(1, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(0, 0.0001);
+				});
+			});
+
+			describe('And when I work with negative curves', () => {
+				it('should correctly calculate from an X-Positive direction', () => {
+					const vector = new V3(1, 0, 0);
+					const direction = vector.getDirectionVectorFromDegrees(90, V3.DIRECTION_NEGATIVE);
+					expect(direction.x).to.be.closeTo(0, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(-1, 0.0001);
+				});
+				it('should correctly calculate from an X-Negative direction', () => {
+					const vector = new V3(-1, 0, 0);
+					const direction = vector.getDirectionVectorFromDegrees(90, V3.DIRECTION_NEGATIVE);
+					expect(direction.x).to.be.closeTo(0, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(1, 0.0001);
+				});
+				it('should correctly calculate from an Z-Positive direction', () => {
+					const vector = new V3(0, 0, 1);
+					const direction = vector.getDirectionVectorFromDegrees(90, V3.DIRECTION_NEGATIVE);
+					expect(direction.x).to.be.closeTo(1, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(0, 0.0001);
+				});
+				it('should correctly calculate from an Z-Negative direction', () => {
+					const vector = new V3(0, 0, -1);
+					const direction = vector.getDirectionVectorFromDegrees(90, V3.DIRECTION_NEGATIVE);
+					expect(direction.x).to.be.closeTo(-1, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(0, 0.0001);
+				});
+			});
+		});
+
+		describe('And when I work with 180 degree curves', () => {
+			describe('And when I work with positive curves', () => {
+				it('should correctly calculate from an X-Positive direction', () => {
+					const vector = new V3(1, 0, 0);
+					const direction = vector.getDirectionVectorFromDegrees(180, V3.DIRECTION_POSITIVE);
+					expect(direction.x).to.be.closeTo(-1, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(0, 0.0001);
+				});
+				it('should correctly calculate from an X-Negative direction', () => {
+					const vector = new V3(-1, 0, 0);
+					const direction = vector.getDirectionVectorFromDegrees(180, V3.DIRECTION_POSITIVE);
+					expect(direction.x).to.be.closeTo(1, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(0, 0.0001);
+				});
+				it('should correctly calculate from an Z-Positive direction', () => {
+					const vector = new V3(0, 0, 1);
+					const direction = vector.getDirectionVectorFromDegrees(180, V3.DIRECTION_POSITIVE);
+					expect(direction.x).to.be.closeTo(0, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(-1, 0.0001);
+				});
+				it('should correctly calculate from an Z-Negative direction', () => {
+					const vector = new V3(0, 0, -1);
+					const direction = vector.getDirectionVectorFromDegrees(180, V3.DIRECTION_POSITIVE);
+					expect(direction.x).to.be.closeTo(0, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(1, 0.0001);
+				});
+			});
+
+			describe('And when I work with negative curves', () => {
+				it('should correctly calculate from an X-Positive direction', () => {
+					const vector = new V3(1, 0, 0);
+					const direction = vector.getDirectionVectorFromDegrees(180, V3.DIRECTION_NEGATIVE);
+					expect(direction.x).to.be.closeTo(-1, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(0, 0.0001);
+				});
+				it('should correctly calculate from an X-Negative direction', () => {
+					const vector = new V3(-1, 0, 0);
+					const direction = vector.getDirectionVectorFromDegrees(180, V3.DIRECTION_NEGATIVE);
+					expect(direction.x).to.be.closeTo(1, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(0, 0.0001);
+				});
+				it('should correctly calculate from an Z-Positive direction', () => {
+					const vector = new V3(0, 0, 1);
+					const direction = vector.getDirectionVectorFromDegrees(180, V3.DIRECTION_NEGATIVE);
+					expect(direction.x).to.be.closeTo(0, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(-1, 0.0001);
+				});
+				it('should correctly calculate from an Z-Negative direction', () => {
+					const vector = new V3(0, 0, -1);
+					const direction = vector.getDirectionVectorFromDegrees(180, V3.DIRECTION_NEGATIVE);
+					expect(direction.x).to.be.closeTo(0, 0.0001);
+					expect(direction.y).to.be.closeTo(0, 0.0001);
+					expect(direction.z).to.be.closeTo(1, 0.0001);
+				});
+			});
 		});
 	});
 });

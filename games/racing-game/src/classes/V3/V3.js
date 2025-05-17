@@ -4,6 +4,9 @@ export default class V3 {
 	static PERPENDICULAR_NEGATIVE = Symbol('perpendicular-negative');
 	static PERPENDICULAR_POSITIVE = Symbol('perpendicular-positive');
 
+	static DIRECTION_POSITIVE = Symbol('direction-positive');		// clockwise
+	static DIRECTION_NEGATIVE = Symbol('direction-negative');		// counter-clockwise
+
 	#x;
 	#y;
 	#z;
@@ -78,5 +81,35 @@ export default class V3 {
 		} else {
 			return new V3(this.z * -1, this.y, this.x);
 		}
+	}
+
+	getDirectionVectorFromDegrees(degrees, direction) {
+		if (isNaN(degrees)) {
+			throw new Error('V3.getDirectionVectorFromDegrees: curve must be a number');
+		}
+		if (direction !== V3.DIRECTION_POSITIVE && direction !== V3.DIRECTION_NEGATIVE) {
+			throw new Error('V3.getDirectionVectorFromDegrees: direction must be V3.DIRECTION_POSITIVE or V3.DIRECTION_NEGATIVE');
+		}
+		// perform the rotation
+		const radians = (degrees * Math.PI) / 180;
+		let x;
+		let z;
+		if (direction === V3.DIRECTION_NEGATIVE) {
+			x = this.x * Math.cos(radians) + this.z * Math.sin(radians);
+			z = -this.x * Math.sin(radians) + this.z * Math.cos(radians);
+		} else {
+			x = this.x * Math.cos(radians) - this.z * Math.sin(radians);
+			z = this.x * Math.sin(radians) + this.z * Math.cos(radians);
+		}
+		return new V3(x, this.y, z);
+	}
+	// TODO: We may not need this function.
+	#tolerate(value, tolerance) {
+		// Check if the value is close to a whole number
+		const nearestInteger = Math.round(value);
+		if (Math.abs(value - nearestInteger) < tolerance) {
+			return nearestInteger;
+		}
+		return value;
 	}
 }
