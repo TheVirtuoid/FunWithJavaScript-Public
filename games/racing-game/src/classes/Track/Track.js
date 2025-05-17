@@ -194,6 +194,9 @@ export default class Track {
 						x: 3 * (this.endingPosition.x - (this.contour.controlPoint2.x + this.startingPosition.x)),
 						y: 3 * (this.endingPosition.y - (this.contour.controlPoint2.y + this.startingPosition.y)),
 						z: 3 * (this.endingPosition.z - (this.contour.controlPoint2.z + this.startingPosition.z)),
+						/*x: 3 * (this.endingPosition.x - (this.contour.controlPoint2.x)),
+						y: 3 * (this.endingPosition.y - (this.contour.controlPoint2.y)),
+						z: 3 * (this.endingPosition.z - (this.contour.controlPoint2.z)),*/
 					};
 					const magnitude = Math.sqrt(tangent.x ** 2 + tangent.y ** 2 + tangent.z ** 2);
 					this.#attributes.endingDirectionVector = new V3(

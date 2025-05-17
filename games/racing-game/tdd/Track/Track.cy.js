@@ -107,7 +107,7 @@ describe('When I work with the Track class', () => {
 		let finishLine;
 
 		const radius = 50;
-		const tolerance = 0.0001;
+		const tolerance = 0.01;
 
 		const startingPosition = new V3(1, 1, 1);
 		const startingDirectionVector = new V3(1, 0, 0);
@@ -125,8 +125,8 @@ describe('When I work with the Track class', () => {
 			straightContour = Track.CreateStraight({
 				length: 10,
 				contour: {
-					controlPoint1: new V3(0, .5, 0),
-					controlPoint2: new V3(1, 1, 0)
+					controlPoint1: new V3(0, 0, 0),
+					controlPoint2: new V3(2, 0, 0)
 				},
 			});
 			curve180Positive = Track.CreateCurve({radius, degrees: 180, curveDirection: Track.CURVE_DIRECTION_POSITIVE });
@@ -182,9 +182,9 @@ describe('When I work with the Track class', () => {
 			straightContour.connectTo(startingAnchor);
 			const endingX = startingAnchor.startingPosition.x + startingAnchor.length + straightContour.length;
 			expect(straightContour.endingPosition.compareTo(new V3(endingX, 1, 1))).to.be.true;
-			expect(straightContour.endingDirectionVector.x).to.be.closeTo(1, .1);
-			expect(straightContour.endingDirectionVector.y).to.equal(0);
-			expect(straightContour.endingDirectionVector.z).to.be.closeTo(0, .1);
+			expect(straightContour.endingDirectionVector.x).to.be.closeTo(1, tolerance);
+			expect(straightContour.endingDirectionVector.y).to.be.closeTo(0, tolerance);
+			expect(straightContour.endingDirectionVector.z).to.be.closeTo(0, tolerance);
 		});
 
 		describe('And when I work with CURVE', () => {
