@@ -4,59 +4,6 @@ import Track from "../src/classes/Track/Track.js";
 import V3 from "../src/classes/V3/V3.js";
 import Layout from "../src/classes/Layout/Layout.js";
 
-const layout = [
-	{
-		type: 'straight',
-		startPoint: { x: App.SX, y: App.SY, z: App.SZ },
-		controlPoint1: { x: App.SX, y: App.SY - 29.25, z: App.SZ + 40 },
-		controlPoint2: { x: App.SX, y: App.SY - 39, z: App.SZ + 42 },
-		endPoint: { x: App.SX, y: App.SY - 39, z: App.SZ + 55}
-	},
-	{
-		type: 'curve',
-		startPoint: { x: App.SX, y: App.SY - 39, z: App.SZ + 55 },
-		controlPoint1: { x: App.SX, y: App.SY - 39, z: App.SZ + 75 },
-		controlPoint2: { x: App.SX - 20, y: App.SY - 39, z: App.SZ + 95 },
-		endPoint: { x: App.SX - 40, y: App.SY - 39, z: App.SZ + 95 }
-	},
-	/*{
-		type: 'curve',
-		startPoint: { x: App.SX, y: App.SY - 39, z: App.SZ + 55 },
-		controlPoint1: { x: App.SX + .7, y: App.SY - 39, z: App.SZ + 55 + 25 },
-		controlPoint2: { x: App.SX - 30.7, y: App.SY - 39, z: App.SZ + 55 + 25 },
-		endPoint: { x: App.SX - 30, y: App.SY - 39, z: App.SZ + 55 }
-	},*/
-/*	{
-		type: 'straight',
-		startPoint: { x: App.SX - 30, y: App.SY - 39, z: App.SZ + 55 },
-		controlPoint1: { x: App.SX - 30, y: App.SY - 39, z: App.SZ + 45 },
-		controlPoint2: { x: App.SX - 30, y: App.SY - 42, z: App.SZ + 35 },
-		endPoint: { x: App.SX - 30, y: App.SY - 42, z: App.SZ + 25}
-	},*/
-];
-
-/*
-const realLayout = [
-	Track.CreateStartingAnchor({
-		startingPosition: new V3(App.SX, App.SY, App.SZ),
-		startingDirectionVector: new V3(1, -.5, 0),
-	}),
-	Track.CreateStraight({
-		length: 13,
-		// endPoint: { x: App.SX, y: App.SY - 39, z: App.SZ + 55 },
-		contour: {
-			controlPoint1: new V3(App.SX, App.SY - 29.25, App.SZ + 40),
-			controlPoint2: new V3(App.SX, App.SY - 39, App.SZ + 42)
-		},
-	}),
-	Track.CreateCurve({
-		radius: 40,
-		degrees: 90,
-		curveDirection: Track.CURVE_DIRECTION_NEGATIVE
-	})
-];
-*/
-
 const startingPosition = new V3(App.SX, App.SY, App.SZ);
 const startingDirectionVector = new V3(0, -.75, 1);
 const startingAnchor = Track.CreateStartingAnchor({ id: 'startAnchor', startingPosition, startingDirectionVector });
@@ -107,8 +54,20 @@ const straight5 = Track.CreateStraight({
 		controlPoint2: new V3( -16, -5, 0 )
 	}
 });
-const tracks = [startingAnchor, startLine, straight1, straight2, curve90, straight3, curve180, straight5, finishLine, straight4, endingAnchor];
-const realLayout = new Layout({ tracks });
+const tracks = [
+	startingAnchor,
+	startLine,
+	straight1,
+	straight2,
+	curve90,
+	straight3,
+	curve180,
+	straight5,
+	finishLine,
+	straight4,
+	endingAnchor];
+const layout = new Layout({ tracks });
+
 /*realLayout.tracks.forEach((track) => {
 	console.log(track.id, track.startingPosition.coordinates());
 	console.log('          ', track.endingPosition?.coordinates());
@@ -116,6 +75,5 @@ const realLayout = new Layout({ tracks });
 	console.log('          ', track.endingDirectionVector?.coordinates());
 });*/
 
-
-const app = new App(layout, realLayout);
+const app = new App(layout);
 

@@ -17,9 +17,9 @@ import V3 from "../src/classes/V3/V3.js";
 
 export default class App {
 
-	static GRAVITY = 0;
+	static GRAVITY = 1;
 	static CAMERA_VIEW = false;
-	static MODELS = false;
+	static MODELS = true;
 	static SX = 5;
 	static SY = 0;
 	static SZ = 5;
@@ -52,7 +52,7 @@ export default class App {
 
 	#marbles = [];
 
-	constructor(layout, realLayout) {
+	constructor(layout) {
 		this.#emptyCanvas = document.createElement("canvas");
 		this.#canvas = document.getElementById('world');
 		this.#canvas2 = document.getElementById('world2');
@@ -125,7 +125,7 @@ export default class App {
 			});
 		}
 
-		this.#addToScene(realLayout)
+		this.#addToScene(layout)
 			// .then(this.#loadBuildingHandle)
 			.then(this.#renderLoopHandle)
 			.catch((event) => {
