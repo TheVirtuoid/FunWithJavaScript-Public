@@ -6,7 +6,7 @@ import {
 	MeshBuilder, RenderTargetTexture,
 	PhysicsAggregate, PhysicsShapeType,
 	Scene, StandardMaterial, UniversalCamera,
-	Vector3, ImportMeshAsync
+	Vector3, ImportMeshAsync, Texture
 } from "@babylonjs/core";
 import { Inspector } from '@babylonjs/inspector';
 import HavokPhysics from "@babylonjs/havok";
@@ -17,7 +17,7 @@ import V3 from "../src/classes/V3/V3.js";
 
 export default class App {
 
-	static GRAVITY = 1;
+	static GRAVITY = 0;
 	static CAMERA_VIEW = false;
 	static MODELS = false;
 	static SX = 5;
@@ -34,11 +34,7 @@ export default class App {
 	#camera;
 	#camera2;
 	#light1;
-	#sphere;
 	#ground;
-
-	#sphere1;
-	#sphere2;
 
 	#physicsPlugin;
 
@@ -182,9 +178,10 @@ export default class App {
 		this.#sy = App.SY;
 		this.#sz = App.SZ;
 
-		this.#camera = new UniversalCamera("UniversalCamera", new Vector3(App.SX, App.SY + 10, App.SZ + -10), this.#scene);
+		this.#camera = new UniversalCamera("UniversalCamera", new Vector3(App.SX, App.SY + 15, App.SZ - 15), this.#scene);
 		this.#camera.inputs.addMouseWheel();
-		this.#camera.setTarget(Vector3.Zero());
+		// this.#camera.setTarget(Vector3.Zero());
+		this.#camera.setTarget(new Vector3(App.SX, App.SY -10, App.SZ + 40));
 
 		if (App.CAMERA_VIEW) {
 			this.#camera2 = new UniversalCamera("UniversalCamera2", new Vector3(App.SX - 30, App.SY -40, App.SZ + 10), this.#scene);
@@ -217,48 +214,58 @@ export default class App {
 		// Create a static box shape.
 		new PhysicsAggregate(this.#ground, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, this.#scene);
 
+		const blackMaterial = new StandardMaterial("black", this.#scene);
+		blackMaterial.diffuseColor = new Color3(0, 0, 0);
+
+		const startLineMaterial = new StandardMaterial("startline", this.#scene);
+		startLineMaterial.diffuseColor = new Color3(1, 1, .6);
+
 		layout.tracks.forEach((track) => {
 			if (track.type === Track.STARTING_ANCHOR) {
 				this.#layout.push(this.generateAStraightRoad(track));
+				const mesh = this.#layout.at(-1);
+				mesh.material = blackMaterial;
 			} else if (track.type === Track.STRAIGHT) {
 				this.#layout.push(this.generateAStraightRoad(track));
 			} else if (track.type === Track.ENDING_ANCHOR) {
 				this.#layout.push(this.generateAStraightRoad(track));
+				const mesh = this.#layout.at(-1);
+				mesh.material = blackMaterial;
 			} else if (track.type === Track.CURVE) {
 				this.#layout.push(this.generateACurve(track));
+			} else if (track.type === Track.STARTLINE) {
+				this.#layout.push(this.generateAStraightRoad(track));
+				const mesh = this.#layout.at(-1);
+				mesh.material = startLineMaterial;
+			} else if (track.type === Track.FINISHLINE) {
+				this.#layout.push(this.generateAStraightRoad(track));
+				const mesh = this.#layout.at(-1);
+				const material = new StandardMaterial("finishLineMaterial", this.#scene);
+				const texture = new Texture('/checkerboard-7800519_1280.jpg', this.#scene);
+				material.diffuseTexture = texture;
+				material.diffuseColor = new Color3(1, 1, 1);
+				// Optional: Configure texture settings if needed
+				// texture.uScale = 2.0; // Scale texture in U direction
+				// texture.vScale = 2.0; // Scale texture in V direction
+				// texture.hasAlpha = true; // If your texture has transparency
+				mesh.material = material;
 			}
 		});
 
-		/*layout.forEach((track) => {
-			if (track.type === 'straight') {
-				this.#layout.push(this.generateAStraightRoad(track));
-			} else if (track.type === 'curve') {
-				this.#layout.push(this.generateACurve(track));
-			}
-		});*/
-
-		/*this.#layout.forEach((track) => {
+		this.#layout.forEach((track) => {
 			new PhysicsAggregate(
 				track,
 				PhysicsShapeType.MESH,
 				{ mass: 0, friction: 0 }, this.#scene
 			);
-		});*/
+		});
 	}
-
-	/*generateAStraightRoad(args) {
-		const { startPoint, controlPoint1, controlPoint2, endPoint } = args;
-		const segments = 100;
-		const trackWidth = 4;
-		return renderStraight({ startPoint, controlPoint1, controlPoint2, endPoint, segments, trackWidth, scene: this.#scene });
-	}*/
 
 	generateAStraightRoad(track) {
 		const startPoint = track.startingPosition;
 		const endPoint = track.endingPosition
 			? track.endingPosition
 			: track.startingDirectionVector.setDirectedPosition(track.startingPosition, track.length);
-		// console.log(startPoint, endPoint);
 		const { controlPoint1: cp1, controlPoint2: cp2} = track.contour ? track.contour : this.#getStraightBezierCurve(startPoint, endPoint);
 		// control points are adjusted in the renderStraight function.
 		const controlPoint1 = new V3(cp1.x, cp1.y, cp1.z);
@@ -284,35 +291,8 @@ export default class App {
 		return { controlPoint1, controlPoint2 };
 	}
 
-	/*generateACurve(args) {
-		/!*
-		 180 degrees
-		*!/
-		const { startPoint, controlPoint1, controlPoint2, endPoint } = args;
-		const angle = 45;
-		const firstGuardRailScale = { startScale: .6, endScale: .6 };
-		const secondGuardRailScale = { startScale: .6, endScale: 3 };
-		const segments = 100;
-		const trackWidth = 4;
-
-		return renderCurve({
-			startPoint,
-			controlPoint1,
-			controlPoint2,
-			endPoint,
-			segments,
-			trackWidth,
-			angle,
-			firstGuardRailScale,
-			secondGuardRailScale,
-			scene: this.#scene
-		});
-	}*/
 
 	generateACurve(track) {
-		/*
-		 180 degrees
-		*/
 		const startPoint = track.startingPosition;
 		const endPoint = track.endingPosition;
 		const controlPoint1 = track.contour.controlPoint1;

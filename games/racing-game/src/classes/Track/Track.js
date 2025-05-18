@@ -52,6 +52,7 @@ export default class Track {
 			curveDirection: attributes?.curveDirection || null,
 			contour: attributes?.contour || null,
 			length: attributes?.length || null,
+			testEndPoint: attributes?.testEndPoint || null,
 			startingGuardRail: {
 				startingHeight: attributes?.startingGuardRail?.startingHeight || Track.STARTING_GUARDRAIL_START_HEIGHT,
 				endingHeight: attributes?.startingGuardRail?.endingHeight || Track.STARTING_GUARDRAIL_END_HEIGHT,
@@ -132,6 +133,10 @@ export default class Track {
 		return this.#attributes.trackWidth;
 	}
 
+	get testEndPoint() {
+		return this.#attributes.testEndPoint;
+	}
+
 	connectTo(track) {
 		if (!(track instanceof Track)) {
 			throw new Error('Track.connectTo(): Argument must be an instance of Track');
@@ -157,7 +162,6 @@ export default class Track {
 							spy,
 							spz + 2 * this.radius * perpendicular.z,
 						);
-						// these calculations work with CURVE_POSITIVE
 						const cp1 = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.radius);
 						const cpDirectionVector = this.startingDirectionVector.perpendicular(vectorDirection);
 						const cp2 = cpDirectionVector.setDirectedPosition(cp1, this.radius * 2);
@@ -181,16 +185,28 @@ export default class Track {
 							spy,
 							center.z + this.radius * normalized.z,
 						);
-						const controlPoint1 = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.radius / 2);
+						const cp1 = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.radius / 2);
 						const cp2StartPosition = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.radius);
-						const controlPoint2 = this.endingDirectionVector.setDirectedPosition(cp2StartPosition, this.radius / 2);
+						const cp2 = this.endingDirectionVector.setDirectedPosition(cp2StartPosition, this.radius / 2);
+						const controlPoint1 = new V3(cp1.x - this.startingPosition.x, 0, cp1.z - this.startingPosition.z);
+						const controlPoint2 = new V3(cp2.x - this.startingPosition.x, 0, cp2.z - this.startingPosition.z);
 						this.#attributes.contour = {controlPoint1, controlPoint2};
 						break;
 					}
 				}
 				break;
 			case Track.STRAIGHT:
-				this.#attributes.endingPosition = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.length);
+				if (this.length && this.length !== 0) {
+					this.#attributes.endingPosition = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.length);
+				} else {
+					if (this.endingPosition) {
+						this.#attributes.endingPosition = new V3(
+							this.endingPosition.x + this.startingPosition.x,
+							this.endingPosition.y + this.startingPosition.y,
+							this.endingPosition.z + this.startingPosition.z
+						);
+					}
+				}
 				if (this.contour === null) {
 					this.#attributes.endingDirectionVector = this.startingDirectionVector.clone();
 				} else {
@@ -222,55 +238,8 @@ export default class Track {
 		}
 	}
 
-	/*setEndPoints() {
-		if (this.startingPosition === null || this.startingDirectionVector === null) {
-			throw new Error('Track.getEndPoints(): startingPosition and startingDirectionVector must be set. Use connectTo() to set them.');
-		}
-	}*/
-
-	/*setEndPoints() {
-		if (this.startingPosition === null || this.startingDirectionVector === null) {
-			throw new Error('Track.getEndPoints(): startingPosition and startingDirectionVector must be set. Use connectTo() to set them.');
-		}
-		switch(this.type) {
-			case Track.STRAIGHT:
-				if (this.contour === null) {
-					this.#attributes.endingPosition = this.startingDirectionVector.getNewPosition(this.startingPosition, this.length);
-					this.#attributes.endingDirectionVector = new V3(...this.startingDirectionVector.coordinates());
-				} else {
-					const temporaryEndingPosition = this.startingDirectionVector.getNewPosition(this.startingPosition, this.length);
-					const tangent = {
-						x: 3 * (temporaryEndingPosition.x - this.contour.controlPoint2.x),
-						y: 3 * (temporaryEndingPosition.y - this.contour.controlPoint2.y),
-						z: 3 * (temporaryEndingPosition.z - this.contour.controlPoint2.z),
-					};
-					const magnitude = Math.sqrt(tangent.x ** 2 + tangent.y ** 2 + tangent.z ** 2);
-					this.#attributes.endingDirectionVector = new V3(
-						tangent.x / magnitude,
-						tangent.y / magnitude,
-						tangent.z / magnitude
-					);
-			}
-				break;
-			case Track.CURVE:
-				break;
-			case Track.STARTING_ANCHOR:
-			case Track.ENDING_ANCHOR:
-				this.#attributes.endingPosition = new V3(...this.startingPosition.coordinates());
-				this.#attributes.endingDirectionVector = new V3(...this.startingDirectionVector.coordinates());
-				break;
-			case Track.STARTLINE:
-			case Track.FINISHLINE:
-				this.#attributes.endingPosition = this.startingDirectionVector.getNewPosition(this.startingPosition, this.length);
-				this.#attributes.endingDirectionVector = new V3(...this.startingDirectionVector.coordinates());
-				break;
-			default:
-				throw new Error('Track.getEndPoints(): Invalid track type');
-		}
-	}*/
-
 	static CreateStraight(args = {}) {
-		const { id = '', length, contour = null } = args;
+		const { id = '', length = 0, contour = null, endingPosition = null } = args;
 		if (isNaN(length)) {
 			throw new Error('Track.CreateStraight: length must be a number');
 		}
@@ -287,7 +256,8 @@ export default class Track {
 			type: Track.STRAIGHT,
 			attributes: {
 				length: length,
-				contour: contour
+				contour: contour,
+				endingPosition: endingPosition,
 			}
 		});
 	}
