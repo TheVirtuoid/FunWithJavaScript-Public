@@ -6,6 +6,7 @@ import {
 	Vector3
 } from "@babylonjs/core";
 import V3 from "../src/classes/V3/V3.js";
+import Track from "../src/classes/Track/Track.js";
 
 export function bezierCurve3d(args = {}) {
 	const { startPoint, controlPoint1, controlPoint2, endPoint, segments = 10, zAdjust = 0 } = args;
@@ -73,25 +74,46 @@ export function renderStraight(args = {}) {
 export function renderCurve(args) {
 	const {
 		startPoint,
-		controlPoint1,
-		controlPoint2,
+		controlPoint1: cp1,
+		controlPoint2: cp2,
 		endPoint,
 		scene,
 		angle,
+		curveDirection,
 		roadWidth = 4,
 		segments = 100,
 		firstGuardRailScale = { startScale: .6, endScale: .6 },
 		secondGuardRailScale = { startScale: .6, endScale: 2 }
 	} = args;
 
+	const controlPoint1 = new V3(
+		cp1.x + startPoint.x,
+		cp1.y + startPoint.y,
+		cp1.z + startPoint.z
+	);
+	const controlPoint2 = new V3(
+		cp2.x + startPoint.x,
+		cp2.y + startPoint.y,
+		cp2.z + startPoint.z
+	);
+
+	const slopeDirection = curveDirection === Track.CURVE_DIRECTION_POSITIVE ? 1 : -1;
+
 	const originalPoints = bezierCurve3d({ startPoint, controlPoint1, controlPoint2, endPoint, segments });
 	const offsetDistance = roadWidth / 2;
 
-	const { offsetPoints1, offsetPoints2 } = generateOffsetPointsWithBanking(originalPoints, offsetDistance, angle);
+	const { offsetPoints1, offsetPoints2 } = generateOffsetPointsWithBanking(originalPoints, offsetDistance, angle, slopeDirection);
 	const firstGuardRailPoints = offsetPoints1.map((point) => new Vector3(point.x, point.y, point.z));
 	const secondGuardRailPoints = offsetPoints2.map((point => new Vector3(point.x, point.y, point.z)));
-	const firstGuardRail = generateRailing(firstGuardRailPoints, firstGuardRailScale.startScale, firstGuardRailScale.endScale);
-	const secondGuardRail = generateRailing(secondGuardRailPoints, secondGuardRailScale.startScale, secondGuardRailScale.endScale);
+	let firstGuardRail;
+	let secondGuardRail;
+	if (curveDirection === Track.CURVE_DIRECTION_POSITIVE) {
+		firstGuardRail = generateRailing(firstGuardRailPoints, firstGuardRailScale.startScale, firstGuardRailScale.endScale);
+		secondGuardRail = generateRailing(secondGuardRailPoints, secondGuardRailScale.startScale, secondGuardRailScale.endScale);
+	} else {
+		firstGuardRail = generateRailing(firstGuardRailPoints, secondGuardRailScale.startScale, secondGuardRailScale.endScale);
+		secondGuardRail = generateRailing(secondGuardRailPoints, firstGuardRailScale.startScale, firstGuardRailScale.endScale);
+	}
 
 	return MeshBuilder.CreateRibbon("ribbon", {
 		pathArray: [firstGuardRail, offsetPoints1, offsetPoints2, secondGuardRail],
@@ -170,7 +192,7 @@ export function generateOffsetPoints(points, offsetDistance) {
 	return { offsetPoints1, offsetPoints2 };
 }
 
-export function generateOffsetPointsWithBanking(points, offsetDistance, maxBankAngle) {
+export function generateOffsetPointsWithBanking(points, offsetDistance, maxBankAngle, slopeDirection) {
 	const offsetPoints1 = [];
 	const offsetPoints2 = [];
 	const totalPoints = points.length;
@@ -183,10 +205,11 @@ export function generateOffsetPointsWithBanking(points, offsetDistance, maxBankA
 		const direction = new Vector3(next.x - current.x, next.y - current.y, next.z - current.z).normalize();
 
 		// Calculate a perpendicular vector (cross product with an arbitrary vector)
+		// change this to down to see something funny
 		let perpendicular = Vector3.Cross(direction, Vector3.Up()).normalize();
 
 		// Apply banking: Rotate the perpendicular vector based on the current point's position
-		const bankAngle = maxBankAngle * Math.sin((Math.PI * i) / (totalPoints - 1)); // Smooth banking curve
+		const bankAngle = slopeDirection * maxBankAngle * Math.sin((Math.PI * i) / (totalPoints - 1)); // Smooth banking curve
 		const rotationMatrix = Matrix.RotationAxis(direction, Tools.ToRadians(bankAngle));
 		perpendicular = Vector3.TransformCoordinates(perpendicular, rotationMatrix);
 

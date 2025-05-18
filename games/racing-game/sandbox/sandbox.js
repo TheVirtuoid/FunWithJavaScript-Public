@@ -64,33 +64,27 @@ const endingAnchor = Track.CreateEndingAnchor({ id: 'endAnchor' });
 const straight1 = Track.CreateStraight({
 	id: 'straight1',
 	length: 20,
-	/*contour: {
-		controlPoint1: new V3( App.SX, App.SY - 5, App.SZ + 5 ),
-		controlPoint2: new V3( App.SX, App.SY - 10, App.SZ + 10 ),
-	}*/
 	contour: {
 		controlPoint1: new V3( 0, -3, 5 ),
-		controlPoint2: new V3( 0, -12.6, 6 ),
+		controlPoint2: new V3( 0, -12.6, 6 )
 	}
 });
 const straight2 = Track.CreateStraight({
 	id: 'straight2',
-	length: 20,
-	/*contour: {
-		controlPoint1: new V3( App.SX, App.SY - 5, App.SZ + 5 ),
-		controlPoint2: new V3( App.SX, App.SY - 10, App.SZ + 10 ),
-	}*/
-	/*contour: {
-		controlPoint1: new V3( 0, -5, 5 ),
-		controlPoint2: new V3( 0, -10, 10 ),
-	}*/
+	length: 20
 });
-const tracks = [startingAnchor, straight1, straight2, endingAnchor];
+const curve180 = Track.CreateCurve({
+	id: 'curve180',
+	radius: 20,
+	degrees: 180,
+	curveDirection: Track.CURVE_DIRECTION_POSITIVE
+});
+const tracks = [startingAnchor, straight1, straight2, curve180, endingAnchor];
 const realLayout = new Layout({ tracks });
-realLayout.tracks.forEach((track) => {
+/*realLayout.tracks.forEach((track) => {
 	console.log(track.id, track.startingPosition.coordinates(), track.startingDirectionVector.coordinates(), track.endingPosition?.coordinates(), track.endingDirectionVector?.coordinates());
 	console.log('   ', track.contour?.controlPoint1.coordinates(), track.contour?.controlPoint2.coordinates());
-});
+});*/
 
 
 const app = new App(layout, realLayout);

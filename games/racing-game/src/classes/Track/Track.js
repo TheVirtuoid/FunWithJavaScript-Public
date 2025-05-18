@@ -157,9 +157,13 @@ export default class Track {
 							spy,
 							spz + 2 * this.radius * perpendicular.z,
 						);
-						const controlPoint1 = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.radius);
+						// these calculations work with CURVE_POSITIVE
+						const cp1 = this.startingDirectionVector.setDirectedPosition(this.startingPosition, this.radius);
 						const cpDirectionVector = this.startingDirectionVector.perpendicular(vectorDirection);
-						const controlPoint2 = cpDirectionVector.setDirectedPosition(controlPoint1, this.radius * 2);
+						const cp2 = cpDirectionVector.setDirectedPosition(cp1, this.radius * 2);
+						const controlPoint1 = new V3(cp1.x - this.startingPosition.x, 0, cp1.z - this.startingPosition.z);
+						const controlPoint2 = new V3(cp2.x - this.startingPosition.x, 0, cp2.z - this.startingPosition.z);
+
 						this.#attributes.contour = {controlPoint1, controlPoint2};
 						break;
 					}
@@ -194,9 +198,6 @@ export default class Track {
 						x: 3 * (this.endingPosition.x - (this.contour.controlPoint2.x + this.startingPosition.x)),
 						y: 3 * (this.endingPosition.y - (this.contour.controlPoint2.y + this.startingPosition.y)),
 						z: 3 * (this.endingPosition.z - (this.contour.controlPoint2.z + this.startingPosition.z)),
-						/*x: 3 * (this.endingPosition.x - (this.contour.controlPoint2.x)),
-						y: 3 * (this.endingPosition.y - (this.contour.controlPoint2.y)),
-						z: 3 * (this.endingPosition.z - (this.contour.controlPoint2.z)),*/
 					};
 					const magnitude = Math.sqrt(tangent.x ** 2 + tangent.y ** 2 + tangent.z ** 2);
 					this.#attributes.endingDirectionVector = new V3(

@@ -224,6 +224,8 @@ export default class App {
 				this.#layout.push(this.generateAStraightRoad(track));
 			} else if (track.type === Track.ENDING_ANCHOR) {
 				this.#layout.push(this.generateAStraightRoad(track));
+			} else if (track.type === Track.CURVE) {
+				this.#layout.push(this.generateACurve(track));
 			}
 		});
 
@@ -267,19 +269,6 @@ export default class App {
 	}
 
 	#getStraightBezierCurve(startPoint, endPoint) {
-		// Calculate control points at 1/3 and 2/3 along the straight line
-		/*const controlPoint1 = {
-			x: startPoint.x + (endPoint.x - startPoint.x) / 3,
-			y: startPoint.y + (endPoint.y - startPoint.y) / 3,
-			z: startPoint.z + (endPoint.z - startPoint.z) / 3
-		};
-
-		const controlPoint2 = {
-			x: startPoint.x + 2 * (endPoint.x - startPoint.x) / 3,
-			y: startPoint.y + 2 * (endPoint.y - startPoint.y) / 3,
-			z: startPoint.z + 2 * (endPoint.z - startPoint.z) / 3
-		};*/
-
 		const controlPoint1 = {
 			x: (endPoint.x - startPoint.x) / 3,
 			y: (endPoint.y - startPoint.y) / 3,
@@ -295,10 +284,10 @@ export default class App {
 		return { controlPoint1, controlPoint2 };
 	}
 
-	generateACurve(args) {
-		/*
+	/*generateACurve(args) {
+		/!*
 		 180 degrees
-		*/
+		*!/
 		const { startPoint, controlPoint1, controlPoint2, endPoint } = args;
 		const angle = 45;
 		const firstGuardRailScale = { startScale: .6, endScale: .6 };
@@ -314,6 +303,36 @@ export default class App {
 			segments,
 			trackWidth,
 			angle,
+			firstGuardRailScale,
+			secondGuardRailScale,
+			scene: this.#scene
+		});
+	}*/
+
+	generateACurve(track) {
+		/*
+		 180 degrees
+		*/
+		const startPoint = track.startingPosition;
+		const endPoint = track.endingPosition;
+		const controlPoint1 = track.contour.controlPoint1;
+		const controlPoint2 = track.contour.controlPoint2;
+		const curveDirection = track.curveDirection;
+		const angle = 45;
+		const firstGuardRailScale = { startScale: .6, endScale: .6 };
+		const secondGuardRailScale = { startScale: .6, endScale: 3 };
+		const segments = 100;
+		const trackWidth = App.TRACKWIDTH;
+
+		return renderCurve({
+			startPoint,
+			controlPoint1,
+			controlPoint2,
+			endPoint,
+			segments,
+			trackWidth,
+			angle,
+			curveDirection,
 			firstGuardRailScale,
 			secondGuardRailScale,
 			scene: this.#scene
