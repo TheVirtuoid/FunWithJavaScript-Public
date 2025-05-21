@@ -17,10 +17,6 @@ describe('When I create a Straight piece of track', () => {
 			track = Track.CreateStraight({ id, length });
 		});
 
-		it('should throw error if length is not specified', () => {
-			expect(() => Track.CreateStraight({ id })).to.throw();
-		});
-
 		it('should have a length property', () => {
 			expect(track.length).to.equal(length);
 		});
@@ -31,6 +27,28 @@ describe('When I create a Straight piece of track', () => {
 
 		it('should have the id property', () => {
 			expect(track.id).to.equal(id);
+		});
+	});
+
+	describe('And when I work with length or endPosition', () => {
+		it('should throw error if neither length nor endPosition is specified', () => {
+			expect(() => Track.CreateStraight({ id })).to.throw();
+		});
+
+		it('should throw error if both length and endPosition are specified', () => {
+			expect(() => Track.CreateStraight({ id, length, endingPosition: new V3(1, 1, 1) })).to.throw();
+		});
+
+		it('should throw error if endingPosition is not a V3', () => {
+			expect(() => Track.CreateStraight({ id, endingPosition: 'bad' })).to.throw();
+		});
+
+		it('should throw if length is not positive', () => {
+			expect(() => Track.CreateStraight({ id, length: -1 })).to.throw();
+		});
+
+		it('should throw error if length is not specified', () => {
+			expect(() => Track.CreateStraight({ id })).to.throw();
 		});
 
 	});

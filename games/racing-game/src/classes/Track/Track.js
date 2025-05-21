@@ -240,9 +240,24 @@ export default class Track {
 
 	static CreateStraight(args = {}) {
 		const { id = '', length = 0, contour = null, endingPosition = null } = args;
-		if (isNaN(length)) {
-			throw new Error('Track.CreateStraight: length must be a number');
+		if (length === 0 && endingPosition === null) {
+			throw new Error('Track.CreateStraight: either length or endingPosition must be specified');
 		}
+
+		if (!isNaN(length) && length !== 0 && endingPosition instanceof V3) {
+			throw new Error('Track.CreateStraight: either length or endingPosition must be specified. Not both.');
+		}
+
+		if (length !== 0) {
+			if (isNaN(length) || length <= 0) {
+				throw new Error('Track.CreateStraight: length must be a positive number');
+			}
+		}
+
+		if (endingPosition !== null && !(endingPosition instanceof V3)) {
+			throw new Error('Track.CreateStraight: endingPosition must be a V3 instance');
+		}
+
 		if (contour !== null) {
 			if (!'controlPoint1' in contour || !'controlPoint2' in contour) {
 				throw new Error('Track.CreateStraight: contour must be an object with controlPoint1 and controlPoint2 properties');

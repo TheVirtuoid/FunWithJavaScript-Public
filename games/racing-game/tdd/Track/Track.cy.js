@@ -105,6 +105,7 @@ describe('When I work with the Track class', () => {
 		let endingAnchor;
 		let startLine;
 		let finishLine;
+		let straightNoLength;
 
 		const radius = 50;
 		const tolerance = 0.01;
@@ -122,6 +123,7 @@ describe('When I work with the Track class', () => {
 		beforeEach(() => {
 			startingAnchor = Track.CreateStartingAnchor({ startingPosition, startingDirectionVector});
 			straight = Track.CreateStraight({length: 10});
+			straightNoLength = Track.CreateStraight({ endingPosition: new V3(10, 10, 10) });
 			straightContour = Track.CreateStraight({
 				length: 10,
 				contour: {
@@ -187,6 +189,14 @@ describe('When I work with the Track class', () => {
 			expect(straightContour.endingDirectionVector.z).to.be.closeTo(0, tolerance);
 		});
 
+		it('should have changed the endingPosition of the STRAIGHTNOLENGTH', () => {
+			straightNoLength.connectTo(startingAnchor);
+			expect(straightNoLength.startingPosition.compareTo(startingAnchor.endingPosition)).to.be.true;
+			expect(straightNoLength.startingDirectionVector.compareTo(startingAnchor.endingDirectionVector)).to.be.true;
+			expect(straightNoLength.endingPosition.compareTo(new V3(12, 11, 11))).to.be.true;
+			expect(straightNoLength.endingDirectionVector.compareTo(straightNoLength.startingDirectionVector)).to.be.true;
+		});
+
 		describe('And when I work with CURVE', () => {
 			it('should have changed the startingPosition, endingPosition of the CURVE180Positive', () => {
 				curve180Positive.connectTo(startingAnchor);
@@ -205,8 +215,8 @@ describe('When I work with the Track class', () => {
 				expect(epx).to.be.closeTo(endingPosition.x, tolerance);
 				expect(epy).to.be.closeTo(endingPosition.y, tolerance);
 				expect(epz).to.be.closeTo(endingPosition.z, tolerance);
-				const cp1 = new V3(spx + radius, spy, spz);
-				const cp2 = new V3(spx + radius, spy, spz + radius * 2);
+				const cp1 = new V3(radius, 0, 0);
+				const cp2 = new V3(radius, 0, radius * 2);
 				const { controlPoint1, controlPoint2 } = curve180Positive.contour;
 				expect(controlPoint1.x).to.be.closeTo(cp1.x, tolerance);
 				expect(controlPoint1.y).to.be.closeTo(cp1.y, tolerance);
@@ -234,8 +244,8 @@ describe('When I work with the Track class', () => {
 				expect(epy).to.be.closeTo(endingPosition.y, tolerance);
 				expect(epz).to.be.closeTo(endingPosition.z, tolerance);
 
-				const cp1 = new V3(spx + radius, spy, spz);
-				const cp2 = new V3(spx + radius, spy, spz - radius * 2);
+				const cp1 = new V3(radius, 0, 0);
+				const cp2 = new V3(radius, 0, -radius * 2);
 				const { controlPoint1, controlPoint2 } = curve180Negative.contour;
 				expect(controlPoint1.x).to.be.closeTo(cp1.x, tolerance);
 				expect(controlPoint1.y).to.be.closeTo(cp1.y, tolerance);
@@ -258,8 +268,8 @@ describe('When I work with the Track class', () => {
 				const endingPosition = new V3(spx + radius, spy, spz + radius);
 				expect(inTolerance(curve90Positive.endingPosition, endingPosition)).to.be.true;
 
-				const cp1 = new V3(spx + radius / 2, spy, spz);
-				const cp2 = new V3(spx + radius, spy, spz + radius / 2);
+				const cp1 = new V3(radius / 2, 0, 0);
+				const cp2 = new V3(radius, 0, radius / 2);
 				const { controlPoint1, controlPoint2 } = curve90Positive.contour;
 				expect(inTolerance(controlPoint1, cp1)).to.be.true;
 				expect(inTolerance(controlPoint2, cp2)).to.be.true;
@@ -278,8 +288,8 @@ describe('When I work with the Track class', () => {
 				const endingPosition = new V3(spx + radius, spy, spz - radius);
 				expect(inTolerance(curve90Negative.endingPosition, endingPosition)).to.be.true;
 
-				const cp1 = new V3(spx + radius / 2, spy, spz);
-				const cp2 = new V3(spx + radius, spy, spz - radius / 2);
+				const cp1 = new V3(radius / 2, 0, 0);
+				const cp2 = new V3(radius, 0, -radius / 2);
 				const { controlPoint1, controlPoint2 } = curve90Negative.contour;
 				expect(inTolerance(controlPoint1, cp1)).to.be.true;
 				expect(inTolerance(controlPoint2, cp2)).to.be.true;
