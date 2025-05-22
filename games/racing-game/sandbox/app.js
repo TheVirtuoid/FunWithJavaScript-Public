@@ -6,7 +6,7 @@ import {
 	MeshBuilder, RenderTargetTexture,
 	PhysicsAggregate, PhysicsShapeType,
 	Scene, StandardMaterial, UniversalCamera,
-	Vector3, ImportMeshAsync, Texture
+	Vector3, ImportMeshAsync, Texture, InitializeCSG2Async, MorphTarget as CSG3, CSG2, CubeTexture
 } from "@babylonjs/core";
 import { Inspector } from '@babylonjs/inspector';
 import HavokPhysics from "@babylonjs/havok";
@@ -14,10 +14,11 @@ import {renderCurve, renderStraight} from "./utilities.js";
 import Marble from "./Marble.js";
 import Track from "../src/classes/Track/Track.js";
 import V3 from "../src/classes/V3/V3.js";
+import buildGround from "./ground.js";
 
 export default class App {
 
-	static GRAVITY = 1;
+	static GRAVITY = 0;
 	static CAMERA_VIEW = false;
 	static MODELS = true;
 	static SX = 5;
@@ -126,7 +127,7 @@ export default class App {
 		}
 
 		this.#addToScene(layout)
-			// .then(this.#loadBuildingHandle)
+			.then(this.#loadBuildingHandle)
 			.then(this.#renderLoopHandle)
 			.catch((event) => {
 				console.log('CAUGHT ERROR', event);
@@ -162,12 +163,16 @@ export default class App {
 			meshNames: "semi_house"
 		});*/
 		if (App.MODELS) {
+/*
 			ImportMeshAsync("/sandbox/test.glb", this.#scene, {
 				meshNames: ["building_3_Cube.016", "Cube.010_Cube.014", "Cube.011_Cube.015", "pegangan.003_Plane.008"]
+*/
+			ImportMeshAsync("/sandbox/bleachers.glb", this.#scene, {
+				meshNames: ["bleachers"]
 			}).then((result) => {
-				result.meshes[0].position = new Vector3(-25, 0, 35);
-				result.meshes[0].scaling = new Vector3(4, 4, 4);
-				// result.meshes[0].rotation = new Vector3(0,0,0);
+				result.meshes[0].position = new Vector3(0, 1, 10);
+				result.meshes[0].scaling = new Vector3(.005, .005, .005);
+				result.meshes[0].rotation = new Vector3(0,1.55,0);
 				console.log(result);
 			});
 		}
@@ -178,10 +183,11 @@ export default class App {
 		this.#sy = App.SY;
 		this.#sz = App.SZ;
 
-		this.#camera = new UniversalCamera("UniversalCamera", new Vector3(App.SX, App.SY + 15, App.SZ - 15), this.#scene);
+		this.#camera = new UniversalCamera("UniversalCamera", new Vector3(App.SX + 35, App.SY + 15, App.SZ), this.#scene);
 		this.#camera.inputs.addMouseWheel();
 		// this.#camera.setTarget(Vector3.Zero());
-		this.#camera.setTarget(new Vector3(App.SX, App.SY -10, App.SZ + 40));
+		// this.#camera.setTarget(new Vector3(App.SX, App.SY -10, App.SZ + 40));
+		this.#camera.setTarget(new Vector3(App.SX, App.SY, App.SZ));
 
 		if (App.CAMERA_VIEW) {
 			this.#camera2 = new UniversalCamera("UniversalCamera2", new Vector3(App.SX - 30, App.SY -40, App.SZ + 10), this.#scene);
@@ -192,15 +198,11 @@ export default class App {
 
 		this.#camera.attachControl(this.#canvas, true);
 
-		this.#light1 = new HemisphericLight("light1", new Vector3(1, 1, 0), this.#scene);
+		this.#light1 = new HemisphericLight("light1", new Vector3(-1, 1, 0), this.#scene);
+		// this.#light1.diffuse = new Color3(1, 1, 1);
 
-		this.#ground = MeshBuilder.CreateBox("ground", { width: 60, height: .1, depth: 60}, this.#scene);
-		const groundMaterial = new StandardMaterial("grass", this.#scene);
-		groundMaterial.diffuseColor = new Color3(0, .25, 0);
-		this.#ground.material = groundMaterial;
-		this.#ground.position.y = this.#sy - 39.06;
-		this.#ground.position.x = this.#sx - 20;
-		this.#ground.position.z = this.#sz + 85;
+		buildGround(this.#scene);
+
 
 		this.#physicsPlugin = new HavokPlugin(true, await HavokPhysics());
 		this.#scene.enablePhysics(this.#gravityVector, this.#physicsPlugin);
@@ -259,6 +261,32 @@ export default class App {
 				{ mass: 0, friction: 0 }, this.#scene
 			);
 		});
+
+		/*const box = MeshBuilder.CreateBox('box', { width: 20, height: 20, depth: 20}, this.#scene);
+		box.material = groundMaterial;
+		// box.setEnabled(false);
+		box.position.x += 7;*/
+
+		const startLine = this.#layout[1];
+		// startLine.setEnabled(false);
+
+		/*await InitializeCSG2Async();
+
+		const boxCsg = CSG2.FromMesh(box);
+		const ribbonCsg = CSG2.FromMesh(this.#layout[1]);
+
+		const mesh = boxCsg.subtract(ribbonCsg).toMesh('test');*/
+
+		// skybox
+		/*const skybox = MeshBuilder.CreateBox("skyBox", { size: 1000.0 }, this.#scene);
+		const skyboxMaterial = new StandardMaterial("skyBox", this.#scene);
+		skyboxMaterial.backFaceCulling = false;
+		skyboxMaterial.reflectionTexture = new CubeTexture("textures/skybox", this.#scene);
+		skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
+		/!*skyboxMaterial.diffuseColor = new Color3(.75, .75, 1);
+		skyboxMaterial.specularColor = new Color3(.75, .75, 1);*!/
+		skybox.material = skyboxMaterial;*/
+
 	}
 
 	generateAStraightRoad(track) {
