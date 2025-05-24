@@ -322,6 +322,8 @@ export default class App {
 		this.#camera.attachControl(this.#canvas, true);
 
 		this.#light1 = new HemisphericLight("light1", new Vector3(-1, 1, 0), this.#scene);
+		/*this.#light1.skyColor = new Color3(0, 0, 0);
+		this.#light1.groundColor = new Color3(0, 0, 0);*/
 
 		this.#physicsPlugin = new HavokPlugin(true, await HavokPhysics());
 		this.#scene.enablePhysics(this.#gravityVector, this.#physicsPlugin);

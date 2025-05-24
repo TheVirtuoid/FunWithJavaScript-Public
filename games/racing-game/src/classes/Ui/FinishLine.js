@@ -41,14 +41,14 @@ export default class FinishLine {
 	render() {
 		this.#mesh = generateAStraightRoad(this.track, this.width, this.scene);
 		const material = new StandardMaterial("finishLineMaterial", this.scene);
-		const texture = new Texture('/checkerboard-7800519_1280.jpg', this.scene);
-		material.diffuseTexture = texture;
-		material.diffuseColor = new Color3(1, 1, 1);
-		this.#mesh.material = material;
-		// Optional: Configure texture settings if needed
-		// texture.uScale = 2.0; // Scale texture in U direction
+		// material.disableLighting = true;
+		const texture = new Texture('./checkerboard-7800519_1280.jpg', this.scene);
+		texture.uScale = .25; // Scale texture in U direction
 		// texture.vScale = 2.0; // Scale texture in V direction
 		// texture.hasAlpha = true; // If your texture has transparency
+		material.diffuseTexture = texture;
+		// material.emmisiveTexture = texture;
+		this.#mesh.material = material;
 		const corners = calculateMeshCorners(this.#mesh);
 		const startDiff = corners[3].subtract(corners[1]).divide(new Vector3(4, 4, 4)).multiply(new Vector3(3, 3, 3));
 		const endDiff = corners[7].subtract(corners[5]).divide(new Vector3(4, 4, 4)).multiply(new Vector3(3, 3, 3));

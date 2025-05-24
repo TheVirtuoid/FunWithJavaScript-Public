@@ -35,6 +35,9 @@ export default class Straight {
 
 	render() {
 		this.#mesh = generateAStraightRoad(this.track, this.width, this.scene);
+		const material = new StandardMaterial("straight-road-material", this.scene);
+		material.diffuseColor = new Color3(.6, .6, .6);
+		this.#mesh.material = material;
 		return this.mesh;
 	}
 }
