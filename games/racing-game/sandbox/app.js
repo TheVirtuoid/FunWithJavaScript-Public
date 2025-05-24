@@ -14,7 +14,7 @@ import {renderCurve, renderStraight} from "./utilities.js";
 import Marble from "./Marble.js";
 import Track from "../src/classes/Track/Track.js";
 import V3 from "../src/classes/V3/V3.js";
-import buildGround from "./ground.js";
+import { buildGround } from "./ground.js";
 
 export default class App {
 
@@ -53,11 +53,14 @@ export default class App {
 
 	#marbles = [];
 
+	#controls;
+
 	constructor(layout) {
 		this.#emptyCanvas = document.createElement("canvas");
 		this.#canvas = document.getElementById('world');
 		this.#canvas2 = document.getElementById('world2');
 		this.#sceneElement = document.querySelector('section.scene');
+		this.#controls = document.querySelector('#controls');
 
 		if (App.CAMERA_VIEW) {
 			this.#sceneElement.classList.add('camera-view');
@@ -127,7 +130,7 @@ export default class App {
 		}
 
 		this.#addToScene(layout)
-			.then(this.#loadBuildingHandle)
+			// .then(this.#loadBuildingHandle)
 			.then(this.#renderLoopHandle)
 			.catch((event) => {
 				console.log('CAUGHT ERROR', event);
@@ -201,7 +204,6 @@ export default class App {
 		this.#light1 = new HemisphericLight("light1", new Vector3(-1, 1, 0), this.#scene);
 		// this.#light1.diffuse = new Color3(1, 1, 1);
 
-		buildGround(this.#scene);
 
 
 		this.#physicsPlugin = new HavokPlugin(true, await HavokPhysics());
@@ -213,8 +215,9 @@ export default class App {
 			});
 		}
 
+		buildGround(this.#scene, this.#controls);
 		// Create a static box shape.
-		new PhysicsAggregate(this.#ground, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, this.#scene);
+		// new PhysicsAggregate(this.#ground, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, this.#scene);
 
 		const blackMaterial = new StandardMaterial("black", this.#scene);
 		blackMaterial.diffuseColor = new Color3(0, 0, 0);
