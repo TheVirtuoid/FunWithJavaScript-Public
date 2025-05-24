@@ -1,0 +1,69 @@
+import Track from "../Track/Track.js";
+import {Color3, Color4, MeshBuilder, Ray, StandardMaterial, Texture, Vector3} from "@babylonjs/core";
+import {calculateMeshCorners, generateAStraightRoad} from "./Utilities.js";
+
+export default class FinishLine {
+	#track;
+	#mesh;
+	#scene;
+	#width;
+	#finishLineRay = null;
+
+	constructor(track, width, scene) {
+		if (!(track instanceof Track)) {
+			throw new Error("Invalid track instance");
+		}
+		this.#track = track;
+		this.#scene = scene;
+		this.#width = width;
+	}
+
+	get track() {
+		return this.#track;
+	}
+
+	get mesh() {
+		return this.#mesh;
+	}
+
+	get scene() {
+		return this.#scene;
+	}
+
+	get width() {
+		return this.#width;
+	}
+
+	get finishLineRay() {
+		return this.#finishLineRay;
+	}
+
+	render() {
+		this.#mesh = generateAStraightRoad(this.track, this.width, this.scene);
+		const material = new StandardMaterial("finishLineMaterial", this.scene);
+		const texture = new Texture('/checkerboard-7800519_1280.jpg', this.scene);
+		material.diffuseTexture = texture;
+		material.diffuseColor = new Color3(1, 1, 1);
+		this.#mesh.material = material;
+		// Optional: Configure texture settings if needed
+		// texture.uScale = 2.0; // Scale texture in U direction
+		// texture.vScale = 2.0; // Scale texture in V direction
+		// texture.hasAlpha = true; // If your texture has transparency
+		const corners = calculateMeshCorners(this.#mesh);
+		const startDiff = corners[3].subtract(corners[1]).divide(new Vector3(4, 4, 4)).multiply(new Vector3(3, 3, 3));
+		const endDiff = corners[7].subtract(corners[5]).divide(new Vector3(4, 4, 4)).multiply(new Vector3(3, 3, 3));
+		const start = corners[3].subtract(startDiff);
+		const end = corners[7].subtract(endDiff);
+		const lines = [start, end];
+		const colors = [
+			new Color4(0, 1, 1, 1),
+			new Color4(0, 1, 1, 1)
+		]
+		MeshBuilder.CreateLines('test', { points: lines, colors }, this.#scene);
+		const lineDiff = end.subtract(start);
+		const directionVector = end.subtract(start).normalize();
+		const lengthAlongDirection = Vector3.Dot(lineDiff, directionVector);
+		this.#finishLineRay = new Ray(start, directionVector, lengthAlongDirection);
+		return this.mesh;
+	}
+}

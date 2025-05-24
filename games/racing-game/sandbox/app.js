@@ -3,10 +3,9 @@ import {
 	Engine,
 	HavokPlugin,
 	HemisphericLight,
-	MeshBuilder, RenderTargetTexture,
 	PhysicsAggregate, PhysicsShapeType,
-	Scene, StandardMaterial, UniversalCamera,
-	Vector3, ImportMeshAsync, Texture, InitializeCSG2Async, MorphTarget as CSG3, CSG2, CubeTexture
+	Scene, UniversalCamera,
+	Vector3, ImportMeshAsync
 } from "@babylonjs/core";
 import { Inspector } from '@babylonjs/inspector';
 import HavokPhysics from "@babylonjs/havok";
@@ -15,6 +14,66 @@ import Marble from "./Marble.js";
 import Track from "../src/classes/Track/Track.js";
 import V3 from "../src/classes/V3/V3.js";
 import { buildGround } from "./ground.js";
+import * as GUI from "@babylonjs/gui";
+import FinishLine from "../src/classes/Ui/FinishLine.js";
+import EndingAnchor from "../src/classes/Ui/EndingAnchor.js";
+import StartingAnchor from "../src/classes/Ui/StartingAnchor.js";
+import StartingLine from "../src/classes/Ui/StartingLine.js";
+import Straight from "../src/classes/Ui/Straight.js";
+import Curve from "../src/classes/Ui/Curve.js";
+
+const marbleNames = [
+	"Sir Rolls-a-Lot",
+	"Marble Madness",
+	"Speedy Spheroid",
+	"Captain Clackity",
+	"Roundabout Ruby",
+	"Momentum Mike",
+	"Rollin' Thunder",
+	"Marble McMarbleface",
+	"Professor Pebble",
+	"Spherical Sam",
+	"Glassy McGee",
+	"The Orbinator",
+	"Whoosh Wilson",
+	"Marble Stewart",
+	"Gravitron",
+	"Ziggy Zaggles",
+	"Skippy Stone",
+	"Rolling Stone",
+	"Zoom Zoom",
+	"Doctor Dizzle",
+	"Rocky Rollers",
+	"Slick Willy",
+	"Bouncy Bobby",
+	"Pebble Pete",
+	"Marble Wander",
+	"Whirlwind Wally",
+	"Purl the Swirl",
+	"Slippy Sphere",
+	"Glaston Berry",
+	"Smoothie McLap",
+	"Orb-ituary",
+	"Zoom Bloom",
+	"Marble Cinderella",
+	"Globey McTrotter",
+	"Spheroid Supreme",
+	"Polly Polish",
+	"Loopy Lou",
+	"Roller Coaster",
+	"Marble Madoff",
+	"Glide N' Slide",
+	"Dizzy Wizzy",
+	"Baller Shot-Caller",
+	"Rounder Pounder",
+	"Marbelous Marv",
+	"Sir Spinny",
+	"The Inertia Kid",
+	"Glass Dasher",
+	"Round Robin",
+	"Marble-ous Wonder",
+	"Spherical Phil"
+];
 
 export default class App {
 
@@ -35,7 +94,11 @@ export default class App {
 	#camera;
 	#camera2;
 	#light1;
-	#ground;
+
+	#finishLine;
+	#endingAnchor;
+	#startingAnchor;
+	#startingLine;
 
 	#physicsPlugin;
 
@@ -54,6 +117,13 @@ export default class App {
 	#marbles = [];
 
 	#controls;
+
+	#orderOfFinish = [];
+
+	#marbleDb = new Map();
+	#finishLineTextTop = 10;
+	#finishTextTexture = null;
+	#topOfTheFinishListList;
 
 	constructor(layout) {
 		this.#emptyCanvas = document.createElement("canvas");
@@ -120,11 +190,12 @@ export default class App {
 					position = { x: App.SX - 1.75 + ((index - 24) * .5), y: App.SY - 2.8, z: App.SZ + 4.25 }
 				}
 				const marble = new Marble({
-					name: `marble-${index}`,
+					name: marbleNames[index],
 					color: color,
 					scene: this.#scene,
 					position:  position
 				});
+				this.#marbleDb.set(marble.getMarble(), marble)
 				this.#marbles.push(marble.getMarble());
 			});
 		}
@@ -153,9 +224,59 @@ export default class App {
 	}
 
 	renderLoop() {
+		this.#initializeUI();
+		this.#createTextOverlay('Race Results', this.#scene);
+		this.#finishLineTextTop += 8;
+		this.#topOfTheFinishListList = this.#finishLineTextTop;
 		this.#engine.runRenderLoop(() => {
 			this.#scene.render();
+			const meshHit = this.#finishLine.finishLineRay.intersectsMeshes(this.#marbles);
+			for (const mesh of meshHit) {
+				const { pickedMesh } = mesh;
+				const marble = this.#marbleDb.get(pickedMesh);
+				if (marble && !this.#orderOfFinish.includes(marble)) {
+					this.#orderOfFinish.push(marble);
+					this.#createTextOverlay(marble, this.#scene);
+				}
+			}
 		})
+	}
+
+	#initializeUI() {
+		if (!this.#finishTextTexture) {
+			this.#finishTextTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, this.#scene);
+		}
+	}
+
+	#createTextOverlay(textOrMarble, scene) {
+		// Create text block
+		const textBlock = new GUI.TextBlock(`text-${crypto.randomUUID()}`);
+		if (textOrMarble instanceof Marble) {
+			textBlock.text = `${this.#orderOfFinish.length} - ${textOrMarble.name}`;
+			textBlock.color = textOrMarble.color.toHexString();
+			textBlock.fontSize = 16;
+		} else {
+			textBlock.text = textOrMarble;
+			textBlock.color = "white";
+			textBlock.fontSize = 24;
+		}
+		textBlock.fontFamily = "Arial";
+		textBlock.textHorizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+		textBlock.textVerticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+		if (this.#orderOfFinish.length > 16) {
+			textBlock.left = '300px';
+		} else {
+			textBlock.left = '50px';
+		}
+		textBlock.left = this.#orderOfFinish.length > 16 ? '300px' : '50px';
+		textBlock.top = `${this.#finishLineTextTop}px`;
+		// Add to texture
+		this.#finishTextTexture.addControl(textBlock);
+		this.#finishLineTextTop += textOrMarble instanceof Marble ? 20 : 26;
+		if (this.#orderOfFinish.length === 16) {
+			this.#finishLineTextTop = this.#topOfTheFinishListList;
+		}
+		return textBlock;
 	}
 
 	loadBuilding() {
@@ -176,7 +297,6 @@ export default class App {
 				result.meshes[0].position = new Vector3(0, 1, 10);
 				result.meshes[0].scaling = new Vector3(.005, .005, .005);
 				result.meshes[0].rotation = new Vector3(0,1.55,0);
-				console.log(result);
 			});
 		}
 	}
@@ -202,9 +322,6 @@ export default class App {
 		this.#camera.attachControl(this.#canvas, true);
 
 		this.#light1 = new HemisphericLight("light1", new Vector3(-1, 1, 0), this.#scene);
-		// this.#light1.diffuse = new Color3(1, 1, 1);
-
-
 
 		this.#physicsPlugin = new HavokPlugin(true, await HavokPhysics());
 		this.#scene.enablePhysics(this.#gravityVector, this.#physicsPlugin);
@@ -216,44 +333,26 @@ export default class App {
 		}
 
 		buildGround(this.#scene, this.#controls);
-		// Create a static box shape.
-		// new PhysicsAggregate(this.#ground, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, this.#scene);
-
-		const blackMaterial = new StandardMaterial("black", this.#scene);
-		blackMaterial.diffuseColor = new Color3(0, 0, 0);
-
-		const startLineMaterial = new StandardMaterial("startline", this.#scene);
-		startLineMaterial.diffuseColor = new Color3(1, 1, .6);
 
 		layout.tracks.forEach((track) => {
 			if (track.type === Track.STARTING_ANCHOR) {
-				this.#layout.push(this.generateAStraightRoad(track));
-				const mesh = this.#layout.at(-1);
-				mesh.material = blackMaterial;
+				this.#startingAnchor = new StartingAnchor(track, App.TRACKWIDTH, this.#scene);
+				this.#layout.push(this.#startingAnchor.render());
 			} else if (track.type === Track.STRAIGHT) {
-				this.#layout.push(this.generateAStraightRoad(track));
+				const straight = new Straight(track, App.TRACKWIDTH, this.#scene);
+				this.#layout.push(straight.render());
 			} else if (track.type === Track.ENDING_ANCHOR) {
-				this.#layout.push(this.generateAStraightRoad(track));
-				const mesh = this.#layout.at(-1);
-				mesh.material = blackMaterial;
+				this.#endingAnchor = new EndingAnchor(track, App.TRACKWIDTH, this.#scene);
+				this.#layout.push(this.#endingAnchor.render());
 			} else if (track.type === Track.CURVE) {
-				this.#layout.push(this.generateACurve(track));
+				const curve = new Curve(track, App.TRACKWIDTH, this.#scene);
+				this.#layout.push(curve.render());
 			} else if (track.type === Track.STARTLINE) {
-				this.#layout.push(this.generateAStraightRoad(track));
-				const mesh = this.#layout.at(-1);
-				mesh.material = startLineMaterial;
+				this.#startingLine = new StartingLine(track, App.TRACKWIDTH, this.#scene);
+				this.#layout.push(this.#startingLine.render());
 			} else if (track.type === Track.FINISHLINE) {
-				this.#layout.push(this.generateAStraightRoad(track));
-				const mesh = this.#layout.at(-1);
-				const material = new StandardMaterial("finishLineMaterial", this.#scene);
-				const texture = new Texture('/checkerboard-7800519_1280.jpg', this.#scene);
-				material.diffuseTexture = texture;
-				material.diffuseColor = new Color3(1, 1, 1);
-				// Optional: Configure texture settings if needed
-				// texture.uScale = 2.0; // Scale texture in U direction
-				// texture.vScale = 2.0; // Scale texture in V direction
-				// texture.hasAlpha = true; // If your texture has transparency
-				mesh.material = material;
+				this.#finishLine = new FinishLine(track, App.TRACKWIDTH, this.#scene);
+				this.#layout.push(this.#finishLine.render());
 			}
 		});
 
@@ -286,68 +385,9 @@ export default class App {
 		skyboxMaterial.backFaceCulling = false;
 		skyboxMaterial.reflectionTexture = new CubeTexture("textures/skybox", this.#scene);
 		skyboxMaterial.reflectionTexture.coordinatesMode = Texture.SKYBOX_MODE;
-		/!*skyboxMaterial.diffuseColor = new Color3(.75, .75, 1);
-		skyboxMaterial.specularColor = new Color3(.75, .75, 1);*!/
+		skyboxMaterial.diffuseColor = new Color3(.75, .75, 1);
+		skyboxMaterial.specularColor = new Color3(.75, .75, 1);
 		skybox.material = skyboxMaterial;*/
 
 	}
-
-	generateAStraightRoad(track) {
-		const startPoint = track.startingPosition;
-		const endPoint = track.endingPosition
-			? track.endingPosition
-			: track.startingDirectionVector.setDirectedPosition(track.startingPosition, track.length);
-		const { controlPoint1: cp1, controlPoint2: cp2} = track.contour ? track.contour : this.#getStraightBezierCurve(startPoint, endPoint);
-		// control points are adjusted in the renderStraight function.
-		const controlPoint1 = new V3(cp1.x, cp1.y, cp1.z);
-		const controlPoint2 = new V3(cp2.x, cp2.y, cp2.z);
-		const segments = 100;
-		const trackWidth = App.TRACKWIDTH;
-		return renderStraight({ startPoint, controlPoint1, controlPoint2, endPoint, segments, trackWidth, scene: this.#scene });
-	}
-
-	#getStraightBezierCurve(startPoint, endPoint) {
-		const controlPoint1 = {
-			x: (endPoint.x - startPoint.x) / 3,
-			y: (endPoint.y - startPoint.y) / 3,
-			z: (endPoint.z - startPoint.z) / 3
-		};
-
-		const controlPoint2 = {
-			x: 2 * (endPoint.x - startPoint.x) / 3,
-			y: 2 * (endPoint.y - startPoint.y) / 3,
-			z: 2 * (endPoint.z - startPoint.z) / 3
-		};
-
-		return { controlPoint1, controlPoint2 };
-	}
-
-
-	generateACurve(track) {
-		const startPoint = track.startingPosition;
-		const endPoint = track.endingPosition;
-		const controlPoint1 = track.contour.controlPoint1;
-		const controlPoint2 = track.contour.controlPoint2;
-		const curveDirection = track.curveDirection;
-		const angle = 45;
-		const firstGuardRailScale = { startScale: .6, endScale: .6 };
-		const secondGuardRailScale = { startScale: .6, endScale: 3 };
-		const segments = 100;
-		const trackWidth = App.TRACKWIDTH;
-
-		return renderCurve({
-			startPoint,
-			controlPoint1,
-			controlPoint2,
-			endPoint,
-			segments,
-			trackWidth,
-			angle,
-			curveDirection,
-			firstGuardRailScale,
-			secondGuardRailScale,
-			scene: this.#scene
-		});
-	}
-
 }
