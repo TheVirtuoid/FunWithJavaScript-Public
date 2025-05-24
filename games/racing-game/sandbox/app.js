@@ -18,7 +18,7 @@ import { buildGround } from "./ground.js";
 
 export default class App {
 
-	static GRAVITY = 0;
+	static GRAVITY = 1;
 	static CAMERA_VIEW = false;
 	static MODELS = true;
 	static SX = 5;
@@ -111,13 +111,13 @@ export default class App {
 			colors.forEach((color, index) => {
 				let position;
 				if (index < 8) {
-					position = { x: App.SX - 1.75 + (index * .5), y: App.SY + .25, z: App.SZ + .25 }
+					position = { x: App.SX - 1.75 + (index * .5), y: App.SY - .25, z: App.SZ + 1.25 }
 				} else if (index < 16) {
-					position = { x: App.SX - 1.75 + ((index - 8) * .5), y: App.SY - .35, z: App.SZ + 1.25 }
+					position = { x: App.SX - 1.75 + ((index - 8) * .5), y: App.SY - 1.1, z: App.SZ + 2.25 }
 				} else if (index < 24) {
-					position = { x: App.SX - 1.75 + ((index - 16) * .5), y: App.SY - 1.05, z: App.SZ + 2.25 }
+					position = { x: App.SX - 1.75 + ((index - 16) * .5), y: App.SY - 1.95, z: App.SZ + 3.25 }
 				} else {
-					position = { x: App.SX - 1.75 + ((index - 24) * .5), y: App.SY - 1.75, z: App.SZ + 3.25 }
+					position = { x: App.SX - 1.75 + ((index - 24) * .5), y: App.SY - 2.8, z: App.SZ + 4.25 }
 				}
 				const marble = new Marble({
 					name: `marble-${index}`,
@@ -190,7 +190,7 @@ export default class App {
 		this.#camera.inputs.addMouseWheel();
 		// this.#camera.setTarget(Vector3.Zero());
 		// this.#camera.setTarget(new Vector3(App.SX, App.SY -10, App.SZ + 40));
-		this.#camera.setTarget(new Vector3(App.SX, App.SY, App.SZ));
+		this.#camera.setTarget(new Vector3(App.SX + 20, App.SY, App.SZ + 20));
 
 		if (App.CAMERA_VIEW) {
 			this.#camera2 = new UniversalCamera("UniversalCamera2", new Vector3(App.SX - 30, App.SY -40, App.SZ + 10), this.#scene);

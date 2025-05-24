@@ -59,6 +59,10 @@ const setCurrentStep = (selectedButton, inputs) => {
 	});
 }
 
+const colorRandom = () => {
+	return new Vector3(Math.random(), Math.random(), Math.random());
+}
+
 const buildGround = (scene, controls) => {
 	const groundMaterial = new StandardMaterial("grass", scene);
 	groundMaterial.diffuseColor = new Color3(0, .25, 0);
@@ -66,12 +70,26 @@ const buildGround = (scene, controls) => {
 	const groundMaterial2 = new StandardMaterial('grass-2', scene);
 	groundMaterial2.diffuseColor = new Color3(0, .15, 0);
 
-	const groundMaterial3 = new StandardMaterial('grass-2', scene);
+	const groundMaterial3 = new StandardMaterial('grass-3', scene);
 	groundMaterial3.diffuseColor = new Color3(0, .35, 0);
 
+	const groundMaterial4 = new StandardMaterial('grass-4', scene);
+	groundMaterial4.diffuseColor = new Color3(0, .10, 0);
+
+	const groundMaterial5 = new StandardMaterial('grass-5', scene);
+	groundMaterial5.diffuseColor = new Color3(.1, .6, .1);
+
+	const dirtMaterial1 = new StandardMaterial('dirt-1', scene);
+	dirtMaterial1.diffuseColor = new Color3(0.6, 0.3, 0.1);
+
+	const dirtMaterial2 = new StandardMaterial('dirt-2', scene);
+	dirtMaterial2.diffuseColor = new Color3(0.4, 0.2, 0.1);
 
 	const groundWallMaterial = new StandardMaterial('ground-wall', scene);
 	groundWallMaterial.diffuseColor = new Color3(0, 0, 0);
+
+	const groundRandomMaterial = new StandardMaterial('ground-random', scene);
+	groundRandomMaterial.diffuseColor = colorRandom();
 
 	const groundBase = MeshBuilder.CreateGround('ground-base', {
 		width: 200,
@@ -122,10 +140,49 @@ const buildGround = (scene, controls) => {
 	const groundStraight3 = MeshBuilder.CreateBox('ground-straight3', { depth: 78, width: 32, height: 10 }, scene);
 	groundStraight3.material = groundMaterial3;
 	groundStraight3.position = new Vector3(39, -33.1, 39);
-	new PhysicsAggregate(groundStraight3, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
 	groundStraight3.rotate(new Vector3(0, 0, 1), Math.PI / 1.065);
+	new PhysicsAggregate(groundStraight3, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
 	addMesh('groundStraight3', groundStraight3);
 
+	const groundStraight1 = MeshBuilder.CreateBox('ground-straight1', { depth: 14, width: 125, height: 34 }, scene);
+	groundStraight1.material = groundMaterial4;
+	groundStraight1.position = new Vector3(-38, -23.8, 6);
+	new PhysicsAggregate(groundStraight1, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
+	addMesh('groundStraight1', groundStraight1);
+
+	const dirtStraight1 = MeshBuilder.CreateBox('dirt-straight1', { depth: 37, width: 125, height: 10 }, scene);
+	dirtStraight1.material = dirtMaterial1;
+	dirtStraight1.position = new Vector3(-38, -24.6, 24);
+	dirtStraight1.rotate(new Vector3(1, 0, 0), -Math.PI / 1.3);
+	new PhysicsAggregate(dirtStraight1, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
+	addMesh('dirtStraight1', dirtStraight1);
+
+	const dirtStraight2 = MeshBuilder.CreateBox('dirt-straight2', { depth: 39, width: 125, height: 10 }, scene);
+	dirtStraight2.material = dirtMaterial2;
+	dirtStraight2.position = new Vector3(-38, -28.9, 44);
+	dirtStraight2.rotate(new Vector3(1, 0, 0), -Math.PI / 1.07);
+	new PhysicsAggregate(dirtStraight2, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
+	addMesh('dirtStraight2', dirtStraight2);
+
+	const groundStraight5 = MeshBuilder.CreateBox('ground-straight5', { depth: 109, width: 35, height: 10 }, scene);
+	groundStraight5.material = groundMaterial5;
+	groundStraight5.position = new Vector3(33.7, -39.4, 128);
+	groundStraight5.rotate(new Vector3(0, 0, 1), -Math.PI / 1.07);
+	new PhysicsAggregate(groundStraight5, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
+	addMesh('groundStraight5', groundStraight5);
+
+	const groundStartline = MeshBuilder.CreateBox('ground-startline', { depth: 14, width: 125, height: 9 }, scene);
+	groundStartline.material = groundMaterial;
+	groundStartline.position = new Vector3(-38, -8.1, 8);
+	groundStartline.rotate(new Vector3(1, 0, 0), -Math.PI / 1.27);
+	new PhysicsAggregate(groundStartline, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
+	addMesh('groundStartline', groundStartline);
+
+	const groundStartAnchor = MeshBuilder.CreateBox('ground-start-anchor', { depth: 5, width: 125, height: 9 }, scene);
+	groundStartAnchor.material = groundMaterial;
+	groundStartAnchor.position = new Vector3(-38, -4.8, 2.7);
+	new PhysicsAggregate(groundStartAnchor, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
+	addMesh('groundStartAnchor', groundStartAnchor);
 
 	const selectBox = controls.querySelector('#select-box');
 	const inputs = controls.querySelectorAll('input[type=number]');
