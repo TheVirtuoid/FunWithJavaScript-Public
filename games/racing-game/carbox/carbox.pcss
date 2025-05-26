@@ -1,0 +1,69 @@
+body {
+    background-color: #111111;
+    color: lightskyblue;
+}
+
+#world {
+    background-color: black;
+}
+
+#world2 {
+    background-color: grey;
+    display: none;
+}
+
+.scene {
+    display: flex;
+    flex-direction: row;
+}
+
+.scene.camera-view canvas {
+    width: 800px;
+    height: 600px;
+    display: inline !important;
+    border: 1px solid red;
+    margin: 2px;
+}
+
+.sandbox {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.controls {
+    color: black;
+    background-color: #888888;
+    border: 2px solid green;
+    border-radius: 1.5rem;
+    padding: 1rem;
+
+    label {
+        display: flex;
+        gap: 2rem;
+        justify-content: space-between;
+
+        input {
+            max-width: 5rem;
+            text-align: right;
+        }
+    }
+
+    .buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+
+        button {
+            background-color: white;
+            border: 1px solid red;
+            border-radius: .25rem;
+            cursor: pointer;
+
+            &.selected {
+                background-color: green;
+                color: white;
+            }
+        }
+    }
+}

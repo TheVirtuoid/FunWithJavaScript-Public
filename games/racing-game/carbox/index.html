@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Racing Sandbox</title>
+	<script src="carbox.js" type="module"></script>
+</head>
+<body style="background-color: #111111;">
+<header></header>
+<main>
+	<h1>Welcome to the Carbox!</h1>
+	<div class="sandbox">
+		<section class="scene">
+			<canvas id="world" width="1024" height="576"></canvas>
+		</section>
+		<section class="controls" id="controls">
+			<h2><label for="select-box">Select a Mesh:</label></h2>
+			<select id="select-box"></select>
+			<div class="data">
+				<h3>Steps</h3>
+				<div class="buttons">
+					<button id="step-1" value="1">1</button>
+					<button id="step-p5" value=".5">.5</button>
+					<button id="step-p25" value=".25">.25</button>
+					<button id="step-p1" value=".1">.1</button>
+				</div>
+			</div>
+			<div class="data">
+				<h3>Position</h3>
+				<label><span>X</span><input type="number" id="pos-x" value="" step="1" /></label>
+				<label><span>Y</span><input type="number" id="pos-y" value="" step="1" /></label>
+				<label><span>Z</span><input type="number" id="pos-z" value="" step="1" /></label>
+			</div>
+			<div class="data">
+				<h3>Dimensions</h3>
+				<label><span>Width</span><input type="number" id="dim-width" value="" step="1" /></label>
+				<label><span>Depth</span><input type="number" id="dim-depth" value="" step="1" /></label>
+				<label><span>Height</span><input type="number" id="dim-height" value="" step="1" /></label>
+			</div>
+		</section>
+	</div>
+</main>
+<footer>&copy; 2012-2025 m. parker smith a.k.a. TheVirtuoid</footer>
+</body>
+</html>
