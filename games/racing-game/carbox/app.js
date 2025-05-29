@@ -48,6 +48,8 @@ export default class App {
 	#controls;
 	#selectMesh;
 
+	#car;
+
 	constructor() {
 		this.#canvas = document.getElementById('world');
 		this.#sceneElement = document.querySelector('section.scene');
@@ -123,9 +125,8 @@ export default class App {
 		this.#scene.enablePhysics(this.#gravityVector, this.#physicsPlugin);
 
 		buildGround(this.#scene, this.#controls);
-		// this.#createJoint('front-left', new Vector3(0, -4, 0));
-		// this.#createCar(new Vector3(0, 0, 0));
-		this.#testCreate();
+		this.#car = new Car({ position: new Vector3(0, -7, 0), scene: this.#scene });
+		this.#car.build();
 	}
 
 	#addStaticPhysics(mesh) {
@@ -139,116 +140,6 @@ export default class App {
 		const body = new PhysicsBody(mesh, PhysicsMotionType.DYNAMIC, false, this.#scene);
 		body.setMassProperties({ mass: 1 });
 		body.shape = shape;
-	}
-
-
-
-	#testCreate() {
-		const car = new Car({ position: new Vector3(0, -7, 0), scene: this.#scene });
-		car.build();
-		const chassisLength = 5;
-		const wheelRestitution = .25;
-
-		/*
-		const carParent = new MeshBuilder.CreateBox("carParent", {size: 0.1}, this.#scene);
-		carParent.visibility = 0; // Make it invisible
-
-		// Our built-in 'sphere' shape.
-		const chassis = MeshBuilder.CreateBox("chassis", {width: chassisLength, height: 1, depth: 1}, this.#scene);
-		chassis.parent = carParent;
-
-		const backLeftWheel = MeshBuilder.CreateCylinder("backLeftWheel", {height: .25, diameter: 2, tessellation: 256}, this.#scene);
-		backLeftWheel.rotation.x = Math.PI / 2;
-		backLeftWheel.bakeCurrentTransformIntoVertices();
-		backLeftWheel.convertToFlatShadedMesh();
-
-		backLeftWheel.position.z = -2;
-		backLeftWheel.position.x = chassisLength / 2;
-		backLeftWheel.parent = carParent;
-
-		const backRightWheel = backLeftWheel.clone();
-		backRightWheel.position.z = 2;
-		backRightWheel.position.x = chassisLength / 2;
-		backRightWheel.parent = carParent;
-
-		const frontLeftWheel = backLeftWheel.clone();
-		frontLeftWheel.position.z = -2;
-		frontLeftWheel.position.x = -chassisLength / 2;
-		frontLeftWheel.parent = carParent;
-
-		const frontRightWheel = backLeftWheel.clone();
-		frontRightWheel.position.z = 2;
-		frontRightWheel.position.x = -chassisLength / 2;
-		frontRightWheel.parent = carParent;
-
-		carParent.position = new Vector3(0, -7, 0);
-		carParent.rotate(new Vector3(0, 1, 0), Math.PI / 2);
-		*/
-
-		/*const { chassis, wheels } = car;
-		const backLeftWheel = wheels.get(Car.BACK_LEFT_WHEEL);
-		const backRightWheel = wheels.get(Car.BACK_RIGHT_WHEEL);
-		const frontLeftWheel = wheels.get(Car.FRONT_LEFT_WHEEL);
-		const frontRightWheel = wheels.get(Car.FRONT_RIGHT_WHEEL);*/
-
-		/*const chassisAggregate = new PhysicsAggregate(chassis, PhysicsShapeType.BOX, { mass: 1, restitution: 0, friction: 0}, this.#scene);
-		const backLeftWheelAggregate = new PhysicsAggregate(backLeftWheel, PhysicsShapeType.MESH, { mass: 1, restitution: wheelRestitution, friction: 0}, this.#scene);
-		const backRightWheelAggregate = new PhysicsAggregate(backRightWheel, PhysicsShapeType.MESH, { mass: 1, restitution: wheelRestitution, friction: 0}, this.#scene);
-		const frontLeftWheelAggregate = new PhysicsAggregate(frontLeftWheel, PhysicsShapeType.MESH, { mass: 1, restitution: wheelRestitution, friction: 0}, this.#scene);
-		const frontRightWheelAggregate = new PhysicsAggregate(frontRightWheel, PhysicsShapeType.MESH, { mass: 1, restitution: wheelRestitution, friction: 0}, this.#scene);
-		const scene = this.#scene;*/
-		/*function addMotorizedWheelToChassis(wheelAggregate) {
-			const wheelPosition = wheelAggregate.transformNode.position;
-			const motor = new Physics6DoFConstraint(
-				{
-					pivotA: new Vector3(wheelPosition.x, 0, wheelPosition.z / 2.0),
-					pivotB: new Vector3(0, 0, -wheelPosition.z / 2.0),
-					axisA: new Vector3(1, 0, 0),
-					axisB: new Vector3(1, 0, 0),
-					perpAxisA: new Vector3(0, 1, 0),
-					perpAxisB: new Vector3(0, 1, 0),
-				},
-				[
-					{
-						axis: PhysicsConstraintAxis.LINEAR_X,
-						minLimit: 0,
-						maxLimit: 0,
-					},
-					{
-						axis: PhysicsConstraintAxis.LINEAR_Y,
-						minLimit: 0,
-						maxLimit: 0,
-					},
-					{
-						axis: PhysicsConstraintAxis.LINEAR_Z,
-						minLimit: -0,
-						maxLimit: 0,
-					},
-					{
-						axis: PhysicsConstraintAxis.ANGULAR_X,
-						minLimit: 0, maxLimit: 0
-					},
-					{
-						axis: PhysicsConstraintAxis.ANGULAR_Y,
-						minLimit: 0, maxLimit: 0
-					}
-				],
-				scene
-			);
-
-			chassisAggregate.body.addConstraint(wheelAggregate.body, motor);
-
-			// motor.setAxisMotorType(BABYLON.PhysicsConstraintAxis.ANGULAR_Z, BABYLON.PhysicsConstraintMotorType.VELOCITY);
-			// motor.setAxisMotorMaxForce(BABYLON.PhysicsConstraintAxis.ANGULAR_Z, 1000);
-
-			return motor;
-		}*/
-
-		/*const backLeftMotor = addMotorizedWheelToChassis(backLeftWheelAggregate);
-		const backRightMotor = addMotorizedWheelToChassis(backRightWheelAggregate);
-		const frontLeftMotor = addMotorizedWheelToChassis(frontLeftWheelAggregate);
-		const frontRightMotor = addMotorizedWheelToChassis(frontRightWheelAggregate);*/
-
 	}
 
 	#insertMarble() {
