@@ -1,15 +1,21 @@
+import GameData from "../../src/classes/databases/GameData/GameData.js";
+
 export default class ExitDialogCode {
 	#dialog;
 	#buttonExitHandle;
 	#buttonYesHandle;
 	#buttonNoHandle;
+	#gameData;
+	#router;
 
-	constructor(exitButtonId) {
+	constructor(exitButtonId, router) {
 		this.#dialog = document.getElementById('exit-game-dialog');
 		this.#buttonExitHandle = this.#buttonExit.bind(this);
 		this.#buttonYesHandle = this.#buttonYes.bind(this);
 		this.#buttonNoHandle = this.#buttonNo.bind(this);
+		this.#router = router;
 
+		this.#gameData = new GameData();
 		document.getElementById(exitButtonId).addEventListener('click', this.#buttonExitHandle);
 	}
 
@@ -21,7 +27,8 @@ export default class ExitDialogCode {
 
 	#buttonYes() {
 		this.#dialog.close();
-		// selectScreen('begin-screen');
+		this.#gameData.page = 'index';
+		this.#router.routeTo(this.#gameData.page);
 	}
 
 	#buttonNo() {
