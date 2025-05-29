@@ -1,16 +1,16 @@
 import './css/racing-game.pcss';
 import indexTemplate from '/pages/index/index.html?raw';
-import indexCode from '/pages/index/index.js';
+import indexCode from './../pages/index/index.js';
+
+import exitDialogTemplate from '/pages/exitDialog/exitDialog.html?raw';
+import ExitDialog from './../pages/exitDialog/exitDialog.js';
+
+import GameData from './classes/databases/GameData/GameData.js'
 
 const thisYear = new Date().getFullYear();
 document.getElementById('last-year').textContent = thisYear;
 
-const gameData = {
-	page: 'index',
-	selectedCar: false,
-	selectedVenue: false
-};
-localStorage.setItem('virtuoid-racing-game', JSON.stringify(gameData));
+const gameData = new GameData();
 
 const router = new Map([
 	['index', {
@@ -19,6 +19,15 @@ const router = new Map([
 	}]
 ]);
 
+// initialize dialogs
+const dialogs = document.getElementById('dialogs');
+dialogs.replaceChildren();
+const dialogTemplate = document.createElement('template');
+dialogTemplate.innerHTML = exitDialogTemplate;
+dialogs.appendChild(dialogTemplate.content.cloneNode(true));
+new ExitDialog('button-exit');
+
+// load in the page
 const route = router.get(gameData.page);
 const pageTemplate = route.template;
 const pageCode = route.code;
