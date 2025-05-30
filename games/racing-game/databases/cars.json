@@ -1,0 +1,8 @@
+[
+  {
+    "id": "47dcf168-af7b-4247-9861-517f910b2a7b",
+    "name": "Test Car 1",
+    "thumbnail": "https://example.com/cars/test-car-1.jpg",
+    "model": "https://example.com/models/test-car-1.glb"
+  }
+]

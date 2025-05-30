@@ -33,37 +33,11 @@ new ExitDialog('button-exit', router);
 
 // load in the page
 router.routeTo(gameData.page);
-/*const route = router.get(gameData.page);
-const pageTemplate = route.template;
-const pageCode = route.code;*/
-
-/*
-const template = document.createElement('template');
-template.innerHTML = pageTemplate;
-document.querySelector('main').replaceChildren();
-document.querySelector('main').appendChild(template.content.cloneNode(true));
-
-new pageCode();
-*/
 
 document.getElementById('button-select-cars').addEventListener('click', () => {
 	gameData.page = 'selectCars';
 	router.routeTo(gameData.page);
 });
-
-
-/*
-function routeTo(page) {
-	const route = router.get(gameData.page);
-	const pageTemplate = route.template;
-	const pageCode = route.code;
-	const template = document.createElement('template');
-	template.innerHTML = pageTemplate;
-	document.querySelector('main').replaceChildren();
-	document.querySelector('main').appendChild(template.content.cloneNode(true));
-	new pageCode();
-}
-*/
 
 
 

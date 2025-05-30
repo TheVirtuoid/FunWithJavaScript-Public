@@ -87,8 +87,13 @@ export default class App {
 	}
 
 	renderLoop() {
+		let count = 0;
 		this.#engine.runRenderLoop(() => {
 			this.#scene.render();
+			count++;
+			if (count % 60 === 0) {
+				// console.log(this.#car.chassis.position);
+			}
 		});
 	}
 
@@ -127,24 +132,25 @@ export default class App {
 		buildGround(this.#scene, this.#controls);
 		this.#car = new Car({ position: new Vector3(0, -7, 0), scene: this.#scene });
 		this.#car.build();
+		// this.#insertMarble();
 	}
 
-	#addStaticPhysics(mesh) {
+	/*#addStaticPhysics(mesh) {
 		const shape = new PhysicsShapeConvexHull(mesh, this.#scene);
 		const body = new PhysicsBody(mesh, PhysicsMotionType.STATIC, false, this.#scene);
 		body.shape = shape;
-	}
+	}*/
 
-	#addDynamicPhysics(mesh) {
+	/*#addDynamicPhysics(mesh) {
 		const shape = new PhysicsShapeConvexHull(mesh, this.#scene);
 		const body = new PhysicsBody(mesh, PhysicsMotionType.DYNAMIC, false, this.#scene);
 		body.setMassProperties({ mass: 1 });
 		body.shape = shape;
-	}
+	}*/
 
-	#insertMarble() {
-		const marble = MeshBuilder.CreateSphere("marble", { diameter: 1 }, this.#scene);
-		marble.position = new Vector3(0, 0, 0);
+	/*#insertMarble() {
+		const marble = MeshBuilder.CreateSphere("marble", { diameter: 2 }, this.#scene);
+		marble.position = new Vector3(7, -4, 0);
 		marble.material = new StandardMaterial("marbleMat", this.#scene);
 		marble.material.diffuseColor = new Color3(1, 0, 0);
 		marble.material.specularColor = new Color3(1, 1, 1);
@@ -152,5 +158,5 @@ export default class App {
 		marble.material.ambientColor = new Color3(0, 0, 0);
 		marble.material.ambientTexture = null;
 		this.#addDynamicPhysics(marble);
-	}
+	}*/
 }
