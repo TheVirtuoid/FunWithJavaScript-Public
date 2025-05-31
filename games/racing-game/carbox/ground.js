@@ -26,7 +26,10 @@ const buildGround = (scene, controls) => {
 	groundBase.material = groundMaterial;
 	groundBase.position = new Vector3(0, -10, 0);
 	groundBase.rotation.x += -.10;
-	new PhysicsAggregate(groundBase, PhysicsShapeType.BOX, { mass: 0, friction: .1 }, scene);
+	const groundAggregate = new PhysicsAggregate(groundBase, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
+	groundAggregate.shape.filterMembershipMask = 0xFFFFFFFF;
+	groundAggregate.shape.filterCollideMask = 0xFFFFFFFF;
+	console.log('ground', groundAggregate.shape);
 	// addMesh('groundBase', groundBase);
 
 	const groundBaseWallNorth = MeshBuilder.CreateBox('ground-base-north', { depth: 55, width: 2, height: 2 }, scene);

@@ -4,7 +4,7 @@ import {
 	Physics6DoFConstraint,
 	PhysicsAggregate,
 	PhysicsConstraintAxis,
-	PhysicsShapeType,
+	PhysicsShapeType, Quaternion as Quanternion, StandardMaterial, Texture,
 	Vector3
 } from "@babylonjs/core";
 
@@ -16,6 +16,7 @@ export default class Car {
 	static FRONT_LEFT_WHEEL = { x: -1, z: -1, name: 'front-left' };
 	static FRONT_RIGHT_WHEEL = { x: -1, z: 1, name: 'front-right' };
 	static CHASSIS = Symbol('chassis');
+	static COLLISION_BODY = Symbol('collision-body');
 	static WHEEL_RESTITUTION = 0.5;
 
 	#position;
@@ -29,14 +30,26 @@ export default class Car {
 	#id;
 	#wheelBase;
 	#model;
+	#loadedModel;
+	#wheelMaterial;
+	#physicsGroup;
+	#membershipMask;
+	#collideMask;
 
 	constructor(args = {}) {
-		const { position, scene, url, id = crypto.randomUUID() } = args;
+		const { position, scene, url, id = crypto.randomUUID(), physicsGroup } = args;
 		this.#position = position.clone();
 		this.#scene = scene;
 		this.#url = url;
 		this.#id = id;
+		this.#physicsGroup = physicsGroup;
+		this.#membershipMask = this.#physicsGroup;
+		this.#collideMask = ~this.#membershipMask;
 		this.#buildWheelBase();
+		this.#wheelMaterial = new StandardMaterial(`${this.id}-wheel-material`, this.scene);
+		const texture = new Texture('./checkerboard-7800519_1280.jpg', this.scene);
+		texture.uScale = .25; // Scale texture in U direction
+		this.#wheelMaterial.diffuseTexture = texture;
 	}
 
 	get position() {
@@ -75,11 +88,16 @@ export default class Car {
 		return this.#wheelBase;
 	}
 
+	get model() {
+		return this.#loadedModel?.meshes[0];
+	}
+
 	build() {
 		this.#buildParent()
 			.then(this.#buildChassis.bind(this))
 			.then(this.#buildWheels.bind(this))
-			.then(() => this.#buildModel())
+			.then(this.#buildModel.bind(this))
+			.then(this.#buildCollisionBody.bind(this))
 			.then(this.#buildPhysicsAggregates.bind(this))
 			.then(this.#buildWheelConstraints.bind(this));
 	}
@@ -121,25 +139,33 @@ export default class Car {
 		wheel.position.x = Car.CHASSIS_LENGTH / 2 * wheelType.x;
 		wheel.parent = this.#parent;
 		wheel.visibility = true;
+		wheel.material = this.#wheelMaterial;
 		this.#wheels.set(wheelType, wheel);
 	}
 
 	#buildPhysicsAggregates() {
-		this.#aggregates.set(Car.CHASSIS,
-			new PhysicsAggregate(this.#chassis, PhysicsShapeType.BOX, { mass: 1, restitution: 0, friction: 0}, this.#scene)
-		);
-		this.#aggregates.set(Car.BACK_LEFT_WHEEL,
-			new PhysicsAggregate(this.#wheels.get(Car.BACK_LEFT_WHEEL), PhysicsShapeType.MESH, { mass: 1, restitution: Car.WHEEL_RESTITUTION, friction: 0}, this.#scene)
-		);
-		this.#aggregates.set(Car.BACK_RIGHT_WHEEL,
-			new PhysicsAggregate(this.#wheels.get(Car.BACK_RIGHT_WHEEL), PhysicsShapeType.MESH, { mass: 1, restitution: Car.WHEEL_RESTITUTION, friction: 0}, this.#scene)
-		);
-		this.#aggregates.set(Car.FRONT_LEFT_WHEEL,
-			new PhysicsAggregate(this.#wheels.get(Car.FRONT_LEFT_WHEEL), PhysicsShapeType.MESH, { mass: 1, restitution: Car.WHEEL_RESTITUTION, friction: 0}, this.#scene)
-		);
-		this.#aggregates.set(Car.FRONT_RIGHT_WHEEL,
-			new PhysicsAggregate(this.#wheels.get(Car.FRONT_RIGHT_WHEEL), PhysicsShapeType.MESH, { mass: 1, restitution: Car.WHEEL_RESTITUTION, friction: 0}, this.#scene)
-		);
+		const chassis = new PhysicsAggregate(this.#chassis, PhysicsShapeType.BOX, { mass: 1, restitution: 0, friction: 0}, this.#scene);
+		const backLeftWheel = new PhysicsAggregate(this.#wheels.get(Car.BACK_LEFT_WHEEL), PhysicsShapeType.MESH, { mass: 1, restitution: Car.WHEEL_RESTITUTION, friction: .5}, this.#scene);
+		const backRightWheel = new PhysicsAggregate(this.#wheels.get(Car.BACK_RIGHT_WHEEL), PhysicsShapeType.MESH, { mass: 1, restitution: Car.WHEEL_RESTITUTION, friction: .5}, this.#scene);
+		const frontLeftWheel = new PhysicsAggregate(this.#wheels.get(Car.FRONT_LEFT_WHEEL), PhysicsShapeType.MESH, { mass: 1, restitution: Car.WHEEL_RESTITUTION, friction: .5}, this.#scene);
+		const frontRightWheel = new PhysicsAggregate(this.#wheels.get(Car.FRONT_RIGHT_WHEEL), PhysicsShapeType.MESH, { mass: 1, restitution: Car.WHEEL_RESTITUTION, friction: .5}, this.#scene);
+
+		this.#aggregates.set(Car.CHASSIS, chassis);
+		this.#aggregates.set(Car.BACK_LEFT_WHEEL, backLeftWheel);
+		this.#aggregates.set(Car.BACK_RIGHT_WHEEL, backRightWheel);
+		this.#aggregates.set(Car.FRONT_LEFT_WHEEL, frontLeftWheel);
+		this.#aggregates.set(Car.FRONT_RIGHT_WHEEL, frontRightWheel);
+
+		backLeftWheel.shape.filterMembershipMask = this.#membershipMask;
+		backLeftWheel.shape.filterCollideMask = this.#collideMask;
+		backRightWheel.shape.filterMembershipMask = this.#membershipMask;
+		backRightWheel.shape.filterCollideMask = this.#collideMask;
+		frontLeftWheel.shape.filterMembershipMask = this.#membershipMask;
+		frontLeftWheel.shape.filterCollideMask = this.#collideMask;
+		frontRightWheel.shape.filterMembershipMask = this.#membershipMask;
+		frontRightWheel.shape.filterCollideMask = this.#collideMask;
+		chassis.shape.filterMembershipMask = this.#membershipMask;
+		chassis.shape.filterCollideMask = this.#collideMask;
 		return Promise.resolve();
 	}
 
@@ -194,19 +220,37 @@ export default class Car {
 		return constraint;
 	}
 
+	#buildCollisionBody() {
+		const bodySize = {
+			width: Car.CHASSIS_LENGTH * 1.1,  // Slightly larger than chassis
+			height: 1.5,                     // Height of car body
+			depth: 2.2                       // Width of car body
+		};
+
+		const collisionBody = MeshBuilder.CreateBox(`${this.id}-body-collision`, bodySize, this.#scene);
+		collisionBody.position.y = 1.5; // Position above chassis
+		collisionBody.visibility = true; // Make invisible
+		collisionBody.parent = this.#parent;
+		collisionBody.showBoundingBox = true;
+	}
+
 	async #buildModel() {
-		const result = await ImportMeshAsync("/carbox/Ferarri.glb", this.#scene, {});
-		result.meshes[0].scaling = new Vector3(3, 3, 3);
-		// result.meshes[0].rotate(new Vector3(0, 0, 0, Math.PI));
-		// result.meshes[0].rotation.y = Math.PI / 2;
-		this.#model = result;
-		this.#model.meshes[0].parent = this.chassis;
-		result.meshes.forEach(mesh => {
+		this.#loadedModel = await ImportMeshAsync("/carbox/Ferarri.glb", this.#scene, {});
+		// console.log(this.#loadedModel);
+		this.model.scaling = new Vector3(3, 3, 3);
+		this.model.parent = this.chassis;
+		// this.model.position.y += 4;
+		this.model.rotationQuaternion = null;
+		this.model.rotation = new Vector3(0, Math.PI / 2, 0);
+		this.#loadedModel.meshes.forEach(mesh => {
 			mesh.isPickable = false;
 			// Optionally disable collision detection entirely
-			mesh.checkCollisions = false;
+			mesh.checkCollisions = true;
 		});
-		// new PhysicsAggregate(this.#model.meshes[0], PhysicsShapeType.BOX, { mass: 1, restitution: .1, friction: 0}, this.#scene);
+		/*const modelPhysics = new PhysicsAggregate(this.model, PhysicsShapeType.BOX, { mass: 1, restitution: .1, friction: 0}, this.#scene);
+		modelPhysics.shape.filterMembershipMask = this.#membershipMask;
+		modelPhysics.shape.filterCollideMask = 0x00000010;*/
+		// modelPhysics.shape.filterCollideMask = this.#collideMask;
 		// this.#model.meshes[0].parent = this.#parent;
 		// result.meshes[0].parent = this.#carParent;
 		// console.log(result.meshes[0]);

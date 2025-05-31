@@ -130,7 +130,7 @@ export default class App {
 		this.#scene.enablePhysics(this.#gravityVector, this.#physicsPlugin);
 
 		buildGround(this.#scene, this.#controls);
-		this.#car = new Car({ position: new Vector3(0, -7, 0), scene: this.#scene });
+		this.#car = new Car({ position: new Vector3(0, -7, 0), scene: this.#scene, physicsGroup: 1 });
 		this.#car.build();
 		// this.#insertMarble();
 	}
