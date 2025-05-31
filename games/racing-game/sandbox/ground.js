@@ -125,7 +125,7 @@ const buildGround = (scene, controls) => {
 	new PhysicsAggregate(groundBaseWallWest, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
 	// addMesh('groundBaseWallWest', groundBaseWallWest);
 
-	const ground180 = MeshBuilder.CreateBox('ground-180', { depth: 200, width: 50, height: 5 }, scene);
+	/*const ground180 = MeshBuilder.CreateBox('ground-180', { depth: 200, width: 50, height: 5 }, scene);
 	ground180.material = groundMaterial2;
 	ground180.position = new Vector3(75, -33, 100);
 	new PhysicsAggregate(ground180, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
@@ -182,7 +182,7 @@ const buildGround = (scene, controls) => {
 	groundStartAnchor.material = groundMaterial;
 	groundStartAnchor.position = new Vector3(-38, -4.8, 2.7);
 	new PhysicsAggregate(groundStartAnchor, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
-	addMesh('groundStartAnchor', groundStartAnchor);
+	addMesh('groundStartAnchor', groundStartAnchor);*/
 
 	const selectBox = controls.querySelector('#select-box');
 	const inputs = controls.querySelectorAll('input[type=number]');

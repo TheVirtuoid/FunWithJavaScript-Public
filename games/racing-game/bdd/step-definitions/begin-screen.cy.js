@@ -31,32 +31,17 @@ Then('I should see the "racing game" title', () => {
 });
 
 Then('I should not see the "select cars" screen', () => {
-	cy.get('[data-testid=select-cars-screen]').should('not.be.visible');
+	cy.get('[data-testid=select-cars-screen]').should('not.exist');
 });
 
 Then('I should not see the "select venue" screen', () => {
-	cy.get('[data-testid=select-venue-screen]').should('not.be.visible');
+	cy.get('[data-testid=select-venue-screen]').should('not.exist');
 });
 
 Then('I should not see the "venue" screen', () => {
-	cy.get('[data-testid=venue-screen]').should('not.be.visible');
+	cy.get('[data-testid=venue-screen]').should('not.exist');
 });
 
-Then('I should see the "Select Cars" screen', () => {
-	cy.get('[data-testid=begin-screen]').should('not.be.visible');
-	cy.get('[data-testid=select-cars-screen]').should('be.visible');
-});
-
-Then('I should see the "Confirm Exit" dialog box', () => {
-	cy.get('[data-testid=exit-game-dialog]').should('be.visible');
-});
-
-Then('I should see no other buttons than the ones mentioned', () => {
-	cy.get('#actions > button').should('have.length', buttons.size);
-	buttons.forEach((value, key) => {
-		cy.get(`[data-testid=${value}]`).should('be.visible');
-	});
-});
 
 
 

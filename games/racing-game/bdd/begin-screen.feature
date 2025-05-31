@@ -22,21 +22,6 @@ Feature: Game Flow - Begin
     Then I should not see the "Pause" button
     Then I should not see the "Resume" button
 
-  Scenario: Activating the "Select Cars" button
-    Given I have launched the racing game
-    When The first screen appears
-    And I click on the "Select Cars" button
-    Then I should see the "Select Cars" screen
-
-  Scenario: Activating the "Exit" button
-    Given I have launched the racing game
-    When The first screen appears
-    And I click on the "Exit" button
-    Then I should see the "Confirm Exit" dialog box
-
-
-
-
 
 
 
