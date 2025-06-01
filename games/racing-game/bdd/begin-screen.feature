@@ -8,15 +8,17 @@ Feature: Game Flow - Begin
     Then I should see the main
     Then I should see the footer
     Then I should see the "racing game" title
-    Then I should not see the "select cars" screen
-    Then I should not see the "select venue" screen
-    Then I should not see the "venue" screen
+    Then I should see the "Begin" screen
+    Then I should not see the "Select cars" screen
+    Then I should not see the "Select Venue" screen
+    Then I should not see the "Venue" screen
 
   Scenario: What buttons are displayed
     Given I have launched the racing game
     When The first screen appears
     Then I should see the "Select Cars" button
     Then I should see the "Exit" button
+    Then I should not see the "Back" button
     Then I should not see the "Select Venue" button
     Then I should not see the "Start" button
     Then I should not see the "Pause" button

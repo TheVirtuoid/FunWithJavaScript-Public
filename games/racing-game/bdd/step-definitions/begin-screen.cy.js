@@ -30,17 +30,6 @@ Then('I should see the "racing game" title', () => {
 		.should('have.text', 'racing game');
 });
 
-Then('I should not see the "select cars" screen', () => {
-	cy.get('[data-testid=select-cars-screen]').should('not.exist');
-});
-
-Then('I should not see the "select venue" screen', () => {
-	cy.get('[data-testid=select-venue-screen]').should('not.exist');
-});
-
-Then('I should not see the "venue" screen', () => {
-	cy.get('[data-testid=venue-screen]').should('not.exist');
-});
 
 
 

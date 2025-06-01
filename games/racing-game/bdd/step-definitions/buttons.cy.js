@@ -7,7 +7,7 @@ const buttons = new Map([
 	['Start', 'button-start'],
 	['Pause', 'button-pause'],
 	['Resume', 'button-resume'],
-	['Back', 'button-go-back'],
+	['Back', 'button-back'],
 	['Yes', 'exit-game-dialog-button-yes'],
 	['No', 'exit-game-dialog-button-no'],
 	['Select Car', 'button-select-car'],

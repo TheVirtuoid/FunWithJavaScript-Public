@@ -1,5 +1,7 @@
+import {setButtons} from "../buttons.js";
+
 export default class Index {
 	constructor() {
-		console.log('Index page loaded!!');
+		setButtons(['selectCars', 'exit']);
 	}
 }
