@@ -5,6 +5,9 @@ import indexCode from './../pages/index/index.js';
 import selectCarsTemplate from '/pages/selectCars/selectCars.html?raw';
 import selectCarsCode from './../pages/selectCars/selectCars.js';
 
+import selectVenueTemplate from '/pages/selectVenue/selectVenue.html?raw';
+import selectVenueCode from './../pages/selectVenue/selectVenue.js';
+
 import exitDialogTemplate from '/pages/exitDialog/exitDialog.html?raw';
 import ExitDialog from './../pages/exitDialog/exitDialog.js';
 
@@ -16,7 +19,8 @@ document.getElementById('last-year').textContent = thisYear;
 
 const routes = new Map([
 	['index', { template: indexTemplate, code: indexCode }],
-	['selectCars', { template: selectCarsTemplate, code: selectCarsCode }]
+	['selectCars', { template: selectCarsTemplate, code: selectCarsCode }],
+	['selectVenue', { template: selectVenueTemplate, code: selectVenueCode }]
 ]);
 
 const gameData = new GameData();
@@ -39,7 +43,23 @@ document.getElementById('button-select-cars').addEventListener('click', () => {
 	router.routeTo(gameData.page);
 });
 
+document.getElementById('button-select-venue').addEventListener('click', () => {
+	gameData.page = 'selectVenue';
+	router.routeTo(gameData.page);
+});
 
+document.getElementById('button-back').addEventListener('click', () => {
+	if (gameData.page === 'racing') {
+		gameData.page = 'selectVenue';
+	} else if (gameData.page === 'selectVenue') {
+		gameData.page = 'selectCars';
+	} else if (gameData.page === 'selectCars') {
+		gameData.page = 'index';
+	} else {
+		gameData.page = 'index';
+	}
+	router.routeTo(gameData.page);
+});
 
 
 

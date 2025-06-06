@@ -18,6 +18,7 @@ export default class SelectCars {
 
 	#buttonSelect;
 	#buttonUnselect;
+	// #buttonSelectVenue;
 
 	#carsToBeSelected = [];
 	#carsToBeUnselected = [];
@@ -29,9 +30,11 @@ export default class SelectCars {
 
 		this.#buttonSelect = document.querySelector('#button-select-car');
 		this.#buttonUnselect = document.querySelector('#button-unselect-car');
+		// this.#buttonSelectVenue = document.querySelector('#button-select-venue');
 
 		this.#buttonSelect.addEventListener('click', this.#select.bind(this));
 		this.#buttonUnselect.addEventListener('click', this.#unselect.bind(this));
+		// this.#buttonSelectVenue.addEventListener('click', this.#onSelectVenue.bind(this));
 		this.#selectionList.addEventListener('click', this.#onCarSelect.bind(this));
 		this.#selectedList.addEventListener('click', this.#onCarSelected.bind(this));
 
@@ -107,6 +110,10 @@ export default class SelectCars {
 		li.classList.add('selected');
 		this.#buttonUnselect.disabled = false;
 		this.#carsToBeUnselected.push(li);
+	}
+
+	#onSelectVenue() {
+
 	}
 
 }

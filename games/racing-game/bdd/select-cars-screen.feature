@@ -75,3 +75,13 @@ Feature: Select Cars Screen
     Then I should see the "Maximum number of cars selected" message appear
     Then I should NOT be able to click on any cars in the Selection list
 
+  Scenario: Going to the Home screen
+    Given I am on the "Select Cars" screen
+    When I click on the "Back" button
+    Then I should be on the "Begin" screen
+
+  Scenario: Going to the Select Venue screen
+    Given I am on the "Select Cars" screen
+    When I have selected 4 cars
+    And I click on the "Select Venue" button
+    Then I should be on the "Select Venue" screen
