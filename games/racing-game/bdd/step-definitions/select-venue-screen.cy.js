@@ -7,26 +7,52 @@ Given('I am on the "Select Venue" screen', () => {
 	cy.get('[data-testid=button-select-car]').click();
 	cy.get('[data-testid=car-selection-list] li:first-child button').click();
 	cy.get('[data-testid=button-select-car]').click();
+	cy.get('[data-testid=button-select-venue]').click();
 });
 
-When('I select a venue from the list', () => {});
+When('I select a venue from the list', () => {
+	cy.get('[data-testid=venue-selection-list] li:first-child button').click();
+});
 
-When('I navigate to the "Select Venue" page', () => {});
+When('I navigate to the "Select Venue" page', () => {
+	cy.visit('/');
+	cy.get('[data-testid=button-select-cars]').click();
+	cy.get('[data-testid=car-selection-list] li:first-child button').click();
+	cy.get('[data-testid=button-select-car]').click();
+	cy.get('[data-testid=car-selection-list] li:first-child button').click();
+	cy.get('[data-testid=button-select-car]').click();
+	cy.get('[data-testid=button-select-venue]').click();
+});
 
-When('I select the same venue from the list', () => {});
+When('I select the same venue from the list', () => {
+	cy.get('[data-testid=venue-selection-list] li:first-child button').click();
+	cy.get('[data-testid=venue-selection-list] li:first-child button').click();
+});
 
-When('I select another venue from the list', () => {});
+When('I select another venue from the list', () => {
+	cy.get('[data-testid=venue-selection-list] li:nth-child(2) button').click();
+});
 
-Then('I should see the "Select Venue" title', () => {});
+Then('I should see the "Select Venue" title', () => {
+	cy.get('[data-testid=select-venue-title]').should('be.visible').and('contain.text', 'Select Venue');
+});
 
-Then('I should see the a Selection list of 3 venues', () => {});
+Then('I should see the a Selection list of 3 venues', () => {
+	cy.get('[data-testid=venue-selection-list] li').should('have.length', 3);
+});
 
-Then('I should see the selected venue highlighted', () => {});
+Then('I should see the selected venue highlighted', () => {
+	cy.get('[data-testid=venue-selection-list] li:first-child').should('have.class', 'selected');
+});
 
-Then('The venue should be deselected', () => {});
+Then('The venue should be deselected', () => {
+	cy.get('[data-testid=venue-selection-list] li:first-child').should('not.have.class', 'selected');
+});
 
-Then('The first venue should be deselected', () => {});
+Then('The first venue should be deselected', () => {
+	cy.get('[data-testid=venue-selection-list] li:first-child').should('not.have.class', 'selected');
+});
 
-Then('The second venue should be selected', () => {});
-
-Then('I should go to the Racing screen', () => {});
+Then('The second venue should be selected', () => {
+	cy.get('[data-testid=venue-selection-list] li:nth-child(2)').should('have.class', 'selected');
+});

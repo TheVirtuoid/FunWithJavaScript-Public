@@ -1,11 +1,10 @@
-Feature: Start Race Screen
+Feature: Race Screen
 
   Scenario: Displaying the initial screen
-    Given I had landed on the "Start Race" screen
+    Given I am on the "Race" screen
     When I gaze lovingly upon the work of art I have created
     Then I should see the scroreboard displayed
     Then I should see the track displayed
-    Then I should see the cars placed on the track at the starting line
     Then I should see the "Start" button that is active
     Then I should see the "Back" button that is active
     Then I should see the "Exit" button that is active

@@ -5,7 +5,7 @@ const setButtons = (active) => {
 		['exit', document.querySelector('#button-exit')],
 		['selectVenue', document.querySelector('#button-select-venue')],
 		['selectCars', document.querySelector('#button-select-cars')],
-		['start', document.querySelector('#button-start')],
+		['race', document.querySelector('#button-race')],
 		['pause', document.querySelector('#button-pause')],
 		['resume', document.querySelector('#button-resume')]
 	]);
@@ -24,7 +24,7 @@ const setButton = (buttonName, active) => {
 		['exit', document.querySelector('#button-exit')],
 		['selectVenue', document.querySelector('#button-select-venue')],
 		['selectCars', document.querySelector('#button-select-cars')],
-		['start', document.querySelector('#button-start')],
+		['race', document.querySelector('#button-race')],
 		['pause', document.querySelector('#button-pause')],
 		['resume', document.querySelector('#button-resume')]
 	]);

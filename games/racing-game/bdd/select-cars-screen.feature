@@ -13,7 +13,7 @@ Feature: Select Cars Screen
     Then I should see the "Exit" button
     Then I should not see the "Select Venue" button
     Then I should not see the "Select Cars" button
-    Then I should not see the "Start" button
+    Then I should not see the "Race" button
     Then I should not see the "Pause" button
     Then I should not see the "Resume" button
     Then I should NOT see the "Maximum number of cars selected" message appear

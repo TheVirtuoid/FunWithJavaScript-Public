@@ -4,7 +4,7 @@ const pages = new Map([
 	['Begin', 'begin-screen'],
 	['Select Cars', 'select-cars-screen'],
 	['Select Venue', 'select-venue-screen'],
-	['Racing','racing-screen']
+	['Race','race-screen']
 ]);
 
 Then('I should see the {string} screen', (screen) => {
