@@ -3,7 +3,7 @@ import {
 	Engine,
 	HavokPlugin,
 	HemisphericLight,
-	MeshBuilder,
+	MeshBuilder, PhysicsAggregate, PhysicsShapeType,
 	Scene,
 	StandardMaterial,
 	UniversalCamera,
@@ -81,6 +81,7 @@ export default class Ui {
 			width,
 			height,
 			subdivisions = 4,
+			position,
 			material
 		} = args;
 		const meshName = `${instance.name}-${name}`;
@@ -89,6 +90,32 @@ export default class Ui {
 			scene);
 		if (material) {
 			mesh.material = material;
+		}
+		if (position) {
+			mesh.position = Ui.toVector3(position);
+		}
+		instance.meshes.set(meshName, mesh);
+		new PhysicsAggregate(mesh, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
+		return mesh;
+	}
+
+	static CreateBox(args = {}) {
+		const { name = 'box', scene = instance.scene, position, depth, width, height, material, physicsOptions } = args;
+		const meshName = `${instance.name}-${name}`;
+		const mesh = MeshBuilder.CreateBox(
+			meshName, {
+				depth,
+				width,
+				height
+			}, scene);
+		if (material) {
+			mesh.material = material;
+		}
+		if (position) {
+			mesh.position = Ui.toVector3(position);
+		}
+		if (physicsOptions) {
+			new PhysicsAggregate(mesh, PhysicsShapeType.BOX, physicsOptions, scene);
 		}
 		instance.meshes.set(meshName, mesh);
 		return mesh;

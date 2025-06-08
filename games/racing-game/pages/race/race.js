@@ -9,6 +9,13 @@ export default class Race {
 	#camera;
 	#ui;
 	#light;
+	#groundMaterial;
+	#ground;
+	#wallMaterial;
+	#groundWallNorth;
+	#groundWallSouth;
+	#groundWallEast;
+	#groundWallWest;
 
 	constructor() {
 		setButtons(['back', 'exit']);
@@ -33,11 +40,51 @@ export default class Race {
 		this.#engine = Ui.CreateEngine();
 		this.#scene = Ui.CreateScene();
 		this.#camera = Ui.CreateCamera({
-			position: {x: 0, y: 5, z: -10},
+			position: {x: 0, y: 60, z: -100},
 			target: {x: 0, y: 0, z: 0}
 		});
 		this.#light = Ui.CreateLight({ position: { x: -1, y: 1, z: 0 } });
 		await Ui.LoadPhysics();
+		this.#groundMaterial = Ui.CreateMaterial({name: 'groundMaterial', diffuseColor: { r: 0, g: .5, b: 0 } });
+		this.#wallMaterial = Ui.CreateMaterial({name: 'wallMaterial', diffuseColor: { r: 0, g: 0, b: 0 } });
+		this.#ground = Ui.CreateGround({ position: { x: 0, y: -20, z: 0 }, name: 'ground', material: this.#groundMaterial, width: 100, height: 100 });
+		this.#groundWallNorth = Ui.CreateBox({
+			position: { x: 0, y: -18, z: -50 },
+			name: 'groundWallNorth',
+			material: this.#wallMaterial,
+			width: 100,
+			height: 4,
+			depth: 1,
+			physicsOptions: { mass: 0, friction: 1 }
+		});
+		this.#groundWallSouth = Ui.CreateBox({
+			position: { x: 0, y: -18, z: 50 },
+			name: 'groundWallSouth',
+			material: this.#wallMaterial,
+			width: 100,
+			height: 4,
+			depth: 1,
+			physicsOptions: { mass: 0, friction: 1 }
+		});
+		this.#groundWallEast = Ui.CreateBox({
+			position: { x: -50, y: -18, z: 0 },
+			name: 'groundWallNorth',
+			material: this.#wallMaterial,
+			width: 1,
+			height: 4,
+			depth: 100,
+			physicsOptions: { mass: 0, friction: 1 }
+		});
+		this.#groundWallWest = Ui.CreateBox({
+			position: { x: 50, y: -18, z: 0 },
+			name: 'groundWallNorth',
+			material: this.#wallMaterial,
+			width: 1,
+			height: 4,
+			depth: 100,
+			physicsOptions: { mass: 0, friction: 1 }
+		});
+
 	}
 
 	#render() {
