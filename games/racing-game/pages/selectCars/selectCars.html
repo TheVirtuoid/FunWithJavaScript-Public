@@ -1,21 +1,24 @@
 <div data-testid="select-cars-screen" id="select-cars-screen">
 	<h2 data-testid="select-cars-title">Select Cars</h2>
 
-	<section data-testid="car-selection-list" id="car-selection-list">
-		<h3>Cars to Select</h3>
-		<ul></ul>
-	</section>
+	<div class="layout">
+		<section data-testid="car-selection-list" id="car-selection-list">
+			<h3>Cars to Select</h3>
+			<ul></ul>
+		</section>
 
-	<section data-testid="select-cars-controls" id="select-cars-controls">
-		<button class="small primary" data-testid="button-select-car" id="button-select-car">Select</button>
-		<button class="small primary" data-testid="button-unselect-car" id="button-unselect-car">Unselect</button>
-		<p data-testid="maximum-number-message" id="maximum-number-message" class="hidden">
-			Maximum number of cars selected
-		</p>
-	</section>
+		<section data-testid="select-cars-controls" id="select-cars-controls" class="button-list">
+			<button class="small primary" data-testid="button-select-car" id="button-select-car">Select</button>
+			<button class="small primary" data-testid="button-unselect-car" id="button-unselect-car">Unselect</button>
+			<p data-testid="maximum-number-message" id="maximum-number-message" class="hidden">
+				Maximum number of cars selected
+			</p>
+		</section>
 
-	<section data-testid="car-selected-list" id="car-selected-list">
-		<h3>Cars Selected</h3>
-		<ul></ul>
-	</section>
+		<section data-testid="car-selected-list" id="car-selected-list">
+			<h3>Cars Selected</h3>
+			<ul></ul>
+		</section>
+	</div>
+
 </div>

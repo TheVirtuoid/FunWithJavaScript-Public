@@ -283,3 +283,68 @@ button {
 #select-venue-screen #venue-selection-list ul li.selected {
     background-color: var(--v-color-secondary300);
 }
+
+#select-cars-screen {
+    .layout {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
+
+        .button-list {
+            display: flex;
+            flex-direction: column;
+            gap:.5rem;
+            justify-content: center;
+        }
+    }
+}
+
+#race-screen {
+    .layout {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+
+        h2 {
+            margin-top: 0;
+        }
+    }
+
+    #race-results {
+        border-collapse: collapse;
+        background-color: var(--v-color-secondary200);
+        td {
+            border: 1px solid black;
+            padding: .2rem;
+        }
+    }
+
+    #starting-lights {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: row;
+        gap: .25rem;
+        justify-content: space-between;
+
+        li {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background-color: #777777;
+            border: 2px ridge #333333;
+
+            &.red {
+                background-color: #ff0000;
+                border-color: #aa0000;
+            }
+
+            &.green {
+                background-color: #00ff00;
+                border-color: #00aa00;
+            }
+        }
+        }
+    }
+}
