@@ -94,10 +94,11 @@ const buildGround = (scene, controls) => {
 	const groundBase = MeshBuilder.CreateGround('ground-base', {
 		width: 200,
 		height: 200,
-		subdivisions: 4,
+		subdivisions: 256,
 	}, scene);
 	groundBase.material = groundMaterial;
 	groundBase.position = new Vector3(0, -35, 100);
+	// groundBase.rotate(new Vector3(1, 0, 0), -Math.PI / 45);
 	new PhysicsAggregate(groundBase, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
 	// addMesh('groundBase', groundBase);
 
@@ -113,7 +114,7 @@ const buildGround = (scene, controls) => {
 	new PhysicsAggregate(groundBaseWallSouth, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
 	// addMesh('groundBaseWallSouth', groundBaseWallSouth);
 
-	const groundBaseWallEast = MeshBuilder.CreateBox('ground-base-east', { depth: 1, width: 200, height: 1 }, scene);
+	const groundBaseWallEast = MeshBuilder.CreateBox('ground-base-east', { depth: 1, width: 200, height: 10 }, scene);
 	groundBaseWallEast.material = groundWallMaterial;
 	groundBaseWallEast.position = new Vector3(0, -35, 0);
 	new PhysicsAggregate(groundBaseWallEast, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);

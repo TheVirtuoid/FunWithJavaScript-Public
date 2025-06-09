@@ -18,17 +18,17 @@ const buildGround = (scene, controls) => {
 	const groundWallMaterial = new StandardMaterial('ground-wall', scene);
 	groundWallMaterial.diffuseColor = new Color3(0, 0, 0);
 
-	const groundBase = MeshBuilder.CreateBox('ground-base', { depth: 50, width: 50, height: 1 }, scene);
+	/*const groundBase = MeshBuilder.CreateBox('ground-base', { depth: 50, width: 50, height: 1 }, scene);
 	groundBase.material = groundMaterial;
 	groundBase.position = new Vector3(0, -10, 0);
 	groundBase.rotation.x += -.10;
 	const groundAggregate = new PhysicsAggregate(groundBase, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
 	groundAggregate.shape.filterMembershipMask = 0xFFFFFFFF;
-	groundAggregate.shape.filterCollideMask = 0xFFFFFFFF;
+	groundAggregate.shape.filterCollideMask = 0xFFFFFFFF;*/
 
 
 
-	/*const groundBase = MeshBuilder.CreateGround('ground-base', {
+	const groundBase = MeshBuilder.CreateGround('ground-base', {
 		width: 50,
 		height: 50,
 		subdivisions: 4,
@@ -36,9 +36,9 @@ const buildGround = (scene, controls) => {
 	groundBase.material = groundMaterial;
 	groundBase.position = new Vector3(0, -10, 0);
 	groundBase.rotation.x += -.10;
-	const groundAggregate = new PhysicsAggregate(groundBase, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
+	const groundAggregate = new PhysicsAggregate(groundBase, PhysicsShapeType.BOX, { mass: 0, friction: .25, restitution: 0 }, scene);
 	groundAggregate.shape.filterMembershipMask = 0xFFFFFFFF;
-	groundAggregate.shape.filterCollideMask = 0xFFFFFFFF;*/
+	groundAggregate.shape.filterCollideMask = 0xFFFFFFFF;
 	// console.log('ground', groundAggregate.shape);
 	// addMesh('groundBase', groundBase);
 

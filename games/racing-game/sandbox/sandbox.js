@@ -1,10 +1,10 @@
 import './sandbox.pcss';
-import App from "./app.js";
+import App2 from "./app2.js";
 import Track from "../src/classes/Track/Track.js";
 import V3 from "../src/classes/V3/V3.js";
 import Layout from "../src/classes/Layout/Layout.js";
 
-const startingPosition = new V3(App.SX, App.SY, App.SZ);
+const startingPosition = new V3(App2.SX, App2.SY, App2.SZ);
 const startingDirectionVector = new V3(0, -.75, 1);
 const startingAnchor = Track.CreateStartingAnchor({ id: 'startAnchor', startingPosition, startingDirectionVector });
 const endingAnchor = Track.CreateEndingAnchor({ id: 'endAnchor' });
@@ -75,5 +75,5 @@ const layout = new Layout({ tracks });
 	console.log('          ', track.endingDirectionVector?.coordinates());
 });*/
 
-const app = new App(layout);
+const app = new App2(layout);
 
