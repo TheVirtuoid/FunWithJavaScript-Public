@@ -75,6 +75,10 @@ export default class App {
 
 	}
 
+	get car() {
+		return this.#car;
+	}
+
 	#inspector(event) {
 		if (event.shiftKey && event.ctrlKey && event.altKey && (event.key === "I" || event.key === "i")) {
 			if (this.#scene.debugLayer.isVisible()) {

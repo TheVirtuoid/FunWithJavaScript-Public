@@ -1,5 +1,5 @@
 import {
-	ImportMeshAsync,
+	ImportMeshAsync, LockConstraint,
 	MeshBuilder,
 	Physics6DoFConstraint,
 	PhysicsAggregate,
@@ -17,6 +17,7 @@ export default class Car {
 	static FRONT_RIGHT_WHEEL = { x: -1, z: 1, name: 'front-right' };
 	static CHASSIS = Symbol('chassis');
 	static COLLISION_BODY = Symbol('collision-body');
+	static PARENT = Symbol('parent');
 	static WHEEL_RESTITUTION = 0.5;
 
 	#position;
@@ -35,6 +36,7 @@ export default class Car {
 	#physicsGroup;
 	#membershipMask;
 	#collideMask;
+	#collisionBody;
 
 	constructor(args = {}) {
 		const { position, scene, url, id = crypto.randomUUID(), physicsGroup } = args;
@@ -45,6 +47,7 @@ export default class Car {
 		this.#physicsGroup = physicsGroup;
 		this.#membershipMask = this.#physicsGroup;
 		this.#collideMask = ~this.#membershipMask;
+		// console.log(this.#membershipMask, this.#collideMask);
 		this.#buildWheelBase();
 		this.#wheelMaterial = new StandardMaterial(`${this.id}-wheel-material`, this.scene);
 		const texture = new Texture('./checkerboard-7800519_1280.jpg', this.scene);
@@ -92,19 +95,24 @@ export default class Car {
 		return this.#loadedModel?.meshes[0];
 	}
 
+	get collisionBody() {
+		return this.#collisionBody;
+	}
+
 	build() {
 		this.#buildParent()
 			.then(this.#buildChassis.bind(this))
 			.then(this.#buildWheels.bind(this))
-			.then(this.#buildModel.bind(this))
-			.then(this.#buildCollisionBody.bind(this))
+			// .then(this.#buildModel.bind(this))
+			// .then(this.#buildCollisionBody.bind(this))
 			.then(this.#buildPhysicsAggregates.bind(this))
-			.then(this.#buildWheelConstraints.bind(this));
+			.then(this.#buildWheelConstraints.bind(this))
+			// .then(this.#setCollisionBodyConstraint.bind(this));
 	}
 
 	#buildParent() {
 		this.#parent = new MeshBuilder.CreateBox(`${this.id}-parent`, { size: 0.1 }, this.#scene);
-		this.#parent.visibility = 0;
+		this.#parent.visibility = false;
 		this.#parent.position = this.position.clone();
 		this.#parent.rotate(new Vector3(0, 1, 0), Math.PI / 2);
 		return Promise.resolve();
@@ -149,12 +157,16 @@ export default class Car {
 		const backRightWheel = new PhysicsAggregate(this.#wheels.get(Car.BACK_RIGHT_WHEEL), PhysicsShapeType.MESH, { mass: 1, restitution: Car.WHEEL_RESTITUTION, friction: .5}, this.#scene);
 		const frontLeftWheel = new PhysicsAggregate(this.#wheels.get(Car.FRONT_LEFT_WHEEL), PhysicsShapeType.MESH, { mass: 1, restitution: Car.WHEEL_RESTITUTION, friction: .5}, this.#scene);
 		const frontRightWheel = new PhysicsAggregate(this.#wheels.get(Car.FRONT_RIGHT_WHEEL), PhysicsShapeType.MESH, { mass: 1, restitution: Car.WHEEL_RESTITUTION, friction: .5}, this.#scene);
+		// const collisionBody = new PhysicsAggregate(this.collisionBody, PhysicsShapeType.BOX, { mass: 1, restitution: 0, friction: 0}, this.#scene);
+		const parent = new PhysicsAggregate(this.#parent, PhysicsShapeType.BOX, { mass: 0, restitution: 1}, this.#scene);
 
 		this.#aggregates.set(Car.CHASSIS, chassis);
 		this.#aggregates.set(Car.BACK_LEFT_WHEEL, backLeftWheel);
 		this.#aggregates.set(Car.BACK_RIGHT_WHEEL, backRightWheel);
 		this.#aggregates.set(Car.FRONT_LEFT_WHEEL, frontLeftWheel);
 		this.#aggregates.set(Car.FRONT_RIGHT_WHEEL, frontRightWheel);
+		// this.#aggregates.set(Car.COLLISION_BODY, collisionBody);
+		this.#aggregates.set(Car.PARENT, parent);
 
 		backLeftWheel.shape.filterMembershipMask = this.#membershipMask;
 		backLeftWheel.shape.filterCollideMask = this.#collideMask;
@@ -166,6 +178,10 @@ export default class Car {
 		frontRightWheel.shape.filterCollideMask = this.#collideMask;
 		chassis.shape.filterMembershipMask = this.#membershipMask;
 		chassis.shape.filterCollideMask = this.#collideMask;
+
+		/*collisionBody.shape.filterMembershipMask = this.#membershipMask;
+		collisionBody.shape.filterCollideMask = this.#collideMask;*/
+
 		return Promise.resolve();
 	}
 
@@ -174,6 +190,22 @@ export default class Car {
 		this.#setWheelConstraint(Car.BACK_RIGHT_WHEEL);
 		this.#setWheelConstraint(Car.FRONT_LEFT_WHEEL);
 		this.#setWheelConstraint(Car.FRONT_RIGHT_WHEEL);
+		return Promise.resolve();
+	}
+
+	#setCollisionBodyConstraint() {
+		const collisionAggregate = this.#aggregates.get(Car.COLLISION_BODY);
+		const collisionPosition = collisionAggregate.transformNode.position;
+		console.log(collisionPosition);
+		const constraint = new LockConstraint(
+			new Vector3(0, -collisionPosition.y, 0),
+			new Vector3(0, collisionPosition.y, 0),
+			new Vector3(0, 1, 0),
+			new Vector3(0, 1, 0),
+			this.scene
+		);
+		// this.#aggregates.get(Car.CHASSIS).body.addConstraint(this.#aggregates.get(Car.COLLISION_BODY).body, constraint, this.#scene);
+		// this.#aggregates.get(Car.COLLISION_BODY).body.addConstraint(this.#aggregates.get(Car.CHASSIS).body, constraint, this.#scene);
 		return Promise.resolve();
 	}
 
@@ -222,22 +254,29 @@ export default class Car {
 
 	#buildCollisionBody() {
 		const bodySize = {
-			width: Car.CHASSIS_LENGTH * 1.1,  // Slightly larger than chassis
-			height: 1.5,                     // Height of car body
+			width: Car.CHASSIS_LENGTH * 2,  // Slightly larger than the chassis
+			height: .5,                     // Height of car body
 			depth: 2.2                       // Width of car body
 		};
 
 		const collisionBody = MeshBuilder.CreateBox(`${this.id}-body-collision`, bodySize, this.#scene);
-		collisionBody.position.y = 1.5; // Position above chassis
+		const position = this.#chassis.position.add(this.#chassis.getBoundingInfo().boundingBox.maximum).add(new Vector3(0, 10, 0));
+		// console.log(position);
+		collisionBody.position = position;
+		// collisionBody.position.y = this.#chassis.position.y + this.#chassis.getBoundingInfo().boundingBox.maximum + .5; // Position above chassis
 		collisionBody.visibility = true; // Make invisible
-		collisionBody.parent = this.#parent;
+		// collisionBody.parent = this.#parent;
+		collisionBody.parent = this.#chassis; // Attach to chassis
 		collisionBody.showBoundingBox = true;
+		this.#collisionBody = collisionBody;
+		return Promise.resolve();
 	}
 
 	async #buildModel() {
 		this.#loadedModel = await ImportMeshAsync("/carbox/Ferarri.glb", this.#scene, {});
 		// console.log(this.#loadedModel);
 		this.model.scaling = new Vector3(3, 3, 3);
+		// this.model.parent = this.#parent;
 		this.model.parent = this.chassis;
 		// this.model.position.y += 4;
 		this.model.rotationQuaternion = null;
