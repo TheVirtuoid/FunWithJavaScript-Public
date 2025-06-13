@@ -50,8 +50,8 @@ export default class FinishLine {
 		// material.emmisiveTexture = texture;
 		this.#mesh.material = material;
 		const corners = calculateMeshCorners(this.#mesh);
-		const startDiff = corners[3].subtract(corners[1]).divide(new Vector3(4, 4, 4)).multiply(new Vector3(3, 3, 3));
-		const endDiff = corners[7].subtract(corners[5]).divide(new Vector3(4, 4, 4)).multiply(new Vector3(3, 3, 3));
+		const startDiff = corners[3].subtract(corners[1]).divide(new Vector3(6, 6, 6)).multiply(new Vector3(5, 5, 5));
+		const endDiff = corners[7].subtract(corners[5]).divide(new Vector3(6, 6, 6)).multiply(new Vector3(5, 5, 5));
 		const start = corners[3].subtract(startDiff);
 		const end = corners[7].subtract(endDiff);
 		const lines = [start, end];

@@ -40,7 +40,7 @@ const straight4 = Track.CreateStraight({
 });
 const curve180 = Track.CreateCurve({
 	id: 'curve180',
-	radius: 25,
+	radius: 40,
 	degrees: 180,
 	curveDirection: Track.CURVE_DIRECTION_POSITIVE
 });

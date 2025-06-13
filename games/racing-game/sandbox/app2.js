@@ -63,13 +63,15 @@ export default class App2 {
 	#controls;
 
 	#carParameters = [
-		{ pos: new Vector3(App2.SX - 1, App2.SY + 1, App2.SZ + 1), group: 1, color: new Color3(0.8, 0, 0) },
-		{ pos: new Vector3(App2.SX + 1, App2.SY + 1, App2.SZ + 1), group: 2, color: new Color3(0, 0.8, 0) },
-		{ pos: new Vector3(App2.SX - 1, App2.SY - 3, App2.SZ + 4), group: 4, color: new Color3(0, 0, 0.8) },
-		{ pos: new Vector3(App2.SX + 1, App2.SY - 3, App2.SZ + 4), group: 8, color: new Color3(0.8, 0.8, 0) }
+		{ name: 'Red Rocket', pos: new Vector3(App2.SX - 1, App2.SY + 1, App2.SZ + 1), group: 1, color: new Color3(0.8, 0, 0) },
+		{ name: 'Green Fire', pos: new Vector3(App2.SX + 1, App2.SY + 1, App2.SZ + 1), group: 2, color: new Color3(0, 0.8, 0) },
+		{ name: 'Blue Booster', pos: new Vector3(App2.SX - 1, App2.SY - 3, App2.SZ + 4), group: 4, color: new Color3(0, 0, 0.8) },
+		{ name: 'Yellow Crusher', pos: new Vector3(App2.SX + 1, App2.SY - 3, App2.SZ + 4), group: 8, color: new Color3(0.8, 0.8, 0) }
 	];
 
 	#cars;
+
+	#finishLineMeshes = [];
 
 	#orderOfFinish = [];
 
@@ -113,31 +115,31 @@ export default class App2 {
 	}
 
 	renderLoop() {
-		// this.#initializeUI();
-		/*this.#createTextOverlay('Race Results', this.#scene);
+		this.#initializeUI();
+		this.#createTextOverlay('Race Results', this.#scene);
 		this.#finishLineTextTop += 8;
-		this.#topOfTheFinishListList = this.#finishLineTextTop;*/
+		this.#topOfTheFinishListList = this.#finishLineTextTop;
 		this.#engine.runRenderLoop(() => {
 			this.#scene.render();
-			/*const meshHit = this.#finishLine.finishLineRay.intersectsMeshes(this.#marbles);
+			const meshHit = this.#finishLine.finishLineRay.intersectsMeshes(this.#finishLineMeshes);
 			for (const mesh of meshHit) {
 				const { pickedMesh } = mesh;
-				const marble = this.#marbleDb.get(pickedMesh);
-				if (marble && !this.#orderOfFinish.includes(marble)) {
-					this.#orderOfFinish.push(marble);
-					this.#createTextOverlay(marble, this.#scene);
+				if (!this.#orderOfFinish.includes(pickedMesh)) {
+					console.log(pickedMesh);
+					this.#orderOfFinish.push(pickedMesh);
+					this.#createTextOverlay(pickedMesh.id, this.#scene);
 				}
-			}*/
+			}
 		})
 	}
 
-	/*#initializeUI() {
+	#initializeUI() {
 		if (!this.#finishTextTexture) {
 			this.#finishTextTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, this.#scene);
 		}
-	}*/
+	}
 
-	/*#createTextOverlay(textOrMarble, scene) {
+	#createTextOverlay(textOrMarble, scene) {
 		// Create text block
 		const textBlock = new GUI.TextBlock(`text-${crypto.randomUUID()}`);
 		if (textOrMarble instanceof Marble) {
@@ -166,7 +168,7 @@ export default class App2 {
 			this.#finishLineTextTop = this.#topOfTheFinishListList;
 		}
 		return textBlock;
-	}*/
+	}
 
 
 	async #addToScene(layout) {
@@ -221,19 +223,21 @@ export default class App2 {
 		const color = new Color3(0.8, 0, 0);
 
 		for (const carParam of this.#carParameters) {
-			const { group, pos, color } = carParam;
+			const { name, group, pos, color } = carParam;
 			const car = new Car({
 				position: pos,
 				scene: this.#scene,
 				scale: 0.20,
 				color,
+				id: name,
 				physicsGroup: group
 			});
-			car.build();
+			await car.build();
 			if (!this.#cars) {
 				this.#cars = [];
 			}
 			this.#cars.push(car);
+			this.#finishLineMeshes.push(car.chassis);
 		}
 		const startLine = this.#layout[1];
 
