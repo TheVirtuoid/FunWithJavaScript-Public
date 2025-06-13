@@ -28,10 +28,10 @@ export default class App2 {
 	static GRAVITY = 1;
 	static CAMERA_VIEW = false;
 	static MODELS = true;
-	static SX = 5;
-	static SY = 0;
+	static SX = -70;
+	static SY = 20;
 	static SZ = 5;
-	static TRACKWIDTH = 4;
+	static TRACKWIDTH = 6;
 
 	#emptyCanvas;
 	#engine;
@@ -62,7 +62,14 @@ export default class App2 {
 
 	#controls;
 
-	#car;
+	#carParameters = [
+		{ pos: new Vector3(App2.SX - 1, App2.SY + 1, App2.SZ + 1), group: 1, color: new Color3(0.8, 0, 0) },
+		{ pos: new Vector3(App2.SX + 1, App2.SY + 1, App2.SZ + 1), group: 2, color: new Color3(0, 0.8, 0) },
+		{ pos: new Vector3(App2.SX - 1, App2.SY - 3, App2.SZ + 4), group: 4, color: new Color3(0, 0, 0.8) },
+		{ pos: new Vector3(App2.SX + 1, App2.SY - 3, App2.SZ + 4), group: 8, color: new Color3(0.8, 0.8, 0) }
+	];
+
+	#cars;
 
 	#orderOfFinish = [];
 
@@ -167,9 +174,9 @@ export default class App2 {
 		this.#sy = App2.SY;
 		this.#sz = App2.SZ;
 
-		this.#camera = new UniversalCamera("UniversalCamera", new Vector3(App2.SX + 20, App2.SY-5, App2.SZ + 10), this.#scene);
+		this.#camera = new UniversalCamera("UniversalCamera", new Vector3(App2.SX, App2.SY + 10, App2.SZ - 2), this.#scene);
 		this.#camera.inputs.addMouseWheel();
-		this.#camera.setTarget(new Vector3(App2.SX, App2.SY, App2.SZ+15));
+		this.#camera.setTarget(new Vector3(App2.SX, App2.SY, App2.SZ + 4 ));
 
 		this.#camera.attachControl(this.#canvas, true);
 
@@ -189,7 +196,7 @@ export default class App2 {
 				this.#layout.push(straight.render());
 			} else if (track.type === Track.ENDING_ANCHOR) {
 				this.#endingAnchor = new EndingAnchor(track, App2.TRACKWIDTH, this.#scene);
-				this.#layout.push(this.#endingAnchor.render());
+				this.#layout.push(...this.#endingAnchor.render());
 			} else if (track.type === Track.CURVE) {
 				const curve = new Curve(track, App2.TRACKWIDTH, this.#scene);
 				this.#layout.push(curve.render());
@@ -203,21 +210,31 @@ export default class App2 {
 		});
 
 		this.#layout.forEach((track) => {
+			const friction = track.material.name === 'ending-anchor' ? 1 : 0.20;
 			new PhysicsAggregate(
 				track,
 				PhysicsShapeType.MESH,
-				{ mass: 0, friction: .5, restitution: 1}, this.#scene
+				{ mass: 0, friction, restitution: 0}, this.#scene
 			);
 		});
 
-		this.#car = new Car({
-			position: new Vector3(App2.SX - 1, App2.SY +.5, App2.SZ + 1),
-			scene: this.#scene,
-			scale: 0.25,
-			physicsGroup: 1
-		});
-		this.#car.build();
+		const color = new Color3(0.8, 0, 0);
 
+		for (const carParam of this.#carParameters) {
+			const { group, pos, color } = carParam;
+			const car = new Car({
+				position: pos,
+				scene: this.#scene,
+				scale: 0.20,
+				color,
+				physicsGroup: group
+			});
+			car.build();
+			if (!this.#cars) {
+				this.#cars = [];
+			}
+			this.#cars.push(car);
+		}
 		const startLine = this.#layout[1];
 
 	}

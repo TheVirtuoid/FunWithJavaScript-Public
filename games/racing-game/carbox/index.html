@@ -14,30 +14,42 @@
 			<canvas id="world" width="1024" height="576"></canvas>
 		</section>
 		<section class="controls" id="controls">
-			<h2><label for="select-box">Select a Mesh:</label></h2>
-			<select id="select-box"></select>
+			<h2>Controls</h2>
 			<div class="data">
-				<h3>Steps</h3>
-				<div class="buttons">
-					<button id="step-1" value="1">1</button>
-					<button id="step-p5" value=".5">.5</button>
-					<button id="step-p25" value=".25">.25</button>
-					<button id="step-p1" value=".1">.1</button>
-				</div>
+				<h3>Car</h3>
+				<label><span>Scale</span><input type="number" id="car-scale" value="" step=".05" min="0" max="2"/></label>
+				<section>
+					<h4>Chassis</h4>
+					<label><span>Mass</span><input type="number" id="car-chassis-mass" value="" step="1" min="0"/></label>
+					<label><span>Friction</span><input type="number" id="car-chassis-friction" value="" step=".1" min="0" max="1"/></label>
+					<label><span>Restitution</span><input type="number" id="car-chassis-restitution" value="" step="1" min="0" max="1"/></label>
+				</section>
+				<section>
+					<h4>Wheel</h4>
+					<label><span>Mass</span><input type="number" id="car-wheel-mass" value="" step="1" min="0"/></label>
+					<label><span>Friction</span><input type="number" id="car-wheel-friction" value="" step=".1" min="0" max="1"/></label>
+					<label><span>Restitution</span><input type="number" id="car-wheel-restitution" value="" step="1" min="0" max="1"/></label>
+				</section>
 			</div>
 			<div class="data">
-				<h3>Position</h3>
-				<label><span>X</span><input type="number" id="pos-x" value="" step="1" /></label>
-				<label><span>Y</span><input type="number" id="pos-y" value="" step="1" /></label>
-				<label><span>Z</span><input type="number" id="pos-z" value="" step="1" /></label>
+				<h3>Ground</h3>
+				<label><span>Friction</span><input type="number" id="ground-friction" value="" step=".1" min="0" max="1"/></label>
+				<label><span>Restitution</span><input type="number" id="ground-restitution" value="" step="1" min="0" max="1"/></label>
+				<section>
+					<h4>Rotation</h4>
+					<label><span for="ground-rotation-axis">Axis</span>
+						<select id="ground-rotation-axis">
+							<option value="x">x</option>
+							<option value="y">y</option>
+							<option value="z">z</option>
+						</select>
+					</label>
+					<label><span>Amount</span><input type="number" id="ground-rotation-amount" value="" /></label>
+				</section>
 			</div>
 			<div class="data">
-				<h3>Dimensions</h3>
-				<label><span>Width</span><input type="number" id="dim-width" value="" step="1" /></label>
-				<label><span>Depth</span><input type="number" id="dim-depth" value="" step="1" /></label>
-				<label><span>Height</span><input type="number" id="dim-height" value="" step="1" /></label>
+				<label><span>Click to Reset</span><button id="reset">RESET</button></label>
 			</div>
-			<button id="go">go</button>
 		</section>
 	</div>
 </main>

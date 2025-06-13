@@ -91,38 +91,40 @@ const buildGround = (scene, controls) => {
 	const groundRandomMaterial = new StandardMaterial('ground-random', scene);
 	groundRandomMaterial.diffuseColor = colorRandom();
 
+	const depth = -85;
+
 	const groundBase = MeshBuilder.CreateGround('ground-base', {
 		width: 200,
 		height: 200,
 		subdivisions: 256,
 	}, scene);
 	groundBase.material = groundMaterial;
-	groundBase.position = new Vector3(0, -35, 100);
+	groundBase.position = new Vector3(0, depth, 100);
 	// groundBase.rotate(new Vector3(1, 0, 0), -Math.PI / 45);
 	new PhysicsAggregate(groundBase, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
 	// addMesh('groundBase', groundBase);
 
 	const groundBaseWallNorth = MeshBuilder.CreateBox('ground-base-north', { depth: 200, width: 1, height: 1 }, scene);
 	groundBaseWallNorth.material = groundWallMaterial;
-	groundBaseWallNorth.position = new Vector3(-100, -35, 100);
+	groundBaseWallNorth.position = new Vector3(-100, depth, 100);
 	new PhysicsAggregate(groundBaseWallNorth, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
 	// addMesh('groundBaseWallNorth', groundBaseWallNorth);
 
 	const groundBaseWallSouth = MeshBuilder.CreateBox('ground-base-south', { depth: 200, width: 1, height: 1 }, scene);
 	groundBaseWallSouth.material = groundWallMaterial;
-	groundBaseWallSouth.position = new Vector3(100, -35, 100);
+	groundBaseWallSouth.position = new Vector3(100, depth, 100);
 	new PhysicsAggregate(groundBaseWallSouth, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
 	// addMesh('groundBaseWallSouth', groundBaseWallSouth);
 
 	const groundBaseWallEast = MeshBuilder.CreateBox('ground-base-east', { depth: 1, width: 200, height: 10 }, scene);
 	groundBaseWallEast.material = groundWallMaterial;
-	groundBaseWallEast.position = new Vector3(0, -35, 0);
+	groundBaseWallEast.position = new Vector3(0, depth, 0);
 	new PhysicsAggregate(groundBaseWallEast, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
 	// addMesh('groundBaseWallEast', groundBaseWallEast);
 
 	const groundBaseWallWest = MeshBuilder.CreateBox('ground-base-west', { depth: 1, width: 200, height: 1 }, scene);
 	groundBaseWallWest.material = groundWallMaterial;
-	groundBaseWallWest.position = new Vector3(0, -35, 200);
+	groundBaseWallWest.position = new Vector3(0, depth, 200);
 	new PhysicsAggregate(groundBaseWallWest, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
 	// addMesh('groundBaseWallWest', groundBaseWallWest);
 

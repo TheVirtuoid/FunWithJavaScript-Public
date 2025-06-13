@@ -1,6 +1,8 @@
 import Track from "../Track/Track.js";
-import {Color3, Color4, MeshBuilder, Ray, StandardMaterial, Texture, Vector3} from "@babylonjs/core";
-import {calculateMeshCorners, generateAStraightRoad} from "./Utilities.js";
+import {Color3, MeshBuilder, StandardMaterial, Vector3} from "@babylonjs/core";
+import { generateAStraightRoad } from "./Utilities.js";
+import Ui from "./Ui.js";
+import V3 from "../V3/V3.js";
 
 export default class EndingAnchor {
 	#track;
@@ -38,6 +40,13 @@ export default class EndingAnchor {
 		const blackMaterial = new StandardMaterial("ending-anchor", this.#scene);
 		blackMaterial.diffuseColor = new Color3(0, 0, 0);
 		this.#mesh.material = blackMaterial;
-		return this.mesh;
+		const stopBoxPosition = this.track.startingDirectionVector.setDirectedPosition(this.track.startingPosition, this.track.length);
+		// const boundingInfo = this.#mesh.getBoundingInfo();
+		// Create a 1-unit box
+		const box = MeshBuilder.CreateBox("endpointBox", { depth: this.width, width: this.width, height: 10 }, this.scene);
+		// Position the box at the endpoint
+		box.position = Ui.toVector3(stopBoxPosition);
+		box.material = blackMaterial;
+		return [this.mesh, box];
 	}
 }

@@ -22,7 +22,7 @@ export default class Track {
 	static ENDING_CIRCLE_GUARDRAIL_START_HEIGHT = 0.6;
 	static ENDING_CIRCLE_GUARDRAIL_END_HEIGHT = 3;
 
-	static TRACK_WIDTH = 4;
+	static TRACK_WIDTH = 6;
 	static ANCHOR_DEFAULT_LENGTH = 1;
 
 	static CURVE_DIRECTION_POSITIVE = Symbol('curve-direction-positive');
@@ -232,6 +232,8 @@ export default class Track {
 				this.#attributes.endingDirectionVector = this.startingDirectionVector.clone();
 				break;
 			case Track.ENDING_ANCHOR: // not really required, but doing so for completeness. Both endPos and endDir are already null
+				const oldStartingDirectionVector = this.startingDirectionVector.clone();
+				this.#attributes.startingDirectionVector = new V3(oldStartingDirectionVector.x, -.5, oldStartingDirectionVector.z);
 				this.#attributes.endingPosition = null;
 				this.#attributes.endingDirectionVector = null;
 				break;
@@ -337,7 +339,7 @@ export default class Track {
 			id,
 			type: Track.ENDING_ANCHOR,
 			attributes: {
-				length: Track.ANCHOR_DEFAULT_LENGTH,
+				length: Track.ANCHOR_DEFAULT_LENGTH + 10,
 			}
 		});
 	}

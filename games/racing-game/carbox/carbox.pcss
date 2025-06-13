@@ -38,6 +38,21 @@ body {
     border-radius: 1.5rem;
     padding: 1rem;
 
+    .data {
+        margin-top: 2rem;
+        h3 {
+            margin: 0;
+        }
+        h4 {
+            margin: 0;
+        }
+
+        section {
+            margin-left: 1rem;
+            margin-top: .5rem;
+        }
+    }
+
     label {
         display: flex;
         gap: 2rem;
@@ -49,21 +64,18 @@ body {
         }
     }
 
-    .buttons {
-        display: flex;
-        flex-direction: row;
-        gap: 1rem;
+    button {
+        background-color: green;
+        border: 2px solid red;
+        border-radius: .5rem;
+        cursor: pointer;
+        color: white;
+        font-weight: bold;
+    }
 
-        button {
-            background-color: white;
-            border: 1px solid red;
-            border-radius: .25rem;
-            cursor: pointer;
+    .rotation {
+        padding-left: 1rem;
+        padding-top: .5rem;
 
-            &.selected {
-                background-color: green;
-                color: white;
-            }
-        }
     }
 }

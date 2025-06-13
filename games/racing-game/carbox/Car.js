@@ -19,8 +19,10 @@ export default class Car {
 	static COLLISION_BODY = Symbol('collision-body');
 	static PARENT = Symbol('parent');
 	static WHEEL_RESTITUTION = 0;
-	static WHEEL_MASS = 1;
+	static WHEEL_MASS = 10;
 	static WHEEL_FRICTION = 0.25;
+
+	static CHASSIS_MASS = 100;
 
 	#position;
 	#scene;
@@ -40,9 +42,13 @@ export default class Car {
 	#collideMask;
 	#collisionBody;
 	#scale;
+	#color;
+
+	#chassisPhysics;
+	#wheelPhysics;
 
 	constructor(args = {}) {
-		const { position, scene, url, id = crypto.randomUUID(), physicsGroup, scale = 1 } = args;
+		const { color, position, scene, url, id = crypto.randomUUID(), physicsGroup, scale = 1, chassisPhysics = {}, wheelPhysics = {} } = args;
 		this.#position = position.clone();
 		this.#scene = scene;
 		this.#url = url;
@@ -51,7 +57,17 @@ export default class Car {
 		this.#membershipMask = this.#physicsGroup;
 		this.#collideMask = ~this.#membershipMask;
 		this.#scale = scale;
-		// console.log(this.#membershipMask, this.#collideMask);
+		this.#color = color;
+		this.#chassisPhysics = {
+			friction: chassisPhysics.friction ?? 0,
+			restitution: chassisPhysics.restitution ?? 0,
+			mass: chassisPhysics.mass ?? 1
+		};
+		this.#wheelPhysics = {
+			friction: wheelPhysics.friction ?? Car.WHEEL_FRICTION,
+			restitution: wheelPhysics.restitution ?? Car.WHEEL_RESTITUTION,
+			mass: wheelPhysics.mass ?? Car.WHEEL_MASS
+		}
 		this.#buildWheelBase();
 		this.#wheelMaterial = new StandardMaterial(`${this.id}-wheel-material`, this.scene);
 		const texture = new Texture('./checkerboard-7800519_1280.jpg', this.scene);
@@ -103,6 +119,10 @@ export default class Car {
 		return this.#collisionBody;
 	}
 
+	get color() {
+		return this.#color;
+	}
+
 	build() {
 		this.#buildParent()
 			.then(this.#buildChassis.bind(this))
@@ -112,6 +132,10 @@ export default class Car {
 			.then(this.#buildPhysicsAggregates.bind(this))
 			.then(this.#buildWheelConstraints.bind(this))
 			// .then(this.#setCollisionBodyConstraint.bind(this));
+	}
+
+	changePhysics(chassis = {}, wheel = {}) {
+
 	}
 
 	#buildParent() {
@@ -129,13 +153,28 @@ export default class Car {
 			depth: 1 * this.#scale
 		}, this.#scene);
 		this.#chassis.parent = this.parent;
+		const chassisMaterial = new StandardMaterial(`${this.id}-chassis-material`, this.#scene);
+		chassisMaterial.diffuseColor = this.color;
+		this.#chassis.material = chassisMaterial;
 		return Promise.resolve();
 	}
 
-	#buildWheelBase() {
+	/*#buildWheelBase() {
 		this.#wheelBase = MeshBuilder.CreateCylinder(`${this.id}-wheel-base`, {
 			height: .1 * this.#scale,
 			diameter: 2 * this.#scale,
+			tessellation: 256
+		}, this.#scene);
+		this.#wheelBase.rotation.x = Math.PI / 2;
+		this.#wheelBase.bakeCurrentTransformIntoVertices();
+		this.#wheelBase.convertToFlatShadedMesh();
+		this.#wheelBase.visibility = false;
+	}*/
+
+	#buildWheelBase() {
+		this.#wheelBase = MeshBuilder.CreateCapsule(`${this.id}-wheel-base`, {
+			height: .5 * this.#scale,
+			radius: 1 * this.#scale,
 			tessellation: 256
 		}, this.#scene);
 		this.#wheelBase.rotation.x = Math.PI / 2;
@@ -164,11 +203,64 @@ export default class Car {
 	}
 
 	#buildPhysicsAggregates() {
-		const chassis = new PhysicsAggregate(this.#chassis, PhysicsShapeType.BOX, { mass: 10, restitution: 0, friction: 0}, this.#scene);
-		const backLeftWheel = new PhysicsAggregate(this.#wheels.get(Car.BACK_LEFT_WHEEL), PhysicsShapeType.CYLINDER, { mass: Car.WHEEL_MASS, restitution: Car.WHEEL_RESTITUTION, friction: Car.WHEEL_FRICTION}, this.#scene);
-		const backRightWheel = new PhysicsAggregate(this.#wheels.get(Car.BACK_RIGHT_WHEEL), PhysicsShapeType.CYLINDER, { mass: Car.WHEEL_MASS, restitution: Car.WHEEL_RESTITUTION, friction: Car.WHEEL_FRICTION}, this.#scene);
-		const frontLeftWheel = new PhysicsAggregate(this.#wheels.get(Car.FRONT_LEFT_WHEEL), PhysicsShapeType.CYLINDER, { mass: Car.WHEEL_MASS, restitution: Car.WHEEL_RESTITUTION, friction: Car.WHEEL_FRICTION}, this.#scene);
-		const frontRightWheel = new PhysicsAggregate(this.#wheels.get(Car.FRONT_RIGHT_WHEEL), PhysicsShapeType.CYLINDER, { mass: Car.WHEEL_MASS, restitution: Car.WHEEL_RESTITUTION, friction: Car.WHEEL_FRICTION}, this.#scene);
+		/*const chassis = new PhysicsAggregate(
+			this.#chassis,
+			PhysicsShapeType.BOX,
+			{
+				mass: this.#chassisPhysics.mass,
+				restitution: this.#chassisPhysics.restitution,
+				friction: this.#chassisPhysics.friction
+			},
+			this.#scene
+		);
+		const backLeftWheel = new PhysicsAggregate(
+			this.#wheels.get(Car.BACK_LEFT_WHEEL),
+			PhysicsShapeType.CYLINDER,
+			{
+				mass: this.#wheelPhysics.mass,
+				restitution: this.#wheelPhysics.restitution,
+				friction: this.#wheelPhysics.friction
+			},
+			this.#scene
+		);
+		const backRightWheel = new PhysicsAggregate(
+			this.#wheels.get(Car.BACK_RIGHT_WHEEL),
+			PhysicsShapeType.CYLINDER,
+			{
+				mass: this.#wheelPhysics.mass,
+				restitution: this.#wheelPhysics.restitution,
+				friction: this.#wheelPhysics.friction
+			},
+			this.#scene
+		);
+		const frontLeftWheel = new PhysicsAggregate(
+			this.#wheels.get(Car.FRONT_LEFT_WHEEL),
+			PhysicsShapeType.CYLINDER,
+			{
+				mass: this.#wheelPhysics.mass,
+				restitution: this.#wheelPhysics.restitution,
+				friction: this.#wheelPhysics.friction
+			},
+			this.#scene
+		);
+		const frontRightWheel = new PhysicsAggregate(
+			this.#wheels.get(Car.FRONT_RIGHT_WHEEL),
+			PhysicsShapeType.CYLINDER,
+			{
+				mass: this.#wheelPhysics.mass,
+				restitution: this.#wheelPhysics.restitution,
+				friction: this.#wheelPhysics.friction
+			},
+			this.#scene
+		);
+		// const collisionBody = new PhysicsAggregate(this.collisionBody, PhysicsShapeType.BOX, { mass: 1, restitution: 0, friction: 0}, this.#scene);
+		const parent = new PhysicsAggregate(this.#parent, PhysicsShapeType.BOX, { mass: 0, restitution: 0}, this.#scene);*/
+
+		const chassis = new PhysicsAggregate(this.#chassis, PhysicsShapeType.BOX, { mass: Car.CHASSIS_MASS, restitution: 0, friction: 0}, this.#scene);
+		const backLeftWheel = new PhysicsAggregate(this.#wheels.get(Car.BACK_LEFT_WHEEL), PhysicsShapeType.CAPSULE, { mass: Car.WHEEL_MASS, restitution: Car.WHEEL_RESTITUTION, friction: .5}, this.#scene);
+		const backRightWheel = new PhysicsAggregate(this.#wheels.get(Car.BACK_RIGHT_WHEEL), PhysicsShapeType.CAPSULE, { mass: Car.WHEEL_MASS, restitution: Car.WHEEL_RESTITUTION, friction: .5}, this.#scene);
+		const frontLeftWheel = new PhysicsAggregate(this.#wheels.get(Car.FRONT_LEFT_WHEEL), PhysicsShapeType.CAPSULE, { mass: Car.WHEEL_MASS, restitution: Car.WHEEL_RESTITUTION, friction: .5}, this.#scene);
+		const frontRightWheel = new PhysicsAggregate(this.#wheels.get(Car.FRONT_RIGHT_WHEEL), PhysicsShapeType.CAPSULE, { mass: Car.WHEEL_MASS, restitution: Car.WHEEL_RESTITUTION, friction: .5}, this.#scene);
 		// const collisionBody = new PhysicsAggregate(this.collisionBody, PhysicsShapeType.BOX, { mass: 1, restitution: 0, friction: 0}, this.#scene);
 		const parent = new PhysicsAggregate(this.#parent, PhysicsShapeType.BOX, { mass: 0, restitution: 1}, this.#scene);
 

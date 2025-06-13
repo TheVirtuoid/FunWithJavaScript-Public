@@ -5,29 +5,33 @@ import V3 from "../src/classes/V3/V3.js";
 import Layout from "../src/classes/Layout/Layout.js";
 
 const startingPosition = new V3(App2.SX, App2.SY, App2.SZ);
-const startingDirectionVector = new V3(0, -.75, 1);
+const startingDirectionVector = new V3(0, -1.55, 1);
 const startingAnchor = Track.CreateStartingAnchor({ id: 'startAnchor', startingPosition, startingDirectionVector });
 const endingAnchor = Track.CreateEndingAnchor({ id: 'endAnchor' });
 const startLine = Track.CreateStartLine({ id: 'startLine' });
 const finishLine = Track.CreateFinishLine({ id: 'finishLine' });
+const straight0 = Track.CreateStraight({
+	id: 'straight0',
+	length: 20
+});
 const straight1 = Track.CreateStraight({
 	id: 'straight1',
-	endingPosition: new V3(0, -15, 20),
+	endingPosition: new V3(0, -35, 50),
 	contour: {
-		controlPoint1: new V3( 0, 1, 5 ),
-		controlPoint2: new V3( 0, -12.6, 6 )
+		controlPoint1: new V3( 0, -20, 10),
+		controlPoint2: new V3( 0, -35, 20 )
 	}
 });
 const straight2 = Track.CreateStraight({
 	id: 'straight2',
-	length: 20
+	length: 5
 });
 const straight3 = Track.CreateStraight({
 	id: 'straight3',
-	endingPosition: new V3(30, -5, 0),
+	endingPosition: new V3(80, -30, 0),
 	contour: {
-		controlPoint1: new V3( 10, 0, 0 ),
-		controlPoint2: new V3( 16, -5, 0 )
+		controlPoint1: new V3( 30, 0, 0 ),
+		controlPoint2: new V3( 60, -30, 0 )
 	}
 });
 const straight4 = Track.CreateStraight({
@@ -36,13 +40,13 @@ const straight4 = Track.CreateStraight({
 });
 const curve180 = Track.CreateCurve({
 	id: 'curve180',
-	radius: 30,
+	radius: 25,
 	degrees: 180,
 	curveDirection: Track.CURVE_DIRECTION_POSITIVE
 });
 const curve90 = Track.CreateCurve({
 	id: 'curve90',
-	radius: 30,
+	radius: 25,
 	degrees: 90,
 	curveDirection: Track.CURVE_DIRECTION_NEGATIVE
 });
@@ -57,6 +61,7 @@ const straight5 = Track.CreateStraight({
 const tracks = [
 	startingAnchor,
 	startLine,
+	straight0,
 	straight1,
 	straight2,
 	curve90,

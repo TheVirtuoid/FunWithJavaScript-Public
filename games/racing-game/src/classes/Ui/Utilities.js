@@ -37,11 +37,12 @@ const renderStraight = (args = {}) => {
 		controlPoint2: cp2,
 		endPoint,
 		scene,
-		trackWidth = 4,
+		trackWidth = Track.TRACK_WIDTH,
 		segments = 100,
 		firstGuardRailScale = { startScale: .6, endScale: .6 },
 		secondGuardRailScale = { startScale: .6, endScale: .6 }
 	} = args;
+	console.trace();
 	const roadWidth = trackWidth;
 	const controlPoint1 = new V3(
 		cp1.x + startPoint.x,
@@ -188,10 +189,10 @@ const generateACurve = (track, width, scene) => {
 	const controlPoint1 = track.contour.controlPoint1;
 	const controlPoint2 = track.contour.controlPoint2;
 	const curveDirection = track.curveDirection;
-	const angle = 45;
+	const angle = 25;
 	const firstGuardRailScale = { startScale: .6, endScale: .6 };
 	const secondGuardRailScale = { startScale: .6, endScale: 3 };
-	const segments = 100;
+	const segments = 500;
 	const trackWidth = width;
 
 	return renderCurve({
@@ -218,7 +219,7 @@ const renderCurve = (args) => {
 		scene,
 		angle,
 		curveDirection,
-		trackWidth = 4,
+		trackWidth = Track.TRACK_WIDTH,
 		segments = 100,
 		firstGuardRailScale = { startScale: .6, endScale: .6 },
 		secondGuardRailScale = { startScale: .6, endScale: 2 }
