@@ -1,7 +1,6 @@
 import {setButton, setButtons} from "../buttons.js";
 import venues from './../../databases/venues.json';
 import VenueDb from "../../src/classes/databases/VenueDb/VenueDb.js";
-import CarDb from "../../src/classes/databases/CarDb/CarDb.js";
 
 export default class SelectVenue {
 
