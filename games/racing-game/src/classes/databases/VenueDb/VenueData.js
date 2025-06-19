@@ -47,7 +47,6 @@ export default class VenueData {
 		return this.#thumbnail;
 	}
 
-	// TODO: When the database is official, replace this with a proper URL load function
 	loadVenue() {
 		return new Promise((resolve, reject) => {
 			if (this.thumbnail) {
