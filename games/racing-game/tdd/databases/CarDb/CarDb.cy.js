@@ -12,9 +12,9 @@ describe('When I work with the Car database', () => {
 
 	describe('and after I set a database', () => {
 		const cars = JSON.stringify([
-			{id: '1', name: 'Car 1', description: 'Description 1', url: 'url1'},
-			{id: '2', name: 'Car 2', description: 'Description 2', utl: 'url2'},
-			{id: '3', name: 'Car 3', description: 'Description 3', url: 'url3'}
+			{id: '1', name: 'Car 1', description: 'Description 1', thumbnailUrl: '/databases/car/auto-1941988_1280.png', modelUrl: '/databases/car/Ferarri.glb' },
+			{id: '2', name: 'Car 2', description: 'Description 2', thumbnailUtl: '/databases/car/auto-1941988_1280.png', modelUrl: '/databases/car/Ferarri.glb' },
+			{id: '3', name: 'Car 3', description: 'Description 3', thumbnailUrl: '/databases/car/auto-1941988_1280.png', modelUrl: '/databases/car/Ferarri.glb' }
 		]);
 
 		beforeEach(() => {
@@ -47,8 +47,14 @@ describe('When I work with the Car database', () => {
 
 		it('should populate a carData', () => {
 			const carData = CarDb.getCarById('1');
-			CarDb.loadCar(carData);
-			expect(carData.model).to.be.null;
+			CarDb.loadCar(carData)
+				.then(() => {
+					expect(carData.model).not.to.be.undefined;
+					expect(carData.thumbnail).not.to.be.undefined;
+				})
+				.catch(() => {
+					expect(false).to.be.true;
+				});
 		});
 	});
 });

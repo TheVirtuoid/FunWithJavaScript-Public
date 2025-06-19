@@ -4,15 +4,18 @@ export default class CarData {
 	#id;
 	#name;
 	#description;
-	#url;
+	#modelUrl;
+	#thumbnailUrl;
 	#model;
+	#thumbnail;
 
 	constructor(args = {}) {
-		const { id = '', name = '', description = '', url = '' } = args;
+		const { id = '', name = '', description = '', modelUrl = '', thumbnailUrl = '' } = args;
 		this.#id = id;
 		this.#name = name;
 		this.#description = description;
-		this.#url = url;
+		this.#modelUrl = modelUrl;
+		this.#thumbnailUrl = thumbnailUrl;
 	}
 
 	get id() {
@@ -27,16 +30,68 @@ export default class CarData {
 		return this.#description;
 	}
 
-	get url() {
-		return this.#url;
+	get modelUrl() {
+		return this.#modelUrl;
+	}
+
+	get thumbnailUrl() {
+		return this.#thumbnailUrl;
 	}
 
 	get model() {
 		return this.#model;
 	}
 
-	// TODO: When the database is official, replace this with a proper URL load function
-	loadCar() {
-		this.#model = null;
+	get thumbnail() {
+		return this.#thumbnail;
 	}
+
+	loadCar() {
+		return new Promise((resolve, reject) => {
+			const loadPromises = [
+				this.#loadModel(),
+				this.#loadThumbnail()
+			];
+			Promise.all(loadPromises)
+				.then(resolve)
+				.catch(reject);
+		});
+	}
+
+	#loadModel() {
+		return new Promise((resolve, reject) => {
+			if (this.model) {
+				resolve(this);
+			}
+			const imgElement = new Image();
+			imgElement.dataset.id = this.id;
+			imgElement.onload = () => {
+				resolve(this);
+			};
+			imgElement.onerror = (error) => {
+				console.log(error);
+				reject('Car Model could not be loaded');
+			};
+			imgElement.src = this.modelUrl;
+		});
+	}
+
+	#loadThumbnail() {
+		return new Promise((resolve, reject) => {
+			if (this.thumbnail) {
+				resolve(this);
+			}
+			const imgElement = new Image(200, 170);
+			imgElement.dataset.id = this.id;
+			imgElement.onload = () => {
+				resolve(this);
+			};
+			imgElement.onerror = (error) => {
+				console.log(error);
+				reject('Car Thumbnail could not be loaded');
+			};
+			imgElement.src = this.thumbnailUrl;
+		});
+	}
+
 }

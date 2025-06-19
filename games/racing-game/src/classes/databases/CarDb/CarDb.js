@@ -1,4 +1,6 @@
-let database = [];
+let json = [];
+const idDatabase = new Map();
+const nameDatabase = new Map();
 import CarData from './CarData.js';
 
 export default class CarDb {
@@ -7,27 +9,27 @@ export default class CarDb {
 	}
 
 	static setDatabase(jsonDatabase) {
-		database = JSON.parse(jsonDatabase);
+		json = JSON.parse(jsonDatabase);
+		json.forEach((car) => {
+			const carData = new CarData(car);
+			idDatabase.set(carData.id, carData);
+			nameDatabase.set(carData.name, carData);
+		});
 	}
 
 	static getAllCars() {
-		return database.map((carData) => new CarData(carData));
+		return [...idDatabase.values()]
 	}
 
 	static getCarById(id) {
-		const carData = database.find((car) => car.id === id);
-		return carData ? new CarData(carData) : undefined;
+		return idDatabase.get(id);
 	}
 
 	static getCarByName(name) {
-		const carData = database.find((car) => car.name === name);
-		return carData ? new CarData(carData) : undefined;
+		return nameDatabase.get(name);
 	}
 
-	// TODO: When the database is official, replace this with a proper URL load function
 	static loadCar(carData) {
-		if (carData.model === undefined) {
-			carData.loadCar();
-		}
+		return carData.loadCar();
 	}
 }

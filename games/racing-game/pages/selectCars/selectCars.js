@@ -1,6 +1,8 @@
 import {setButton, setButtons} from "../buttons.js";
+import cars from './../../databases/cars.json';
+import CarDb from "../../src/classes/databases/CarDb/CarDb.js";
 
-const cars = [
+/*const cars = [
 	{id: 1, name: 'Car 1'},
 	{id: 2, name: 'Car 2'},
 	{id: 3, name: 'Car 3'},
@@ -9,7 +11,7 @@ const cars = [
 	{id: 6, name: 'Car 6'},
 	{id: 7, name: 'Car 7'},
 	{id: 8, name: 'Car 8'}
-]
+]*/
 
 export default class SelectCars {
 	#selectionList;
@@ -46,10 +48,18 @@ export default class SelectCars {
 
 		this.#carsToBeSelected = [];
 		this.#carsToBeUnselected = [];
+
+		CarDb.setDatabase(cars);
 	}
 
 	#populateSelectionList() {
 		this.#selectionList.replaceChildren();
+		const carPromises = [];
+		cars.forEach((car) => {
+			carPromises.push
+		});
+
+
 		cars.forEach(car => {
 			const button = document.createElement('button');
 			button.textContent = car.name;

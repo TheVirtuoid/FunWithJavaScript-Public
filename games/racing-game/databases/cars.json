@@ -1,8 +1,58 @@
 [
   {
-    "id": "47dcf168-af7b-4247-9861-517f910b2a7b",
-    "name": "Test Car 1",
-    "thumbnail": "https://example.com/cars/test-car-1.jpg",
-    "model": "https://example.com/models/test-car-1.glb"
+    "id": "cd592231-7b1a-401f-9c9e-291dc281f4a5",
+    "name": "Blue Bomber",
+    "description": "",
+    "url": "/databases/car/auto-1941988_1280.png",
+    "model": ""
+  },
+  {
+    "id": "550686f9-09b1-4c3d-897f-ca01832cd1c6",
+    "name": "Yellow Racer",
+    "description": "",
+    "url": "/databases/car/car-30990_1280.png",
+    "model": ""
+  },
+  {
+    "id": "341157d4-7361-4c51-8722-3e7defc7e220",
+    "name": "Red Rocket",
+    "description": "",
+    "url": "/databases/car/car-33633_1280.png",
+    "model": ""
+  },
+  {
+    "id": "e773300c-28a8-4d56-b63d-21ed39492662",
+    "name": "Futuro Rojo",
+    "description": "",
+    "url": "/databases/car/car-35263_1280.png",
+    "model": ""
+  },
+  {
+    "id": "f135bb2c-72df-4d57-a94a-b14df3aabc0f",
+    "name": "Black Beauty",
+    "description": "",
+    "url": "/databases/car/car-146185_1280.png",
+    "model": ""
+  },
+  {
+    "id": "d94d8bdd-36c5-4587-85c3-79e98c64dcdb",
+    "name": "Roadster Azul",
+    "description": "",
+    "url": "/databases/car/car-158795_1280.png",
+    "model": ""
+  },
+  {
+    "id": "ed197132-3e9e-49f4-aa25-ce823f00f22c",
+    "name": "Mustang Gertrude",
+    "description": "",
+    "url": "/databases/car/ford-mustang-146580_1280.png",
+    "model": ""
+  },
+  {
+    "id": "cd592231-7b1a-401f-9c9e-291dc281f4a5",
+    "name": "Abomination",
+    "description": "",
+    "url": "/databases/car/passenger-car-155267_1280.png",
+    "model": ""
   }
 ]

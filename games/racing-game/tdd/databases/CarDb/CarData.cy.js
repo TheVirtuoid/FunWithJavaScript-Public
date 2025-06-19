@@ -12,23 +12,30 @@ describe('When I work with the CarData class', () => {
 			expect(carData.id).to.equal('');
 			expect(carData.name).to.equal('');
 			expect(carData.description).to.equal('');
-			expect(carData.url).to.equal('');
+			expect(carData.modelUrl).to.equal('');
+			expect(carData.thumbnailUrl).to.equal('');
 			expect('model' in carData).to.be.true;
 			expect(carData.model).to.be.undefined;
+			expect('thumbnail' in carData).to.be.true;
+			expect(carData.thumbnail).to.be.undefined;
 		});
 		it('should set the properties', () => {
 			const carData = new CarData({
 				id: 'id',
 				name: 'name',
 				description: 'description',
-				url: 'url'
+				modelUrl: 'modelUrl',
+				thumbnailUrl: 'thumbnailUrl'
 			});
 			expect(carData.id).to.equal('id');
 			expect(carData.name).to.equal('name');
 			expect(carData.description).to.equal('description');
-			expect(carData.url).to.equal('url');
+			expect(carData.modelUrl).to.equal('modelUrl');
+			expect(carData.thumbnailUrl).to.equal('thumbnailUrl');
 			expect('model' in carData).to.be.true;
 			expect(carData.model).to.be.undefined;
+			expect('thumbnail' in carData).to.be.true;
+			expect(carData.thumbnail).to.be.undefined;
 		});
 
 		describe('and when I try to set the properties', () => {
@@ -53,25 +60,49 @@ describe('When I work with the CarData class', () => {
 				}).to.throw();
 			});
 
-			it('property "url" should be read only', () => {
+			it('property "modelUrl" should be read only', () => {
 				const carData = new CarData();
 				expect(() => {
-					carData.url = 'newUrl';
+					carData.modelUrl = 'newUrl';
+				}).to.throw();
+			});
+
+			it('property "thumbnailUrl" should be read only', () => {
+				const carData = new CarData();
+				expect(() => {
+					carData.thumbnailUrl = 'newUrl';
+				}).to.throw();
+			});
+
+			it('property "model" should be read only', () => {
+				const carData = new CarData();
+				expect(() => {
+					carData.model = 'whatever';
+				}).to.throw();
+			});
+
+			it('property "thumbnail" should be read only', () => {
+				const carData = new CarData();
+				expect(() => {
+					carData.thumbnail = 'whatever';
 				}).to.throw();
 			});
 		});
 
 		describe('And when I use the methods', () => {
-			// TODO: When the database becomes official, fix this
 			it('should load in the model', () => {
 				const carData = new CarData({
 					id: 'car-one',
 					name: 'name',
 					description: 'description',
-					url: 'url'
+					modelUrl: '/databases/car/Ferarri.glb',
+					thumbnailUrl: '/databases/car/auto-1941988_1280.png'
 				});
-				carData.loadCar();
-				expect(carData.model).to.be.null;
+				carData.loadCar()
+					.then(() => {
+						expect(carData.model).not.to.be.undefined;
+						expect(carData.thumbnail).not.to.be.undefined;
+					});
 			});
 		});
 	});
