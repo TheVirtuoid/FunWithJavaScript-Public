@@ -28,7 +28,7 @@ const buildGround = (scene, physicsOptions) => {
 	groundBase.position = new Vector3(0, -10, 0);
 	groundBase.rotation[rotationAxis] += rotationAmount;
 	const groundAggregate = new PhysicsAggregate(groundBase, PhysicsShapeType.BOX, { mass: 0, friction: friction, restitution: restitution }, scene);
-	groundAggregate.shape.filterMembershipMask = 0xFFFFFFFF;
+	groundAggregate.shape.filterMembershipMask = 1;
 	groundAggregate.shape.filterCollideMask = 0xFFFFFFFF;
 
 	const groundBaseWallNorth = MeshBuilder.CreateBox('ground-base-north', { depth: 55, width: 2, height: 2 }, scene);
@@ -51,7 +51,6 @@ const buildGround = (scene, physicsOptions) => {
 	groundBaseWallWest.position = new Vector3(0, -10, -25);
 	new PhysicsAggregate(groundBaseWallWest, PhysicsShapeType.BOX, { mass: 0, friction: 1 }, scene);
 
-	console.log(groundAggregate.body.getMassProperties());
 	return { mesh: groundBase, aggregate: groundAggregate };
 }
 

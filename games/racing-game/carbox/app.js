@@ -22,6 +22,7 @@ import HavokPhysics from "@babylonjs/havok";
 import { buildGround } from "./ground.js";
 import Car from "./Car.js";
 import Controls from "./Controls.js";
+import Physics from "../src/classes/Physics/Physics.js";
 
 export default class App {
 
@@ -39,7 +40,7 @@ export default class App {
 
 	#physicsPlugin;
 
-	#gravityVector = new Vector3(0, -9.81, 0);
+	#gravityVector = Physics.GRAVITY
 
 	#renderLoopHandle;
 	#sceneElement;
@@ -101,8 +102,8 @@ export default class App {
 		this.#scene.enablePhysics(this.#gravityVector, this.#physicsPlugin);
 
 		const groundPhysics = {
-			friction: .5,
-			restitution: .5,
+			friction: 1,
+			restitution: 0,
 			rotationAxis: 'x',
 			rotationAmount: -.1
 		};
@@ -112,7 +113,7 @@ export default class App {
 		const chassisPhysics = {
 			mass: 10,
 			friction: 1,
-			restitution: .1
+			restitution: 0
 		};
 
 		const wheelPhysics = {
@@ -122,10 +123,13 @@ export default class App {
 		};
 
 
-		const position = new Vector3(0, -7, 0);
+		const position = new Vector3(0, -9, 0);
 
-		this.#car = new Car({ position: position.clone(), scene: this.#scene, physicsGroup: 1, chassisPhysics, wheelPhysics });
-		this.#car.build();
+		this.#car = new Car({ position: position.clone(), scene: this.#scene, physicsGroup: 2, chassisPhysics, wheelPhysics });
+		await this.#car.build();
+
+		// this.#car.loadedModel.meshes[9].showBoundingBox = true;
+		// console.log(this.#car.loadedModel.meshes[9]);
 
 		/*const car = {
 			mesh: this.#car.model,

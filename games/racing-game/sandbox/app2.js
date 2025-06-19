@@ -63,10 +63,10 @@ export default class App2 {
 	#controls;
 
 	#carParameters = [
-		{ name: 'Red Rocket', pos: new Vector3(App2.SX - 1, App2.SY + 1, App2.SZ + 1), group: 1, color: new Color3(0.8, 0, 0) },
-		{ name: 'Green Fire', pos: new Vector3(App2.SX + 1, App2.SY + 1, App2.SZ + 1), group: 2, color: new Color3(0, 0.8, 0) },
-		{ name: 'Blue Booster', pos: new Vector3(App2.SX - 1, App2.SY - 3, App2.SZ + 4), group: 4, color: new Color3(0, 0, 0.8) },
-		{ name: 'Yellow Crusher', pos: new Vector3(App2.SX + 1, App2.SY - 3, App2.SZ + 4), group: 8, color: new Color3(0.8, 0.8, 0) }
+		{ name: 'Red Rocket', pos: new Vector3(App2.SX - 1, App2.SY + 1, App2.SZ + 1), group: 2, color: new Color3(0.8, 0, 0) },
+		{ name: 'Green Fire', pos: new Vector3(App2.SX + 1, App2.SY + 1, App2.SZ + 1), group: 4, color: new Color3(0, 0.8, 0) },
+		{ name: 'Blue Booster', pos: new Vector3(App2.SX - 1, App2.SY - 3, App2.SZ + 4), group: 8, color: new Color3(0, 0, 0.8) },
+		{ name: 'Yellow Crusher', pos: new Vector3(App2.SX + 1, App2.SY - 3, App2.SZ + 4), group: 16, color: new Color3(0.8, 0.8, 0) }
 	];
 
 	#cars;
@@ -125,7 +125,7 @@ export default class App2 {
 			for (const mesh of meshHit) {
 				const { pickedMesh } = mesh;
 				if (!this.#orderOfFinish.includes(pickedMesh)) {
-					console.log(pickedMesh);
+					// console.log(pickedMesh);
 					this.#orderOfFinish.push(pickedMesh);
 					this.#createTextOverlay(pickedMesh.id, this.#scene);
 				}
@@ -212,7 +212,7 @@ export default class App2 {
 		});
 
 		this.#layout.forEach((track) => {
-			const friction = track.material.name === 'ending-anchor' ? 1 : 0.20;
+			const friction = track.material.name === 'ending-anchor' ? 1 : .2;
 			new PhysicsAggregate(
 				track,
 				PhysicsShapeType.MESH,
@@ -220,14 +220,12 @@ export default class App2 {
 			);
 		});
 
-		const color = new Color3(0.8, 0, 0);
-
 		for (const carParam of this.#carParameters) {
 			const { name, group, pos, color } = carParam;
 			const car = new Car({
 				position: pos,
 				scene: this.#scene,
-				scale: 0.20,
+				scale: 0.3,
 				color,
 				id: name,
 				physicsGroup: group
