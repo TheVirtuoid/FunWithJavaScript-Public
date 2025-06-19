@@ -4,15 +4,19 @@ export default class VenueData {
 	#id;
 	#name;
 	#description;
-	#url;
-	#blueprint;
+	#thumbnailUrl;
+	#layout;
+	#models;
+	#thumbnail;
 
 	constructor(args = {}) {
-		const { id = '', name = '', description = '', url = '' } = args;
+		const { id = '', name = '', description = '', thumbnailUrl = '', models = [], layout = [] } = args;
 		this.#id = id;
 		this.#name = name;
 		this.#description = description;
-		this.#url = url;
+		this.#thumbnailUrl = thumbnailUrl;
+		this.#models = models;
+		this.#layout = layout;
 	}
 
 	get id() {
@@ -27,23 +31,39 @@ export default class VenueData {
 		return this.#description;
 	}
 
-	get url() {
-		return this.#url;
+	get thumbnailUrl() {
+		return this.#thumbnailUrl;
 	}
 
 	get models() {
-		return this.#blueprint?.models;
+		return this.#models;
 	}
 
 	get layout() {
-		return this.#blueprint?.layout;
+		return this.#layout;
+	}
+
+	get thumbnail() {
+		return this.#thumbnail;
 	}
 
 	// TODO: When the database is official, replace this with a proper URL load function
 	loadVenue() {
-		this.#blueprint = {
-			models: null,
-			layout: null
-		}
+		return new Promise((resolve, reject) => {
+			if (this.thumbnail) {
+				resolve(this);
+			}
+			const imgElement = new Image(200, 170);
+			imgElement.dataset.id = this.id;
+			imgElement.onload = () => {
+				this.#thumbnail = imgElement;
+				resolve(this);
+			};
+			imgElement.onerror = (error) => {
+				console.log('thumbnail not loaded: ', this.thumbnailUrl, error);
+				reject('Venue Thumbnail could not be loaded');
+			};
+			imgElement.src = this.thumbnailUrl;
+		});
 	}
 }

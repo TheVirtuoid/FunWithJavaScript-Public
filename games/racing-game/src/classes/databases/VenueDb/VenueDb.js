@@ -1,4 +1,6 @@
-let database = [];
+const idDatabase = new Map();
+const nameDatabase = new Map();
+let json;
 import VenueData from './VenueData.js';
 
 export default class VenueDb {
@@ -7,27 +9,27 @@ export default class VenueDb {
 	}
 
 	static setDatabase(jsonDatabase) {
-		database = JSON.parse(jsonDatabase);
+		json = JSON.parse(jsonDatabase);
+		json.forEach((venueData) => {
+			const venue = new VenueData(venueData);
+			idDatabase.set(venue.id, venue);
+			nameDatabase.set(venue.name, venue);
+		});
 	}
 
 	static getAllVenues() {
-		return database.map((venueData) => new VenueData(venueData));
+		return [...idDatabase.values()];
 	}
 
 	static getVenueById(id) {
-		const venueData = database.find((venue) => venue.id === id);
-		return venueData ? new VenueData(venueData) : undefined;
+		return idDatabase.get(id);
 	}
 
 	static getVenueByName(name) {
-		const venueData = database.find((venue) => venue.name === name);
-		return venueData ? new VenueData(venueData) : undefined;
+		return nameDatabase.get(name);
 	}
 
-	// TODO: When the database is official, replace this with a proper URL load function
-	static loadVenue(venueData) {
-		if (venueData.models === undefined) {
-			venueData.loadVenue();
-		}
+	static loadVenue(venue) {
+		return venue.loadVenue();
 	}
 }

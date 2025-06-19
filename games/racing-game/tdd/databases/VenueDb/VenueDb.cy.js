@@ -47,9 +47,13 @@ describe('When I work with the Venue database', () => {
 
 		it('should populate a venueData', () => {
 			const venueData = VenueDb.getVenueById('1');
-			VenueDb.loadVenue(venueData);
-			expect(venueData.models).to.be.null;
-			expect(venueData.layout).to.be.null;
+			VenueDb.loadVenue(venueData)
+				.then(() => {
+					expect(venueData.thumbnail).not.to.be.undefined;
+				})
+				.catch(() => {
+					expect(false).to.be.true;
+				});
 		});
 	});
 });

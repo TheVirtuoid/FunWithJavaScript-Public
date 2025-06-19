@@ -12,23 +12,28 @@ describe('When I work with the VenueData class', () => {
 			expect(venueData.id).to.equal('');
 			expect(venueData.name).to.equal('');
 			expect(venueData.description).to.equal('');
-			expect(venueData.url).to.equal('');
-			expect(venueData.models).to.be.undefined;
-			expect(venueData.layout).to.be.undefined;
+			expect(venueData.thumbnailUrl).to.equal('');
+			expect('thumbnail' in venueData).to.be.true;
+			expect(venueData.models).to.have.length(0);
+			expect(venueData.layout).to.have.length(0);
+			expect(venueData.thumbnail).to.be.undefined;
 		});
 		it('should set the properties', () => {
 			const venueData = new VenueData({
 				id: 'id',
 				name: 'name',
 				description: 'description',
-				url: 'url'
+				thumbnailUrl: 'url',
+				models: ['anything'],
+				layout: ['goes', 'here']
 			});
 			expect(venueData.id).to.equal('id');
 			expect(venueData.name).to.equal('name');
 			expect(venueData.description).to.equal('description');
-			expect(venueData.url).to.equal('url');
-			expect(venueData.models).to.be.undefined;
-			expect(venueData.layout).to.be.undefined;
+			expect(venueData.thumbnailUrl).to.equal('url');
+			expect(venueData.models).to.have.length(1);
+			expect(venueData.layout).to.have.length(2);
+			expect(venueData.thumbnail).to.be.undefined;
 		});
 
 		describe('and when I try to set the properties', () => {
@@ -53,26 +58,54 @@ describe('When I work with the VenueData class', () => {
 				}).to.throw();
 			});
 
-			it('property "url" should be read only', () => {
+			it('property "thumbnailUrl" should be read only', () => {
 				const venueData = new VenueData();
 				expect(() => {
-					venueData.url = 'newUrl';
+					venueData.thumbnailUrl = 'newUrl';
+				}).to.throw();
+			});
+
+			it('property "models" should be read only', () => {
+				const venueData = new VenueData();
+				expect(() => {
+					venueData.models = 'whatever';
+				}).to.throw();
+			});
+
+			it('property "layout" should be read only', () => {
+				const venueData = new VenueData();
+				expect(() => {
+					venueData.layout = 'whatever';
+				}).to.throw();
+			});
+
+			it('property "thumbnail" should be read only', () => {
+				const venueData = new VenueData();
+				expect(() => {
+					venueData.thumbnail = 'whatever';
 				}).to.throw();
 			});
 		});
 
 		describe('And when I use the methods', () => {
-			// TODO: When the database becomes official, fix this
-			it('should load in the blueprint', () => {
+			it('should load in the venue', () => {
 				const venueData = new VenueData({
 					id: 'venue-one',
 					name: 'name',
 					description: 'description',
-					url: 'url'
+					thumbnailUrl: '/databases/venue/car-race-438467_1280.jpg',
+					models: [],
+					layout: []
 				});
-				venueData.loadVenue();
-				expect(venueData.models).to.be.null;
-				expect(venueData.layout).to.be.null;
+				venueData.loadVenue()
+					.then(() => {
+						expect(venueData.models).to.have.length(0);
+						expect(venueData.layout).to.have.length(0);
+						expect(venueData.thumbnail).not.to.be.undefined;
+					})
+					.catch(() => {
+						expect(false).to.be.true;
+					});
 			});
 		});
 	});
