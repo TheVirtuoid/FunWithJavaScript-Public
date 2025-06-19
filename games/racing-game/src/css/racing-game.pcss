@@ -294,7 +294,51 @@ button {
     background-color: var(--v-color-secondary300);
 }
 
+ul.selection-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        margin-bottom: .5rem;
+        padding: 0;
+        border-radius: .5rem;
+        cursor: pointer;
+
+        &.selected {
+            background-color: var(--v-color-tertiary300);
+        }
+        &:hover {
+            background-color: var(--v-color-secondary300);
+        }
+
+        button {
+            display: flex;
+            flex-direction: row;
+            gap: .5rem;
+            align-items: center;
+
+            &:hover {
+                background-color: transparent;
+            }
+
+            img {
+                width: 5rem;
+                height: 2.5rem;
+            }
+
+            span {
+                font-size: .8rem;
+                font-style: italic;
+                font-weight: 800;
+            }
+        }
+    }
+}
+
+
 #select-cars-screen {
+
     .layout {
         display: flex;
         flex-direction: row;
@@ -307,47 +351,6 @@ button {
             justify-content: center;
         }
 
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-
-            li {
-                margin-bottom: .5rem;
-                padding: 0;
-                border-radius: .5rem;
-                cursor: pointer;
-
-                &.selected {
-                    background-color: var(--v-color-tertiary300);
-                }
-                &:hover {
-                    background-color: var(--v-color-secondary300);
-                }
-
-                button {
-                    display: flex;
-                    flex-direction: row;
-                    gap: .5rem;
-                    align-items: center;
-
-                    &:hover {
-                        background-color: transparent;
-                    }
-
-                    img {
-                        width: 5rem;
-                        height: 2.5rem;
-                    }
-
-                    span {
-                        font-size: .8rem;
-                        font-style: italic;
-                        font-weight: 800;
-                    }
-                }
-            }
-        }
     }
 }
 
