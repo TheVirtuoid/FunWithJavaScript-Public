@@ -2,17 +2,6 @@ import {setButton, setButtons} from "../buttons.js";
 import cars from './../../databases/cars.json';
 import CarDb from "../../src/classes/databases/CarDb/CarDb.js";
 
-/*const cars = [
-	{id: 1, name: 'Car 1'},
-	{id: 2, name: 'Car 2'},
-	{id: 3, name: 'Car 3'},
-	{id: 4, name: 'Car 4'},
-	{id: 5, name: 'Car 5'},
-	{id: 6, name: 'Car 6'},
-	{id: 7, name: 'Car 7'},
-	{id: 8, name: 'Car 8'}
-]*/
-
 export default class SelectCars {
 	#selectionList;
 	#selectedList;
@@ -43,31 +32,42 @@ export default class SelectCars {
 		this.#buttonSelect.disabled = true;
 		this.#buttonUnselect.disabled = true;
 
+		CarDb.setDatabase(JSON.stringify(cars));
 		this.#populateSelectionList();
 		setButtons(['back', 'exit']);
 
 		this.#carsToBeSelected = [];
 		this.#carsToBeUnselected = [];
 
-		CarDb.setDatabase(cars);
 	}
 
 	#populateSelectionList() {
 		this.#selectionList.replaceChildren();
 		const carPromises = [];
+		const cars = CarDb.getAllCars();
 		cars.forEach((car) => {
-			carPromises.push
+			carPromises.push(car.loadCar());
 		});
+		Promise.all(carPromises)
+			.then(() => {
+				cars.forEach(car => {
+					const button = document.createElement('button');
+					const span = document.createElement('span');
+					span.textContent = car.name;
+					button.classList.add('invisible');
+					button.appendChild(car.thumbnail);
+					button.appendChild(span);
+					const li = document.createElement('li');
+					li.dataset.carId = car.id;
+					li.appendChild(button);
+					this.#selectionList.appendChild(li);
+				});
+			})
+			.catch((err) => {
+				console.log('ERROR:', err);
+			});
 
 
-		cars.forEach(car => {
-			const button = document.createElement('button');
-			button.textContent = car.name;
-			const li = document.createElement('li');
-			li.dataset.carId = car.id;
-			li.appendChild(button);
-			this.#selectionList.appendChild(li);
-		});
 	}
 
 	#select() {
@@ -99,9 +99,6 @@ export default class SelectCars {
 	}
 
 	#onCarSelect(event) {
-		if (event.target.tagName !== 'BUTTON') {
-			return;
-		}
 		if (this.#selectedList.querySelectorAll('li').length < 4) {
 			const button = event.target;
 			const li = button.closest('li');
@@ -112,18 +109,10 @@ export default class SelectCars {
 	}
 
 	#onCarSelected(event) {
-		if (event.target.tagName !== 'BUTTON') {
-			return;
-		}
 		const button = event.target;
 		const li = button.closest('li');
 		li.classList.add('selected');
 		this.#buttonUnselect.disabled = false;
 		this.#carsToBeUnselected.push(li);
 	}
-
-	#onSelectVenue() {
-
-	}
-
 }

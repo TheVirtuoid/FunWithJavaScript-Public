@@ -63,16 +63,20 @@ export default class CarData {
 			if (this.model) {
 				resolve(this);
 			}
-			const imgElement = new Image();
-			imgElement.dataset.id = this.id;
-			imgElement.onload = () => {
-				resolve(this);
-			};
-			imgElement.onerror = (error) => {
-				console.log(error);
-				reject('Car Model could not be loaded');
-			};
-			imgElement.src = this.modelUrl;
+			fetch(this.modelUrl)
+				.then(response => {
+					if (!response.ok) {
+						console.log(`HTTP error! status: ${response.status}`);
+						reject('Car Model could not be loaded (HTTP error)');
+					} else {
+						this.#model = response.arrayBuffer();
+						resolve(this);
+					}
+				})
+				.catch((error) => {
+					console.log('model not loaded', this.modelUrl, error);
+					reject('Car Model could not be loaded');
+				});
 		});
 	}
 
@@ -84,10 +88,11 @@ export default class CarData {
 			const imgElement = new Image(200, 170);
 			imgElement.dataset.id = this.id;
 			imgElement.onload = () => {
+				this.#thumbnail = imgElement;
 				resolve(this);
 			};
 			imgElement.onerror = (error) => {
-				console.log(error);
+				console.log('thumbnail not loaded: ', this.thumbnailUrl, error);
 				reject('Car Thumbnail could not be loaded');
 			};
 			imgElement.src = this.thumbnailUrl;
