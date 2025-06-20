@@ -105,14 +105,14 @@ export default class App {
 			friction: 1,
 			restitution: 0,
 			rotationAxis: 'x',
-			rotationAmount: -.1
+			rotationAmount: -.05
 		};
 
 		this.#ground = buildGround(this.#scene, groundPhysics);
 
 		const chassisPhysics = {
 			mass: 10,
-			friction: 1,
+			friction: 0,
 			restitution: 0
 		};
 
