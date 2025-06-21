@@ -26,7 +26,7 @@ export default class Car {
 	static CHASSIS_MASS = 10;*/
 
 	static WHEEL_RESTITUTION = 0;
-	static WHEEL_MASS = .01;
+	static WHEEL_MASS = 1;
 	static WHEEL_FRICTION = 1;
 	static CHASSIS_MASS = 10;
 	static COLLISION_BODY_MASS = 10;
