@@ -24,6 +24,7 @@ const buildGround = (scene, physicsOptions) => {
 		height: 50,
 		subdivisions: 4,
 	}, scene);
+	groundBase.visibility = false;
 	groundBase.material = groundMaterial;
 	groundBase.position = new Vector3(0, -10, 0);
 	groundBase.rotation[rotationAxis] += rotationAmount;

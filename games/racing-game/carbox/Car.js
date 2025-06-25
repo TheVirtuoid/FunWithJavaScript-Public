@@ -26,10 +26,10 @@ export default class Car {
 	static CHASSIS_MASS = 10;*/
 
 	static WHEEL_RESTITUTION = 0;
-	static WHEEL_MASS = 1;
+	static WHEEL_MASS = 10;
 	static WHEEL_FRICTION = 1;
 	static CHASSIS_MASS = 10;
-	static COLLISION_BODY_MASS = 10;
+	static COLLISION_BODY_MASS = .1;
 
 	#position;
 	#scene;
@@ -148,14 +148,14 @@ export default class Car {
 			this.#buildParent()
 				.then(this.#buildChassis.bind(this))
 				.then(this.#buildWheels.bind(this))
-				// .then(this.#buildModel.bind(this))
-				.then(this.#buildCollisionBody.bind(this))
+				.then(this.#buildModel.bind(this))
+				// .then(this.#buildCollisionBody.bind(this))
 				.then(this.#assignParents.bind(this))
 				.then(this.#buildChassisPhysicsAggregate.bind(this))
 				.then(this.#buildWheelPhysicsAggregates.bind(this))
 				// .then(this.#buildParentPhysicsAggregate.bind(this))
-				.then(this.#buildCollisionBodyPhysicsAggregate.bind(this))
-				.then(this.#setCollisionBodyConstraint.bind(this))
+				// .then(this.#buildCollisionBodyPhysicsAggregate.bind(this))
+				// .then(this.#setCollisionBodyConstraint.bind(this))
 				.then(this.#buildWheelConstraints.bind(this))
 				.then(resolve);
 		});
@@ -187,7 +187,7 @@ export default class Car {
 		const box2Aggregate = new PhysicsAggregate(
 			box2,
 			PhysicsShapeType.BOX,
-			{ mass: Car.CHASSIS_MASS, restitution: 0, friction: 0 },
+			{ mass: 0, restitution: 0, friction: 0 },
 			this.#scene);
 		box2Aggregate.shape.filterMembershipMask = this.#membershipMask;
 		box2Aggregate.shape.filterCollideMask = this.#collideMask;
@@ -202,7 +202,25 @@ export default class Car {
 			new Vector3(0, 1, 0),
 			this.scene
 		);
-		box1Aggregate.body.addConstraint(box2Aggregate.body, constraint, this.#scene);
+		const constraint2 = new Physics6DoFConstraint(
+			{
+				pivotA: new Vector3(0, box1HalfHeight, 0),
+				pivotB: new Vector3(0, -box2HalfHeight, 0),
+				axisA: new Vector3(0, 1, 0),
+				axisB: new Vector3(0, 1, 0),
+				collision: false,
+			},
+			[
+				{ axis: PhysicsConstraintAxis.LINEAR_X, minLimit: 0, naxLimit: 0 },
+				{ axis: PhysicsConstraintAxis.LINEAR_Y, minLimit: 0, naxLimit: 0 },
+				{ axis: PhysicsConstraintAxis.LINEAR_Z, minLimit: 0, naxLimit: 0 },
+				{ axis: PhysicsConstraintAxis.ANGULAR_X, minLimit: 0, naxLimit: 0 },
+				{ axis: PhysicsConstraintAxis.ANGULAR_Y, minLimit: 0, naxLimit: 0 },
+				{ axis: PhysicsConstraintAxis.ANGULAR_Z, minLimit: 0, naxLimit: 0 },
+			],
+			this.scene
+		);
+		box1Aggregate.body.addConstraint(box2Aggregate.body, constraint2, this.#scene);
 		// this.#aggregates.get(Car.COLLISION_BODY).body.addConstraint(this.#aggregates.get(Car.CHASSIS).body, constraint, this.#scene);
 
 
@@ -259,7 +277,9 @@ export default class Car {
 	}
 
 	#assignParents() {
-		this.#collisionBody.parent = this.#chassis;
+		if(this.#collisionBody) {
+			this.#collisionBody.parent = this.#chassis;
+		}
 		this.#chassis.parent = this.#parent;
 	}
 
@@ -279,6 +299,7 @@ export default class Car {
 		}, this.#scene);
 		// this.#chassis.position = this.position.clone();
 		// this.#chassis.parent = this.parent;
+		this.#chassis.visibility = false;
 		const chassisMaterial = new StandardMaterial(`${this.id}-chassis-material`, this.#scene);
 		chassisMaterial.diffuseColor = this.color;
 		this.#chassis.material = chassisMaterial;
@@ -310,9 +331,11 @@ export default class Car {
 		wheel.name = `${this.id}-${wheelType.name}`;
 		wheel.position.z = 2 * wheelType.z * this.#scale;
 		wheel.position.x = Car.CHASSIS_LENGTH * this.#scale / 2  * wheelType.x;
-		wheel.parent = this.#parent;
+		// wheel.parent = this.#parent;
+		wheel.parent = this.#chassis;
 		wheel.visibility = true;
 		wheel.material = this.#wheelMaterial;
+		wheel.visibility = false;
 		this.#wheels.set(wheelType, wheel);
 	}
 
@@ -324,8 +347,7 @@ export default class Car {
 		};
 		const collisionBody = MeshBuilder.CreateBox(`${this.id}-body-collision`, bodySize, this.#scene);
 		collisionBody.position = this.#chassis.position.clone().add(new Vector3(0, 2, 0));
-		collisionBody.visibility = false; // Make invisible
-		// collisionBody.parent = this.#chassis; // Attach to chassis
+		collisionBody.visibility = true; // Make invisible
 		this.#collisionBody = collisionBody;
 		return Promise.resolve();
 	}
@@ -404,9 +426,35 @@ export default class Car {
 			new Vector3(0, 1, 0),
 			this.scene
 		);
+		const sConstraint = new Physics6DoFConstraint(
+			{
+				pivotA: new Vector3(0, chassisHalfHeight, 0),
+				pivotB: new Vector3(0, -collisionBodyHalfHeight, 0),
+				axisA: new Vector3(0, 1, 0),
+				axisB: new Vector3(0, 1, 0),
+				collision: false,
+			},
+			[
+				{
+					axis: PhysicsConstraintAxis.LINEAR_X,
+					minLimit: 0,
+					naxLimit: 0
+				},
+				{
+					axis: PhysicsConstraintAxis.ANGULAR_X,
+					minLimit: 0,
+					maxLimit: 0
+				},
+			],
+			this.scene
+		);
 		chassisAggregate.body.addConstraint(collisionAggregate.body, constraint, this.#scene);
 		// collisionAggregate.body.addConstraint(chassisAggregate.body, constraint, this.#scene);
 		return Promise.resolve();
+	}
+
+	#collisionBodyConstraint() {
+
 	}
 
 	#setWheelConstraint(wheelType) {
@@ -417,6 +465,7 @@ export default class Car {
 				pivotA: new Vector3(wheelPosition.x, 0, wheelPosition.z / 2.0),
 				pivotB: new Vector3(0, 0, -wheelPosition.z / 2.0),
 				axisA: new Vector3(1, 0, 0),
+				collision: false,
 				axisB: new Vector3(1, 0, 0),
 				perpAxisA: new Vector3(0, 1, 0),
 				perpAxisB: new Vector3(0, 1, 0),
@@ -434,7 +483,7 @@ export default class Car {
 				},
 				{
 					axis: PhysicsConstraintAxis.LINEAR_Z,
-					minLimit: -0,
+					minLimit: 0,
 					maxLimit: 0,
 				},
 				{
@@ -453,12 +502,13 @@ export default class Car {
 	}
 
 	async #buildModel() {
-		this.#loadedModel = await ImportMeshAsync("/carbox/Ferarri.glb", this.#scene, {});
+		this.#loadedModel = await ImportMeshAsync("/public/databases/car/ToyRaceCar.glb", this.#scene, {});
 		this.model.scaling = new Vector3(3 * this.#scale, 3 * this.#scale, 3 * this.#scale);
 		// this.model.parent = this.#parent;
 		this.model.parent = this.chassis;
 		this.model.rotationQuaternion = null;
-		this.model.rotation = new Vector3(0, Math.PI / 2, 0);
+		// this.model.rotation = new Vector3(0, Math.PI / 2, 0);
+		this.model.rotation = new Vector3(-Math.PI / 2, 0, -Math.PI / 2);
 		/*this.#loadedModel.meshes.forEach(mesh => {
 			mesh.isPickable = false;
 			// Optionally disable collision detection entirely

@@ -2,15 +2,27 @@
 
 A game where a player defends a tower from waves of enemies by upgrading their offensive and defensive capabilities.
 
-## Game Play Summary
+## Game Play
 
-1. A wave of enemies approaches the tower. When they reach the tower, the deal damage to it.
-2. The player shoots the enemies from a gun on top of the tower, placed in the middle of the playing field.
-3. A round ends when all enemies for that round are defeated or the tower is destroyed.
-4. During the round, when an enemy is defeated, a prize is dropped. A 'runner' from the tower collects the prize and brings it back to the tower.
-5. The prizes allow the player to upgrade their gun, tower, or runners.
-6. After the round is over, the player is presented with three cards that can also upgrade their gun, tower, or runners.
-7. The object is to survive as many waves as possible, upgrading the tower and its defenses along the way.
+1. The player clicks upon New Game
+   - Playing field is displayed
+   - Statistics table is displayed
+   - Set all the defaults.
+2. The player clicks Start Round
+   - A wave of enemies is generated.
+   - The player can shoot the enemies with a gun mounted on top of the tower.
+   - The player can upgrade their tower, runners, and guns during the round.
+   - When an enemy is defeated, a prize is dropped (maybe)
+   - A runner is sent from the tower to collect the prize and bring it back to the tower.
+   - If the runner is destroyed, it drops the prize.
+   - If the runner makes it to the tower, the prize is added to the player's score.
+   - If an enemy reaches the tower, it deals damage to the tower. The enemy is destroyed, but does not drop a prize
+3. The round ends
+    - If the When all enemies are defeated, or
+    - When the tower is destroyed. At this point, the game is over.
+4. The player can choose to use points to upgrade tower, guns, or runners.
+5. Repeat steps 2 to 4 until the player chooses to end the game or the tower is destroyed.
+
 
 ## The Playing Field
 
@@ -27,16 +39,17 @@ A game where a player defends a tower from waves of enemies by upgrading their o
 4. Guns can never take damage, nor can they be removed.
 5. The tower can take damage, and the game is over when the tower reaches 0 health / hit points.
 6. The tower takes damage when an enemy touches it.
-7. The tower's maximum health can be upgraded.
-8. The tower's current health can be upgraded.
-9. The tower will have a defensive wall that can absorb damage from enemies before damage is inflicted on the tower.
-10. The defensive wall can be upgraded to increase its health and damage absorption.
-11. The tower begins with a single gun and no defensive wall.
+7. The tower takes damage when a missile hits it.
+8. The tower's maximum health can be upgraded.
+9. The tower's current health can be upgraded.
+10. The tower will have a defensive wall that can absorb damage from enemies before damage is inflicted on the tower.
+11. The defensive wall can be upgraded to increase its damage absorption.
+12. The tower begins with a single gun and no defensive wall.
 
 ## The Runners
 1. Runners are small characters that run from the tower to collect prizes dropped by defeated enemies.
 2. Runners can be upgraded to increase their speed and hit points
-3. Enemies can destroy runners. When that happens, they drop whatever they were carrying.
+3. Enemies can destroy runners with missiles. When that happens, they drop whatever they were carrying.
 4. A player can increase the number of runners.
 5. Runners are replenished to their maximum number after each round.
 6. A player begins with one runner.
@@ -92,13 +105,9 @@ All properties are read-only unless otherwise specified.
     - Armor starting value is always 0.
     - When damage is taken, two numbers are computed: towerDamage and armorDamage.
     - towerDamage = totalDamage - armor * totalDamage. Fractions are rounded down.
-    - armorDamage = Always 1% (this may change in the future)
+    - armorDamage = Always 1% for missiles and 5% for enemies (this may change in the future)
     - towerDamage is returned to the calling function.
     - armor can never go below 0
-    - Example 1: armor = .9, damage = 100, towerDamage = 10, armorDamage = .2, final armor = .89
-    - Example 2: armor = .5, damage = 100, towerDamage = 50, armorDamage = .5, final armor = .49
-    - Example 3: armor = .1, damage = 100, towerDamage = 90, armorDamage = .1, final armor = .09
-    - Example 4: armor = 0, damage = 100, towerDamage = 100, armorDamage = 0, final armor = 0
 
 ### Gun
 1. Properties:
@@ -117,11 +126,12 @@ All properties are read-only unless otherwise specified.
 
 ### Tower 
 1. Properties:
-   - health: int
-   - maxHealth: int
-   - guns: List[Gun]
-   - runners: List[Runner]
-   - defensiveWall: DefensiveWall
+   - health: int. Starting value is 100
+   - maxHealth: int. Starting value is 100
+   - guns: List[Gun]. Starts with 1 gun at position 12.
+   - runners: List[Runner]. Start with 1 runner.
+   - defensiveWall: DefensiveWall. Starts at 0%
+   - turretSpinSpeed: float (degrees per second, how fast the turret spins). Starts 90 degrees per second.
 2. Methods:
    - takeDamage(amount: int): Reduces the tower's health by the given amount.
    - upgradeMaximumHealth(amount: int): Increases the tower's maximum health.
@@ -211,6 +221,10 @@ All properties are read-only unless otherwise specified.
    - score: int
    - cards: List[Card]
    - gameOver: bool
+   - points: int. The number of points earned by the player. Starts at 0. Can be used to purchase upgrades for anything.
+   - gunGems: int. Only be used to upgrade/purchase guns. Starts at 0.
+   - towerGems: int. Only be used to upgrade the tower health or maximum health. Starts at 0.
+   - runnerGems: int. Only be used to upgrade/add runners. Starts at 0.
 2. Methods:
     - startNewWave(): Starts a new wave of enemies.
     - endWave(): Ends the current wave and presents cards to the player.

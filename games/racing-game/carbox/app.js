@@ -105,7 +105,7 @@ export default class App {
 			friction: 1,
 			restitution: 0,
 			rotationAxis: 'x',
-			rotationAmount: -.05
+			rotationAmount: 0
 		};
 
 		this.#ground = buildGround(this.#scene, groundPhysics);
@@ -125,7 +125,9 @@ export default class App {
 
 		const position = new Vector3(0, -9, 0);
 
-		this.#car = new Car({ position: position.clone(), scene: this.#scene, physicsGroup: 2, chassisPhysics, wheelPhysics });
+		const scale = .6;
+
+		this.#car = new Car({ position: position.clone(), scene: this.#scene, physicsGroup: 2, scale, chassisPhysics, wheelPhysics });
 		await this.#car.build();
 
 		// this.#car.loadedModel.meshes[9].showBoundingBox = true;
