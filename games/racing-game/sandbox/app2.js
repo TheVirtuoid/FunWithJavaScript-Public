@@ -22,6 +22,7 @@ import StartingLine from "../src/classes/Ui/StartingLine.js";
 import Straight from "../src/classes/Ui/Straight.js";
 import Curve from "../src/classes/Ui/Curve.js";
 import Car from "../carbox/Car.js";
+import {genId} from "../src/classes/Ui/Utilities.js";
 
 export default class App2 {
 
@@ -62,11 +63,15 @@ export default class App2 {
 
 	#controls;
 
+	#id = 'APP2';
+
+	#layoutIds = new Map();
+
 	#carParameters = [
-		{ name: 'Red Rocket', pos: new Vector3(App2.SX - 1, App2.SY + 1, App2.SZ + 1), group: 2, color: new Color3(0.8, 0, 0) },
-		{ name: 'Green Fire', pos: new Vector3(App2.SX + 1, App2.SY + 1, App2.SZ + 1), group: 4, color: new Color3(0, 0.8, 0) },
-		{ name: 'Blue Booster', pos: new Vector3(App2.SX - 1, App2.SY - 3, App2.SZ + 4), group: 8, color: new Color3(0, 0, 0.8) },
-		{ name: 'Yellow Crusher', pos: new Vector3(App2.SX + 1, App2.SY - 3, App2.SZ + 4), group: 16, color: new Color3(0.8, 0.8, 0) }
+		{ name: 'Red Rocket', pos: new Vector3(App2.SX - 1.5, App2.SY + 1, App2.SZ + 1), group: 2, color: new Color3(0.8, 0, 0) },
+		{ name: 'Green Fire', pos: new Vector3(App2.SX + 1.5, App2.SY + 1, App2.SZ + 1), group: 4, color: new Color3(0, 0.8, 0) },
+		{ name: 'Blue Booster', pos: new Vector3(App2.SX - 1.5, App2.SY - 5.5, App2.SZ + 4.5), group: 8, color: new Color3(0, 0, 0.8) },
+		{ name: 'Yellow Crusher', pos: new Vector3(App2.SX + 1.5, App2.SY - 5.5, App2.SZ + 4.5), group: 16, color: new Color3(0.8, 0.8, 0) }
 	];
 
 	#cars;
@@ -103,6 +108,10 @@ export default class App2 {
 
 	}
 
+	get id() {
+		return this.#id;
+	}
+
 	#inspector(event) {
 		if (event.shiftKey && event.ctrlKey && event.altKey && (event.key === "I" || event.key === "i")) {
 			if (this.#scene.debugLayer.isVisible()) {
@@ -119,8 +128,14 @@ export default class App2 {
 		this.#createTextOverlay('Race Results', this.#scene);
 		this.#finishLineTextTop += 8;
 		this.#topOfTheFinishListList = this.#finishLineTextTop;
+		let dropped = false;
+		const startTime = Date.now();
 		this.#engine.runRenderLoop(() => {
 			this.#scene.render();
+			if (Date.now() - startTime >= 5000 && !dropped) {
+				dropped = true;
+				this.#startingLine.lowerBars();
+			}
 			const meshHit = this.#finishLine.finishLineRay.intersectsMeshes(this.#finishLineMeshes);
 			for (const mesh of meshHit) {
 				const { pickedMesh } = mesh;
@@ -170,19 +185,23 @@ export default class App2 {
 		return textBlock;
 	}
 
+	#genUnique() {
+		return `${this.#id}-${crypto.randomUUID()}`;
+	}
+
 
 	async #addToScene(layout) {
 		this.#sx = App2.SX;
 		this.#sy = App2.SY;
 		this.#sz = App2.SZ;
 
-		this.#camera = new UniversalCamera("UniversalCamera", new Vector3(App2.SX, App2.SY + 10, App2.SZ - 2), this.#scene);
+		this.#camera = new UniversalCamera(genId(this.id, 'UniversalCamera'), new Vector3(App2.SX, App2.SY + 10, App2.SZ - 2), this.#scene);
 		this.#camera.inputs.addMouseWheel();
 		this.#camera.setTarget(new Vector3(App2.SX, App2.SY, App2.SZ + 4 ));
 
 		this.#camera.attachControl(this.#canvas, true);
 
-		this.#light1 = new HemisphericLight("light1", new Vector3(-1, 1, 0), this.#scene);
+		this.#light1 = new HemisphericLight(genId(this.id, 'light1'), new Vector3(-1, 1, 0), this.#scene);
 
 		this.#physicsPlugin = new HavokPlugin(true, await HavokPhysics());
 		this.#scene.enablePhysics(this.#gravityVector, this.#physicsPlugin);
@@ -191,33 +210,43 @@ export default class App2 {
 
 		layout.tracks.forEach((track) => {
 			if (track.type === Track.STARTING_ANCHOR) {
-				this.#startingAnchor = new StartingAnchor(track, App2.TRACKWIDTH, this.#scene);
+				this.#startingAnchor = new StartingAnchor(track, App2.TRACKWIDTH, this.#scene, this.id);
+				this.#layoutIds.set('starting-anchor', this.#startingAnchor);
 				this.#layout.push(this.#startingAnchor.render());
 			} else if (track.type === Track.STRAIGHT) {
-				const straight = new Straight(track, App2.TRACKWIDTH, this.#scene);
+				const straight = new Straight(track, App2.TRACKWIDTH, this.#scene, this.#genUnique());
 				this.#layout.push(straight.render());
 			} else if (track.type === Track.ENDING_ANCHOR) {
-				this.#endingAnchor = new EndingAnchor(track, App2.TRACKWIDTH, this.#scene);
+				this.#endingAnchor = new EndingAnchor(track, App2.TRACKWIDTH, this.#scene, this.id);
+				this.#layoutIds.set('ending-anchor', this.#endingAnchor);
 				this.#layout.push(...this.#endingAnchor.render());
 			} else if (track.type === Track.CURVE) {
-				const curve = new Curve(track, App2.TRACKWIDTH, this.#scene);
+				const curve = new Curve(track, App2.TRACKWIDTH, this.#scene, this.#genUnique());
 				this.#layout.push(curve.render());
 			} else if (track.type === Track.STARTLINE) {
-				this.#startingLine = new StartingLine(track, App2.TRACKWIDTH, this.#scene);
-				this.#layout.push(this.#startingLine.render());
+				this.#startingLine = new StartingLine(track, App2.TRACKWIDTH, this.#scene, this.id);
+				this.#layoutIds.set('starting-line', this.#startingLine);
+				this.#layout.push(...this.#startingLine.render());
 			} else if (track.type === Track.FINISHLINE) {
-				this.#finishLine = new FinishLine(track, App2.TRACKWIDTH, this.#scene);
+				this.#finishLine = new FinishLine(track, App2.TRACKWIDTH, this.#scene, this.id);
+				this.#layoutIds.set('finish-anchor', this.#finishLine);
 				this.#layout.push(this.#finishLine.render());
 			}
 		});
-
+		const boxes = [this.#startingLine.frontGate.id, this.#startingLine.backGate.id];
 		this.#layout.forEach((track) => {
-			const friction = track.material.name === 'ending-anchor' ? 1 : .2;
-			new PhysicsAggregate(
+			const friction = track.material.id === this.#endingAnchor.mesh.material.id ? 1 : .2;
+			const physicsShape = boxes.includes(track.name) ? PhysicsShapeType.BOX : PhysicsShapeType.MESH;
+			const aggregate = new PhysicsAggregate(
 				track,
-				PhysicsShapeType.MESH,
+				physicsShape,
 				{ mass: 0, friction, restitution: 0}, this.#scene
 			);
+			if (track.id === this.#startingLine.frontGate.id) {
+				this.#startingLine.frontGateAggregate = aggregate;
+			} else if (track.id === this.#startingLine.backGate.id) {
+				this.#startingLine.backGateAggregate = aggregate;
+			}
 		});
 
 		for (const carParam of this.#carParameters) {

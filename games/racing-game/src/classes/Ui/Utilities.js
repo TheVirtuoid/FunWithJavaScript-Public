@@ -2,7 +2,7 @@ import V3 from "../V3/V3.js";
 import {Matrix, Mesh, MeshBuilder, Tools, Vector3} from "@babylonjs/core";
 import Track from "../Track/Track.js";
 
-const generateAStraightRoad = (track, width, scene) => {
+const generateAStraightRoad = (track, width, scene, id) => {
 	const startPoint = track.startingPosition;
 	const endPoint = track.endingPosition
 		? track.endingPosition
@@ -13,7 +13,7 @@ const generateAStraightRoad = (track, width, scene) => {
 	const controlPoint2 = new V3(cp2.x, cp2.y, cp2.z);
 	const segments = 100;
 	const trackWidth = width
-	return renderStraight({ startPoint, controlPoint1, controlPoint2, endPoint, segments, trackWidth, scene });
+	return renderStraight({ startPoint, controlPoint1, controlPoint2, endPoint, segments, trackWidth, scene, id });
 }
 
 const getStraightBezierCurve = (startPoint, endPoint) => {
@@ -37,6 +37,7 @@ const renderStraight = (args = {}) => {
 		controlPoint2: cp2,
 		endPoint,
 		scene,
+		id,
 		trackWidth = Track.TRACK_WIDTH,
 		segments = 100,
 		firstGuardRailScale = { startScale: 1.5, endScale: 1.5 },
@@ -61,7 +62,7 @@ const renderStraight = (args = {}) => {
 	const firstGuardRail = generateRailing(firstGuardRailPoints, firstGuardRailScale.startScale, firstGuardRailScale.endScale);
 	const secondGuardRail = generateRailing(secondGuardRailPoints, secondGuardRailScale.startScale, secondGuardRailScale.endScale);
 
-	return MeshBuilder.CreateRibbon("ribbon", {
+	return MeshBuilder.CreateRibbon(`${id}-ribbon`, {
 		pathArray: [firstGuardRail, offsetPoints1, offsetPoints2, secondGuardRail],
 		sideOrientation: Mesh.DOUBLESIDE,
 		updatable: true
@@ -182,7 +183,7 @@ const calculateMeshCorners = (mesh) => {
 	];
 }
 
-const generateACurve = (track, width, scene) => {
+const generateACurve = (track, width, scene, id) => {
 	const startPoint = track.startingPosition;
 	const endPoint = track.endingPosition;
 	const controlPoint1 = track.contour.controlPoint1;
@@ -202,6 +203,7 @@ const generateACurve = (track, width, scene) => {
 		segments,
 		trackWidth,
 		angle,
+		id,
 		curveDirection,
 		firstGuardRailScale,
 		secondGuardRailScale,
@@ -217,6 +219,7 @@ const renderCurve = (args) => {
 		endPoint,
 		scene,
 		angle,
+		id,
 		curveDirection,
 		trackWidth = Track.TRACK_WIDTH,
 		segments = 100,
@@ -254,7 +257,7 @@ const renderCurve = (args) => {
 		secondGuardRail = generateRailing(secondGuardRailPoints, firstGuardRailScale.startScale, firstGuardRailScale.endScale);
 	}
 
-	return MeshBuilder.CreateRibbon("ribbon", {
+	return MeshBuilder.CreateRibbon(genId(id, 'ribbon'), {
 		pathArray: [firstGuardRail, offsetPoints1, offsetPoints2, secondGuardRail],
 		sideOrientation: Mesh.DOUBLESIDE,
 		updatable: true
@@ -327,6 +330,10 @@ const generateOffsetPointsWithBanking = (points, offsetDistance, maxBankAngle, s
 	return { offsetPoints1, offsetPoints2 };
 }
 
+const genId = (text1, text2, random = false) => {
+	const randomId = random ? `${crypto.randomUUID()}-` : '';
+	return `${text1}-${randomId}${text2}`;
+}
 
 
 export {
@@ -338,5 +345,6 @@ export {
 	generateRailing,
 	calculateMeshCorners,
 	generateACurve,
-	generateOffsetPointsWithBanking
+	generateOffsetPointsWithBanking,
+	genId
 };

@@ -1,6 +1,6 @@
 import Track from "../Track/Track.js";
 import {Color3, MeshBuilder, StandardMaterial, Vector3} from "@babylonjs/core";
-import { generateAStraightRoad } from "./Utilities.js";
+import {generateAStraightRoad, genId} from "./Utilities.js";
 import Ui from "./Ui.js";
 import V3 from "../V3/V3.js";
 
@@ -9,14 +9,18 @@ export default class EndingAnchor {
 	#mesh;
 	#scene;
 	#width;
+	#id;
 
-	constructor(track, width, scene) {
+	#catcherBox;
+
+	constructor(track, width, scene, id) {
 		if (!(track instanceof Track)) {
 			throw new Error("Invalid track instance");
 		}
 		this.#track = track;
 		this.#scene = scene;
 		this.#width = width;
+		this.#id = id;
 	}
 
 	get track() {
@@ -35,18 +39,26 @@ export default class EndingAnchor {
 		return this.#width;
 	}
 
+	get id() {
+		return this.#id;
+	}
+
+	get catcherBox() {
+		return this.#catcherBox;
+	}
+
 	render() {
-		this.#mesh = generateAStraightRoad(this.track, this.width, this.scene);
-		const blackMaterial = new StandardMaterial("ending-anchor", this.#scene);
+		this.#mesh = generateAStraightRoad(this.track, this.width, this.scene, genId(this.id, 'ending-anchor'));
+		const blackMaterial = new StandardMaterial(genId(this.id, 'ending-anchor'), this.#scene);
 		blackMaterial.diffuseColor = new Color3(0, 0, 0);
 		this.#mesh.material = blackMaterial;
 		const stopBoxPosition = this.track.startingDirectionVector.setDirectedPosition(this.track.startingPosition, this.track.length);
 		// const boundingInfo = this.#mesh.getBoundingInfo();
 		// Create a 1-unit box
-		const box = MeshBuilder.CreateBox("endpointBox", { depth: this.width, width: this.width, height: 10 }, this.scene);
+		this.#catcherBox = MeshBuilder.CreateBox(genId(this.id, 'ending-anchor-box'), { depth: this.width, width: this.width, height: 10 }, this.scene);
 		// Position the box at the endpoint
-		box.position = Ui.toVector3(stopBoxPosition);
-		box.material = blackMaterial;
-		return [this.mesh, box];
+		this.#catcherBox.position = Ui.toVector3(stopBoxPosition);
+		this.#catcherBox.material = blackMaterial;
+		return [this.mesh, this.#catcherBox];
 	}
 }

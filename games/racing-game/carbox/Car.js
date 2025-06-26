@@ -148,7 +148,7 @@ export default class Car {
 			this.#buildParent()
 				.then(this.#buildChassis.bind(this))
 				.then(this.#buildWheels.bind(this))
-				.then(this.#buildModel.bind(this))
+				// .then(this.#buildModel.bind(this))
 				// .then(this.#buildCollisionBody.bind(this))
 				.then(this.#assignParents.bind(this))
 				.then(this.#buildChassisPhysicsAggregate.bind(this))
@@ -299,7 +299,7 @@ export default class Car {
 		}, this.#scene);
 		// this.#chassis.position = this.position.clone();
 		// this.#chassis.parent = this.parent;
-		this.#chassis.visibility = false;
+		this.#chassis.visibility = true;
 		const chassisMaterial = new StandardMaterial(`${this.id}-chassis-material`, this.#scene);
 		chassisMaterial.diffuseColor = this.color;
 		this.#chassis.material = chassisMaterial;
@@ -335,7 +335,6 @@ export default class Car {
 		wheel.parent = this.#chassis;
 		wheel.visibility = true;
 		wheel.material = this.#wheelMaterial;
-		wheel.visibility = false;
 		this.#wheels.set(wheelType, wheel);
 	}
 

@@ -1,21 +1,24 @@
 import Track from "../Track/Track.js";
 import {Color3, Color4, MeshBuilder, Ray, StandardMaterial, Texture, Vector3} from "@babylonjs/core";
-import {calculateMeshCorners, generateAStraightRoad} from "./Utilities.js";
+import {calculateMeshCorners, generateAStraightRoad, genId} from "./Utilities.js";
 
 export default class FinishLine {
 	#track;
 	#mesh;
 	#scene;
 	#width;
+	#id;
+
 	#finishLineRay = null;
 
-	constructor(track, width, scene) {
+	constructor(track, width, scene, id) {
 		if (!(track instanceof Track)) {
 			throw new Error("Invalid track instance");
 		}
 		this.#track = track;
 		this.#scene = scene;
 		this.#width = width;
+		this.#id = id;
 	}
 
 	get track() {
@@ -34,13 +37,17 @@ export default class FinishLine {
 		return this.#width;
 	}
 
+	get id() {
+		return this.#id;
+	}
+
 	get finishLineRay() {
 		return this.#finishLineRay;
 	}
 
 	render() {
-		this.#mesh = generateAStraightRoad(this.track, this.width, this.scene);
-		const material = new StandardMaterial("finishLineMaterial", this.scene);
+		this.#mesh = generateAStraightRoad(this.track, this.width, this.scene, genId(this.id, 'finish-line'));
+		const material = new StandardMaterial(genId(this.id, 'finish-line-material'), this.scene);
 		// material.disableLighting = true;
 		const texture = new Texture('./checkerboard-7800519_1280.jpg', this.scene);
 		texture.uScale = .25; // Scale texture in U direction
@@ -59,7 +66,7 @@ export default class FinishLine {
 			new Color4(0, 1, 1, 1),
 			new Color4(0, 1, 1, 1)
 		]
-		MeshBuilder.CreateLines('test', { points: lines, colors }, this.#scene);
+		MeshBuilder.CreateLines(genId(this.id, 'finish-line-line'), { points: lines, colors }, this.#scene);
 		const lineDiff = end.subtract(start);
 		const directionVector = end.subtract(start).normalize();
 		const lengthAlongDirection = Vector3.Dot(lineDiff, directionVector);
