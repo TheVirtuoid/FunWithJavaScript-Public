@@ -1,6 +1,7 @@
 import {setButton, setButtons} from "../buttons.js";
 import cars from './../../databases/cars.json';
 import CarDb from "../../src/classes/databases/CarDb/CarDb.js";
+import GameData from "../../src/classes/databases/GameData/GameData.js";
 
 export default class SelectCars {
 	#selectionList;
@@ -12,6 +13,8 @@ export default class SelectCars {
 
 	#carsToBeSelected = [];
 	#carsToBeUnselected = [];
+
+	#gameData;
 
 	constructor() {
 		this.#selectionList = document.querySelector('#car-selection-list ul');
@@ -28,6 +31,8 @@ export default class SelectCars {
 
 		this.#buttonSelect.disabled = true;
 		this.#buttonUnselect.disabled = true;
+
+		this.#gameData = new GameData();
 
 		CarDb.setDatabase(JSON.stringify(cars));
 		this.#populateSelectionList();
@@ -57,8 +62,13 @@ export default class SelectCars {
 					const li = document.createElement('li');
 					li.dataset.carId = car.id;
 					li.appendChild(button);
-					this.#selectionList.appendChild(li);
+					if (this.#gameData.selectedCars.includes(car.id)) {
+						this.#selectedList.appendChild(li);
+					} else {
+						this.#selectionList.appendChild(li);
+					}
 				});
+				this.#setLimits();
 			})
 			.catch((err) => {
 				console.log('ERROR:', err);
@@ -71,24 +81,20 @@ export default class SelectCars {
 		for (const li of this.#carsToBeSelected) {
 			li.classList.remove('selected');
 			this.#selectedList.appendChild(li);
+			const carId = li.dataset.carId;
+			this.#gameData.addSelectedCar(carId);
 		}
 		this.#carsToBeSelected = [];
 		this.#buttonSelect.disabled = true;
-		const numberCarsSelected = this.#selectedList.querySelectorAll('li').length;
-		if (numberCarsSelected >= 4) {
-			this.#maximumNumberMessage.classList.remove('hidden');
-		} else if (numberCarsSelected >= 2) {
-			setButton('selectVenue', true);
-			this.#maximumNumberMessage.classList.add('hidden');
-		} else {
-			this.#maximumNumberMessage.classList.add('hidden');
-		}
+		this.#setLimits();
 	}
 
 	#unselect() {
 		for (const li of this.#carsToBeUnselected) {
 			li.classList.remove('selected');
 			this.#selectionList.appendChild(li);
+			const carId = li.dataset.carId;
+			this.#gameData.removeSelectedCar(carId);
 		}
 		this.#carsToBeUnselected = [];
 		this.#buttonUnselect.disabled = true;
@@ -111,5 +117,19 @@ export default class SelectCars {
 		li.classList.add('selected');
 		this.#buttonUnselect.disabled = false;
 		this.#carsToBeUnselected.push(li);
+	}
+
+	#setLimits() {
+		const numberCarsSelected = this.#selectedList.querySelectorAll('li').length;
+		console.log(numberCarsSelected);
+		if (numberCarsSelected >= 4) {
+			this.#maximumNumberMessage.classList.remove('hidden');
+		}
+		if (numberCarsSelected >= 2 && numberCarsSelected <= 4) {
+			setButton('selectVenue', true);
+			this.#maximumNumberMessage.classList.add('hidden');
+		} else {
+			this.#maximumNumberMessage.classList.add('hidden');
+		}
 	}
 }

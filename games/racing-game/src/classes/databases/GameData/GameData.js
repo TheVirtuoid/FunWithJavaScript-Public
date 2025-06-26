@@ -2,7 +2,7 @@ export default class GameData {
 	static DATABASE_KEY = 'virtuoid-racing-game';
 
 	#page;
-	#selectedCar;
+	#selectedCars;
 	#selectedVenue;
 
 	constructor() {
@@ -14,8 +14,8 @@ export default class GameData {
 		return this.#page;
 	}
 
-	get selectedCar() {
-		return this.#selectedCar;
+	get selectedCars() {
+		return this.#selectedCars;
 	}
 
 	get selectedVenue() {
@@ -29,11 +29,23 @@ export default class GameData {
 		this.#saveGameData();
 	}
 
-	set selectedCar(value) {
+	addSelectedCar(id) {
 		const gameData = this.#buildGameData();
-		gameData.selectedCar = value;
-		this.#setGameData(gameData);
-		this.#saveGameData();
+		if (!gameData.selectedCars.includes(id)) {
+			gameData.selectedCars.push(id);
+			this.#setGameData(gameData);
+			this.#saveGameData();
+		}
+	}
+
+	removeSelectedCar(id) {
+		const gameData = this.#buildGameData();
+		const index = gameData.selectedCars.indexOf(id);
+		if (index !== -1) {
+			gameData.selectedCars.splice(index, 1);
+			this.#setGameData(gameData);
+			this.#saveGameData();
+		}
 	}
 
 	set selectedVenue(value) {
@@ -45,16 +57,16 @@ export default class GameData {
 
 	#buildGameData() {
 		return {
-			page: this.#page,
-			selectedCar: this.#selectedCar,
-			selectedVenue: this.#selectedVenue
+			page: this.#page  ?? '',
+			selectedCars: this.#selectedCars ?? [],
+			selectedVenue: this.#selectedVenue ?? ''
 		};
 	}
 
 	#setGameData(data) {
 		this.#page = data.page ?? 'index';
-		this.#selectedCar = data.selectedCar ?? false;
-		this.#selectedVenue = data.selectedVenue ?? false;
+		this.#selectedCars = data.selectedCars ?? [];
+		this.#selectedVenue = data.selectedVenue ?? '';
 	}
 
 	#saveGameData() {

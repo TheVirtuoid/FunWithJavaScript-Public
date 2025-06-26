@@ -1,10 +1,12 @@
 import {setButton, setButtons} from "../buttons.js";
 import venues from './../../databases/venues.json';
 import VenueDb from "../../src/classes/databases/VenueDb/VenueDb.js";
+import GameData from "../../src/classes/databases/GameData/GameData.js";
 
 export default class SelectVenue {
 
 	#selectionList;
+	#gameData;
 
 	constructor() {
 		this.#selectionList = document.querySelector('#venue-selection-list ul');
@@ -12,6 +14,7 @@ export default class SelectVenue {
 		this.#selectionList.addEventListener('click', this.#onVenueSelect.bind(this));
 
 		VenueDb.setDatabase(JSON.stringify(venues));
+		this.#gameData = new GameData();
 
 		this.#populateSelectionList();
 		setButtons(['back', 'exit']);
@@ -36,6 +39,9 @@ export default class SelectVenue {
 					const li = document.createElement('li');
 					li.dataset.venueId = venue.id;
 					li.appendChild(button);
+					if (this.#gameData.selectedVenue === venue.id) {
+						li.classList.add('selected');
+					}
 					this.#selectionList.appendChild(li);
 				});
 			})
@@ -52,13 +58,16 @@ export default class SelectVenue {
 		if (venue.classList.contains('selected')) {
 			venue.classList.remove('selected');
 			setButton('race', false);
+			this.#gameData.selectedVenue = '';
 		} else {
 			const selectedVenue = this.#selectionList.querySelector('li.selected');
 			if (selectedVenue) {
 				selectedVenue.classList.remove('selected');
 			}
 			venue.classList.add('selected');
+			const venueId = venue.dataset.venueId;
 			setButton('race', true);
+			this.#gameData.selectedVenue = venueId;
 		}
 	}
 }

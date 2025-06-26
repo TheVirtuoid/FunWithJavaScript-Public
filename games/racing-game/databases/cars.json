@@ -1,58 +1,65 @@
 [
   {
     "id": "cd592231-7b1a-401f-9c9e-291dc281f4a5",
-    "name": "Blue Bomber",
+    "name": "Crushin' Camero",
     "description": "",
-    "thumbnailUrl": "/databases/car/auto-1941988_1280.png",
-    "modelUrl": "/databases/car/Ferarri.glb"
+    "thumbnailUrl": "/databases/car/Camero.png",
+    "modelUrl": "/databases/car/Camero.glb"
   },
   {
     "id": "550686f9-09b1-4c3d-897f-ca01832cd1c6",
-    "name": "Yellow Racer",
+    "name": "Grey Charger",
     "description": "",
-    "thumbnailUrl": "/databases/car/car-30990_1280.png",
-    "modelUrl": "/databases/car/Ferarri.glb"
+    "thumbnailUrl": "/databases/car/DodgeCharger.png",
+    "modelUrl": "/databases/car/DodgeCharger.glb"
   },
   {
     "id": "341157d4-7361-4c51-8722-3e7defc7e220",
-    "name": "Red Rocket",
+    "name": "Fast Ferrari",
     "description": "",
-    "thumbnailUrl": "/databases/car/car-33633_1280.png",
-    "modelUrl": "/databases/car/Ferarri.glb"
+    "thumbnailUrl": "/databases/car/Ferrari.png",
+    "modelUrl": "/databases/car/Ferrari.glb"
   },
   {
     "id": "e773300c-28a8-4d56-b63d-21ed39492662",
-    "name": "Futuro Rojo",
+    "name": "White Ghost",
     "description": "",
-    "thumbnailUrl": "/databases/car/car-35263_1280.png",
-    "modelUrl": "/databases/car/Ferarri.glb"
+    "thumbnailUrl": "/databases/car/Koenigsegg.png",
+    "modelUrl": "/databases/car/Koenigsegg.glb"
   },
   {
     "id": "f135bb2c-72df-4d57-a94a-b14df3aabc0f",
-    "name": "Black Beauty",
+    "name": "Brown Something",
     "description": "",
-    "thumbnailUrl": "/databases/car/car-146185_1280.png",
-    "modelUrl": "/databases/car/Ferarri.glb"
+    "thumbnailUrl": "/databases/car/LowPoly1.png",
+    "modelUrl": "/databases/car/LowPoly1.glb"
   },
   {
     "id": "d94d8bdd-36c5-4587-85c3-79e98c64dcdb",
-    "name": "Roadster Azul",
+    "name": "Red Rocket",
     "description": "",
-    "thumbnailUrl": "/databases/car/car-158795_1280.png",
-    "modelUrl": "/databases/car/Ferarri.glb"
+    "thumbnailUrl": "/databases/car/LowPoly2.png",
+    "modelUrl": "/databases/car/LowPoly2.glb"
   },
   {
     "id": "ed197132-3e9e-49f4-aa25-ce823f00f22c",
-    "name": "Mustang Gertrude",
+    "name": "Vermilion Racer",
     "description": "",
-    "thumbnailUrl": "/databases/car/ford-mustang-146580_1280.png",
-    "modelUrl": "/databases/car/Ferarri.glb"
+    "thumbnailUrl": "/databases/car/RedRacer.png",
+    "modelUrl": "/databases/car/RedRacer.glb"
   },
   {
     "id": "7ca2bee8-4437-49e6-94c3-39ef8533c859",
-    "name": "Abomination",
+    "name": "Mr. Sporty",
     "description": "",
-    "thumbnailUrl": "/databases/car/passenger-car-155267_1280.png",
-    "modelUrl": "/databases/car/Ferarri.glb"
+    "thumbnailUrl": "/databases/car/SportsCar.png",
+    "modelUrl": "/databases/car/SportsCar.glb"
+  },
+  {
+    "id": "7ca2bee8-4437-49e6-94c3-39ef8533c859",
+    "name": "My Little Racer",
+    "description": "",
+    "thumbnailUrl": "/databases/car/ToyRaceCar.png",
+    "modelUrl": "/databases/car/ToyRaceCar.glb"
   }
 ]
