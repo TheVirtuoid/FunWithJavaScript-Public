@@ -44,6 +44,12 @@ const curve180 = Track.CreateCurve({
 	degrees: 180,
 	curveDirection: Track.CURVE_DIRECTION_POSITIVE
 });
+const curve180a = Track.CreateCurve({
+	id: 'curve180a',
+	radius: 20,
+	degrees: 180,
+	curveDirection: Track.CURVE_DIRECTION_NEGATIVE
+});
 const curve90 = Track.CreateCurve({
 	id: 'curve90',
 	radius: 25,
@@ -58,7 +64,46 @@ const straight5 = Track.CreateStraight({
 		controlPoint2: new V3( -16, -5, 0 )
 	}
 });
-const tracks = [
+const straight5a = Track.CreateStraight({
+	id: 'straight5a',
+	endingPosition: new V3(0, -5, -30),
+	contour: {
+		controlPoint1: new V3( 0, 0, -10 ),
+		controlPoint2: new V3( 0, -5, -16 )
+	}
+});
+// sunny circuit
+const sunnyCircuitTracks = [
+	startingAnchor,
+	startLine,
+	straight0,
+	straight1,
+	straight2,
+	//curve90,
+	// straight3,
+	curve180a,
+	straight5a,
+	finishLine,
+	straight4,
+	endingAnchor];
+
+//mountain pass
+const mountainPassTracks = [
+	startingAnchor,
+	startLine,
+	straight0,
+	straight1,
+	straight2,
+	curve90,
+	straight3,
+	// curve180,
+	// straight5,
+	finishLine,
+	straight4,
+	endingAnchor];
+
+// desert dash
+const desertDashTracks = [
 	startingAnchor,
 	startLine,
 	straight0,
@@ -71,7 +116,9 @@ const tracks = [
 	finishLine,
 	straight4,
 	endingAnchor];
-const layout = new Layout({ tracks });
+
+
+const layout = new Layout({ tracks: sunnyCircuitTracks });
 
 /*realLayout.tracks.forEach((track) => {
 	console.log(track.id, track.startingPosition.coordinates());

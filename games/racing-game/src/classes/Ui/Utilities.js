@@ -335,6 +335,10 @@ const genId = (text1, text2, random = false) => {
 	return `${text1}-${randomId}${text2}`;
 }
 
+const genUnique = (text) => {
+	return `${text}-${crypto.randomUUID()}`;
+}
+
 
 export {
 	generateAStraightRoad,
@@ -346,5 +350,6 @@ export {
 	calculateMeshCorners,
 	generateACurve,
 	generateOffsetPointsWithBanking,
-	genId
+	genId,
+	genUnique
 };

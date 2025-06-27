@@ -3,7 +3,7 @@
     "id": "8c506e33-8819-4a3f-aa12-dc9ef0f4c0d2",
     "name": "Sunny Circuit",
     "description": "",
-    "thumbnailUrl": "/databases/venue/car-race-438467_1280.jpg",
+    "thumbnailUrl": "/databases/venue/Sunny-Circuit.png",
     "models": [],
     "layout": []
   },
@@ -11,7 +11,7 @@
     "id": "690d6767-4133-4003-9f27-c8420116fdb1",
     "name": "Mountain Pass",
     "description": "",
-    "thumbnailUrl": "/databases/venue/car-racing-4394450_1280.jpg",
+    "thumbnailUrl": "/databases/venue/Mountain-Pass.png",
     "models": [],
     "layout": []
   },
@@ -19,7 +19,7 @@
     "id": "0720eb53-3bd9-40a1-b287-46520bd0ac01",
     "name": "Desert Dash",
     "description": "",
-    "thumbnailUrl": "/databases/venue/go-kart-1080492_1280.jpg",
+    "thumbnailUrl": "/databases/venue/Desert-Dash.png",
     "models": [],
     "layout": []
   }
