@@ -8,6 +8,9 @@ import LayoutRenderer from "./LayoutRenderer.js";
 import CarDb from "../../src/classes/databases/CarDb/CarDb.js";
 import cars from './../../databases/cars.json';
 import CarRenderer from "./CarRenderer.js";
+import RacingLights from "./RacingLights.js";
+import RaceTime from "./RaceTime.js";
+import RaceResults from "./RaceResults.js";
 
 export default class Race {
 	static TRACKWIDTH = 6;
@@ -27,8 +30,14 @@ export default class Race {
 	#layoutRenderer;
 	#carRenderer;
 	#startingPosition;
+	#racingLights;
+	#raceResults;
 
 	#id = 'race';
+	#finishLineMeshes;
+	#raceTime;
+	#orderOfFinish = [];
+	#chassisToCars = new Map();
 
 	constructor() {
 		setButtons(['back', 'exit']);
@@ -42,6 +51,7 @@ export default class Race {
 		this.#carRenderer = new CarRenderer({
 			id: this.id
 		});
+		this.#racingLights = new RacingLights('starting-lights');
 		this.#venue = VenueDb.getVenueById(this.#gameData.selectedVenue);
 		this.#layoutRenderer.buildLayout(this.#venue.layout);
 		this.#startingPosition = this.#layoutRenderer.startingPosition;
@@ -51,6 +61,8 @@ export default class Race {
 			canvas: this.#canvas,
 			name: 'FWJS'
 		});
+		this.#raceTime = new RaceTime('race-time');
+		this.#raceResults = new RaceResults('race-results');
 		this.start();
 	}
 
@@ -74,24 +86,52 @@ export default class Race {
 		this.#carRenderer.scene = this.#scene;
 		const { x: spx, y: spy, z: spz } = this.#startingPosition;
 		this.#camera = Ui.CreateCamera({
-			position: {x: spx, y: spy + 20, z: spz - 10},
-			target: {x: spx, y: spy, z: spz}
+			position: {x: spx + 3, y: spy + 20, z: spz - 10},
+			target: {x: spx + 3, y: spy, z: spz + 10}
 		});
 		this.#light = Ui.CreateLight({ position: { x: -1, y: 1, z: 0 } });
 		await Ui.LoadPhysics();
 
 		this.#ground = new Ground(this.id);
-		this.#ground.render();
+		await this.#ground.render();
 
-		this.#layoutRenderer.render();
+		await this.#layoutRenderer.render();
 
-		this.#carRenderer.render();
+		await this.#carRenderer.render();
 
+		this.#finishLineMeshes = [];
+		for(const car of this.#carRenderer.renderedCars) {
+			this.#finishLineMeshes.push(car.chassis);
+			this.#chassisToCars.set(car.chassis, car);
+		}
 	}
 
 	#render() {
+		const startingLine = this.#layoutRenderer.startingLine;
+		const finishLine = this.#layoutRenderer.finishLine;
+		this.#racingLights.start()
+			.then(() => {
+				startingLine.lowerBars();
+				this.#raceTime.start();
+			});
+		let place = 1;
 		this.#engine.runRenderLoop(() => {
 			this.#scene.render();
+			this.#raceTime.show();
+			const meshHit = finishLine.finishLineRay.intersectsMeshes(this.#finishLineMeshes);
+			for (const mesh of meshHit) {
+				const { pickedMesh } = mesh;
+				if (!this.#orderOfFinish.includes(pickedMesh)) {
+					const car = this.#carRenderer.getCarByChassis(pickedMesh);
+					this.#raceResults.addRow(car, place, this.#raceTime.getTime().output);
+					this.#orderOfFinish.push(pickedMesh);
+					place++;
+					if (place > 4) {
+						this.#raceTime.stop();
+					}
+
+				}
+			}
 		});
 	}
 

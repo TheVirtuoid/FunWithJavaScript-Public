@@ -52,6 +52,14 @@ export default class LayoutRenderer {
 		return startingAnchor[0].startingPosition;
 	}
 
+	get startingLine() {
+		return this.#startingLine;
+	}
+
+	get finishLine() {
+		return this.#finishLine;
+	}
+
 	set scene(scene) {
 		this.#scene = scene;
 	}

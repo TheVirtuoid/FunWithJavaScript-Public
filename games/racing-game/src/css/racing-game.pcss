@@ -355,6 +355,8 @@ ul.selection-list {
 }
 
 #race-screen {
+    position: relative;
+
     .layout {
         display: flex;
         flex-direction: row;
@@ -368,9 +370,12 @@ ul.selection-list {
     #race-results {
         border-collapse: collapse;
         background-color: var(--v-color-secondary200);
+        font-size: .8rem;
+        color: var(--v-color-primary900);
+        font-weight: bold;
         td {
-            border: 1px solid black;
-            padding: .2rem;
+            border-bottom: 1px solid black;
+            padding: .2rem .5rem;
         }
     }
 
@@ -381,6 +386,8 @@ ul.selection-list {
         flex-direction: row;
         gap: .25rem;
         justify-content: space-between;
+        background-color: black;
+        border-radius: 1rem;
 
         li {
             display: inline-block;
@@ -399,7 +406,25 @@ ul.selection-list {
                 background-color: #00ff00;
                 border-color: #00aa00;
             }
+
+            &.yellow {
+                background-color: #ffff00;
+                border-color: #aa0000;
+            }
+
+            &.off {
+                opacity: 0.35;
+            }
+
         }
-        }
+    }
+
+    .scoreboard {
+        position: absolute;
+        left: 2rem;
+        top: 1rem;
+        background-color: rgb(255 255 255 / 25%);
+        padding: 1rem 2rem;
+        border-radius: 2rem;
     }
 }

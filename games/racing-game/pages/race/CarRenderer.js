@@ -7,6 +7,7 @@ export default class CarRenderer {
 	#scene;
 	#cars;
 	#renderedCars;
+	#chassisToCars = new Map();
 	#startingPosition;
 
 	#carParameters = [
@@ -42,14 +43,20 @@ export default class CarRenderer {
 			const carData = CarDb.getCarById(carId);
 			this.#cars.push(carData);
 		}
-		this.#cars = cars;
+	}
+
+	get renderedCars() {
+		return this.#renderedCars;
+	}
+
+	getCarByChassis(chassis) {
+		return this.#chassisToCars.get(chassis);
 	}
 
 	async render() {
 		let group = 4;
 		let index = 0;
 		this.#renderedCars = [];
-		console.log(this.#scene);
 		for (const car of this.#cars) {
 			const { name } = car;
 			const { pos, color } = this.#carParameters[index++];
@@ -67,7 +74,7 @@ export default class CarRenderer {
 			await newCar.build();
 			group *= 2;
 			this.#renderedCars.push(newCar);
-			// this.#finishLineMeshes.push(car.chassis);
+			this.#chassisToCars.set(newCar.chassis, car);
 		}
 	}
 }
