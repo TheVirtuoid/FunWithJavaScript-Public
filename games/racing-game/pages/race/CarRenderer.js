@@ -1,0 +1,73 @@
+import Car from "../../carbox/Car.js";
+import CarDb from "../../src/classes/databases/CarDb/CarDb.js";
+import {Color3, Vector3} from "@babylonjs/core";
+
+export default class CarRenderer {
+	#id;
+	#scene;
+	#cars;
+	#renderedCars;
+	#startingPosition;
+
+	#carParameters = [
+		{ pos: new Vector3(-1.5, 1, 1), color: new Color3(0.8, 0, 0) },
+		{ pos: new Vector3(1.5, 1, 1), color: new Color3(0, 0.8, 0) },
+		{ pos: new Vector3(-1.5, -5.5, 4.5), color: new Color3(0, 0, 0.8) },
+		{ pos: new Vector3(1.5, -5.5, 4.5), color: new Color3(0.8, 0.8, 0) }
+	];
+
+
+	constructor(args = {}) {
+		const { id, scene } = args;
+		this.#id = id;
+		this.#scene = scene;
+	}
+
+	get id() {
+		return this.#id;
+	}
+
+	get scene() {
+		return this.#scene;
+	}
+
+	set scene(scene) {
+		this.#scene = scene;
+	}
+
+	buildCars(cars, startingPosition) {
+		this.#startingPosition = startingPosition;
+		this.#cars = [];
+		for(const carId of cars) {
+			const carData = CarDb.getCarById(carId);
+			this.#cars.push(carData);
+		}
+		this.#cars = cars;
+	}
+
+	async render() {
+		let group = 4;
+		let index = 0;
+		this.#renderedCars = [];
+		console.log(this.#scene);
+		for (const car of this.#cars) {
+			const { name } = car;
+			const { pos, color } = this.#carParameters[index++];
+			pos.x += this.#startingPosition.x;
+			pos.y += this.#startingPosition.y;
+			pos.z += this.#startingPosition.z;
+			const newCar = new Car({
+				position: pos,
+				scene: this.#scene,
+				scale: 0.3,
+				color,
+				id: name,
+				physicsGroup: group
+			});
+			await newCar.build();
+			group *= 2;
+			this.#renderedCars.push(newCar);
+			// this.#finishLineMeshes.push(car.chassis);
+		}
+	}
+}

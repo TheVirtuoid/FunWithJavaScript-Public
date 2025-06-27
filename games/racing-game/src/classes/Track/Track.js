@@ -28,6 +28,21 @@ export default class Track {
 	static CURVE_DIRECTION_POSITIVE = Symbol('curve-direction-positive');
 	static CURVE_DIRECTION_NEGATIVE = Symbol('curve-direction-negative');
 
+	static TRACK_TYPES = {
+		'none': Track.NONE,
+		'straight': Track.STRAIGHT,
+		'curve': Track.CURVE,
+		'starting-anchor': Track.STARTING_ANCHOR,
+		'ending-anchor': Track.ENDING_ANCHOR,
+		'startLine': Track.STARTLINE,
+		'finishLine': Track.FINISHLINE
+	};
+
+	static CURVE_DIRECTION_TYPES = {
+		'positive': Track.CURVE_DIRECTION_POSITIVE,
+		'negative': Track.CURVE_DIRECTION_NEGATIVE
+	}
+
 	#id;
 	#type;
 	#name;

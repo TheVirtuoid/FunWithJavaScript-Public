@@ -13,7 +13,66 @@
     "description": "",
     "thumbnailUrl": "/databases/venue/Mountain-Pass.png",
     "models": [],
-    "layout": []
+    "layout": [
+      {
+        "type": "starting-anchor",
+        "id": "start-anchor",
+        "startingPosition": { "x": -70,"y": 20, "z": 5 },
+        "startingDirectionVector": {"x": 0, "y": -1.55, "z": 1 }
+      },
+      {
+        "type": "startLine",
+        "id": "starting-line"
+      },
+      {
+        "type": "straight",
+        "id": "straight0",
+        "length": 20
+      },
+      {
+        "type": "straight",
+        "id": "straight1",
+        "endingPosition": { "x": 0, "y": -35, "z": 50 },
+        "contour": {
+          "controlPoint1": { "x":  0, "y": -20, "z": 10 },
+          "controlPoint2": { "x":  0, "y": -35, "z": 20 }
+        }
+      },
+      {
+        "type": "straight",
+        "id": "straight2",
+        "length": 5
+      },
+      {
+        "type": "curve",
+        "id": "curve90",
+        "radius": 25,
+        "degrees": 90,
+        "curveDirection": "negative"
+      },
+      {
+        "type": "straight",
+        "id": "straight3",
+        "endingPosition": { "x": 80, "y": -30, "z": 0 },
+        "contour": {
+          "controlPoint1": { "x":  30, "y": 0, "z": 0 },
+          "controlPoint2": { "x":  60, "y": -30, "z": 0 }
+        }
+      },
+      {
+        "type": "finishLine",
+        "id": "finish-line"
+      },
+      {
+        "type": "straight",
+        "id": "straight4",
+        "length": 5
+      },
+      {
+        "type": "ending-anchor",
+        "id": "ending-anchor"
+      }
+    ]
   },
   {
     "id": "0720eb53-3bd9-40a1-b287-46520bd0ac01",

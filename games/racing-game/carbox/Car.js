@@ -77,7 +77,7 @@ export default class Car {
 		}
 		this.#buildWheelBase();
 		this.#wheelMaterial = new StandardMaterial(`${this.id}-wheel-material`, this.scene);
-		const texture = new Texture('./checkerboard-7800519_1280.jpg', this.scene);
+		const texture = new Texture('/images/checkerboard-7800519_1280.jpg', this.scene);
 		texture.uScale = .25; // Scale texture in U direction
 		this.#wheelMaterial.diffuseTexture = texture;
 	}

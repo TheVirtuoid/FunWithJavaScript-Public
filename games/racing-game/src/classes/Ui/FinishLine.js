@@ -49,7 +49,7 @@ export default class FinishLine {
 		this.#mesh = generateAStraightRoad(this.track, this.width, this.scene, genId(this.id, 'finish-line'));
 		const material = new StandardMaterial(genId(this.id, 'finish-line-material'), this.scene);
 		// material.disableLighting = true;
-		const texture = new Texture('./checkerboard-7800519_1280.jpg', this.scene);
+		const texture = new Texture('/images/checkerboard-7800519_1280.jpg', this.scene);
 		texture.uScale = .25; // Scale texture in U direction
 		// texture.vScale = 2.0; // Scale texture in V direction
 		// texture.hasAlpha = true; // If your texture has transparency

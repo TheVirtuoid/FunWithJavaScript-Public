@@ -118,7 +118,7 @@ const desertDashTracks = [
 	endingAnchor];
 
 
-const layout = new Layout({ tracks: sunnyCircuitTracks });
+const layout = new Layout({ tracks: mountainPassTracks });
 
 /*realLayout.tracks.forEach((track) => {
 	console.log(track.id, track.startingPosition.coordinates());
