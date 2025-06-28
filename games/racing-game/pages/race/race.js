@@ -38,13 +38,17 @@ export default class Race {
 	#finishLineMeshes;
 	#raceTime;
 	#orderOfFinish = [];
-	#chassisToCars = new Map();
 	#sounds;
 
 	constructor() {
 		setButtons(['back', 'exit']);
 		VenueDb.setDatabase(JSON.stringify(venues));
 		CarDb.setDatabase(JSON.stringify(cars));
+		this.#canvas = document.getElementById('world');
+		this.#ui = new Ui({
+			canvas: this.#canvas,
+			name: 'FWJS'
+		});
 		this.#gameData = new GameData();
 		this.#layoutRenderer = new LayoutRenderer({
 			id: this.id,
@@ -59,11 +63,7 @@ export default class Race {
 		this.#layoutRenderer.buildLayout(this.#venue.layout);
 		this.#startingPosition = this.#layoutRenderer.startingPosition;
 		this.#carRenderer.buildCars(this.#gameData.selectedCars, this.#startingPosition);
-		this.#canvas = document.getElementById('world');
-		this.#ui = new Ui({
-			canvas: this.#canvas,
-			name: 'FWJS'
-		});
+
 		this.#raceTime = new RaceTime('race-time');
 		this.#raceResults = new RaceResults('race-results');
 		this.start();
@@ -103,10 +103,7 @@ export default class Race {
 		await this.#carRenderer.render();
 
 		this.#finishLineMeshes = [];
-		for(const car of this.#carRenderer.renderedCars) {
-			this.#finishLineMeshes.push(car.chassis);
-			this.#chassisToCars.set(car.chassis, car);
-		}
+		this.#finishLineMeshes = this.#carRenderer.renderedCars.map((car) => car.chassis);
 	}
 
 	#render() {
