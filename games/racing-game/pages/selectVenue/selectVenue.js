@@ -49,8 +49,6 @@ export default class SelectVenue {
 				console.log(err);
 				console.log('ERROR: Could not load all venues');
 			});
-
-
 	}
 
 	#onVenueSelect(event) {

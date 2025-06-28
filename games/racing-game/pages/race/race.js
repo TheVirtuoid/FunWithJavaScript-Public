@@ -18,7 +18,6 @@ export default class Race {
 	#gameData;
 
 	#venue;
-	#cars;
 
 	#engine;
 	#scene;
@@ -35,10 +34,12 @@ export default class Race {
 	#raceResults;
 
 	#id = 'race';
-	#finishLineMeshes;
 	#raceTime;
 	#orderOfFinish = [];
 	#sounds;
+
+	#startLine;
+	#finishLine;
 
 	constructor() {
 		setButtons(['back', 'exit']);
@@ -102,34 +103,31 @@ export default class Race {
 
 		await this.#carRenderer.render();
 
-		this.#finishLineMeshes = [];
-		this.#finishLineMeshes = this.#carRenderer.renderedCars.map((car) => car.chassis);
+		this.#startLine = this.#layoutRenderer.startingLine;
+		this.#finishLine = this.#layoutRenderer.finishLine;
+
+		this.#finishLine.setFinishLineMeshes(this.#carRenderer.renderedCars.map((car) => car.chassis));
 	}
 
 	#render() {
-		const startingLine = this.#layoutRenderer.startingLine;
-		const finishLine = this.#layoutRenderer.finishLine;
 		this.#racingLights.start(this.#sounds)
 			.then(() => {
-				startingLine.lowerBars();
+				this.#startLine.lowerBars();
 				this.#raceTime.start();
 			});
 		let place = 1;
 		this.#engine.runRenderLoop(() => {
 			this.#scene.render();
 			this.#raceTime.show();
-			const meshHit = finishLine.finishLineRay.intersectsMeshes(this.#finishLineMeshes);
-			for (const mesh of meshHit) {
-				const { pickedMesh } = mesh;
-				if (!this.#orderOfFinish.includes(pickedMesh)) {
-					const car = this.#carRenderer.getCarByChassis(pickedMesh);
-					this.#raceResults.addRow(car, place, this.#raceTime.getTime().output);
-					this.#orderOfFinish.push(pickedMesh);
-					place++;
-					if (place > 4) {
-						this.#raceTime.stop();
-						this.#sounds.allStop();
-					}
+			const carChassis = this.#finishLine.checkForFinish();
+			if (carChassis) {
+				const car = this.#carRenderer.getCarByChassis(carChassis);
+				this.#raceResults.addRow(car, place, this.#raceTime.getTime().output);
+				this.#orderOfFinish.push(carChassis);
+				place++;
+				if (place > 4) {
+					this.#raceTime.stop();
+					this.#sounds.fadeOut(Sounds.CAR_RACING, 4000);
 				}
 			}
 		});

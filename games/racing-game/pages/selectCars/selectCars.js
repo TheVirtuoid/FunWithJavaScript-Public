@@ -121,15 +121,15 @@ export default class SelectCars {
 
 	#setLimits() {
 		const numberCarsSelected = this.#selectedList.querySelectorAll('li').length;
-		console.log(numberCarsSelected);
-		if (numberCarsSelected >= 4) {
-			this.#maximumNumberMessage.classList.remove('hidden');
-		}
+		console.log('Number of cars selected:', numberCarsSelected);
 		if (numberCarsSelected >= 2 && numberCarsSelected <= 4) {
 			setButton('selectVenue', true);
 			this.#maximumNumberMessage.classList.add('hidden');
 		} else {
 			this.#maximumNumberMessage.classList.add('hidden');
+		}
+		if (numberCarsSelected >= 4) {
+			this.#maximumNumberMessage.classList.remove('hidden');
 		}
 	}
 }

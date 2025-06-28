@@ -52,7 +52,7 @@ export default class VenueData {
 			if (this.thumbnail) {
 				resolve(this);
 			}
-			const imgElement = new Image(200, 170);
+			const imgElement = new Image(400, 340);
 			imgElement.dataset.id = this.id;
 			imgElement.onload = () => {
 				this.#thumbnail = imgElement;

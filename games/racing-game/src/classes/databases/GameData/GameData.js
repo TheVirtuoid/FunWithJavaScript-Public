@@ -1,77 +1,62 @@
 export default class GameData {
 	static DATABASE_KEY = 'virtuoid-racing-game';
 
-	#page;
-	#selectedCars;
-	#selectedVenue;
-
 	constructor() {
-		const gameData = this.#getGameData();
-		this.#setGameData(gameData);
+		const data = this.#getGameData();
 	}
 
 	get page() {
-		return this.#page;
+		const data = this.#getGameData();
+		return data.page;
 	}
 
 	get selectedCars() {
-		return this.#selectedCars;
+		const data = this.#getGameData();
+		return data.selectedCars;
 	}
 
 	get selectedVenue() {
-		return this.#selectedVenue;
+		const data = this.#getGameData();
+		return data.selectedVenue;
 	}
 
 	set page(value) {
-		const gameData = this.#buildGameData();
-		gameData.page = value;
-		this.#setGameData(gameData);
-		this.#saveGameData();
+		const data = this.#getGameData();
+		data.page = value;
+		this.#saveGameData(data);
 	}
 
 	addSelectedCar(id) {
-		const gameData = this.#buildGameData();
-		if (!gameData.selectedCars.includes(id)) {
-			gameData.selectedCars.push(id);
-			this.#setGameData(gameData);
-			this.#saveGameData();
+		const data = this.#getGameData();
+		const selectedCars = data.selectedCars || [];
+		if (!selectedCars.includes(id)) {
+			selectedCars.push(id);
+			data.selectedCars = selectedCars;
+			this.#saveGameData(data);
 		}
 	}
 
 	removeSelectedCar(id) {
-		const gameData = this.#buildGameData();
-		const index = gameData.selectedCars.indexOf(id);
+		const data = this.#getGameData();
+		const selectedCars = data.selectedCars || [];
+		const index = selectedCars.indexOf(id);
 		if (index !== -1) {
-			gameData.selectedCars.splice(index, 1);
-			this.#setGameData(gameData);
-			this.#saveGameData();
+			selectedCars.splice(index, 1);
+			data.selectedCars = selectedCars;
+			this.#saveGameData(data);
 		}
 	}
 
 	set selectedVenue(value) {
-		const gameData = this.#buildGameData();
-		gameData.selectedVenue = value;
-		this.#setGameData(gameData);
-		this.#saveGameData();
+		const data = this.#getGameData();
+		data.selectedVenue = value;
+		this.#saveGameData(data);
 	}
 
-	#buildGameData() {
-		return {
-			page: this.#page  ?? '',
-			selectedCars: this.#selectedCars ?? [],
-			selectedVenue: this.#selectedVenue ?? ''
-		};
-	}
 
-	#setGameData(data) {
-		this.#page = data.page ?? 'index';
-		this.#selectedCars = data.selectedCars ?? [];
-		this.#selectedVenue = data.selectedVenue ?? '';
-	}
-
-	#saveGameData() {
+	#saveGameData(data) {
 		try {
-			localStorage.setItem(GameData.DATABASE_KEY, JSON.stringify(this.#buildGameData()));
+			localStorage.setItem(GameData.DATABASE_KEY, JSON.stringify(data));
 		} catch (error) {
 			console.error('Error saving game data:', error);
 		}
@@ -79,8 +64,13 @@ export default class GameData {
 
 	#getGameData() {
 		try {
-			const data = localStorage.getItem(GameData.DATABASE_KEY);
-			return data ? JSON.parse(data) : {};
+			let data = localStorage.getItem(GameData.DATABASE_KEY);
+			if (data) {
+				return JSON.parse(data);
+			}
+			data = { page: 'index', selectedCars: [], selectedVenue: '' };
+			this.#saveGameData(data);
+			return data;
 		} catch (error) {
 			console.error('Error retrieving game data:', error);
 			return {};

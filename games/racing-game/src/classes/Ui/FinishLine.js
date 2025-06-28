@@ -11,6 +11,9 @@ export default class FinishLine {
 
 	#finishLineRay = null;
 
+	#finishedMeshes;
+	#meshesToCheck;
+
 	constructor(track, width, scene, id) {
 		if (!(track instanceof Track)) {
 			throw new Error("Invalid track instance");
@@ -43,6 +46,24 @@ export default class FinishLine {
 
 	get finishLineRay() {
 		return this.#finishLineRay;
+	}
+
+	setFinishLineMeshes(meshes) {
+		this.#finishedMeshes = [];
+		this.#meshesToCheck = meshes;
+	}
+
+	checkForFinish() {
+		let meshThatCrossed = null;
+		const meshHit = this.#finishLineRay.intersectsMeshes(this.#meshesToCheck);
+		for (const mesh of meshHit) {
+			const { pickedMesh } = mesh;
+			if (!this.#finishedMeshes.includes(pickedMesh)) {
+				this.#finishedMeshes.push(pickedMesh);
+				meshThatCrossed = pickedMesh;
+			}
+		}
+		return meshThatCrossed;
 	}
 
 	render() {
