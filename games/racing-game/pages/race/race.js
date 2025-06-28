@@ -11,6 +11,7 @@ import CarRenderer from "./CarRenderer.js";
 import RacingLights from "./RacingLights.js";
 import RaceTime from "./RaceTime.js";
 import RaceResults from "./RaceResults.js";
+import Sounds from "./Sounds.js";
 
 export default class Race {
 	static TRACKWIDTH = 6;
@@ -38,6 +39,7 @@ export default class Race {
 	#raceTime;
 	#orderOfFinish = [];
 	#chassisToCars = new Map();
+	#sounds;
 
 	constructor() {
 		setButtons(['back', 'exit']);
@@ -51,7 +53,8 @@ export default class Race {
 		this.#carRenderer = new CarRenderer({
 			id: this.id
 		});
-		this.#racingLights = new RacingLights('starting-lights');
+		this.#sounds = new Sounds();
+		this.#racingLights = new RacingLights('starting-lights', this.#sounds);
 		this.#venue = VenueDb.getVenueById(this.#gameData.selectedVenue);
 		this.#layoutRenderer.buildLayout(this.#venue.layout);
 		this.#startingPosition = this.#layoutRenderer.startingPosition;
@@ -109,7 +112,7 @@ export default class Race {
 	#render() {
 		const startingLine = this.#layoutRenderer.startingLine;
 		const finishLine = this.#layoutRenderer.finishLine;
-		this.#racingLights.start()
+		this.#racingLights.start(this.#sounds)
 			.then(() => {
 				startingLine.lowerBars();
 				this.#raceTime.start();
@@ -128,8 +131,8 @@ export default class Race {
 					place++;
 					if (place > 4) {
 						this.#raceTime.stop();
+						this.#sounds.allStop();
 					}
-
 				}
 			}
 		});
