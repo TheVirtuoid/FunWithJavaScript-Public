@@ -1,10 +1,11 @@
 import Ammo from "../src/classes/Ammo.js";
 import DefensiveWall from "../src/classes/DefensiveWall.js";
+import AmmoType from "../src/enums/AmmoType.js";
 
 describe('When I work with the DefensiveWall class', () => {
-	let bullet = new Ammo({ type: Ammo.AMMO_TYPE_BULLET, damage: 10 });
-	let enemy = new Ammo({ type: Ammo.AMMO_TYPE_ENEMY, damage: 15 });
-	let missile = new Ammo({ type: Ammo.AMMO_TYPE_MISSILE, damage: 20 });
+	let bullet = new Ammo({ type: AmmoType.BULLET, damage: 10 });
+	let enemy = new Ammo({ type: AmmoType.ENEMY, damage: 15 });
+	let missile = new Ammo({ type: AmmoType.MISSILE, damage: 20 });
 
 	it('should create the class', () => {
 		const wall = new DefensiveWall();
@@ -37,7 +38,7 @@ describe('When I work with the DefensiveWall class', () => {
 		it('should be able to take damage', () => {
 			wall.upgradeArmor(.5);
 			wall.takeDamage(bullet);
-			expect(wall.armor).to.equal(.5 - DefensiveWall.ARMOR_DAMAGE_BULLET);
+			expect(wall.armor).to.equal(.5 - wall.getArmorDamage(AmmoType.BULLET));
 		});
 
 		it('armor should not go below 0', () => {
@@ -51,28 +52,14 @@ describe('When I work with the DefensiveWall class', () => {
 		let wall;
 		beforeEach(() => {
 			wall = new DefensiveWall();
-			wall.upgradeArmor(.5);
+			wall.upgradeArmor(.9);
 		});
 
-		it('should calculate tower damage correctly for bullet', () => {
-			const oldArmor = wall.armor;
-			const towerDamage = wall.takeDamage(bullet);
-			expect(towerDamage).to.equal(Math.floor(bullet.damage * oldArmor));
-			expect(wall.armor).to.equal(oldArmor - DefensiveWall.ARMOR_DAMAGE_BULLET);
-		});
-
-		it('should calculate tower damage correctly for missile', () => {
-			const oldArmor = wall.armor;
-			const towerDamage = wall.takeDamage(missile);
-			expect(towerDamage).to.equal(Math.floor(missile.damage * oldArmor));
-			expect(wall.armor).to.equal(oldArmor - DefensiveWall.ARMOR_DAMAGE_MISSILE);
-		});
-
-		it('should calculate tower damage correctly for enemy', () => {
+		it('should calculate tower damage correctly for ammoType', () => {
 			const oldArmor = wall.armor;
 			const towerDamage = wall.takeDamage(enemy);
-			expect(towerDamage).to.equal(Math.floor(enemy.damage * oldArmor));
-			expect(wall.armor).to.equal(oldArmor - DefensiveWall.ARMOR_DAMAGE_ENEMY);
+			expect(towerDamage).to.equal(Math.floor(missile.damage * (1 - oldArmor)));
+			expect(wall.armor).to.equal(oldArmor - wall.getArmorDamage(AmmoType.ENEMY));
 		});
 
 		it('should throw if Ammo.type is not supported', () => {

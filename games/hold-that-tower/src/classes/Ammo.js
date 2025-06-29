@@ -1,28 +1,24 @@
+import AmmoType from "../enums/AmmoType.js";
+
 export default class Ammo {
-
-	static AMMO_TYPE_BULLET = Symbol('ammo-bullet');
-	static AMMO_TYPE_MISSILE = Symbol('ammo-missile');
-	static AMMO_TYPE_ENEMY = Symbol('ammo-enemy');
-
-	static AMMO_TYPES = [
-		Ammo.AMMO_TYPE_BULLET,
-		Ammo.AMMO_TYPE_MISSILE,
-		Ammo.AMMO_TYPE_ENEMY
-	];
+	static DEFAULT_SPEED = 1;
+	static MINIMUM_SPEED = 1;// Default speed for ammo
 
 	#damage;
 	#type;
+	#speed;
 
 	constructor(args = {}) {
-		const { damage, type } = args;
+		const { damage, type, speed = Ammo.DEFAULT_SPEED } = args;
 		if (typeof damage !== 'number') {
 			throw new Error('Damage must be specified');
 		}
-		if (!Ammo.AMMO_TYPES.includes(type)) {
+		if (!AmmoType.AMMO_TYPES.includes(type)) {
 			throw new Error('Invalid ammo type');
 		}
 		this.#damage = damage;
 		this.#type = type;
+		this.#speed = Math.max(Ammo.DEFAULT_SPEED, speed);
 	}
 
 	get damage() {
@@ -33,8 +29,17 @@ export default class Ammo {
 		return this.#type;
 	}
 
+	get speed() {
+		return this.#speed;
+	}
+
 	adjustDamage(amount) {
 		this.#damage += amount;
 		this.#damage = Math.max(0, this.#damage);
+	}
+
+	adjustSpeed(amount) {
+		this.#speed += amount;
+		this.#speed = Math.max(Ammo.MINIMUM_SPEED, this.#speed);
 	}
 }

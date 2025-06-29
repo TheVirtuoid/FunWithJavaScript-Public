@@ -113,22 +113,28 @@ All properties are read-only unless otherwise specified.
 1. Properties:
    - damage: int (damage dealt by the ammo)
    - type: AmmoType (enum, e.g., 'bullet', 'missile', 'enemy')
+   - speed: int (speed of the ammo)
 
 ### Gun
 1. Properties:
-   - ammo: Ammo. Ammo used by the gun. Damage is controlled through here.
+   - ammoDamage: Derived from ammo.damage
+   - ammoSpeed: Derived from ammo.speed
+   - ammoType: Derived from ammo.type
    - firingRate: float (milliSeconds between shots)
-   - speed: int (speed of the bullet)
    - position: ClockOrdinal (position on the tower). Values from 1 to 12, representing the clock face.
 2. Methods:
    - adjustFiringRate(value: int): Adjusts the firing rate of the gun (in ms).
+   - replaceAmmo(ammo: Ammo): Replaces the current ammo with the new ammo.
+   - adjustAmmoDamage(value: int): Adjusts the damage of the gun's ammo.
+   - adjustAmmoSpeed(value: int): Adjusts the speed of the gun's ammo.
+   - setPosition(position: ClockOrdinal): Sets the position of the gun on the tower. Can only be set once, invalid if already set.
 
 ### EnemyGun extends Gun
 1. Properties:
    - targetPriority: float (a percentage chance to target the tower. If not targeting the tower, it targets the closest runner)
 2. Methods:
     - determineTarget(tower: Tower, runners: List[Runner]): Determines the target based on targetPriority.
-    - shootAt(target: Tower | Runner): Shoots at a target if it has a missile.
+    - adjustTargetPriority(value: float): Adjusts the target priority of the gun. 0 - 100
  
 
 ### Tower 
@@ -196,6 +202,13 @@ All properties are read-only unless otherwise specified.
    - value: int (points awarded when collected)
    - type: PrizeType (enum, e.g., 'gun', 'tower', 'runner')
    - position: Position (coordinates where the prize is dropped)
+
+### Position
+1. Properties:
+   - x: int (x-coordinate)
+   - y: int (y-coordinate)
+2. Methods:
+   - clone(). Clones the position object.
 
 ### Missile
 1. Properties:

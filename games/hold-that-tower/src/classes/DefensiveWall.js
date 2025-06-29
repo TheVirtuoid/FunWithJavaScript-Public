@@ -1,14 +1,25 @@
 import Ammo from "./Ammo.js";
+import AmmoType from "../enums/AmmoType.js";
 
 export default class DefensiveWall {
-	static ARMOR_DAMAGE_BULLET = 0.01;
-	static ARMOR_DAMAGE_MISSILE = 0.01;
-	static ARMOR_DAMAGE_ENEMY = 0.05;
+	static ARMOR_DAMAGE_DEFAULT = 0.01;
 
 	#armor = 0;
+	#armorDamage = new Map([
+		[AmmoType.BULLET, .01],
+		[AmmoType.MISSILE, .01],
+		[AmmoType.ENEMY, .05]
+	]);
 
 	get armor() {
 		return this.#armor;
+	}
+
+	getArmorDamage(ammoType) {
+		if (!AmmoType.AMMO_TYPES.includes(ammoType)) {
+			throw new Error('Invalid ammo type');
+		}
+		return this.#armorDamage.get(ammoType) || DefensiveWall.ARMOR_DAMAGE_DEFAULT;
 	}
 
 	upgradeArmor(amount) {
@@ -16,23 +27,9 @@ export default class DefensiveWall {
 	}
 
 	takeDamage(ammo) {
-		let damage = 0;
-		switch (ammo.type) {
-			case Ammo.AMMO_TYPE_BULLET:
-				damage = Math.floor(ammo.damage * this.#armor);
-				this.#armor -= DefensiveWall.ARMOR_DAMAGE_BULLET;
-				break;
-			case Ammo.AMMO_TYPE_MISSILE:
-				damage = Math.floor(ammo.damage * this.#armor);
-				this.#armor -= DefensiveWall.ARMOR_DAMAGE_MISSILE;
-				break;
-			case Ammo.AMMO_TYPE_ENEMY:
-				damage = Math.floor(ammo.damage * this.#armor);
-				this.#armor -= DefensiveWall.ARMOR_DAMAGE_ENEMY;
-				break;
-			default:
-				throw new Error('Unknown ammo type');
-		}
+		const armorDamageReducer = this.getArmorDamage(ammo.type);
+		const damage = Math.floor(ammo.damage * (1 - this.#armor));
+		this.#armor -= armorDamageReducer;
 		this.#armor = Math.max(0, this.#armor);
 		return damage;
 	}
