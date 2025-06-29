@@ -32,4 +32,9 @@ export default class Ammo {
 	get type() {
 		return this.#type;
 	}
+
+	adjustDamage(amount) {
+		this.#damage += amount;
+		this.#damage = Math.max(0, this.#damage);
+	}
 }

@@ -116,10 +116,12 @@ All properties are read-only unless otherwise specified.
 
 ### Gun
 1. Properties:
-   - damage: int
+   - ammo: Ammo. Ammo used by the gun. Damage is controlled through here.
    - firingRate: float (milliSeconds between shots)
    - speed: int (speed of the bullet)
    - position: ClockOrdinal (position on the tower). Values from 1 to 12, representing the clock face.
+2. Methods:
+   - adjustFiringRate(value: int): Adjusts the firing rate of the gun (in ms).
 
 ### EnemyGun extends Gun
 1. Properties:

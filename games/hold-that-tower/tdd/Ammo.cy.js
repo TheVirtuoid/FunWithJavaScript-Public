@@ -53,4 +53,16 @@ describe('When I work with the Ammo class', () => {
 	it('should throw on invalid type', () => {
 		expect(() => new Ammo({ type: 'invalid', damage: 10 })).to.throw();
 	});
+
+	it('should be able to adjust the damage', () => {
+		const ammo = new Ammo({ type: Ammo.AMMO_TYPE_ENEMY, damage: 15 });
+		ammo.adjustDamage(5);
+		expect(ammo.damage).to.equal(20);
+	});
+
+	it('should not allow damage to go below 0', () => {
+		const ammo = new Ammo({ type: Ammo.AMMO_TYPE_ENEMY, damage: 15 });
+		ammo.adjustDamage(-20);
+		expect(ammo.damage).to.equal(0);
+	});
 });
