@@ -211,17 +211,15 @@ All properties are read-only unless otherwise specified.
    - clone(). Clones the position object.
 
 ### Missile
+Best described as "Ammo In Motion".
 1. Properties:
    - speed: int
-   - damage: int
-   - target: Tower | Runner
-   - targetPriority: float (a percentage chance to target the tower. If not targeting the tower, it targets the closest runner)
-2. Methods:
-   - determineTarget(). Determines the target based on targetPriority.
-   - move(). Begins moving towards the target.
-3. Event Emitters:
+   - ammo: Ammo
+   - direction: Position
+   - position: Position
+2. Event Emitters:
    - missileHit: Emitted when the missile hits its target (Tower | Runner | Enemy | Missile).
-4. Event Listeners:
+3. Event Listeners:
    - onMissileHit: Triggered when a missile hits this missile.
 
 ### Card
