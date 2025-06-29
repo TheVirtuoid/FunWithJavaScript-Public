@@ -29,7 +29,7 @@ export default class Car {
 	static WHEEL_MASS = 10;
 	static WHEEL_FRICTION = 1;
 	static CHASSIS_MASS = 10;
-	static COLLISION_BODY_MASS = .1;
+	static COLLISION_BODY_MASS = .01;
 
 	#position;
 	#scene;
@@ -149,13 +149,13 @@ export default class Car {
 				.then(this.#buildChassis.bind(this))
 				.then(this.#buildWheels.bind(this))
 				// .then(this.#buildModel.bind(this))
-				// .then(this.#buildCollisionBody.bind(this))
+				.then(this.#buildCollisionBody.bind(this))
 				.then(this.#assignParents.bind(this))
 				.then(this.#buildChassisPhysicsAggregate.bind(this))
 				.then(this.#buildWheelPhysicsAggregates.bind(this))
 				// .then(this.#buildParentPhysicsAggregate.bind(this))
-				// .then(this.#buildCollisionBodyPhysicsAggregate.bind(this))
-				// .then(this.#setCollisionBodyConstraint.bind(this))
+				.then(this.#buildCollisionBodyPhysicsAggregate.bind(this))
+				.then(this.#setCollisionBodyConstraint.bind(this))
 				.then(this.#buildWheelConstraints.bind(this))
 				.then(resolve);
 		});
@@ -501,13 +501,13 @@ export default class Car {
 	}
 
 	async #buildModel() {
-		this.#loadedModel = await ImportMeshAsync("/public/databases/car/ToyRaceCar.glb", this.#scene, {});
+		this.#loadedModel = await ImportMeshAsync("/public/databases/car/Ferrari.glb", this.#scene, {});
 		this.model.scaling = new Vector3(3 * this.#scale, 3 * this.#scale, 3 * this.#scale);
 		// this.model.parent = this.#parent;
 		this.model.parent = this.chassis;
 		this.model.rotationQuaternion = null;
-		// this.model.rotation = new Vector3(0, Math.PI / 2, 0);
-		this.model.rotation = new Vector3(-Math.PI / 2, 0, -Math.PI / 2);
+		this.model.rotation = new Vector3(0, Math.PI / 2, 0);
+		// this.model.rotation = new Vector3(-Math.PI / 2, 0, -Math.PI / 2);
 		/*this.#loadedModel.meshes.forEach(mesh => {
 			mesh.isPickable = false;
 			// Optionally disable collision detection entirely

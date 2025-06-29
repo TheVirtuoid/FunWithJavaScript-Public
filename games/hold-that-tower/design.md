@@ -109,6 +109,11 @@ All properties are read-only unless otherwise specified.
     - towerDamage is returned to the calling function.
     - armor can never go below 0
 
+### Ammo
+1. Properties:
+   - damage: int (damage dealt by the ammo)
+   - type: AmmoType (enum, e.g., 'bullet', 'missile', 'enemy')
+
 ### Gun
 1. Properties:
    - damage: int

@@ -55,15 +55,18 @@ export default class Race {
 			id: this.id,
 			trackWidth: Race.TRACKWIDTH
 		});
-		this.#carRenderer = new CarRenderer({
-			id: this.id
-		});
-		this.#sounds = new Sounds();
-		this.#racingLights = new RacingLights('starting-lights', this.#sounds);
 		this.#venue = VenueDb.getVenueById(this.#gameData.selectedVenue);
 		this.#layoutRenderer.buildLayout(this.#venue.layout);
 		this.#startingPosition = this.#layoutRenderer.startingPosition;
+
+		this.#ground = new Ground(this.id);
+		this.#carRenderer = new CarRenderer({
+			id: this.id
+		});
 		this.#carRenderer.buildCars(this.#gameData.selectedCars, this.#startingPosition);
+
+		this.#sounds = new Sounds();
+		this.#racingLights = new RacingLights('starting-lights', this.#sounds);
 
 		this.#raceTime = new RaceTime('race-time');
 		this.#raceResults = new RaceResults('race-results');
@@ -96,7 +99,6 @@ export default class Race {
 		this.#light = Ui.CreateLight({ position: { x: -1, y: 1, z: 0 } });
 		await Ui.LoadPhysics();
 
-		this.#ground = new Ground(this.id);
 		await this.#ground.render();
 
 		await this.#layoutRenderer.render();
@@ -104,8 +106,8 @@ export default class Race {
 		await this.#carRenderer.render();
 
 		this.#startLine = this.#layoutRenderer.startingLine;
-		this.#finishLine = this.#layoutRenderer.finishLine;
 
+		this.#finishLine = this.#layoutRenderer.finishLine;
 		this.#finishLine.setFinishLineMeshes(this.#carRenderer.renderedCars.map((car) => car.chassis));
 	}
 
@@ -127,6 +129,7 @@ export default class Race {
 				place++;
 				if (place > 4) {
 					this.#raceTime.stop();
+					// this.#sounds.allStop();
 					this.#sounds.fadeOut(Sounds.CAR_RACING, 4000);
 				}
 			}

@@ -17,12 +17,12 @@ export default class Sounds {
 			const audio = new Audio(url);
 			audio.loop = sound === Sounds.CAR_RACING;
 			this.#audio.set(sound, audio);
-			const ctx = new AudioContext();
+			/*const ctx = new AudioContext();
 			const source = ctx.createMediaElementSource(audio);
 			const gainNode = ctx.createGain();
 			source.connect(gainNode).connect(ctx.destination);
 			this.#context.set(sound, ctx);
-			this.#gainNodes.set(sound, gainNode);
+			this.#gainNodes.set(sound, gainNode);*/
 		}
 	}
 
@@ -36,6 +36,9 @@ export default class Sounds {
 			if (soundType !== Sounds.CAR_RACING) {
 				sound.volume = .6;
 			}
+			/*const gainNode = this.#gainNodes.get(soundType);
+			const ctx = this.#context.get(soundType);
+			gainNode.gain.setValueAtTime(1, ctx.currentTime);*/
 			sound.play();
 		}
 	}
@@ -48,14 +51,19 @@ export default class Sounds {
 
 	fadeOut(soundType, duration = 2000) {
 		const audio = this.#audio.get(soundType);
-		const ctx = this.#context.get(soundType);
-		const gainNode = this.#gainNodes.get(soundType);
+		/*const ctx = this.#context.get(soundType);
+		const gainNode = this.#gainNodes.get(soundType);*/
 
-		gainNode.gain.setValueAtTime(1, ctx.currentTime);
-		gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + duration / 1000);
-		setTimeout(() => {
-			audio.pause();
-			audio.currentTime = 0;
-		}, duration * 1000);
+		/*gainNode.gain.setValueAtTime(1, ctx.currentTime);
+		gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + duration / 1000);*/
+		const volumeDifference = audio.volume / duration * 10;
+		const interval = setInterval(() => {
+			if (audio.volume > .1) {
+				audio.volume -= volumeDifference;
+			} else {
+				audio.pause();
+				clearInterval(interval);
+			}
+		}, 10);
 	}
 }
