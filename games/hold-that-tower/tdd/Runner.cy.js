@@ -14,6 +14,7 @@ describe('When I work with the Runner class', () => {
 	});
 });
 
+/*
 
 ### Runner
 1. Properties:
@@ -33,3 +34,4 @@ describe('When I work with the Runner class', () => {
 - runnerReturned: Emitted when a runner returns to the tower with a prize.
 4. Event Listeners:
 	- onMissileHit: Triggered when a missile hits the runner.
+	*/
