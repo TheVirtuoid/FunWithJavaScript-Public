@@ -14,13 +14,13 @@ describe('When I work with the Missile class', () => {
 	});
 
 	it('should throw error if direction is not specified', () => {
-		expect(() => new Missile({ speed, ammo, position })).to.throw();
+		expect(() => new Missile({ ammo, position })).to.throw();
 	});
 	it('should throw error if ammo is not specified', () => {
-		expect(() => new Missile({ speed, direction, position })).to.throw();
+		expect(() => new Missile({ direction, position })).to.throw();
 	});
 	it('should throw error if position is not specified', () => {
-		expect(() => new Missile({ speed, ammo, direction })).to.throw();
+		expect(() => new Missile({ ammo, direction })).to.throw();
 	});
 
 	describe('And when I work with the properties', () => {
@@ -68,6 +68,9 @@ describe('When I work with the Missile class', () => {
 	});
 
 	// TODO NOt sure how to test this yet
-	xdescribe('And when I work with events', () => {});
+	xdescribe('And when I work with events', () => {
+		it('should send an event when it hits something', () => {});
+		it('should receive an event that it was hit', () => {});
+	});
 });
 

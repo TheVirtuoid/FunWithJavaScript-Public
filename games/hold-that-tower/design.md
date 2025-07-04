@@ -160,14 +160,15 @@ All properties are read-only unless otherwise specified.
    - onEnemyReachedTower: Triggered when an enemy reaches the tower, causing damage.
    - onEnemyDestroyed: Triggered when an enemy is destroyed, potentially dropping a prize.
    - onRunnerReturned: Triggered when a runner returns with a prize.
-   - onRunnerDestroyed: Triggered when an enemy destroys a runner.
+   - onRunnerDestroyed: Triggered when an enemy destroys a runner. 
    - onMissileHit: Triggered when a missile hits the tower.
 
 ### Runner
 1. Properties:
    - speed: int
    - hitPoints: int
-   - carryingPrize: Prize (optional, prize being carried)
+   - prize: Prize (optional, prize being carried)
+   - position: Position (coordinates of the runner)
 2. Methods:
    - takeDamage(amount: int): Reduces the runner's hit points by the given amount.
    - upgradeSpeed(amount: int): Increases the runner's speed.
@@ -176,20 +177,26 @@ All properties are read-only unless otherwise specified.
    - returnToTower(): Returns to the tower with the collected prize.
    - dropPrize(): Drops the prize if the runner is destroyed or cannot carry it.
 3. Event Emitters:
-   - runnerDestroyed: Emitted when an enemy destroys a runner.
+   - runnerDestroyed: Emitted when an enemy destroys a runner. Drops prize and returns the prize so another runner can pick it up.
    - runnerReturned: Emitted when a runner returns to the tower with a prize.
 4. Event Listeners:
    - onMissileHit: Triggered when a missile hits the runner.
 
+### EnemyFactory
+Generates enemies. Contains the database for those enemies. Has one static method "CreateEnemy"
+
 ### Enemy
 1. Properties:
+   - type: EnemyType (enum, e.g., 'basic', 'fast', 'shooter')
    - hitPoints: int
    - speed: int
-   - damageInflicted: int
+   - damage: int
    - gun: EnemyGun (null if enemy cannot shoot)
    - prize: Prize (optional, prize dropped when defeated)
+   - position: Position (coordinates of the enemy)
+   - type: EnemyType (enum, e.g., 'basic', 'fast', 'shooter')
 2. Methods:
-   - takeDamage(amount: int): Reduces the enemy's hit points by the given amount.
+   - takeDamage(ammo): Reduces the enemy's hit points by the given amount.
    - move(): Begin moving towards the tower
 3. Event Emitters:
    - enemyReachedTower: Emitted when the enemy reaches the tower, causing damage.
