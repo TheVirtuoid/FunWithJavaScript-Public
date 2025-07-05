@@ -15,7 +15,6 @@ import Star from "../src/classes/Ui/Star.js";
 import Crown from "../src/classes/Ui/Crown.js";
 
 class Game extends Phaser.Scene {
-
 	#ground;
 	#tower;
 	#runner;
@@ -241,7 +240,7 @@ const config = {
 // Load the font before initializing Phaser
 WebFont.load({
 	google: {
-		families: ['Pixelify Sans']
+		families: ['Tiny5']
 	},
 	active: function() {
 		// Initialize your Phaser game after fonts are loaded

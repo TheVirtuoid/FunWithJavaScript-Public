@@ -1,3 +1,5 @@
+import RunnerUi from './Ui/Runner.js';
+
 export default class Runner {
 	static DEFAULT_SPEED = 1000;
 	static DEFAULT_HIT_POINTS = 10;
@@ -6,13 +8,15 @@ export default class Runner {
 	#hitPoints;
 	#prize;
 	#position;
+	#ui;
 
 	constructor(args = {}) {
-		const { position } = args;
+		const { position, scene } = args;
 		this.#hitPoints = Runner.DEFAULT_HIT_POINTS;
 		this.#speed = Runner.DEFAULT_SPEED;
 		this.#prize = null;
 		this.#position = position;
+		this.#ui = new RunnerUi({ scene });
 	}
 
 	get speed() {
@@ -29,6 +33,10 @@ export default class Runner {
 
 	get position() {
 		return this.#position;
+	}
+
+	get ui() {
+		return this.#ui;
 	}
 
 	takeDamage(amount) {

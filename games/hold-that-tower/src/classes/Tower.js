@@ -2,6 +2,7 @@ import DefensiveWall from "./DefensiveWall.js";
 import Runner from "./Runner.js";
 import GunPosition from "../enums/GunPosition.js";
 import Gun from "./Gun.js";
+import TowerUi from "./Ui/Tower.js";
 
 export default class Tower {
 	static DEFAULT_HEALTH = 100;
@@ -14,14 +15,17 @@ export default class Tower {
 	#runners;
 	#defensiveWall;
 	#turretSpinSpeed;
+	#ui;
 
-	constructor() {
+	constructor(args = {}) {
+		const { scene } = args;
 		this.#health = Tower.DEFAULT_HEALTH;
 		this.#maxHealth = Tower.DEFAULT_MAX_HEALTH;
 		this.#guns = [new Gun({ position: GunPosition.TWELVE, ammo: { damage: 10 } })];
 		this.#runners = [new Runner()];
 		this.#defensiveWall = new DefensiveWall();
 		this.#turretSpinSpeed = Tower.DEFAULT_TURRET_SPIN_SPEED;
+		this.#ui = new TowerUi({ scene: scene });
 	}
 
 	get health() {
@@ -46,6 +50,10 @@ export default class Tower {
 
 	get turretSpinSpeed() {
 		return this.#turretSpinSpeed;
+	}
+
+	get ui() {
+		return this.#ui;
 	}
 
 	takeDamage(ammo) {

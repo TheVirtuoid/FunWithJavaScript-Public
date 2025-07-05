@@ -2,14 +2,16 @@ import EnemyType from "../src/enums/EnemyType.js";
 import EnemyFactory from "../src/classes/EnemyFactory.js";
 import Position from "../src/classes/Position.js";
 import Enemy from "../src/classes/Enemy.js";
+import EnemyUi from "../src/classes/Ui/Enemy.js";
 
 describe('When I work with the Enemy class', () => {
 	const position = new Position(0, 0);
 	const { hitPoints, speed, damage } = EnemyFactory.getData(EnemyType.GUNNER);
 
 	let enemy;
+	const mockScene = {};
 	beforeEach(() => {
-		enemy = EnemyFactory.CreateEnemy({ type: EnemyType.GUNNER, position });
+		enemy = EnemyFactory.CreateEnemy({ type: EnemyType.GUNNER, position, scene: mockScene });
 	});
 
 	describe('And when I check the creation of an enemy', () => {
@@ -23,6 +25,7 @@ describe('When I work with the Enemy class', () => {
 			expect(enemy.speed).to.equal(speed);
 			expect(enemy.damage).to.equal(damage);
 			expect(enemy.position).to.equal(position);
+			expect(enemy.ui).to.be.instanceof(EnemyUi);
 		});
 	});
 

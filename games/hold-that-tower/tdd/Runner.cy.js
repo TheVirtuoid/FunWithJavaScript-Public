@@ -3,16 +3,18 @@ import Runner from '../src/classes/Runner.js';
 import Prize from '../src/classes/Prize.js';
 import Position from '../src/classes/Position.js';
 import PrizeType from "../src/enums/PrizeType.js";
+import RunnerUi from '../src/classes/Ui/Runner.js';
 
 describe('Runner', () => {
 	let runner;
 	let mockPrize;
 	let mockTower;
 	let mockMissile;
+	const mockScene = {};
 	const position = new Position(0, 0);
 
 	beforeEach(() => {
-		runner = new Runner({ position });
+		runner = new Runner({ position, scene: mockScene });
 		mockPrize = new Prize({
 			value: 50,
 			type: PrizeType.GUN,
@@ -33,6 +35,7 @@ describe('Runner', () => {
 		expect(runner.hitPoints).to.equal(Runner.DEFAULT_HIT_POINTS);
 		expect(runner.prize).to.be.null;
 		expect(runner.position).to.be.instanceOf(Position);
+		expect(runner.ui).to.be.instanceOf(RunnerUi);
 	});
 
 	it('reduces hit points when taking damage', () => {

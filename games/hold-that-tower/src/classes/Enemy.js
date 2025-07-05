@@ -1,18 +1,21 @@
+import EnemyUi from './Ui/Enemy.js';
+
 export default class Enemy {
 	#type;
 	#position;
 	#hitPoints;
 	#damage;
 	#speed;
+	#ui;
 
 	constructor(args = {}) {
-		const { type, position, hitPoints, damage, speed } = args;
+		const { type, position, hitPoints, damage, speed, scene } = args;
 		this.#type = type; // Type of the enemy (e.g., gunner, boss, runner)
 		this.#position = position; // Position object containing x and y coordinates
 		this.#hitPoints = hitPoints;
 		this.#damage = damage; // Damage the enemy can inflict
 		this.#speed = speed; // Speed of the enemy
-
+		this.#ui = new EnemyUi({ scene });
 	}
 
 	get position() {
@@ -29,6 +32,9 @@ export default class Enemy {
 	}
 	get speed() {
 		return this.#speed;
+	}
+	get ui() {
+		return this.#ui;
 	}
 
 	takeDamage(amount) {

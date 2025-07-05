@@ -6,14 +6,16 @@ import DefensiveWall from '../src/classes/DefensiveWall.js';
 import GunPosition from "../src/enums/GunPosition.js";
 import Ammo from "../src/classes/Ammo.js";
 import AmmoType from "../src/enums/AmmoType.js";
+import TowerUI from '../src/classes/Ui/Tower.js';
 
 describe('Tower', () => {
 	let tower;
 	const ammo = new Ammo({ type: AmmoType.BULLET, damage: 10 });
 	const superAmmo = new Ammo({ type: AmmoType.BULLET, damage: 1000 });
+	const mockScene = {};
 
 	beforeEach(() => {
-		tower = new Tower();
+		tower = new Tower({ scene: mockScene });
 	});
 
 	it('initializes with default values', () => {
@@ -24,6 +26,7 @@ describe('Tower', () => {
 		expect(tower.runners.length).to.equal(1);
 		expect(tower.defensiveWall.armor).to.equal(DefensiveWall.DEFAULT_ARMOR);
 		expect(tower.turretSpinSpeed).to.equal(Tower.DEFAULT_TURRET_SPIN_SPEED);
+		expect(tower.ui).to.be.instanceOf(TowerUI);
 	});
 
 	it('reduces health when taking damage', () => {

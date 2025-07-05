@@ -1,13 +1,16 @@
 import Position from "../src/classes/Position.js";
 import PrizeType from "../src/enums/PrizeType.js";
 import Prize from "../src/classes/Prize.js";
+import PrizeUi from "../src/classes/Ui/Prize.js";
 
 describe('When I work with the Prize class', () => {
 	let prize;
 	const value = 100;
 	const type = PrizeType.GUN;
 	const position = new Position(10, 20);
-	const options = { value, type, position };
+	const mockScene = {};
+	const options = { value, type, position, scene: mockScene };
+
 
 	it('should create a new Prize instance', () => {
 		prize = new Prize(options);
@@ -15,6 +18,7 @@ describe('When I work with the Prize class', () => {
 		expect(prize.type).to.equal(type);
 		expect(prize.value).to.equal(value);
 		expect(prize.position).to.be.an.instanceof(Position);
+		expect(prize.ui).to.be.instanceof(PrizeUi);
 	});
 
 	it('should throw error if type is not specified', () => {

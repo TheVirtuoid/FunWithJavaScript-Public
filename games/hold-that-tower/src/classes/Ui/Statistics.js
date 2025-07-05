@@ -6,6 +6,7 @@ import Coins from "./Coins.js";
 export default class Statistics {
 	static NAME = 'statistics';
 	static BACKGROUND_COLOR = 0x402000;
+	static DEFAULT_FONT = 'Tiny5';
 
 	#scene;
 	#image;
@@ -57,31 +58,31 @@ export default class Statistics {
 		this.#buildPrizesPanel();
 
 		this.#scene.add.text(20, 350, 'Upgrades', {
-			fontFamily: 'Pixelify Sans',
+			fontFamily: Statistics.DEFAULT_FONT,
 			fontSize: '26px',
 			fill: '#88ff88'
 		});
 
 		this.#scene.add.text(30, 390, 'Guns', {
-			fontFamily: 'Pixelify Sans',
+			fontFamily: Statistics.DEFAULT_FONT,
 			fontSize: '20px',
 			fill: '#ffffff'
 		});
 
 		this.#scene.add.text(100, 390, 'Tower', {
-			fontFamily: 'Pixelify Sans',
+			fontFamily: Statistics.DEFAULT_FONT,
 			fontSize: '20px',
 			fill: '#ffffff'
 		});
 
 		this.#scene.add.text(190, 390, 'Wall', {
-			fontFamily: 'Pixelify Sans',
+			fontFamily: Statistics.DEFAULT_FONT,
 			fontSize: '20px',
 			fill: '#ffffff'
 		});
 
 		this.#scene.add.text(250, 390, 'Runners', {
-			fontFamily: 'Pixelify Sans',
+			fontFamily: Statistics.DEFAULT_FONT,
 			fontSize: '20px',
 			fill: '#ffffff'
 		});
@@ -166,32 +167,32 @@ export default class Statistics {
 
 	#addStandardText(position, text, color) {
 		return this.#scene.add.text(position.x, position.y, text, {
-			fontFamily: 'Pixelify Sans',
-			fontSize: '20px',
+			fontFamily: Statistics.DEFAULT_FONT,
+			fontSize: '24px',
 			fill: color
 		});
 	}
 
 	#addSmallText(position, text, color) {
 		return this.#scene.add.text(position.x, position.y, text, {
-			fontFamily: 'Pixelify Sans',
-			fontSize: '16px',
+			fontFamily: Statistics.DEFAULT_FONT,
+			fontSize: '20px',
 			fill: color
 		});
 	}
 
 	#addLargeText(position, text, color) {
 		return this.#scene.add.text(position.x, position.y, text, {
-			fontFamily: 'Pixelify Sans',
-			fontSize: '26px',
+			fontFamily: Statistics.DEFAULT_FONT,
+			fontSize: '30px',
 			fill: color
 		});
 	}
 
 	#addExtraLargeText(position, text, color) {
 		return this.#scene.add.text(position.x, position.y, text, {
-			fontFamily: 'Pixelify Sans',
-			fontSize: '32px',
+			fontFamily: Statistics.DEFAULT_FONT,
+			fontSize: '36px',
 			fill: color
 		});
 	}

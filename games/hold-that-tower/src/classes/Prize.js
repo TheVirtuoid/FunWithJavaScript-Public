@@ -1,13 +1,15 @@
 import PrizeType from "../enums/PrizeType.js";
 import Position from "./Position.js";
+import PrizeUi from "./Ui/Prize.js";
 
 export default class Prize {
 	#value;
 	#type;
 	#position;
+	#ui;
 
 	constructor(args = {}) {
-		const { value, type, position } = args;
+		const { value, type, position, scene } = args;
 		if (!type) {
 			throw new Error('Prize type is required');
 		}
@@ -20,6 +22,7 @@ export default class Prize {
 		this.#type = type;
 		this.#value = value;
 		this.#position = position || null;
+		this.#ui = new PrizeUi({ scene });
 	}
 
 	get type() {
@@ -32,6 +35,10 @@ export default class Prize {
 
 	get position() {
 		return this.#position;
+	}
+
+	get ui() {
+		return this.#ui;
 	}
 
 	setPosition(position) {

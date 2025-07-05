@@ -2,24 +2,27 @@ import Gun from "../src/classes/Gun.js";
 import Ammo from "../src/classes/Ammo.js";
 import GunPosition from "../src/enums/GunPosition.js";
 import AmmoType from "../src/enums/AmmoType.js";
+import GunUi from "../src/classes/Ui/Gun.js";
 
 describe('When I work with the Gun class', () => {
 	const ammo = new Ammo({ type: AmmoType.BULLET, damage: 10 });
 	const position = GunPosition.TWELVE;
 	const firingRate = 500;
+	const mockScene = {};
 
 	it('should throw if ammo is not specified', () => {
 		expect(() => new Gun()).to.throw();
 	});
 
 	it('should create the class', () => {
-		const gun = new Gun({ ammo });
+		const gun = new Gun({ ammo, scene: mockScene });
 		expect(gun).to.be.instanceOf(Gun);
 		expect(gun.firingRate).to.equal(Gun.DEFAULT_FIRING_RATE);
 		expect(gun.ammoDamage).to.equal(ammo.damage);
 		expect(gun.position).to.equal(GunPosition.NONE);
 		expect(gun.ammoSpeed).to.equal(Ammo.DEFAULT_SPEED);
 		expect(gun.ammoType).to.equal(AmmoType.BULLET);
+		expect(gun.ui).to.be.instanceof(GunUi);
 	});
 
 	describe('When I work with the ammo', () => {
