@@ -2,7 +2,7 @@ import Position from "../Position.js";
 
 export default class Enemy {
 	static NAME = 'enemy';
-	static IMAGE_URL = './images/snowman.png';
+	static IMAGE_URL = '/src/images/snowman.png';
 	static DEFAULT_SCALE = .1;
 
 	#scene;

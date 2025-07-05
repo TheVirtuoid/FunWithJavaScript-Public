@@ -2,7 +2,7 @@ import Position from "../Position.js";
 
 export default class Runner {
 	static NAME = 'runner';
-	static IMAGE_URL = './images/dancing.png';
+	static IMAGE_URL = '/src/images/dancing.png';
 	static DEFAULT_SCALE = .1;
 
 	#scene;

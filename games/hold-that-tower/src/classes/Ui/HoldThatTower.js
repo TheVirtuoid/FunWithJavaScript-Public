@@ -9,11 +9,15 @@ import Star from "./Star.js";
 import Crown from "./Crown.js";
 
 export default class HoldThatTower extends Phaser.Scene {
+
+	#ground;
+
 	constructor() {
 		super({
 			key: 'HoldThatTower',
 			active: true
 		});
+		this.#ground = new Ground({ scene: this });
 	}
 
 	preload() {
@@ -29,6 +33,7 @@ export default class HoldThatTower extends Phaser.Scene {
 	}
 
 	create() {
+		this.#ground.create();
 		// Initialize game elements here
 	}
 

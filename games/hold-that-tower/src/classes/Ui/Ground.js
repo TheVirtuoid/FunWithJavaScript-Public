@@ -1,5 +1,5 @@
 export default class Ground {
-	static IMAGE_URL = './images/vecteezy_brown-pixel-pattern-or-background_33048268.jpg';
+	static IMAGE_URL = '/src/images/vecteezy_brown-pixel-pattern-or-background_33048268.jpg';
 	static NAME = 'ground';
 
 	#scene;

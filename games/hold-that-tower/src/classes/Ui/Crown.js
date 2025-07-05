@@ -2,7 +2,7 @@ import Prize from "./Prize.js";
 
 export default class Crown extends Prize {
 	static NAME = 'crown';
-	static IMAGE_URL = './images/crown.png';
+	static IMAGE_URL = '/src/images/crown.png';
 	static DEFAULT_SCALE = 0.075;
 
 	constructor(args = {}) {

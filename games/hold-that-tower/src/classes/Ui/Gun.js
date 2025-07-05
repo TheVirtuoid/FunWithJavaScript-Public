@@ -2,7 +2,7 @@ import Position from "../Position.js";
 
 export default class Gun {
 	static NAME = 'gun';
-	static IMAGE_URL = './images/gun.png';
+	static IMAGE_URL = '/src/images/gun.png';
 	static DEFAULT_SCALE = 0.1;
 
 	#scene;

@@ -1,7 +1,7 @@
 export default class Tower {
 	static DEFAULT_RADIUS = 75;
 	static NAME = 'tower';
-	static IMAGE_URL = './images/tower.png';
+	static IMAGE_URL = '/src/images/tower.png';
 	static DEFAULT_SCALE = .15;
 
 	#position;

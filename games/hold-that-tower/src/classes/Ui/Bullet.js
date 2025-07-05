@@ -1,6 +1,6 @@
 export default class Bullet {
 	static NAME = 'bullet';
-	static IMAGE_URL = './images/bullet.png';
+	static IMAGE_URL = '/src/images/bullet.png';
 	static DEFAULT_SCALE = .25;
 
 	#scene;

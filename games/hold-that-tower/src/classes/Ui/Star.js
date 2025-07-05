@@ -2,7 +2,7 @@ import Prize from "./Prize.js";
 
 export default class Star extends Prize {
 	static NAME = 'star';
-	static IMAGE_URL = './images/star.png';
+	static IMAGE_URL = '/src/images/star.png';
 	static DEFAULT_SCALE = 0.075;
 
 	constructor(args = {}) {
