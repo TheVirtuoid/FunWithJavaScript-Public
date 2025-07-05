@@ -1,8 +1,8 @@
-import Ammo from "./Ammo.js";
 import AmmoType from "../enums/AmmoType.js";
 
 export default class DefensiveWall {
 	static ARMOR_DAMAGE_DEFAULT = 0.01;
+	static DEFAULT_ARMOR = 0;
 
 	#armor = 0;
 	#armorDamage = new Map([

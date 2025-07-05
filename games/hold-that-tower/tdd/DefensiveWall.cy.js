@@ -15,7 +15,7 @@ describe('When I work with the DefensiveWall class', () => {
 	it('should have an armor property that is read-only', () => {
 		const wall = new DefensiveWall();
 		expect(wall).to.have.property('armor').that.is.a('number');
-		expect(wall.armor).to.equal(0);
+		expect(wall.armor).to.equal(DefensiveWall.DEFAULT_ARMOR);
 		expect(() => wall.armor = 5).to.throw();
 	});
 

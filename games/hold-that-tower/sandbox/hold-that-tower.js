@@ -7,7 +7,7 @@ class Game extends Phaser.Scene {
 	#gun;
 	#gamepad;
 	#gunAngle= 0;
-	#gunRotationSpeed = .1;
+	#gunRotationSpeed = .05;
 
 	#graphics;
 
