@@ -1,0 +1,20 @@
+import Prize from "./Prize.js";
+
+export default class Star extends Prize {
+	static NAME = 'star';
+	static IMAGE_URL = './images/star.png';
+	static DEFAULT_SCALE = 0.075;
+
+	constructor(args = {}) {
+		args.scale = Star.DEFAULT_SCALE;
+		super(args);
+	}
+
+	static preload(scene) {
+		scene.load.image(Star.NAME, Star.IMAGE_URL);
+	}
+
+	create() {
+		super.create(Star.NAME);
+	}
+}
