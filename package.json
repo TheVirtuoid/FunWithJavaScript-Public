@@ -13,7 +13,8 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.4",
     "@cucumber/cucumber": "^11.2.0",
     "cypress": "^14.0.0",
-    "vite": "^6.0.7"
+    "vite": "^6.0.7",
+    "webfontloader": "^1.6.28"
   },
   "dependencies": {
     "@babylonjs/havok": "^1.3.10",
