@@ -45,7 +45,8 @@ export default class Enemy {
 		this.#position = position;
 		this.#visible = visible;
 		this.#scale = scale;
-		this.#image = this.#scene.add.image(this.position.x, this.position.y, Enemy.NAME).setScale(this.scale);
+		// this.#image = this.#scene.add.image(this.position.x, this.position.y, Enemy.NAME).setScale(this.scale);
+		this.#image = this.#scene.physics.add.image(this.position.x, this.position.y, Enemy.NAME).setScale(this.scale);
 		this.#image.setVisible(this.visible);
 	}
 

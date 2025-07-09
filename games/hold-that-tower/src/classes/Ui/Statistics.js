@@ -7,6 +7,8 @@ export default class Statistics {
 	static NAME = 'statistics';
 	static BACKGROUND_COLOR = 0x402000;
 	static DEFAULT_FONT = 'Tiny5';
+	static WIDTH = 360;
+	static PADDING = 10;
 
 	#scene;
 	#image;
@@ -134,9 +136,9 @@ export default class Statistics {
 		// main panel
 		const graphics = this.#image;
 		graphics.fillStyle(Statistics.BACKGROUND_COLOR, 1);
-		graphics.fillRoundedRect(10, 10, 350, this.#scene.cameras.main.height - 20, 20);
+		graphics.fillRoundedRect(Statistics.PADDING, Statistics.PADDING, Statistics.WIDTH, this.#scene.cameras.main.height - Statistics.PADDING * 2, Statistics.PADDING * 2);
 		graphics.lineStyle(4, 0x000000,1 );
-		graphics.strokeRoundedRect(10, 10, 350, this.#scene.cameras.main.height - 20, 20);
+		graphics.strokeRoundedRect(Statistics.PADDING, Statistics.PADDING, Statistics.WIDTH, this.#scene.cameras.main.height - Statistics.PADDING, Statistics.PADDING);
 	}
 
 	#buildPrizesPanel() {
