@@ -13,11 +13,14 @@ import Crown from '../Ui/Crown.js';
 export default class GamePlay extends Phaser.Scene {
 	#ground;
 	#tower;
-	#enemy;
 	#gun;
 	#statistics;
 	#prize;
 	#prizesGroup;
+	#prizesDropped;
+
+	#runners;
+	#runnersGroup;
 
 	#gamepad;
 	#gunAngle= 0;
@@ -31,10 +34,13 @@ export default class GamePlay extends Phaser.Scene {
 	#enemyToLaunch = 0;
 	#enemyLastLaunchedTime = 0;
 	#enemyLaunchInterval = 1000; // Launch enemy every 3 seconds
+	#lastEnemyToLaunch;
 
 	#currentWave = 1;
 
 	#runner;
+
+	#waveEnded = false;
 
 	constructor() {
 		super({
@@ -59,14 +65,12 @@ export default class GamePlay extends Phaser.Scene {
 	{
 		this.#ground = new Ground({ scene: this });
 		this.#tower = new Tower({ position: new Position(1000, 475), scene: this });
-		// this.#enemy = new Enemy({ scene: this });
 		this.#gun = new Gun({ scene: this });
 		this.#statistics = new Statistics({ scene: this });
 		this.#prize = new Coins({ scene: this, visible: false });
 		this.#runner = new Runner({ scene: this });
 		this.#ground.create();
 		this.#tower.create();
-		// this.#enemy.create({ visible: false });
 		this.#gun.create({ position: new Position(this.#tower.x, this.#tower.y - this.#tower.radius) });
 		this.#statistics.create();
 		this.#prize.create();
@@ -92,6 +96,7 @@ export default class GamePlay extends Phaser.Scene {
 		});
 
 		this.#buildEnemyWave(this.#currentWave);
+		this.#buildRunnersWave(this.#currentWave);
 
 		this.#enemiesGroup = this.physics.add.group();
 		this.#enemies.forEach(enemy => {
@@ -99,6 +104,9 @@ export default class GamePlay extends Phaser.Scene {
 		});
 
 		this.#prizesGroup = this.physics.add.group();
+		this.#prizesDropped = [];
+
+		this.#runnersGroup = this.physics.add.group();
 
 		this.physics.add.overlap(
 			this.#bullets,
@@ -107,6 +115,8 @@ export default class GamePlay extends Phaser.Scene {
 			(bullet, enemy) => bullet.active && enemy.visible,
 			this
 		);
+
+		this.#waveEnded = false;
 	}
 	update (time, delta) {
 		this.#enemyLastLaunchedTime = this.#enemyLastLaunchedTime === 0 ? time : this.#enemyLastLaunchedTime;
@@ -150,8 +160,16 @@ export default class GamePlay extends Phaser.Scene {
 				this.#moveEnemy(enemy);
 				this.#enemyToLaunch++;
 				this.#enemyLastLaunchedTime = time;
+				this.#lastEnemyToLaunch = enemy;
 			} else {
 				this.#enemyToLaunch = -1;
+			}
+		}
+		if (this.#prizesDropped.length > 0 && !this.#waveEnded) {
+			const runnerData = this.#selectNextRunner();
+			if (runnerData) {
+				const prize = this.#prizesDropped.shift();
+				this.#moveRunner(runnerData, prize);
 			}
 		}
 	}
@@ -168,7 +186,20 @@ export default class GamePlay extends Phaser.Scene {
 			// Stop any tweens for this enemy
 			this.tweens.getTweensOf(enemyImage).forEach(tween => tween.stop());
 			this.#dropPrize(new Position(enemyImage.x, enemyImage.y));
+			if (this.#enemyToLaunch === -1 && hitEnemy === this.#lastEnemyToLaunch) {
+				console.log('WE ARE DONE WITH THIS WAVE (bullet)');
+				this.#waveEnded = true;
+				this.#clearDroppedPrizes();
+			}
 		}
+	}
+
+	#clearDroppedPrizes() {
+		this.#prizesDropped.forEach(prize => {
+			prize.setVisible(false);
+			// prize.image.destroy();
+		});
+		this.#prizesDropped = [];
 	}
 
 
@@ -213,6 +244,11 @@ export default class GamePlay extends Phaser.Scene {
 			onComplete: () => {
 				// Optional: if you want to repeat the animation or do something when done
 				enemy.setVisible(false);
+				if (this.#enemyToLaunch === -1 && enemy === this.#lastEnemyToLaunch) {
+					console.log('WE ARE DONE WITH THIS WAVE (moveEnemy)');
+					this.#waveEnded = true;
+					this.#clearDroppedPrizes();
+				}
 			}
 		});
 	}
@@ -225,29 +261,31 @@ export default class GamePlay extends Phaser.Scene {
 		prize.setPosition(new Position(x, y));
 		prize.setVisible(true);
 		this.#prizesGroup.add(prize.image);
+		this.#prizesDropped.push(prize);
 	}
 
-	#moveRunner() {
-		this.#runner.setPosition(new Position(this.#tower.x, this.#tower.y));
-		this.#runner.setVisible(true);
+	#moveRunner(runnerData, prize) {
+		const { runner } = runnerData;
+		runner.setPosition(new Position(this.#tower.x, this.#tower.y));
+		runner.setVisible(true);
 		this.tweens.add({
-			targets: this.#runner.image,
-			x: this.#prize.x,
-			y: this.#prize.y,
+			targets: runner.image,
+			x: prize.x,
+			y: prize.y,
 			duration: 2000,
 			ease: 'Linear',
 			onComplete: () => {
-				this.#prize.setVisible(false);
+				prize.setVisible(false);
 				this.tweens.add({
-					targets: this.#runner.image,
+					targets: runner.image,
 					x: this.#tower.x,
 					y: this.#tower.y,
 					duration: 2000,
 					ease: 'Linear',
 					onComplete: () => {
-						this.#runner.setVisible(false);
+						runner.setVisible(false);
+						runnerData.running = false;
 						this.#statistics.updateMoney(Math.floor(Math.random() * 15) + 5);
-						setTimeout(this.#moveEnemy.bind(this),500);
 					}
 				});
 			}
@@ -261,7 +299,6 @@ export default class GamePlay extends Phaser.Scene {
 		if (this.#enemyLaunchInterval < 200) {
 			this.#enemyLaunchInterval = 200;
 		}
-		this.#currentWave = wave;
 		this.#enemies = [];
 		for (let i = 0; i < 20; i++) {
 			const enemy = new Enemy({ scene: this, visible: false });
@@ -271,4 +308,30 @@ export default class GamePlay extends Phaser.Scene {
 		}
 		// this.#statistics.setWave(wave);
 	}
+
+	#buildRunnersWave(wave) {
+		this.#runners = [];
+		// TODO: Get number of runners from stats
+		for (let i = 0; i < 4; i++) {
+			const runner = new Runner({ scene: this, visible: false });
+			runner.create({ visible: false });
+			const runnerData = {
+				running: false,
+				runner,
+				eliminated: false
+			};
+			this.#runners.push(runnerData);
+		}
+	}
+
+	#selectNextRunner() {
+		const nextRunner = this.#runners.find(runner => !runner.running && !runner.eliminated);
+		if (nextRunner) {
+			nextRunner.running = true;
+			return nextRunner;
+		}
+		return null;
+	}
+
+
 }
