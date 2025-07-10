@@ -143,7 +143,6 @@ export default class GamePlay extends Phaser.Scene {
 			this.tweens.getTweensOf(enemyImage).forEach(tween => tween.stop());
 			this.#dropPrize(new Position(enemyImage.x, enemyImage.y));
 			if (this.#enemies.enemyToLaunch === -1 && hitEnemy === this.#enemies.lastEnemyToLaunch) {
-				console.log('WE ARE DONE WITH THIS WAVE (bullet)');
 				this.#waveEnded = true;
 				this.#clearDroppedPrizes();
 			}
@@ -158,8 +157,21 @@ export default class GamePlay extends Phaser.Scene {
 	}
 
 	#dropPrize(position) {
-		const prize = new Coins({ scene: this, visible: false });
-		prize.create();
+		let prize;
+		const whichPrize = Math.floor(Math.random() * 100);
+		if (whichPrize < 60) {
+			prize = new Coins({ scene: this, visible: false });
+			prize.create();
+			prize.setAmount(Math.floor(Math.random() * 15) + 5);
+		} else if (whichPrize < 90) {
+			prize = new Star({ scene: this, visible: false });
+			prize.create();
+			prize.setAmount(Math.floor(Math.random() * 15) + 15);
+		} else {
+			prize = new Crown({ scene: this, visible: false });
+			prize.create();
+			prize.setAmount(Math.floor(Math.random() * 15) + 25);
+		}
 		const x = position ? position.x : Math.floor(Math.random() * this.cameras.main.width - 500) + 400;
 		const y = position ? position.y : Math.floor(Math.random() * this.cameras.main.height - 50) + 10;
 		prize.setPosition(new Position(x, y));

@@ -60,7 +60,7 @@ export default class RunnerGroup {
 					onComplete: () => {
 						runner.setVisible(false);
 						runnerData.running = false;
-						this.#statistics.updateMoney(Math.floor(Math.random() * 15) + 5);
+						this.#statistics.update(prize);
 					}
 				});
 			}

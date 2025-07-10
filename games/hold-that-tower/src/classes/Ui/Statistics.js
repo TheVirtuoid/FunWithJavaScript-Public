@@ -12,20 +12,41 @@ export default class Statistics {
 
 	#scene;
 	#image;
-	#money;
-	#moneyText;
+
+	#coins;
+	#coinsText;
+
+	#stars;
+	#starsText;
+
+	#crowns;
+	#crownsText;
+
+	#hitPoints;
+	#hitPointsText;
+
+	#maxHitPoints;
+	#maxHitPointsText;
+
+	#gunDamage;
+	#gunDamageText;
 
 	#starImage;
 	#crownImage;
-	#moneyImage;
+	#coinsImage;
 
 	constructor(args = {}) {
 		const { scene } = args;
 		this.#scene = scene;
-		this.#money = 0;
+		this.#coins = 0;
+		this.#stars = 0;
+		this.#crowns = 0;
+		this.#hitPoints = 20;
+		this.#maxHitPoints = 20;
+		this.#gunDamage = 6;
 		this.#starImage = new Star({ scene: this.#scene});
 		this.#crownImage = new Crown({ scene: this.#scene});
-		this.#moneyImage = new Coins({ scene: this.#scene});
+		this.#coinsImage = new Coins({ scene: this.#scene});
 	}
 
 	get scene() {
@@ -43,7 +64,7 @@ export default class Statistics {
 		this.#buildMainPanel();
 		this.#starImage.create();
 		this.#crownImage.create();
-		this.#moneyImage.create();
+		this.#coinsImage.create();
 
 		graphics.lineStyle(2, 0xffffff,1);
 		graphics.strokeRoundedRect(20, 100, 330, 240, 20);
@@ -51,9 +72,14 @@ export default class Statistics {
 		this.#addExtraLargeText(new Position(20, 20), 'Hold That Tower!', '#ffffff');
 		this.#addLargeText(new Position(20, 60), 'Wave: 6', '#88ff88');
 
-		this.#addMainText(new Position(30,110), 'Hitpoints: 20');
-		this.#addMainText(new Position(30,135), 'Max Hitpoints: 30');
-		this.#addMainText(new Position(30,160), 'Gun Damage: 6');
+		this.#addMainText(new Position(30,110), 'Hit Points');
+		this.#hitPointsText = this.#addMainText(new Position(250,110), this.#hitPoints);
+
+		this.#addMainText(new Position(30,135), 'Max Hit Points');
+		this.#maxHitPointsText = this.#addMainText(new Position(250,135), this.#maxHitPoints);
+
+		this.#addMainText(new Position(30,160), 'Gun Damage');
+		this.#gunDamageText = this.#addMainText(new Position(250,160), this.#gunDamage);
 
 		this.#buildEnemiesPanel();
 
@@ -138,17 +164,19 @@ export default class Statistics {
 		graphics.fillStyle(Statistics.BACKGROUND_COLOR, 1);
 		graphics.fillRoundedRect(Statistics.PADDING, Statistics.PADDING, Statistics.WIDTH, this.#scene.cameras.main.height - Statistics.PADDING * 2, Statistics.PADDING * 2);
 		graphics.lineStyle(4, 0x000000,1 );
-		graphics.strokeRoundedRect(Statistics.PADDING, Statistics.PADDING, Statistics.WIDTH, this.#scene.cameras.main.height - Statistics.PADDING, Statistics.PADDING);
+		graphics.strokeRoundedRect(Statistics.PADDING, Statistics.PADDING, Statistics.WIDTH, this.#scene.cameras.main.height - Statistics.PADDING * 2, Statistics.PADDING * 2);
 	}
 
 	#buildPrizesPanel() {
 		this.#addPrizeText(new Position(30,300), 'Prizes:');
-		this.#moneyImage.setPosition(new Position(170, 270));
-		this.#moneyText = this.#addPrizeText(new Position(150,300), this.#money);
+		this.#coinsImage.setPosition(new Position(170, 270));
+		this.#coinsText = this.#addPrizeText(new Position(150,300), this.#coins);
+
 		this.#starImage.setPosition(new Position(240, 270));
-		this.#addPrizeText(new Position(230,300), '44');
-		this.#crownImage.setPosition(new Position(310,270), this.#money);
-		this.#addPrizeText(new Position(310,300), '7');
+		this.#starsText = this.#addPrizeText(new Position(230,300), this.#stars);
+
+		this.#crownImage.setPosition(new Position(310,270), this.#coins);
+		this.#crownsText = this.#addPrizeText(new Position(300,300), this.#crowns);
 	}
 
 	#buildEnemiesPanel() {
@@ -198,10 +226,17 @@ export default class Statistics {
 			fill: color
 		});
 	}
-	updateMoney(amount) {
-		this.#money += amount;
-		if (this.#moneyText) {
-			this.#moneyText.setText(this.#money.toString());
+
+	update(prize) {
+		if (prize instanceof Coins) {
+			this.#coins += prize.amount;
+			this.#coinsText.setText(this.#coins);
+		} else if (prize instanceof Star) {
+			this.#stars += prize.amount;
+			this.#starsText.setText(this.#stars);
+		} else if (prize instanceof Crown) {
+			this.#crowns += prize.amount;
+			this.#crownsText.setText(this.#crowns);
 		}
 	}
 }
