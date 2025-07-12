@@ -27,7 +27,7 @@ export default class RunnerGroup {
 		this.#runnersGroup = this.#scene.physics.add.group();
 		this.#runners = [];
 		// TODO: Get number of runners from stats
-		for (let i = 0; i < 4; i++) {
+		for (let i = 0; i < 1; i++) {
 			const runner = new Runner({ scene: this.#scene, visible: false });
 			runner.create({ visible: false });
 			const runnerData = {

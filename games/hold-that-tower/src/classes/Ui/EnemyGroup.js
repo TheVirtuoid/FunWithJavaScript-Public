@@ -1,5 +1,10 @@
 import Enemy from "./Enemy.js";
 import Position from "../Position.js";
+import Waves from "../Waves.js";
+import EnemyType from "../../enums/EnemyType.js";
+import EnemyFactory from "../EnemyFactory.js";
+import AmmoType from "../../enums/AmmoType.js";
+import Ammo from "../Ammo.js";
 
 export default class EnemyGroup {
 	#enemies;
@@ -45,18 +50,30 @@ export default class EnemyGroup {
 		return this.#enemies[this.#enemyToLaunch];
 	}
 
-	buildWave(wave) {
+	buildWave(nextWave) {
+		const wave = Waves.DATABASE[nextWave - 1];
 		this.#enemyToLaunch = 0;
 		this.#enemyLastLaunchedTime = 0;
-		this.#enemyLaunchInterval = 1000 - (wave * 50); // Decrease interval by 50ms per wave, minimum 200ms
+		this.#enemyLaunchInterval = wave.frequency;
 		if (this.#enemyLaunchInterval < 200) {
 			this.#enemyLaunchInterval = 200;
 		}
 		this.#enemies = [];
-		for (let i = 0; i < 20; i++) {
+		for (let i = 0; i < wave.numEnemies; i++) {
+			const enemyNumber = Math.random();
+			let accumulatedChange = wave.chances[0];
+			let index = 0;
+			while (index < 20 && enemyNumber > accumulatedChange && wave.chances[index] !== 0) {
+				index++;
+				accumulatedChange += wave.chances[index];
+			}
+			const type = EnemyType.TYPES[index];
+			const theEnemy = EnemyType.DATABASE.get(type);
+			const realEnemy = EnemyFactory.CreateEnemyFromType({ ...theEnemy, type }, this.#scene);
 			const enemy = new Enemy({ scene: this.#scene, visible: false });
 			enemy.create({ visible: false });
-			this.#enemies.push(enemy);
+			// this.#enemies.push(enemy);
+			this.#enemies.push(realEnemy);
 		}
 		this.#enemiesGroup = this.#scene.physics.add.group();
 		this.#enemies.forEach(enemy => {
@@ -121,8 +138,9 @@ export default class EnemyGroup {
 			onComplete: () => {
 				// Optional: if you want to repeat the animation or do something when done
 				enemy.setVisible(false);
+				const ammo = new Ammo({ damage: enemy.damage, type: AmmoType.ENEMY });
+				this.#tower.takeDamage(ammo);
 				if (this.#enemies.enemyToLaunch === -1 && enemy === this.#enemies.lastEnemyToLaunch) {
-					console.log('WE ARE DONE WITH THIS WAVE (moveEnemy)');
 					waveEnded = true;
 				}
 			}

@@ -1,8 +1,6 @@
+import TowerType from "../../enums/TowerType.js";
+
 export default class Tower {
-	static DEFAULT_RADIUS = 75;
-	static NAME = 'tower';
-	static IMAGE_URL = '/src/images/tower.png';
-	static DEFAULT_SCALE = .15;
 
 	#position;
 	#radius;
@@ -12,7 +10,7 @@ export default class Tower {
 	constructor(args = {}) {
 		const { position, radius, scene } = args;
 		this.#position = position;
-		this.#radius = radius || Tower.DEFAULT_RADIUS;
+		this.#radius = radius || TowerType.DEFAULT_RADIUS;
 		this.#scene = scene;
 	}
 
@@ -32,11 +30,15 @@ export default class Tower {
 		return this.#position.y;
 	}
 
+	get image() {
+		return this.#image;
+	}
+
 	static preload(scene) {
-		scene.load.image(Tower.NAME, Tower.IMAGE_URL);
+		scene.load.image(TowerType.NAME, TowerType.IMAGE_URL);
 	}
 
 	create() {
-		this.#image = this.#scene.add.image(this.position.x, this.position.y, Tower.NAME).setScale(Tower.DEFAULT_SCALE);
+		this.#image = this.#scene.add.image(this.position.x, this.position.y, TowerType.NAME).setScale(TowerType.DEFAULT_SCALE);
 	}
 }

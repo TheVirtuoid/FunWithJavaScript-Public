@@ -18,14 +18,15 @@ export default class Tower {
 	#ui;
 
 	constructor(args = {}) {
-		const { scene } = args;
+		const { scene, position } = args;
 		this.#health = Tower.DEFAULT_HEALTH;
 		this.#maxHealth = Tower.DEFAULT_MAX_HEALTH;
 		this.#guns = [new Gun({ position: GunPosition.TWELVE, ammo: { damage: 10 } })];
 		this.#runners = [new Runner()];
 		this.#defensiveWall = new DefensiveWall();
 		this.#turretSpinSpeed = Tower.DEFAULT_TURRET_SPIN_SPEED;
-		this.#ui = new TowerUi({ scene: scene });
+		this.#ui = new TowerUi({ scene: scene, position });
+		this.#ui.create();
 	}
 
 	get health() {
@@ -56,9 +57,26 @@ export default class Tower {
 		return this.#ui;
 	}
 
+	get x() {
+		return this.#ui.x;
+	}
+
+	get y() {
+		return this.#ui.y;
+	}
+
+	get radius() {
+		return this.#ui.radius;
+	}
+
+	get image() {
+		return this.#ui.image;
+	}
+
 	takeDamage(ammo) {
 		const towerDamage = this.#defensiveWall.takeDamage(ammo);
 		this.#health = Math.max(0, this.health - towerDamage);
+		console.log(this.#health);
 		/*if (this.health === 0) {
 			this.emit('gameOver');
 		}*/

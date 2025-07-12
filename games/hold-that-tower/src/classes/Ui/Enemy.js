@@ -10,10 +10,12 @@ export default class Enemy {
 	#position;
 	#visible;
 	#scale;
+	#name = Enemy.NAME;
 
 	constructor(args = {}) {
-		const { scene } = args;
+		const { scene, name } = args;
 		this.#scene = scene;
+		this.#name = name;
 	}
 
 	get scene() {
@@ -36,6 +38,10 @@ export default class Enemy {
 		return this.#image;
 	}
 
+	get name() {
+		return this.#name;
+	}
+
 	static preload(scene) {
 		scene.load.image(Enemy.NAME, Enemy.IMAGE_URL);
 	}
@@ -46,7 +52,7 @@ export default class Enemy {
 		this.#visible = visible;
 		this.#scale = scale;
 		// this.#image = this.#scene.add.image(this.position.x, this.position.y, Enemy.NAME).setScale(this.scale);
-		this.#image = this.#scene.physics.add.image(this.position.x, this.position.y, Enemy.NAME).setScale(this.scale);
+		this.#image = this.#scene.physics.add.image(this.position.x, this.position.y, this.#name).setScale(this.scale);
 		this.#image.setVisible(this.visible);
 	}
 

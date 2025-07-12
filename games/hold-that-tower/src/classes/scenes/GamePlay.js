@@ -1,5 +1,6 @@
 import Ground from '../Ui/Ground.js';
-import Tower from '../Ui/Tower.js';
+import Tower from '../Tower.js';
+import TowerUi from '../UI/Tower.js';
 import Position from '../Position.js';
 import Runner from '../Ui/Runner.js';
 import Enemy from '../Ui/Enemy.js';
@@ -12,6 +13,7 @@ import Crown from '../Ui/Crown.js';
 import BulletGroup from "../Ui/BulletGroup.js";
 import EnemyGroup from "../Ui/EnemyGroup.js";
 import RunnerGroup from "../Ui/RunnerGroup.js";
+import EnemyType from "../../enums/EnemyType.js";
 
 export default class GamePlay extends Phaser.Scene {
 	#ground;
@@ -47,7 +49,7 @@ export default class GamePlay extends Phaser.Scene {
 	preload ()
 	{
 		Ground.preload(this);
-		Tower.preload(this);
+		TowerUi.preload(this);
 		Runner.preload(this);
 		Enemy.preload(this);
 		Bullet.preload(this);
@@ -55,17 +57,18 @@ export default class GamePlay extends Phaser.Scene {
 		Coins.preload(this);
 		Star.preload(this);
 		Crown.preload(this);
+		EnemyType.preload(this);
 	}
 
 	create ()
 	{
 		this.#ground = new Ground({ scene: this });
+		this.#ground.create();
 		this.#tower = new Tower({ position: new Position(1000, 475), scene: this });
 		this.#gun = new Gun({ scene: this });
 		this.#statistics = new Statistics({ scene: this });
 		this.#prize = new Coins({ scene: this, visible: false });
-		this.#ground.create();
-		this.#tower.create();
+		// this.#tower.create();
 		this.#gun.create({ position: new Position(this.#tower.x, this.#tower.y - this.#tower.radius) });
 		this.#statistics.create();
 		this.#prize.create();
@@ -141,7 +144,7 @@ export default class GamePlay extends Phaser.Scene {
 			hitEnemy.setVisible(false);
 			// Stop any tweens for this enemy
 			this.tweens.getTweensOf(enemyImage).forEach(tween => tween.stop());
-			this.#dropPrize(new Position(enemyImage.x, enemyImage.y));
+			this.#dropPrize(hitEnemy.prize, new Position(enemyImage.x, enemyImage.y));
 			if (this.#enemies.enemyToLaunch === -1 && hitEnemy === this.#enemies.lastEnemyToLaunch) {
 				this.#waveEnded = true;
 				this.#clearDroppedPrizes();
@@ -156,22 +159,7 @@ export default class GamePlay extends Phaser.Scene {
 		this.#prizesDropped = [];
 	}
 
-	#dropPrize(position) {
-		let prize;
-		const whichPrize = Math.floor(Math.random() * 100);
-		if (whichPrize < 60) {
-			prize = new Coins({ scene: this, visible: false });
-			prize.create();
-			prize.setAmount(Math.floor(Math.random() * 15) + 5);
-		} else if (whichPrize < 90) {
-			prize = new Star({ scene: this, visible: false });
-			prize.create();
-			prize.setAmount(Math.floor(Math.random() * 15) + 15);
-		} else {
-			prize = new Crown({ scene: this, visible: false });
-			prize.create();
-			prize.setAmount(Math.floor(Math.random() * 15) + 25);
-		}
+	#dropPrize(prize, position) {
 		const x = position ? position.x : Math.floor(Math.random() * this.cameras.main.width - 500) + 400;
 		const y = position ? position.y : Math.floor(Math.random() * this.cameras.main.height - 50) + 10;
 		prize.setPosition(new Position(x, y));

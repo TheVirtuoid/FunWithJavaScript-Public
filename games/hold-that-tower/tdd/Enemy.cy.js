@@ -3,10 +3,11 @@ import EnemyFactory from "../src/classes/EnemyFactory.js";
 import Position from "../src/classes/Position.js";
 import Enemy from "../src/classes/Enemy.js";
 import EnemyUi from "../src/classes/Ui/Enemy.js";
+import Prize from "../src/classes/Prize.js";
 
 describe('When I work with the Enemy class', () => {
 	const position = new Position(0, 0);
-	const { hitPoints, speed, damage } = EnemyFactory.getData(EnemyType.GUNNER);
+	const { hitPoints, speed, damage, name } = EnemyFactory.getData(EnemyType.ABYSSLORD);
 
 	let enemy;
 	const mockScene = {};
@@ -20,12 +21,14 @@ describe('When I work with the Enemy class', () => {
 		});
 
 		it('should have the correct properties', () => {
-			expect(enemy.type).to.equal(EnemyType.GUNNER);
+			expect(enemy.type).to.equal(EnemyType.ABYSSLORD);
 			expect(enemy.hitPoints).to.equal(hitPoints);
 			expect(enemy.speed).to.equal(speed);
 			expect(enemy.damage).to.equal(damage);
 			expect(enemy.position).to.equal(position);
 			expect(enemy.ui).to.be.instanceof(EnemyUi);
+			expect(enemy.prize).to.be.instanceof(Prize);
+			expect(enemy.name).to.equal(name);
 		});
 	});
 
@@ -33,8 +36,8 @@ describe('When I work with the Enemy class', () => {
 		it('should reduce hit points by the given amount', () => {
 			const initialHitPoints = enemy.hitPoints;
 			const damage = 10;
-			enemy.takeDamage(damage);
-			expect(enemy.hitPoints).to.equal(initialHitPoints - damage);
+			const hitPoints = enemy.takeDamage(damage);
+			expect(hitPoints).to.equal(initialHitPoints - damage);
 		});
 
 		it('should not go below zero', () => {
@@ -72,4 +75,6 @@ describe('When I work with the Enemy class', () => {
 	});
 
 	xdescribe('And when I work with the event listeners', () => {})
+
+	// TODO: SetPosition
 });
