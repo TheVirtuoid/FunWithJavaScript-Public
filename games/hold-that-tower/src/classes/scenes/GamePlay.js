@@ -17,13 +17,14 @@ import EnemyType from "../../enums/EnemyType.js";
 import GameEvent from "../../enums/GameEvent.js";
 import Ammo from "../Ammo.js";
 import AmmoType from "../../enums/AmmoType.js";
+import CardUi from '../UI/Card.js';
 
 export default class GamePlay extends Phaser.Scene {
 	#ground;
 	#tower;
 	#gun;
 	#statistics;
-	#prize;
+
 	#prizesGroup;
 	#prizesDropped;
 
@@ -39,9 +40,8 @@ export default class GamePlay extends Phaser.Scene {
 
 	#currentWave = 1;
 
-	#runner;
-
 	#waveEnded = false;
+	#gameOver = false;
 
 	constructor() {
 		super({
@@ -78,47 +78,26 @@ export default class GamePlay extends Phaser.Scene {
 
 		this.events.on(GameEvent.WAVE_STARTED, this.#onWaveStarted.bind(this));
 		this.events.on(GameEvent.WAVE_ENDED, this.#onWaveEnded.bind(this));
+		this.events.on(GameEvent.NEW_WAVE, this.#onNewWave.bind(this));
 
 		this.#ground = new Ground({scene: this});
 		this.#ground.create();
 		this.#tower = new Tower({position: new Position(1000, 475), scene: this});
-		this.#gun = new Gun({scene: this});
 		this.#statistics = new Statistics({scene: this});
-		this.#prize = new Coins({scene: this, visible: false});
+
+		this.#gun = new Gun({scene: this});
 		// this.#tower.create();
 		this.#gun.create({position: new Position(this.#tower.x, this.#tower.y - this.#tower.radius)});
 		this.#statistics.create();
-		this.#prize.create();
-
-		this.#bullets = new BulletGroup({scene: this});
-		this.#bullets.create();
-
-		// gamepad input
 		this.input.gamepad.once('connected', (pad) => {
 			this.#gamepad = pad;
 		});
+		this.#gameOver = false;
 
-		this.#enemies = new EnemyGroup({scene: this, tower: this.#tower});
+		new CardUi({scene: this, position: new Position(500, 200)}).create();
 
-		this.#enemies.buildWave(this.#currentWave);
 
-		this.#prizesGroup = this.physics.add.group();
-		this.#prizesDropped = [];
-
-		this.#runners = new RunnerGroup({scene: this, tower: this.#tower, statistics: this.#statistics});
-		this.#runners.buildWave(this.#currentWave);
-
-		this.physics.add.overlap(
-			this.#bullets.group,
-			this.#enemies.group,
-			this.#handleBulletEnemyCollision.bind(this),
-			(bullet, enemy) => bullet.active && enemy.visible,
-			this
-		);
-
-		this.#statistics.setHealth(this.#tower.health);
-		this.#statistics.setMaxHealth(this.#tower.maxHealth);
-		GameEvent.Emit(GameEvent.WAVE_STARTED, this.#currentWave);
+		GameEvent.Emit(GameEvent.NEW_WAVE);
 	}
 
 	update(time, delta) {
@@ -179,20 +158,27 @@ export default class GamePlay extends Phaser.Scene {
 	}
 
 	#onGameOver() {
+		this.#gameOver = true;
+		GameEvent.Emit(GameEvent.WAVE_ENDED);
 	};
 
 	#onEnemyReachedTower(enemy) {
+		enemy.setVisible(false);
 		const ammo = new Ammo({ damage: enemy.damage, type: AmmoType.ENEMY, scene: this });
-		this.#tower.takeDamage(ammo);
+		const health = this.#tower.takeDamage(ammo);
 		this.#statistics.setHealth(this.#tower.health);
 		if (this.#enemies.enemyToLaunch === -1 && enemy === this.#enemies.lastEnemyToLaunch) {
 			GameEvent.Emit(GameEvent.WAVE_ENDED);
+		}
+		if (health === 0) {
+			GameEvent.Emit(GameEvent.GAME_OVER);
 		}
 	};
 
 	#onEnemyDestroyed(enemy) {
 		enemy.setVisible(false);
 		this.tweens.getTweensOf(enemy.image).forEach(tween => tween.stop());
+		enemy.destroy();
 		this.#dropPrize(enemy.prize, new Position(enemy.image.x, enemy.image.y));
 		if (this.#enemies.enemyToLaunch === -1 && enemy === this.#enemies.lastEnemyToLaunch) {
 			GameEvent.Emit(GameEvent.WAVE_ENDED);
@@ -230,6 +216,39 @@ export default class GamePlay extends Phaser.Scene {
 	#onWaveEnded() {
 		this.#waveEnded = true;
 		this.#clearDroppedPrizes();
+		this.#enemies.destroy();
+		if (!this.#gameOver) {
+			setTimeout(() => {
+				this.#currentWave++;
+				GameEvent.Emit(GameEvent.NEW_WAVE);
+			}, 5000);
+		}
 	};
+
+	#onNewWave() {
+		this.#bullets = new BulletGroup({scene: this});
+		this.#bullets.create();
+		this.#enemies = new EnemyGroup({scene: this, tower: this.#tower});
+
+		this.#enemies.buildWave(this.#currentWave);
+
+		this.#prizesGroup = this.physics.add.group();
+		this.#prizesDropped = [];
+
+		this.#runners = new RunnerGroup({scene: this, tower: this.#tower, statistics: this.#statistics});
+		this.#runners.buildWave(this.#currentWave);
+
+		this.physics.add.overlap(
+			this.#bullets.group,
+			this.#enemies.group,
+			this.#handleBulletEnemyCollision.bind(this),
+			(bullet, enemy) => bullet.active && enemy.visible,
+			this
+		);
+
+		this.#statistics.setHealth(this.#tower.health);
+		this.#statistics.setMaxHealth(this.#tower.maxHealth);
+		GameEvent.Emit(GameEvent.WAVE_STARTED, this.#currentWave);
+	}
 
 }

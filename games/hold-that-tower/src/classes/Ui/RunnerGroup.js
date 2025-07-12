@@ -1,5 +1,5 @@
 import Position from "../Position.js";
-import Runner from "./Runner.js";
+import Runner from "./../Runner.js";
 
 export default class RunnerGroup {
 	#scene;
@@ -29,7 +29,6 @@ export default class RunnerGroup {
 		// TODO: Get number of runners from stats
 		for (let i = 0; i < 1; i++) {
 			const runner = new Runner({ scene: this.#scene, visible: false });
-			runner.create({ visible: false });
 			const runnerData = {
 				running: false,
 				runner,
@@ -43,11 +42,18 @@ export default class RunnerGroup {
 		const { runner } = runnerData;
 		runner.setPosition(new Position(this.#tower.x, this.#tower.y));
 		runner.setVisible(true);
+		const distanceToPrize = Phaser.Math.Distance.Between(
+			this.#tower.x,
+			this.#tower.y,
+			prize.x,
+			prize.y
+		);
+		const duration = (distanceToPrize / runner.speed) * 1000;
 		this.#scene.tweens.add({
 			targets: runner.image,
 			x: prize.x,
 			y: prize.y,
-			duration: 2000,
+			duration,
 			ease: 'Linear',
 			onComplete: () => {
 				prize.setVisible(false);
@@ -55,7 +61,7 @@ export default class RunnerGroup {
 					targets: runner.image,
 					x: this.#tower.x,
 					y: this.#tower.y,
-					duration: 2000,
+					duration,
 					ease: 'Linear',
 					onComplete: () => {
 						runner.setVisible(false);

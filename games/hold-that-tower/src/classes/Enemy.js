@@ -9,12 +9,14 @@ export default class Enemy {
 	#speed;
 	#ui;
 	#prize;
+	#maxHitPoints;
 
 	constructor(args = {}) {
 		const { type, position, hitPoints, damage, speed, scene, prize, name } = args;
 		this.#type = type; // Type of the enemy (e.g., gunner, boss, runner)
 		this.#position = position; // Position object containing x and y coordinates
 		this.#hitPoints = hitPoints;
+		this.#maxHitPoints = hitPoints;
 		this.#damage = damage; // Damage the enemy can inflict
 		this.#speed = speed; // Speed of the enemy
 		this.#ui = new EnemyUi({ scene, type, name });
@@ -55,6 +57,7 @@ export default class Enemy {
 		if (this.#hitPoints < 0) {
 			this.#hitPoints = 0; // Ensure hit points do not go below zero
 		}
+		this.#ui.updateHealthBar(this.#hitPoints, this.#maxHitPoints);
 		return this.#hitPoints;
 	}
 
@@ -71,6 +74,14 @@ export default class Enemy {
 			throw new Error('Visible must be a boolean value');
 		}
 		this.#ui.setVisible(visible);
+	}
+
+	destroy() {
+		this.#ui.destroy();
+	}
+
+	updateHealthBarPosition(x, y) {
+		this.#ui.updateHealthBarPosition(x, y);
 	}
 
 }

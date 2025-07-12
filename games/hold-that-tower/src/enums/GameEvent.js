@@ -15,6 +15,7 @@ export default class GameEvent {
 
 	static WAVE_STARTED = 'wave-started';
 	static WAVE_ENDED = 'wave-ended';
+	static NEW_WAVE = 'new-wave';
 
 	static TYPES = [
 		GameEvent.GAME_OVER,
@@ -27,7 +28,8 @@ export default class GameEvent {
 		GameEvent.MISSILE_HIT_ENEMY,
 		GameEvent.MISSILE_HIT_MISSILE,
 		GameEvent.WAVE_STARTED,
-		GameEvent.WAVE_ENDED
+		GameEvent.WAVE_ENDED,
+		GameEvent.NEW_WAVE
 	]
 
 	static Setup(gameScene) {

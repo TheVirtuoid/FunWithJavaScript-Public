@@ -134,15 +134,28 @@ export default class EnemyGroup {
 			y: this.#tower.y,
 			duration: 5000, // Time in milliseconds to complete the animation
 			ease: 'Linear', // Linear motion for consistent speed
+			onUpdate: () => {
+				enemy.updateHealthBarPosition(enemy.image.x, enemy.image.y);
+			},
 			onComplete: () => {
-				enemy.setVisible(false);
 				GameEvent.Emit(GameEvent.ENEMY_REACHED_TOWER, enemy);
-				/*const ammo = new Ammo({ damage: enemy.damage, type: AmmoType.ENEMY });
-				this.#tower.takeDamage(ammo);
-				if (this.#enemyToLaunch === -1 && enemy === this.#lastEnemyToLaunch) {
-					GameEvent.Emit(GameEvent.WAVE_ENDED);
-				}*/
 			}
 		});
 	}
+
+	destroy() {
+		this.#enemies.forEach(enemy => {
+			if (enemy.image) {
+				this.#scene.tweens.getTweensOf(enemy.image).forEach(tween => {
+					tween.stop();
+				});
+			}
+			enemy.setVisible(false);
+			enemy.destroy();
+		});
+		this.#enemies = [];
+		this.#enemyToLaunch = -1;
+		this.#lastEnemyToLaunch = null;
+	}
+
 }

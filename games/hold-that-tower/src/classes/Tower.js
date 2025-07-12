@@ -22,7 +22,7 @@ export default class Tower {
 		this.#health = Tower.DEFAULT_HEALTH;
 		this.#maxHealth = Tower.DEFAULT_MAX_HEALTH;
 		this.#guns = [new Gun({ position: GunPosition.TWELVE, ammo: { damage: 10 } })];
-		this.#runners = [new Runner()];
+		this.#runners = [new Runner({ scene })];
 		this.#defensiveWall = new DefensiveWall();
 		this.#turretSpinSpeed = Tower.DEFAULT_TURRET_SPIN_SPEED;
 		this.#ui = new TowerUi({ scene: scene, position });
@@ -79,6 +79,7 @@ export default class Tower {
 		/*if (this.health === 0) {
 			this.emit('gameOver');
 		}*/
+		return this.#health;
 	}
 
 	upgradeMaximumHealth(amount) {

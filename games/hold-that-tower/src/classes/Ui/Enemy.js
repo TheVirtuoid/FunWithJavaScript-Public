@@ -12,6 +12,8 @@ export default class Enemy {
 	#scale;
 	#name = Enemy.NAME;
 
+	#healthBar;
+
 	constructor(args = {}) {
 		const { scene, name } = args;
 		this.#scene = scene;
@@ -54,12 +56,16 @@ export default class Enemy {
 		// this.#image = this.#scene.add.image(this.position.x, this.position.y, Enemy.NAME).setScale(this.scale);
 		this.#image = this.#scene.physics.add.image(this.position.x, this.position.y, this.#name).setScale(this.scale);
 		this.#image.setVisible(this.visible);
+		this.#createHealthBar();
 	}
 
 	setPosition(position) {
 		this.#position = position;
 		if (this.#image) {
 			this.#image.setPosition(this.position.x, this.position.y);
+		}
+		if (this.#healthBar) {
+			this.#healthBar.setPosition(position.x, position.y - 30);
 		}
 	}
 
@@ -68,5 +74,35 @@ export default class Enemy {
 		if (this.#image) {
 			this.#image.setVisible(this.visible);
 		}
+		if (this.#healthBar) {
+			this.#healthBar.setVisible(this.visible);
+		}
 	}
+
+	#createHealthBar(scene) {
+		this.#healthBar = this.#scene.add.rectangle(
+			0, 0,
+			30, // width
+			5,  // height
+			0x00ff00 // green color
+		);
+		this.#healthBar.visible = false;
+	}
+
+	updateHealthBar(hitPoints, maxHitPoints) {
+		if (this.#healthBar) {
+			const healthPercentage = hitPoints / maxHitPoints;
+			this.#healthBar.width = 30 * healthPercentage; // 30 is the original width
+		}
+	}
+
+	updateHealthBarPosition(x, y) {
+		this.#healthBar.setPosition(x, y - 30);
+	}
+
+	destroy() {
+		this.#healthBar.destroy();
+		this.#image.destroy();
+	}
+
 }

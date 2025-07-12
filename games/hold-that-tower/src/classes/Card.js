@@ -7,6 +7,7 @@ export default class Card {
 	#upgradeType;
 	#upgradeCalculation;
 	#description;
+	#ui;
 
 	constructor(args = {}) {
 		const { type, upgradeAmount, upgradeType, upgradeCalculation, description } = args;
