@@ -22,11 +22,9 @@ export default class Statistics {
 	#crowns;
 	#crownsText;
 
-	#hitPoints;
-	#hitPointsText;
+	#healthText;
 
-	#maxHitPoints;
-	#maxHitPointsText;
+	#maxHealthText;
 
 	#gunDamage;
 	#gunDamageText;
@@ -35,14 +33,14 @@ export default class Statistics {
 	#crownImage;
 	#coinsImage;
 
+	#waveText;
+
 	constructor(args = {}) {
 		const { scene } = args;
 		this.#scene = scene;
 		this.#coins = 0;
 		this.#stars = 0;
 		this.#crowns = 0;
-		this.#hitPoints = 20;
-		this.#maxHitPoints = 20;
 		this.#gunDamage = 6;
 		this.#starImage = new Star({ scene: this.#scene});
 		this.#crownImage = new Crown({ scene: this.#scene});
@@ -55,6 +53,18 @@ export default class Statistics {
 
 	get image() {
 		return this.#image;
+	}
+
+	setWave(wave) {
+		this.#waveText.setText(wave);
+	}
+
+	setHealth(health) {
+		this.#healthText.setText(health);
+	}
+
+	setMaxHealth(maxHealth) {
+		this.#maxHealthText.setText(maxHealth);
 	}
 
 	create() {
@@ -70,13 +80,14 @@ export default class Statistics {
 		graphics.strokeRoundedRect(20, 100, 330, 240, 20);
 
 		this.#addExtraLargeText(new Position(20, 20), 'Hold That Tower!', '#ffffff');
-		this.#addLargeText(new Position(20, 60), 'Wave: 6', '#88ff88');
+		this.#addLargeText(new Position(20, 60), 'Wave:', '#88ff88');
+		this.#waveText = this.#addLargeText(new Position(150, 60), '0', '#88ff88');
 
-		this.#addMainText(new Position(30,110), 'Hit Points');
-		this.#hitPointsText = this.#addMainText(new Position(250,110), this.#hitPoints);
+		this.#addMainText(new Position(30,110), 'Health');
+		this.#healthText = this.#addMainText(new Position(250,110), 0);
 
-		this.#addMainText(new Position(30,135), 'Max Hit Points');
-		this.#maxHitPointsText = this.#addMainText(new Position(250,135), this.#maxHitPoints);
+		this.#addMainText(new Position(30,135), 'Max Health');
+		this.#maxHealthText = this.#addMainText(new Position(250,135), 0);
 
 		this.#addMainText(new Position(30,160), 'Gun Damage');
 		this.#gunDamageText = this.#addMainText(new Position(250,160), this.#gunDamage);

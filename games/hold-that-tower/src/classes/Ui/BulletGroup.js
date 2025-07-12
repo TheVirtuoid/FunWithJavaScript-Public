@@ -1,7 +1,12 @@
+import Bullet from "./Bullet.js";
+import AmmoType from "../../enums/AmmoType.js";
+import Ammo from "../Ammo.js";
+
 export default class BulletGroup {
 	#bullets;
 	#bulletLastFired;
 	#scene;
+	#group;
 
 	constructor(args = {}) {
 		const { scene } = args;
@@ -9,7 +14,7 @@ export default class BulletGroup {
 	}
 
 	get group() {
-		return this.#bullets;
+		return this.#group;
 	}
 
 	get bulletLastFired() {
@@ -17,23 +22,26 @@ export default class BulletGroup {
 	}
 
 	create() {
-		this.#bullets = this.#scene.physics.add.group({
+		this.#group = this.#scene.physics.add.group({
 			name: 'bullets',
 			enabled: false
 		});
-		this.#bullets.createMultiple({
-			key: 'bullet',
-			quantity: 20,
-			active: false,
-			visible: false,
-			setScale: { x: 0.25, y: 0.25 },
+		this.#bullets = [];
+		for (let i = 0; i < 20; i++) {
+			const bullet = new Ammo({ scene: this.#scene, type: AmmoType.BULLET, damage: 6 });
+			bullet.image.active = false;
+			this.#bullets.push(bullet)
+		}
+		this.#group = this.#scene.physics.add.group();
+		this.#bullets.forEach((bullet) => {
+			this.#group.add(bullet.image);
 		});
 		this.#bulletLastFired = 0;
 	}
 
 	removeOffScreenBullets() {
-		if (this.#bullets) {
-			this.#bullets.getChildren().forEach(bullet => {
+		if (this.#group) {
+			this.#group.getChildren().forEach(bullet => {
 				// Remove bullets that are off-screen
 				if (bullet.active && (
 					bullet.x < 0 ||
@@ -49,7 +57,7 @@ export default class BulletGroup {
 
 	fireBullet(gun, time) {
 		// Get a bullet from the pool or create a new one
-		const bullet = this.#bullets.getFirstDead();
+		const bullet = this.#group.getFirstDead();
 		if (bullet) {
 			const offsetX = Math.cos(gun.rotation - Math.PI/2) * 30;
 			const offsetY = Math.sin(gun.rotation - Math.PI/2) * 30;
@@ -61,4 +69,9 @@ export default class BulletGroup {
 			this.#bulletLastFired = time;
 		}
 	}
+
+	findBulletFromImage(image) {
+		return this.#bullets.find(bullet => bullet.image === image);
+	}
+
 }

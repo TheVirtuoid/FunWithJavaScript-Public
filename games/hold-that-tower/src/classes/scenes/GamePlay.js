@@ -5,7 +5,7 @@ import Position from '../Position.js';
 import Runner from '../Ui/Runner.js';
 import Enemy from '../Ui/Enemy.js';
 import Gun from '../Ui/Gun.js';
-import Statistics from '../Ui/Statistics.js';
+import Statistics from '../Statistics.js';
 import Coins from '../Ui/Coins.js';
 import Bullet from '../Ui/Bullet.js';
 import Star from '../Ui/Star.js';
@@ -14,6 +14,9 @@ import BulletGroup from "../Ui/BulletGroup.js";
 import EnemyGroup from "../Ui/EnemyGroup.js";
 import RunnerGroup from "../Ui/RunnerGroup.js";
 import EnemyType from "../../enums/EnemyType.js";
+import GameEvent from "../../enums/GameEvent.js";
+import Ammo from "../Ammo.js";
+import AmmoType from "../../enums/AmmoType.js";
 
 export default class GamePlay extends Phaser.Scene {
 	#ground;
@@ -25,7 +28,7 @@ export default class GamePlay extends Phaser.Scene {
 	#prizesDropped;
 
 	#gamepad;
-	#gunAngle= 0;
+	#gunAngle = 0;
 	#gunRotationSpeed = .05;
 
 	#bullets;
@@ -46,8 +49,7 @@ export default class GamePlay extends Phaser.Scene {
 		});
 	}
 
-	preload ()
-	{
+	preload() {
 		Ground.preload(this);
 		TowerUi.preload(this);
 		Runner.preload(this);
@@ -58,22 +60,37 @@ export default class GamePlay extends Phaser.Scene {
 		Star.preload(this);
 		Crown.preload(this);
 		EnemyType.preload(this);
+		GameEvent.Setup(this);
 	}
 
-	create ()
-	{
-		this.#ground = new Ground({ scene: this });
+	create() {
+		// setup events
+		this.events.once(GameEvent.GAME_OVER, this.#onGameOver.bind(this));
+		this.events.on(GameEvent.ENEMY_REACHED_TOWER, this.#onEnemyReachedTower.bind(this));
+		this.events.on(GameEvent.ENEMY_DESTROYED, this.#onEnemyDestroyed.bind(this));
+		this.events.on(GameEvent.RUNNER_RETURNED, this.#onRunnerReturned.bind(this));
+		this.events.on(GameEvent.RUNNER_DESTROYED, this.#onRunnerDestroyed.bind(this));
+
+		this.events.on(GameEvent.MISSILE_HIT_TOWER, this.#onMissileHitTower.bind(this));
+		this.events.on(GameEvent.MISSILE_HIT_RUNNER, this.#onMissileHitRunner.bind(this));
+		this.events.on(GameEvent.MISSILE_HIT_ENEMY, this.#onMissileHitEnemy.bind(this));
+		this.events.on(GameEvent.MISSILE_HIT_MISSILE, this.#onMissileHitMissile.bind(this));
+
+		this.events.on(GameEvent.WAVE_STARTED, this.#onWaveStarted.bind(this));
+		this.events.on(GameEvent.WAVE_ENDED, this.#onWaveEnded.bind(this));
+
+		this.#ground = new Ground({scene: this});
 		this.#ground.create();
-		this.#tower = new Tower({ position: new Position(1000, 475), scene: this });
-		this.#gun = new Gun({ scene: this });
-		this.#statistics = new Statistics({ scene: this });
-		this.#prize = new Coins({ scene: this, visible: false });
+		this.#tower = new Tower({position: new Position(1000, 475), scene: this});
+		this.#gun = new Gun({scene: this});
+		this.#statistics = new Statistics({scene: this});
+		this.#prize = new Coins({scene: this, visible: false});
 		// this.#tower.create();
-		this.#gun.create({ position: new Position(this.#tower.x, this.#tower.y - this.#tower.radius) });
+		this.#gun.create({position: new Position(this.#tower.x, this.#tower.y - this.#tower.radius)});
 		this.#statistics.create();
 		this.#prize.create();
 
-		this.#bullets = new BulletGroup({ scene: this });
+		this.#bullets = new BulletGroup({scene: this});
 		this.#bullets.create();
 
 		// gamepad input
@@ -81,14 +98,14 @@ export default class GamePlay extends Phaser.Scene {
 			this.#gamepad = pad;
 		});
 
-		this.#enemies = new EnemyGroup({ scene: this, tower: this.#tower });
+		this.#enemies = new EnemyGroup({scene: this, tower: this.#tower});
 
 		this.#enemies.buildWave(this.#currentWave);
 
 		this.#prizesGroup = this.physics.add.group();
 		this.#prizesDropped = [];
 
-		this.#runners = new RunnerGroup({ scene: this, tower: this.#tower, statistics: this.#statistics });
+		this.#runners = new RunnerGroup({scene: this, tower: this.#tower, statistics: this.#statistics});
 		this.#runners.buildWave(this.#currentWave);
 
 		this.physics.add.overlap(
@@ -99,15 +116,18 @@ export default class GamePlay extends Phaser.Scene {
 			this
 		);
 
-		this.#waveEnded = false;
+		this.#statistics.setHealth(this.#tower.health);
+		this.#statistics.setMaxHealth(this.#tower.maxHealth);
+		GameEvent.Emit(GameEvent.WAVE_STARTED, this.#currentWave);
 	}
-	update (time, delta) {
+
+	update(time, delta) {
 		this.#enemies.setLastLaunchedTime(time);
 		// TODO: Left or Right Handed
 		if (this.#gamepad) {
 			// Get horizontal input from left analog stick or d-pad
 			let horizontalInput = this.#gamepad.leftStick.x;
-			const direction = horizontalInput > 0 ? 1 : - 1;
+			const direction = horizontalInput > 0 ? 1 : -1;
 
 			// Update the angle based on controller input
 			if (horizontalInput !== 0) {
@@ -115,7 +135,7 @@ export default class GamePlay extends Phaser.Scene {
 				const x = this.#tower.x + this.#tower.radius * Math.cos(this.#gunAngle);
 				const y = this.#tower.y + this.#tower.radius * Math.sin(this.#gunAngle);
 				this.#gun.setPosition(new Position(x, y));
-				this.#gun.setRotation(this.#gunAngle + Math.PI/2);
+				this.#gun.setRotation(this.#gunAngle + Math.PI / 2);
 			}
 			if (this.#gamepad.A) {
 				// Fire cooldown (200ms = 5 bullets per second)
@@ -125,10 +145,7 @@ export default class GamePlay extends Phaser.Scene {
 			}
 			this.#bullets.removeOffScreenBullets();
 		}
-		this.#waveEnded = this.#enemies.scheduleNextEnemyMove(time);
-		if (this.#waveEnded) {
-			this.#clearDroppedPrizes();
-		}
+		this.#enemies.scheduleNextEnemyMove(time);
 		if (this.#prizesDropped.length > 0 && !this.#waveEnded) {
 			this.#runners.scheduleNextRunner(this.#prizesDropped);
 		}
@@ -141,14 +158,7 @@ export default class GamePlay extends Phaser.Scene {
 		// Find the Enemy instance that owns this image
 		const hitEnemy = this.#enemies.findEnemyFromImage(enemyImage);
 		if (hitEnemy) {
-			hitEnemy.setVisible(false);
-			// Stop any tweens for this enemy
-			this.tweens.getTweensOf(enemyImage).forEach(tween => tween.stop());
-			this.#dropPrize(hitEnemy.prize, new Position(enemyImage.x, enemyImage.y));
-			if (this.#enemies.enemyToLaunch === -1 && hitEnemy === this.#enemies.lastEnemyToLaunch) {
-				this.#waveEnded = true;
-				this.#clearDroppedPrizes();
-			}
+			GameEvent.Emit(GameEvent.MISSILE_HIT_ENEMY, bullet, hitEnemy);
 		}
 	}
 
@@ -167,4 +177,59 @@ export default class GamePlay extends Phaser.Scene {
 		this.#prizesGroup.add(prize.image);
 		this.#prizesDropped.push(prize);
 	}
+
+	#onGameOver() {
+	};
+
+	#onEnemyReachedTower(enemy) {
+		const ammo = new Ammo({ damage: enemy.damage, type: AmmoType.ENEMY, scene: this });
+		this.#tower.takeDamage(ammo);
+		this.#statistics.setHealth(this.#tower.health);
+		if (this.#enemies.enemyToLaunch === -1 && enemy === this.#enemies.lastEnemyToLaunch) {
+			GameEvent.Emit(GameEvent.WAVE_ENDED);
+		}
+	};
+
+	#onEnemyDestroyed(enemy) {
+		enemy.setVisible(false);
+		this.tweens.getTweensOf(enemy.image).forEach(tween => tween.stop());
+		this.#dropPrize(enemy.prize, new Position(enemy.image.x, enemy.image.y));
+		if (this.#enemies.enemyToLaunch === -1 && enemy === this.#enemies.lastEnemyToLaunch) {
+			GameEvent.Emit(GameEvent.WAVE_ENDED);
+		}
+	};
+
+	#onRunnerReturned(enemy) {
+	};
+
+	#onRunnerDestroyed(enemy) {
+	};
+
+	#onMissileHitTower(missile) {
+	};
+
+	#onMissileHitRunner(missile, runner) {
+	};
+
+	#onMissileHitEnemy(missile, enemy) {
+		const bullet = this.#bullets.findBulletFromImage(missile);
+		const hitPoints = enemy.takeDamage(bullet.damage);
+		if (hitPoints === 0) {
+			GameEvent.Emit(GameEvent.ENEMY_DESTROYED, enemy);
+		}
+	};
+
+	#onMissileHitMissile(missileFired, missileHit) {
+	};
+
+	#onWaveStarted(wave) {
+		this.#waveEnded = false;
+		this.#statistics.setWave(wave);
+	};
+
+	#onWaveEnded() {
+		this.#waveEnded = true;
+		this.#clearDroppedPrizes();
+	};
+
 }

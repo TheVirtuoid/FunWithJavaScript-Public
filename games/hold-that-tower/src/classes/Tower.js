@@ -76,7 +76,6 @@ export default class Tower {
 	takeDamage(ammo) {
 		const towerDamage = this.#defensiveWall.takeDamage(ammo);
 		this.#health = Math.max(0, this.health - towerDamage);
-		console.log(this.#health);
 		/*if (this.health === 0) {
 			this.emit('gameOver');
 		}*/

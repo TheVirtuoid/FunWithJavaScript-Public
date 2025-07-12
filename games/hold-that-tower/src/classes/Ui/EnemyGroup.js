@@ -5,6 +5,7 @@ import EnemyType from "../../enums/EnemyType.js";
 import EnemyFactory from "../EnemyFactory.js";
 import AmmoType from "../../enums/AmmoType.js";
 import Ammo from "../Ammo.js";
+import GameEvent from "../../enums/GameEvent.js";
 
 export default class EnemyGroup {
 	#enemies;
@@ -69,7 +70,8 @@ export default class EnemyGroup {
 			}
 			const type = EnemyType.TYPES[index];
 			const theEnemy = EnemyType.DATABASE.get(type);
-			const realEnemy = EnemyFactory.CreateEnemyFromType({ ...theEnemy, type }, this.#scene);
+			const hitPoints = theEnemy.hitPoints + Math.floor(Math.random() * 10) - 5;
+			const realEnemy = EnemyFactory.CreateEnemyFromType({ ...theEnemy, hitPoints, type }, this.#scene);
 			const enemy = new Enemy({ scene: this.#scene, visible: false });
 			enemy.create({ visible: false });
 			// this.#enemies.push(enemy);
@@ -100,21 +102,18 @@ export default class EnemyGroup {
 	}
 
 	scheduleNextEnemyMove(time) {
-		let waveEnded = false;
 		if (time > this.#enemyLastLaunchedTime + this.#enemyLaunchInterval && this.#enemyToLaunch !== -1) {
 			if (this.#enemyToLaunch < this.#enemies.length) {
 				const enemy = this.getEnemyToLaunch();
-				waveEnded = this.moveEnemy(enemy);
+				this.moveEnemy(enemy);
 				this.setForNextEnemy(enemy, time);
 			} else {
 				this.setForNextEnemy(null);
 			}
 		}
-		return waveEnded;
 	}
 
 	moveEnemy(enemy) {
-		let waveEnded = false;
 		if (Math.random() < .5) {
 			enemy.setPosition(new Position(
 				Math.random() < .5 ? -100 : this.#scene.cameras.main.width + 100,
@@ -136,15 +135,14 @@ export default class EnemyGroup {
 			duration: 5000, // Time in milliseconds to complete the animation
 			ease: 'Linear', // Linear motion for consistent speed
 			onComplete: () => {
-				// Optional: if you want to repeat the animation or do something when done
 				enemy.setVisible(false);
-				const ammo = new Ammo({ damage: enemy.damage, type: AmmoType.ENEMY });
+				GameEvent.Emit(GameEvent.ENEMY_REACHED_TOWER, enemy);
+				/*const ammo = new Ammo({ damage: enemy.damage, type: AmmoType.ENEMY });
 				this.#tower.takeDamage(ammo);
-				if (this.#enemies.enemyToLaunch === -1 && enemy === this.#enemies.lastEnemyToLaunch) {
-					waveEnded = true;
-				}
+				if (this.#enemyToLaunch === -1 && enemy === this.#lastEnemyToLaunch) {
+					GameEvent.Emit(GameEvent.WAVE_ENDED);
+				}*/
 			}
 		});
-		return waveEnded;
 	}
 }

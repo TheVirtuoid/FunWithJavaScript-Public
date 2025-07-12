@@ -1,4 +1,5 @@
 import AmmoType from "../enums/AmmoType.js";
+import BulletUi from "./Ui/Bullet.js";
 
 export default class Ammo {
 	static DEFAULT_SPEED = 1;
@@ -7,9 +8,11 @@ export default class Ammo {
 	#damage;
 	#type;
 	#speed;
+	#scene;
+	#ui;
 
 	constructor(args = {}) {
-		const { damage, type, speed = Ammo.DEFAULT_SPEED } = args;
+		const { damage, type, speed = Ammo.DEFAULT_SPEED, scene } = args;
 		if (typeof damage !== 'number') {
 			throw new Error('Damage must be specified');
 		}
@@ -19,6 +22,9 @@ export default class Ammo {
 		this.#damage = damage;
 		this.#type = type;
 		this.#speed = Math.max(Ammo.DEFAULT_SPEED, speed);
+		this.#scene = scene;
+		this.#ui = new BulletUi({ scene: this.#scene, type: this.#type });
+		this.#ui.create();
 	}
 
 	get damage() {
@@ -31,6 +37,10 @@ export default class Ammo {
 
 	get speed() {
 		return this.#speed;
+	}
+
+	get image() {
+		return this.#ui.image;
 	}
 
 	adjustDamage(amount) {

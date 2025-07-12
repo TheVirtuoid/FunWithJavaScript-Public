@@ -5,6 +5,7 @@ export default class Bullet {
 
 	#scene;
 	#scale;
+	#image;
 
 	constructor(args = {}) {
 		const { scene, scale } = args;
@@ -20,7 +21,15 @@ export default class Bullet {
 		return this.#scale;
 	}
 
+	get image() {
+		return this.#image;
+	}
+
 	static preload(scene) {
 		scene.load.image(Bullet.NAME, Bullet.IMAGE_URL);
+	}
+
+	create() {
+		this.#image = this.#scene.physics.add.image(0, 0, Bullet.NAME).setScale(this.scale);
 	}
 }
