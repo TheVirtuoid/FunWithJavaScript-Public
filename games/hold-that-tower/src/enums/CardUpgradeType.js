@@ -34,8 +34,14 @@ export default class CardUpgradeType {
 	];
 
 	static DATABASE = [
-		{ pct: .75, type: CardUpgradeType.GUN_DAMAGE, title: 'Punch!', description: 'Increase gun damage by 10%', upgradeAmount: 1.1, level: CardUpgradeType.LEVEL_MINOR },
-		{ pct: .75, type: CardUpgradeType.GUN_DAMAGE, title: 'Big Punch!', description: 'Increase gun damage by 50%', upgradeAmount: 1.5, level: CardUpgradeType.LEVEL_MAJOR },
-		{ pct: .75, type: CardUpgradeType.GUN_DAMAGE, title: 'Serious Punch!', description: 'Double gun damage', upgradeAmount: 2, level: CardUpgradeType.LEVEL_GIANT }
+		{ pct: .77, level: CardUpgradeType.LEVEL_MINOR, cards: [
+			{ type: CardUpgradeType.GUN_DAMAGE, title: 'Punch!', description: 'Increase gun damage by 10%', upgradeAmount: 1.1 }
+		]},
+		{ pct: .98, level: CardUpgradeType.LEVEL_MAJOR, cards: [
+			{ type: CardUpgradeType.GUN_DAMAGE, title: 'Big Punch!', description: 'Increase gun damage by 50%', upgradeAmount: 1.5 }
+		]},
+		{ pct: 1, level: CardUpgradeType.LEVEL_GIANT, cards: [
+			{ type: CardUpgradeType.GUN_DAMAGE, title: 'Serious Punch!', description: 'Double gun damage', upgradeAmount: 2 }
+		]},
 	];
 }

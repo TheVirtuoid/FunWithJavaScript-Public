@@ -11,17 +11,19 @@ export default class Card {
 	#level;
 	#title;
 	#description;
+	#parent;
 
 	#parts;
 
 	constructor(args = {}) {
-		const { scene, position, level, title, description } = args;
+		const { scene, position, level, title, description, parent } = args;
 		this.#scene = scene;
 		this.#position = position;
 		this.#parts = [];
 		this.#level = level;
 		this.#title = title;
 		this.#description = description;
+		this.#parent = parent;
 	}
 
 	create() {
@@ -47,9 +49,9 @@ export default class Card {
 		const selectedText = this.#addStandardFreeText(new Position(bx + 19, by + 5), 'Select', '#ffffff');
 		selectedBox.setInteractive();
 		selectedBox.once('pointerdown', () => {
-			GameEvent.Emit(GameEvent.CARD_SELECTED, this);
+			GameEvent.Emit(GameEvent.CARD_SELECTED, this.#parent);
 		});
-		this.#parts.push(card, title, description);
+		this.#parts.push(card, title, description, icon, selectedBox, selectedText);
 	}
 
 	remove() {

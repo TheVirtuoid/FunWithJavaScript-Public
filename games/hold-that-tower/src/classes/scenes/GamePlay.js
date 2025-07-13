@@ -19,6 +19,7 @@ import Ammo from "../Ammo.js";
 import AmmoType from "../../enums/AmmoType.js";
 import CardUi from '../UI/Card.js';
 import CardUpgradeType from "../../enums/CardUpgradeType.js";
+import CardSelect from "../CardSelect.js";
 
 export default class GamePlay extends Phaser.Scene {
 	#ground;
@@ -28,6 +29,8 @@ export default class GamePlay extends Phaser.Scene {
 
 	#prizesGroup;
 	#prizesDropped;
+
+	#cardSelect;
 
 	#gamepad;
 	#gunAngle = 0;
@@ -97,17 +100,7 @@ export default class GamePlay extends Phaser.Scene {
 		});
 		this.#gameOver = false;
 
-		/*const cardZero = CardUpgradeType.DATABASE[0];
-		const cardOne = CardUpgradeType.DATABASE[1];
-		const cardTwo = CardUpgradeType.DATABASE[2];
-
-		const card1 = new CardUi({scene: this, position: new Position(400, 100), ...cardZero});
-		const card2 = new CardUi({scene: this, position: new Position(750, 100), ...cardOne});
-		const card3 = new CardUi({scene: this, position: new Position(1100, 100), ...cardTwo});
-		card1.create();
-		card2.create();
-		card3.create();*/
-
+		this.#cardSelect = new CardSelect({scene: this, position: new Position(400, 100)});
 
 		GameEvent.Emit(GameEvent.NEW_WAVE);
 	}
@@ -229,12 +222,7 @@ export default class GamePlay extends Phaser.Scene {
 		this.#waveEnded = true;
 		this.#clearDroppedPrizes();
 		this.#enemies.destroy();
-		if (!this.#gameOver) {
-			setTimeout(() => {
-				this.#currentWave++;
-				GameEvent.Emit(GameEvent.NEW_WAVE);
-			}, 5000);
-		}
+		this.#cardSelect.build();
 	};
 
 	#onNewWave() {
@@ -265,6 +253,13 @@ export default class GamePlay extends Phaser.Scene {
 
 	#onCardSelected(card) {
 		console.log(card);
+		this.#cardSelect.remove();
+		if (!this.#gameOver) {
+			setTimeout(() => {
+				this.#currentWave++;
+				GameEvent.Emit(GameEvent.NEW_WAVE);
+			}, 5000);
+		}
 	}
 
 }
