@@ -5,11 +5,37 @@ export default class CardUpgradeType {
 	static HEALTH = Symbol('health');
 	static MAX_HEALTH = Symbol('max_health');
 
+	static LEVEL_MINOR = Symbol('level-minor');
+	static LEVEL_MAJOR = Symbol('level-major');
+	static LEVEL_GIANT = Symbol('level-giant');
+
+	static GUN_DAMAGE = Symbol('gun-damage');
+	static GUN_SPEED = Symbol('gun-speed');
+
+	static TOWER_HEALTH = Symbol('tower-health');
+	static TOWER_MAX_HEALTH = Symbol('tower-max-health');
+	static TOWER_ROTATION_SPEED = Symbol('tower-rotation-speed');
+
+	static RUNNER_SPEED = Symbol('runner-speed');
+	static RUNNER_HEALTH = Symbol('runner-health');
+
+	static LEVEL_COLORS = {
+		[CardUpgradeType.LEVEL_MINOR]: 0x006600,
+		[CardUpgradeType.LEVEL_MAJOR]: 0x4444bb,
+		[CardUpgradeType.LEVEL_GIANT]: 0xbb2222
+	};
+
 	static TYPES = [
 		CardUpgradeType.DAMAGE,
 		CardUpgradeType.SPEED,
 		CardUpgradeType.RANGE,
 		CardUpgradeType.HEALTH,
 		CardUpgradeType.MAX_HEALTH
+	];
+
+	static DATABASE = [
+		{ pct: .75, type: CardUpgradeType.GUN_DAMAGE, title: 'Punch!', description: 'Increase gun damage by 10%', upgradeAmount: 1.1, level: CardUpgradeType.LEVEL_MINOR },
+		{ pct: .75, type: CardUpgradeType.GUN_DAMAGE, title: 'Big Punch!', description: 'Increase gun damage by 50%', upgradeAmount: 1.5, level: CardUpgradeType.LEVEL_MAJOR },
+		{ pct: .75, type: CardUpgradeType.GUN_DAMAGE, title: 'Serious Punch!', description: 'Double gun damage', upgradeAmount: 2, level: CardUpgradeType.LEVEL_GIANT }
 	];
 }

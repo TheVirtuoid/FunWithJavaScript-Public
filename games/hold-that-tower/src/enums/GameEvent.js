@@ -17,6 +17,8 @@ export default class GameEvent {
 	static WAVE_ENDED = 'wave-ended';
 	static NEW_WAVE = 'new-wave';
 
+	static CARD_SELECTED = 'card-selected';
+
 	static TYPES = [
 		GameEvent.GAME_OVER,
 		GameEvent.ENEMY_REACHED_TOWER,
@@ -29,7 +31,8 @@ export default class GameEvent {
 		GameEvent.MISSILE_HIT_MISSILE,
 		GameEvent.WAVE_STARTED,
 		GameEvent.WAVE_ENDED,
-		GameEvent.NEW_WAVE
+		GameEvent.NEW_WAVE,
+		GameEvent.CARD_SELECTED
 	]
 
 	static Setup(gameScene) {

@@ -18,6 +18,7 @@ import GameEvent from "../../enums/GameEvent.js";
 import Ammo from "../Ammo.js";
 import AmmoType from "../../enums/AmmoType.js";
 import CardUi from '../UI/Card.js';
+import CardUpgradeType from "../../enums/CardUpgradeType.js";
 
 export default class GamePlay extends Phaser.Scene {
 	#ground;
@@ -80,6 +81,8 @@ export default class GamePlay extends Phaser.Scene {
 		this.events.on(GameEvent.WAVE_ENDED, this.#onWaveEnded.bind(this));
 		this.events.on(GameEvent.NEW_WAVE, this.#onNewWave.bind(this));
 
+		this.events.on(GameEvent.CARD_SELECTED, this.#onCardSelected.bind(this));
+
 		this.#ground = new Ground({scene: this});
 		this.#ground.create();
 		this.#tower = new Tower({position: new Position(1000, 475), scene: this});
@@ -94,7 +97,16 @@ export default class GamePlay extends Phaser.Scene {
 		});
 		this.#gameOver = false;
 
-		new CardUi({scene: this, position: new Position(500, 200)}).create();
+		/*const cardZero = CardUpgradeType.DATABASE[0];
+		const cardOne = CardUpgradeType.DATABASE[1];
+		const cardTwo = CardUpgradeType.DATABASE[2];
+
+		const card1 = new CardUi({scene: this, position: new Position(400, 100), ...cardZero});
+		const card2 = new CardUi({scene: this, position: new Position(750, 100), ...cardOne});
+		const card3 = new CardUi({scene: this, position: new Position(1100, 100), ...cardTwo});
+		card1.create();
+		card2.create();
+		card3.create();*/
 
 
 		GameEvent.Emit(GameEvent.NEW_WAVE);
@@ -249,6 +261,10 @@ export default class GamePlay extends Phaser.Scene {
 		this.#statistics.setHealth(this.#tower.health);
 		this.#statistics.setMaxHealth(this.#tower.maxHealth);
 		GameEvent.Emit(GameEvent.WAVE_STARTED, this.#currentWave);
+	}
+
+	#onCardSelected(card) {
+		console.log(card);
 	}
 
 }

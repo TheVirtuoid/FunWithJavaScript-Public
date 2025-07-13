@@ -5,12 +5,12 @@ export default class Card {
 	#type;
 	#upgradeAmount;
 	#upgradeType;
-	#upgradeCalculation;
 	#description;
+	#title;
 	#ui;
 
 	constructor(args = {}) {
-		const { type, upgradeAmount, upgradeType, upgradeCalculation, description } = args;
+		const { target, title, type, upgradeAmount, upgradeType, upgradeCalculation, description } = args;
 
 		if (!CardType.TYPES.includes(type)) {
 			throw new Error('Invalid card type');
@@ -33,6 +33,7 @@ export default class Card {
 		this.#upgradeType = upgradeType;
 		this.#upgradeCalculation = upgradeCalculation;
 		this.#description = description;
+		this.#title = title;
 	}
 
 	get type() {
@@ -53,6 +54,10 @@ export default class Card {
 
 	get description() {
 		return this.#description;
+	}
+
+	get title() {
+		return this.#title;
 	}
 
 }
