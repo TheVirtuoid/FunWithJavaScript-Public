@@ -30,6 +30,14 @@ export default class Statistics {
 		this.#ui.setGunDamage(damage);
 	}
 
+	setRunnerSpeed(speed) {
+		this.#ui.setRunnerSpeed(speed);
+	}
+
+	setGunRotationSpeed(speed) {
+		this.#ui.setGunRotationSpeed(speed);
+	}
+
 	update(prize) {
 		this.#ui.update(prize);
 	}

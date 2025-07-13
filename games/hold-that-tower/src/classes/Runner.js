@@ -11,9 +11,9 @@ export default class Runner {
 	#ui;
 
 	constructor(args = {}) {
-		const { position, scene } = args;
+		const { position, scene, speed } = args;
 		this.#hitPoints = Runner.DEFAULT_HIT_POINTS;
-		this.#speed = Runner.DEFAULT_SPEED;
+		this.#speed = speed || Runner.DEFAULT_SPEED;
 		this.#prize = null;
 		this.#position = position;
 		this.#ui = new RunnerUi({ scene, visible: false });
@@ -54,6 +54,10 @@ export default class Runner {
 
 	upgradeSpeed(amount) {
 		this.#speed += amount;
+	}
+
+	setSpeed(speed) {
+		this.#speed = speed;
 	}
 
 	upgradeHitPoints(amount) {

@@ -7,12 +7,14 @@ export default class RunnerGroup {
 	#runnersGroup;
 	#tower;
 	#statistics;
+	#speed;
 
 	constructor(args = {}) {
-		const { scene, tower, statistics } = args;
+		const { scene, tower, statistics, speed } = args;
 		this.#scene = scene;
 		this.#tower = tower;
 		this.#statistics = statistics;
+		this.#speed = speed;
 	}
 
 	scheduleNextRunner(prizesDropped) {
@@ -28,7 +30,7 @@ export default class RunnerGroup {
 		this.#runners = [];
 		// TODO: Get number of runners from stats
 		for (let i = 0; i < 1; i++) {
-			const runner = new Runner({ scene: this.#scene, visible: false });
+			const runner = new Runner({ scene: this.#scene, visible: false, speed: this.#speed });
 			const runnerData = {
 				running: false,
 				runner,

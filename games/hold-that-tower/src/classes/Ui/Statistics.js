@@ -26,8 +26,13 @@ export default class Statistics {
 
 	#maxHealthText;
 
+	#runnerSpeedText;
+	#runnerSpeed;
+
 	#gunDamage;
 	#gunDamageText;
+	#gunRotationSpeedText;
+	#gunRotationSpeed;
 
 	#starImage;
 	#crownImage;
@@ -74,6 +79,16 @@ export default class Statistics {
 		this.#gunDamageText.setText(text);
 	}
 
+	setRunnerSpeed(speed) {
+		const text = speed.toFixed(0);
+		this.#runnerSpeedText.setText(text);
+	}
+
+	setGunRotationSpeed(speed) {
+		const text = speed.toFixed(3);
+		this.#gunRotationSpeedText.setText(text);
+	}
+
 	create() {
 		const graphics = this.#scene.add.graphics();
 		this.#image = graphics;
@@ -99,7 +114,13 @@ export default class Statistics {
 		this.#addMainText(new Position(30,160), 'Gun Damage');
 		this.#gunDamageText = this.#addMainText(new Position(250,160), this.#gunDamage);
 
-		this.#buildEnemiesPanel();
+		this.#addMainText(new Position(30,190), 'Runner Speed');
+		this.#runnerSpeedText = this.#addMainText(new Position(250,190), this.#runnerSpeed);
+
+		this.#addMainText(new Position(30,220), 'Gun Rotation Speed');
+		this.#gunRotationSpeedText = this.#addMainText(new Position(250,220), 0);
+
+		// this.#buildEnemiesPanel();
 
 		this.#buildPrizesPanel();
 

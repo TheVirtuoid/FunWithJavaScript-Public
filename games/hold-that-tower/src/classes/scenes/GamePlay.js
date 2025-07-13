@@ -2,7 +2,8 @@ import Ground from '../Ui/Ground.js';
 import Tower from '../Tower.js';
 import TowerUi from '../UI/Tower.js';
 import Position from '../Position.js';
-import Runner from '../Ui/Runner.js';
+import RunnerUi from '../Ui/Runner.js';
+import Runner from '../Runner.js';
 import Enemy from '../Ui/Enemy.js';
 import Gun from '../Ui/Gun.js';
 import Statistics from '../Statistics.js';
@@ -34,7 +35,7 @@ export default class GamePlay extends Phaser.Scene {
 
 	#gamepad;
 	#gunAngle = 0;
-	#gunRotationSpeed = .05;
+	#gunRotationSpeed = .04; // higher = faster rotation (.05 seems to be good)
 	#gunDamage = 6;
 
 	#bullets;
@@ -42,6 +43,7 @@ export default class GamePlay extends Phaser.Scene {
 	#enemies;
 
 	#runners;
+	#runnerSpeed = Runner.DEFAULT_SPEED;
 
 	#currentWave = 1;
 
@@ -57,7 +59,7 @@ export default class GamePlay extends Phaser.Scene {
 	preload() {
 		Ground.preload(this);
 		TowerUi.preload(this);
-		Runner.preload(this);
+		RunnerUi.preload(this);
 		Enemy.preload(this);
 		Bullet.preload(this);
 		Gun.preload(this);
@@ -239,7 +241,7 @@ export default class GamePlay extends Phaser.Scene {
 		this.#prizesGroup = this.physics.add.group();
 		this.#prizesDropped = [];
 
-		this.#runners = new RunnerGroup({scene: this, tower: this.#tower, statistics: this.#statistics});
+		this.#runners = new RunnerGroup({scene: this, tower: this.#tower, statistics: this.#statistics, speed: this.#runnerSpeed });
 		this.#runners.buildWave(this.#currentWave);
 
 		this.physics.add.overlap(
@@ -253,6 +255,8 @@ export default class GamePlay extends Phaser.Scene {
 		this.#statistics.setHealth(this.#tower.health);
 		this.#statistics.setMaxHealth(this.#tower.maxHealth);
 		this.#statistics.setGunDamage(this.#gunDamage);
+		this.#statistics.setRunnerSpeed(this.#runnerSpeed);
+		this.#statistics.setGunRotationSpeed(this.#gunRotationSpeed);
 		GameEvent.Emit(GameEvent.WAVE_STARTED, this.#currentWave);
 	}
 
@@ -280,7 +284,12 @@ export default class GamePlay extends Phaser.Scene {
 			const health = Math.round(Math.min(this.#tower.health * card.upgradeAmount, this.#tower.maxHealth));
 			this.#tower.setHealth(health);
 			this.#statistics.setHealth(health);
-
+		} else if (card.type === CardUpgradeType.RUNNER_SPEED) {
+			this.#runnerSpeed = Math.round(this.#runnerSpeed * card.upgradeAmount);
+			this.#statistics.setRunnerSpeed(this.#runnerSpeed);
+		} else if (card.type === CardUpgradeType.TOWER_ROTATION_SPEED) {
+			this.#gunRotationSpeed = this.#gunRotationSpeed + card.upgradeAmount;
+			this.#statistics.setGunRotationSpeed(this.#gunRotationSpeed);
 		}
 	}
 
