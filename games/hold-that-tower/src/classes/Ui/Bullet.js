@@ -32,4 +32,13 @@ export default class Bullet {
 	create() {
 		this.#image = this.#scene.physics.add.image(0, 0, Bullet.NAME).setScale(this.scale);
 	}
+
+	setVisible(visible) {
+		this.#image.setVisible(visible);
+	}
+
+	destroy() {
+		this.#image.destroy();
+	}
+
 }

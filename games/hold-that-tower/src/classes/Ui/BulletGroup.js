@@ -7,10 +7,12 @@ export default class BulletGroup {
 	#bulletLastFired;
 	#scene;
 	#group;
+	#damage;
 
 	constructor(args = {}) {
-		const { scene } = args;
+		const { scene, damage } = args;
 		this.#scene = scene;
+		this.#damage = damage;
 	}
 
 	get group() {
@@ -28,7 +30,7 @@ export default class BulletGroup {
 		});
 		this.#bullets = [];
 		for (let i = 0; i < 20; i++) {
-			const bullet = new Ammo({ scene: this.#scene, type: AmmoType.BULLET, damage: 6 });
+			const bullet = new Ammo({ scene: this.#scene, type: AmmoType.BULLET, damage: this.#damage });
 			bullet.image.active = false;
 			this.#bullets.push(bullet)
 		}
@@ -72,6 +74,13 @@ export default class BulletGroup {
 
 	findBulletFromImage(image) {
 		return this.#bullets.find(bullet => bullet.image === image);
+	}
+
+	destroy() {
+		this.#bullets.forEach(bullet => {
+			bullet.setVisible(false);
+			bullet.destroy();
+		});
 	}
 
 }

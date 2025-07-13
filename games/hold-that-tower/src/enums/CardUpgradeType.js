@@ -33,15 +33,28 @@ export default class CardUpgradeType {
 		CardUpgradeType.MAX_HEALTH
 	];
 
+	static ICONS = {
+		[CardUpgradeType.GUN_DAMAGE]: 'gun',
+		[CardUpgradeType.GUN_SPEED]: 'gun',
+		[CardUpgradeType.TOWER_HEALTH]: 'tower',
+		[CardUpgradeType.TOWER_MAX_HEALTH]: 'tower',
+		[CardUpgradeType.TOWER_ROTATION_SPEED]: 'tower',
+		[CardUpgradeType.RUNNER_SPEED]: 'runner',
+		[CardUpgradeType.RUNNER_HEALTH]: 'runner'
+	};
+
 	static DATABASE = [
 		{ pct: .77, level: CardUpgradeType.LEVEL_MINOR, cards: [
-			{ type: CardUpgradeType.GUN_DAMAGE, title: 'Punch!', description: 'Increase gun damage by 10%', upgradeAmount: 1.1 }
+			{ type: CardUpgradeType.GUN_DAMAGE, title: 'Punch!', description: 'Increase gun damage by 10%', upgradeAmount: 1.1 },
+				{ type: CardUpgradeType.TOWER_MAX_HEALTH, title: 'Workout', description: 'Increase max health by 10%', upgradeAmount: 1.1 }
 		]},
 		{ pct: .98, level: CardUpgradeType.LEVEL_MAJOR, cards: [
-			{ type: CardUpgradeType.GUN_DAMAGE, title: 'Big Punch!', description: 'Increase gun damage by 50%', upgradeAmount: 1.5 }
+			{ type: CardUpgradeType.GUN_DAMAGE, title: 'Big Punch!', description: 'Increase gun damage by 50%', upgradeAmount: 1.5 },
+				{ type: CardUpgradeType.TOWER_MAX_HEALTH, title: 'More Workout', description: 'Increase max health by 25%', upgradeAmount: 1.25 }
 		]},
 		{ pct: 1, level: CardUpgradeType.LEVEL_GIANT, cards: [
-			{ type: CardUpgradeType.GUN_DAMAGE, title: 'Serious Punch!', description: 'Double gun damage', upgradeAmount: 2 }
+			{ type: CardUpgradeType.GUN_DAMAGE, title: 'Serious Punch!', description: 'Double gun damage', upgradeAmount: 2 },
+				{ type: CardUpgradeType.TOWER_MAX_HEALTH, title: 'Gym God', description: 'Increase max health by 50%', upgradeAmount: 1.5 }
 		]},
 	];
 }

@@ -52,4 +52,12 @@ export default class Ammo {
 		this.#speed += amount;
 		this.#speed = Math.max(Ammo.MINIMUM_SPEED, this.#speed);
 	}
+
+	setVisible(visible) {
+		this.#ui.setVisible(visible);
+	}
+
+	destroy() {
+		this.#ui.destroy();
+	}
 }

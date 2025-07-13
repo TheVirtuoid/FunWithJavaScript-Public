@@ -82,6 +82,15 @@ export default class Tower {
 		return this.#health;
 	}
 
+	setMaxHealth(health) {
+		this.#maxHealth = health;
+		this.#health = Math.min(this.#maxHealth, this.#health);
+	}
+
+	setHealth(health) {
+		this.#health = Math.min(this.#maxHealth, health);
+	}
+
 	upgradeMaximumHealth(amount) {
 		this.#maxHealth += amount;
 	}

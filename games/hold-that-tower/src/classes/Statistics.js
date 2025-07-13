@@ -26,6 +26,10 @@ export default class Statistics {
 		this.#ui.setMaxHealth(maxHealth);
 	}
 
+	setGunDamage(damage) {
+		this.#ui.setGunDamage(damage);
+	}
+
 	update(prize) {
 		this.#ui.update(prize);
 	}

@@ -39,7 +39,7 @@ export default class Card {
 		y += title.height + 20;
 		const description = this.#addStandardText(new Position(x, y), this.#description, '0x000000');
 		y+= description.height + 60;
-		const icon = this.#scene.add.image(x + w / 2 - 5, y, 'gun');
+		const icon = this.#scene.add.image(x + w / 2 - 5, y, CardUpgradeType.ICONS[this.#parent.type]);
 		icon.setScale(.1);
 		icon.setOrigin(.5, .5);
 

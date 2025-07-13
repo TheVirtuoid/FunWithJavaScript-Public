@@ -35,6 +35,7 @@ export default class GamePlay extends Phaser.Scene {
 	#gamepad;
 	#gunAngle = 0;
 	#gunRotationSpeed = .05;
+	#gunDamage = 6;
 
 	#bullets;
 
@@ -222,11 +223,14 @@ export default class GamePlay extends Phaser.Scene {
 		this.#waveEnded = true;
 		this.#clearDroppedPrizes();
 		this.#enemies.destroy();
-		this.#cardSelect.build();
+		this.#bullets.destroy();
+		if (!this.#gameOver) {
+			this.#cardSelect.build();
+		}
 	};
 
 	#onNewWave() {
-		this.#bullets = new BulletGroup({scene: this});
+		this.#bullets = new BulletGroup({scene: this, damage: this.#gunDamage });
 		this.#bullets.create();
 		this.#enemies = new EnemyGroup({scene: this, tower: this.#tower});
 
@@ -248,17 +252,30 @@ export default class GamePlay extends Phaser.Scene {
 
 		this.#statistics.setHealth(this.#tower.health);
 		this.#statistics.setMaxHealth(this.#tower.maxHealth);
+		this.#statistics.setGunDamage(this.#gunDamage);
 		GameEvent.Emit(GameEvent.WAVE_STARTED, this.#currentWave);
 	}
 
 	#onCardSelected(card) {
-		console.log(card);
+		this.#updateStats(card);
 		this.#cardSelect.remove();
 		if (!this.#gameOver) {
 			setTimeout(() => {
 				this.#currentWave++;
 				GameEvent.Emit(GameEvent.NEW_WAVE);
 			}, 5000);
+		}
+	}
+
+	#updateStats(card) {
+		if (card.type === CardUpgradeType.GUN_DAMAGE) {
+			this.#gunDamage = this.#gunDamage * card.upgradeAmount;
+			this.#statistics.setGunDamage(this.#gunDamage);
+			// this.#gun.setDamage(this.#gunDamage);
+		} else if (card.type === CardUpgradeType.TOWER_MAX_HEALTH) {
+			const maxHealth = this.#tower.maxHealth * card.upgradeAmount;
+			this.#tower.setMaxHealth(maxHealth);
+			this.#statistics.setMaxHealth(maxHealth);
 		}
 	}
 

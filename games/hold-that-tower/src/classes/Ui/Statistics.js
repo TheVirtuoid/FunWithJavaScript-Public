@@ -60,11 +60,18 @@ export default class Statistics {
 	}
 
 	setHealth(health) {
+		const text = health.toFixed(0);
 		this.#healthText.setText(health);
 	}
 
 	setMaxHealth(maxHealth) {
+		const text = maxHealth.toFixed(0);
 		this.#maxHealthText.setText(maxHealth);
+	}
+
+	setGunDamage(damage) {
+		const text = damage.toFixed(2);
+		this.#gunDamageText.setText(text);
 	}
 
 	create() {
