@@ -46,15 +46,18 @@ export default class CardUpgradeType {
 	static DATABASE = [
 		{ pct: .77, level: CardUpgradeType.LEVEL_MINOR, cards: [
 			{ type: CardUpgradeType.GUN_DAMAGE, title: 'Punch!', description: 'Increase gun damage by 10%', upgradeAmount: 1.1 },
-				{ type: CardUpgradeType.TOWER_MAX_HEALTH, title: 'Workout', description: 'Increase max health by 10%', upgradeAmount: 1.1 }
+				{ type: CardUpgradeType.TOWER_MAX_HEALTH, title: 'Workout', description: 'Increase max health by 10%', upgradeAmount: 1.1 },
+				{ type: CardUpgradeType.TOWER_HEALTH, title: 'Refreshing', description: 'Restore health by 10%', upgradeAmount: 1.1 }
 		]},
 		{ pct: .98, level: CardUpgradeType.LEVEL_MAJOR, cards: [
 			{ type: CardUpgradeType.GUN_DAMAGE, title: 'Big Punch!', description: 'Increase gun damage by 50%', upgradeAmount: 1.5 },
-				{ type: CardUpgradeType.TOWER_MAX_HEALTH, title: 'More Workout', description: 'Increase max health by 25%', upgradeAmount: 1.25 }
+				{ type: CardUpgradeType.TOWER_MAX_HEALTH, title: 'More Workout', description: 'Increase max health by 25%', upgradeAmount: 1.25 },
+				{ type: CardUpgradeType.TOWER_HEALTH, title: 'Invigorating', description: 'Restore health by 25%', upgradeAmount: 1.25 }
 		]},
 		{ pct: 1, level: CardUpgradeType.LEVEL_GIANT, cards: [
 			{ type: CardUpgradeType.GUN_DAMAGE, title: 'Serious Punch!', description: 'Double gun damage', upgradeAmount: 2 },
-				{ type: CardUpgradeType.TOWER_MAX_HEALTH, title: 'Gym God', description: 'Increase max health by 50%', upgradeAmount: 1.5 }
+				{ type: CardUpgradeType.TOWER_MAX_HEALTH, title: 'Gym God', description: 'Increase max health by 50%', upgradeAmount: 1.5 },
+				{ type: CardUpgradeType.TOWER_HEALTH, title: 'Regenerate!', description: 'Restore health by 50%', upgradeAmount: 1.5 }
 		]},
 	];
 }

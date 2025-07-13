@@ -273,9 +273,14 @@ export default class GamePlay extends Phaser.Scene {
 			this.#statistics.setGunDamage(this.#gunDamage);
 			// this.#gun.setDamage(this.#gunDamage);
 		} else if (card.type === CardUpgradeType.TOWER_MAX_HEALTH) {
-			const maxHealth = this.#tower.maxHealth * card.upgradeAmount;
+			const maxHealth = Math.round(this.#tower.maxHealth * card.upgradeAmount);
 			this.#tower.setMaxHealth(maxHealth);
 			this.#statistics.setMaxHealth(maxHealth);
+		} else if (card.type === CardUpgradeType.TOWER_HEALTH) {
+			const health = Math.round(Math.min(this.#tower.health * card.upgradeAmount, this.#tower.maxHealth));
+			this.#tower.setHealth(health);
+			this.#statistics.setHealth(health);
+
 		}
 	}
 
