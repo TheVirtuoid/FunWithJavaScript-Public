@@ -6,7 +6,8 @@ export default class Crown extends Prize {
 	static DEFAULT_SCALE = 0.075;
 
 	constructor(args = {}) {
-		args.scale = Crown.DEFAULT_SCALE;
+		const { scale } = args;
+		args.scale = scale || Crown.DEFAULT_SCALE;
 		super(args);
 	}
 

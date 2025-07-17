@@ -2,6 +2,7 @@ import Position from "../Position.js";
 import Star from "./Star.js";
 import Crown from "./Crown.js";
 import Coins from "./Coins.js";
+import GameEvent from "../../enums/GameEvent.js";
 
 export default class Statistics {
 	static NAME = 'statistics';
@@ -41,6 +42,10 @@ export default class Statistics {
 	#starImage;
 	#crownImage;
 	#coinsImage;
+
+	#updateButtonHealth;
+	#updateButtonRunner;
+	#updateButtonGun;
 
 	#waveText;
 
@@ -93,47 +98,13 @@ export default class Statistics {
 	}
 
 	create() {
-		const graphics = this.#scene.add.graphics();
-		this.#image = graphics;
+		this.#image = this.#scene.add.graphics();
 		let x, y;
 
 		({ x, y } = this.#buildMainPanel());
 		({ x, y } = this.#buildHeaderPanel(x, y));
 		({ x, y } = this.#buildStatsPanel(x, y));
-		/*this.#starImage.create();
-		this.#crownImage.create();
-		this.#coinsImage.create();
-
-		graphics.lineStyle(2, 0xffffff,1);
-		graphics.strokeRoundedRect(20, 100, 330, 240, 20);
-
-		this.#addExtraLargeText(new Position(20, 20), 'Hold That Tower!', '#ffffff');
-		this.#addLargeText(new Position(20, 60), 'Wave:', '#88ff88');
-		this.#waveText = this.#addLargeText(new Position(150, 60), '0', '#88ff88');
-
-		this.#addMainText(new Position(30,110), 'Health');
-		this.#healthText = this.#addMainText(new Position(250,110), 0);
-
-		this.#addMainText(new Position(30,135), 'Max Health');
-		this.#maxHealthText = this.#addMainText(new Position(250,135), 0);
-
-		this.#addMainText(new Position(30,160), 'Gun Damage');
-		this.#gunDamageText = this.#addMainText(new Position(250,160), 0);
-
-		this.#addMainText(new Position(30,190), 'Runner Speed');
-		this.#runnerSpeedText = this.#addMainText(new Position(250,190), 0);
-
-		this.#addMainText(new Position(30,220), 'Gun Rotation Speed');
-		this.#gunRotationSpeedText = this.#addMainText(new Position(250,220), 0);*/
-
-		// this.#buildPrizesPanel();
-
-		this.#scene.add.text(20, 350, 'Upgrades', {
-			fontFamily: Statistics.DEFAULT_FONT,
-			fontSize: '26px',
-			fill: '#88ff88'
-		});
-
+		({ x, y } = this.#buildUpgradesPanel(x, y));
 	}
 
 	#buildMainPanel() {
@@ -189,7 +160,6 @@ export default class Statistics {
 		({ x, y } = this.#buildPrizesPanel(x, y));
 
 		graphics.lineStyle(2, 0xffffff,1);
-
 		y += Statistics.PADDING;
 		graphics.strokeRoundedRect(x, startingY, Statistics.INNER_WIDTH, y - startingY, 20);
 
@@ -229,7 +199,7 @@ export default class Statistics {
 		});
 	}
 
-	#addSmallText(position, text, color) {
+	#addSmallText(position, text, color = '#ffffff') {
 		return this.#scene.add.text(position.x, position.y, text, {
 			fontFamily: Statistics.DEFAULT_FONT,
 			fontSize: '20px',
@@ -264,5 +234,94 @@ export default class Statistics {
 			this.#crowns += prize.amount;
 			this.#crownsText.setText(this.#crowns);
 		}
+	}
+
+	updateButtons(coins, stars, crowns) {
+		if (this.#updateButtonHealth) {
+			this.#updateButtonHealth.setText(coins.toString());
+			this.#updateButtonHealth.setDisabled(coins < 500);
+		}
+		if (this.#updateButtonRunner) {
+			this.#updateButtonRunner.setText(stars.toString());
+			this.#updateButtonRunner.setDisabled(stars < 100);
+		}
+		if (this.#updateButtonGun) {
+			this.#updateButtonGun.setText(crowns.toString());
+			this.#updateButtonGun.setDisabled(crowns < 50);
+		}
+
+	}
+
+	#buildUpgradesPanel(x, y) {
+		const smallStarImage = new Star({ scene: this.#scene, scale: 0.05 });
+		// this.#crownImage = new Crown({ scene: this.#scene});
+		// this.#coinsImage = new Coins({ scene: this.#scene});
+		smallStarImage.create();
+
+		y += Statistics.PADDING;
+		let text = this.#addLargeText(new Position(x, y), 'Upgrades:', '#88ff88');
+		y += text.height;
+
+		text = this.#addMainText(new Position(x,y), 'Restore Full Health');
+		smallStarImage.setPosition(new Position(x + text.width + Statistics.PADDING * 2, y + 10));
+		this.#updateButtonHealth = this.#buildButton(new Position(Statistics.INNER_WIDTH - 20 * 3, y ), 500, false);
+
+		console.log(this.#updateButtonHealth);
+		// this.#gunDamageText = this.#addMainText(new Position(statsX,y), 0);
+
+
+		return { x, y }
+	}
+
+	#updateButton(buttonToChange, amount, disabled = true) {
+		const { text, button } = buttonToChange;
+		const backgroundColor = disabled ? 0x660000 : 0x006600;
+		const foregroundColor = disabled ? '#666666' : '#ffffff';
+		const lineColor = disabled ? 0x666666 : 0xffffff;
+		button.setFillStyle(0x006600, 1);
+		button.setStrokeStyle(2, 0xffffff);
+		text.setFill('#ffffff');
+		button.setInteractive();
+	}
+
+	#buildButton(position, value, disabled = true) {
+		const buttonText = value.toString();
+		const { x, y } = position;
+		const newButton = this.#updateButton()
+		const backgroundColor = disabled ? 0x660000 : 0x006600;
+		const foregroundColor = disabled ? '#666666' : '#ffffff';
+		const lineColor = disabled ? 0x666666 : 0xffffff;
+		const gx = x - Statistics.PADDING;
+		const gy = y - Statistics.PADDING / 2;
+		const gw = 20 * buttonText.length;
+		const gh = 20 + Statistics.PADDING;
+		const r = 4;
+
+		const button = this.#scene.add.rectangle(
+			gx,
+			gy,
+			gw,
+			gh,
+			backgroundColor,
+			1
+		)
+			.setOrigin(0, 0)
+			.setStrokeStyle(2, lineColor);
+		if (!disabled) {
+			button.setInteractive();
+		}
+		const text = this.#addSmallText(position, value, foregroundColor);
+		// rectangle.setFillStyle(0xffff00, 1);
+
+
+		/*const selectedText = this.#addStandardFreeText(new Position(bx + 19, by + 5), 'Select', '#ffffff');
+		selectedBox.setInteractive();
+		selectedBox.once('pointerdown', () => {
+			GameEvent.Emit(GameEvent.CARD_SELECTED, this.#parent);
+		});
+		this.#parts.push(card, title, description, icon, selectedBox, selectedText);*/
+
+
+		return { text, button };
 	}
 }

@@ -27,15 +27,15 @@ export default class EnemyFactory {
 		if (whichPrize < 60) {
 			prize = new Coins({ scene, visible: false });
 			prize.create();
-			prize.setAmount(Math.floor(Math.random() * 15) + 5);
+			prize.setAmount(Math.ceil(Math.random() * 15) + 5);
 		} else if (whichPrize < 90) {
 			prize = new Star({ scene, visible: false });
 			prize.create();
-			prize.setAmount(Math.floor(Math.random() * 15) + 15);
+			prize.setAmount(Math.ceil(Math.random() * 5));
 		} else {
 			prize = new Crown({ scene, visible: false });
 			prize.create();
-			prize.setAmount(Math.floor(Math.random() * 15) + 25);
+			prize.setAmount(Math.ceil(Math.random() * 2));
 		}
 		return new Enemy({...enemyData, prize, scene });
 	}

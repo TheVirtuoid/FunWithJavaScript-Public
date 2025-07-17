@@ -19,6 +19,10 @@ export default class GameEvent {
 
 	static CARD_SELECTED = 'card-selected';
 
+	static UPGRADE_HEALTH = 'upgrade-health';
+	static ADD_RUNNER = 'add-runner';
+	static ADD_GUN = 'add-gun';
+
 	static TYPES = [
 		GameEvent.GAME_OVER,
 		GameEvent.ENEMY_REACHED_TOWER,
@@ -32,7 +36,10 @@ export default class GameEvent {
 		GameEvent.WAVE_STARTED,
 		GameEvent.WAVE_ENDED,
 		GameEvent.NEW_WAVE,
-		GameEvent.CARD_SELECTED
+		GameEvent.CARD_SELECTED,
+		GameEvent.UPGRADE_HEALTH,
+		GameEvent.ADD_RUNNER,
+		GameEvent.ADD_GUN
 	]
 
 	static Setup(gameScene) {

@@ -1,4 +1,4 @@
-``# Hold That Tower!
+# Hold That Tower!
 
 A game where a player defends a tower from waves of enemies by upgrading their offensive and defensive capabilities.
 
@@ -28,7 +28,7 @@ A game where a player defends a tower from waves of enemies by upgrading their o
 
 1. The field is a circular area with a tower in the center.
 2. To the left of the field are the stats for the game
-3. To the right of the field is an undetermined area, possibly an upgrade tree or other gameplay information.
+3. To the right of the field is an undetermined area, possibly an upgrade tree, or other gameplay information.
 4. In the middle of the field is the tower. The tower should not take up more than 15% of the field.
 5. Enemies approach the tower from all directions.
 
