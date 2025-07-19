@@ -47,6 +47,8 @@ export default class Statistics {
 	#coinsImage;
 
 	#buttonUpgradeHealth;
+	#buttonAddRunner;
+	#buttonAddGun;
 	#updateButtonRunner;
 	#updateButtonGun;
 
@@ -104,7 +106,18 @@ export default class Statistics {
 		this.#buttonUpgradeHealth.setLimit(newLimit);
 		this.#coins -= oldLimit;
 		this.#coinsText.setText(this.#coins);
-		// this.setHealth();
+	}
+
+	setUpgradeButtonAddRunner(oldLimit, newLimit) {
+		this.#buttonAddRunner.setLimit(newLimit);
+		this.#stars -= oldLimit;
+		this.#starsText.setText(this.#stars);
+	}
+
+	setUpgradeButtonAddGun(oldLimit, newLimit) {
+		this.#buttonAddGun.setLimit(newLimit);
+		this.#crowns -= oldLimit;
+		this.#crownsText.setText(this.#crowns);
 	}
 
 	create() {
@@ -196,23 +209,46 @@ export default class Statistics {
 
 	#buildUpgradesPanel(x, y) {
 		const smallStarImage = new Star({ scene: this.#scene, scale: 0.03 });
-		// this.#crownImage = new Crown({ scene: this.#scene});
-		// this.#coinsImage = new Coins({ scene: this.#scene});
+		const smallCoinImage = new Coins({ scene: this.#scene, scale: 0.03 });
+		const smallCrownImage = new Crown({ scene: this.#scene, scale: 0.03 });
 		smallStarImage.create();
+		smallCoinImage.create();
+		smallCrownImage.create();
 
 		y += Statistics.PADDING;
 		let text = this.#addLargeText(new Position(x, y), 'Upgrades:', '#88ff88');
 		y += text.height + 10;
 
 		text = this.#addMainText(new Position(x,y), 'Restore Health');
-		smallStarImage.setPosition(new Position(x + text.width + Statistics.PADDING * 2, y + 10));
+		smallCoinImage.setPosition(new Position(x + text.width + Statistics.PADDING * 2, y + 10));
 		this.#buttonUpgradeHealth = new UpgradeButton({ position: new Position(Statistics.INNER_WIDTH - 20 * 3, y ),
 			scene: this.#scene,
 			limit: 100,
 			type: ButtonUpgradeType.HEALTH
 		});
-		// this.#buttonUpgradeHealth.setPosition(new Position(Statistics.INNER_WIDTH - this.#buttonUpgradeHealth.button.width, y ));
 		this.#buttonUpgradeHealth.setPosition(new Position(Statistics.INNER_WIDTH - Statistics.PADDING, y ));
+
+		y += text.height + 20;
+		text = this.#addMainText(new Position(x,y), 'Add Runner');
+		smallStarImage.setPosition(new Position(x + text.width + Statistics.PADDING * 2, y + 10));
+		this.#buttonAddRunner = new UpgradeButton({ position: new Position(Statistics.INNER_WIDTH - 20 * 3, y ),
+			scene: this.#scene,
+			limit: 10,
+			type: ButtonUpgradeType.RUNNER
+		});
+		this.#buttonAddRunner.setPosition(new Position(Statistics.INNER_WIDTH - Statistics.PADDING, y ));
+
+		y += text.height + 20;
+		text = this.#addMainText(new Position(x,y), 'Add Gun');
+		smallCrownImage.setPosition(new Position(x + text.width + Statistics.PADDING * 2, y + 10));
+		this.#buttonAddGun = new UpgradeButton({ position: new Position(Statistics.INNER_WIDTH - 20 * 3, y ),
+			scene: this.#scene,
+			limit: 1,
+			type: ButtonUpgradeType.GUN
+		});
+		this.#buttonAddGun.setPosition(new Position(Statistics.INNER_WIDTH - Statistics.PADDING, y ));
+
+		y += text.height + 20;
 		return { x, y }
 	}
 
@@ -265,26 +301,12 @@ export default class Statistics {
 		} else if (prize instanceof Star) {
 			this.#stars += prize.amount;
 			this.#starsText.setText(this.#stars);
+			this.#buttonAddRunner.update(this.#stars);
 		} else if (prize instanceof Crown) {
 			this.#crowns += prize.amount;
 			this.#crownsText.setText(this.#crowns);
+			this.#buttonAddGun.update(this.#crowns);
 		}
 	}
-
-	/*updateButtons(coins, stars, crowns) {
-		if (this.#updateButtonHealth) {
-			this.#updateButtonHealth.setText(coins.toString());
-			this.#updateButtonHealth.setDisabled(coins < 500);
-		}
-		if (this.#updateButtonRunner) {
-			this.#updateButtonRunner.setText(stars.toString());
-			this.#updateButtonRunner.setDisabled(stars < 100);
-		}
-		if (this.#updateButtonGun) {
-			this.#updateButtonGun.setText(crowns.toString());
-			this.#updateButtonGun.setDisabled(crowns < 50);
-		}
-
-	}*/
 
 }

@@ -16,17 +16,27 @@ export default class Tower {
 	#defensiveWall;
 	#turretSpinSpeed;
 	#ui;
+	#scene;
 
 	constructor(args = {}) {
 		const { scene, position } = args;
 		this.#health = Tower.DEFAULT_HEALTH;
 		this.#maxHealth = Tower.DEFAULT_MAX_HEALTH;
-		this.#guns = [new Gun({ position: GunPosition.TWELVE, ammo: { damage: 10 } })];
+		this.#scene = scene;
 		this.#runners = [new Runner({ scene })];
 		this.#defensiveWall = new DefensiveWall();
 		this.#turretSpinSpeed = Tower.DEFAULT_TURRET_SPIN_SPEED;
 		this.#ui = new TowerUi({ scene: scene, position });
 		this.#ui.create();
+		this.#guns = [
+			new Gun({
+				centerX: this.x,
+				centerY: this.y,
+				radius: this.radius,
+				scene: this.#scene,
+				placement: GunPosition.PLACEMENT_ORDER[0],
+				ammo: { damage: 10 } }),
+		];
 	}
 
 	get health() {
@@ -123,14 +133,16 @@ export default class Tower {
 		});
 	}
 
-	addGun(gun, position) {
-		if (this.guns.length >= 12) {
-			return;
-		}
-		if (this.guns.some((oldGun) => oldGun.position === position)) {
-			return;
-		}
-		gun.setPosition(position);
+	addGun() {
+		// reset gun positions and rotations
+		this.guns.forEach((gun) => gun.resetPosition());
+		const gun = new Gun({
+			centerX: this.x,
+			centerY: this.y,
+			radius: this.radius,
+			scene: this.#scene,
+			placement: GunPosition.PLACEMENT_ORDER[this.#guns.length],
+			ammo: { damage: 10 } });
 		this.guns.push(gun);
 	}
 }

@@ -30,15 +30,14 @@ export default class RunnerGroup {
 		this.#runnersGroup = this.#scene.physics.add.group();
 		this.#runners = [];
 		// TODO: Get number of runners from stats
-		for (let i = 0; i < 1; i++) {
-			const runner = new Runner({ scene: this.#scene, visible: false, speed: this.#speed });
+		this.#tower.runners.forEach((runner) => {
 			const runnerData = {
 				running: false,
 				runner,
 				eliminated: false
 			};
 			this.#runners.push(runnerData);
-		}
+		});
 	}
 
 	#moveRunner(runnerData, prize) {

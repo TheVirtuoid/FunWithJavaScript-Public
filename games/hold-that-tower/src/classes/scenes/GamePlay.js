@@ -22,6 +22,7 @@ import CardUi from '../UI/Card.js';
 import CardUpgradeType from "../../enums/CardUpgradeType.js";
 import CardSelect from "../CardSelect.js";
 import ButtonUpgradeType from "../../enums/ButtonUpgradeType.js";
+import GunPosition from "../../enums/GunPosition.js";
 
 export default class GamePlay extends Phaser.Scene {
 	#ground;
@@ -94,12 +95,11 @@ export default class GamePlay extends Phaser.Scene {
 
 		this.#ground = new Ground({scene: this});
 		this.#ground.create();
+
+
 		this.#tower = new Tower({position: new Position(1000, 475), scene: this});
 		this.#statistics = new Statistics({scene: this});
 
-		this.#gun = new Gun({scene: this});
-		// this.#tower.create();
-		this.#gun.create({position: new Position(this.#tower.x, this.#tower.y - this.#tower.radius)});
 		this.#statistics.create();
 		this.input.gamepad.once('connected', (pad) => {
 			this.#gamepad = pad;
@@ -121,16 +121,20 @@ export default class GamePlay extends Phaser.Scene {
 
 			// Update the angle based on controller input
 			if (horizontalInput !== 0) {
-				this.#gunAngle += this.#gunRotationSpeed * direction;
-				const x = this.#tower.x + this.#tower.radius * Math.cos(this.#gunAngle);
-				const y = this.#tower.y + this.#tower.radius * Math.sin(this.#gunAngle);
-				this.#gun.setPosition(new Position(x, y));
-				this.#gun.setRotation(this.#gunAngle + Math.PI / 2);
+				this.#tower.guns.forEach((gun) => {
+					let angle = gun.angle;
+					angle += this.#gunRotationSpeed * direction;
+					const x = this.#tower.x + this.#tower.radius * Math.cos(angle);
+					const y = this.#tower.y + this.#tower.radius * Math.sin(angle);
+					gun.setPosition(new Position(x, y));
+					gun.setRotation(angle + Math.PI / 2);
+					gun.setAngle(angle);
+				});
 			}
 			if (this.#gamepad.A) {
 				// Fire cooldown (200ms = 5 bullets per second)
 				if (time > this.#bullets.bulletLastFired + 200) {
-					this.#bullets.fireBullet(this.#gun, time);
+					this.#bullets.fireBullet(this.#tower.guns, time);
 				}
 			}
 			this.#bullets.removeOffScreenBullets();
@@ -174,13 +178,21 @@ export default class GamePlay extends Phaser.Scene {
 	};
 
 	#onUpgradeSelected(button) {
-		console.log('-upgrade selected-');
-		console.log(button);
 		if (button.type === ButtonUpgradeType.HEALTH) {
 			this.#tower.setHealth(this.#tower.maxHealth);
 			this.#statistics.setHealth(this.#tower.maxHealth);
 			const newLimit = Math.round(button.limit * 1.5);
 			this.#statistics.setUpgradeButtonHealthLimit(button.limit, newLimit);
+		}
+		if (button.type === ButtonUpgradeType.RUNNER) {
+			this.#tower.addRunner(new Runner({ scene: this }))
+			const newLimit = Math.round(button.limit * 1.5);
+			this.#statistics.setUpgradeButtonAddRunner(button.limit, newLimit);
+		}
+		if (button.type === ButtonUpgradeType.GUN) {
+			this.#tower.addGun();
+			const newLimit = Math.round(button.limit * 1.5);
+			this.#statistics.setUpgradeButtonAddGun(button.limit, newLimit);
 		}
 	}
 

@@ -1,4 +1,5 @@
 import Position from "../Position.js";
+import GunPosition from "../../enums/GunPosition.js";
 
 export default class Gun {
 	static NAME = 'gun';
@@ -11,14 +12,24 @@ export default class Gun {
 	#position;
 	#rotation;
 	#visible;
+	#angle;
+	#placement;
+	#centerX;
+	#centerY;
+	#radius;
 
 	constructor(args = {}) {
-		const { scene, scale, position = new Position(0, 0), rotation = 0, visible = true } = args;
+		const { centerX, centerY, radius, placement, scene, scale, position = new Position(0, 0), rotation = 0, visible = true } = args;
 		this.#scene = scene;
 		this.#scale = scale || Gun.DEFAULT_SCALE;
 		this.#position = position;
 		this.#rotation = rotation;
 		this.#visible = visible;
+		this.#placement = placement;
+		this.#angle = GunPosition.ANGLES.get(placement);
+		this.#centerX = centerX;
+		this.#centerY = centerY;
+		this.#radius = radius;
 	}
 
 	get scene() {
@@ -53,15 +64,34 @@ export default class Gun {
 		return this.#position.y;
 	}
 
+	get angle() {
+		return this.#angle;
+	}
+
+	get placement() {
+		return this.#placement;
+	}
+
+	setAngle(angle) {
+		this.#angle = angle;
+	}
+
 	static preload(scene) {
 		scene.load.image(Gun.NAME, Gun.IMAGE_URL);
 	}
 
 	create(args = {}) {
-		const { position = this.position } = args;
-		this.#position = position;
+		const gunAngle = GunPosition.ANGLES.get(this.placement); // Get the angle for the clock position
+		this.#position = this.getPositionOnCircle(gunAngle);
 		this.#image = this.#scene.add.image(this.position.x, this.position.y, Gun.NAME).setScale(this.scale);
-		this.#image.rotation = this.rotation;
+		this.setRotation(gunAngle + Math.PI / 2);
+	}
+
+	resetPosition() {
+		this.#angle = GunPosition.ANGLES.get(this.placement); // Get the angle for the clock position
+		this.#position = this.getPositionOnCircle(this.#angle);
+		this.#image = this.#scene.add.image(this.x, this.y, Gun.NAME).setScale(this.scale);
+		this.setRotation(this.#angle + Math.PI / 2);
 	}
 
 	setPosition(position) {
@@ -83,5 +113,12 @@ export default class Gun {
 		if (this.#image) {
 			this.#image.setVisible(this.visible);
 		}
+	}
+
+	getPositionOnCircle(angle) {
+		return {
+			x: this.#centerX + this.#radius * Math.cos(angle),
+			y: this.#centerY + this.#radius * Math.sin(angle)
+		};
 	}
 }

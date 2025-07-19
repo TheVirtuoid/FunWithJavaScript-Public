@@ -29,7 +29,7 @@ export default class BulletGroup {
 			enabled: false
 		});
 		this.#bullets = [];
-		for (let i = 0; i < 20; i++) {
+		for (let i = 0; i < 120; i++) {
 			const bullet = new Ammo({ scene: this.#scene, type: AmmoType.BULLET, damage: this.#damage });
 			bullet.image.active = false;
 			this.#bullets.push(bullet)
@@ -57,7 +57,7 @@ export default class BulletGroup {
 		}
 	}
 
-	fireBullet(gun, time) {
+	/*fireBullet(gun, time) {
 		// Get a bullet from the pool or create a new one
 		const bullet = this.#group.getFirstDead();
 		if (bullet) {
@@ -70,6 +70,23 @@ export default class BulletGroup {
 			bullet.body.setVelocity(velocityX, velocityY);
 			this.#bulletLastFired = time;
 		}
+	}*/
+
+	fireBullet(guns, time) {
+		// Get a bullet from the pool or create a new one
+		guns.forEach((gun) => {
+			const bullet = this.#group.getFirstDead();
+			if (bullet) {
+				const offsetX = Math.cos(gun.rotation - Math.PI/2) * 30;
+				const offsetY = Math.sin(gun.rotation - Math.PI/2) * 30;
+				bullet.enableBody(true, gun.x + offsetX, gun.y + offsetY, true, true);
+				const bulletSpeed = 1200;
+				const velocityX = Math.cos(gun.rotation - Math.PI/2) * bulletSpeed;
+				const velocityY = Math.sin(gun.rotation - Math.PI/2) * bulletSpeed;
+				bullet.body.setVelocity(velocityX, velocityY);
+				this.#bulletLastFired = time;
+			}
+		});
 	}
 
 	findBulletFromImage(image) {

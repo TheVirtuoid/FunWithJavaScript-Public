@@ -42,6 +42,14 @@ export default class Statistics {
 		this.#ui.setUpgradeButtonHealthLimit(oldLimit, newLimit);
 	}
 
+	setUpgradeButtonAddRunner(oldLimit, newLimit) {
+		this.#ui.setUpgradeButtonAddRunner(oldLimit, newLimit);
+	}
+
+	setUpgradeButtonAddGun(oldLimit, newLimit) {
+		this.#ui.setUpgradeButtonAddGun(oldLimit, newLimit);
+	}
+
 	update(prize) {
 		this.#ui.update(prize);
 	}
