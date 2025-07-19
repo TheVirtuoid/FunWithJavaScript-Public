@@ -19,6 +19,7 @@ export default class GameEvent {
 
 	static CARD_SELECTED = 'card-selected';
 
+	static UPDATE_SELECTED = 'upgrade-selected';
 	static UPGRADE_HEALTH = 'upgrade-health';
 	static ADD_RUNNER = 'add-runner';
 	static ADD_GUN = 'add-gun';
@@ -39,7 +40,8 @@ export default class GameEvent {
 		GameEvent.CARD_SELECTED,
 		GameEvent.UPGRADE_HEALTH,
 		GameEvent.ADD_RUNNER,
-		GameEvent.ADD_GUN
+		GameEvent.ADD_GUN,
+		GameEvent.UPDATE_SELECTED
 	]
 
 	static Setup(gameScene) {

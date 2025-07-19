@@ -36,11 +36,11 @@ game.events.once('start', (sceneName) => {
 
 WebFont.load({
 	google: {
-		families: ['Tiny5']
+		families: ['Tiny5', 'Press Start 2P']
 	},
 	active: function() {
 		// game.scene.start('beginning-scene');
 		game.scene.start('game-play-scene');
-	}
+	},
 });
 

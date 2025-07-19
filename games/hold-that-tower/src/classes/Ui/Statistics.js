@@ -3,11 +3,13 @@ import Star from "./Star.js";
 import Crown from "./Crown.js";
 import Coins from "./Coins.js";
 import GameEvent from "../../enums/GameEvent.js";
+import UpgradeButton from "./UpgradeButton.js";
 
 export default class Statistics {
 	static NAME = 'statistics';
 	static BACKGROUND_COLOR = 0x402000;
-	static DEFAULT_FONT = 'Tiny5';
+	// static DEFAULT_FONT = 'Tiny5';
+	static DEFAULT_FONT = '"Press Start 2P"';
 	static WIDTH = 360;
 	static PADDING = 10;
 	static INNER_WIDTH = Statistics.WIDTH - Statistics.PADDING * 2;
@@ -43,7 +45,7 @@ export default class Statistics {
 	#crownImage;
 	#coinsImage;
 
-	#updateButtonHealth;
+	#buttonUpgradeHealth;
 	#updateButtonRunner;
 	#updateButtonGun;
 
@@ -118,8 +120,8 @@ export default class Statistics {
 
 	#buildHeaderPanel(x, y) {
 		let text = this.#addExtraLargeText(new Position(x, y), 'Hold That Tower!', '#ffffff');
-		y += text.height;
-		this.#addLargeText(new Position(x, y), 'Wave:', '#88ff88');
+		y += text.height + 10;
+		text = this.#addLargeText(new Position(x, y), 'Wave:', '#88ff88');
 		this.#waveText = this.#addLargeText(new Position(x + text.width + 20, y), '0', '#88ff88');
 		return { x, y: y + this.#waveText.height };
 	}
@@ -127,7 +129,8 @@ export default class Statistics {
 	#buildStatsPanel(x, y) {
 		const graphics = this.#image;
 		const insetX = x + Statistics.PADDING;
-		const statsX = x + insetX + 200;
+		const statsX = x + insetX + 230;
+		const linePadding = 6;
 
 		y+= Statistics.PADDING * 2;
 		const startingY = y;
@@ -135,27 +138,27 @@ export default class Statistics {
 		this.#crownImage.create();
 		this.#coinsImage.create();
 
-		y += Statistics.PADDING * 2;
+		y += Statistics.PADDING;
 		this.#addMainText(new Position(insetX, y), 'Health');
 		this.#healthText = this.#addMainText(new Position(statsX, y), 0);
 
-		y += this.#healthText.height;
+		y += this.#healthText.height + linePadding;
 		this.#addMainText(new Position(insetX,y), 'Max Health');
 		this.#maxHealthText = this.#addMainText(new Position(statsX,y), 0);
 
-		y += this.#maxHealthText.height;
+		y += this.#maxHealthText.height + linePadding;
 		this.#addMainText(new Position(insetX,y), 'Gun Damage');
 		this.#gunDamageText = this.#addMainText(new Position(statsX,y), 0);
 
-		y += this.#gunDamageText.height;
+		y += this.#gunDamageText.height + linePadding;
 		this.#addMainText(new Position(insetX,y), 'Runner Speed');
 		this.#runnerSpeedText = this.#addMainText(new Position(statsX,y), 0);
 
-		y += this.#runnerSpeedText.height;
-		this.#addMainText(new Position(insetX,y), 'Gun Rotation Speed');
+		y += this.#runnerSpeedText.height + linePadding;
+		this.#addMainText(new Position(insetX,y), 'Gun Rot Speed');
 		this.#gunRotationSpeedText = this.#addMainText(new Position(statsX,y), 0);
 
-		y += this.#gunRotationSpeedText.height;
+		y += this.#gunRotationSpeedText.height + linePadding;
 
 		({ x, y } = this.#buildPrizesPanel(x, y));
 
@@ -183,6 +186,28 @@ export default class Statistics {
 		return { x, y }
 	}
 
+	#buildUpgradesPanel(x, y) {
+		const smallStarImage = new Star({ scene: this.#scene, scale: 0.03 });
+		// this.#crownImage = new Crown({ scene: this.#scene});
+		// this.#coinsImage = new Coins({ scene: this.#scene});
+		smallStarImage.create();
+
+		y += Statistics.PADDING;
+		let text = this.#addLargeText(new Position(x, y), 'Upgrades:', '#88ff88');
+		y += text.height + 10;
+
+		text = this.#addMainText(new Position(x,y), 'Restore Health');
+		smallStarImage.setPosition(new Position(x + text.width + Statistics.PADDING * 2, y + 10));
+		this.#buttonUpgradeHealth = new UpgradeButton({ position: new Position(Statistics.INNER_WIDTH - 20 * 3, y ),
+			scene: this.#scene,
+			limit: 500
+		});
+		// this.#buttonUpgradeHealth.setPosition(new Position(Statistics.INNER_WIDTH - this.#buttonUpgradeHealth.button.width, y ));
+		this.#buttonUpgradeHealth.setPosition(new Position(Statistics.INNER_WIDTH - Statistics.PADDING, y ));
+		return { x, y }
+	}
+
+
 	#addMainText(position, text) {
 		return this.#addStandardText(position, text, '#ffffff');
 	}
@@ -194,7 +219,7 @@ export default class Statistics {
 	#addStandardText(position, text, color) {
 		return this.#scene.add.text(position.x, position.y, text, {
 			fontFamily: Statistics.DEFAULT_FONT,
-			fontSize: '24px',
+			fontSize: '14px',
 			fill: color
 		});
 	}
@@ -202,7 +227,7 @@ export default class Statistics {
 	#addSmallText(position, text, color = '#ffffff') {
 		return this.#scene.add.text(position.x, position.y, text, {
 			fontFamily: Statistics.DEFAULT_FONT,
-			fontSize: '20px',
+			fontSize: '10px',
 			fill: color
 		});
 	}
@@ -210,7 +235,7 @@ export default class Statistics {
 	#addLargeText(position, text, color) {
 		return this.#scene.add.text(position.x, position.y, text, {
 			fontFamily: Statistics.DEFAULT_FONT,
-			fontSize: '30px',
+			fontSize: '18px',
 			fill: color
 		});
 	}
@@ -218,7 +243,7 @@ export default class Statistics {
 	#addExtraLargeText(position, text, color) {
 		return this.#scene.add.text(position.x, position.y, text, {
 			fontFamily: Statistics.DEFAULT_FONT,
-			fontSize: '36px',
+			fontSize: '20px',
 			fill: color
 		});
 	}
@@ -236,7 +261,7 @@ export default class Statistics {
 		}
 	}
 
-	updateButtons(coins, stars, crowns) {
+	/*updateButtons(coins, stars, crowns) {
 		if (this.#updateButtonHealth) {
 			this.#updateButtonHealth.setText(coins.toString());
 			this.#updateButtonHealth.setDisabled(coins < 500);
@@ -250,78 +275,6 @@ export default class Statistics {
 			this.#updateButtonGun.setDisabled(crowns < 50);
 		}
 
-	}
+	}*/
 
-	#buildUpgradesPanel(x, y) {
-		const smallStarImage = new Star({ scene: this.#scene, scale: 0.05 });
-		// this.#crownImage = new Crown({ scene: this.#scene});
-		// this.#coinsImage = new Coins({ scene: this.#scene});
-		smallStarImage.create();
-
-		y += Statistics.PADDING;
-		let text = this.#addLargeText(new Position(x, y), 'Upgrades:', '#88ff88');
-		y += text.height;
-
-		text = this.#addMainText(new Position(x,y), 'Restore Full Health');
-		smallStarImage.setPosition(new Position(x + text.width + Statistics.PADDING * 2, y + 10));
-		this.#updateButtonHealth = this.#buildButton(new Position(Statistics.INNER_WIDTH - 20 * 3, y ), 500, false);
-
-		console.log(this.#updateButtonHealth);
-		// this.#gunDamageText = this.#addMainText(new Position(statsX,y), 0);
-
-
-		return { x, y }
-	}
-
-	#updateButton(buttonToChange, amount, disabled = true) {
-		const { text, button } = buttonToChange;
-		const backgroundColor = disabled ? 0x660000 : 0x006600;
-		const foregroundColor = disabled ? '#666666' : '#ffffff';
-		const lineColor = disabled ? 0x666666 : 0xffffff;
-		button.setFillStyle(0x006600, 1);
-		button.setStrokeStyle(2, 0xffffff);
-		text.setFill('#ffffff');
-		button.setInteractive();
-	}
-
-	#buildButton(position, value, disabled = true) {
-		const buttonText = value.toString();
-		const { x, y } = position;
-		const newButton = this.#updateButton()
-		const backgroundColor = disabled ? 0x660000 : 0x006600;
-		const foregroundColor = disabled ? '#666666' : '#ffffff';
-		const lineColor = disabled ? 0x666666 : 0xffffff;
-		const gx = x - Statistics.PADDING;
-		const gy = y - Statistics.PADDING / 2;
-		const gw = 20 * buttonText.length;
-		const gh = 20 + Statistics.PADDING;
-		const r = 4;
-
-		const button = this.#scene.add.rectangle(
-			gx,
-			gy,
-			gw,
-			gh,
-			backgroundColor,
-			1
-		)
-			.setOrigin(0, 0)
-			.setStrokeStyle(2, lineColor);
-		if (!disabled) {
-			button.setInteractive();
-		}
-		const text = this.#addSmallText(position, value, foregroundColor);
-		// rectangle.setFillStyle(0xffff00, 1);
-
-
-		/*const selectedText = this.#addStandardFreeText(new Position(bx + 19, by + 5), 'Select', '#ffffff');
-		selectedBox.setInteractive();
-		selectedBox.once('pointerdown', () => {
-			GameEvent.Emit(GameEvent.CARD_SELECTED, this.#parent);
-		});
-		this.#parts.push(card, title, description, icon, selectedBox, selectedText);*/
-
-
-		return { text, button };
-	}
 }
