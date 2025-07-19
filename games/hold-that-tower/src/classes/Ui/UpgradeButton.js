@@ -8,13 +8,16 @@ export default class UpgradeButton {
 	#position;
 	#button;
 	#buttonText;
+	#type;
+	#selectable = false;
 
 	constructor(args = {}) {
-		const { scene, limit, position } = args;
+		const { scene, limit, position, type } = args;
 		this.#scene = scene;
 		this.#limit = limit;
 		this.#position = position;
 		this.#amount = 0;
+		this.#type = type;
 		this.#build();
 	}
 
@@ -24,6 +27,14 @@ export default class UpgradeButton {
 
 	get buttonText() {
 		return this.#buttonText;
+	}
+
+	get type() {
+		return this.#type;
+	}
+
+	get limit() {
+		return this.#limit;
 	}
 
 	#build() {
@@ -55,21 +66,25 @@ export default class UpgradeButton {
 		this.#button.setInteractive();
 		this.#buttonText = this.#addSmallText(this.#position, this.#limit, foregroundColor);
 		this.#button.on('pointerdown', () => {
-			GameEvent.Emit(GameEvent.UPDATE_SELECTED, this);
+			if (this.#selectable) {
+				GameEvent.Emit(GameEvent.UPDATE_SELECTED, this);
+			}
 		});
+		this.#selectable = false;
 	}
 
 	setLimit(value) {
 		this.#limit = value;
+		this.#buttonText.setText(value);
 		this.update(0);
 	}
 
 	update(amount) {
 		this.#amount = amount;
-		this.#buttonText.setText(this.#amount.toString());
 		this.#button.setFillStyle(this.#setBackgroundColor(this.#amount));
 		this.#button.setStrokeStyle(2, this.#setBorderColor(this.#amount));
 		this.#buttonText.setFill(this.#setForegroundColor(this.#amount));
+		this.#selectable = this.#amount >= this.#limit;
 	}
 
 	setPosition(position) {

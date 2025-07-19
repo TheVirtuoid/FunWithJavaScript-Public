@@ -38,6 +38,10 @@ export default class Statistics {
 		this.#ui.setGunRotationSpeed(speed);
 	}
 
+	setUpgradeButtonHealthLimit(oldLimit, newLimit) {
+		this.#ui.setUpgradeButtonHealthLimit(oldLimit, newLimit);
+	}
+
 	update(prize) {
 		this.#ui.update(prize);
 	}

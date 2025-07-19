@@ -21,6 +21,7 @@ import AmmoType from "../../enums/AmmoType.js";
 import CardUi from '../UI/Card.js';
 import CardUpgradeType from "../../enums/CardUpgradeType.js";
 import CardSelect from "../CardSelect.js";
+import ButtonUpgradeType from "../../enums/ButtonUpgradeType.js";
 
 export default class GamePlay extends Phaser.Scene {
 	#ground;
@@ -88,6 +89,8 @@ export default class GamePlay extends Phaser.Scene {
 		this.events.on(GameEvent.NEW_WAVE, this.#onNewWave.bind(this));
 
 		this.events.on(GameEvent.CARD_SELECTED, this.#onCardSelected.bind(this));
+
+		this.events.on(GameEvent.UPDATE_SELECTED, this.#onUpgradeSelected.bind(this));
 
 		this.#ground = new Ground({scene: this});
 		this.#ground.create();
@@ -170,6 +173,17 @@ export default class GamePlay extends Phaser.Scene {
 		GameEvent.Emit(GameEvent.WAVE_ENDED);
 	};
 
+	#onUpgradeSelected(button) {
+		console.log('-upgrade selected-');
+		console.log(button);
+		if (button.type === ButtonUpgradeType.HEALTH) {
+			this.#tower.setHealth(this.#tower.maxHealth);
+			this.#statistics.setHealth(this.#tower.maxHealth);
+			const newLimit = Math.round(button.limit * 1.5);
+			this.#statistics.setUpgradeButtonHealthLimit(button.limit, newLimit);
+		}
+	}
+
 	#onEnemyReachedTower(enemy) {
 		enemy.setVisible(false);
 		const ammo = new Ammo({ damage: enemy.damage, type: AmmoType.ENEMY, scene: this });
@@ -193,7 +207,8 @@ export default class GamePlay extends Phaser.Scene {
 		}
 	};
 
-	#onRunnerReturned(enemy) {
+	#onRunnerReturned(prize) {
+		this.#statistics.update(prize);
 	};
 
 	#onRunnerDestroyed(enemy) {

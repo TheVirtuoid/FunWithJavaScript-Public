@@ -43,10 +43,10 @@ export default class Card {
 		icon.setScale(.1);
 		icon.setOrigin(.5, .5);
 
-		const bx = this.#position.x + w / 2 - 45;
+		const bx = this.#position.x + w / 2 - 50;
 		const by = this.#position.y + h - 20;
-		const selectedBox = this.#scene.add.rectangle(bx, by, 100, 40, 0x000000, 1).setOrigin(0, 0).setStrokeStyle(2, 0xffffff);
-		const selectedText = this.#addStandardFreeText(new Position(bx + 19, by + 5), 'Select', '#ffffff');
+		const selectedBox = this.#scene.add.rectangle(bx, by, 120, 40, 0x000000, 1).setOrigin(0, 0).setStrokeStyle(2, 0xffffff);
+		const selectedText = this.#addStandardFreeText(new Position(bx + 10, by + 11), 'Select', '#ffffff');
 		selectedBox.setInteractive();
 		selectedBox.once('pointerdown', () => {
 			GameEvent.Emit(GameEvent.CARD_SELECTED, this.#parent);
@@ -64,7 +64,7 @@ export default class Card {
 	#addTitle(position, text, color) {
 		return this.#scene.add.text(position.x, position.y, text, {
 			fontFamily: Statistics.DEFAULT_FONT,
-			fontSize: '50px',
+			fontSize: '25px',
 			fill: color,
 			fixedWidth: this.#width - 20,
 			wordWrap: { width: this.#width - 20, useAdvancedWrap: true },
@@ -75,7 +75,7 @@ export default class Card {
 	#addLargeText(position, text, color) {
 		return this.#scene.add.text(position.x, position.y, text, {
 			fontFamily: Statistics.DEFAULT_FONT,
-			fontSize: '30px',
+			fontSize: '20px',
 			fill: color
 		});
 	}
@@ -83,7 +83,7 @@ export default class Card {
 	#addStandardText(position, text, color) {
 		return this.#scene.add.text(position.x, position.y, text, {
 			fontFamily: Statistics.DEFAULT_FONT,
-			fontSize: '24px',
+			fontSize: '18px',
 			fixedWidth: this.#width - 20,
 			fill: color,
 			wordWrap: { width: this.#width - 20 },
@@ -94,7 +94,7 @@ export default class Card {
 	#addStandardFreeText(position, text, color) {
 		return this.#scene.add.text(position.x, position.y, text, {
 			fontFamily: Statistics.DEFAULT_FONT,
-			fontSize: '24px',
+			fontSize: '16px',
 			fill: color
 		});
 	}

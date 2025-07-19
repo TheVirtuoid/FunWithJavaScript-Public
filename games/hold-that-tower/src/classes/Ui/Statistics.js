@@ -4,6 +4,7 @@ import Crown from "./Crown.js";
 import Coins from "./Coins.js";
 import GameEvent from "../../enums/GameEvent.js";
 import UpgradeButton from "./UpgradeButton.js";
+import ButtonUpgradeType from "../../enums/ButtonUpgradeType.js";
 
 export default class Statistics {
 	static NAME = 'statistics';
@@ -97,6 +98,13 @@ export default class Statistics {
 	setGunRotationSpeed(speed) {
 		const text = speed.toFixed(3);
 		this.#gunRotationSpeedText.setText(text);
+	}
+
+	setUpgradeButtonHealthLimit(oldLimit, newLimit) {
+		this.#buttonUpgradeHealth.setLimit(newLimit);
+		this.#coins -= oldLimit;
+		this.#coinsText.setText(this.#coins);
+		// this.setHealth();
 	}
 
 	create() {
@@ -200,7 +208,8 @@ export default class Statistics {
 		smallStarImage.setPosition(new Position(x + text.width + Statistics.PADDING * 2, y + 10));
 		this.#buttonUpgradeHealth = new UpgradeButton({ position: new Position(Statistics.INNER_WIDTH - 20 * 3, y ),
 			scene: this.#scene,
-			limit: 500
+			limit: 100,
+			type: ButtonUpgradeType.HEALTH
 		});
 		// this.#buttonUpgradeHealth.setPosition(new Position(Statistics.INNER_WIDTH - this.#buttonUpgradeHealth.button.width, y ));
 		this.#buttonUpgradeHealth.setPosition(new Position(Statistics.INNER_WIDTH - Statistics.PADDING, y ));
@@ -252,6 +261,7 @@ export default class Statistics {
 		if (prize instanceof Coins) {
 			this.#coins += prize.amount;
 			this.#coinsText.setText(this.#coins);
+			this.#buttonUpgradeHealth.update(this.#coins);
 		} else if (prize instanceof Star) {
 			this.#stars += prize.amount;
 			this.#starsText.setText(this.#stars);

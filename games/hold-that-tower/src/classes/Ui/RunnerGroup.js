@@ -1,5 +1,6 @@
 import Position from "../Position.js";
 import Runner from "./../Runner.js";
+import GameEvent from "../../enums/GameEvent.js";
 
 export default class RunnerGroup {
 	#scene;
@@ -68,7 +69,7 @@ export default class RunnerGroup {
 					onComplete: () => {
 						runner.setVisible(false);
 						runnerData.running = false;
-						this.#statistics.update(prize);
+						GameEvent.Emit(GameEvent.RUNNER_RETURNED, prize);
 					}
 				});
 			}
