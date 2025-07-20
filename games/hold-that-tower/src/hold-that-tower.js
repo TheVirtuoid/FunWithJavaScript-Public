@@ -39,8 +39,8 @@ WebFont.load({
 		families: ['Tiny5', 'Press Start 2P']
 	},
 	active: function() {
-		// game.scene.start('beginning-scene');
-		game.scene.start('game-play-scene');
+		game.scene.start('beginning-scene');
+		// game.scene.start('game-play-scene');
 	},
 });
 

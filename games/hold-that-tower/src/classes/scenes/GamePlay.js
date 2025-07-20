@@ -40,6 +40,8 @@ export default class GamePlay extends Phaser.Scene {
 	#gunRotationSpeed = .04; // higher = faster rotation (.05 seems to be good)
 	#gunDamage = 6;
 
+	#xKeyLastPressed = 0;
+
 	#bullets;
 
 	#enemies;
@@ -131,8 +133,12 @@ export default class GamePlay extends Phaser.Scene {
 					gun.setAngle(angle);
 				});
 			}
-			if (this.#gamepad.X) {
-				console.log(this.#statistics.getButtonUpgradeHealth());
+			if (this.#gamepad.X && time > this.#xKeyLastPressed + 500) {
+				this.#xKeyLastPressed = time;
+				const button = this.#statistics.getButtonUpgradeHealth();
+				if (button.selectable) {
+					this.#onUpgradeSelected(button);
+				}
 			}
 			if (this.#gamepad.A) {
 				// Fire cooldown (200ms = 5 bullets per second)

@@ -37,6 +37,10 @@ export default class UpgradeButton {
 		return this.#limit;
 	}
 
+	get selectable() {
+		return this.#selectable;
+	}
+
 	#build() {
 		const text = this.#limit.toString();
 		const { x, y } = this.#position;
