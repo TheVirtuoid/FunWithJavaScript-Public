@@ -14,6 +14,10 @@ export default class Statistics {
 		this.#ui.create();
 	}
 
+	getButtonUpgradeHealth() {
+		return this.#ui.getButtonUpgradeHealth();
+	}
+
 	setWave(wave) {
 		this.#ui.setWave(wave);
 	}

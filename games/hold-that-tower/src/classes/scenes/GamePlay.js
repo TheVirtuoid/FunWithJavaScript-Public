@@ -131,6 +131,9 @@ export default class GamePlay extends Phaser.Scene {
 					gun.setAngle(angle);
 				});
 			}
+			if (this.#gamepad.X) {
+				console.log(this.#statistics.getButtonUpgradeHealth());
+			}
 			if (this.#gamepad.A) {
 				// Fire cooldown (200ms = 5 bullets per second)
 				if (time > this.#bullets.bulletLastFired + 200) {

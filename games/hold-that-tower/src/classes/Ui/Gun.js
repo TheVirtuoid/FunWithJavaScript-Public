@@ -91,7 +91,6 @@ export default class Gun {
 		this.#angle = GunPosition.ANGLES.get(this.placement); // Get the angle for the clock position
 		this.#position = this.getPositionOnCircle(this.#angle);
 		this.setPosition(new Position(this.x, this.y));
-		// this.#image = this.#scene.add.image(this.x, this.y, Gun.NAME).setScale(this.scale);
 		this.setRotation(this.#angle + Math.PI / 2);
 	}
 

@@ -73,6 +73,10 @@ export default class Statistics {
 		return this.#image;
 	}
 
+	getButtonUpgradeHealth() {
+		return this.#buttonUpgradeHealth;
+	}
+
 	setWave(wave) {
 		this.#waveText.setText(wave);
 	}
