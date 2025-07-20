@@ -7,6 +7,7 @@ import Runner from '../Runner.js';
 import Enemy from '../Ui/Enemy.js';
 import Gun from '../Ui/Gun.js';
 import Statistics from '../Statistics.js';
+import StatisticsUi from '../Ui/Statistics.js';
 import Coins from '../Ui/Coins.js';
 import Bullet from '../Ui/Bullet.js';
 import Star from '../Ui/Star.js';
@@ -184,6 +185,30 @@ export default class GamePlay extends Phaser.Scene {
 	#onGameOver() {
 		this.#gameOver = true;
 		GameEvent.Emit(GameEvent.WAVE_ENDED);
+		const gameWidth = this.cameras.main.width;
+		const gameHeight = this.cameras.main.height;
+		const width = 500;
+		const height = 300;
+		const x = (gameWidth - width) / 2;
+		const y = (gameHeight - height) / 2;
+
+		const square = this.add.rectangle(
+			x,
+			y,
+			width,
+			height,
+			0x660000,
+			1
+		)
+			.setOrigin(0, 0)
+			.setStrokeStyle(2, 0x000000);
+		const text = this.add.text(x + 10, y + 20, 'GAME OVER', {
+			fontFamily: StatisticsUi.DEFAULT_FONT,
+			fontSize: '40px',
+			fixedWidth: width - 20,
+			fill: '#ffffff',
+			align: 'center',
+		});
 	};
 
 	#onUpgradeSelected(button) {
