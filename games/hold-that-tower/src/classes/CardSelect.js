@@ -1,5 +1,4 @@
 import CardUpgradeType from "../enums/CardUpgradeType.js";
-import CardUi from "./Ui/Card.js";
 import Position from "./Position.js";
 import Card from './Card.js';
 

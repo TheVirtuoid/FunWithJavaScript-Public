@@ -3,20 +3,27 @@ import Runner from "./Runner.js";
 import GunPosition from "../enums/GunPosition.js";
 import Gun from "./Gun.js";
 import TowerUi from "./Ui/Tower.js";
+import GameEvent from "../enums/GameEvent.js";
 
 export default class Tower {
 	static DEFAULT_HEALTH = 100;
 	static DEFAULT_MAX_HEALTH = 100;
-	static DEFAULT_TURRET_SPIN_SPEED = 1;
+	static DEFAULT_TURRET_ROTATION_SPEED = .04;
 
 	#health;
 	#maxHealth;
 	#guns;
 	#runners;
 	#defensiveWall;
-	#turretSpinSpeed;
+	#turretRotationSpeed;
 	#ui;
 	#scene;
+
+	static preload(scene) {
+		TowerUi.preload(scene);
+		Runner.preload(scene);
+		Gun.preload(scene);
+	}
 
 	constructor(args = {}) {
 		const { scene, position } = args;
@@ -25,7 +32,7 @@ export default class Tower {
 		this.#scene = scene;
 		this.#runners = [new Runner({ scene })];
 		this.#defensiveWall = new DefensiveWall();
-		this.#turretSpinSpeed = Tower.DEFAULT_TURRET_SPIN_SPEED;
+		this.#turretRotationSpeed = Tower.DEFAULT_TURRET_ROTATION_SPEED;
 		this.#ui = new TowerUi({ scene: scene, position });
 		this.#ui.create();
 		this.#guns = [
@@ -59,8 +66,8 @@ export default class Tower {
 		return this.#defensiveWall;
 	}
 
-	get turretSpinSpeed() {
-		return this.#turretSpinSpeed;
+	get turretRotationSpeed() {
+		return this.#turretRotationSpeed;
 	}
 
 	get ui() {
@@ -86,9 +93,9 @@ export default class Tower {
 	takeDamage(ammo) {
 		const towerDamage = this.#defensiveWall.takeDamage(ammo);
 		this.#health = Math.max(0, this.health - towerDamage);
-		/*if (this.health === 0) {
-			this.emit('gameOver');
-		}*/
+		if (this.health === 0) {
+			GameEvent.Emit(GameEvent.GAME_OVER);
+		}
 		return this.#health;
 	}
 
@@ -99,6 +106,10 @@ export default class Tower {
 
 	setHealth(health) {
 		this.#health = Math.min(this.#maxHealth, health);
+	}
+
+	setTurretRotationSpeed(speed) {
+		this.#turretRotationSpeed = speed;
 	}
 
 	upgradeMaximumHealth(amount) {
@@ -113,12 +124,9 @@ export default class Tower {
 		this.defensiveWall.upgradeArmor(amount);
 	}
 
-	addRunner(runner) {
-		if (runner instanceof Runner) {
-			this.runners.push(runner);
-		} else {
-			throw new Error('Invalid runner');
-		}
+	addRunner() {
+		const runner = new Runner({ scene: this.#scene });
+		this.runners.push(runner);
 	}
 
 	upgradeRunnersHitPoints(amount) {
@@ -134,7 +142,6 @@ export default class Tower {
 	}
 
 	addGun() {
-		// reset gun positions and rotations
 		this.guns.forEach((gun) => gun.resetPosition());
 		const gun = new Gun({
 			centerX: this.x,

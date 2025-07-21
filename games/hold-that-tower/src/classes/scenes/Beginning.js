@@ -20,7 +20,7 @@ export default class Beginning extends Phaser.Scene {
 	}
 
 	create() {
-		this.input.gamepad.enabled = false;
+		this.input.gamepad.enabled = true;
 		const { width, height } = this.cameras.main;
 		const middleX = Math.floor(width / 2);
 		const middleY = Math.floor(height / 2);
@@ -63,5 +63,11 @@ export default class Beginning extends Phaser.Scene {
 	#switchScenes() {
 		this.scene.stop('beginning-scene');
 		this.game.events.emit('start', 'game-play-scene');
+		/*this.scene.get('game-play-scene').events.once('create', () => {
+			if (gamepad && gamepad.connected) {
+				this.scene.get('game-play-scene').input.gamepad.emit('connected', gamepad);
+			}
+		});*/
+
 	}
 }

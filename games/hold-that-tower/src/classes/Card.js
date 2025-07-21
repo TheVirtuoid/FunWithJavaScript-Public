@@ -15,19 +15,6 @@ export default class Card {
 	constructor(args = {}) {
 		const { scene, position, title, type, upgradeAmount, description, level } = args;
 
-		/*if (!CardType.TYPES.includes(type)) {
-			throw new Error('Invalid card type');
-		}*/
-		/*if (!CardUpgradeType.TYPES.includes(type)) {
-			throw new Error('Invalid upgrade type');
-		}*/
-		/*if (typeof description !== 'string' || !description) {
-			throw new Error('Description must be a non-empty string');
-		}
-		if (typeof title !== 'string' || !title) {
-			throw new Error('Title must be a non-empty string');
-		}*/
-
 		this.#type = type;
 		this.#upgradeAmount = upgradeAmount;
 		this.#type = type;

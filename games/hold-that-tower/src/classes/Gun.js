@@ -24,6 +24,10 @@ export default class Gun {
 		this.#ui.create();
 	}
 
+	static preload(scene) {
+		GunUi.preload(scene);
+	}
+
 	get ammoDamage() {
 		return this.#ammo.damage;
 	}

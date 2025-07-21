@@ -10,6 +10,10 @@ export default class Runner {
 	#position;
 	#ui;
 
+	static preload(scene) {
+		RunnerUi.preload(scene);
+	}
+
 	constructor(args = {}) {
 		const { position, scene, speed } = args;
 		this.#hitPoints = Runner.DEFAULT_HIT_POINTS;

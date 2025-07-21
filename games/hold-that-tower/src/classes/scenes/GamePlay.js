@@ -28,7 +28,6 @@ import GunPosition from "../../enums/GunPosition.js";
 export default class GamePlay extends Phaser.Scene {
 	#ground;
 	#tower;
-	#gun;
 	#statistics;
 
 	#prizesGroup;
@@ -37,8 +36,6 @@ export default class GamePlay extends Phaser.Scene {
 	#cardSelect;
 
 	#gamepad;
-	#gunAngle = 0;
-	#gunRotationSpeed = .04; // higher = faster rotation (.05 seems to be good)
 	#gunDamage = 6;
 
 	#xKeyLastPressed = 0;
@@ -63,11 +60,9 @@ export default class GamePlay extends Phaser.Scene {
 
 	preload() {
 		Ground.preload(this);
-		TowerUi.preload(this);
-		RunnerUi.preload(this);
+		Tower.preload(this);
 		Enemy.preload(this);
 		Bullet.preload(this);
-		Gun.preload(this);
 		Coins.preload(this);
 		Star.preload(this);
 		Crown.preload(this);
@@ -104,13 +99,16 @@ export default class GamePlay extends Phaser.Scene {
 		this.#statistics = new Statistics({scene: this});
 
 		this.#statistics.create();
-		this.input.gamepad.once('connected', (pad) => {
+		this.input.gamepad.start();
+
+		this.input.gamepad.on('connected', (pad) => {
 			this.#gamepad = pad;
 		});
+		this.input.gamepad.on('disconnected', (pad) => {
+			this.#gamepad = null;
+		});
 		this.#gameOver = false;
-
 		this.#cardSelect = new CardSelect({scene: this, position: new Position(400, 100)});
-
 		GameEvent.Emit(GameEvent.NEW_WAVE);
 	}
 
@@ -126,7 +124,7 @@ export default class GamePlay extends Phaser.Scene {
 			if (horizontalInput !== 0) {
 				this.#tower.guns.forEach((gun) => {
 					let angle = gun.angle;
-					angle += this.#gunRotationSpeed * direction;
+					angle += this.#tower.turretRotationSpeed * direction;
 					const x = this.#tower.x + this.#tower.radius * Math.cos(angle);
 					const y = this.#tower.y + this.#tower.radius * Math.sin(angle);
 					gun.setPosition(new Position(x, y));
@@ -219,7 +217,8 @@ export default class GamePlay extends Phaser.Scene {
 			this.#statistics.setUpgradeButtonHealthLimit(button.limit, newLimit);
 		}
 		if (button.type === ButtonUpgradeType.RUNNER) {
-			this.#tower.addRunner(new Runner({ scene: this }))
+			// this.#tower.addRunner(new Runner({ scene: this }))
+			this.#tower.addRunner();
 			const newLimit = Math.round(button.limit * 1.5);
 			this.#statistics.setUpgradeButtonAddRunner(button.limit, newLimit);
 		}
@@ -317,7 +316,7 @@ export default class GamePlay extends Phaser.Scene {
 		this.#statistics.setMaxHealth(this.#tower.maxHealth);
 		this.#statistics.setGunDamage(this.#gunDamage);
 		this.#statistics.setRunnerSpeed(this.#runnerSpeed);
-		this.#statistics.setGunRotationSpeed(this.#gunRotationSpeed);
+		this.#statistics.setGunRotationSpeed(this.#tower.turretRotationSpeed);
 		GameEvent.Emit(GameEvent.WAVE_STARTED, this.#currentWave);
 	}
 
@@ -349,8 +348,8 @@ export default class GamePlay extends Phaser.Scene {
 			this.#runnerSpeed = Math.round(this.#runnerSpeed * card.upgradeAmount);
 			this.#statistics.setRunnerSpeed(this.#runnerSpeed);
 		} else if (card.type === CardUpgradeType.TOWER_ROTATION_SPEED) {
-			this.#gunRotationSpeed = this.#gunRotationSpeed + card.upgradeAmount;
-			this.#statistics.setGunRotationSpeed(this.#gunRotationSpeed);
+			this.#tower.setTurretRotationSpeed(this.#tower.turretRotationSpeed + card.upgradeAmount);
+			this.#statistics.setGunRotationSpeed(this.#tower.turretRotationSpeed);
 		}
 	}
 
