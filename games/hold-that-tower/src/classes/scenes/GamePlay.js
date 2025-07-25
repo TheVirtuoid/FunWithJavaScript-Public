@@ -1,11 +1,8 @@
 import Ground from '../Ui/Ground.js';
 import Tower from '../Tower.js';
-import TowerUi from '../UI/Tower.js';
 import Position from '../Position.js';
-import RunnerUi from '../Ui/Runner.js';
 import Runner from '../Runner.js';
 import Enemy from '../Ui/Enemy.js';
-import Gun from '../Ui/Gun.js';
 import Statistics from '../Statistics.js';
 import StatisticsUi from '../Ui/Statistics.js';
 import Coins from '../Ui/Coins.js';
@@ -19,11 +16,9 @@ import EnemyType from "../../enums/EnemyType.js";
 import GameEvent from "../../enums/GameEvent.js";
 import Ammo from "../Ammo.js";
 import AmmoType from "../../enums/AmmoType.js";
-import CardUi from '../UI/Card.js';
 import CardUpgradeType from "../../enums/CardUpgradeType.js";
 import CardSelect from "../CardSelect.js";
 import ButtonUpgradeType from "../../enums/ButtonUpgradeType.js";
-import GunPosition from "../../enums/GunPosition.js";
 
 export default class GamePlay extends Phaser.Scene {
 	#ground;
