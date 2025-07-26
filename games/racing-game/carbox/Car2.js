@@ -1,11 +1,12 @@
 import {
+	ActionManager,
 	Color3,
 	ImportMeshAsync, LockConstraint,
 	MeshBuilder,
 	Physics6DoFConstraint,
 	PhysicsAggregate,
 	PhysicsConstraintAxis,
-	PhysicsShapeType, Quaternion as Quanternion, StandardMaterial, Texture,
+	PhysicsShapeType, Quaternion, Quaternion as Quanternion, StandardMaterial, Texture,
 	Vector3
 } from "@babylonjs/core";
 
@@ -18,6 +19,7 @@ export default class Car {
 	static FRONT_RIGHT_WHEEL = { x: -1, z: 1, name: 'front-right' };
 	static CHASSIS = Symbol('chassis');
 	static COLLISION_BODY = Symbol('collision-body');
+	static MODEL_BODY = Symbol('model-body');
 	static PARENT = Symbol('parent');
 
 	/*static WHEEL_RESTITUTION = 0;
@@ -53,6 +55,10 @@ export default class Car {
 
 	#chassisPhysics;
 	#wheelPhysics;
+
+	#modelParent;
+
+	#testMesh = 9;
 
 	constructor(args = {}) {
 		const { color = new Color3(1, 1, 1), position, scene, url, id = crypto.randomUUID(), physicsGroup, scale = 1, chassisPhysics = {}, wheelPhysics = {} } = args;
@@ -140,17 +146,12 @@ export default class Car {
 				.then(this.#buildChassis.bind(this))
 				.then(this.#buildWheels.bind(this))
 				.then(this.#buildModel.bind(this))
-				// .then(this.#buildCollisionBody.bind(this))
 				.then(this.#assignParents.bind(this))
 				.then(this.#buildChassisPhysicsAggregate.bind(this))
 				.then(this.#buildWheelPhysicsAggregates.bind(this))
-				// .then(this.#buildParentPhysicsAggregate.bind(this))
-				// .then(this.#buildCollisionBodyPhysicsAggregate.bind(this))
-
-				// .then(() => new Promise(resolve => setTimeout(resolve, 100)))
-
-				// .then(this.#setCollisionBodyConstraint.bind(this))
 				.then(this.#buildWheelConstraints.bind(this))
+
+				// .then(this.#buildModelPhysicsAggregate.bind(this))
 				.then(resolve);
 		});
 	}
@@ -159,13 +160,6 @@ export default class Car {
 		this.#chassis.parent = this.#collisionBody;  // Chassis follows collision body
 		this.#collisionBody.parent = this.#parent;   // Collision body is the main physics body
 	}
-
-	/*#assignParents() {
-		if(this.#collisionBody) {
-			this.#collisionBody.parent = this.#chassis;
-		}
-		this.#chassis.parent = this.#parent;
-	}*/
 
 	#buildParent() {
 		this.#parent = new MeshBuilder.CreateBox(`${this.id}-parent`, { size: 0.1 }, this.#scene);
@@ -199,6 +193,27 @@ export default class Car {
 		return Promise.resolve();
 	}
 
+	#buildModelPhysicsAggregate() {
+
+		// Create physics aggregate on the collision body
+		const modelAggregate = new PhysicsAggregate(
+			this.#loadedModel.meshes[this.#testMesh],
+			PhysicsShapeType.MESH,
+			{
+				mass: Car.COLLISION_BODY_MASS,
+				restitution: 0,
+				friction: 0.5
+			},
+			this.#scene
+		);
+
+		modelAggregate.shape.filterMembershipMask = this.#membershipMask;
+		modelAggregate.shape.filterCollideMask = this.#collideMask;
+		this.#aggregates.set(Car.MODEL_BODY, modelAggregate);
+
+		return Promise.resolve();
+	}
+
 	#buildChassisPhysicsAggregate() {
 		// Create physics aggregate on the collision body
 		const chassisAggregate = new PhysicsAggregate(
@@ -218,64 +233,6 @@ export default class Car {
 
 		return Promise.resolve();
 	}
-
-	/*#buildChassisPhysicsAggregate() {
-		// Create the main chassis physics body with a compound shape
-		const chassisAggregate = new PhysicsAggregate(
-			this.#chassis,
-			PhysicsShapeType.BOX,
-			{
-				mass: Car.CHASSIS_MASS,
-				restitution: 0,
-				friction: 0.5,
-				// Add compound shapes to include both chassis and collision body
-				shapes: [
-					{
-						// Main chassis shape
-						type: PhysicsShapeType.BOX,
-						position: new Vector3(0, 0, 0),
-						boxSize: new Vector3(
-							Car.CHASSIS_LENGTH * this.#scale,
-							1 * this.#scale,
-							1 * this.#scale
-						)
-					},
-					{
-						// Collision body shape
-						type: PhysicsShapeType.BOX,
-						position: new Vector3(0, 2, 0),  // Same Y offset as visual mesh
-						boxSize: new Vector3(
-							Car.CHASSIS_LENGTH * 2 * this.#scale,
-							0.5 * this.#scale,
-							2.2 * this.#scale
-						)
-					}
-				]
-			},
-			this.#scene
-		);
-
-		chassisAggregate.shape.filterMembershipMask = this.#membershipMask;
-		chassisAggregate.shape.filterCollideMask = this.#collideMask;
-		this.#aggregates.set(Car.CHASSIS, chassisAggregate);
-
-		return Promise.resolve();
-	}*/
-
-	/*#buildChassis() {
-		this.#chassis = MeshBuilder.CreateBox(`${this.id}-chassis`, {
-			width: Car.CHASSIS_LENGTH * this.#scale,
-			height: 1 * this.#scale,
-			depth: 1 * this.#scale
-		}, this.#scene);
-		// this.#chassis.position = this.position.clone();
-		// this.#chassis.parent = this.parent;
-		this.#chassis.visibility = true;
-		const chassisMaterial = new StandardMaterial(`${this.id}-chassis-material`, this.#scene);
-		chassisMaterial.diffuseColor = this.color;
-		this.#chassis.material = chassisMaterial;
-		return Promise.resolve();
-	}*/
 
 	#buildWheelBase() {
 		this.#wheelBase = MeshBuilder.CreateCapsule(`${this.id}-wheel-base`, {
@@ -309,19 +266,6 @@ export default class Car {
 		this.#wheels.set(wheelType, wheel);
 	}
 
-	#buildCollisionBody() {
-		const bodySize = {
-			width: Car.CHASSIS_LENGTH * 2 * this.#scale,  // Slightly larger than the chassis
-			height: .5 * this.#scale,                     // Height of car body
-			depth: 2.2 * this.#scale                       // Width of car body
-		};
-		const collisionBody = MeshBuilder.CreateBox(`${this.id}-body-collision`, bodySize, this.#scene);
-		collisionBody.position = this.#chassis.position.clone().add(new Vector3(0, 2, 0));
-		collisionBody.visibility = true; // Make invisible
-		this.#collisionBody = collisionBody;
-		return Promise.resolve();
-	}
-
 	#buildWheelPhysicsAggregates() {
 		const backLeftWheel = new PhysicsAggregate(
 			this.#wheels.get(Car.BACK_LEFT_WHEEL),
@@ -347,64 +291,6 @@ export default class Car {
 		return Promise.resolve();
 	}
 
-	/*#buildChassisPhysicsAggregate() {
-		const chassis = new PhysicsAggregate(
-			this.#chassis,
-			PhysicsShapeType.BOX,
-			{
-				mass: Car.CHASSIS_MASS,
-				restitution: 0,
-				friction: 0,
-				linearDamping: 0.3,
-				angularDamping: 0.3
-			},
-			this.#scene
-		);
-		chassis.shape.filterMembershipMask = this.#membershipMask;
-		chassis.shape.filterCollideMask = this.#collideMask;
-		this.#aggregates.set(Car.CHASSIS, chassis);
-		return Promise.resolve();
-	}*/
-
-	#buildCollisionBodyPhysicsAggregate() {
-		const collisionBody = new PhysicsAggregate(
-			this.#collisionBody,
-			PhysicsShapeType.BOX,
-			{
-				mass: Car.COLLISION_BODY_MASS,
-				restitution: 0,
-				friction: 0.5,  // Add some friction
-				linearDamping: 0.1,  // Light damping
-				angularDamping: 0.1  // Light damping
-			},
-			this.#scene
-		);
-		collisionBody.shape.filterMembershipMask = this.#membershipMask;
-		collisionBody.shape.filterCollideMask = this.#collideMask;
-		this.#aggregates.set(Car.COLLISION_BODY, collisionBody);
-		return Promise.resolve();
-	}
-
-	/*#buildCollisionBodyPhysicsAggregate() {
-		// const collisionBody = new PhysicsAggregate(this.#collisionBody, PhysicsShapeType.BOX, { mass: Car.CHASSIS_MASS, restitution: 0, friction: 0 }, this.#scene);
-		const collisionBody = new PhysicsAggregate(
-			this.#collisionBody,
-			PhysicsShapeType.BOX,
-			{ mass: Car.COLLISION_BODY_MASS, restitution: 0, friction: 0 },
-			this.#scene
-		);
-		collisionBody.shape.filterMembershipMask = this.#membershipMask;
-		collisionBody.shape.filterCollideMask = this.#collideMask;
-		this.#aggregates.set(Car.COLLISION_BODY, collisionBody);
-		return Promise.resolve();
-	}
-*/
-	#buildParentPhysicsAggregate() {
-		const parent = new PhysicsAggregate(this.#parent, PhysicsShapeType.BOX, { mass: 1, restitution: 0}, this.#scene);
-		this.#aggregates.set(Car.PARENT, parent);
-		return Promise.resolve();
-	}
-
 	#buildWheelConstraints() {
 		this.#setWheelConstraint(Car.BACK_LEFT_WHEEL);
 		this.#setWheelConstraint(Car.BACK_RIGHT_WHEEL);
@@ -413,108 +299,6 @@ export default class Car {
 		return Promise.resolve();
 	}
 
-	#setCollisionBodyConstraint() {
-		const collisionAggregate = this.#aggregates.get(Car.COLLISION_BODY);
-		const chassisAggregate = this.#aggregates.get(Car.CHASSIS);
-
-		const constraint = new Physics6DoFConstraint(
-			{
-				pivotA: new Vector3(0, 0, 0),  // Pivot at chassis center
-				pivotB: new Vector3(0, 0, 0),  // Pivot at collision body center
-				axisA: new Vector3(0, 1, 0),
-				axisB: new Vector3(0, 1, 0),
-				collision: false
-			},
-			[
-				{ axis: PhysicsConstraintAxis.LINEAR_X, minLimit: 0, maxLimit: 0 },
-				{ axis: PhysicsConstraintAxis.LINEAR_Y, minLimit: 0, maxLimit: 0 },
-				{ axis: PhysicsConstraintAxis.LINEAR_Z, minLimit: 0, maxLimit: 0 },
-				{ axis: PhysicsConstraintAxis.ANGULAR_X, minLimit: 0, maxLimit: 0 },
-				{ axis: PhysicsConstraintAxis.ANGULAR_Y, minLimit: 0, maxLimit: 0 },
-				{ axis: PhysicsConstraintAxis.ANGULAR_Z, minLimit: 0, maxLimit: 0 }
-			],
-			this.scene
-		);
-
-		chassisAggregate.body.addConstraint(collisionAggregate.body, constraint);
-		return Promise.resolve();
-	}
-
-	/*#setCollisionBodyConstraint() {
-		const collisionAggregate = this.#aggregates.get(Car.COLLISION_BODY);
-		const chassisAggregate = this.#aggregates.get(Car.CHASSIS);
-
-		const chassisHalfHeight = this.#chassis.getBoundingInfo().boundingBox.extendSize.y;
-		const collisionBodyHalfHeight = this.#collisionBody.getBoundingInfo().boundingBox.extendSize.y;
-		const constraint = new LockConstraint(
-			new Vector3(0, chassisHalfHeight, 0),
-			new Vector3(0, -collisionBodyHalfHeight, 0),
-			new Vector3(0, 1, 0),
-			new Vector3(0, 1, 0),
-			this.scene
-		);
-		const sConstraint = new Physics6DoFConstraint(
-			{
-				pivotA: new Vector3(0, chassisHalfHeight, 0),
-				pivotB: new Vector3(0, -collisionBodyHalfHeight, 0),
-				axisA: new Vector3(0, 1, 0),
-				axisB: new Vector3(0, 1, 0),
-				collision: false,
-			},
-			[
-				{
-					axis: PhysicsConstraintAxis.LINEAR_X,
-					minLimit: 0,
-					naxLimit: 0
-				},
-				{
-					axis: PhysicsConstraintAxis.ANGULAR_X,
-					minLimit: 0,
-					maxLimit: 0
-				},
-			],
-			this.scene
-		);
-		chassisAggregate.body.addConstraint(collisionAggregate.body, constraint, this.#scene);
-		// collisionAggregate.body.addConstraint(chassisAggregate.body, constraint, this.#scene);
-		return Promise.resolve();
-	}*/
-
-	#collisionBodyConstraint() {
-
-	}
-
-	/*#setWheelConstraint(wheelType) {
-		const wheelAggregate = this.#aggregates.get(wheelType);
-		const wheelPosition = wheelAggregate.transformNode.position;
-
-		const constraint = new Physics6DoFConstraint(
-			{
-				pivotA: new Vector3(wheelPosition.x, 0, wheelPosition.z),  // Chassis connection point
-				pivotB: new Vector3(0, 0, 0),                             // Wheel center
-				axisA: new Vector3(1, 0, 0),                             // Rotation axis for chassis
-				axisB: new Vector3(1, 0, 0),                             // Rotation axis for wheel
-				collision: false,
-			},
-			[
-				// Keep position fixed
-				{ axis: PhysicsConstraintAxis.LINEAR_X, minLimit: 0, maxLimit: 0 },
-				{ axis: PhysicsConstraintAxis.LINEAR_Y, minLimit: 0, maxLimit: 0 },
-				{ axis: PhysicsConstraintAxis.LINEAR_Z, minLimit: 0, maxLimit: 0 },
-
-				// Allow free rotation around the wheel's axis (X-axis)
-				{ axis: PhysicsConstraintAxis.ANGULAR_X, minLimit: -Math.PI * 2, maxLimit: Math.PI * 2 },
-
-				// Lock sideways tilt
-				{ axis: PhysicsConstraintAxis.ANGULAR_Y, minLimit: 0, maxLimit: 0 },
-				{ axis: PhysicsConstraintAxis.ANGULAR_Z, minLimit: 0, maxLimit: 0 }
-			],
-			this.#scene
-		);
-
-		this.#aggregates.get(Car.CHASSIS).body.addConstraint(wheelAggregate.body, constraint);
-		return constraint;
-	}*/
 
 	#setWheelConstraint(wheelType) {
 		const wheelAggregate = this.#aggregates.get(wheelType);
@@ -562,17 +346,72 @@ export default class Car {
 
 	async #buildModel() {
 		this.#loadedModel = await ImportMeshAsync("/public/databases/car/Ferrari.glb", this.#scene, {});
-		this.model.scaling = new Vector3(3 * this.#scale, 3 * this.#scale, 3 * this.#scale);
-		// this.model.parent = this.#parent;
-		this.model.parent = this.chassis;
-		this.model.rotationQuaternion = null;
-		this.model.rotation = new Vector3(0, Math.PI / 2, 0);
-		// this.model.rotation = new Vector3(-Math.PI / 2, 0, -Math.PI / 2);
-		/*this.#loadedModel.meshes.forEach(mesh => {
-			mesh.isPickable = false;
-			// Optionally disable collision detection entirely
-			mesh.checkCollisions = false;
-		});*/
+		const modelMesh = this.#loadedModel.meshes[this.#testMesh];
+		// Create a parent mesh for the model
+		const modelParent = MeshBuilder.CreateBox(`${this.id}-model-parent`, { size: 0.01 }, this.#scene);
+		modelParent.visibility = false;
+
+		// Parent all loaded meshes to our control mesh
+		this.#loadedModel.meshes.forEach(mesh => {
+			mesh.parent = modelParent;
+			mesh.scaling = new Vector3(3 * this.#scale, 3 * this.#scale, 3 * this.#scale);
+		});
+
+		// Set rotation on the parent
+		modelParent.rotationQuaternion = null;
+		modelParent.rotation = new Vector3(0, Math.PI / 2, 0);
+
+		// Set initial position
+		modelParent.position.copyFrom(this.#collisionBody.position);
+
+		// Store reference to the parent for easier access
+		this.#modelParent = modelParent;
+
+		// Set up position and rotation synchronization
+		this.#scene.onBeforeRenderObservable.add(() => {
+			if (this.#collisionBody && this.#modelParent) {
+				// Copy position from collision body to model parent
+				this.#modelParent.position.copyFrom(this.#collisionBody.position);
+
+				// Copy rotation from collision body to model parent
+				if (this.#collisionBody.rotationQuaternion) {
+					const euler = this.#collisionBody.rotationQuaternion.toEulerAngles();
+					this.#modelParent.rotation = new Vector3(euler.x, euler.y + Math.PI / 2, euler.z);
+				} else if (this.#collisionBody.rotation) {
+					this.#modelParent.rotation = new Vector3(
+						this.#collisionBody.rotation.x,
+						this.#collisionBody.rotation.y + Math.PI / 2,
+						this.#collisionBody.rotation.z
+					);
+				}
+			}
+		});
+
 		return Promise.resolve();
 	}
+
+	/*async #buildModel() {
+		this.#loadedModel = await ImportMeshAsync("/public/databases/car/Ferrari.glb", this.#scene, {});
+		this.model.scaling = new Vector3(3 * this.#scale, 3 * this.#scale, 3 * this.#scale);
+		// this.model.parent = this.#parent;
+		// this.model.parent = this.chassis;
+		this.model.parent = this.#collisionBody;
+		this.model.rotationQuaternion = null;
+		this.model.rotation = new Vector3(0, Math.PI / 2, 0);
+
+		// Make the ninth mesh the collision detector but don't give it physics
+		const collisionMesh = this.#loadedModel.meshes[this.#testMesh];
+		if (collisionMesh) {
+			// Set up collision detection callbacks on this mesh
+			collisionMesh.actionManager = new ActionManager(this.#scene);
+			// Add collision detection logic here as needed
+		}
+
+
+
+
+		// this.#loadedModel.meshes[9].showBoundingBox = true;
+		// this.model.rotation = new Vector3(-Math.PI / 2, 0, -Math.PI / 2);
+		return Promise.resolve();
+	}*/
 }
