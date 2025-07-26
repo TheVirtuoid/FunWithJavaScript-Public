@@ -149,7 +149,7 @@ export default class Tower {
 			radius: this.radius,
 			scene: this.#scene,
 			placement: GunPosition.PLACEMENT_ORDER[this.#guns.length],
-			ammo: { damage: 10 } });
+			ammo: {} });
 		this.guns.push(gun);
 	}
 }

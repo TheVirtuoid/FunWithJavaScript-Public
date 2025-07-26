@@ -29,7 +29,6 @@ export default class RunnerGroup {
 	buildWave(wave) {
 		this.#runnersGroup = this.#scene.physics.add.group();
 		this.#runners = [];
-		// TODO: Get number of runners from stats
 		this.#tower.runners.forEach((runner) => {
 			const runnerData = {
 				running: false,
