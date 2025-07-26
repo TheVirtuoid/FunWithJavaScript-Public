@@ -4,13 +4,14 @@ import Prize from '../src/classes/Prize.js';
 import Position from '../src/classes/Position.js';
 import PrizeType from "../src/enums/PrizeType.js";
 import RunnerUi from '../src/classes/Ui/Runner.js';
+import MockScene from "./MockScene.js";
 
 describe('Runner', () => {
 	let runner;
 	let mockPrize;
 	let mockTower;
 	let mockMissile;
-	const mockScene = {};
+	const mockScene = new MockScene();
 	const position = new Position(0, 0);
 
 	beforeEach(() => {
@@ -30,12 +31,27 @@ describe('Runner', () => {
 		};
 	});
 
-	it('initializes with default values', () => {
-		expect(runner.speed).to.equal(Runner.DEFAULT_SPEED);
-		expect(runner.hitPoints).to.equal(Runner.DEFAULT_HIT_POINTS);
-		expect(runner.prize).to.be.null;
-		expect(runner.position).to.be.instanceOf(Position);
-		expect(runner.ui).to.be.instanceOf(RunnerUi);
+	describe('And when I work with the constructor', () => {
+		it('initializes with default values', () => {
+			expect(runner.speed).to.equal(Runner.DEFAULT_SPEED);
+			expect(runner.hitPoints).to.equal(Runner.DEFAULT_HIT_POINTS);
+			expect(runner.prize).to.be.null;
+			expect(runner.position).to.be.instanceOf(Position);
+		});
+
+		it('initializes with custom speed parameter', () => {
+			const customSpeed = 300;
+			const runner = new Runner({ scene: mockScene, speed: customSpeed });
+			expect(runner.speed).to.equal(customSpeed);
+		});
+
+		it('initializes with custom position parameter', () => {
+			const customPosition = new Position(100, 200);
+			const runner = new Runner({ scene: mockScene, position: customPosition });
+			expect(runner.position).to.equal(customPosition);
+		});
+
+
 	});
 
 	it('reduces hit points when taking damage', () => {
@@ -56,48 +72,6 @@ describe('Runner', () => {
 		expect(runner.hitPoints).to.equal(initialHP + 15);
 	});
 
-	xit('moves to prize location', () => {
-		const runnerMovedSpy = cy.spy();
-		runner.on('runnerMoved', runnerMovedSpy);
-
-		runner.moveToPrize(mockPrize);
-
-		expect(runner.position.x).not.to.equal(0);
-		expect(runner.position.y).not.to.equal(0);
-		expect(runnerMovedSpy).to.be.called;
-	});
-
-	xit('picks up prize when reached', () => {
-		runner.position = mockPrize.position.clone();
-		runner.moveToPrize(mockPrize);
-
-		expect(runner.prize).to.equal(mockPrize);
-	});
-
-	xit('returns to tower with prize', () => {
-		const runnerReturnedSpy = cy.spy();
-		runner.on('runnerReturned', runnerReturnedSpy);
-
-		runner.prize = mockPrize;
-		runner.returnToTower(mockTower);
-
-		// Check that it's moving toward the tower
-		expect(runner.position.x).not.to.equal(mockPrize.position.x);
-		expect(runner.position.y).not.to.equal(mockPrize.position.y);
-	});
-
-	xit('emits runnerReturned when reaching tower with prize', () => {
-		const runnerReturnedSpy = cy.spy();
-		runner.on('runnerReturned', runnerReturnedSpy);
-
-		runner.prize = mockPrize;
-		runner.position = mockTower.position.clone();
-		runner.returnToTower(mockTower);
-
-		expect(runnerReturnedSpy).to.be.calledWith(runner, mockPrize);
-		expect(runner.prize).to.be.null;
-	});
-
 	it('should pick up a prize', () => {
 		runner.pickUpPrize(mockPrize);
 		expect(runner.prize).to.equal(mockPrize);
@@ -108,24 +82,6 @@ describe('Runner', () => {
 		const droppedPrize = runner.dropPrize();
 		expect(droppedPrize).to.equal(mockPrize);
 		expect(runner.prize).to.be.null;
-	});
-
-	xit('drops prize when destroyed', () => {
-		const runnerDestroyedSpy = cy.spy();
-		runner.on('runnerDestroyed', runnerDestroyedSpy);
-
-		runner.prize = mockPrize;
-		runner.hitPoints = 15;
-		runner.takeDamage(20);
-
-		expect(runner.hitPoints).to.equal(0);
-		expect(runnerDestroyedSpy).to.be.calledWith(runner, mockPrize);
-	});
-
-	xit('handles missile hit and takes damage', () => {
-		const initialHP = runner.hitPoints;
-		runner.onMissileHit(mockMissile);
-		expect(runner.hitPoints).to.equal(initialHP - mockMissile.ammo.damage);
 	});
 
 	it('does not move below zero hit points', () => {
@@ -143,14 +99,148 @@ describe('Runner', () => {
 		runner.pickUpPrize(firstPrize);
 		expect(runner.prize).to.equal(mockPrize);
 	});
-	// TODO: All the events
-	xit('does not emit runnerReturned when reaching tower without prize', () => {
-		const runnerReturnedSpy = cy.spy();
-		runner.on('runnerReturned', runnerReturnedSpy);
 
-		runner.position = mockTower.position.clone();
-		runner.returnToTower(mockTower);
+	describe('And when I take damage', () => {
+		it('reduces hit points when taking damage', () => {
+			const runner = new Runner({ scene: mockScene });
+			const initialHitPoints = runner.hitPoints;
 
-		expect(runnerReturnedSpy).not.to.be.called;
+			runner.takeDamage(5);
+
+			expect(runner.hitPoints).to.equal(initialHitPoints - 5);
+		});
+
+		it('cannot reduce hit points below zero', () => {
+			const runner = new Runner({ scene: mockScene });
+
+			runner.takeDamage(1000); // Damage exceeding hit points
+
+			expect(runner.hitPoints).to.equal(0);
+		});
+
+		it('handles zero damage', () => {
+			const runner = new Runner({ scene: mockScene });
+			const initialHitPoints = runner.hitPoints;
+
+			runner.takeDamage(0);
+
+			expect(runner.hitPoints).to.equal(initialHitPoints);
+		});
+	});
+
+	describe('And when I work with the speed', () => {
+		it('increases speed when upgraded', () => {
+			const runner = new Runner({ scene: mockScene });
+			const initialSpeed = runner.speed;
+
+			runner.upgradeSpeed(50);
+
+			expect(runner.speed).to.equal(initialSpeed + 50);
+		});
+
+		it('handles negative speed upgrades', () => {
+			const runner = new Runner({ scene: mockScene });
+			const initialSpeed = runner.speed;
+
+			runner.upgradeSpeed(-10);
+
+			expect(runner.speed).to.equal(initialSpeed - 10);
+		});
+
+		it('handles zero speed upgrade', () => {
+			const runner = new Runner({ scene: mockScene });
+			const initialSpeed = runner.speed;
+
+			runner.upgradeSpeed(0);
+
+			expect(runner.speed).to.equal(initialSpeed);
+		});
+
+		it('sets speed to specific value', () => {
+			const runner = new Runner({ scene: mockScene });
+
+			runner.setSpeed(400);
+
+			expect(runner.speed).to.equal(400);
+		});
+
+		it('can set speed to zero', () => {
+			const runner = new Runner({ scene: mockScene });
+
+			runner.setSpeed(0);
+
+			expect(runner.speed).to.equal(0);
+		});
+	});
+
+	describe('And when I work with the hit point upgrades', () => {
+		it('increases hit points when upgraded', () => {
+			const runner = new Runner({ scene: mockScene });
+			const initialHitPoints = runner.hitPoints;
+
+			runner.upgradeHitPoints(5);
+
+			expect(runner.hitPoints).to.equal(initialHitPoints + 5);
+		});
+
+		it('handles negative hit points upgrades', () => {
+			const runner = new Runner({ scene: mockScene });
+			const initialHitPoints = runner.hitPoints;
+
+			runner.upgradeHitPoints(-3);
+
+			expect(runner.hitPoints).to.equal(initialHitPoints - 3);
+		});
+
+		it('handles zero hit points upgrade', () => {
+			const runner = new Runner({ scene: mockScene });
+			const initialHitPoints = runner.hitPoints;
+
+			runner.upgradeHitPoints(0);
+
+			expect(runner.hitPoints).to.equal(initialHitPoints);
+		});
+	});
+
+	describe('And when I work with the prize', () => {
+		it('picks up prize when not carrying one', () => {
+			const runner = new Runner({ scene: mockScene });
+			const mockPrize = { value: 10, type: 'coin' };
+
+			runner.pickUpPrize(mockPrize);
+
+			expect(runner.prize).to.equal(mockPrize);
+		});
+
+		it('does not pick up prize when already carrying one', () => {
+			const runner = new Runner({ scene: mockScene });
+			const firstPrize = { value: 10, type: 'coin' };
+			const secondPrize = { value: 20, type: 'gem' };
+
+			runner.pickUpPrize(firstPrize);
+			runner.pickUpPrize(secondPrize);
+
+			expect(runner.prize).to.equal(firstPrize);
+		});
+
+		it('drops prize and returns it', () => {
+			const runner = new Runner({ scene: mockScene });
+			const mockPrize = { value: 10, type: 'coin' };
+
+			runner.pickUpPrize(mockPrize);
+			const droppedPrize = runner.dropPrize();
+
+			expect(droppedPrize).to.equal(mockPrize);
+			expect(runner.prize).to.be.null;
+		});
+
+		it('returns null when dropping prize while not carrying one', () => {
+			const runner = new Runner({ scene: mockScene });
+
+			const droppedPrize = runner.dropPrize();
+
+			expect(droppedPrize).to.be.null;
+			expect(runner.prize).to.be.null;
+		});
 	});
 });

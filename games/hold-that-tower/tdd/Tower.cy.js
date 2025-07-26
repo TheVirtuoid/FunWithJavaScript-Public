@@ -111,4 +111,85 @@ describe('Tower', () => {
 		tower.takeDamage(ammo);
 		expect(originalHealth - tower.health).to.be.lessThan(ammo.damage);
 	});
+
+	describe('And when I use the setters', () => {
+
+		it('sets maximum health without affecting current health when appropriate', () => {
+			tower.setMaxHealth(150);
+			expect(tower.maxHealth).to.equal(150);
+			expect(tower.health).to.equal(Tower.DEFAULT_HEALTH); // Should remain unchanged
+		});
+
+		it('sets health within maximum health bounds', () => {
+			tower.setHealth(50);
+			expect(tower.health).to.equal(50);
+		});
+
+		it('caps health at maximum when setting above max', () => {
+			tower.setHealth(tower.maxHealth + 1);
+			expect(tower.health).to.equal(tower.maxHealth);
+		});
+
+		it('sets turret rotation speed', () => {
+			tower.setTurretRotationSpeed(0.08);
+			expect(tower.turretRotationSpeed).to.equal(0.08);
+		});
+	});
+
+	describe('And when I wan to get data from the UI', () => {
+		// Test UI property delegation
+		it('returns x coordinate from UI', () => {
+			expect(tower.x).to.equal(tower.ui.x);
+		});
+
+		it('returns y coordinate from UI', () => {
+			expect(tower.y).to.equal(tower.ui.y);
+		});
+
+		it('returns radius from UI', () => {
+			expect(tower.radius).to.equal(tower.ui.radius);
+		});
+
+		it('returns image from UI', () => {
+			expect(tower.image).to.equal(tower.ui.image);
+		});
+	});
+
+	describe('And when I work with the gun', () => {
+		it('resets existing gun positions when adding new gun', () => {
+			const originalGun = tower.guns[0];
+			cy.spy(originalGun, 'resetPosition');
+
+			tower.addGun();
+
+			expect(originalGun.resetPosition).to.have.been.called;
+		});
+
+		it('places guns in correct positions based on placement order', () => {
+			tower.addGun(); // Should be at position 1
+			tower.addGun(); // Should be at position 2
+
+			expect(tower.guns[0].placement).to.equal(GunPosition.PLACEMENT_ORDER[0]);
+			expect(tower.guns[1].placement).to.equal(GunPosition.PLACEMENT_ORDER[1]);
+			expect(tower.guns[2].placement).to.equal(GunPosition.PLACEMENT_ORDER[2]);
+		});
+	});
+
+	describe('And finnally, more on the runners', () => {
+		it('upgrades multiple runners correctly', () => {
+			tower.addRunner();
+			tower.addRunner();
+
+			const initialSpeeds = tower.runners.map(r => r.speed);
+			const initialHitPoints = tower.runners.map(r => r.hitPoints);
+
+			tower.upgradeRunnersSpeed(5);
+			tower.upgradeRunnersHitPoints(10);
+
+			tower.runners.forEach((runner, index) => {
+				expect(runner.speed).to.equal(initialSpeeds[index] + 5);
+				expect(runner.hitPoints).to.equal(initialHitPoints[index] + 10);
+			});
+		});
+	});
 });

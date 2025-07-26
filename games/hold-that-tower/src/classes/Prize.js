@@ -19,6 +19,9 @@ export default class Prize {
 		if (!PrizeType.TYPES.includes(type)) {
 			throw new Error('Invalid prize type');
 		}
+		if (!scene) {
+			throw new Error('Scene is required to create a Prize');
+		}
 		this.#type = type;
 		this.#value = value;
 		this.#position = position || null;
