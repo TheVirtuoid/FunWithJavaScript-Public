@@ -13,9 +13,10 @@ export default class Card {
 	#scene;
 
 	constructor(args = {}) {
+		console.log(args);
 		const { scene, position, title, type, upgradeAmount, description, level } = args;
 
-		if (!type || !(CardType.TYPES.includes(type))) {
+		if (!type || !(CardUpgradeType.TYPES.includes(type))) {
 			throw new Error("Card type must be specified and must be an instance of CardType.");
 		}
 

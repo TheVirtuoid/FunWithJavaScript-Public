@@ -5,9 +5,8 @@ import MockScene from "./MockScene.js";
 import Position from "../src/classes/Position.js";
 
 describe('When I work with the Card class', () => {
-	const type = CardType.GUN;
+	const type = CardUpgradeType.HEALTH;
 	const upgradeAmount = 10;
-	const upgradeType = CardUpgradeType.DAMAGE;
 	const description = "Increases gun damage by 10";
 	const scene = new MockScene();
 	const position = new Position(10, 10);

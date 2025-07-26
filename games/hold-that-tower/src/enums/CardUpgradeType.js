@@ -30,7 +30,12 @@ export default class CardUpgradeType {
 		CardUpgradeType.SPEED,
 		CardUpgradeType.RANGE,
 		CardUpgradeType.HEALTH,
-		CardUpgradeType.MAX_HEALTH
+		CardUpgradeType.MAX_HEALTH,
+		CardUpgradeType.GUN_DAMAGE,
+		CardUpgradeType.TOWER_MAX_HEALTH,
+		CardUpgradeType.TOWER_HEALTH,
+		CardUpgradeType.TOWER_ROTATION_SPEED,
+		CardUpgradeType.RUNNER_SPEED
 	];
 
 	static ICONS = {

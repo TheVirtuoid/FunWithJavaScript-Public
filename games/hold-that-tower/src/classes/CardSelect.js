@@ -26,7 +26,6 @@ export default class CardSelect {
 			const cardList = CardUpgradeType.DATABASE[cardIndex].cards;
 			const cardData = cardList[Math.floor(Math.random() * cardList.length)];
 			const card = new Card({ scene: this.#scene, position: new Position(x + i * 350, y),  ...cardData, level });
-			// const card = new CardUi({scene: this, position: new Position(x + i * 350, y), ...cardData, level, parent: this });
 			this.#cards.push(card);
 		}
 	}
