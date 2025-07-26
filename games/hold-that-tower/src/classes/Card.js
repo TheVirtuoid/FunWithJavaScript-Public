@@ -15,6 +15,18 @@ export default class Card {
 	constructor(args = {}) {
 		const { scene, position, title, type, upgradeAmount, description, level } = args;
 
+		if (!type || !(CardType.TYPES.includes(type))) {
+			throw new Error("Card type must be specified and must be an instance of CardType.");
+		}
+
+		if (!upgradeAmount || typeof upgradeAmount !== "number") {
+			throw new Error("Card upgrade amount must be specified and must be a number.");
+		}
+
+		if (!description || typeof description !== "string") {
+			throw new Error("Card description must be specified and must be a string.");
+		}
+
 		this.#type = type;
 		this.#upgradeAmount = upgradeAmount;
 		this.#type = type;

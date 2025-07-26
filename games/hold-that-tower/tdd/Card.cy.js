@@ -1,63 +1,46 @@
 import CardUpgradeType from "../src/enums/CardUpgradeType.js";
 import CardType from "../src/enums/CardType.js";
 import Card from "../src/classes/Card.js";
+import MockScene from "./MockScene.js";
+import Position from "../src/classes/Position.js";
 
 describe('When I work with the Card class', () => {
 	const type = CardType.GUN;
 	const upgradeAmount = 10;
 	const upgradeType = CardUpgradeType.DAMAGE;
-	const upgradeCalculation = (amount) => amount * 2; // Example calculation function
 	const description = "Increases gun damage by 10";
+	const scene = new MockScene();
+	const position = new Position(10, 10);
 
 	it('should create the class', () => {
 		const card = new Card({
 			type,
 			upgradeAmount,
-			upgradeType,
-			upgradeCalculation,
-			description
+			description,
+			scene,
+			position
 		});
 		expect(card).to.be.an.instanceof(Card);
 		expect(card.type).to.equal(type);
 		expect(card.upgradeAmount).to.equal(upgradeAmount);
-		expect(card.upgradeType).to.equal(upgradeType);
-		expect(card.upgradeCalculation).to.equal(upgradeCalculation);
 		expect(card.description).to.equal(description);
 	});
 
 	it('should throw if type is not specified', () => {
 		expect(() => new Card({
 			upgradeAmount,
-			upgradeType,
-			upgradeCalculation,
-			description
+			description,
+			scene,
+			position
 		})).to.throw();
 	});
 
 	it('should throw if upgradeAmount is not specified', () => {
 		expect(() => new Card({
 			type,
-			upgradeType,
-			upgradeCalculation,
-			description
-		})).to.throw();
-	});
-
-	it('should throw if upgradeType is not specified', () => {
-		expect(() => new Card({
-			type,
-			upgradeAmount,
-			upgradeCalculation,
-			description
-		})).to.throw();
-	});
-
-	it('should throw if upgradeCalculation is not specified', () => {
-		expect(() => new Card({
-			type,
-			upgradeAmount,
-			upgradeType,
-			description
+			description,
+			scene,
+			position
 		})).to.throw();
 	});
 
@@ -65,8 +48,8 @@ describe('When I work with the Card class', () => {
 		expect(() => new Card({
 			type,
 			upgradeAmount,
-			upgradeType,
-			upgradeCalculation
+			scene,
+			position
 		})).to.throw();
 	});
 
@@ -76,9 +59,9 @@ describe('When I work with the Card class', () => {
 			card = new Card({
 				type,
 				upgradeAmount,
-				upgradeType,
-				upgradeCalculation,
-				description
+				description,
+				scene,
+				position
 			});
 		})
 
@@ -90,16 +73,6 @@ describe('When I work with the Card class', () => {
 		it('should have a read-only upgradeAmount property', () => {
 			expect(card.upgradeAmount).to.equal(upgradeAmount);
 			expect(() => card.upgradeAmount = 20).to.throw();
-		});
-
-		it('should have a read-only upgradeType property', () => {
-			expect(card.upgradeType).to.equal(upgradeType);
-			expect(() => card.upgradeType = CardUpgradeType.SPEED).to.throw();
-		});
-
-		it('should have a read-only upgradeCalculation property', () => {
-			expect(card.upgradeCalculation).to.equal(upgradeCalculation);
-			expect(() => card.upgradeCalculation = (amount) => amount + 5).to.throw();
 		});
 
 		it('should have a read-only description property', () => {

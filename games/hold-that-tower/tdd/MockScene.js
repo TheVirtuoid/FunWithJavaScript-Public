@@ -17,7 +17,8 @@ export default class MockScene {
 		// Mock the add system
 		this.add = {
 			image: (x, y, texture) => this,
-			rectangle: () => this
+			rectangle: () => this,
+			text: () => this
 		};
 
 		this.events = {
@@ -45,4 +46,20 @@ export default class MockScene {
 	setPosition() {
 		return this;
 	}
+
+	setOrigin() {
+		return this;
+	}
+
+	setStrokeStyle() {
+		return this;
+	}
+
+	setInteractive() {
+		return this;
+	}
+	once() {
+		return this;
+	}
+
 }
