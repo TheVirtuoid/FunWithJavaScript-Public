@@ -1,16 +1,18 @@
 import Ammo from "../src/classes/Ammo.js";
 import AmmoType from "../src/enums/AmmoType.js";
+import MockScene from "./MockScene.js";
 
 
 describe('When I work with the Ammo class', () => {
-	let options = { type: AmmoType.BULLET, damage: 10 };
+	const scene = new MockScene();
+	let options = { scene, type: AmmoType.BULLET, damage: 10 };
 
 	it('should throw if damage is not specified', () => {
-		expect(() => new Ammo({ type: AmmoType.BULLET })).to.throw();
+		expect(() => new Ammo({ scene, type: AmmoType.BULLET })).to.throw();
 	});
 
 	it('should throw if type is not specified', () => {
-		expect(() => new Ammo({ damage: 10 })).to.throw();
+		expect(() => new Ammo({ scene, damage: 10 })).to.throw();
 	});
 
 	it('should create the class', () => {
@@ -52,13 +54,13 @@ describe('When I work with the Ammo class', () => {
 		});
 
 		it('should be able to create any AMMOTYPE ammo', () => {
-			const ammo = new Ammo({ type: AmmoType.BULLET, damage: 10 });
+			const ammo = new Ammo({ scene, type: AmmoType.BULLET, damage: 10 });
 			expect(ammo.type).to.equal(AmmoType.BULLET);
 			expect(ammo.damage).to.equal(10);
 		});
 
 		it('should throw on invalid type', () => {
-			expect(() => new Ammo({ type: 'invalid', damage: 10 })).to.throw();
+			expect(() => new Ammo({ scene, type: 'invalid', damage: 10 })).to.throw();
 		});
 	});
 

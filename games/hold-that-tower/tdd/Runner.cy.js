@@ -1,9 +1,7 @@
-// games/hold-that-tower/tdd/Runner.cy.js
 import Runner from '../src/classes/Runner.js';
 import Prize from '../src/classes/Prize.js';
 import Position from '../src/classes/Position.js';
 import PrizeType from "../src/enums/PrizeType.js";
-import RunnerUi from '../src/classes/Ui/Runner.js';
 import MockScene from "./MockScene.js";
 
 describe('Runner', () => {
@@ -11,12 +9,13 @@ describe('Runner', () => {
 	let mockPrize;
 	let mockTower;
 	let mockMissile;
-	const mockScene = new MockScene();
+	const scene = new MockScene();
 	const position = new Position(0, 0);
 
 	beforeEach(() => {
-		runner = new Runner({ position, scene: mockScene });
+		runner = new Runner({ position, scene });
 		mockPrize = new Prize({
+			scene,
 			value: 50,
 			type: PrizeType.GUN,
 			position: new Position(100, 100)
@@ -41,13 +40,13 @@ describe('Runner', () => {
 
 		it('initializes with custom speed parameter', () => {
 			const customSpeed = 300;
-			const runner = new Runner({ scene: mockScene, speed: customSpeed });
+			const runner = new Runner({ scene, speed: customSpeed });
 			expect(runner.speed).to.equal(customSpeed);
 		});
 
 		it('initializes with custom position parameter', () => {
 			const customPosition = new Position(100, 200);
-			const runner = new Runner({ scene: mockScene, position: customPosition });
+			const runner = new Runner({ scene, position: customPosition });
 			expect(runner.position).to.equal(customPosition);
 		});
 
@@ -91,6 +90,7 @@ describe('Runner', () => {
 
 	it('cannot pick up prize when already carrying one', () => {
 		const firstPrize = new Prize({
+			scene,
 			value: 10,
 			type: PrizeType.GUN,
 			position: new Position(50, 50)
@@ -102,7 +102,7 @@ describe('Runner', () => {
 
 	describe('And when I take damage', () => {
 		it('reduces hit points when taking damage', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 			const initialHitPoints = runner.hitPoints;
 
 			runner.takeDamage(5);
@@ -111,7 +111,7 @@ describe('Runner', () => {
 		});
 
 		it('cannot reduce hit points below zero', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 
 			runner.takeDamage(1000); // Damage exceeding hit points
 
@@ -119,7 +119,7 @@ describe('Runner', () => {
 		});
 
 		it('handles zero damage', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 			const initialHitPoints = runner.hitPoints;
 
 			runner.takeDamage(0);
@@ -130,7 +130,7 @@ describe('Runner', () => {
 
 	describe('And when I work with the speed', () => {
 		it('increases speed when upgraded', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 			const initialSpeed = runner.speed;
 
 			runner.upgradeSpeed(50);
@@ -139,7 +139,7 @@ describe('Runner', () => {
 		});
 
 		it('handles negative speed upgrades', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 			const initialSpeed = runner.speed;
 
 			runner.upgradeSpeed(-10);
@@ -148,7 +148,7 @@ describe('Runner', () => {
 		});
 
 		it('handles zero speed upgrade', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 			const initialSpeed = runner.speed;
 
 			runner.upgradeSpeed(0);
@@ -157,7 +157,7 @@ describe('Runner', () => {
 		});
 
 		it('sets speed to specific value', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 
 			runner.setSpeed(400);
 
@@ -165,7 +165,7 @@ describe('Runner', () => {
 		});
 
 		it('can set speed to zero', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 
 			runner.setSpeed(0);
 
@@ -175,7 +175,7 @@ describe('Runner', () => {
 
 	describe('And when I work with the hit point upgrades', () => {
 		it('increases hit points when upgraded', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 			const initialHitPoints = runner.hitPoints;
 
 			runner.upgradeHitPoints(5);
@@ -184,7 +184,7 @@ describe('Runner', () => {
 		});
 
 		it('handles negative hit points upgrades', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 			const initialHitPoints = runner.hitPoints;
 
 			runner.upgradeHitPoints(-3);
@@ -193,7 +193,7 @@ describe('Runner', () => {
 		});
 
 		it('handles zero hit points upgrade', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 			const initialHitPoints = runner.hitPoints;
 
 			runner.upgradeHitPoints(0);
@@ -204,7 +204,7 @@ describe('Runner', () => {
 
 	describe('And when I work with the prize', () => {
 		it('picks up prize when not carrying one', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 			const mockPrize = { value: 10, type: 'coin' };
 
 			runner.pickUpPrize(mockPrize);
@@ -213,7 +213,7 @@ describe('Runner', () => {
 		});
 
 		it('does not pick up prize when already carrying one', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 			const firstPrize = { value: 10, type: 'coin' };
 			const secondPrize = { value: 20, type: 'gem' };
 
@@ -224,7 +224,7 @@ describe('Runner', () => {
 		});
 
 		it('drops prize and returns it', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 			const mockPrize = { value: 10, type: 'coin' };
 
 			runner.pickUpPrize(mockPrize);
@@ -235,7 +235,7 @@ describe('Runner', () => {
 		});
 
 		it('returns null when dropping prize while not carrying one', () => {
-			const runner = new Runner({ scene: mockScene });
+			const runner = new Runner({ scene });
 
 			const droppedPrize = runner.dropPrize();
 
