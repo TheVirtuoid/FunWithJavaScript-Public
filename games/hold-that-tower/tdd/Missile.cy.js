@@ -2,9 +2,11 @@ import Position from "../src/classes/Position.js";
 import Ammo from "../src/classes/Ammo.js";
 import AmmoType from "../src/enums/AmmoType.js";
 import Missile from "../src/classes/Missile.js";
+import MockScene from "./MockScene.js";
 
 describe('When I work with the Missile class', () => {
-	const ammo = new Ammo({ type: AmmoType.MISSILE, damage: 20, speed: 2 })
+	const scene = new MockScene();
+	const ammo = new Ammo({ scene, type: AmmoType.MISSILE, damage: 20, speed: 2 })
 	const direction = new Position(1,  0);
 	const position = new Position (0, 0);
 
@@ -62,15 +64,5 @@ describe('When I work with the Missile class', () => {
 		});
 	});
 
-	// TODO Not sure how to implament moving. This may be figured out when graphics are implemented
-	xdescribe('And when I work with methods', () => {
-		it('should move the missile', () => {});
-	});
-
-	// TODO NOt sure how to test this yet
-	xdescribe('And when I work with events', () => {
-		it('should send an event when it hits something', () => {});
-		it('should receive an event that it was hit', () => {});
-	});
 });
 

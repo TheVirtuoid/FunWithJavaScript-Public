@@ -8,7 +8,7 @@ import EnemyUi from "./Ui/Enemy.js";
 
 export default class EnemyFactory {
 	static CreateEnemy(args = {}) {
-		const { type, position } = args;
+		const { type, position, scene } = args;
 		if (!EnemyType.TYPES.includes(type)) {
 			throw new Error('Invalid enemy type');
 		}
@@ -17,8 +17,8 @@ export default class EnemyFactory {
 			throw new Error('Enemy data not found');
 		}
 
-		const { hitPoints, speed, damage, prize } = {...enemyData, ...args};
-		return new Enemy({ type, hitPoints, speed, damage, position, prize });
+		const { hitPoints, speed, damage, prize, name } = {...enemyData, ...args};
+		return new Enemy({ type, hitPoints, speed, damage, position, prize, scene, name });
 	}
 
 	static CreateEnemyFromType(enemyData, scene) {

@@ -17,6 +17,7 @@ export default class MockScene {
 		// Mock the add system
 		this.add = {
 			image: (x, y, texture) => this,
+			rectangle: () => this
 		};
 
 		this.events = {

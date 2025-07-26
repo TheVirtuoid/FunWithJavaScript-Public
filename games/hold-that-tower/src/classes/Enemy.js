@@ -10,6 +10,7 @@ export default class Enemy {
 	#ui;
 	#prize;
 	#maxHitPoints;
+	#name;
 
 	constructor(args = {}) {
 		const { type, position, hitPoints, damage, speed, scene, prize, name } = args;
@@ -22,6 +23,7 @@ export default class Enemy {
 		this.#ui = new EnemyUi({ scene, type, name });
 		this.#ui.create({ visible: false });
 		this.#prize = prize;
+		this.#name = name;
 	}
 
 	get position() {
@@ -47,6 +49,9 @@ export default class Enemy {
 	}
 	get image() {
 		return this.#ui.image;
+	}
+	get name() {
+		return this.#name;
 	}
 
 	takeDamage(amount) {

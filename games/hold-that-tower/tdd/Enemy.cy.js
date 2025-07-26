@@ -4,15 +4,20 @@ import Position from "../src/classes/Position.js";
 import Enemy from "../src/classes/Enemy.js";
 import EnemyUi from "../src/classes/Ui/Enemy.js";
 import Prize from "../src/classes/Prize.js";
+import MockScene from "./MockScene.js";
+import PrizeType from "../src/enums/PrizeType.js";
+
 
 describe('When I work with the Enemy class', () => {
+	const scene = new MockScene();
 	const position = new Position(0, 0);
-	const { hitPoints, speed, damage, name } = EnemyFactory.getData(EnemyType.ABYSSLORD);
+	const type = EnemyType.ABYSSLORD;
+	const { hitPoints, speed, damage, name } = EnemyFactory.getData(type);
+	const prize = new Prize({ value: 10, type: PrizeType.GUN, position: new Position(10, 10), scene });
 
 	let enemy;
-	const mockScene = {};
 	beforeEach(() => {
-		enemy = EnemyFactory.CreateEnemy({ type: EnemyType.GUNNER, position, scene: mockScene });
+		enemy = EnemyFactory.CreateEnemy({ type, position, scene, prize, name });
 	});
 
 	describe('And when I check the creation of an enemy', () => {
@@ -41,8 +46,7 @@ describe('When I work with the Enemy class', () => {
 		});
 
 		it('should not go below zero', () => {
-			const initialHitPoints = enemy.hitPoints;
-			const damage = 100;
+			const damage = enemy.hitPoints + 10;
 			enemy.takeDamage(damage);
 			expect(enemy.hitPoints).to.equal(0);
 		});
@@ -52,29 +56,26 @@ describe('When I work with the Enemy class', () => {
 		});
 	});
 
-	// TODO: Implement later
-	xdescribe('And when I work with the move method', () => {
-		it('should move towards the tower', () => {
-			const initialPosition = enemy.position.clone();
-			enemy.move();
-			expect(enemy.position.x).to.not.equal(initialPosition.x);
-			expect(enemy.position.y).to.not.equal(initialPosition.y);
+	describe('And when I work with the setPosition method', () => {
+		it('should set the position of the enemy', () => {
+			const newPosition = new Position(5, 5);
+			enemy.setPosition(newPosition);
+			expect(enemy.position).to.equal(newPosition);
+			expect(enemy.ui.position).to.equal(newPosition);
+		});
+
+		it('should throw an error if position is not an instance of Position', () => {
+			expect(() => enemy.setPosition({ x: 5, y: 5 })).to.throw();
 		});
 	});
 
-	xdescribe('And when I work with the event emmiters', () => {
-		it('should fire enemyReachedTower when the enemy reaches the tower', () => {});
-
-		it('should fire enemyDestroyed when the enemy is destroyed', (done) => {
-			enemy.on('enemyDestroyed', () => {
-				expect(true).to.be.true;
-				done();
-			}, { once: true });
-			enemy.takeDamage(100); // This should destroy the enemy
+	describe('And when I work with the setVisible method', () => {
+		it('should set the visibility of the enemy UI', () => {
+			enemy.setVisible(true);
+			expect(enemy.ui.visible).to.be.true;
+			enemy.setVisible(false);
+			expect(enemy.ui.visible).to.be.false;
 		});
 	});
 
-	xdescribe('And when I work with the event listeners', () => {})
-
-	// TODO: SetPosition
 });
