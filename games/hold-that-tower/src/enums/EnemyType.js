@@ -44,7 +44,25 @@ export default class EnemyType {
 	];
 
 	static DATABASE = new Map([
-		[EnemyType.SHADOWLING,     { name: "Shadowling",     hitPoints: 10,  speed: 20, damage: 5,   imageUrl: '/src/images/snowman.png' }],
+		[EnemyType.SHADOWLING, {
+			name: "Shadowling",
+			hitPoints: 10,
+			speed: 20,
+			damage: 5,
+			imageUrl: '/src/images/snowman.png',
+			spritesUrl: '/src/sprites/shadowling',
+			scale: 3,
+			spriteConfig: {
+				frameWidth: 64,
+				frameHeight: 64,
+				columnsPerRow: 6,
+			},
+			sprites: {
+				walk: { image: '/walk_full.png', start: 19, end: 23, frameRate: 12, repeat: -1 },
+				attack: { image: '/attack_full.png', start: 0, end: 7, frameRate: 12, repeat: -1 },
+				death: { image: '/death_full.png', start: 0, end: 7, frameRate: 12, repeat: 0 }
+			}
+		}],
 		[EnemyType.FROSTWISP,      { name: "FrostWisp",      hitPoints: 15,  speed: 18, damage: 8,   imageUrl: '/src/images/grinning.png' }],
 		[EnemyType.THORNLING,      { name: "Thornling",      hitPoints: 20,  speed: 19, damage: 10,  imageUrl: '/src/images/cold.png' }],
 		[EnemyType.MISTWEAVER,     { name: "MistWeaver",     hitPoints: 25,  speed: 17, damage: 15,  imageUrl: '/src/images/snowman.png' }],
@@ -72,6 +90,46 @@ export default class EnemyType {
 				enemy.name,
 				enemy.imageUrl
 			);
+			if (enemy.spritesUrl) {
+				const url = enemy.spritesUrl;
+				for (const spriteSheet in enemy.sprites) {
+					// console.log(`sprite name: ${enemy.name}-${spriteSheet}`);
+					scene.load.spritesheet(
+						`${enemy.name}-${spriteSheet}`,
+						`${url}${enemy.sprites[spriteSheet].image}`,
+						enemy.spriteConfig,
+					);
+				}
+			}
+		});
+	}
+
+	static get(type) {
+		if (!EnemyType.TYPES.includes(type)) {
+			throw new Error('Invalid enemy type');
+		}
+		const enemyData = EnemyType.DATABASE.get(type);
+		if (!enemyData) {
+			throw new Error('Enemy data not found');
+		}
+		return {...enemyData};
+	}
+
+	static createAnimations(scene) {
+		EnemyType.DATABASE.forEach((enemy, type) => {
+			if (enemy.sprites) {
+				for (const spriteData in enemy.sprites) {
+					scene.anims.create({
+						key: `${enemy.name}-${spriteData}-anim`,
+						frames: scene.anims.generateFrameNumbers(`${enemy.name}-${spriteData}`, {
+							start: enemy.sprites[spriteData].start,
+							end: enemy.sprites[spriteData].end
+						}),
+						frameRate: enemy.sprites[spriteData].frameRate,
+						repeat: enemy.sprites[spriteData].repeat
+					});
+				}
+			}
 		});
 	}
 

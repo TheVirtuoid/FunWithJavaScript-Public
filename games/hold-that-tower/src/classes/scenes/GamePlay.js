@@ -104,6 +104,8 @@ export default class GamePlay extends Phaser.Scene {
 		});
 		this.#gameOver = false;
 		this.#cardSelect = new CardSelect({scene: this, position: new Position(400, 100)});
+
+		EnemyType.createAnimations(this);
 		GameEvent.Emit(GameEvent.NEW_WAVE);
 	}
 

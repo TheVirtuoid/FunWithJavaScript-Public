@@ -72,9 +72,6 @@ export default class EnemyGroup {
 			const theEnemy = EnemyType.DATABASE.get(type);
 			const hitPoints = theEnemy.hitPoints + Math.floor(Math.random() * 10) - 5;
 			const realEnemy = EnemyFactory.CreateEnemyFromType({ ...theEnemy, hitPoints, type }, this.#scene);
-			const enemy = new Enemy({ scene: this.#scene, visible: false });
-			enemy.create({ visible: false });
-			// this.#enemies.push(enemy);
 			this.#enemies.push(realEnemy);
 		}
 		this.#enemiesGroup = this.#scene.physics.add.group();
@@ -126,6 +123,7 @@ export default class EnemyGroup {
 			));
 		}
 		enemy.setVisible(true);
+		enemy.ui.playAnimation('walk');
 
 		// Create a tween to move from left to right
 		this.#scene.tweens.add({

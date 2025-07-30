@@ -1,4 +1,5 @@
 import Position from "../Position.js";
+import EnemyType from "../../enums/EnemyType.js";
 
 export default class Enemy {
 	static NAME = 'enemy';
@@ -11,17 +12,23 @@ export default class Enemy {
 	#visible;
 	#scale;
 	#name = Enemy.NAME;
+	#type;
 
 	#healthBar;
 
 	constructor(args = {}) {
-		const { scene, name } = args;
+		const { scene, name, type } = args;
+		this.#type = type;
 		this.#scene = scene;
 		this.#name = name;
 	}
 
 	get scene() {
 		return this.#scene;
+	}
+
+	get type() {
+		return this.#type;
 	}
 
 	get scale() {
@@ -53,10 +60,24 @@ export default class Enemy {
 		this.#position = position;
 		this.#visible = visible;
 		this.#scale = scale;
-		// this.#image = this.#scene.add.image(this.position.x, this.position.y, Enemy.NAME).setScale(this.scale);
-		this.#image = this.#scene.physics.add.image(this.position.x, this.position.y, this.#name).setScale(this.scale);
-		this.#image.setVisible(this.visible);
+		const enemyData = EnemyType.DATABASE.get(this.type);
+		if (enemyData.sprites) {
+			this.#image = this.#scene.physics.add.sprite(this.position.x, this.position.y, `${this.#name}-walk`)
+				.setScale(enemyData.scale);
+			this.#image.setVisible(this.visible);
+			// this.#image.play(`${this.#name}-walk-anim`);
+		} else {
+			this.#image = this.#scene.physics.add.image(this.position.x, this.position.y, this.#name).setScale(this.scale);
+			this.#image.setVisible(this.visible);
+		}
 		this.#createHealthBar();
+	}
+
+	playAnimation(animationName) {
+		const enemyData = EnemyType.DATABASE.get(this.type);
+		if (this.#image && enemyData.sprites) {
+			this.#image.play(`${this.#name}-${animationName}-anim`);
+		}
 	}
 
 	setPosition(position) {
