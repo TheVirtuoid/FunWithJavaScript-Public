@@ -21,7 +21,8 @@ import { Inspector } from '@babylonjs/inspector';
 import HavokPhysics from "@babylonjs/havok";
 import { buildGround } from "./ground.js";
 // import Car from "./Car.js";
-import Car from "./Car2.js";
+// import Car from "./Car2.js";
+import Car from "./Car3.js";
 import Controls from "./Controls.js";
 import Physics from "../src/classes/Physics/Physics.js";
 
@@ -124,32 +125,14 @@ export default class App {
 		};
 
 
-		const position = new Vector3(0, -9, 0);
+		const position = new Vector3(0, 0, 0);
 
 		const scale = .6;
 
-		this.#car = new Car({ position: position.clone(), scene: this.#scene, physicsGroup: 2, scale, chassisPhysics, wheelPhysics });
+		const id = 'test';
+
+		this.#car = new Car({ position: position.clone(), scene: this.#scene, physicsGroup: 2, scale, chassisPhysics, wheelPhysics, id });
 		await this.#car.build();
-
-		// this.#car.loadedModel.meshes[9].showBoundingBox = true;
-		// console.log(this.#car.loadedModel.meshes[9]);
-
-		/*const car = {
-			mesh: this.#car.model,
-			scale: 1,
-			chassis: chassisPhysics,
-			wheel: wheelPhysics
-		};
-
-		const ground = {
-			mesh: this.#ground,
-			friction: 0.5,
-			restitution: 0.5,
-			rotationAmount: 0,
-			rotationAxis: 'x'
-		};
-
-		this.#controls = new Controls(car, ground, position);*/
 	}
 
 }

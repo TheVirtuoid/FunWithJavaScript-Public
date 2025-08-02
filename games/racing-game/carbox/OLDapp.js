@@ -81,7 +81,6 @@ export default class App {
 				this.#scene.debugLayer.show();
 			}
 		}
-
 	}
 
 	renderLoop() {

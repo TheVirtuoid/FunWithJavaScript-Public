@@ -6,7 +6,7 @@ import {
 	Physics6DoFConstraint,
 	PhysicsAggregate,
 	PhysicsConstraintAxis,
-	PhysicsShapeType, Quaternion, Quaternion as Quanternion, StandardMaterial, Texture,
+	PhysicsShapeType, Quaternion, Quaternion as Quanternion, StandardMaterial, Texture, TransformNode,
 	Vector3
 } from "@babylonjs/core";
 
@@ -28,9 +28,9 @@ export default class Car {
 	static CHASSIS_MASS = 10;*/
 
 	static WHEEL_RESTITUTION = 0;
-	static WHEEL_MASS = 80;
+	static WHEEL_MASS = 1;
 	static WHEEL_FRICTION = 1;
-	static CHASSIS_MASS = 20;
+	static CHASSIS_MASS = .1;
 	static COLLISION_BODY_MASS = 10;
 
 	#position;
@@ -145,8 +145,8 @@ export default class Car {
 			this.#buildParent()
 				.then(this.#buildChassis.bind(this))
 				.then(this.#buildWheels.bind(this))
-				.then(this.#buildModel.bind(this))
-				.then(this.#assignParents.bind(this))
+				//.then(this.#buildModel.bind(this))
+				//.then(this.#assignParents.bind(this))
 				.then(this.#buildChassisPhysicsAggregate.bind(this))
 				.then(this.#buildWheelPhysicsAggregates.bind(this))
 				.then(this.#buildWheelConstraints.bind(this))
@@ -170,25 +170,30 @@ export default class Car {
 	}
 
 	#buildChassis() {
+		// this.#chassis = new TransformNode(`${this.id}-chassis`, this.#scene);
+		// this.#chassis.position = this.position.clone();
 		this.#chassis = MeshBuilder.CreateBox(`${this.id}-chassis`, {
 			width: Car.CHASSIS_LENGTH * this.#scale,
 			height: 1 * this.#scale,
 			depth: 1 * this.#scale
 		}, this.#scene);
+		/*this.#chassis = MeshBuilder.CreateBox(`${this.id}-chassis`, {
+			size: 0.01
+		}, this.#scene);*/
 
 		// Create collision body as a separate mesh (NOT parented to chassis)
-		this.#collisionBody = MeshBuilder.CreateBox(`${this.id}-body-collision`, {
+		/*this.#collisionBody = MeshBuilder.CreateBox(`${this.id}-body-collision`, {
 			width: Car.CHASSIS_LENGTH * 2 * this.#scale,
 			height: .5 * this.#scale,
 			depth: 2.2 * this.#scale
-		}, this.#scene);
+		}, this.#scene);*/
 
 		// Position the collision body at the same location as chassis but offset in Y
-		this.#collisionBody.position.y = 0;
+		// this.#collisionBody.position.y = 0;
 
-		const chassisMaterial = new StandardMaterial(`${this.id}-chassis-material`, this.#scene);
+		/*const chassisMaterial = new StandardMaterial(`${this.id}-chassis-material`, this.#scene);
 		chassisMaterial.diffuseColor = this.color;
-		this.#chassis.material = chassisMaterial;
+		this.#chassis.material = chassisMaterial;*/
 
 		return Promise.resolve();
 	}
@@ -215,9 +220,8 @@ export default class Car {
 	}
 
 	#buildChassisPhysicsAggregate() {
-		// Create physics aggregate on the collision body
 		const chassisAggregate = new PhysicsAggregate(
-			this.#collisionBody,
+			this.#chassis,
 			PhysicsShapeType.BOX,
 			{
 				mass: Car.CHASSIS_MASS,
@@ -347,36 +351,23 @@ export default class Car {
 	async #buildModel() {
 		this.#loadedModel = await ImportMeshAsync("/public/databases/car/Ferrari.glb", this.#scene, {});
 		const modelMesh = this.#loadedModel.meshes[this.#testMesh];
-		// Create a parent mesh for the model
-		const modelParent = MeshBuilder.CreateBox(`${this.id}-model-parent`, { size: 0.01 }, this.#scene);
-		modelParent.visibility = false;
 
-		// Parent all loaded meshes to our control mesh
-		this.#loadedModel.meshes.forEach(mesh => {
-			mesh.parent = modelParent;
-			mesh.scaling = new Vector3(3 * this.#scale, 3 * this.#scale, 3 * this.#scale);
-		});
-
-		// Set rotation on the parent
-		modelParent.rotationQuaternion = null;
-		modelParent.rotation = new Vector3(0, Math.PI / 2, 0);
-
-		// Set initial position
-		modelParent.position.copyFrom(this.#collisionBody.position);
-
-		// Store reference to the parent for easier access
-		this.#modelParent = modelParent;
+		const mainMesh = this.#loadedModel.meshes[0];
+		mainMesh.rotationQuaternion = null;
+		mainMesh.rotation = new Vector3(0, -Math.PI / 2, 0);
+		this.#modelParent = mainMesh;
 
 		// Set up position and rotation synchronization
 		this.#scene.onBeforeRenderObservable.add(() => {
 			if (this.#collisionBody && this.#modelParent) {
 				// Copy position from collision body to model parent
 				this.#modelParent.position.copyFrom(this.#collisionBody.position);
+				this.#modelParent.position.y -= 1;
 
 				// Copy rotation from collision body to model parent
 				if (this.#collisionBody.rotationQuaternion) {
 					const euler = this.#collisionBody.rotationQuaternion.toEulerAngles();
-					this.#modelParent.rotation = new Vector3(euler.x, euler.y + Math.PI / 2, euler.z);
+					this.#modelParent.rotation = new Vector3(euler.x, euler.y, euler.z);
 				} else if (this.#collisionBody.rotation) {
 					this.#modelParent.rotation = new Vector3(
 						this.#collisionBody.rotation.x,
