@@ -1,13 +1,15 @@
 import {
+	Axis,
 	Color3, ImportMeshAsync,
 	MeshBuilder,
 	Physics6DoFConstraint,
 	PhysicsAggregate, PhysicsConstraintAxis,
-	PhysicsShapeType,
-	StandardMaterial, Texture, Vector3
+	PhysicsShapeType, Space,
+	StandardMaterial, Texture, Vector3, VertexBuffer
 } from "@babylonjs/core";
 
 export default class Car3 {
+	static CHASSIS = Symbol('chassis');
 	static BACK_LEFT_WHEEL = Symbol('back-left-wheel');
 	static BACK_RIGHT_WHEEL = Symbol('back-right-wheel');
 	static FRONT_LEFT_WHEEL = Symbol('front-left-wheel');
@@ -20,11 +22,12 @@ export default class Car3 {
 	static CHASSIS_WIDTH = 2;
 	static CHASSIS_HEIGHT = 1;
 
-	static CHASSIS_AGGREGATE = Symbol('chassis-aggregate');
-	static BACK_LEFT_WHEEL_AGGREGATE = Symbol('back-left-wheel-aggregate');
-	static BACK_RIGHT_WHEEL_AGGREGATE = Symbol('back-right-wheel-aggregate');
-	static FRONT_LEFT_WHEEL_AGGREGATE = Symbol('front-left-wheel-aggregate');
-	static FRONT_RIGHT_WHEEL_AGGREGATE = Symbol('front-right-wheel-aggregate');
+	static WHEEL_DATA = new Map([
+		[Car3.BACK_LEFT_WHEEL, Car3.BACK_LEFT_WHEEL_DATA],
+		[Car3.BACK_RIGHT_WHEEL, Car3.BACK_RIGHT_WHEEL_DATA],
+		[Car3.FRONT_LEFT_WHEEL, Car3.FRONT_LEFT_WHEEL_DATA],
+		[Car3.FRONT_RIGHT_WHEEL, Car3.FRONT_RIGHT_WHEEL_DATA]
+	]);
 
 	static WHEEL_HEIGHT = .75;
 	static WHEEL_RADIUS = .75;
@@ -32,7 +35,7 @@ export default class Car3 {
 	static WHEEL_RESTITUTION = 0;
 	static WHEEL_MASS = 1;
 	static WHEEL_FRICTION = 1;
-	static CHASSIS_MASS = 0;
+	static CHASSIS_MASS = 5;
 
 	#scene;
 	#position;
@@ -96,20 +99,23 @@ export default class Car3 {
 	}
 
 	async build() {
+		const wheelPointer = Car3.FRONT_RIGHT_WHEEL;
 		this.#buildWheelMaterial();
-		this.#wheel = this.#buildWheel(Car3.BACK_LEFT_WHEEL_DATA);
+		// this.#wheel = this.#buildWheel(Car3.WHEEL_DATA.get(wheelPointer));
 		this.#buildChassis();
-		// this.#buildWheels();
+		this.#buildWheels();
 		this.#applyChassisPhysics();
-		// this.#applyPhysicsToWheels();
-		this.#aggregates.set(
-			Car3.BACK_LEFT_WHEEL_AGGREGATE,
+		this.#applyPhysicsToWheels();
+		/*this.#aggregates.set(
+			wheelPointer,
 			this.#applyWheelPhysics(this.#wheel)
 		);
 		this.#setWheelConstraint(
 			this.#wheel,
-			this.#aggregates.get(Car3.BACK_LEFT_WHEEL_AGGREGATE)
-		);
+			wheelPointer
+		);*/
+		this.#setAllWheelConstraints();
+
 	}
 
 	#buildWheelMaterial() {
@@ -121,12 +127,27 @@ export default class Car3 {
 
 	#buildWheel(wheelData) {
 		const { x, z, name, key } = wheelData;
-		const wheel = MeshBuilder.CreateCapsule(`${this.id}-wheel-${name}`, {
+		/*const wheel = MeshBuilder.CreateCapsule(`${this.id}-wheel-${name}`, {
 			height: Car3.WHEEL_HEIGHT,
 			radius: Car3.WHEEL_RADIUS,
 			tessellation: 256
-		}, this.scene);
-		// wheel.rotation.x = Math.PI / 2;
+		}, this.scene);*/
+		/*const wheel = MeshBuilder.CreateCylinder(
+			`${this.id}-wheel-${name}`, {
+				height: Car3.WHEEL_HEIGHT / 2,
+				diameter: Car3.WHEEL_RADIUS * 2,
+				updatable: true
+			},
+			this.scene
+		);*/
+		const wheel = MeshBuilder.CreateSphere(
+			`${this.id}-wheel-${name}`, {
+				diameterX: Car3.WHEEL_RADIUS * 2,
+				diameterY: Car3.WHEEL_RADIUS * 2,
+				diameterZ: Car3.WHEEL_RADIUS / 2,
+			},
+			this.scene
+		);
 		wheel.name = `${this.id}-${name}`;
 
 		const pivotPoint = new Vector3(
@@ -143,7 +164,6 @@ export default class Car3 {
 		);
 		this.#wheelPivotPoints.set(key, wheelPivotPoint);
 
-		// wheel.position.z = pivotPoint.z - Car3.WHEEL_HEIGHT / (-2 * wheelType.z);
 		wheel.position.z = pivotPoint.z + wheelPivotPoint.z * z;
 		wheel.position.x = pivotPoint.x - .5 * x;
 		wheel.material = this.wheelMaterial;
@@ -180,11 +200,11 @@ export default class Car3 {
 
 		chassisAggregate.shape.filterMembershipMask = this.#membershipMask;
 		chassisAggregate.shape.filterCollideMask = this.#collideMask;
-		this.#aggregates.set(Car3.CHASSIS_AGGREGATE, chassisAggregate);
+		this.#aggregates.set(Car3.CHASSIS, chassisAggregate);
 	}
 
 	#applyWheelPhysics(wheel) {
-		return new PhysicsAggregate(
+		const aggregate = new PhysicsAggregate(
 			wheel,
 			PhysicsShapeType.CAPSULE,
 			{
@@ -194,6 +214,9 @@ export default class Car3 {
 			},
 			this.scene
 		);
+		aggregate.shape.filterMembershipMask = this.#membershipMask;
+		aggregate.shape.filterCollideMask = this.#collideMask;
+		return aggregate;
 	}
 
 	#applyPhysicsToWheels() {
@@ -202,19 +225,20 @@ export default class Car3 {
 		});
 	}
 
-	#setWheelConstraint(wheel, wheelAggregate) {
-		const wheelPosition = wheelAggregate.transformNode.position;
+	#setAllWheelConstraints() {
+		this.#wheels.forEach((wheel, key) => {
+			this.#setWheelConstraint(wheel, key);
+		});
+	}
 
-		const carData = Car3.BACK_LEFT_WHEEL_DATA;
-		const pivotA = this.#chassisPivotPoints.get(Car3.BACK_LEFT_WHEEL);
-		/*const pivotB = this.#wheelPivotPoints.get(Car3.BACK_LEFT_WHEEL)
-			.multiply(new Vector3(0, 0, carData.z));
-		pivotB.z *= -1;
-		pivotA.z += .1;
-		pivotB.z -= .1;*/
-
-		// const pivotB = new Vector3(0, 0, 0);  // Start with wheel center
-		const pivotB = this.#wheelPivotPoints.get(Car3.BACK_LEFT_WHEEL);
+	#setWheelConstraint(wheel, wheelPointer) {
+		const wheelAggregate = this.#aggregates.get(wheelPointer);
+		const wheelData = Car3.WHEEL_DATA.get(wheelPointer);
+		const pivotA = this.#chassisPivotPoints.get(wheelPointer);
+		const pivotB = this.#wheelPivotPoints.get(wheelPointer);
+		pivotA.x += pivotB.x * wheelData.x * -1;
+		pivotB.x = 0;
+		pivotB.z = pivotB.z * wheelData.z * -1;
 		console.log("🔧 Constraint Debug:");
 		console.log("Chassis position:", this.#chassis.position);
 		console.log("Wheel position:", wheel.position);
@@ -236,7 +260,34 @@ export default class Car3 {
 			console.warn("⚠️ Large pivot distance - potential instability!");
 		}
 
+		/*this.#chassis.visibility = .25;
+		wheel.visibility = .25;
 
+		const boxA = MeshBuilder.CreateBox('pivotA', {
+			size: 0.1,
+			faceColors: [
+				Color3.Red(),
+				Color3.Red(),
+				Color3.Red(),
+				Color3.Red(),
+				Color3.Red(),
+				Color3.Red()
+			]
+		}, this.#scene);
+		boxA.position = worldPivotA;
+
+		const boxB = MeshBuilder.CreateBox('pivotB', {
+			size: 0.1,
+			faceColors: [
+				Color3.Green(),
+				Color3.Green(),
+				Color3.Green(),
+				Color3.Green(),
+				Color3.Green(),
+				Color3.Green()
+			]
+		}, this.#scene);
+		boxB.position = worldPivotB;*/
 
 
 		// BodyA = chassis
@@ -256,72 +307,36 @@ export default class Car3 {
 					axis: PhysicsConstraintAxis.LINEAR_X,
 					minLimit: 0,
 					maxLimit: 0,
-					maxForce: 1000,  // ← ADD THIS
+					// maxForce: 1000
 				},
 				{
 					axis: PhysicsConstraintAxis.LINEAR_Y,
 					minLimit: 0,
 					maxLimit: 0,
-					maxForce: 1000,  // ← ADD THIS
+					// maxForce: 1000
 				},
 				{
 					axis: PhysicsConstraintAxis.LINEAR_Z,
 					minLimit: 0,
 					maxLimit: 0,
-					maxForce: 1000,  // ← ADD THIS
-				},
-				{
-					axis: PhysicsConstraintAxis.ANGULAR_Z,
-					minLimit: 0, maxLimit: 0,
-					maxForce: 500,  // ← ADD THIS
+					// maxForce: 1000
 				},
 				{
 					axis: PhysicsConstraintAxis.ANGULAR_Y,
-					minLimit: 0, maxLimit: 0,
-					maxForce: 500,  // ← ADD THIS
+					minLimit: 0,
+					maxLimit: 0,
+					// maxForce: 500
+				},
+				{
+					axis: PhysicsConstraintAxis.ANGULAR_Z,
+					minLimit: 0,
+					maxLimit: 0,
+					// maxForce: 500
 				}
 			],
 			this.#scene
 		);
-
-		/*const constraint = new Physics6DoFConstraint(
-			{
-				pivotA: new Vector3(wheelPosition.x, 0, wheelPosition.z / 2.0),
-				pivotB: new Vector3(0, 0, -wheelPosition.z / 2.0),
-				axisA: new Vector3(1, 0, 0),
-				collision: false,
-				axisB: new Vector3(1, 0, 0),
-				perpAxisA: new Vector3(0, 1, 0),
-				perpAxisB: new Vector3(0, 1, 0),
-			},
-			[
-				{
-					axis: PhysicsConstraintAxis.LINEAR_X,
-					minLimit: 0,
-					maxLimit: 0,
-				},
-				{
-					axis: PhysicsConstraintAxis.LINEAR_Y,
-					minLimit: 0,
-					maxLimit: 0,
-				},
-				{
-					axis: PhysicsConstraintAxis.LINEAR_Z,
-					minLimit: 0,
-					maxLimit: 0,
-				},
-				{
-					axis: PhysicsConstraintAxis.ANGULAR_X,
-					minLimit: 0, maxLimit: 0
-				},
-				{
-					axis: PhysicsConstraintAxis.ANGULAR_Y,
-					minLimit: 0, maxLimit: 0
-				}
-			],
-			this.#scene
-		);*/
-		this.#aggregates.get(Car3.CHASSIS_AGGREGATE)
+		this.#aggregates.get(Car3.CHASSIS)
 			.body
 			.addConstraint(wheelAggregate.body, constraint);
 		return constraint;
