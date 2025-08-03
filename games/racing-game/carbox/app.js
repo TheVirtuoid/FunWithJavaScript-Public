@@ -22,7 +22,7 @@ import HavokPhysics from "@babylonjs/havok";
 import { buildGround } from "./ground.js";
 // import Car from "./Car.js";
 // import Car from "./Car2.js";
-import Car from "./Car3.js";
+import Car from "./Car4.js";
 import Controls from "./Controls.js";
 import Physics from "../src/classes/Physics/Physics.js";
 
@@ -107,7 +107,7 @@ export default class App {
 			friction: 1,
 			restitution: 0,
 			rotationAxis: 'z',
-			rotationAmount: -.1
+			rotationAmount: -.05
 		};
 
 		this.#ground = buildGround(this.#scene, groundPhysics);
