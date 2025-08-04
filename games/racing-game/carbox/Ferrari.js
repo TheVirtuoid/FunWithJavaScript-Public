@@ -8,26 +8,26 @@ import {
 	StandardMaterial, Texture, Vector3, VertexBuffer
 } from "@babylonjs/core";
 
-export default class Car4 {
+export default class Ferrari {
 	static CHASSIS = Symbol('chassis');
 	static MODEL = Symbol('body');
 	static BACK_LEFT_WHEEL = Symbol('back-left-wheel');
 	static BACK_RIGHT_WHEEL = Symbol('back-right-wheel');
 	static FRONT_LEFT_WHEEL = Symbol('front-left-wheel');
 	static FRONT_RIGHT_WHEEL = Symbol('front-right-wheel');
-	static BACK_LEFT_WHEEL_DATA = { x: 1, z: -1, name: 'back-left', key: Car4.BACK_LEFT_WHEEL };
-	static BACK_RIGHT_WHEEL_DATA = { x: 1, z: 1, name: 'back-right', key: Car4.BACK_RIGHT_WHEEL };
-	static FRONT_LEFT_WHEEL_DATA = { x: -1, z: -1, name: 'front-left', key: Car4.FRONT_LEFT_WHEEL };
-	static FRONT_RIGHT_WHEEL_DATA = { x: -1, z: 1, name: 'front-right', key: Car4.FRONT_RIGHT_WHEEL };
+	static BACK_LEFT_WHEEL_DATA = { x: 1, z: -1, name: 'back-left', key: Ferrari.BACK_LEFT_WHEEL };
+	static BACK_RIGHT_WHEEL_DATA = { x: 1, z: 1, name: 'back-right', key: Ferrari.BACK_RIGHT_WHEEL };
+	static FRONT_LEFT_WHEEL_DATA = { x: -1, z: -1, name: 'front-left', key: Ferrari.FRONT_LEFT_WHEEL };
+	static FRONT_RIGHT_WHEEL_DATA = { x: -1, z: 1, name: 'front-right', key: Ferrari.FRONT_RIGHT_WHEEL };
 	static CHASSIS_LENGTH = 5;
 	static CHASSIS_WIDTH = 2;
 	static CHASSIS_HEIGHT = 1;
 
 	static WHEEL_DATA = new Map([
-		[Car4.BACK_LEFT_WHEEL, Car4.BACK_LEFT_WHEEL_DATA],
-		[Car4.BACK_RIGHT_WHEEL, Car4.BACK_RIGHT_WHEEL_DATA],
-		[Car4.FRONT_LEFT_WHEEL, Car4.FRONT_LEFT_WHEEL_DATA],
-		[Car4.FRONT_RIGHT_WHEEL, Car4.FRONT_RIGHT_WHEEL_DATA]
+		[Ferrari.BACK_LEFT_WHEEL, Ferrari.BACK_LEFT_WHEEL_DATA],
+		[Ferrari.BACK_RIGHT_WHEEL, Ferrari.BACK_RIGHT_WHEEL_DATA],
+		[Ferrari.FRONT_LEFT_WHEEL, Ferrari.FRONT_LEFT_WHEEL_DATA],
+		[Ferrari.FRONT_RIGHT_WHEEL, Ferrari.FRONT_RIGHT_WHEEL_DATA]
 	]);
 
 	static WHEEL_HEIGHT = .75;
@@ -110,7 +110,7 @@ export default class Car4 {
 	}
 
 	async build() {
-		const wheelPointer = Car4.FRONT_RIGHT_WHEEL;
+		const wheelPointer = Ferrari.FRONT_RIGHT_WHEEL;
 		this.#buildWheelMaterial();
 		this.#buildChassis();
 		this.#buildWheels();
@@ -137,16 +137,16 @@ export default class Car4 {
 		const { x, z, name, key } = wheelData;
 		const wheel = MeshBuilder.CreateSphere(
 			`${this.id}-wheel-${name}`, {
-				diameterX: Car4.WHEEL_RADIUS * 2,
-				diameterY: Car4.WHEEL_RADIUS * 2,
-				diameterZ: Car4.WHEEL_RADIUS / 2,
+				diameterX: Ferrari.WHEEL_RADIUS * 2,
+				diameterY: Ferrari.WHEEL_RADIUS * 2,
+				diameterZ: Ferrari.WHEEL_RADIUS / 2,
 			},
 			this.scene
 		);
 		wheel.name = `${this.id}-${name}`;
 
 		const pivotPoint = new Vector3(
-			Car4.CHASSIS_LENGTH / 2  * x,
+			Ferrari.CHASSIS_LENGTH / 2  * x,
 			0,
 			z
 		);
@@ -155,7 +155,7 @@ export default class Car4 {
 		const wheelPivotPoint = new Vector3(
 			.5,
 			0,
-			Car4.WHEEL_HEIGHT / 2
+			Ferrari.WHEEL_HEIGHT / 2
 		);
 		this.#wheelPivotPoints.set(key, wheelPivotPoint);
 		wheel.position.z = pivotPoint.z + wheelPivotPoint.z * z;
@@ -166,17 +166,17 @@ export default class Car4 {
 
 	#buildWheels() {
 		this.#wheels = new Map();
-		this.#wheels.set(Car4.BACK_LEFT_WHEEL, this.#buildWheel(Car4.BACK_LEFT_WHEEL_DATA));
-		this.#wheels.set(Car4.BACK_RIGHT_WHEEL, this.#buildWheel(Car4.BACK_RIGHT_WHEEL_DATA));
-		this.#wheels.set(Car4.FRONT_LEFT_WHEEL, this.#buildWheel(Car4.FRONT_LEFT_WHEEL_DATA));
-		this.#wheels.set(Car4.FRONT_RIGHT_WHEEL, this.#buildWheel(Car4.FRONT_RIGHT_WHEEL_DATA));
+		this.#wheels.set(Ferrari.BACK_LEFT_WHEEL, this.#buildWheel(Ferrari.BACK_LEFT_WHEEL_DATA));
+		this.#wheels.set(Ferrari.BACK_RIGHT_WHEEL, this.#buildWheel(Ferrari.BACK_RIGHT_WHEEL_DATA));
+		this.#wheels.set(Ferrari.FRONT_LEFT_WHEEL, this.#buildWheel(Ferrari.FRONT_LEFT_WHEEL_DATA));
+		this.#wheels.set(Ferrari.FRONT_RIGHT_WHEEL, this.#buildWheel(Ferrari.FRONT_RIGHT_WHEEL_DATA));
 	}
 
 	#buildChassis() {
 		this.#chassis = MeshBuilder.CreateBox(`${this.id}-chassis`, {
-			width: Car4.CHASSIS_LENGTH,
-			height: Car4.CHASSIS_HEIGHT,
-			depth: Car4.CHASSIS_WIDTH
+			width: Ferrari.CHASSIS_LENGTH,
+			height: Ferrari.CHASSIS_HEIGHT,
+			depth: Ferrari.CHASSIS_WIDTH
 		}, this.scene);
 	}
 
@@ -185,7 +185,7 @@ export default class Car4 {
 			this.#chassis,
 			PhysicsShapeType.BOX,
 			{
-				mass: Car4.CHASSIS_MASS,
+				mass: Ferrari.CHASSIS_MASS,
 				restitution: 0,
 				friction: 0.5
 			},
@@ -194,7 +194,7 @@ export default class Car4 {
 
 		chassisAggregate.shape.filterMembershipMask = this.#membershipMask;
 		chassisAggregate.shape.filterCollideMask = this.#collideMask;
-		this.#aggregates.set(Car4.CHASSIS, chassisAggregate);
+		this.#aggregates.set(Ferrari.CHASSIS, chassisAggregate);
 	}
 
 	#applyWheelPhysics(wheel) {
@@ -202,9 +202,9 @@ export default class Car4 {
 			wheel,
 			PhysicsShapeType.CAPSULE,
 			{
-				mass: Car4.WHEEL_MASS,
-				restitution: Car4.WHEEL_RESTITUTION,
-				friction: Car4.WHEEL_FRICTION
+				mass: Ferrari.WHEEL_MASS,
+				restitution: Ferrari.WHEEL_RESTITUTION,
+				friction: Ferrari.WHEEL_FRICTION
 			},
 			this.scene
 		);
@@ -227,7 +227,7 @@ export default class Car4 {
 
 	#setWheelConstraint(wheel, wheelPointer) {
 		const wheelAggregate = this.#aggregates.get(wheelPointer);
-		const wheelData = Car4.WHEEL_DATA.get(wheelPointer);
+		const wheelData = Ferrari.WHEEL_DATA.get(wheelPointer);
 		const pivotA = this.#chassisPivotPoints.get(wheelPointer);
 		const pivotB = this.#wheelPivotPoints.get(wheelPointer);
 		pivotA.x += pivotB.x * wheelData.x * -1;
@@ -272,7 +272,7 @@ export default class Car4 {
 			],
 			this.#scene
 		);
-		this.#aggregates.get(Car4.CHASSIS)
+		this.#aggregates.get(Ferrari.CHASSIS)
 			.body
 			.addConstraint(wheelAggregate.body, constraint);
 		return constraint;
@@ -282,46 +282,53 @@ export default class Car4 {
 		this.#loadedModel = await ImportMeshAsync("/public/databases/car/Ferrari.glb", this.#scene, {});
 		this.#loadedModel.meshes[0].scaling = new Vector3(2, 2, 2);
 		this.#modelRoot = this.#loadedModel.meshes[0];
-		this.#modelTest = this.#loadedModel.meshes[9];
+		this.#loadedModel.meshes[1].showBoundingBox = true;
+		this.#loadedModel.meshes[3].showBoundingBox = true;
 		const low = { x: Infinity, y: Infinity, z: Infinity };
 		const high = { x: -Infinity, y: -Infinity, z: -Infinity };
 		this.#modelRoot.getChildMeshes().forEach((mesh, index) => {
-			const { minimum, maximum, minimumWorld, maximumWorld } = mesh.getBoundingInfo().boundingBox;
-			const subs = maximumWorld.subtract(minimumWorld);
-			const test = {
-				x: (maximum.x - minimum.x) / 2,
-				y: (maximum.y - minimum.y) / 2,
-				z: (maximum.z - minimum.z) / 2
-			};
-			const worldPosition = mesh.getAbsolutePosition();
-			low.x = Math.min(low.x, subs.x);
+			const { minimum, maximum, minimumWorld, maximumWorld, extendSize } = mesh.getBoundingInfo().boundingBox;
+			// console.log(index, minimumWorld, maximumWorld, extendSize);
+			// const subs = maximumWorld.subtract(minimumWorld);
+			// console.log(index,extendSize, subs, extendSize.multiply(new Vector3(2, 2, 2)));
+			const subs = extendSize.multiply(new Vector3(2, 2, 2));
+			/*low.x = Math.min(low.x, subs.x);
 			low.y = Math.min(low.y, subs.y);
 			low.z = Math.min(low.z, subs.z);
 			high.x = Math.max(high.x, subs.x);
 			high.y = Math.max(high.y, subs.y);
-			high.z = Math.max(high.z, subs.z);
+			high.z = Math.max(high.z, subs.z);*/
+			low.x = Math.min(low.x, minimum.x);
+			low.y = Math.min(low.y, minimum.y);
+			low.z = Math.min(low.z, minimum.z);
+			high.x = Math.max(high.x, maximum.x);
+			high.y = Math.max(high.y, maximum.y);
+			high.z = Math.max(high.z, maximum.z);
 		});
 		this.#modelDimensions = {
 			length: high.x - low.x,
 			width: high.z - low.z,
 			height: high.y - low.y
 		};
+		console.log(this.#modelDimensions, low, high);
 		return Promise.resolve();
 	}
 
 	#buildTest() {
-		// const { length, width, height } = this.#getDimensions(this.#modelTest);
 		let { length, width, height } = this.#modelDimensions;
 		length *= this.#modelRoot.scaling.x;
 		width *= this.#modelRoot.scaling.z;
 		height *= this.#modelRoot.scaling.y;
 
-		this.#modelTest.showBoundingBox = true;
+		// this.#modelTest.showBoundingBox = true;
 		this.#test = MeshBuilder.CreateBox(`${this.id}-test`, {
 			width,
-			length,
-			depth: height
+			height,
+			depth: length
 		});
+		console.log('--------right after build');
+		console.log(width, length, height);
+		console.log(this.#test.getBoundingInfo().boundingBox.maximum.clone(),this.#test.getBoundingInfo().boundingBox.minimum.clone());
 		const mat = new StandardMaterial(`${this.id}-test-mat`, this.#scene);
 		mat.diffuseColor = new Color3(0, 0, 1);
 		this.#test.material = mat;
@@ -329,13 +336,34 @@ export default class Car4 {
 		const testDimension = this.#getDimensions(this.#test);
 		this.#test.position = new Vector3(
 			0,
-			-.1,
+			2,
 			0
 		);
+		this.#test.visibility = .15;
 		this.#modelRoot.rotation = new Vector3(0, Math.PI / 2, 0);
 		this.#modelRoot.parent = this.#test;
-		this.#test.isVisible = false;
-		this.#chassis.isVisible = false;
+		// this.#modelRoot.position.y -= 1;
+		this.#test.isVisible = true;
+		this.#test.showBoundingBox = true;
+		this.#chassis.isVisible = true;
+		/*this.#modelRoot.isVisible = false;
+		this.#modelRoot.getChildMeshes().forEach((mesh, index) => {
+			mesh.isVisible = false;
+		});*/
+
+		let childMeshes = this.#modelRoot.getChildMeshes();
+		let min = childMeshes[0].getBoundingInfo().boundingBox.minimumWorld;
+		let max = childMeshes[0].getBoundingInfo().boundingBox.maximumWorld;
+		for (let i = 1; i < childMeshes.length; i++) {
+			let meshMin = childMeshes[i].getBoundingInfo().boundingBox.minimumWorld;
+			let meshMax = childMeshes[i].getBoundingInfo().boundingBox.maximumWorld;
+			min = Vector3.Minimize(min, meshMin);
+			max = Vector3.Maximize(max, meshMax);
+		}
+		const size = max.clone().subtract(min);
+		console.log('------------size', this.#modelDimensions, size, size.multiply(this.#modelRoot.scaling));
+		console.log(length, width, height);
+		console.log(this.#test.getBoundingInfo().boundingBox);
 	}
 
 	#applyTestPhysics() {
@@ -343,7 +371,7 @@ export default class Car4 {
 			this.#test,
 			PhysicsShapeType.BOX,
 			{
-				mass: Car4.MODEL_MASS,
+				mass: Ferrari.MODEL_MASS,
 				restitution: 0,
 				friction: 0.5
 			},
@@ -352,11 +380,11 @@ export default class Car4 {
 
 		aggregate.shape.filterMembershipMask = this.#membershipMask;
 		aggregate.shape.filterCollideMask = this.#collideMask;
-		this.#aggregates.set(Car4.MODEL, aggregate);
+		this.#aggregates.set(Ferrari.MODEL, aggregate);
 	}
 
 	#setTestConstraint() {
-		const aggregate = this.#aggregates.get(Car4.MODEL);
+		const aggregate = this.#aggregates.get(Ferrari.MODEL);
 		const model = this.#test;
 		const height = model.getBoundingInfo().boundingBox.maximum.y -
 			model.getBoundingInfo().boundingBox.minimum.y;
@@ -452,7 +480,7 @@ export default class Car4 {
 			],
 			this.#scene
 		);
-		this.#aggregates.get(Car4.CHASSIS)
+		this.#aggregates.get(Ferrari.CHASSIS)
 			.body
 			.addConstraint(aggregate.body, constraint);
 		return constraint;

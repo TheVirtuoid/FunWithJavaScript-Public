@@ -22,7 +22,7 @@ import HavokPhysics from "@babylonjs/havok";
 import { buildGround } from "./ground.js";
 // import Car from "./Car.js";
 // import Car from "./Car2.js";
-import Car from "./Car4.js";
+import Car from "./Ferrari.js";
 import Controls from "./Controls.js";
 import Physics from "../src/classes/Physics/Physics.js";
 
