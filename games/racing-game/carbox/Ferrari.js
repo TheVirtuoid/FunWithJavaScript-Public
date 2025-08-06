@@ -111,10 +111,10 @@ export default class Ferrari {
 
 	async build() {
 		const wheelPointer = Ferrari.FRONT_RIGHT_WHEEL;
+		await this.#buildModel();
 		this.#buildWheelMaterial();
 		this.#buildChassis();
 		this.#buildWheels();
-		await this.#buildModel();
 		this.#buildTest();
 		this.#applyChassisPhysics();
 		this.#applyPhysicsToWheels();
@@ -134,12 +134,14 @@ export default class Ferrari {
 	}
 
 	#buildWheel(wheelData) {
+		let { wheelHeight } = this.#modelDimensions;
+
 		const { x, z, name, key } = wheelData;
 		const wheel = MeshBuilder.CreateSphere(
 			`${this.id}-wheel-${name}`, {
-				diameterX: Ferrari.WHEEL_RADIUS * 2,
-				diameterY: Ferrari.WHEEL_RADIUS * 2,
-				diameterZ: Ferrari.WHEEL_RADIUS / 2,
+				diameterX: (wheelHeight || Ferrari.WHEEL_RADIUS) * 2,
+				diameterY: (wheelHeight || Ferrari.WHEEL_RADIUS) * 2,
+				diameterZ: (wheelHeight || Ferrari.WHEEL_RADIUS) / 2,
 			},
 			this.scene
 		);
@@ -282,88 +284,75 @@ export default class Ferrari {
 		this.#loadedModel = await ImportMeshAsync("/public/databases/car/Ferrari.glb", this.#scene, {});
 		this.#loadedModel.meshes[0].scaling = new Vector3(2, 2, 2);
 		this.#modelRoot = this.#loadedModel.meshes[0];
-		this.#loadedModel.meshes[1].showBoundingBox = true;
-		this.#loadedModel.meshes[3].showBoundingBox = true;
 		const low = { x: Infinity, y: Infinity, z: Infinity };
 		const high = { x: -Infinity, y: -Infinity, z: -Infinity };
 		this.#modelRoot.getChildMeshes().forEach((mesh, index) => {
-			const { minimum, maximum, minimumWorld, maximumWorld, extendSize } = mesh.getBoundingInfo().boundingBox;
-			// console.log(index, minimumWorld, maximumWorld, extendSize);
-			// const subs = maximumWorld.subtract(minimumWorld);
-			// console.log(index,extendSize, subs, extendSize.multiply(new Vector3(2, 2, 2)));
-			const subs = extendSize.multiply(new Vector3(2, 2, 2));
-			/*low.x = Math.min(low.x, subs.x);
-			low.y = Math.min(low.y, subs.y);
-			low.z = Math.min(low.z, subs.z);
-			high.x = Math.max(high.x, subs.x);
-			high.y = Math.max(high.y, subs.y);
-			high.z = Math.max(high.z, subs.z);*/
+			console.log(mesh.name, index);
+			const { minimum, maximum, minimumWorld, maximumWorld } = mesh.getBoundingInfo().boundingBox;
 			low.x = Math.min(low.x, minimum.x);
 			low.y = Math.min(low.y, minimum.y);
 			low.z = Math.min(low.z, minimum.z);
 			high.x = Math.max(high.x, maximum.x);
 			high.y = Math.max(high.y, maximum.y);
 			high.z = Math.max(high.z, maximum.z);
+
 		});
+		const modelWheelData = this.#loadedModel.meshes[1].getBoundingInfo().boundingBox;
+		const wheelHeight = modelWheelData.maximum.y - modelWheelData.minimum.y;
 		this.#modelDimensions = {
 			length: high.x - low.x,
 			width: high.z - low.z,
-			height: high.y - low.y
+			height: high.y - low.y,
+			wheelHeight
 		};
-		console.log(this.#modelDimensions, low, high);
+		console.log(this.#modelDimensions);
+		const ww = this.#loadedModel.meshes[1];
+		const w = ww.getBoundingInfo().boundingBox;
+		const b = this.#loadedModel.meshes[9].getBoundingInfo().boundingBox;
+		this.#modelDimensions.height = b.maximum.y - b.minimum.y;
+		ww.showBoundingBox = true;
+		console.log(w.minimum.y, w.minimumWorld.y);
+		console.log(b.maximum.y, b.maximumWorld.y);
+		console.log(b.maximum.y - w.minimum.y, b.maximumWorld.y - w.minimumWorld.y);
+
+		this.#loadedModel.meshes[9].showBoundingBox = true;
+		this.#modelRoot.position = new Vector3(0, 0, 0);
 		return Promise.resolve();
 	}
 
 	#buildTest() {
-		let { length, width, height } = this.#modelDimensions;
+		let { length, width, height, wheelHeight } = this.#modelDimensions;
 		length *= this.#modelRoot.scaling.x;
 		width *= this.#modelRoot.scaling.z;
 		height *= this.#modelRoot.scaling.y;
+		wheelHeight *= this.#modelRoot.scaling.z;
 
-		// this.#modelTest.showBoundingBox = true;
 		this.#test = MeshBuilder.CreateBox(`${this.id}-test`, {
 			width,
 			height,
 			depth: length
 		});
-		console.log('--------right after build');
-		console.log(width, length, height);
-		console.log(this.#test.getBoundingInfo().boundingBox.maximum.clone(),this.#test.getBoundingInfo().boundingBox.minimum.clone());
+		console.log(this.#test.getBoundingInfo().boundingBox);
 		const mat = new StandardMaterial(`${this.id}-test-mat`, this.#scene);
 		mat.diffuseColor = new Color3(0, 0, 1);
 		this.#test.material = mat;
-		const chassisDimension = this.#getDimensions(this.#chassis);
-		const testDimension = this.#getDimensions(this.#test);
 		this.#test.position = new Vector3(
 			0,
-			2,
+			1,
 			0
 		);
-		this.#test.visibility = .15;
+		this.#test.showBoundingBox = true;
 		this.#modelRoot.rotation = new Vector3(0, Math.PI / 2, 0);
 		this.#modelRoot.parent = this.#test;
-		// this.#modelRoot.position.y -= 1;
+		this.#modelRoot.position.y -= 1;
 		this.#test.isVisible = true;
-		this.#test.showBoundingBox = true;
 		this.#chassis.isVisible = true;
+
+		console.log(this.#chassis.position);
 		/*this.#modelRoot.isVisible = false;
 		this.#modelRoot.getChildMeshes().forEach((mesh, index) => {
 			mesh.isVisible = false;
 		});*/
-
-		let childMeshes = this.#modelRoot.getChildMeshes();
-		let min = childMeshes[0].getBoundingInfo().boundingBox.minimumWorld;
-		let max = childMeshes[0].getBoundingInfo().boundingBox.maximumWorld;
-		for (let i = 1; i < childMeshes.length; i++) {
-			let meshMin = childMeshes[i].getBoundingInfo().boundingBox.minimumWorld;
-			let meshMax = childMeshes[i].getBoundingInfo().boundingBox.maximumWorld;
-			min = Vector3.Minimize(min, meshMin);
-			max = Vector3.Maximize(max, meshMax);
-		}
-		const size = max.clone().subtract(min);
-		console.log('------------size', this.#modelDimensions, size, size.multiply(this.#modelRoot.scaling));
-		console.log(length, width, height);
-		console.log(this.#test.getBoundingInfo().boundingBox);
 	}
 
 	#applyTestPhysics() {
@@ -427,8 +416,8 @@ export default class Ferrari {
 		boxB.position = pivotB;*/
 		// BodyA = chassis
 		// BodyB = Model
-		const opaque = 1;
-		this.#chassis.visibility = opaque;
+		const opaque = .75;
+		// this.#chassis.visibility = opaque;
 		this.#test.visibility = opaque;
 		const constraint = new Physics6DoFConstraint(
 			{

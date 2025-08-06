@@ -94,7 +94,7 @@ export default class App {
 	}
 
 	async #addToScene() {
-		this.#camera = new UniversalCamera("UniversalCamera", new Vector3(App.SX + 50, App.SY + 5, App.SZ ), this.#scene);
+		this.#camera = new UniversalCamera("UniversalCamera", new Vector3(App.SX, App.SY + 3, App.SZ - 20 ), this.#scene);
 		this.#camera.inputs.addMouseWheel();
 		this.#camera.setTarget(new Vector3(App.SX, App.SY, App.SZ));
 		this.#camera.attachControl(this.#canvas, true);
@@ -107,7 +107,8 @@ export default class App {
 			friction: 1,
 			restitution: 0,
 			rotationAxis: 'z',
-			rotationAmount: -.05
+			rotationAmount: 0,
+			yAdjust: -2
 		};
 
 		this.#ground = buildGround(this.#scene, groundPhysics);
