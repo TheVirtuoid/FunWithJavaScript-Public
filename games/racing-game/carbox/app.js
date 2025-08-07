@@ -107,7 +107,7 @@ export default class App {
 			friction: 1,
 			restitution: 0,
 			rotationAxis: 'z',
-			rotationAmount: 0,
+			rotationAmount: -.05,
 			yAdjust: -2
 		};
 
