@@ -22,7 +22,7 @@ import HavokPhysics from "@babylonjs/havok";
 import { buildGround } from "./ground.js";
 // import Car from "./Car.js";
 // import Car from "./Car2.js";
-import Car from "./Ferrari.js";
+import Car from "./Car5.js";
 import Controls from "./Controls.js";
 import Physics from "../src/classes/Physics/Physics.js";
 
@@ -94,7 +94,7 @@ export default class App {
 	}
 
 	async #addToScene() {
-		this.#camera = new UniversalCamera("UniversalCamera", new Vector3(App.SX, App.SY + 3, App.SZ - 20 ), this.#scene);
+		this.#camera = new UniversalCamera("UniversalCamera", new Vector3(App.SX, App.SY + 3, App.SZ - 15 ), this.#scene);
 		this.#camera.inputs.addMouseWheel();
 		this.#camera.setTarget(new Vector3(App.SX, App.SY, App.SZ));
 		this.#camera.attachControl(this.#canvas, true);
