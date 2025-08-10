@@ -66,7 +66,7 @@ export default class CarRenderer {
 			const newCar = new Car({
 				position: pos,
 				scene: this.#scene,
-				scale: 0.3,
+				scale: 0.5,
 				color,
 				id: name,
 				physicsGroup: group

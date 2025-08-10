@@ -50,7 +50,9 @@ export default class App {
 
 	#controls;
 
-	#car;
+	#car1;
+	#car2;
+	#car3;
 	#ground;
 
 	constructor() {
@@ -73,8 +75,16 @@ export default class App {
 
 	}
 
-	get car() {
-		return this.#car;
+	get car1() {
+		return this.#car1;
+	}
+
+	get car2() {
+		return this.#car1;
+	}
+
+	get car3() {
+		return this.#car1;
 	}
 
 	#inspector(event) {
@@ -127,14 +137,24 @@ export default class App {
 		};
 
 
-		const position = new Vector3(0, 2, 0);
+		const position1 = new Vector3(0, 0, 5);
+		const position2 = new Vector3(0, 0, 0);
+		const position3 = new Vector3(0, 0, -5);
 
 		const scale = 2;
 
 		const id = 'test';
 
-		this.#car = new Car({ position: position.clone(), scene: this.#scene, physicsGroup: 2, scale, chassisPhysics, wheelPhysics, id });
-		await this.#car.build();
+		const rotation = new Vector3(0, Math.PI / 2, 0);
+
+		/*this.#car1 = new Car({ position: position1.clone(), scene: this.#scene, physicsGroup: 2, scale: .5, chassisPhysics, wheelPhysics, id: 'HALF' });
+		await this.#car1.build();*/
+
+		this.#car2 = new Car({ position: position2.clone(), scene: this.#scene, physicsGroup: 4, scale: 1, chassisPhysics, wheelPhysics, id: 'ONE', rotation });
+		await this.#car2.build();
+
+		/*this.#car3 = new Car({ position: position3.clone(), scene: this.#scene, physicsGroup: 8, scale: 2, chassisPhysics, wheelPhysics, id: 'DOUBLE' });
+		await this.#car3.build();*/
 	}
 
 }
