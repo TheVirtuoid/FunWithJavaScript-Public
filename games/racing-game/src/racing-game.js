@@ -1,4 +1,7 @@
 import './css/racing-game.pcss';
+
+import { registerBuiltInLoaders } from "@babylonjs/loaders/dynamic";
+registerBuiltInLoaders();
 import indexTemplate from '/pages/index/index.html?raw';
 import indexCode from './../pages/index/index.js';
 

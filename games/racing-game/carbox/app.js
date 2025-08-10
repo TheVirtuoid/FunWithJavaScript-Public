@@ -22,7 +22,8 @@ import HavokPhysics from "@babylonjs/havok";
 import { buildGround } from "./ground.js";
 // import Car from "./Car.js";
 // import Car from "./Car2.js";
-import Car from "./Car5.js";
+import Car from "./OldCarDesigns/Ferrari.js";
+// import Car from "./Car5.js";
 import Controls from "./Controls.js";
 import Physics from "../src/classes/Physics/Physics.js";
 
@@ -126,9 +127,9 @@ export default class App {
 		};
 
 
-		const position = new Vector3(0, 0, 0);
+		const position = new Vector3(0, 2, 0);
 
-		const scale = .6;
+		const scale = 2;
 
 		const id = 'test';
 

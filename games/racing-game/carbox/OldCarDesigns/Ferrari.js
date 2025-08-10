@@ -14,17 +14,17 @@ export default class Ferrari {
 	static BACK_RIGHT_WHEEL = Symbol('back-right-wheel');
 	static FRONT_LEFT_WHEEL = Symbol('front-left-wheel');
 	static FRONT_RIGHT_WHEEL = Symbol('front-right-wheel');
-	static FRONT_LEFT_WHEEL_DATA = { x: 1, z: -1, name: 'front-left', key: Ferrari.FRONT_LEFT_WHEEL };
-	static FRONT_RIGHT_WHEEL_DATA = { x: 1, z: 1, name: 'front-right', key: Ferrari.FRONT_RIGHT_WHEEL };
-	static BACK_LEFT_WHEEL_DATA = { x: -1.30, z: -1, name: 'back-left', key: Ferrari.BACK_LEFT_WHEEL };
-	static BACK_RIGHT_WHEEL_DATA = { x: -1.30, z: 1, name: 'back-right', key: Ferrari.BACK_RIGHT_WHEEL };
+	static FRONT_LEFT_WHEEL_DATA = { xMultiplier: 1, zMultiplier: -1, name: 'front-left', key: Ferrari.FRONT_LEFT_WHEEL };
+	static FRONT_RIGHT_WHEEL_DATA = { xMultiplier: 1, zMultiplier: 1, name: 'front-right', key: Ferrari.FRONT_RIGHT_WHEEL };
+	static BACK_LEFT_WHEEL_DATA = { xMultiplier: -1, zMultiplier: -1, name: 'back-left', key: Ferrari.BACK_LEFT_WHEEL };
+	static BACK_RIGHT_WHEEL_DATA = { xMultiplier: -1, zMultiplier: 1, name: 'back-right', key: Ferrari.BACK_RIGHT_WHEEL };
 	static CHASSIS_LENGTH = 6.5;
 	static SCALE = 2;
 
 	static DEBUG = true;
-	static HIDE_CHASSIS = true;
-	static HIDE_COLLISION_BOX = true;
-	static HIDE_MODEL = true;
+	static HIDE_CHASSIS = false;
+	static HIDE_COLLISION_BOX = false;
+	static HIDE_MODEL = false;
 
 	static WHEEL_DATA = new Map([
 		[Ferrari.BACK_LEFT_WHEEL, Ferrari.BACK_LEFT_WHEEL_DATA],
@@ -45,6 +45,7 @@ export default class Ferrari {
 	#scene;
 	#position;
 	#id;
+	#scale;
 
 	#wheelMaterial;
 	#wheels;
@@ -65,8 +66,9 @@ export default class Ferrari {
 	#collisionBox;
 
 	constructor(args = {}) {
-		const { scene, position, id, physicsGroup } = args;
+		const { scene, position, id, physicsGroup, scale } = args;
 		this.#scene = scene;
+		this.#scale = scale || Ferrari.SCALE;
 		this.#position = position;
 		this.#id = id;
 		this.#physicsGroup = physicsGroup;
@@ -77,6 +79,10 @@ export default class Ferrari {
 
 	get scene() {
 		return this.#scene;
+	}
+
+	get scale() {
+		return this.#scale;
 	}
 
 	get position() {
@@ -111,17 +117,24 @@ export default class Ferrari {
 		return this.#collideMask;
 	}
 
+	#ferrariWheelOffsets = new Map([
+		[Ferrari.BACK_LEFT_WHEEL, { x: -.3, y: 0, z: -.6 }],
+		[Ferrari.BACK_RIGHT_WHEEL, { x: -.3, y: 0, z: .6 }],
+		[Ferrari.FRONT_LEFT_WHEEL, { x: .025, y: 0, z: -.5 }],
+		[Ferrari.FRONT_RIGHT_WHEEL, { x: .025, y: 0, z: .5 }]
+	]);
+
 	async build() {
 		await this.#buildModel();
 		this.#buildWheelMaterial();
 		this.#buildChassis();
 		this.#buildWheels();
 		this.#buildCollisionBox();
-		// this.#applyChassisPhysics();
-		// this.#applyPhysicsToWheels();
-		// this.#applyCollisionBoxPhysics();
-		// this.#setAllWheelConstraints();
-		// this.#setCollisionBoxConstraint();
+		this.#applyChassisPhysics();
+		this.#applyPhysicsToWheels();
+		this.#applyCollisionBoxPhysics();
+		this.#setAllWheelConstraints();
+		this.#setCollisionBoxConstraint();
 	}
 
 	#buildWheelMaterial() {
@@ -141,41 +154,58 @@ export default class Ferrari {
 
 	#buildWheel(wheelData) {
 		let { wheelHeight } = this.#modelDimensions;
+		wheelHeight = (wheelHeight || Ferrari.WHEEL_HEIGHT) * this.scale;
+		const scaler = new Vector3(this.scale, this.scale, this.scale);
 
-		const { x, z, name, key } = wheelData;
+		const diameterX = (wheelHeight) * this.scale;
+		const diameterY =  (wheelHeight) * this.scale;
+		const diameterZ =  (wheelHeight / 4) * this.scale;
+
+		const { xMultiplier, zMultiplier, name, key } = wheelData;
+		const { width: chassisWidth, depth: chassisDepth } = this.#chassisDimensions;
 		const wheel = MeshBuilder.CreateSphere(
 			`${this.id}-wheel-${name}`, {
-				diameterX: (wheelHeight || Ferrari.WHEEL_RADIUS) * 2,
-				diameterY: (wheelHeight || Ferrari.WHEEL_RADIUS) * 2,
-				diameterZ: (wheelHeight || Ferrari.WHEEL_RADIUS) / 2,
+				diameterX,
+				diameterY,
+				diameterZ,
 			},
 			this.scene
 		);
 		wheel.name = `${this.id}-${name}`;
 
-		console.log(Ferrari.CHASSIS_LENGTH, x, z, wheelData.name);
-		console.log(Ferrari.CHASSIS_LENGTH / 2 * x);
-		console.log(this.#chassisDimensions);
+		const x = 1;
+		const z = 1;
 
-		const pivotPoint = new Vector3(
+		/*const chassisPivotPoint = new Vector3(
 			Ferrari.CHASSIS_LENGTH / 2  * x,
 			0,
 			z
-		);
-		this.#chassisPivotPoints.set(key, pivotPoint);
+		).multiply(scaler);
+		this.#chassisPivotPoints.set(key, chassisPivotPoint);
 
 		const wheelPivotPoint = new Vector3(
 			1,
 			0,
 			Ferrari.WHEEL_HEIGHT / 2
+		).multiply(scaler);
+		this.#wheelPivotPoints.set(key, wheelPivotPoint);*/
+		const wheelOffset = this.#ferrariWheelOffsets.get(key);
+		wheel.position = this.#chassis.position.clone();
+		wheel.position.z += (chassisDepth / 2 * zMultiplier) + (wheelOffset.z * this.scale);
+		wheel.position.x += (chassisWidth / 2 * xMultiplier) + (wheelOffset.x * this.scale);
+
+		// const chassisPivotPoint = wheel.position.clone();
+		const chassisPivotPoint = wheel.position.clone().subtract(this.#chassis.position);
+		this.#chassisPivotPoints.set(key, chassisPivotPoint);
+
+		const wheelPivotPoint = new Vector3(
+			0,
+			0,
+			0
 		);
 		this.#wheelPivotPoints.set(key, wheelPivotPoint);
-		wheel.position.z = pivotPoint.z + wheelPivotPoint.z * z;
-		wheel.position.x = pivotPoint.x - 1 * x;
+
 		wheel.material = this.wheelMaterial;
-		const a = pivotPoint.clone();
-		this.#box(a, new Color3(1, 0, 0));
-		this.#box(wheelPivotPoint.clone().add(wheel.position), new Color3(1, 1, 0));
 		return wheel;
 	}
 
@@ -188,15 +218,16 @@ export default class Ferrari {
 	}
 
 	#buildChassis() {
-		const width = this.#modelDimensions.width - 1;
-		const height = this.#modelDimensions.height / 4;
-		const depth = this.#modelDimensions.length / 4;
+		const width = (this.#modelDimensions.width / 2) * this.scale;
+		const height = (this.#modelDimensions.height / 4) * this.scale;
+		const depth = (this.#modelDimensions.length / 4) * this.scale;
 		this.#chassis = MeshBuilder.CreateBox(`${this.id}-chassis`, {
 			width,
 			height,
 			depth
 		}, this.scene);
 		this.#chassisDimensions = { width, height, depth };
+		this.#chassis.position = this.position.clone();
 		this.#chassis.isVisible = !Ferrari.HIDE_CHASSIS;
 	}
 
@@ -250,9 +281,9 @@ export default class Ferrari {
 		const wheelData = Ferrari.WHEEL_DATA.get(wheelPointer);
 		const pivotA = this.#chassisPivotPoints.get(wheelPointer);
 		const pivotB = this.#wheelPivotPoints.get(wheelPointer);
-		pivotA.x += pivotB.x * wheelData.x * -1;
+		/*pivotA.x += pivotB.x * wheelData.x * -1;
 		pivotB.x = 0;
-		pivotB.z = pivotB.z * wheelData.z * -1;
+		pivotB.z = pivotB.z * wheelData.z * -1;*/
 		if (Ferrari.DEBUG) {
 			console.log(`🔧 Wheel Constraint Debug: (${wheelData.name})`);
 			console.log("Chassis position:", this.#chassis.position);
@@ -324,8 +355,11 @@ export default class Ferrari {
 	}
 
 	async #buildModel() {
-		this.#loadedModel = await ImportMeshAsync("/public/databases/car/Ferrari.glb", this.#scene, {});
-		this.#loadedModel.meshes[0].scaling = new Vector3(Ferrari.SCALE, Ferrari.SCALE, Ferrari.SCALE);
+		this.#loadedModel = await ImportMeshAsync("/databases/car/Ferrari.glb", this.#scene, {});
+		this.#loadedModel.meshes[0].scaling = new Vector3(
+			this.scale,
+			this.scale,
+			this.scale);
 		this.#modelRoot = this.#loadedModel.meshes[0];
 		this.#scene.render();
 		for (let i = 1; i <= 8; i++) {
@@ -353,7 +387,11 @@ export default class Ferrari {
 			height: high.y - low.y,
 			wheelHeight
 		};
-		this.#modelRoot.position = new Vector3(0, -this.#modelDimensions.height / 2, 0);
+		// this.#modelRoot.position = this.position.clone().subtract(new Vector3(0, this.#modelDimensions.height / 2, 0));
+		// this.#modelRoot.position = this.position.clone();
+		// this.#modelRoot.position = this.position.clone().add(new Vector3(0, -this.#modelDimensions.height / 2, 0));
+		this.#modelRoot.position = new Vector3(0,0,0);
+		this.#modelRoot.position.y -= this.#modelDimensions.height / 2;
 		this.#modelRoot.getChildMeshes().forEach((mesh, index) => {
 			if (mesh.isVisible) mesh.isVisible = !Ferrari.HIDE_MODEL;
 		});
@@ -371,15 +409,21 @@ export default class Ferrari {
 		mat.diffuseColor = new Color3(0, 0, 1);
 		this.#collisionBox.material = mat;
 		const halfWheelHeight	= wheelHeight / 2;
-		this.#collisionBox.position = new Vector3(
+		/*this.#collisionBox.position = new Vector3(
 			0,
 			halfWheelHeight + .1,
 			0
-		);
+		);*/
+		// this.#collisionBox.position = this.position.clone().add(new Vector3(0, halfWheelHeight + .1, 0));
+		this.#collisionBox.position = this.position.clone()
+			.add(new Vector3(0, height / 2, 0))
+			.subtract(new Vector3(0, this.#chassisDimensions.height / 2, 0));
+			//.add(new Vector3(0, halfWheelHeight, 0));
 		this.#collisionBox.showBoundingBox = true;
-		this.#modelRoot.rotation = new Vector3(0, Math.PI / 2, 0);
 		this.#modelRoot.parent = this.#collisionBox;
-		this.#collisionBox.visibilty = .05;
+		this.#modelRoot.rotation = new Vector3(0, Math.PI / 2, 0);
+		this.#modelRoot.position.y -= this.#chassisDimensions.height / 2;
+		this.#collisionBox.material.alpha = 0;
 		this.#collisionBox.isVisible = !Ferrari.HIDE_COLLISION_BOX;
 	}
 
@@ -403,8 +447,13 @@ export default class Ferrari {
 	#setCollisionBoxConstraint() {
 		const aggregate = this.#aggregates.get(Ferrari.MODEL);
 		const model = this.#collisionBox;
-		const pivotA = new Vector3(0, 0, 0);
-		const pivotB = new Vector3(0, model.position.y * -1, 0);
+		const chassisBoundingBox = this.#chassis.getBoundingInfo().boundingBox;
+		const collisionBoxBoundingBox = this.#collisionBox.getBoundingInfo().boundingBox;
+		/*const pivotA = new Vector3(0, 0, 0);
+		// const pivotB = new Vector3(0, model.position.y * -1, 0);
+		const pivotB = new Vector3(0, -.428, 0);*/
+		const pivotA = new Vector3(0, chassisBoundingBox.minimum.y, 0);
+		const pivotB = new Vector3(0, collisionBoxBoundingBox.minimum.y, 0);
 
 		if (Ferrari.DEBUG) {
 			console.log("🔧 Model CollisionBox Constraint Debug:");

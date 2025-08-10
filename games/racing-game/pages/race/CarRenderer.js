@@ -1,4 +1,4 @@
-import Car from "../../carbox/Car.js";
+import Car from "../../carbox/OldCarDesigns/Ferrari.js";
 import CarDb from "../../src/classes/databases/CarDb/CarDb.js";
 import {Color3, Vector3} from "@babylonjs/core";
 
