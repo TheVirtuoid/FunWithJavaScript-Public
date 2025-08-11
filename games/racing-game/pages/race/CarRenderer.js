@@ -8,6 +8,7 @@ export default class CarRenderer {
 	#cars;
 	#renderedCars;
 	#chassisToCars = new Map();
+	#collisionBoxToCars = new Map();
 	#startingPosition;
 
 	#carParameters = [
@@ -53,6 +54,10 @@ export default class CarRenderer {
 		return this.#chassisToCars.get(chassis);
 	}
 
+	getCarByCollisionBox(collisionBox) {
+		return this.#collisionBoxToCars.get(collisionBox);
+	}
+
 	async render() {
 		let group = 4;
 		let index = 0;
@@ -75,6 +80,7 @@ export default class CarRenderer {
 			group *= 2;
 			this.#renderedCars.push(newCar);
 			this.#chassisToCars.set(newCar.chassis, car);
+			this.#collisionBoxToCars.set(newCar.collisionBox, car);
 		}
 	}
 }

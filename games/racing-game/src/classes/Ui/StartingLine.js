@@ -86,18 +86,28 @@ export default class StartingLine {
 		const startGateMaterial = new StandardMaterial(genId(this.id, 'starting-line-gate-material'), this.#scene);
 		startGateMaterial.diffuseColor = new Color3(0, 0, 0);
 		this.#mesh.material = startLineMaterial;
-		this.#frontGate = MeshBuilder.CreateBox(genId(this.id, 'starting-line-front-gate'), { height: 2, width: this.width, depth: .25 }, this.#scene);
+
+		// console.log(this.track.startingDirectionVector);
+		// console.log(this.track.startingDirectionVector.perpendicular(V3.DIRECTION_NEGATIVE));
+		const { x, z } = this.track.startingDirectionVector;
+
+		const depth = x ? this.width : .25;
+		const width = z ? this.width : .25;
+
+		// this.#frontGate = MeshBuilder.CreateBox(genId(this.id, 'starting-line-front-gate'), { height: 2, width: this.width, depth: .25 }, this.#scene);
+		this.#frontGate = MeshBuilder.CreateBox(genId(this.id, 'starting-line-front-gate'), { height: 2, width, depth }, this.#scene);
 		this.#frontGate.position = new Vector3(this.track.endingPosition.x, this.track.endingPosition.y + 1, this.track.endingPosition.z);
 		this.#frontGate.material = startGateMaterial;
 		this.#frontGate.rotate(new Vector3(1, 0, 0), Math.PI / 3);
-		this.#backGate = MeshBuilder.CreateBox(genId(this.id, 'starting-line-back-gate'), { height: 2, width: this.width, depth: .25 }, this.#scene);
+		// this.#backGate = MeshBuilder.CreateBox(genId(this.id, 'starting-line-back-gate'), { height: 2, width: this.width, depth: .25 }, this.#scene);
+		this.#backGate = MeshBuilder.CreateBox(genId(this.id, 'starting-line-back-gate'), { height: 2, width, depth }, this.#scene);
 		const backGatePosition = this.track.startingDirectionVector.setDirectedPosition(this.track.startingPosition, 5);
 		this.#backGate.position = new Vector3(backGatePosition.x, backGatePosition.y + 1, backGatePosition.z);
 		this.#backGate.material = startGateMaterial;
 		this.#backGate.rotate(new Vector3(1, 0, 0), Math.PI / 3);
 
-		this.#frontGate.visibility = false;
-		this.#backGate.visibility = false;
+		this.#frontGate.visibility = true;
+		this.#backGate.visibility = true;
 		return [this.mesh, this.frontGate, this.backGate];
 	}
 }

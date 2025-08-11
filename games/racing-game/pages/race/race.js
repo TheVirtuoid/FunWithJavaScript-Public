@@ -108,7 +108,8 @@ export default class Race {
 		this.#startLine = this.#layoutRenderer.startingLine;
 
 		this.#finishLine = this.#layoutRenderer.finishLine;
-		this.#finishLine.setFinishLineMeshes(this.#carRenderer.renderedCars.map((car) => car.chassis));
+		// this.#finishLine.setFinishLineMeshes(this.#carRenderer.renderedCars.map((car) => car.chassis));
+		this.#finishLine.setFinishLineMeshes(this.#carRenderer.renderedCars.map((car) => car.collisionBox));
 	}
 
 	#render() {
@@ -121,15 +122,14 @@ export default class Race {
 		this.#engine.runRenderLoop(() => {
 			this.#scene.render();
 			this.#raceTime.show();
-			const carChassis = this.#finishLine.checkForFinish();
-			if (carChassis) {
-				const car = this.#carRenderer.getCarByChassis(carChassis);
+			const carCollisionBox = this.#finishLine.checkForFinish();
+			if (carCollisionBox) {
+				const car = this.#carRenderer.getCarByCollisionBox(carCollisionBox);
 				this.#raceResults.addRow(car, place, this.#raceTime.getTime().output);
-				this.#orderOfFinish.push(carChassis);
+				this.#orderOfFinish.push(carCollisionBox);
 				place++;
 				if (place > 4) {
 					this.#raceTime.stop();
-					// this.#sounds.allStop();
 					this.#sounds.fadeOut(Sounds.CAR_RACING, 4000);
 				}
 			}

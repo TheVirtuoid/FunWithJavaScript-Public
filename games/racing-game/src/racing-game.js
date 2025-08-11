@@ -56,7 +56,6 @@ document.getElementById('button-select-venue').addEventListener('click', () => {
 });
 
 document.getElementById('button-race').addEventListener('click', () => {
-	console.log('here');
 	gameData.page = 'race';
 	router.routeTo(gameData.page);
 });

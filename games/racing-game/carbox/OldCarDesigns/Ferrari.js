@@ -47,6 +47,7 @@ export default class Ferrari {
 	#id;
 	#scale;
 	#rotation;
+	#quaternion;
 
 	#wheelMaterial;
 	#wheels;
@@ -78,6 +79,26 @@ export default class Ferrari {
 		this.#physicsGroup = physicsGroup;
 		this.#membershipMask = this.#physicsGroup;
 		this.#collideMask = ~this.#membershipMask;
+		if (rotation) {
+			this.#quaternion = Quaternion.FromEulerAngles(
+				this.#rotation.x,
+				this.#rotation.y,
+				this.#rotation.z
+			);
+		}
+
+		// const quaternion = Quaternion.FromEulerAngles(0, Math.PI / 2, 0);
+		/*const quaternion = Quaternion.FromEulerAngles(0, Math.PI / 4, 0);
+		const fr = new Vector3(1, 0, 1);
+		console.log('Front-right: ', fr);
+		const rotatedVector = fr.rotateByQuaternionAroundPointToRef(
+			quaternion,
+			Vector3.Zero(), // rotation point
+			new Vector3()   // result vector
+		);
+		console.log('rotated: ', rotatedVector);*/
+
+
 
 	}
 
@@ -103,6 +124,10 @@ export default class Ferrari {
 
 	get chassis() {
 		return this.#chassis;
+	}
+
+	get collisionBox() {
+		return this.#collisionBox;
 	}
 
 	get wheelMaterial() {
@@ -137,22 +162,16 @@ export default class Ferrari {
 	]);
 
 	async build() {
-		this.#buildParent();
 		await this.#buildModel();
 		this.#buildWheelMaterial();
 		this.#buildChassis();
 		this.#buildWheels();
 		this.#buildCollisionBox();
-		/*this.#chassis.parent = this.#parent;
-		this.#collisionBox.parent = this.#parent;
-		this.#wheels.forEach((wheel) => wheel.parent = this.#parent);*/
 		this.#applyChassisPhysics();
 		this.#applyPhysicsToWheels();
 		this.#applyCollisionBoxPhysics();
 		this.#setAllWheelConstraints();
 		this.#setCollisionBoxConstraint();
-//		this.#applyCarRotation();
-
 	}
 
 	#applyCarRotation() {
@@ -175,64 +194,6 @@ export default class Ferrari {
 			});
 
 		}
-	}
-
-	#rotateCarWithPhysics(newRotation) {
-		if (!this.#aggregates.size) return;
-
-		const rotationQuaternion = Quaternion.FromEulerAngles(
-			newRotation.x,
-			newRotation.y,
-			newRotation.z
-		);
-
-		// Get the center point for rotation
-		const centerPoint = this.#position.clone();
-
-		const constraints = [];
-		this.#aggregates.forEach((aggregate, key) => {
-			if (aggregate.body._constraints) {
-				constraints.push(...aggregate.body._constraints);
-				aggregate.body._constraints.forEach(constraint => {
-					constraint.setEnabled(false);
-				});
-			}
-		});
-
-
-		this.#aggregates.forEach((aggregate, key) => {
-			const mesh = aggregate.body.transformNode;
-
-			// CLEAR ALL VELOCITIES FIRST
-			aggregate.body.setLinearVelocity(Vector3.Zero());
-			aggregate.body.setAngularVelocity(Vector3.Zero());
-
-			// Calculate new position after rotation around center
-			const offset = mesh.position.subtract(centerPoint);
-			const rotatedOffset = offset.rotateByQuaternionAroundPointToRef(
-				rotationQuaternion,
-				Vector3.Zero(),
-				new Vector3()
-			);
-			const newPosition = centerPoint.add(rotatedOffset);
-
-			// Teleport the physics body
-			aggregate.body.setTargetTransform(newPosition, rotationQuaternion);
-		});
-
-		setTimeout(() => {
-			constraints.forEach(constraint => {
-				constraint.setEnabled(true);
-			});
-		}, 100);
-
-	}
-
-
-	#buildParent() {
-		this.#parent = MeshBuilder.CreateBox(`${this.id}-parent`, { size: 0.01 }, this.scene);
-		this.#parent.isVisible = false;
-		this.#parent.position = this.position.clone();
 	}
 
 	#buildWheelMaterial() {
@@ -258,7 +219,14 @@ export default class Ferrari {
 		const diameterY = wheelHeight;
 		const diameterZ = wheelHeight / 4;
 
-		const { xMultiplier, zMultiplier, name, key } = wheelData;
+		let { xMultiplier, zMultiplier, name, key } = wheelData;
+		/*const multipliers = new Vector3(xMultiplier, 0, zMultiplier);
+		const rotatedVector = multipliers.rotateByQuaternionAroundPointToRef(
+			this.#quaternion.clone(),
+			Vector3.Zero(), // rotation point
+			new Vector3()   // result vector
+		);
+		console.log(multipliers, rotatedVector);*/
 		const { width: chassisWidth, depth: chassisDepth } = this.#chassisDimensions;
 		const wheel = MeshBuilder.CreateSphere(
 			`${this.id}-wheel-${name}`, {
