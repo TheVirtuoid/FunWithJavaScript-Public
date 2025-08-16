@@ -1,4 +1,7 @@
-import Car from "../../carbox/OldCarDesigns/Ferrari.js";
+import Car1 from "../../carbox/OldCarDesigns/Ferrari.js";
+import Car2 from '../../carbox/OldCarDesigns/LowPoly1.js';
+import Car3 from '../../carbox/OldCarDesigns/LowPoly2.js';
+import Car4 from '../../carbox/OldCarDesigns/Camero.js';
 import CarDb from "../../src/classes/databases/CarDb/CarDb.js";
 import {Color3, Vector3} from "@babylonjs/core";
 
@@ -42,8 +45,18 @@ export default class CarRenderer {
 		this.#cars = [];
 		for(const carId of cars) {
 			const carData = CarDb.getCarById(carId);
+			console.log(carData);
 			this.#cars.push(carData);
 		}
+		// TODO: find some way to associate the car with the instance.
+		this.#cars[0].instance = Car1;
+		this.#cars[1].instance = Car2;
+		this.#cars[2].instance = Car3;
+		this.#cars[3].instance = Car4;
+		this.#cars[0].scale = 1;
+		this.#cars[1].scale = 1;
+		this.#cars[2].scale = 1;
+		this.#cars[3].scale = .5;
 	}
 
 	get renderedCars() {
@@ -72,15 +85,16 @@ export default class CarRenderer {
 			];
 		}
 		for (const car of this.#cars) {
-			const { name } = car;
+			const { name, instance, scale } = car;
 			const { pos, color } = this.#carParameters[index++];
 			pos.x += this.#startingPosition.x;
 			pos.y += this.#startingPosition.y;
 			pos.z += this.#startingPosition.z;
-			const newCar = new Car({
+			console.log(instance);
+			const newCar = new instance({
 				position: pos,
 				scene: this.#scene,
-				scale: 0.5,
+				scale: 0.6 * scale,
 				color,
 				id: name,
 				physicsGroup: group
