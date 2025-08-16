@@ -143,8 +143,8 @@ export default class LowPoly1 {
 	#lowPoly1WheelOffsets = new Map([
 		[LowPoly1.BACK_LEFT_WHEEL, { x: -.3, y: 0, z: -.6 }],
 		[LowPoly1.BACK_RIGHT_WHEEL, { x: -.3, y: 0, z: .6 }],
-		[LowPoly1.FRONT_LEFT_WHEEL, { x: .025, y: 0, z: -.5 }],
-		[LowPoly1.FRONT_RIGHT_WHEEL, { x: .025, y: 0, z: .5 }]
+		[LowPoly1.FRONT_LEFT_WHEEL, { x: .2, y: 0, z: -.6 }],
+		[LowPoly1.FRONT_RIGHT_WHEEL, { x: .2, y: 0, z: .6 }]
 	]);
 
 	async build() {
@@ -153,11 +153,11 @@ export default class LowPoly1 {
 		this.#buildChassis();
 		this.#buildWheels();
 		this.#buildCollisionBox();
-		/*this.#applyChassisPhysics();
+		this.#applyChassisPhysics();
 		this.#applyPhysicsToWheels();
 		this.#applyCollisionBoxPhysics();
 		this.#setAllWheelConstraints();
-		this.#setCollisionBoxConstraint();*/
+		this.#setCollisionBoxConstraint();
 	}
 
 	#applyCarRotation() {
@@ -392,13 +392,32 @@ export default class LowPoly1 {
 			this.scale);
 		this.#modelRoot = this.#loadedModel.meshes[0];
 		this.#scene.render();
-		this.#loadedModel.meshes[4].showBoundingBox = true;
-		/*for (let i = 1; i <= 8; i++) {
-			this.#loadedModel.meshes[i].isVisible = false;
-		}*/
-		const low = { x: Infinity, y: Infinity, z: Infinity };
-		const high = { x: -Infinity, y: -Infinity, z: -Infinity };
-		this.#modelRoot.getChildMeshes().forEach((mesh, index) => {
+		// 5 = entire car - wheel base!!!
+		// 43 = back inner wheel hubs
+		// 44 = back axle
+		// 45 = front axle
+		// 48 = another back axle
+		// 49 = another front axle
+		// 51 = another back axle
+		// 52 = another front axle
+		// 53 = another back axle
+		// 54 = another front axle
+		// 55 = BACK WHEELS!!
+		// 56 = another back axle
+		// 57 = another front axle
+		// 58 = front wheels
+		// 59 = another front axle
+
+		// this.#loadedModel.meshes[60].showBoundingBox = true;
+		const wheelArray = [43, 44, 45, 48, 49, 51, 52, 53, 54, 55, 56, 57, 58, 59];
+		wheelArray.forEach((index) => {
+			this.#loadedModel.meshes[index].isVisible = false;
+		});
+
+		const entireCar = this.#loadedModel.meshes[5].getBoundingInfo().boundingBox;
+		const low = { x: entireCar.minimumWorld.x, y: entireCar.minimumWorld.y, z: entireCar.minimumWorld.z };
+		const high = { x: entireCar.maximumWorld.x, y: entireCar.maximumWorld.y, z: entireCar.maximumWorld.z };
+		/*this.#modelRoot.getChildMeshes().forEach((mesh, index) => {
 				const { minimumWorld, maximumWorld } = mesh.getBoundingInfo().boundingBox;
 				low.x = Math.min(low.x, minimumWorld.x);
 				low.y = Math.min(low.y, minimumWorld.y);
@@ -406,8 +425,8 @@ export default class LowPoly1 {
 				high.x = Math.max(high.x, maximumWorld.x);
 				high.y = Math.max(high.y, maximumWorld.y);
 				high.z = Math.max(high.z, maximumWorld.z);
-		});
-		const modelWheelData = this.#loadedModel.meshes[1].getBoundingInfo().boundingBox;
+		});*/
+		const modelWheelData = this.#loadedModel.meshes[55].getBoundingInfo().boundingBox;
 		const wheelHeight = (modelWheelData.maximum.y - modelWheelData.minimum.y) * this.scale;
 		this.#modelDimensions = {
 			length: high.x - low.x,
