@@ -58,10 +58,21 @@ export default class CarRenderer {
 		return this.#collisionBoxToCars.get(collisionBox);
 	}
 
-	async render() {
+	async render(startingDirectionVector) {
+		console.log(startingDirectionVector);
 		let group = 4;
 		let index = 0;
 		this.#renderedCars = [];
+		// TODO: This is awful code, but I need it for the demo.
+		if (startingDirectionVector.z === 0) {
+			this.#carParameters = [
+				{ pos: new Vector3(1, 1, -1.5), color: new Color3(0.8, 0, 0) },
+				{ pos: new Vector3(1, 1, 1.5), color: new Color3(0, 0.8, 0) },
+				{ pos: new Vector3(4.5, -5.5, -1.5), color: new Color3(0, 0, 0.8) },
+				{ pos: new Vector3(4.5, -5.5, 1.5), color: new Color3(0.8, 0.8, 0) }
+			];
+		}
+		console.log(this.#startingPosition);
 		for (const car of this.#cars) {
 			const { name } = car;
 			const { pos, color } = this.#carParameters[index++];

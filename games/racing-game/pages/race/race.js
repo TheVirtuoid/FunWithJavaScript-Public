@@ -61,7 +61,8 @@ export default class Race {
 
 		this.#ground = new Ground(this.id);
 		this.#carRenderer = new CarRenderer({
-			id: this.id
+			id: this.id,
+			startingVectorDirection: this.#layoutRenderer.startingLine
 		});
 		this.#carRenderer.buildCars(this.#gameData.selectedCars, this.#startingPosition);
 
@@ -103,7 +104,7 @@ export default class Race {
 
 		await this.#layoutRenderer.render();
 
-		await this.#carRenderer.render();
+		await this.#carRenderer.render(this.#layoutRenderer.startingLine.track.startingDirectionVector);
 
 		this.#startLine = this.#layoutRenderer.startingLine;
 
