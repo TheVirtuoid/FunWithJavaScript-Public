@@ -1,5 +1,5 @@
 import V3 from "../V3/V3.js";
-import {Matrix, Mesh, MeshBuilder, Tools, Vector3} from "@babylonjs/core";
+import {Color3, Matrix, Mesh, MeshBuilder, StandardMaterial, Tools, Vector3} from "@babylonjs/core";
 import Track from "../Track/Track.js";
 
 const generateAStraightRoad = (track, width, scene, id) => {
@@ -339,6 +339,14 @@ const genUnique = (text) => {
 	return `${text}-${crypto.randomUUID()}`;
 }
 
+const box = (position) => {
+	const box = MeshBuilder.CreateBox(genUnique('box'), { size: .25 });
+	const boxMat = new StandardMaterial(genUnique('box-mat'));
+	boxMat.diffuseColor = new Color3(1, 0 ,0);
+	box.material = boxMat;
+	box.position = position;
+}
+
 
 export {
 	generateAStraightRoad,
@@ -351,5 +359,6 @@ export {
 	generateACurve,
 	generateOffsetPointsWithBanking,
 	genId,
-	genUnique
+	genUnique,
+	box
 };

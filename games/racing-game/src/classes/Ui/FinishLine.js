@@ -1,6 +1,6 @@
 import Track from "../Track/Track.js";
 import {Color3, Color4, MeshBuilder, Ray, StandardMaterial, Texture, Vector3} from "@babylonjs/core";
-import {calculateMeshCorners, generateAStraightRoad, genId} from "./Utilities.js";
+import {box, calculateMeshCorners, generateAStraightRoad, genId} from "./Utilities.js";
 
 export default class FinishLine {
 	#track;
@@ -77,11 +77,20 @@ export default class FinishLine {
 		material.diffuseTexture = texture;
 		// material.emmisiveTexture = texture;
 		this.#mesh.material = material;
+
 		const corners = calculateMeshCorners(this.#mesh);
-		const startDiff = corners[3].subtract(corners[1]).divide(new Vector3(6, 6, 6)).multiply(new Vector3(5.5, 5.5, 5.5));
-		const endDiff = corners[7].subtract(corners[5]).divide(new Vector3(6, 6, 6)).multiply(new Vector3(5.5, 5.5, 5.5));
-		const start = corners[3].subtract(startDiff);
-		const end = corners[7].subtract(endDiff);
+
+		// TODO: Fix for correct direction vector
+		const zDirection = this.track.startingDirectionVector.z;
+		const startCorner = zDirection === 0 ? 3 : 6;
+		const endCorner = 7;
+		const startSubtractCorner = zDirection === 0 ? 1 : 4;
+		const endSubtractCorner = 5;
+
+		const startDiff = corners[startCorner].subtract(corners[startSubtractCorner]).divide(new Vector3(6, 6, 6)).multiply(new Vector3(5.5, 5.5, 5.5));
+		const endDiff = corners[endCorner].subtract(corners[endSubtractCorner]).divide(new Vector3(6, 6, 6)).multiply(new Vector3(5.5, 5.5, 5.5));
+		const start = corners[startCorner].subtract(startDiff);
+		const end = corners[endCorner].subtract(endDiff);
 		const lines = [start, end];
 		const colors = [
 			new Color4(0, 1, 1, 1),

@@ -59,7 +59,6 @@ export default class CarRenderer {
 	}
 
 	async render(startingDirectionVector) {
-		console.log(startingDirectionVector);
 		let group = 4;
 		let index = 0;
 		this.#renderedCars = [];
@@ -72,7 +71,6 @@ export default class CarRenderer {
 				{ pos: new Vector3(4.5, -5.5, 1.5), color: new Color3(0.8, 0.8, 0) }
 			];
 		}
-		console.log(this.#startingPosition);
 		for (const car of this.#cars) {
 			const { name } = car;
 			const { pos, color } = this.#carParameters[index++];
