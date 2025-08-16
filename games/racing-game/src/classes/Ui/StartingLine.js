@@ -107,8 +107,8 @@ export default class StartingLine {
 		this.#backGate.material = startGateMaterial;
 		this.#backGate.rotate(new Vector3(xp, 0, zp), Math.PI / Math.abs(y) / 2);
 
-		this.#frontGate.visibility = true;
-		this.#backGate.visibility = true;
+		this.#frontGate.visibility = false;
+		this.#backGate.visibility = false;
 		return [this.mesh, this.frontGate, this.backGate];
 	}
 }

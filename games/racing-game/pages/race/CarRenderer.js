@@ -47,7 +47,6 @@ export default class CarRenderer {
 		this.#cars = [];
 		for(const carId of cars) {
 			const carData = CarDb.getCarById(carId);
-			console.log(carData);
 			this.#cars.push(carData);
 		}
 		// TODO: find some way to associate the car with the instance.

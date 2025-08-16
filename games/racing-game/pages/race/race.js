@@ -94,8 +94,8 @@ export default class Race {
 		this.#carRenderer.scene = this.#scene;
 		const { x: spx, y: spy, z: spz } = this.#startingPosition;
 		this.#camera = Ui.CreateCamera({
-			position: {x: spx + 3, y: spy + 20, z: spz - 10},
-			target: {x: spx + 3, y: spy, z: spz + 10}
+			position: {x: spx - 3, y: spy + 10, z: spz},
+			target: {x: spx, y: spy, z: spz}
 		});
 		this.#light = Ui.CreateLight({ position: { x: -1, y: 1, z: 0 } });
 		await Ui.LoadPhysics();

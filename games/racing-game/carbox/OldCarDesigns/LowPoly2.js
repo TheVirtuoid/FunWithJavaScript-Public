@@ -21,7 +21,7 @@ export default class LowPoly2 {
 	static CHASSIS_LENGTH = 6.5;
 	static SCALE = 2;
 
-	static DEBUG = true;
+	static DEBUG = false;
 	static HIDE_CHASSIS = true;
 	static HIDE_COLLISION_BOX = true;
 	static HIDE_MODEL = false;
@@ -411,14 +411,12 @@ export default class LowPoly2 {
 		const modelWheelData = this.#loadedModel.meshes[7].getBoundingInfo().boundingBox;
 		const wheelHeight = (modelWheelData.maximumWorld.y - modelWheelData.minimumWorld.y) * this.scale;
 		// const wheelHeight = modelWheelData.extendSize.y /2 * this.scale;
-		console.log(modelWheelData);
 		this.#modelDimensions = {
 			length: high.x - low.x,
 			width: high.z - low.z,
 			height: high.y - low.y,
 			wheelHeight
 		};
-		console.log(this.#modelDimensions);
 		this.#modelRoot.position = new Vector3(0,0,0);
 		this.#modelRoot.position.y -= this.#modelDimensions.height / 2;
 		this.#modelRoot.getChildMeshes().forEach((mesh, index) => {

@@ -10,6 +10,7 @@ import {
 	Vector3
 } from "@babylonjs/core";
 import HavokPhysics from "@babylonjs/havok";
+import V3 from "../V3/V3.js";
 
 let instance;
 let currentName;

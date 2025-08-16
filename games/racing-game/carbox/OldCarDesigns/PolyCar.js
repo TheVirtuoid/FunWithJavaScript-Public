@@ -407,7 +407,6 @@ export default class PolyCar {
 		this.#modelRoot = this.#loadedModel.meshes[0];
 		this.#scene.render();
 
-		console.log(this.#modelRoot.getChildMeshes());
 		// 1 = ENTIRE CAR!
 		// 2 = left wheel
 		// 3 - back right wheel
