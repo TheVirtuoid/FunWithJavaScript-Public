@@ -7,17 +7,17 @@ import {
 	StandardMaterial, Texture, Vector3
 } from "@babylonjs/core";
 
-export default class DodgeCharger {
+export default class PolyCar {
 	static CHASSIS = Symbol('chassis');
 	static MODEL = Symbol('body');
 	static BACK_LEFT_WHEEL = Symbol('back-left-wheel');
 	static BACK_RIGHT_WHEEL = Symbol('back-right-wheel');
 	static FRONT_LEFT_WHEEL = Symbol('front-left-wheel');
 	static FRONT_RIGHT_WHEEL = Symbol('front-right-wheel');
-	static FRONT_LEFT_WHEEL_DATA = { xMultiplier: 1, zMultiplier: -1, name: 'front-left', key: DodgeCharger.FRONT_LEFT_WHEEL };
-	static FRONT_RIGHT_WHEEL_DATA = { xMultiplier: 1, zMultiplier: 1, name: 'front-right', key: DodgeCharger.FRONT_RIGHT_WHEEL };
-	static BACK_LEFT_WHEEL_DATA = { xMultiplier: -1, zMultiplier: -1, name: 'back-left', key: DodgeCharger.BACK_LEFT_WHEEL };
-	static BACK_RIGHT_WHEEL_DATA = { xMultiplier: -1, zMultiplier: 1, name: 'back-right', key: DodgeCharger.BACK_RIGHT_WHEEL };
+	static FRONT_LEFT_WHEEL_DATA = { xMultiplier: 1, zMultiplier: -1, name: 'front-left', key: PolyCar.FRONT_LEFT_WHEEL };
+	static FRONT_RIGHT_WHEEL_DATA = { xMultiplier: 1, zMultiplier: 1, name: 'front-right', key: PolyCar.FRONT_RIGHT_WHEEL };
+	static BACK_LEFT_WHEEL_DATA = { xMultiplier: -1, zMultiplier: -1, name: 'back-left', key: PolyCar.BACK_LEFT_WHEEL };
+	static BACK_RIGHT_WHEEL_DATA = { xMultiplier: -1, zMultiplier: 1, name: 'back-right', key: PolyCar.BACK_RIGHT_WHEEL };
 	static CHASSIS_LENGTH = 6.5;
 	static SCALE = 2;
 
@@ -27,10 +27,10 @@ export default class DodgeCharger {
 	static HIDE_MODEL = false;
 
 	static WHEEL_DATA = new Map([
-		[DodgeCharger.BACK_LEFT_WHEEL, DodgeCharger.BACK_LEFT_WHEEL_DATA],
-		[DodgeCharger.BACK_RIGHT_WHEEL, DodgeCharger.BACK_RIGHT_WHEEL_DATA],
-		[DodgeCharger.FRONT_LEFT_WHEEL, DodgeCharger.FRONT_LEFT_WHEEL_DATA],
-		[DodgeCharger.FRONT_RIGHT_WHEEL, DodgeCharger.FRONT_RIGHT_WHEEL_DATA]
+		[PolyCar.BACK_LEFT_WHEEL, PolyCar.BACK_LEFT_WHEEL_DATA],
+		[PolyCar.BACK_RIGHT_WHEEL, PolyCar.BACK_RIGHT_WHEEL_DATA],
+		[PolyCar.FRONT_LEFT_WHEEL, PolyCar.FRONT_LEFT_WHEEL_DATA],
+		[PolyCar.FRONT_RIGHT_WHEEL, PolyCar.FRONT_RIGHT_WHEEL_DATA]
 	]);
 
 	static WHEEL_HEIGHT = .75;
@@ -72,7 +72,7 @@ export default class DodgeCharger {
 	constructor(args = {}) {
 		const { scene, position, id, physicsGroup, scale, rotation } = args;
 		this.#scene = scene;
-		this.#scale = scale || DodgeCharger.SCALE;
+		this.#scale = scale || PolyCar.SCALE;
 		this.#position = position;
 		this.#id = id;
 		this.#rotation = rotation;
@@ -154,11 +154,11 @@ export default class DodgeCharger {
 		return this.#parent;
 	}
 
-	#dodgeChargerWheelOffsets = new Map([
-		[DodgeCharger.BACK_LEFT_WHEEL, { x: -.05, y: 0, z: -.6 }],
-		[DodgeCharger.BACK_RIGHT_WHEEL, { x: -.05, y: 0, z: .6 }],
-		[DodgeCharger.FRONT_LEFT_WHEEL, { x: .3, y: 0, z: -.6 }],
-		[DodgeCharger.FRONT_RIGHT_WHEEL, { x: .3, y: 0, z: .6 }]
+	#polyCarWheelOffsets = new Map([
+		[PolyCar.BACK_LEFT_WHEEL, { x: -.3, y: 0, z: -.6 }],
+		[PolyCar.BACK_RIGHT_WHEEL, { x: -.3, y: 0, z: .6 }],
+		[PolyCar.FRONT_LEFT_WHEEL, { x: .4, y: 0, z: -.6 }],
+		[PolyCar.FRONT_RIGHT_WHEEL, { x: .4, y: 0, z: .6 }]
 	]);
 
 	async build() {
@@ -201,7 +201,7 @@ export default class DodgeCharger {
 		const texture = new Texture('/images/checkerboard-7800519_1280.jpg', this.scene);
 		// const texture = new Texture('/images/vectorstock_33744900.jpg', this.scene);
 		texture.uScale = .25; // Scale texture in U direction
-		const wheelRadius = (this.#modelDimensions?.wheelHeight || DodgeCharger.WHEEL_RADIUS);
+		const wheelRadius = (this.#modelDimensions?.wheelHeight || PolyCar.WHEEL_RADIUS);
 		const wheelThickness = wheelRadius / 2; // Your diameterZ is radius/2
 		const aspectRatio = wheelRadius / wheelThickness; // This should be 4:1
 		/*texture.uOffset = .25;
@@ -213,7 +213,7 @@ export default class DodgeCharger {
 
 	#buildWheel(wheelData) {
 		let { wheelHeight } = this.#modelDimensions;
-		wheelHeight = wheelHeight || DodgeCharger.WHEEL_HEIGHT;
+		wheelHeight = wheelHeight || PolyCar.WHEEL_HEIGHT;
 
 		const diameterX = wheelHeight;
 		const diameterY = wheelHeight;
@@ -238,7 +238,7 @@ export default class DodgeCharger {
 		);
 		wheel.name = `${this.id}-${name}`;
 
-		const wheelOffset = this.#dodgeChargerWheelOffsets.get(key);
+		const wheelOffset = this.#polyCarWheelOffsets.get(key);
 		wheel.position = this.#chassis.position.clone();
 		wheel.position.z += (chassisDepth / 2 * zMultiplier) + (wheelOffset.z * this.scale);
 		wheel.position.x += (chassisWidth / 2 * xMultiplier) + (wheelOffset.x * this.scale);
@@ -260,10 +260,10 @@ export default class DodgeCharger {
 
 	#buildWheels() {
 		this.#wheels = new Map();
-		this.#wheels.set(DodgeCharger.BACK_LEFT_WHEEL, this.#buildWheel(DodgeCharger.BACK_LEFT_WHEEL_DATA));
-		this.#wheels.set(DodgeCharger.BACK_RIGHT_WHEEL, this.#buildWheel(DodgeCharger.BACK_RIGHT_WHEEL_DATA));
-		this.#wheels.set(DodgeCharger.FRONT_LEFT_WHEEL, this.#buildWheel(DodgeCharger.FRONT_LEFT_WHEEL_DATA));
-		this.#wheels.set(DodgeCharger.FRONT_RIGHT_WHEEL, this.#buildWheel(DodgeCharger.FRONT_RIGHT_WHEEL_DATA));
+		this.#wheels.set(PolyCar.BACK_LEFT_WHEEL, this.#buildWheel(PolyCar.BACK_LEFT_WHEEL_DATA));
+		this.#wheels.set(PolyCar.BACK_RIGHT_WHEEL, this.#buildWheel(PolyCar.BACK_RIGHT_WHEEL_DATA));
+		this.#wheels.set(PolyCar.FRONT_LEFT_WHEEL, this.#buildWheel(PolyCar.FRONT_LEFT_WHEEL_DATA));
+		this.#wheels.set(PolyCar.FRONT_RIGHT_WHEEL, this.#buildWheel(PolyCar.FRONT_RIGHT_WHEEL_DATA));
 	}
 
 	#buildChassis() {
@@ -277,7 +277,7 @@ export default class DodgeCharger {
 		}, this.scene);
 		this.#chassisDimensions = { width, height, depth };
 		this.#chassis.position = this.position.clone();
-		this.#chassis.isVisible = !DodgeCharger.HIDE_CHASSIS;
+		this.#chassis.isVisible = !PolyCar.HIDE_CHASSIS;
 	}
 
 	#applyChassisPhysics() {
@@ -285,7 +285,7 @@ export default class DodgeCharger {
 			this.#chassis,
 			PhysicsShapeType.BOX,
 			{
-				mass: DodgeCharger.CHASSIS_MASS,
+				mass: PolyCar.CHASSIS_MASS,
 				restitution: 0,
 				friction: 0.5
 			},
@@ -294,7 +294,7 @@ export default class DodgeCharger {
 
 		chassisAggregate.shape.filterMembershipMask = this.#membershipMask;
 		chassisAggregate.shape.filterCollideMask = this.#collideMask;
-		this.#aggregates.set(DodgeCharger.CHASSIS, chassisAggregate);
+		this.#aggregates.set(PolyCar.CHASSIS, chassisAggregate);
 	}
 
 	#applyWheelPhysics(wheel) {
@@ -302,9 +302,9 @@ export default class DodgeCharger {
 			wheel,
 			PhysicsShapeType.CAPSULE,
 			{
-				mass: DodgeCharger.WHEEL_MASS,
-				restitution: DodgeCharger.WHEEL_RESTITUTION,
-				friction: DodgeCharger.WHEEL_FRICTION
+				mass: PolyCar.WHEEL_MASS,
+				restitution: PolyCar.WHEEL_RESTITUTION,
+				friction: PolyCar.WHEEL_FRICTION
 			},
 			this.scene
 		);
@@ -327,10 +327,10 @@ export default class DodgeCharger {
 
 	#setWheelConstraint(wheel, wheelPointer) {
 		const wheelAggregate = this.#aggregates.get(wheelPointer);
-		const wheelData = DodgeCharger.WHEEL_DATA.get(wheelPointer);
+		const wheelData = PolyCar.WHEEL_DATA.get(wheelPointer);
 		const pivotA = this.#chassisPivotPoints.get(wheelPointer);
 		const pivotB = this.#wheelPivotPoints.get(wheelPointer);
-		if (DodgeCharger.DEBUG) {
+		if (PolyCar.DEBUG) {
 			console.log(`🔧 Wheel Constraint Debug: (${wheelData.name})`);
 			console.log("Chassis position:", this.#chassis.position);
 			console.log("Wheel position:", wheel.position);
@@ -392,38 +392,37 @@ export default class DodgeCharger {
 			],
 			this.#scene
 		);
-		this.#aggregates.get(DodgeCharger.CHASSIS)
+		this.#aggregates.get(PolyCar.CHASSIS)
 			.body
 			.addConstraint(wheelAggregate.body, constraint);
 		return constraint;
 	}
 
 	async #buildModel() {
-		this.#loadedModel = await ImportMeshAsync("/databases/car/DodgeCharger.glb", this.#scene, {});
+		this.#loadedModel = await ImportMeshAsync("/databases/car/PolyCar.glb", this.#scene, {});
 		this.#loadedModel.meshes[0].scaling = new Vector3(
 			this.scale,
 			this.scale,
 			this.scale);
 		this.#modelRoot = this.#loadedModel.meshes[0];
-		this.#modelRoot.scaling = new Vector3(.5, .5, .5);
 		this.#scene.render();
+
 		console.log(this.#modelRoot.getChildMeshes());
-		// 4 = entire care - wheels!
-		// 10 = FRONT TIRES!
-		// 11 = front innner wheels
-		// 12 = front inner wheels
-		//13 = back wheels
-		// 14 = back inner wheels
-		// 15 = back inner wheels
-		// this.#loadedModel.meshes[28].showBoundingBox = true;
-		const wheelArray = [10, 11, 12, 13, 14, 15];
+		// 1 = ENTIRE CAR!
+		// 2 = left wheel
+		// 3 - back right wheel
+		// 4 = front left wheel
+		// 5 = front right wheel
+
+		// this.#loadedModel.meshes[13].showBoundingBox = true;
+		const wheelArray = [2, 3, 4, 5];
 		wheelArray.forEach((index) => {
 			this.#loadedModel.meshes[index].isVisible = false;
 		});
 
-		const entireCar = this.#loadedModel.meshes[4].getBoundingInfo().boundingBox;
-		const low = { x: entireCar.minimumWorld.x, y: entireCar.minimumWorld.y, z: entireCar.minimumWorld.z };
-		const high = { x: entireCar.maximumWorld.x, y: entireCar.maximumWorld.y, z: entireCar.maximumWorld.z };
+		const carData = this.#loadedModel.meshes[1].getBoundingInfo().boundingBox;
+		const low = { x: carData.minimumWorld.x, y: carData.minimumWorld.y, z: carData.minimumWorld.z };
+		const high = { x: carData.maximumWorld.x, y: carData.maximumWorld.y, z: carData.maximumWorld.z };
 		/*this.#modelRoot.getChildMeshes().forEach((mesh, index) => {
 			const { minimumWorld, maximumWorld } = mesh.getBoundingInfo().boundingBox;
 			low.x = Math.min(low.x, minimumWorld.x);
@@ -433,8 +432,8 @@ export default class DodgeCharger {
 			high.y = Math.max(high.y, maximumWorld.y);
 			high.z = Math.max(high.z, maximumWorld.z);
 		});*/
-		const modelWheelData = this.#loadedModel.meshes[10].getBoundingInfo().boundingBox;
-		const wheelHeight = (modelWheelData.maximumWorld.y - modelWheelData.minimumWorld.y) * this.scale;
+		const modelWheelData = this.#loadedModel.meshes[2].getBoundingInfo().boundingBox;
+		const wheelHeight = (modelWheelData.maximum.y - modelWheelData.minimum.y) * this.scale;
 		this.#modelDimensions = {
 			length: high.x - low.x,
 			width: high.z - low.z,
@@ -444,7 +443,7 @@ export default class DodgeCharger {
 		this.#modelRoot.position = new Vector3(0,0,0);
 		this.#modelRoot.position.y -= this.#modelDimensions.height / 2;
 		this.#modelRoot.getChildMeshes().forEach((mesh, index) => {
-			if (mesh.isVisible) mesh.isVisible = !DodgeCharger.HIDE_MODEL;
+			if (mesh.isVisible) mesh.isVisible = !PolyCar.HIDE_MODEL;
 		});
 		return Promise.resolve();
 	}
@@ -464,9 +463,9 @@ export default class DodgeCharger {
 			.subtract(new Vector3(0, this.#chassisDimensions.height / 2, 0));
 		this.#modelRoot.parent = this.#collisionBox;
 		this.#modelRoot.rotation = new Vector3(0, Math.PI / 2, 0);
-		this.#modelRoot.position.y -= this.#chassisDimensions.height / 2 + .2;
+		this.#modelRoot.position.y -= this.#chassisDimensions.height / 2;
 		this.#collisionBox.material.alpha = .2;
-		this.#collisionBox.isVisible = !DodgeCharger.HIDE_COLLISION_BOX;
+		this.#collisionBox.isVisible = !PolyCar.HIDE_COLLISION_BOX;
 	}
 
 	#applyCollisionBoxPhysics() {
@@ -474,7 +473,7 @@ export default class DodgeCharger {
 			this.#collisionBox,
 			PhysicsShapeType.BOX,
 			{
-				mass: DodgeCharger.MODEL_MASS,
+				mass: PolyCar.MODEL_MASS,
 				restitution: 0,
 				friction: 0.5
 			},
@@ -483,18 +482,18 @@ export default class DodgeCharger {
 
 		aggregate.shape.filterMembershipMask = this.#membershipMask;
 		aggregate.shape.filterCollideMask = this.#collideMask;
-		this.#aggregates.set(DodgeCharger.MODEL, aggregate);
+		this.#aggregates.set(PolyCar.MODEL, aggregate);
 	}
 
 	#setCollisionBoxConstraint() {
-		const aggregate = this.#aggregates.get(DodgeCharger.MODEL);
+		const aggregate = this.#aggregates.get(PolyCar.MODEL);
 		const model = this.#collisionBox;
 		const chassisBoundingBox = this.#chassis.getBoundingInfo().boundingBox;
 		const collisionBoxBoundingBox = this.#collisionBox.getBoundingInfo().boundingBox;
 		const pivotA = new Vector3(0, chassisBoundingBox.minimum.y, 0);
 		const pivotB = new Vector3(0, collisionBoxBoundingBox.minimum.y, 0);
 
-		if (DodgeCharger.DEBUG) {
+		if (PolyCar.DEBUG) {
 			console.log("🔧 Model CollisionBox Constraint Debug:");
 			console.log("Chassis position:", this.#chassis.position);
 			console.log("Model position:", model.position);
@@ -560,7 +559,7 @@ export default class DodgeCharger {
 			],
 			this.#scene
 		);
-		this.#aggregates.get(DodgeCharger.CHASSIS)
+		this.#aggregates.get(PolyCar.CHASSIS)
 			.body
 			.addConstraint(aggregate.body, constraint);
 		return constraint;
