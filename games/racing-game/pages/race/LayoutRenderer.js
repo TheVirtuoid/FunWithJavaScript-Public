@@ -125,7 +125,7 @@ export default class LayoutRenderer {
 		});
 		const boxes = [this.#startingLine.frontGate.id, this.#startingLine.backGate.id];
 		this.#trackLayout.forEach((track) => {
-			const friction = track.material.id === this.#endingAnchor.mesh.material.id ? 1 : .2;
+			const friction = track.material.id === this.#endingAnchor.mesh.material.id ? 1 : .35;
 			const physicsShape = boxes.includes(track.name) ? PhysicsShapeType.BOX : PhysicsShapeType.MESH;
 			const aggregate = new PhysicsAggregate(
 				track,

@@ -6,6 +6,7 @@ import {
 	PhysicsShapeType, Quaternion,
 	StandardMaterial, Texture, Vector3
 } from "@babylonjs/core";
+import carData from './CarData.js';
 
 export default class Ferrari {
 	static CHASSIS = Symbol('chassis');
@@ -37,10 +38,10 @@ export default class Ferrari {
 	static WHEEL_RADIUS = .75;
 
 	static WHEEL_RESTITUTION = 0;
-	static WHEEL_MASS = 1;
+	static WHEEL_MASS = carData.mass.wheel;
 	static WHEEL_FRICTION = 1;
-	static CHASSIS_MASS = 5;
-	static MODEL_MASS = 10;
+	static CHASSIS_MASS = carData.mass.chassis;
+	static MODEL_MASS = carData.mass.model;
 
 	#scene;
 	#position;
