@@ -1,105 +1,86 @@
 import Head from './Head.js';
-
-const mockGame = {
-	emit: () => {}
-};
-
-class MockVector {
-	x;
-	y;
-	constructor(x, y) {
-		this.x = x;
-		this.y = y;
-	}
-	equals(vector) {
-		return vector.x === this.x && vector.y === this.y;
-	}
-
-	static Zero () { return new MockVector(0, 0) }
-	static Up () { return new MockVector(0, 1) }
-}
-
-class MockGame {}
+import Vector from "../Vector/Base/Vector.js";
+import GameEvent from "../GameEvent/GameEvent.js";
+import { MockGame } from "../../tdd-utilities/tddUtilities.js";
 
 describe('When I work with the Head class', () => {
 
-	let game = new MockGame();
-	let vectorFactory = MockVector;
+	let game = MockGame;
 
 	describe('And I work with the constructor', () => {
 		it('should throw error if no game instance is provided', () => {
-			expect(() => new Head({ vectorFactory })).to.throw(`'game' property must be specified`);
-		});
-
-		it('should throw error if no vectorFactory is provided', () => {
-			expect(() => new Head({ game })).to.throw(`'vectorFactory' property must be specified`);
+			expect(() => new Head()).to.throw(`'game' property must be specified`);
 		});
 
 		it('should create an instance of Head with default properties', () => {
-			const head = new Head({ game, vectorFactory });
+			const head = new Head({ game });
 			expect(head).to.be.instanceOf(Head);
-			expect(head.position.equals(MockVector.Zero())).to.be.true;
-			expect(head.direction.equals(MockVector.Up())).to.be.true;
+			expect(head.position.equals(game.vectorFactory.Zero())).to.be.true;
+			expect(head.direction.equals(game.vectorFactory.Up())).to.be.true;
 		});
 	});
 
-	/*let head;
+	describe('And I work with the Public properties', () => {
+		let position = new game.vectorFactory(1, 2);
+		let direction = game.vectorFactory.Down();
+		let head;
 
-	beforeEach(() => {
-		GameEvent.Setup(mockGame);
-		head = new Head();
-	});*/
+		beforeEach(() => {
+			head = new Head({ game, position, direction });
+		});
 
-	/*describe('And I work with the Public properties', () => {
 		describe('And I work with "position"', () => {
 			it('should return current position as Vector', () => {
-				const position = head.position;
-				expect(position).to.be.instanceOf(Vector);
+				expect(head.position.equals(position)).to.be.true;
 			});
 
 			it('should throw error if attempt to change value', () => {
-				expect(head.position = new Vector()).to.throw();
+				expect(() => head.position = new Vector()).to.throw();
 			});
 		});
 
 		describe('direction getter', () => {
 			it('should return current direction as Vector', () => {
-				const direction = head.direction;
-				expect(position).to.be.instanceOf(Vector);
+				expect(head.direction.equals(direction)).to.be.true;
 			});
 
 			it('should throw error if attempt to change value', () => {
-				expect(head.direction = new Vector()).to.throw();
+				expect(() => head.direction = new Vector()).to.throw();
 			});
 		});
-	});*/
+	});
 
-	/*describe('move() method', () => {
+	describe('move() method', () => {
+		let position = new game.vectorFactory(3, 3);
+		let direction = game.vectorFactory.Down();
+		let head;
+
+		beforeEach(() => {
+			head = new Head({ game, position, direction });
+			GameEvent.Setup(game);
+			cy.spy(game, 'emit').as('gameEmit');
+		});
+
+		it('should throw error if speed is not a number', () => {
+			expect(() => head.move('bad')).to.throw();
+		});
+
 		it('should move with default speed of 1', () => {
-			const initialPosition = { ...head.position };
 			head.move();
-
-			const newPosition = head.position;
-			expect(newPosition).to.not.deep.equal(initialPosition);
+			expect(head.position.equals(new game.vectorFactory(3, 2))).to.be.true;
 		});
 
 		it('should move with specified speed', () => {
-			const initialPosition = { ...head.position };
-			const speed = 2;
-
-			head.move(speed);
-
-			const newPosition = head.position;
-			expect(newPosition).to.not.deep.equal(initialPosition);
+			head.move(2);
+			expect(head.position.equals(new game.vectorFactory(3, 1))).to.be.true;
 		});
 
 		it('should trigger snake-move event', () => {
 			head.move();
-
-			expect(mockEventHandlers['snake-move']).to.have.length.greaterThan(0);
+			cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_MOVE, head.position);
 		});
 
-		it('should trigger snake-collision-wall event when hitting wall', () => {
+		/*it('should trigger snake-collision-wall event when hitting wall', () => {
 			// Setup head at boundary position that will cause wall collision
 			head.jump({ x: 0, y: 0 });
 			head.changeDirection({ x: -1, y: 0 });
@@ -107,24 +88,24 @@ describe('When I work with the Head class', () => {
 			head.move();
 
 			expect(mockEventHandlers['snake-collision-wall']).to.have.length.greaterThan(0);
-		});
+		});*/
 
-		it('should trigger snake-collision-self event when hitting itself', () => {
+		/*it('should trigger snake-collision-self event when hitting itself', () => {
 			// This would require setup of body segments that the head could collide with
 			// Implementation depends on how self-collision is detected
 			head.move();
 
 			// Test would verify collision detection with body segments
-		});
+		});*/
 
-		it('should trigger snake-collision-prize event when hitting prize', () => {
+		/*it('should trigger snake-collision-prize event when hitting prize', () => {
 			// This would require setup of a prize at the next position
 			// Implementation depends on how prize collision is detected
 			head.move();
 
 			// Test would verify collision detection with prize
-		});
-	});*/
+		});*/
+	});
 
 	/*describe('changeDirection() method', () => {
 		it('should change direction to valid new direction', () => {

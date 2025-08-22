@@ -114,6 +114,36 @@ describe('When I work with the Vector2d class', () => {
 			});
 		});
 
+		describe('And I call multiply()', () => {
+			it('should throw error if argument no vector2d', () => {
+				expect(() => baseVector.multiply('bad')).to.throw('Argument must be an instance of Vector2d');
+			});
+
+			it('should multiply (1,2) and get (1,2)', () => {
+				const vector = baseVector.multiply(new Vector2d(1, 2));
+				expect(vector.x).to.equal(1);
+				expect(vector.y).to.equal(2);
+			});
+
+			it('should multiply (1,-2) and get (1,-2)', () => {
+				const vector = baseVector.multiply(new Vector2d(1, -2));
+				expect(vector.x).to.equal(1);
+				expect(vector.y).to.equal(-2);
+			});
+
+			it('should multiply (-1,2) and get (-1,2)', () => {
+				const vector = baseVector.multiply(new Vector2d(-1, 2));
+				expect(vector.x).to.equal(-1);
+				expect(vector.y).to.equal(2);
+			});
+
+			it('should multiply (-1,-2) and get (-1,-2)', () => {
+				const vector = baseVector.multiply(new Vector2d(-1, -2));
+				expect(vector.x).to.equal(-1);
+				expect(vector.y).to.equal(-2);
+			});
+		});
+
 		describe('And I call subtract()', () => {
 			it('should throw error if argument no vector2d', () => {
 				expect(() => baseVector.subtract('bad')).to.throw('Argument must be an instance of Vector2d');
@@ -157,6 +187,127 @@ describe('When I work with the Vector2d class', () => {
 				expect(baseVector.equals(new Vector2d(2, 1))).to.be.false;
 				expect(baseVector.equals(new Vector2d(1, 2))).to.be.false;
 				expect(baseVector.equals(new Vector2d(2, 2))).to.be.false;
+			});
+		});
+
+		describe('And when I call compareTo', () => {
+			beforeEach(() => {
+				baseVector = new Vector2d(5, 5);
+			});
+
+			it('should return -1, 0 when x1 < x2 and y1 = y2', () => {
+				const vector = new Vector2d(6, 5);
+				expect(baseVector.compareTo(vector).equals(new Vector2d(-1, 0))).to.be.true;
+			});
+
+			it('should return 0, 1 when x1 = x2 and y1 > y2', () => {
+				const vector = new Vector2d(5, 4);
+				expect(baseVector.compareTo(vector).equals(new Vector2d(0, 1))).to.be.true;
+			});
+
+			it('should return 1, -1 when x1 > x2 and y1 < y2', () => {
+				const vector = new Vector2d(4, 6);
+				expect(baseVector.compareTo(vector).equals(new Vector2d(1, -1))).to.be.true;
+			});
+		});
+
+		describe('And when I call inBounds', () => {
+			beforeEach(() => {
+				baseVector = new Vector2d(5, 5);
+			});
+
+			it('should return false if number < 0', () => {
+				let vector = new Vector2d(-1, 3);
+				expect(baseVector.inBounds(vector)).to.be.false;
+				vector = new Vector2d(3, -1);
+				expect(baseVector.inBounds(vector)).to.be.false;
+			});
+
+			it('should return false if number >= upperbound', () => {
+				let vector = new Vector2d(5, 3);
+				expect(baseVector.inBounds(vector)).to.be.false;
+				vector = new Vector2d(3, 5);
+				expect(baseVector.inBounds(vector)).to.be.false;
+			});
+
+			it('should return true for other instances', () => {
+				let vector = new Vector2d(0, 0);
+				expect(baseVector.inBounds(vector)).to.be.true;
+				vector = new Vector2d(4, 4);
+				expect(baseVector.inBounds(vector)).to.be.true;
+			});
+		});
+
+		describe('And when I call isInside', () => {
+			beforeEach(() => {
+				baseVector = new Vector2d(5, 5);
+			});
+
+			it('should return false if number <= 0', () => {
+				let vector = new Vector2d(0, 3);
+				expect(baseVector.isInside(vector)).to.be.false;
+				vector = new Vector2d(3, 0);
+				expect(baseVector.isInside(vector)).to.be.false;
+			});
+
+			it('should return false if number >= upperbound - 1', () => {
+				let vector = new Vector2d(4, 3);
+				expect(baseVector.isInside(vector)).to.be.false;
+				vector = new Vector2d(3, 4);
+				expect(baseVector.isInside(vector)).to.be.false;
+			});
+
+			it('should return true for other instances', () => {
+				let vector = new Vector2d(1, 1);
+				expect(baseVector.isInside(vector)).to.be.true;
+				vector = new Vector2d(3, 3);
+				expect(baseVector.isInside(vector)).to.be.true;
+			});
+		});
+
+		describe('And when I call isPerimeter', () => {
+			beforeEach(() => {
+				baseVector = new Vector2d(5, 5);
+			});
+
+			it('should return false if number != 0', () => {
+				let vector = new Vector2d(1, 3);
+				expect(baseVector.isPerimeter(vector)).to.be.false;
+				vector = new Vector2d(3, 1);
+				expect(baseVector.isPerimeter(vector)).to.be.false;
+				vector = new Vector2d(-1, 3);
+				expect(baseVector.isPerimeter(vector)).to.be.false;
+				vector = new Vector2d(3, -1);
+				expect(baseVector.isPerimeter(vector)).to.be.false;
+			});
+
+			it('should return false if number !== upperbound - 1', () => {
+				let vector = new Vector2d(5, 3);
+				expect(baseVector.isPerimeter(vector)).to.be.false;
+				vector = new Vector2d(3, 5);
+				expect(baseVector.isPerimeter(vector)).to.be.false;
+				vector = new Vector2d(3, 3);
+				expect(baseVector.isPerimeter(vector)).to.be.false;
+				vector = new Vector2d(3, 3);
+				expect(baseVector.isPerimeter(vector)).to.be.false;
+			});
+
+			it('should return true for anything on perimeter', () => {
+				let vector = new Vector2d(0, 3);
+				expect(baseVector.isPerimeter(vector)).to.be.true;
+				vector = new Vector2d(3, 0);
+				expect(baseVector.isPerimeter(vector)).to.be.true;
+				vector = new Vector2d(4, 3);
+				expect(baseVector.isPerimeter(vector)).to.be.true;
+				vector = new Vector2d(3, 4);
+				expect(baseVector.isPerimeter(vector)).to.be.true;
+			});
+		});
+
+		describe('And when I call fill', () => {
+			it('should fill a vector with the number', () => {
+				const vector = baseVector.fill(3);
+				expect(vector.equals(new Vector2d(3, 3))).to.be.true;
 			});
 		});
 

@@ -42,12 +42,36 @@ describe('When I work with Vector', () => {
 			expect(() => vector.clone()).to.throw('Method not implemented');
 		});
 
+		it('should throw an exception when calling multiply()', () => {
+			expect(() => vector.multiply(new Vector())).to.throw('Method not implemented');
+		});
+
 		it('should throw an exception when calling equals()', () => {
 			expect(() => vector.equals(new Vector())).to.throw('Method not implemented');
 		});
 
 		it('should throw an exception when calling toString()', () => {
 			expect(() => vector.toString()).to.throw('Method not implemented');
+		});
+
+		it('should throw an exception when calling compare()', () => {
+			expect(() => vector.compare(new Vector())).to.throw('Method not implemented');
+		});
+
+		it('should throw an exception when calling inBounds()', () => {
+			expect(() => vector.inBounds(new Vector())).to.throw('Method not implemented');
+		});
+
+		it('should throw an exception when calling compareInside()', () => {
+			expect(() => vector.isInside(new Vector())).to.throw('Method not implemented');
+		});
+
+		it('should throw an exception when calling compareBounds()', () => {
+			expect(() => vector.isPerimeter(new Vector())).to.throw('Method not implemented');
+		});
+
+		it('should throw an exception when calling fill()', () => {
+			expect(() => vector.fill(1)).to.throw('Method not implemented');
 		});
 	});
 });

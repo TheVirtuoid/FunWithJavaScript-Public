@@ -55,6 +55,15 @@ export default class Vector2d extends Vector {
 		return new Vector2d(x, y);
 	}
 
+	multiply(vector) {
+		if (!(vector instanceof Vector2d)) {
+			throw new Error(Vector2d.MISSING_ARGUMENT_ERROR);
+		}
+		const x = this.#x * vector.x;
+		const y = this.#y * vector.y;
+		return new Vector2d(x, y);
+	}
+
 	subtract(vector) {
 		if (!(vector instanceof Vector2d)) {
 			throw new Error(Vector2d.MISSING_ARGUMENT_ERROR);
@@ -69,6 +78,35 @@ export default class Vector2d extends Vector {
 			throw new Error(Vector2d.MISSING_ARGUMENT_ERROR);
 		}
 		return this.#x === vector.x && this.#y === vector.y;
+	}
+
+	compareTo(vector) {
+		const x = this.#x < vector.x ? -1 : (this.#x > vector.x ? 1 : 0);
+		const y = this.#y < vector.y ? -1 : (this.#y > vector.y ? 1 : 0);
+		return new Vector2d(x, y);
+	}
+
+	// For isPerimeter, inBounds, and isInside, we assume a rectangular area defined by the this vector's coordinates.
+	inBounds(vector) {
+		const x = vector.x >= 0 && vector.x < this.#x;
+		const y = vector.y >= 0 && vector.y < this.#y;
+		return x && y;
+	}
+
+	isInside(vector) {
+		const x = vector.x >= 1 && vector.x < this.#x - 1;
+		const y = vector.y >= 1 && vector.y < this.#y - 1;
+		return x && y;
+	}
+
+	isPerimeter(vector) {
+		const x = vector.x === 0 || vector.x === this.#x - 1;
+		const y = vector.y === 0 || vector.y === this.#y - 1;
+		return x || y;
+	}
+
+	fill(number) {
+		return new Vector2d(number, number);
 	}
 
 	clone() {

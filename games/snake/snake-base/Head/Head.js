@@ -1,24 +1,21 @@
+import GameEvent from "../GameEvent/GameEvent.js";
+
 export default class Head {
 	#position;
 	#direction;
 	#ui;
-	#vectorFactory;
 	#game;
 
 	constructor(args = {}) {
-		const { position, direction, ui, vectorFactory, game } = args;
+		const { position, direction, ui, game } = args;
 
 		if (!game) {
 			throw new Error(`'game' property must be specified`);
 		}
-		if (!vectorFactory) {
-			throw new Error(`'vectorFactory' property must be specified`);
-		}
 
 		this.#game = game;
-		this.#vectorFactory = vectorFactory;
-		this.#position = position || this.#vectorFactory.Zero();
-		this.#direction = direction || this.#vectorFactory.Up();
+		this.#position = position || this.#game.vectorFactory.Zero();
+		this.#direction = direction || this.#game.vectorFactory.Up();
 		this.#ui = ui;
 	}
 
@@ -28,5 +25,14 @@ export default class Head {
 
 	get direction() {
 		return this.#direction;
+	}
+
+	move(speed = 1) {
+		if (typeof speed !== 'number') {
+			throw new Error(`'speed' argument must be a number`);
+		}
+		const additiveVector = this.#direction.multiply(this.#direction.fill(speed));
+		this.#position = this.#position.add(additiveVector);
+		this.#game.emit(GameEvent.SNAKE_MOVE, this.#position);
 	}
 }

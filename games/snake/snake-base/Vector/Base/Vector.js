@@ -23,6 +23,10 @@ export default class Vector {
 		throw new Error('Method not implemented');
 	}
 
+	multiply(vector) {
+		throw new Error('Method not implemented');
+	}
+
 	subtract(vector) {
 		throw new Error('Method not implemented');
 	}
@@ -36,6 +40,26 @@ export default class Vector {
 	}
 
 	toString() {
+		throw new Error('Method not implemented');
+	}
+
+	compare(vector) {
+		throw new Error('Method not implemented');
+	}
+
+	inBounds(vector) {
+		throw new Error('Method not implemented');
+	}
+
+	isInside(vector) {
+		throw new Error('Method not implemented');
+	}
+
+	isPerimeter(vector) {
+		throw new Error('Method not implemented');
+	}
+
+	fill(number) {
 		throw new Error('Method not implemented');
 	}
 }
