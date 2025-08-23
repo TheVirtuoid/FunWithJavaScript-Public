@@ -5,6 +5,11 @@ const mockGame = {
 };
 
 describe('When I work with the GameEvent class', () => {
+
+	it('should throw error if trying to instantiate', () => {
+		expect(() => new GameEvent()).to.throw('GameEvent is static and cannot be instantiated');
+	});
+
 	it('should throw an error if there has been no setup', () => {
 		expect(() => GameEvent.Emit('some-event')).to.throw('GameEvent object has not been set up');
 	});
@@ -17,8 +22,16 @@ describe('When I work with the GameEvent class', () => {
 
 	describe('And when the event is valid', () => {
 		beforeEach(() => {
-			GameEvent.Setup(mockGame);
 			cy.spy(mockGame, 'emit').as('gameEmit');
+			GameEvent.Setup(mockGame);
+		});
+
+		it('should have a Game property', () => {
+			expect(GameEvent.Game).not.to.be.undefined;
+		});
+
+		it('should have signaled that the game event has been initialized', () => {
+			cy.get('@gameEmit').should('have.been.calledWith', GameEvent.GAME_EVENT_INITIALIZED);
 		});
 
 		it('should emit the defined event with no arguments', () => {

@@ -116,4 +116,8 @@ export default class Vector2d extends Vector {
 	toString() {
 		return `(${this.#x},${this.#y})`;
 	}
+
+	opposite() {
+		return new Vector2d(this.#x * -1, this.#y * -1);
+	}
 }

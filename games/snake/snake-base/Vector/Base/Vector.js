@@ -62,4 +62,8 @@ export default class Vector {
 	fill(number) {
 		throw new Error('Method not implemented');
 	}
+
+	opposite() {
+		throw new Error('Method not implemented');
+	}
 }

@@ -2,6 +2,7 @@ let game;
 
 export default class GameEvent {
 	static GAME_OVER = 'game-over';
+	static GAME_EVENT_INITIALIZED = 'game-event-initialized';
 
 	static SNAKE_COLLISION_WALL = 'snake-collision-wall';
 	static SNAKE_COLLISION_SELF = 'snake-collision-self';
@@ -19,6 +20,7 @@ export default class GameEvent {
 
 	static TYPES = [
 		GameEvent.GAME_OVER,
+		GameEvent.GAME_EVENT_INITIALIZED,
 		GameEvent.SNAKE_COLLISION_WALL,
 		GameEvent.SNAKE_COLLISION_SELF,
 		GameEvent.SNAKE_COLLISION_PRIZE,
@@ -35,6 +37,14 @@ export default class GameEvent {
 
 	static Setup(gameObject) {
 		game = gameObject;
+		GameEvent.Emit(GameEvent.GAME_EVENT_INITIALIZED);
+	}
+
+	static Game() {
+		return {
+			vectorFactory: game.vectorFactory,
+			// pitchDimensions: game.pitchDimensions
+		};
 	}
 
 	static Emit(eventName, ...args) {
@@ -45,6 +55,10 @@ export default class GameEvent {
 			throw new Error(`Event '${eventName}' is not defined in GameEvent`);
 		}
 		game.emit(eventName, ...args);
+	}
+
+	constructor() {
+		throw(new Error('GameEvent is static and cannot be instantiated'));
 	}
 
 }

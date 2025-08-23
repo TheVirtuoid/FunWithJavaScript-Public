@@ -73,5 +73,9 @@ describe('When I work with Vector', () => {
 		it('should throw an exception when calling fill()', () => {
 			expect(() => vector.fill(1)).to.throw('Method not implemented');
 		});
+
+		it('should throw an exception when calling opposite()', () => {
+			expect(() => vector.opposite()).to.throw('Method not implemented');
+		});
 	});
 });

@@ -1,8 +1,14 @@
+import GameEvent from "../GameEvent/GameEvent.js";
+import Pitch from "../Pitch/Pitch.js";
+import Snake from "../Snake/Snake.js";
+
 export default class Game {
 	#vectorFactory;
 	#pitch;
 	#snake;
 	#ui;
+	#gameEventInitialized = false;
+	#pitchDimensions;
 
 	constructor(args = {}) {
 		const { vectorFactory, ui } = args;
@@ -13,16 +19,53 @@ export default class Game {
 
 		this.#vectorFactory = vectorFactory;
 		this.#ui = ui;
+		GameEvent.Setup(this);
 	}
 
 	get vectorFactory() {
 		return this.#vectorFactory;
 	}
 
+	get gameEventInitialized() {
+		return this.#gameEventInitialized;
+	}
+
 	emit(event, ...data) {
 		if (typeof event !== 'string') {
 			throw new Error(`'event' argument must be a string`);
 		}
+		if (event === GameEvent.GAME_EVENT_INITIALIZED) this.#onGameEventInitialized(...data);
+	}
+
+	addPitch(pitch) {
+		if (!(pitch instanceof Pitch)) {
+			throw new Error(`'pitch' argument must be an instance of Pitch`);
+		}
+		this.#pitch = pitch;
+		this.#pitchDimensions = pitch.dimensions;
+	}
+
+	getPitchId() {
+		return this.#pitch?.id;
+	}
+
+	addSnake(snake) {
+		if (!(snake instanceof Snake)) {
+			throw new Error(`'snake' argument must be an instance of Snake`);
+		}
+		this.#snake = snake;
+	}
+
+	getSnakeId() {
+		return this.#snake?.id;
+	}
+
+	get pitchDimensions() {
+		return this.#pitchDimensions?.clone();
+	}
+
+	#onGameEventInitialized() {
+		this.#gameEventInitialized = true;
 	}
 
 }

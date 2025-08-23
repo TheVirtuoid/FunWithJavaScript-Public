@@ -324,5 +324,12 @@ describe('When I work with the Vector2d class', () => {
 			});
 		});
 
+		describe('And when I call opposite', () => {
+			it('should return an opposite', () => {
+				const vector = baseVector.opposite();
+				expect(vector.equals(new Vector2d(baseVector.x * -1, baseVector.x * -1))).to.be.true;
+			});
+		});
+
 	});
 });

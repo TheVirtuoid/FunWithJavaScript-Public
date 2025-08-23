@@ -1,21 +1,19 @@
-import Vector from "../Vector/Base/Vector.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class Pitch {
 	#dimensions;
-	#game;
 	#ui;
+	#vectorFactory;
+	#id;
 
 	constructor(args = {}) {
-		const { dimensions, game, ui } = args;
-		if (!game) {
-			throw new Error(`'game' property must be specified`);
-		}
-		if (!(dimensions instanceof vectorFactory)) {
+		const { dimensions, ui, id = window.crypto.randomUUID() } = args;
+		this.#vectorFactory = GameEvent.Game()?.vectorFactory;
+		if (!(dimensions instanceof this.#vectorFactory)) {
 			throw new Error(`'dimensions' property must be instance of VectorFactory`);
 		}
-		this.#game = game;
 		this.#ui = ui;
+		this.#id = id;
 		this.#dimensions = dimensions;
 	}
 
@@ -23,8 +21,8 @@ export default class Pitch {
 		return this.#dimensions.clone();
 	}
 
-	get #vectorFactory() {
-		return this.#game.vectorFactory;
+	get id() {
+		return this.#id;
 	}
 
 	collision(position) {
@@ -36,7 +34,7 @@ export default class Pitch {
 		}
 		const collided = this.#dimensions.isPerimeter(position);
 		if (collided) {
-			this.#game.emit(GameEvent.SNAKE_COLLISION_WALL);
+			GameEvent.Emit(GameEvent.SNAKE_COLLISION_WALL);
 		}
 		return collided;
 	}

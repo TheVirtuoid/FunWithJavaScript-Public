@@ -4,18 +4,15 @@ export default class Head {
 	#position;
 	#direction;
 	#ui;
-	#game;
+	#vectorFactory;
+	#pitchDimensions;
 
 	constructor(args = {}) {
-		const { position, direction, ui, game } = args;
-
-		if (!game) {
-			throw new Error(`'game' property must be specified`);
-		}
-
-		this.#game = game;
-		this.#position = position || this.#game.vectorFactory.Zero();
-		this.#direction = direction || this.#game.vectorFactory.Up();
+		const { position, direction, ui } = args;
+		this.#vectorFactory = GameEvent.Game().vectorFactory;
+		this.#pitchDimensions = GameEvent.Game().pitchDimensions;
+		this.#position = position || this.#vectorFactory.Zero();
+		this.#direction = direction || this.#vectorFactory.Up();
 		this.#ui = ui;
 	}
 
@@ -33,6 +30,29 @@ export default class Head {
 		}
 		const additiveVector = this.#direction.multiply(this.#direction.fill(speed));
 		this.#position = this.#position.add(additiveVector);
-		this.#game.emit(GameEvent.SNAKE_MOVE, this.#position);
+		GameEvent.Emit(GameEvent.SNAKE_MOVE, this.#position);
+	}
+
+	changeDirection(newDirection) {
+		if (!(newDirection instanceof this.#vectorFactory)) {
+			throw new Error(`'newDirection' argument must be an instance of Vector`);
+		}
+		if (this.#direction.opposite().equals(newDirection)) {
+			throw new Error('Cannot change direction in the opposite direction');
+		}
+		this.#direction = newDirection.clone();
+		GameEvent.Emit(GameEvent.SNAKE_DIRECTION_CHANGED, this.#direction);
+	}
+
+	jump(position, direction) {
+		if (!(position instanceof this.#vectorFactory)) {
+			throw new Error(`'position' argument must be an instance of Vector`);
+		}
+		if (!(direction instanceof this.#vectorFactory)) {
+			throw new Error(`'direction' argument must be an instance of Vector`);
+		}
+		this.#position = position.clone();
+		this.#direction = direction.clone();
+		GameEvent.Emit(GameEvent.SNAKE_JUMPED, this.#position, this.#direction);
 	}
 }
