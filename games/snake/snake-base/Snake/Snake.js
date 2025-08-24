@@ -7,9 +7,10 @@ export default class Snake {
 	#ui;
 	#head;
 	#body;
+	#speed;
 
 	constructor(args = {}) {
-		const { position, direction, id = window.crypto.randomUUID() } = args;
+		const { position, direction, speed = 1, id = window.crypto.randomUUID() } = args;
 		if (!(direction instanceof Vector)) {
 			throw new Error(`'direction' property must be an instance of Vector`);
 		}
@@ -17,12 +18,17 @@ export default class Snake {
 			throw new Error(`'position' property must be an instance of Vector`);
 		}
 		this.#id = id;
+		this.#speed = speed;
 		this.#head = new Head({ position, direction });
 		this.#body = new Body();
 	}
 
 	get id() {
 		return this.#id;
+	}
+
+	get speed() {
+		return this.#speed;
 	}
 
 	get position() {
@@ -51,7 +57,7 @@ export default class Snake {
 		return this.#body.getSegmentAt(index);
 	}
 
-	move(speed = 1) {
+	move(speed = this.#speed) {
 		let position = this.#head.position;
 		let newDirection = this.#head.direction;
 		this.#head.move(speed);
@@ -66,5 +72,14 @@ export default class Snake {
 
 	changeDirection(direction) {
 		this.#head.changeDirection(direction);
+	}
+
+	setSpeed(speed) {
+		if (isNaN(speed)) {
+			throw new Error(`'speed' argument must be a number`);
+		}
+		if (speed > 0) {
+			this.#speed = speed;
+		}
 	}
 }

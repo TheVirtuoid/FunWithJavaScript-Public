@@ -26,6 +26,10 @@ export default class Vector2d extends Vector {
 		return new Vector2d(0, -1);
 	}
 
+	static Fill(number) {
+		return new Vector2d(number, number);
+	}
+
 	constructor(x, y) {
 		super({ x, y });
 		if (arguments.length !== 2) {

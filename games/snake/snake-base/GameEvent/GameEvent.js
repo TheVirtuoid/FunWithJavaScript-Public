@@ -18,6 +18,8 @@ export default class GameEvent {
 	static DETECT_PRIZE_COLLISION = 'detect-prize-collision';
 	static DETECT_SELF_COLLISION = 'detect-self-collision';
 
+	static INPUT_MOVE = 'input-move';
+
 	static TYPES = [
 		GameEvent.GAME_OVER,
 		GameEvent.GAME_EVENT_INITIALIZED,
@@ -32,7 +34,8 @@ export default class GameEvent {
 		GameEvent.SNAKE_RESET,
 		GameEvent.DETECT_WALL_COLLISION,
 		GameEvent.DETECT_PRIZE_COLLISION,
-		GameEvent.DETECT_SELF_COLLISION
+		GameEvent.DETECT_SELF_COLLISION,
+		GameEvent.INPUT_MOVE
 	]
 
 	static Setup(gameObject) {
@@ -42,8 +45,7 @@ export default class GameEvent {
 
 	static Game() {
 		return {
-			vectorFactory: game.vectorFactory,
-			// pitchDimensions: game.pitchDimensions
+			vectorFactory: game.vectorFactory
 		};
 	}
 

@@ -19,6 +19,10 @@ export default class Vector {
 		throw new Error('Static method not implemented');
 	}
 
+	static Fill() {
+		throw new Error('Static method not implemented');
+	}
+
 	add(vector) {
 		throw new Error('Method not implemented');
 	}

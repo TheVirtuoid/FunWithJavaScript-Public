@@ -76,6 +76,12 @@ describe('When I work with the Vector2d class', () => {
 			expect(vector.x).to.equal(0);
 			expect(vector.y).to.equal(-1);
 		});
+
+		it('should return (n,n) for Fill(n)', () => {
+			const vector = Vector2d.Fill(3);
+			expect(vector.x).to.equal(3);
+			expect(vector.y).to.equal(3);
+		});
 	});
 
 	describe('And I work with the public methods', () => {

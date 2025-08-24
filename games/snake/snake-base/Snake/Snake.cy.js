@@ -4,6 +4,7 @@ import Snake from "./Snake.js";
 describe('And when I work with the Snake class', () => {
 	const position = new MockVector(5,5);
 	const direction = MockVector.Down();
+	const speed = 2;
 
 	it('should throw error is position is not a vector', () => {
 		expect(() => new Snake({ position: 'bad', direction })).to.throw(`'position' property must be an instance of Vector`);
@@ -19,12 +20,13 @@ describe('And when I work with the Snake class', () => {
 		expect(snake.position.equals(position)).to.be.true;
 		expect(snake.direction.equals(direction)).to.be.true;
 		expect(snake.numberOfBodySegments).to.equal(0);
+		expect(snake.speed).to.equal(1);
 	});
 
 	describe('And when I work with the Public properties', () => {
 		let snake;
 		beforeEach(() => {
-			snake = new Snake({ position, direction, id: 'snake-test' });
+			snake = new Snake({ position, direction, speed, id: 'snake-test' });
 		});
 
 		describe('and when I work with "id"', () => {
@@ -44,11 +46,22 @@ describe('And when I work with the Snake class', () => {
 				expect(() => snake.direction = 'bad').to.throw();
 			});
 		});
+
+		describe('and when I work with "speed"', () => {
+			it('should set the speed', () => {
+				expect(snake.speed).to.equal(speed);
+			});
+
+			it('should throw exception if trying to change speed', () => {
+				expect(() => snake.speed = 5).to.throw();
+			});
+		});
 	});
 
 	describe('And when I work with the Public methods', () => {
 		const position = new MockVector(5,5);
 		const direction = MockVector.Right();
+		const speed = 1;
 		const body0Position = new MockVector(4,5);
 		const body1Position = new MockVector(3,5);
 		const body2Position = new MockVector(3,4);
@@ -58,6 +71,28 @@ describe('And when I work with the Snake class', () => {
 		const body2Direction = MockVector.Down();
 		const body3Direction = MockVector.Down();
 		let snake;
+
+		describe('and when I try to change the speed of the snake', () => {
+			beforeEach(() => {
+				snake = new Snake({ position, direction, speed });
+			});
+
+			it('should throw error if not a number', () => {
+				expect(() => snake.setSpeed('bad')).to.throw();
+			});
+
+			it('should NOT change the speed if 0 or less', () => {
+				snake.setSpeed(0);
+				expect(snake.speed).to.equal(speed);
+				snake.setSpeed(-1);
+				expect(snake.speed).to.equal(speed);
+			});
+
+			it('should change the speed of the snake', () => {
+				snake.setSpeed(2);
+				expect(snake.speed).to.equal(2);
+			});
+		});
 
 		describe('And when I grow a body segment', () => {
 			const position = new MockVector(5,5);

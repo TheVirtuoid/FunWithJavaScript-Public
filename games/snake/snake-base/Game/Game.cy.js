@@ -44,17 +44,55 @@ describe('And when I work with the Game class', () => {
 			});
 
 			it('should add a snake to the game', () => {
-				const snake = new Snake({ id: 'snake-test' });
+				const position = new MockVector(5, 5);
+				const direction = MockVector.Right();
+				const snake = new Snake({ position, direction, id: 'snake-test' });
 				game.addSnake(snake);
 				expect(game.getSnakeId()).to.equal('snake-test');
+				expect(game.getSnakePosition().equals(position)).to.be.true;
+				expect(game.getSnakeDirection().equals(direction)).to.be.true;
 			});
 		});
 	});
 
-	/*describe('And when I work with the "detect" events', () => {
-		it('should process the DETECT_WALL_COLLISION event', () => {
+	describe('And when I handle the input events', () => {
+		const pitch = new Pitch({ dimensions: new MockVector(10, 10), id: 'pitch-test' });
+		const game = new Game({ vectorFactory: MockVector });
+		const startPosition = new MockVector(5,5);
+		const startSpeed = 1;
+		const startDirection = MockVector.Right();
+		GameEvent.Setup(game);
+		game.addPitch(pitch);
 
+		beforeEach(() => {
+			console.log('----before each----');
+			const snake = new Snake({ position: startPosition, direction: startDirection, speed: startSpeed, id: 'snake-test' });
+			game.addSnake(snake);
 		});
-	});*/
 
+		describe('And when I move the snake', () => {
+			it('should move with current direction', () => {
+				console.log('--start test');
+				console.log(game.getSnakePosition());
+				const newPosition = startPosition.add(startDirection.multiply(vectorFactory.Fill(startSpeed)));
+				GameEvent.Emit(GameEvent.INPUT_MOVE);
+				expect(game.getSnakePosition().position.equals(newPosition)).to.be.true;
+			});
+
+			xit('should move with new direction', () => {
+				const newDirection = MockVector.Up();
+				const newPosition = startPosition.add(newDirection.multiply(vectorFactory.Fill(startSpeed)));
+				GameEvent.Emit(GameEvent.INPUT_MOVE, newDirection);
+				expect(game.getSnakePosition().position.equals(newPosition)).to.be.true;
+			});
+			/*describe('And when I test for colliding with walls', () => {
+				it('should collide with the right wall', () => {
+					snake.move()
+				});
+			});
+			describe('ANd when I test for colliding with self', () => {});
+			describe('And when I test for colliding with prize', () => {});*/
+		});
+
+	});
 });

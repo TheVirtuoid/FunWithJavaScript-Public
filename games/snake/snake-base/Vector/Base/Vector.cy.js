@@ -27,6 +27,10 @@ describe('When I work with Vector', () => {
 		it('should throw an exception calling Down()', () => {
 			expect(() => Vector.Down()).to.throw('Static method not implemented');
 		});
+
+		it('should throw an exception calling Fill()', () => {
+			expect(() => Vector.Fill()).to.throw('Static method not implemented');
+		});
 	});
 
 	describe('And I work with the Public Methods', () => {
