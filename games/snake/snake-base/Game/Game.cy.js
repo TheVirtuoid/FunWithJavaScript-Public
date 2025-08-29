@@ -61,37 +61,40 @@ describe('And when I work with the Game class', () => {
 		const startPosition = new MockVector(5,5);
 		const startSpeed = 1;
 		const startDirection = MockVector.Right();
-		GameEvent.Setup(game);
 		game.addPitch(pitch);
 
 		beforeEach(() => {
-			console.log('----before each----');
 			const snake = new Snake({ position: startPosition, direction: startDirection, speed: startSpeed, id: 'snake-test' });
 			game.addSnake(snake);
 		});
 
 		describe('And when I move the snake', () => {
 			it('should move with current direction', () => {
-				console.log('--start test');
-				console.log(game.getSnakePosition());
 				const newPosition = startPosition.add(startDirection.multiply(vectorFactory.Fill(startSpeed)));
-				GameEvent.Emit(GameEvent.INPUT_MOVE);
-				expect(game.getSnakePosition().position.equals(newPosition)).to.be.true;
+				game.emit(GameEvent.INPUT_MOVE);
+				expect(game.getSnakePosition().equals(newPosition)).to.be.true;
 			});
 
-			xit('should move with new direction', () => {
+			it('should move with new direction', () => {
 				const newDirection = MockVector.Up();
 				const newPosition = startPosition.add(newDirection.multiply(vectorFactory.Fill(startSpeed)));
-				GameEvent.Emit(GameEvent.INPUT_MOVE, newDirection);
-				expect(game.getSnakePosition().position.equals(newPosition)).to.be.true;
+				game.emit(GameEvent.INPUT_MOVE, newDirection);
+				expect(game.getSnakePosition().equals(newPosition)).to.be.true;
+				expect(game.getSnakeDirection().equals(newDirection)).to.be.true;
 			});
-			/*describe('And when I test for colliding with walls', () => {
+
+			describe('And when I test for colliding with walls', () => {
 				it('should collide with the right wall', () => {
-					snake.move()
+					game.emit(GameEvent.INPUT_MOVE);
+					game.emit(GameEvent.INPUT_MOVE);
+					game.emit(GameEvent.INPUT_MOVE); // moves to (8,5)
+					cy.spy(GameEvent, 'Emit').as('collisionSpy');
+					game.emit(GameEvent.INPUT_MOVE); // moves to (9,5) - collision
+					cy.get('@collisionSpy').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_WALL);
 				});
 			});
 			describe('ANd when I test for colliding with self', () => {});
-			describe('And when I test for colliding with prize', () => {});*/
+			describe('And when I test for colliding with prize', () => {});
 		});
 
 	});

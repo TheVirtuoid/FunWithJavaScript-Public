@@ -54,7 +54,6 @@ export default class Game {
 		if (!(snake instanceof Snake)) {
 			throw new Error(`'snake' argument must be an instance of Snake`);
 		}
-		console.log('adding snake to game', snake);
 		this.#snake = snake;
 	}
 
@@ -78,9 +77,12 @@ export default class Game {
 		this.#gameEventInitialized = true;
 	}
 
+	// TODO: Possible updates:
+	// 1. Accept speed parameter to move at different speeds - will need to determine speed and direction from args
 	#onInputMove(direction = this.getSnakeDirection()) {
-		console.log('ONINPUTMOVE', direction);
-		console.log(this.#snake);
+		if (!direction.equals(this.getSnakeDirection())) {
+			this.#snake.changeDirection(direction);
+		}
 		this.#snake.move();
 	}
 

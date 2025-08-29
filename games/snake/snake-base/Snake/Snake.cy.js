@@ -200,6 +200,31 @@ describe('And when I work with the Snake class', () => {
 				expect(snake.direction.equals(newDirection)).to.be.true;
 			})
 		});
+
+		describe('And when I perform getProjectedPosition()', () => {
+			beforeEach(() => {
+				snake = new Snake({ position, direction, speed });
+			});
+
+			it('should return the current position if no arguments provided', () => {
+				const projectedPosition = snake.getProjectedPosition();
+				expect(projectedPosition.equals(position)).to.be.true;
+				expect(projectedPosition).to.not.equal(snake.position); // should be a clone
+			});
+
+			it('should throw error if distance is not a number', () => {
+				expect(() => snake.getProjectedPosition('bad')).to.throw(`'distance' argument must be a number`);
+			});
+
+			it('should return the projected position based on the current direction and speed', () => {
+				const distance = 3;
+				const multiplier = direction.fill(distance);
+				const projectedPosition = snake.getProjectedPosition(distance);
+				const expectedPosition = position.add(direction.multiply(multiplier));
+				expect(projectedPosition.equals(expectedPosition)).to.be.true;
+				expect(projectedPosition).to.not.equal(snake.position); // should be a clone
+			});
+		});
 	});
 
 });
