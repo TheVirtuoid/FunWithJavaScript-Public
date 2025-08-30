@@ -11,6 +11,7 @@ export default class Enemy {
 	#prize;
 	#maxHitPoints;
 	#name;
+	#location;
 
 	constructor(args = {}) {
 		const { type, position, hitPoints, damage, speed, scene, prize, name } = args;
@@ -24,6 +25,7 @@ export default class Enemy {
 		this.#ui.create({ visible: false });
 		this.#prize = prize;
 		this.#name = name;
+		this.#location = null;
 	}
 
 	get position() {
@@ -53,6 +55,9 @@ export default class Enemy {
 	get name() {
 		return this.#name;
 	}
+	get location() {
+		return this.#location;
+	}
 
 	takeDamage(amount) {
 		if (amount < 0) {
@@ -72,6 +77,10 @@ export default class Enemy {
 		}
 		this.#position = position;
 		this.#ui.setPosition(position);
+	}
+
+	setLocation(location) {
+		this.#location = location;
 	}
 
 	setVisible(visible) {

@@ -57,10 +57,52 @@ export default class EnemyType {
 				frameHeight: 64,
 				columnsPerRow: 6,
 			},
+			spriteImages: {
+				left: [
+					{key: 'walk', url: '/walk_full.png'},
+					{key: 'attack', url: '/attack_full.png'},
+					{key: 'death', url: '/death_full.png'}
+				],
+				right: [
+					{key: 'walk', url: '/walk_full.png'},
+					{key: 'attack', url: '/attack_full.png'},
+					{key: 'death', url: '/death_full.png'}
+				],
+				top: [
+					{key: 'walk', url: '/walk_full.png'},
+					{key: 'attack', url: '/attack_full.png'},
+					{key: 'death', url: '/death_full.png'}
+				],
+				bottom: [
+					{key: 'walk', url: '/walk_full.png'},
+					{key: 'attack', url: '/attack_full.png'},
+					{key: 'death', url: '/death_full.png'}
+				],
+			},
 			sprites: {
-				walk: { image: '/walk_full.png', start: 19, end: 23, frameRate: 12, repeat: -1 },
+				/*walk: { image: '/walk_full.png', start: 18, end: 23, frameRate: 12, repeat: -1 },
 				attack: { image: '/attack_full.png', start: 0, end: 7, frameRate: 12, repeat: -1 },
-				death: { image: '/death_full.png', start: 0, end: 7, frameRate: 12, repeat: 0 }
+				death: { image: '/death_full.png', start: 0, end: 7, frameRate: 12, repeat: 0 },*/
+				left: {
+					walk: { start: 18, end: 23, frameRate: 12, repeat: -1 },
+					attack: { start: 24, end: 31, frameRate: 12, repeat: 1 },
+					death: { start: 24, end: 31, frameRate: 12, repeat: 0 },
+				},
+				right: {
+					walk: { start: 12, end: 17, frameRate: 12, repeat: -1 },
+					attack: { start: 16, end: 23, frameRate: 12, repeat: 1 },
+					death: { start: 16, end: 23, frameRate: 12, repeat: 0 },
+				},
+				top: {
+					walk: { start: 0, end: 5, frameRate: 12, repeat: -1 },
+					attack: { start: 0, end: 7, frameRate: 12, repeat: 1 },
+					death: { start: 0, end: 7, frameRate: 12, repeat: 0 },
+				},
+				bottom: {
+					walk: { start: 6, end: 11, frameRate: 12, repeat: -1 },
+					attack: { start: 8, end: 15, frameRate: 12, repeat: 1 },
+					death: { start: 8, end: 15, frameRate: 12, repeat: 0 },
+				}
 			}
 		}],
 		[EnemyType.FROSTWISP,      { name: "FrostWisp",      hitPoints: 15,  speed: 18, damage: 8,   imageUrl: '/src/images/grinning.png' }],
@@ -92,14 +134,24 @@ export default class EnemyType {
 			);
 			if (enemy.spritesUrl) {
 				const url = enemy.spritesUrl;
-				for (const spriteSheet in enemy.sprites) {
+				for (const direction in enemy.spriteImages) {
+					for (const spriteSheet of enemy.spriteImages[direction]) {
+						scene.load.spritesheet(
+							`${enemy.name}-${spriteSheet.key}-${direction}`,
+							`${url}${spriteSheet.url}`,
+							enemy.spriteConfig,
+						);
+					}
+				}
+				/*for (const spriteSheet in enemy.sprites) {
+					console.log('spriteSheet', spriteSheet);
 					// console.log(`sprite name: ${enemy.name}-${spriteSheet}`);
 					scene.load.spritesheet(
 						`${enemy.name}-${spriteSheet}`,
 						`${url}${enemy.sprites[spriteSheet].image}`,
 						enemy.spriteConfig,
 					);
-				}
+				}*/
 			}
 		});
 	}
@@ -118,7 +170,22 @@ export default class EnemyType {
 	static createAnimations(scene) {
 		EnemyType.DATABASE.forEach((enemy, type) => {
 			if (enemy.sprites) {
-				for (const spriteData in enemy.sprites) {
+				for (const direction in enemy.sprites) {
+					for (const spriteData in enemy.sprites[direction]) {
+						// console.log(spriteData, direction, `${enemy.name}-${spriteData}-${direction}-anim`);
+						scene.anims.create({
+							key: `${enemy.name}-${spriteData}-${direction}-anim`,
+							frames: scene.anims.generateFrameNumbers(`${enemy.name}-${spriteData}-${direction}`, {
+								start: enemy.sprites[direction][spriteData].start,
+								end: enemy.sprites[direction][spriteData].end
+							}),
+							frameRate: enemy.sprites[direction][spriteData].frameRate,
+							repeat: enemy.sprites[direction][spriteData].repeat
+						});
+					}
+				}
+				/*for (const spriteData in enemy.sprites) {
+					console.log('sprintData', spriteData);
 					scene.anims.create({
 						key: `${enemy.name}-${spriteData}-anim`,
 						frames: scene.anims.generateFrameNumbers(`${enemy.name}-${spriteData}`, {
@@ -128,7 +195,7 @@ export default class EnemyType {
 						frameRate: enemy.sprites[spriteData].frameRate,
 						repeat: enemy.sprites[spriteData].repeat
 					});
-				}
+				}*/
 			}
 		});
 	}

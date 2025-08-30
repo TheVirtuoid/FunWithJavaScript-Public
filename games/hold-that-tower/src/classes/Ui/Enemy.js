@@ -73,10 +73,15 @@ export default class Enemy {
 		this.#createHealthBar();
 	}
 
-	playAnimation(animationName) {
+	playAnimation(animationName, completeCallback) {
 		const enemyData = EnemyType.DATABASE.get(this.type);
 		if (this.#image && enemyData.sprites) {
 			this.#image.play(`${this.#name}-${animationName}-anim`);
+			if (completeCallback) {
+				this.#image.once('animationcomplete', completeCallback);
+			}
+		} else if (completeCallback) {
+			completeCallback();
 		}
 	}
 

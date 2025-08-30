@@ -111,6 +111,7 @@ export default class EnemyGroup {
 	}
 
 	moveEnemy(enemy) {
+		let location;
 		if (Math.random() < .5) {
 			enemy.setPosition(new Position(
 				Math.random() < .5 ? -100 : this.#scene.cameras.main.width + 100,
@@ -122,8 +123,20 @@ export default class EnemyGroup {
 				Math.random() < .5 ? -100 : this.#scene.cameras.main.height + 100
 			));
 		}
+		const { x, y } = enemy.position;
+		if (x === -100) {
+			location = 'left';
+		} else if ( y === -100) {
+			location = 'top';
+		} else if (x > this.#scene.cameras.main.width) {
+			location = 'right';
+		} else {
+			location = 'bottom';
+		}
 		enemy.setVisible(true);
-		enemy.ui.playAnimation('walk');
+		enemy.setLocation(location);
+		//enemy.ui.playAnimation('walk');
+		enemy.ui.playAnimation(`walk-${location}`);
 
 		// Create a tween to move from left to right
 		this.#scene.tweens.add({

@@ -227,26 +227,30 @@ export default class GamePlay extends Phaser.Scene {
 	}
 
 	#onEnemyReachedTower(enemy) {
-		enemy.setVisible(false);
-		const ammo = new Ammo({ damage: enemy.damage, type: AmmoType.ENEMY, scene: this });
-		const health = this.#tower.takeDamage(ammo);
-		this.#statistics.setHealth(this.#tower.health);
-		if (this.#enemies.enemyToLaunch === -1 && enemy === this.#enemies.lastEnemyToLaunch) {
-			GameEvent.Emit(GameEvent.WAVE_ENDED);
-		}
-		if (health === 0) {
-			GameEvent.Emit(GameEvent.GAME_OVER);
-		}
+		enemy.ui.playAnimation(`attack-${enemy.location}`, () => {
+			enemy.setVisible(false);
+			const ammo = new Ammo({ damage: enemy.damage, type: AmmoType.ENEMY, scene: this });
+			const health = this.#tower.takeDamage(ammo);
+			this.#statistics.setHealth(this.#tower.health);
+			if (this.#enemies.enemyToLaunch === -1 && enemy === this.#enemies.lastEnemyToLaunch) {
+				GameEvent.Emit(GameEvent.WAVE_ENDED);
+			}
+			if (health === 0) {
+				GameEvent.Emit(GameEvent.GAME_OVER);
+			}
+		});
 	};
 
 	#onEnemyDestroyed(enemy) {
-		enemy.setVisible(false);
 		this.tweens.getTweensOf(enemy.image).forEach(tween => tween.stop());
-		enemy.destroy();
-		this.#dropPrize(enemy.prize, new Position(enemy.image.x, enemy.image.y));
-		if (this.#enemies.enemyToLaunch === -1 && enemy === this.#enemies.lastEnemyToLaunch) {
-			GameEvent.Emit(GameEvent.WAVE_ENDED);
-		}
+		enemy.ui.playAnimation(`death-${enemy.location}`, () => {
+			enemy.setVisible(false);
+			enemy.destroy();
+			this.#dropPrize(enemy.prize, new Position(enemy.image.x, enemy.image.y));
+			if (this.#enemies.enemyToLaunch === -1 && enemy === this.#enemies.lastEnemyToLaunch) {
+				GameEvent.Emit(GameEvent.WAVE_ENDED);
+			}
+		});
 	};
 
 	#onRunnerReturned(prize) {
@@ -264,9 +268,11 @@ export default class GamePlay extends Phaser.Scene {
 
 	#onMissileHitEnemy(missile, enemy) {
 		const bullet = this.#bullets.findBulletFromImage(missile);
-		const hitPoints = enemy.takeDamage(bullet.damage);
-		if (hitPoints === 0) {
-			GameEvent.Emit(GameEvent.ENEMY_DESTROYED, enemy);
+		if (enemy.hitPoints !== 0) {
+			const hitPoints = enemy.takeDamage(bullet.damage);
+			if (hitPoints === 0) {
+				GameEvent.Emit(GameEvent.ENEMY_DESTROYED, enemy);
+			}
 		}
 	};
 
