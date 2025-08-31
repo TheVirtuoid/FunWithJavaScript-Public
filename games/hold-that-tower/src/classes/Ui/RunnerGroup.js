@@ -43,6 +43,7 @@ export default class RunnerGroup {
 		const { runner } = runnerData;
 		runner.setPosition(new Position(this.#tower.x, this.#tower.y));
 		runner.setVisible(true);
+		runner.setSpeed(this.#speed);
 		const distanceToPrize = Phaser.Math.Distance.Between(
 			this.#tower.x,
 			this.#tower.y,
