@@ -1,4 +1,5 @@
 import Ground from '/src/classes/Ui/Ground.js';
+import Statistics from "../Statistics.js";
 
 export default class Beginning extends Phaser.Scene {
 	#ground;
@@ -30,9 +31,9 @@ export default class Beginning extends Phaser.Scene {
 		pictureFrame.setPosition(Math.floor(width / 2), Math.floor(height / 2));
 		pictureFrame.setVisible(true);
 
-		this.add.text(middleX - 280, middleY - 150, 'Hold That Tower!', {
-			fontFamily: 'Tiny5',
-			fontSize: '80px',
+		this.add.text(middleX - 300, middleY - 150, 'Hold That Tower!', {
+			fontFamily: '"Press Start 2P"',
+			fontSize: '38px',
 			fill: '#bb2222'
 		});
 
