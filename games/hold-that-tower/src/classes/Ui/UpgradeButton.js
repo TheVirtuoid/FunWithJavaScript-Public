@@ -1,7 +1,12 @@
 import Statistics from "./Statistics.js";
 import GameEvent from "../../enums/GameEvent.js";
+import Position from "../Position.js";
 
 export default class UpgradeButton {
+
+	static JUSTIFY_LEFT = Symbol('justify-left');
+	static JUSTIFY_RIGHT = Symbol('justify-right');
+
 	#limit;
 	#amount;
 	#scene;
@@ -88,13 +93,21 @@ export default class UpgradeButton {
 		this.#button.setFillStyle(this.#setBackgroundColor(this.#amount));
 		this.#button.setStrokeStyle(2, this.#setBorderColor(this.#amount));
 		this.#buttonText.setFill(this.#setForegroundColor(this.#amount));
+		this.#setSize();
 		this.#selectable = this.#amount >= this.#limit;
 	}
 
-	setPosition(position) {
-		this.#position = position;
-		this.#button.setPosition(this.#position.x - Statistics.PADDING * .5, this.#position.y - Statistics.PADDING * .5);
-		this.#buttonText.setPosition(this.#position.x, this.#position.y);
+	setPosition(position, justify = UpgradeButton.JUSTIFY_LEFT) {
+		let x, y, px, py;
+		if (justify === UpgradeButton.JUSTIFY_RIGHT) {
+			this.#position = new Position(position.x - this.#button.width, position.y);
+			this.#button.setPosition(this.#position.x - Statistics.PADDING * .5, this.#position.y - Statistics.PADDING * .5);
+			this.#buttonText.setPosition(this.#position.x, this.#position.y);
+		} else {
+			this.#position = position;
+			this.#button.setPosition(this.#position.x - Statistics.PADDING * .5, this.#position.y - Statistics.PADDING * .5);
+			this.#buttonText.setPosition(this.#position.x, this.#position.y);
+		}
 	}
 
 	#setForegroundColor(amount) {
@@ -107,6 +120,13 @@ export default class UpgradeButton {
 
 	#setBorderColor(amount) {
 		return amount < this.#limit ? 0x666666 : 0xffffff;
+	}
+
+	#setSize() {
+		const { width, height } = this.#buttonText.getBounds();
+		const gw = width + Statistics.PADDING;
+		const gh = height + Statistics.PADDING;
+		this.#button.setSize(gw, gh);
 	}
 
 	#addSmallText(position, text, color = '#ffffff') {

@@ -230,7 +230,7 @@ export default class Statistics {
 			limit: 100,
 			type: ButtonUpgradeType.HEALTH
 		});
-		this.#buttonUpgradeHealth.setPosition(new Position(Statistics.INNER_WIDTH - Statistics.PADDING, y ));
+		this.#buttonUpgradeHealth.setPosition(new Position(Statistics.WIDTH + Statistics.PADDING / 2, y ), UpgradeButton.JUSTIFY_RIGHT);
 
 		y += text.height + 20;
 		text = this.#addMainText(new Position(x,y), 'Add Runner');
@@ -240,17 +240,18 @@ export default class Statistics {
 			limit: 10,
 			type: ButtonUpgradeType.RUNNER
 		});
-		this.#buttonAddRunner.setPosition(new Position(Statistics.INNER_WIDTH - Statistics.PADDING, y ));
+		this.#buttonAddRunner.setPosition(new Position(Statistics.WIDTH + Statistics.PADDING / 2, y ), UpgradeButton.JUSTIFY_RIGHT);
 
 		y += text.height + 20;
 		text = this.#addMainText(new Position(x,y), 'Add Gun');
 		smallCrownImage.setPosition(new Position(x + text.width + Statistics.PADDING * 2, y + 10));
-		this.#buttonAddGun = new UpgradeButton({ position: new Position(Statistics.INNER_WIDTH - 20 * 3, y ),
+		this.#buttonAddGun = new UpgradeButton({ position: new Position(0, 0),
 			scene: this.#scene,
 			limit: 1,
 			type: ButtonUpgradeType.GUN
 		});
-		this.#buttonAddGun.setPosition(new Position(Statistics.INNER_WIDTH - Statistics.PADDING, y ));
+		console.log(Statistics.INNER_WIDTH, Statistics.PADDING);
+		this.#buttonAddGun.setPosition(new Position(Statistics.WIDTH + Statistics.PADDING / 2, y ), UpgradeButton.JUSTIFY_RIGHT);
 
 		y += text.height + 20;
 		return { x, y }

@@ -51,7 +51,7 @@ export default class EnemyType {
 			damage: 5,
 			imageUrl: '/src/images/snowman.png',
 			spritesUrl: '/src/sprites/shadowling',
-			scale: 3,
+			scale: 2,
 			spriteConfig: {
 				frameWidth: 64,
 				frameHeight: 64,
