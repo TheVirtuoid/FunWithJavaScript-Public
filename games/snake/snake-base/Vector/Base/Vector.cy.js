@@ -58,8 +58,8 @@ describe('When I work with Vector', () => {
 			expect(() => vector.toString()).to.throw('Method not implemented');
 		});
 
-		it('should throw an exception when calling compare()', () => {
-			expect(() => vector.compare(new Vector())).to.throw('Method not implemented');
+		it('should throw an exception when calling compareTo()', () => {
+			expect(() => vector.compareTo(new Vector())).to.throw('Method not implemented');
 		});
 
 		it('should throw an exception when calling inBounds()', () => {

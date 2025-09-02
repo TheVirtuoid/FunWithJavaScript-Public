@@ -47,7 +47,7 @@ export default class Vector {
 		throw new Error('Method not implemented');
 	}
 
-	compare(vector) {
+	compareTo(vector) {
 		throw new Error('Method not implemented');
 	}
 

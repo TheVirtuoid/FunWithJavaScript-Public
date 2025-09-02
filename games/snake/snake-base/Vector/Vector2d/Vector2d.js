@@ -90,7 +90,7 @@ export default class Vector2d extends Vector {
 		return new Vector2d(x, y);
 	}
 
-	// For isPerimeter, inBounds, and isInside, we assume a rectangular area defined by the this vector's coordinates.
+	// For isPerimeter, inBounds, and isInside, we assume a rectangular area defined by this vector's coordinates.
 	inBounds(vector) {
 		const x = vector.x >= 0 && vector.x < this.#x;
 		const y = vector.y >= 0 && vector.y < this.#y;
