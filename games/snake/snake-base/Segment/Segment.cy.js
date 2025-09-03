@@ -7,25 +7,25 @@ const vectorFactory = game.vectorFactory;
 
 describe('And when I work with the Segment class', () => {
 
-	it('should create an instance of Segment with default properties', () => {
-		const segment = new Segment();
-		expect(segment.position.equals(MockVector.Zero())).to.be.true;
-		expect(segment.direction.equals(MockVector.Up())).to.be.true;
-		expect(segment.id).to.be.a('string');
-	});
+	const direction = MockVector.Up();
+	const position = MockVector.Zero();
+	const id = 'test-segment';
+	const speed = 2;
 
 	it('should throw error if stated position is not a vector', () => {
-		expect(() => new Segment({ position: 'bad' })).to.throw(`'position' property must be an instance of Vector`);
+		expect(() => new Segment({ position: 'bad', direction, id })).to.throw(`'position' property must be an instance of Vector`);
 	});
 
 	it('should throw error if stated direction is not a vector', () => {
-		expect(() => new Segment({ direction: 'bad' })).to.throw(`'direction' property must be an instance of Vector`);
+		expect(() => new Segment({ direction: 'bad', position, id })).to.throw(`'direction' property must be an instance of Vector`);
+	});
+
+	it('should create an instance of Segment with properties', () => {
+		const segment = new Segment({ direction, position });
+		expect(segment.id).to.be.a('string');
 	});
 
 	describe('And I work with the Public properties', () => {
-		let position = new MockVector(1, 2);
-		let direction = MockVector.Down();
-		let id = 'test-segment';
 		let segment;
 
 		beforeEach(() => {
@@ -64,12 +64,10 @@ describe('And when I work with the Segment class', () => {
 	});
 
 	describe('And I work with the Public methods', () => {
-		let position = new MockVector(1, 2);
-		let direction = MockVector.Down();
 		let segment;
 
 		beforeEach(() => {
-			segment = new Segment({position, direction});
+			segment = new Segment({ position, direction, id });
 		});
 
 		describe('And when I work with the move() method', () => {

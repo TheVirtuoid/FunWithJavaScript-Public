@@ -1,21 +1,16 @@
-import GameEvent from "../GameEvent/GameEvent.js";
+import Vector from "../Vector/Base/Vector.js";
 
 export default class Segment {
 	#position;
 	#direction;
-	#vectorFactory;
 	#id;
 
 	constructor(args = {}) {
-		this.#vectorFactory = GameEvent.Game().vectorFactory;
-		const {
-			position = this.#vectorFactory.Zero(),
-			direction = this.#vectorFactory.Up(),
-			id = window.crypto.randomUUID() } = args;
-		if (!(position instanceof this.#vectorFactory)) {
+		const { position, direction, id = window.crypto.randomUUID() } = args;
+		if (!(position instanceof Vector)) {
 			throw new Error(`'position' property must be an instance of Vector`);
 		}
-		if (!(direction instanceof this.#vectorFactory)) {
+		if (!(direction instanceof Vector)) {
 			throw new Error(`'direction' property must be an instance of Vector`);
 		}
 		this.#position = position.clone();
@@ -41,7 +36,7 @@ export default class Segment {
 	}
 
 	changeDirection(newDirection) {
-		if (!(newDirection instanceof this.#vectorFactory)) {
+		if (!(newDirection instanceof Vector)) {
 			throw new Error(`'newDirection' argument must be an instance of Vector`);
 		}
 		this.#direction = newDirection;
