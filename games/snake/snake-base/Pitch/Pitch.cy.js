@@ -3,16 +3,23 @@ import Pitch from "./Pitch.js";
 import { MockVector } from "../../tdd-utilities/tddUtilities.js";
 
 describe('And when I work with the Pitch class', () => {
-	let dimensions = new MockVector(10, 10);
+	const dimensions = new MockVector(10, 10);
+	const id = 'test-pitch'
 	let pitch;
 
 	it('should throw an error if no dimension property is provided', () => {
-		expect(() => new Pitch()).to.throw(`'dimensions' property must be instance of VectorFactory`);
+		expect(() => new Pitch()).to.throw(`'dimensions' property must be a Vector`);
+	});
+
+	it('should create a pitch with default properties', () => {
+		pitch = new Pitch({ dimensions });
+		expect(pitch).to.be.instanceOf(Pitch);
+		expect(pitch.id).to.be.a('string');
 	});
 
 	describe('And I work with the Public properties', () => {
 		beforeEach(() => {
-			pitch = new Pitch({ dimensions });
+			pitch = new Pitch({ dimensions, id });
 		});
 
 		it('should return the dimension of the pitch', () => {
@@ -23,13 +30,8 @@ describe('And when I work with the Pitch class', () => {
 			expect(() => pitch.dimensions = new MockVector(0,0)).to.throw();
 		});
 
-		it('should have a string for an id', () => {
-			expect(pitch.id).to.be.a('string');
-		});
-
-		it('should have an is set', () => {
-			let pitch = new Pitch({ dimensions, id: 'pitch-test' });
-			expect(pitch.id).to.equal('pitch-test');
+		it('should have an id set', () => {
+			expect(pitch.id).to.equal(id);
 		});
 
 		it('should throw error when trying to set the id', () => {
@@ -39,7 +41,7 @@ describe('And when I work with the Pitch class', () => {
 
 	describe('And I work with the Public methods', () => {
 		beforeEach(() => {
-			pitch = new Pitch({ dimensions });
+			pitch = new Pitch({ dimensions, id });
 		});
 
 		describe('And I work with the collision method', () => {
@@ -48,7 +50,7 @@ describe('And when I work with the Pitch class', () => {
 			});
 
 			it('should throw an error if position argument is not a Vector', () => {
-				expect(() => pitch.collision({})).to.throw(`'position' argument must be a vectorFactory instance`);
+				expect(() => pitch.collision({})).to.throw(`'position' argument must be a Vector instance`);
 				cy.get('@gameEmit').should('not.have.been.called');
 			});
 

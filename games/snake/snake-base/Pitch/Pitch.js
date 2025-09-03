@@ -1,18 +1,15 @@
 import GameEvent from "../GameEvent/GameEvent.js";
+import Vector from "../Vector/Base/Vector.js";
 
 export default class Pitch {
 	#dimensions;
-	#ui;
-	#vectorFactory;
 	#id;
 
 	constructor(args = {}) {
 		const { dimensions, ui, id = window.crypto.randomUUID() } = args;
-		this.#vectorFactory = GameEvent.Game()?.vectorFactory;
-		if (!(dimensions instanceof this.#vectorFactory)) {
-			throw new Error(`'dimensions' property must be instance of VectorFactory`);
+		if (!(dimensions instanceof Vector)) {
+			throw new Error(`'dimensions' property must be a Vector`);
 		}
-		this.#ui = ui;
 		this.#id = id;
 		this.#dimensions = dimensions;
 	}
@@ -26,8 +23,8 @@ export default class Pitch {
 	}
 
 	collision(position) {
-		if (!(position instanceof this.#vectorFactory)) {
-			throw new Error(`'position' argument must be a vectorFactory instance`);
+		if (!(position instanceof Vector)) {
+			throw new Error(`'position' argument must be a Vector instance`);
 		}
 		if (!this.#dimensions.inBounds(position)) {
 			throw new Error(`'position' argument is outside the pitch`);
