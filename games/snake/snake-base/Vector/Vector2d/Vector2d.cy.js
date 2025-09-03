@@ -65,16 +65,16 @@ describe('When I work with the Vector2d class', () => {
 			expect(vector.y).to.equal(0);
 		});
 
-		it('should return (0,1) for Up()', () => {
+		it('should return (0,-1) for Up()', () => {
 			const vector = Vector2d.Up();
 			expect(vector.x).to.equal(0);
-			expect(vector.y).to.equal(1);
+			expect(vector.y).to.equal(-1);
 		});
 
-		it('should return (0,-1) for Down()', () => {
+		it('should return (0,1) for Down()', () => {
 			const vector = Vector2d.Down();
 			expect(vector.x).to.equal(0);
-			expect(vector.y).to.equal(-1);
+			expect(vector.y).to.equal(1);
 		});
 
 		it('should return (n,n) for Fill(n)', () => {

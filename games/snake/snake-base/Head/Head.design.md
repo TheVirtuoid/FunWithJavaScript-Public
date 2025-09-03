@@ -57,3 +57,4 @@ All public properties are the be read-only (getter functions) unless specified o
       3. Collision with prize triggers 'snake-collision-prize' event
 4. `reset()`: Resets the snake head to its initial state.
    1. Trigger the 'snake-reset' event
+5. `getProjectedPosition()`: Returns the projected position of the snake head based on its current direction and speed without actually moving it.

@@ -51,6 +51,8 @@ None
     - If this vector is (5, 5) and the provided vector is (4, 4), this method will return true
 11. `fill(number)`: Fills the vector with the provided number for each component.
     - Returns a new Vector with each component set to the provided number
+12. `opposite()`: Returns the opposite of this vector.
+    - Returns a new Vector that is the opposite of this vector (i.e., each component multiplied by -1)
 
 ### Static
 

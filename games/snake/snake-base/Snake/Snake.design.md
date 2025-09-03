@@ -26,10 +26,15 @@ The snake encompasses the head and the snake of the game.
 ## Methods
 
 ### Public
-1. `move({ direction, speed })` - moves the snake
-   1. If `direction` is provided, changes the direction of the snake before moving
-   2. If `speed` is provided, changes the speed of the snake before moving
-2. `grow()` - increases the length of the snake by 1 unit
-
+1. `move(speed)` - moves the snake
+   1. If `speed` is not provided, speed will be 1 unit
+2. `grow()` - increases the length of the snake by 1 segment
+3. `getBobySegment(index)` - returns a Segment of the body at the given index
+   1. If `index` is out of range, returns `null`
+4. `changeDirection(direction)` - changes the direction of the snake
+   1. `direction` (Vector) - new direction of the snake. Required
+5. `getProjectedPosition()` - return the new position based upon current direction and speed. Performs `move()` without moving the snake.
+6. `setSpeed(speed)` - sets the speed of the snake
+   1. `speed` (Number) - new speed of the snake. Required
 
 

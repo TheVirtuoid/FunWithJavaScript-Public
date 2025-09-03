@@ -68,12 +68,12 @@ describe('When I work with the Head class', () => {
 
 		it('should move with default speed of 1', () => {
 			head.move();
-			expect(head.position.equals(new MockVector(3, 2))).to.be.true;
+			expect(head.position.equals(new MockVector(3, 4))).to.be.true;
 		});
 
 		it('should move with specified speed', () => {
 			head.move(2);
-			expect(head.position.equals(new MockVector(3, 1))).to.be.true;
+			expect(head.position.equals(new MockVector(3, 5))).to.be.true;
 		});
 
 		it('should trigger snake-move event', () => {
@@ -149,5 +149,31 @@ describe('When I work with the Head class', () => {
 			cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_JUMPED, head.position, head.direction);
 		});
 
+	});
+
+	describe('getProjectedPosition() method', () => {
+		let position = new MockVector(3, 3);
+		let direction = MockVector.Down();
+		let head;
+
+		beforeEach(() => {
+			head = new Head({ position, direction });
+			GameEvent.Setup(game);
+			cy.spy(GameEvent, 'Emit').as('gameEmit');
+		});
+
+		it('should throw error if speed is not a number', () => {
+			expect(() => head.getProjectedPosition('bad')).to.throw();
+		});
+
+		it('should get projected position with default speed of 1', () => {
+			const newPosition = head.getProjectedPosition();
+			expect(newPosition.equals(new MockVector(3, 4))).to.be.true;
+		});
+
+		it('should get projected position with specified speed', () => {
+			const newPosition = head.getProjectedPosition(2);
+			expect(newPosition.equals(new MockVector(3, 5))).to.be.true;
+		});
 	});
 });

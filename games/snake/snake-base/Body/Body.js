@@ -10,7 +10,7 @@ export default class Body {
 		this.#id = id;
 	}
 
-	get numberOfSegments() {
+	get length() {
 		return this.#segments.length;
 	}
 

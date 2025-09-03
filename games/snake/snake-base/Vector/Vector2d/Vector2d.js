@@ -19,11 +19,11 @@ export default class Vector2d extends Vector {
 	}
 
 	static Up() {
-		return new Vector2d(0, 1);
+		return new Vector2d(0, -1);
 	}
 
 	static Down() {
-		return new Vector2d(0, -1);
+		return new Vector2d(0, 1);
 	}
 
 	static Fill(number) {

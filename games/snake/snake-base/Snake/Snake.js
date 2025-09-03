@@ -10,7 +10,7 @@ export default class Snake {
 	#speed;
 
 	constructor(args = {}) {
-		const { position, direction, speed = 1, id = window.crypto.randomUUID() } = args;
+		const { position, direction, speed = 1, id = window.crypto.randomUUID(), length = 0 } = args;
 		if (!(direction instanceof Vector)) {
 			throw new Error(`'direction' property must be an instance of Vector`);
 		}
@@ -21,6 +21,16 @@ export default class Snake {
 		this.#speed = speed;
 		this.#head = new Head({ position, direction });
 		this.#body = new Body();
+		if (length) {
+			let currentPosition = position.clone();
+			let currentDirection = direction.clone().opposite();
+			const fill = currentDirection.fill(this.#speed);
+			const movement = currentDirection.multiply(fill);
+			for (let i = 0; i < length; i++) {
+				currentPosition = currentPosition.add(movement);
+				this.#body.grow(currentPosition.clone(), currentDirection.clone());
+			}
+		}
 	}
 
 	get id() {
@@ -39,11 +49,11 @@ export default class Snake {
 		return this.#head.direction.clone();
 	}
 
-	get numberOfBodySegments() {
-		return this.#body.numberOfSegments;
+	get length() {
+		return this.#body.length;
 	}
 
-	growBody(position, direction) {
+	grow(position, direction) {
 		if (!(position instanceof Vector)) {
 			throw new Error(`'position' argument must be an instance of Vector`);
 		}
@@ -61,7 +71,7 @@ export default class Snake {
 		let position = this.#head.position;
 		let newDirection = this.#head.direction;
 		this.#head.move(speed);
-		for (let i = 0; i < this.#body.numberOfSegments; i++) {
+		for (let i = 0; i < this.#body.length; i++) {
 			const segment = this.#body.getSegmentAt(i);
 			const previousSegmentDirection = segment.direction;
 			segment.move(speed);
@@ -81,5 +91,9 @@ export default class Snake {
 		if (speed > 0) {
 			this.#speed = speed;
 		}
+	}
+
+	getProjectedPosition(speed = this.#speed) {
+		return this.#head.getProjectedPosition(speed);
 	}
 }

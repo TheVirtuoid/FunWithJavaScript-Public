@@ -5,6 +5,8 @@ describe('And when I work with the Snake class', () => {
 	const position = new MockVector(5,5);
 	const direction = MockVector.Down();
 	const speed = 2;
+	const length = 3;
+	const id = 'snake-test';
 
 	it('should throw error is position is not a vector', () => {
 		expect(() => new Snake({ position: 'bad', direction })).to.throw(`'position' property must be an instance of Vector`);
@@ -19,14 +21,14 @@ describe('And when I work with the Snake class', () => {
 		expect(snake.id).to.be.a('string');
 		expect(snake.position.equals(position)).to.be.true;
 		expect(snake.direction.equals(direction)).to.be.true;
-		expect(snake.numberOfBodySegments).to.equal(0);
+		expect(snake.length).to.equal(0);
 		expect(snake.speed).to.equal(1);
 	});
 
 	describe('And when I work with the Public properties', () => {
 		let snake;
 		beforeEach(() => {
-			snake = new Snake({ position, direction, speed, id: 'snake-test' });
+			snake = new Snake({ position, direction, speed, length, id });
 		});
 
 		describe('and when I work with "id"', () => {
@@ -55,6 +57,41 @@ describe('And when I work with the Snake class', () => {
 			it('should throw exception if trying to change speed', () => {
 				expect(() => snake.speed = 5).to.throw();
 			});
+		});
+
+		describe('and when I work with "length"', () => {
+			it('should set the length', () => {
+				expect(snake.length).to.equal(length);
+			});
+
+			it('should throw exception if trying to change length', () => {
+				expect(() => snake.length = 5).to.throw();
+			});
+
+			it('should return three body segments in the opposite direction', () => {
+				const oppositeDirection = direction.opposite();
+				let testPosition = new MockVector(5, 5 - speed);
+				let segment = snake.getBodySegmentAt(2);
+				expect(segment.position.equals(testPosition)).to.be.true;
+				expect(segment.direction.equals(oppositeDirection)).to.be.true;
+				testPosition = new MockVector(5, 5 - speed * 2);
+				segment = snake.getBodySegmentAt(1);
+				expect(segment.position.equals(testPosition)).to.be.true;
+				expect(segment.direction.equals(oppositeDirection)).to.be.true;
+				testPosition = new MockVector(5, 5 - speed * 3);
+				segment = snake.getBodySegmentAt(0);
+				expect(segment.position.equals(testPosition)).to.be.true;
+				expect(segment.direction.equals(oppositeDirection)).to.be.true;
+			});
+
+			it('should return undefined if index is out of range', () => {
+				let segment = snake.getBodySegmentAt(-1);
+				expect(segment).to.be.undefined;
+				segment = snake.getBodySegmentAt(3);
+				expect(segment).to.be.undefined;
+			});
+
+
 		});
 	});
 
@@ -106,16 +143,16 @@ describe('And when I work with the Snake class', () => {
 			});
 
 			it('should throw error if position is not a vector', () => {
-				expect(() => snake.growBody('bad', bodyDirection)).to.throw(`'position' argument must be an instance of Vector`);
+				expect(() => snake.grow('bad', bodyDirection)).to.throw(`'position' argument must be an instance of Vector`);
 			});
 
 			it('should throw exception if direction is not a vector', () => {
-				expect(() => snake.growBody(bodyPosition, 'bad')).to.throw(`'direction' argument must be an instance of Vector`);
+				expect(() => snake.grow(bodyPosition, 'bad')).to.throw(`'direction' argument must be an instance of Vector`);
 			});
 
 			it('should grow a body segment to the snake', () => {
-				snake.growBody(bodyPosition, bodyDirection);
-				expect(snake.numberOfBodySegments).to.equal(1);
+				snake.grow(bodyPosition, bodyDirection);
+				expect(snake.length).to.equal(1);
 				const segment = snake.getBodySegmentAt(0);
 				expect(segment.position.equals(bodyPosition)).to.be.true;
 				expect(segment.direction.equals(bodyDirection)).to.be.true;
@@ -125,10 +162,10 @@ describe('And when I work with the Snake class', () => {
 		describe('And when I move the snake', () => {
 			beforeEach(() => {
 				snake = new Snake({ position, direction });
-				snake.growBody(body3Position, body3Direction);
-				snake.growBody(body2Position, body2Direction);
-				snake.growBody(body1Position, body1Direction);
-				snake.growBody(body0Position, body0Direction);
+				snake.grow(body3Position, body3Direction);
+				snake.grow(body2Position, body2Direction);
+				snake.grow(body1Position, body1Direction);
+				snake.grow(body0Position, body0Direction);
 			});
 
 			it('should move the distance of 1 (default)', () => {
@@ -206,23 +243,23 @@ describe('And when I work with the Snake class', () => {
 				snake = new Snake({ position, direction, speed });
 			});
 
-			it('should return the current position if no arguments provided', () => {
+			it('should return the position as if a move() occurred', () => {
 				const projectedPosition = snake.getProjectedPosition();
-				expect(projectedPosition.equals(position)).to.be.true;
-				expect(projectedPosition).to.not.equal(snake.position); // should be a clone
+				const fill = direction.fill(speed);
+				const expectedPosition = position.add(direction.multiply(fill));
+				expect(projectedPosition.equals(expectedPosition)).to.be.true;
 			});
 
-			it('should throw error if distance is not a number', () => {
-				expect(() => snake.getProjectedPosition('bad')).to.throw(`'distance' argument must be a number`);
+			it('should throw error if speed is not a number', () => {
+				expect(() => snake.getProjectedPosition('bad')).to.throw();
 			});
 
-			it('should return the projected position based on the current direction and speed', () => {
-				const distance = 3;
-				const multiplier = direction.fill(distance);
-				const projectedPosition = snake.getProjectedPosition(distance);
+			it('should return the projected position based on given speed', () => {
+				const speed = 3;
+				const multiplier = direction.fill(speed);
+				const projectedPosition = snake.getProjectedPosition(speed);
 				const expectedPosition = position.add(direction.multiply(multiplier));
 				expect(projectedPosition.equals(expectedPosition)).to.be.true;
-				expect(projectedPosition).to.not.equal(snake.position); // should be a clone
 			});
 		});
 	});

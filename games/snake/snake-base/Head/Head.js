@@ -25,11 +25,7 @@ export default class Head {
 	}
 
 	move(speed = 1) {
-		if (typeof speed !== 'number') {
-			throw new Error(`'speed' argument must be a number`);
-		}
-		const additiveVector = this.#direction.multiply(this.#direction.fill(speed));
-		this.#position = this.#position.add(additiveVector);
+		this.#position = this.getProjectedPosition(speed);
 		GameEvent.Emit(GameEvent.SNAKE_MOVE, this.#position);
 	}
 
@@ -54,5 +50,13 @@ export default class Head {
 		this.#position = position.clone();
 		this.#direction = direction.clone();
 		GameEvent.Emit(GameEvent.SNAKE_JUMPED, this.#position, this.#direction);
+	}
+
+	getProjectedPosition(speed = 1) {
+		if (typeof speed !== 'number') {
+			throw new Error(`'speed' argument must be a number`);
+		}
+		const additiveVector = this.#direction.multiply(this.#direction.fill(speed));
+		return this.#position.add(additiveVector);
 	}
 }
