@@ -4,8 +4,8 @@ The design for the snake head in the Snake game.
 
 ## Constructor
 All properties are set in the constructor, which takes the following key values:
-1. `position` (Vector) - The initial position of the snake head in the game grid. Defaults to VectorFactory.Zero();
-2. `direction` (Vector) - The initial movement direction of the snake head. Defaults to VectorFactory.Up();
+1. `position` (Vector) - The initial position of the snake head in the game grid. Required
+2. `direction` (Vector) - The initial movement direction of the snake head. Required
 
 ## Properties
 

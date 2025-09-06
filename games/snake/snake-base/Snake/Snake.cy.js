@@ -49,6 +49,18 @@ describe('And when I work with the Snake class', () => {
 			});
 		});
 
+		describe('And when I work with "body"', () => {
+			it('should return the correct positions', () => {
+				const body = snake.body;
+				expect(body[0].equals(new MockVector(5, 5 - speed * 3))).to.be.true;
+				expect(body[1].equals(new MockVector(5, 5 - speed * 2))).to.be.true;
+				expect(body[2].equals(new MockVector(5, 5 - speed))).to.be.true;
+			});
+			it('should throw exception if trying to change body', () => {
+				expect(() => snake.body = 'bad').to.throw();
+			});
+		});
+
 		describe('and when I work with "speed"', () => {
 			it('should set the speed', () => {
 				expect(snake.speed).to.equal(speed);
@@ -143,15 +155,15 @@ describe('And when I work with the Snake class', () => {
 			});
 
 			it('should throw error if position is not a vector', () => {
-				expect(() => snake.grow('bad', bodyDirection)).to.throw(`'position' argument must be an instance of Vector`);
+				expect(() => snake.grow({ position: 'bad', direction: bodyDirection })).to.throw(`'position' argument must be an instance of Vector`);
 			});
 
 			it('should throw exception if direction is not a vector', () => {
-				expect(() => snake.grow(bodyPosition, 'bad')).to.throw(`'direction' argument must be an instance of Vector`);
+				expect(() => snake.grow({ position: bodyPosition, direction: 'bad' })).to.throw(`'direction' argument must be an instance of Vector`);
 			});
 
 			it('should grow a body segment to the snake', () => {
-				snake.grow(bodyPosition, bodyDirection);
+				snake.grow({ position: bodyPosition, direction: bodyDirection });
 				expect(snake.length).to.equal(1);
 				const segment = snake.getBodySegmentAt(0);
 				expect(segment.position.equals(bodyPosition)).to.be.true;
@@ -162,10 +174,10 @@ describe('And when I work with the Snake class', () => {
 		describe('And when I move the snake', () => {
 			beforeEach(() => {
 				snake = new Snake({ position, direction });
-				snake.grow(body3Position, body3Direction);
-				snake.grow(body2Position, body2Direction);
-				snake.grow(body1Position, body1Direction);
-				snake.grow(body0Position, body0Direction);
+				snake.grow({ position: body3Position, direction: body3Direction });
+				snake.grow({ position: body2Position, direction: body2Direction });
+				snake.grow({ position: body1Position, direction: body1Direction });
+				snake.grow({ position: body0Position, direction: body0Direction });
 			});
 
 			it('should move the distance of 1 (default)', () => {

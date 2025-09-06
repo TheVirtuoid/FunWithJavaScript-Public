@@ -1,12 +1,10 @@
 import Head from './Head.js';
-import Vector from "../Vector/Base/Vector.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 import Game from "../Game/Game.js";
-import {MockVector} from "../../tdd-utilities/tddUtilities.js";
+import { MockVector, MockGame } from "../../tdd-utilities/tddUtilities.js";
 import Pitch from "../Pitch/Pitch.js";
 
-const game = new Game({ vectorFactory: MockVector });
-const vectorFactory = game.vectorFactory;
+const game = MockGame;
 game.addPitch(new Pitch({ dimensions: new MockVector(10, 10), id: 'pitch-test' }));
 GameEvent.Setup(game);
 
@@ -16,16 +14,20 @@ describe('When I work with the Head class', () => {
 	const direction = MockVector.Up();
 
 	describe('And I work with the constructor', () => {
-		it('should create an instance of Head with default properties', () => {
-			const head = new Head();
-			expect(head.position.equals(MockVector.Zero())).to.be.true;
-			expect(head.direction.equals(MockVector.Up())).to.be.true;
+		it('should throw error if position is not a Vector', () => {
+			expect(() => new Head({ position: 'bad', direction })).to.throw(`'position' property must be an instance of Vector`);
+		});
+		it('should throw error if direction is not a Vector', () => {
+			expect(() => new Head({ position, direction: 'bad' })).to.throw(`'direction' property must be an instance of Vector`);
+		});
+		it('should create an instance of Head with specified properties', () => {
+			const head = new Head({ position, direction });
+			expect(head.position.equals(position)).to.be.true;
+			expect(head.direction.equals(direction)).to.be.true;
 		});
 	});
 
 	describe('And I work with the Public properties', () => {
-		let position = new MockVector(1, 2);
-		let direction = MockVector.Down();
 		let head;
 
 		beforeEach(() => {

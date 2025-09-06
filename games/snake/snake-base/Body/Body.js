@@ -18,6 +18,10 @@ export default class Body {
 		return this.#id;
 	}
 
+	get segments() {
+		return this.#segments.map(segment => segment.position.clone());
+	}
+
 	getSegmentAt(index) {
 		if (index < 0 || index >= this.#segments.length) {
 			return undefined;

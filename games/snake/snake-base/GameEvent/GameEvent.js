@@ -1,24 +1,30 @@
 let game;
 
 export default class GameEvent {
-	static GAME_OVER = 'game-over';
-	static GAME_EVENT_INITIALIZED = 'game-event-initialized';
+	static GAME_OVER = Symbol('game-over');
+	static GAME_EVENT_INITIALIZED = Symbol('game-event-initialized');
 
-	static SNAKE_COLLISION_WALL = 'snake-collision-wall';
-	static SNAKE_COLLISION_SELF = 'snake-collision-self';
-	static SNAKE_COLLISION_PRIZE = 'snake-collision-prize';
-	static SNAKE_MOVE = 'snake-move';
-	static SNAKE_DIRECTION_INVALID = 'snake-direction-invalid';
-	static SNAKE_DIRECTION_CHANGED = 'snake-direction-changed';
-	static SNAKE_JUMP_INVALID = 'snake-jump-invalid';
-	static SNAKE_JUMPED = 'snake-jumped';
-	static SNAKE_RESET = 'snake-reset';
+	static SNAKE_COLLISION_WALL = Symbol('snake-collision-wall');
+	static SNAKE_COLLISION_SELF = Symbol('snake-collision-self');
+	static SNAKE_COLLISION_PRIZE = Symbol('snake-collision-prize');
+	static SNAKE_MOVE = Symbol('snake-move');
+	static SNAKE_DIRECTION_INVALID = Symbol('snake-direction-invalid');
+	static SNAKE_DIRECTION_CHANGED = Symbol('snake-direction-changed');
+	static SNAKE_JUMP_INVALID = Symbol('snake-jump-invalid');
+	static SNAKE_JUMPED = Symbol('snake-jumped');
+	static SNAKE_RESET = Symbol('snake-reset');
 
-	static DETECT_WALL_COLLISION = 'detect-wall-collision';
-	static DETECT_PRIZE_COLLISION = 'detect-prize-collision';
-	static DETECT_SELF_COLLISION = 'detect-self-collision';
+	static DETECT_WALL_COLLISION = Symbol('detect-wall-collision');
+	static DETECT_PRIZE_COLLISION = Symbol('detect-prize-collision');
+	static DETECT_SELF_COLLISION = Symbol('detect-self-collision');
 
-	static INPUT_MOVE = 'input-move';
+	static INPUT_MOVE = Symbol('input-move');
+
+	static GAME_EXIT = Symbol('game-exit');
+	static GAME_PAUSE = Symbol('game-pause');
+	static GAME_RESUME = Symbol('game-resume');
+	static GAME_RESET = Symbol('game-reset');
+	static GAME_START = Symbol('game-start');
 
 	static TYPES = [
 		GameEvent.GAME_OVER,
@@ -35,7 +41,12 @@ export default class GameEvent {
 		GameEvent.DETECT_WALL_COLLISION,
 		GameEvent.DETECT_PRIZE_COLLISION,
 		GameEvent.DETECT_SELF_COLLISION,
-		GameEvent.INPUT_MOVE
+		GameEvent.INPUT_MOVE,
+		GameEvent.GAME_EXIT,
+		GameEvent.GAME_PAUSE,
+		GameEvent.GAME_RESUME,
+		GameEvent.GAME_RESET,
+		GameEvent.GAME_START
 	]
 
 	static Setup(gameObject) {

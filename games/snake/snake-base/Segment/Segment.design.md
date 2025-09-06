@@ -15,6 +15,7 @@ All properties are read-only (getter functions) unless specified otherwise.
 1. `position` (Vector) - position of the segment.
 2. `direction` (Vector) - direction of the segment.
 3. `id` (String) - unique identifier for the segment.
+4. `segments` (Array of Vector) - the positions of the segments, in order.
 
 ## Methods
 

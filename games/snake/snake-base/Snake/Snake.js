@@ -28,7 +28,7 @@ export default class Snake {
 			const movement = currentDirection.multiply(fill);
 			for (let i = 0; i < length; i++) {
 				currentPosition = currentPosition.add(movement);
-				this.#body.grow(currentPosition.clone(), currentDirection.clone());
+				this.#body.grow({ position: currentPosition.clone(), direction: currentDirection.clone() });
 			}
 		}
 	}
@@ -53,14 +53,19 @@ export default class Snake {
 		return this.#body.length;
 	}
 
-	grow(position, direction) {
+	get body() {
+		return this.#body.segments;
+	}
+
+	grow(args = {}) {
+		const { position, direction } = args;
 		if (!(position instanceof Vector)) {
 			throw new Error(`'position' argument must be an instance of Vector`);
 		}
 		if (!(direction instanceof Vector)) {
 			throw new Error(`'direction' argument must be an instance of Vector`);
 		}
-		this.#body.grow(position, direction);
+		this.#body.grow({ position, direction });
 	}
 
 	getBodySegmentAt(index) {

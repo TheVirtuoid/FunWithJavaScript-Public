@@ -1,27 +1,30 @@
 import GameEvent from "../GameEvent/GameEvent.js";
+import Vector from "../Vector/Base/Vector.js";
 
 export default class Head {
 	#position;
 	#direction;
 	#ui;
-	#vectorFactory;
-	#pitchDimensions;
 
 	constructor(args = {}) {
 		const { position, direction, ui } = args;
-		this.#vectorFactory = GameEvent.Game().vectorFactory;
-		this.#pitchDimensions = GameEvent.Game().pitchDimensions;
-		this.#position = position || this.#vectorFactory.Zero();
-		this.#direction = direction || this.#vectorFactory.Up();
+		if (!(position instanceof Vector)) {
+			throw new Error(`'position' property must be an instance of Vector`);
+		}
+		if (!(direction instanceof Vector)) {
+			throw new Error(`'direction' property must be an instance of Vector`);
+		}
+		this.#position = position;
+		this.#direction = direction;
 		this.#ui = ui;
 	}
 
 	get position() {
-		return this.#position;
+		return this.#position.clone();
 	}
 
 	get direction() {
-		return this.#direction;
+		return this.#direction.clone();
 	}
 
 	move(speed = 1) {
@@ -30,7 +33,7 @@ export default class Head {
 	}
 
 	changeDirection(newDirection) {
-		if (!(newDirection instanceof this.#vectorFactory)) {
+		if (!(newDirection instanceof Vector)) {
 			throw new Error(`'newDirection' argument must be an instance of Vector`);
 		}
 		if (this.#direction.opposite().equals(newDirection)) {
@@ -41,10 +44,10 @@ export default class Head {
 	}
 
 	jump(position, direction) {
-		if (!(position instanceof this.#vectorFactory)) {
+		if (!(position instanceof Vector)) {
 			throw new Error(`'position' argument must be an instance of Vector`);
 		}
-		if (!(direction instanceof this.#vectorFactory)) {
+		if (!(direction instanceof Vector)) {
 			throw new Error(`'direction' argument must be an instance of Vector`);
 		}
 		this.#position = position.clone();

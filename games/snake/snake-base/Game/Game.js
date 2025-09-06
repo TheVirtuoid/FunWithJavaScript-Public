@@ -3,39 +3,47 @@ import Pitch from "../Pitch/Pitch.js";
 import Snake from "../Snake/Snake.js";
 
 export default class Game {
-	#vectorFactory;
 	#pitch;
 	#snake;
-	#ui;
+	#id;
 	#gameEventInitialized = false;
-	#pitchDimensions;
 
 	constructor(args = {}) {
-		const { vectorFactory, ui } = args;
-
-		if (!vectorFactory) {
-			throw new Error(`'vectorFactory' property must be specified`);
-		}
-
-		this.#vectorFactory = vectorFactory;
-		this.#ui = ui;
+		const { id = window.crypto.randomUUID() } = args;
+		this.#id = id;
 		GameEvent.Setup(this);
-	}
-
-	get vectorFactory() {
-		return this.#vectorFactory;
 	}
 
 	get gameEventInitialized() {
 		return this.#gameEventInitialized;
 	}
 
+	get id () {
+		return this.#id;
+	}
+
+	get snakePosition() {
+		return this.#snake?.position.clone();
+	}
+
+	get snakeDirection() {
+		return this.#snake?.direction.clone();
+	}
+
+	get snakeBody() {
+		return this.#snake?.body;
+	}
+
+	get pitchDimensions() {
+		return this.#pitch?.dimensions.clone();
+	}
+
 	emit(event, ...data) {
-		if (typeof event !== 'string') {
-			throw new Error(`'event' argument must be a string`);
+		if (!GameEvent.TYPES.includes(event)) {
+			throw new Error(`'event' argument must be a valid event`);
 		}
 		if (event === GameEvent.GAME_EVENT_INITIALIZED) this.#onGameEventInitialized(...data);
-		else if (event === GameEvent.INPUT_MOVE) this.#onInputMove(...data)
+		/*else if (event === GameEvent.INPUT_MOVE) this.#onInputMove(...data)*/
 	}
 
 	addPitch(pitch) {
@@ -43,11 +51,6 @@ export default class Game {
 			throw new Error(`'pitch' argument must be an instance of Pitch`);
 		}
 		this.#pitch = pitch;
-		this.#pitchDimensions = pitch.dimensions;
-	}
-
-	getPitchId() {
-		return this.#pitch?.id;
 	}
 
 	addSnake(snake) {
@@ -57,33 +60,17 @@ export default class Game {
 		this.#snake = snake;
 	}
 
-	getSnakeId() {
-		return this.#snake?.id;
-	}
-
-	getSnakePosition() {
-		return this.#snake?.position.clone();
-	}
-
-	getSnakeDirection() {
-		return this.#snake?.direction.clone();
-	}
-
-	get pitchDimensions() {
-		return this.#pitchDimensions?.clone();
-	}
-
 	#onGameEventInitialized() {
 		this.#gameEventInitialized = true;
 	}
 
 	// TODO: Possible updates:
 	// 1. Accept speed parameter to move at different speeds - will need to determine speed and direction from args
-	#onInputMove(direction = this.getSnakeDirection()) {
+	/*#onInputMove(direction = this.getSnakeDirection()) {
 		if (!direction.equals(this.getSnakeDirection())) {
 			this.#snake.changeDirection(direction);
 		}
 		this.#snake.move();
-	}
+	}*/
 
 }

@@ -31,13 +31,24 @@ describe('And when I work with the Body class', () => {
 			});
 		});
 
-		describe('And when I work with "segments"', () => {
+		describe('And when I work with "length"', () => {
 			it('should return current number of segments', () => {
 				expect(body.length).to.equal(1);
 			});
 
-			it('should throw error when trying to change the numberOfSegments', () => {
+			it('should throw error when trying to change the length', () => {
 				expect(() => body.length = 5).to.throw();
+			});
+		});
+
+		describe('And when I work with "segments"', () => {
+			it('should return a copy of the segments array', () => {
+				const segments = body.segments;
+				expect(segments[0].equals(position)).to.be.true;
+			});
+
+			it('should throw error when trying to change the segments array', () => {
+				expect(() => body.segments = []).to.throw();
 			});
 		});
 	});

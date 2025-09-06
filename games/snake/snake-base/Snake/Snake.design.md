@@ -13,11 +13,14 @@ The snake encompasses the head and the snake of the game.
 
 ## Properties
 
+All properties are read-only unless otherwise noted.
+
 ### Public
 1. `position` (Vector) - position of the snake. Derived from `head`
 2. `speed` (Number) - how fast the snake is moving
 3. `direction` (Vector) - the direction the snake is moving. Derived from `head`
 4. `length` (Number) - the length of the snake. Derived from `body`
+5. `body` (Array of Vector) - the position of the body segments of the snake. Does not include the head. Derived from `body`
 
 ### Private
 1. `head` (Head) - the head of the snake
@@ -28,7 +31,9 @@ The snake encompasses the head and the snake of the game.
 ### Public
 1. `move(speed)` - moves the snake
    1. If `speed` is not provided, speed will be 1 unit
-2. `grow()` - increases the length of the snake by 1 segment
+2. `grow({ position, direction })` - increases the length of the snake by 1 segment
+   - `position` (Vector) - new position. Required.
+   - `direction` (Vector) - new direction. Required.
 3. `getBobySegment(index)` - returns a Segment of the body at the given index
    1. If `index` is out of range, returns `null`
 4. `changeDirection(direction)` - changes the direction of the snake

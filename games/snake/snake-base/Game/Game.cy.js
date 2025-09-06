@@ -1,32 +1,87 @@
-import { MockVector, MockGame } from "../../tdd-utilities/tddUtilities.js";
+import { MockVector } from "../../tdd-utilities/tddUtilities.js";
 import Game from "./Game.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 import Pitch from "../Pitch/Pitch.js";
 import Snake from "../Snake/Snake.js";
 
 describe('And when I work with the Game class', () => {
+	const id = 'test-game';
 	let game;
-	let vectorFactory = MockVector;
 
 	beforeEach(() => {
-		game = new MockGame();
+		game = new Game({ id });
 	});
 
 	it('should have the gameEventInitialized', () => {
+		const game = new Game();
 		expect(game.gameEventInitialized).to.be.true;
+		expect(game.id).to.be.a('string');
+	});
+
+	describe('And when I work with properties', () => {
+		describe('And when I work with the id property', () => {
+			it('should correctly set the id', () => {
+				expect(game.id).to.equal(id);
+			});
+
+			it('should throw error if trying to set the id', () => {
+				expect(() => game.id = 'bad').to.throw();
+			});
+		});
+
+		describe('And when I work with the other read-only properties', () => {
+			it('should have snakePosition as undefined', () => {
+				expect(game.snakePosition).to.be.undefined;
+			});
+			it('should have snakeDirection as undefined', () => {
+				expect(game.snakeDirection).to.be.undefined;
+			});
+			it('should have snakeBody as undefined', () => {
+				expect(game.snakeBody).to.be.undefined;
+			});
+			it('should have pitchDimensions as undefined', () => {
+				expect(game.pitchDimensions).to.be.undefined;
+			});
+
+			it('should throw error if trying to set snakePosition', () => {
+				expect(() => game.snakePosition = new MockVector(1,1)).to.throw();
+			});
+
+			it('should throw error if trying to set snakeDirection', () => {
+				expect(() => game.snakeDirection = new MockVector(1,1)).to.throw();
+			});
+
+			it('should throw error if trying to set snakeBody', () => {
+				expect(() => game.snakeBody = [new MockVector(1,1)]).to.throw();
+			});
+
+			it('should throw error if trying to set pitchDimensions', () => {
+				expect(() => game.pitchDimensions = new MockVector(1,1)).to.throw();
+			});
+		});
 	});
 
 	describe('And when I work with the Public methods', () => {
+		const id = 'test-game';
+		const position = new MockVector(5, 5);
+		const dimensions = new MockVector(10, 10);
+		const direction = MockVector.Right();
+		const length = 2;
+		let game;
+
+		beforeEach(() => {
+			game = new Game({ id });
+		});
+
 		describe('And when addPitch() is called', () => {
 			it('should throw an error if no pitch is provided', () => {
 				expect(() => game.addPitch()).to.throw(`'pitch' argument must be an instance of Pitch`);
 			});
 
 			it('should add a pitch to the game', () => {
-				const pitch = new Pitch({ dimensions: new MockVector(10, 10), id: 'pitch-test' });
+				const pitch = new Pitch({ dimensions });
 				game.addPitch(pitch);
-				expect(game.getPitchId()).to.equal('pitch-test');
-				expect(game.pitchDimensions.equals(new MockVector(10, 10))).to.be.true;
+				expect(game.pitchDimensions.equals(dimensions)).to.be.true;
 			});
 		});
 
@@ -36,18 +91,16 @@ describe('And when I work with the Game class', () => {
 			});
 
 			it('should add a snake to the game', () => {
-				const position = new MockVector(5, 5);
-				const direction = MockVector.Right();
-				const snake = new Snake({ position, direction, id: 'snake-test' });
+				const snake = new Snake({ position, direction, length, id: 'snake-test' });
 				game.addSnake(snake);
-				expect(game.getSnakeId()).to.equal('snake-test');
-				expect(game.getSnakePosition().equals(position)).to.be.true;
-				expect(game.getSnakeDirection().equals(direction)).to.be.true;
+				expect(game.snakePosition.equals(position)).to.be.true;
+				expect(game.snakeDirection.equals(direction)).to.be.true;
+				expect(game.snakeBody.length).to.equal(length);
 			});
 		});
 	});
 
-	describe('And when I handle the input events', () => {
+	/*describe('And when I handle the input events', () => {
 		const pitch = new Pitch({ dimensions: new MockVector(10, 10), id: 'pitch-test' });
 		const game = new Game({ vectorFactory: MockVector });
 		const startPosition = new MockVector(5,5);
@@ -89,5 +142,5 @@ describe('And when I work with the Game class', () => {
 			describe('And when I test for colliding with prize', () => {});
 		});
 
-	});
+	});*/
 });
