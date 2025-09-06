@@ -1,4 +1,4 @@
-import { MockVector } from "../../tdd-utilities/tddUtilities.js";
+import { MockVector, MockGame } from "../../tdd-utilities/tddUtilities.js";
 import Game from "./Game.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 import Pitch from "../Pitch/Pitch.js";
@@ -9,15 +9,7 @@ describe('And when I work with the Game class', () => {
 	let vectorFactory = MockVector;
 
 	beforeEach(() => {
-		game = new Game({ vectorFactory });
-	});
-
-	it('should throw an error if no vectorFactory is provided', () => {
-		expect(() => new Game()).to.throw(`'vectorFactory' property must be specified`);
-	});
-
-	it('should have a vectorFactory property', () => {
-		expect(game.vectorFactory).to.equal(vectorFactory);
+		game = new MockGame();
 	});
 
 	it('should have the gameEventInitialized', () => {

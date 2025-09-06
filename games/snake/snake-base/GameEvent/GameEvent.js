@@ -43,6 +43,10 @@ export default class GameEvent {
 		GameEvent.Emit(GameEvent.GAME_EVENT_INITIALIZED);
 	}
 
+	static TakeDown() {
+		game = null;
+	}
+
 	static Game() {
 		return {
 			vectorFactory: game.vectorFactory

@@ -1,16 +1,17 @@
 import GameEvent from "./GameEvent.js";
+import { MockGame } from "../../tdd-utilities/tddUtilities.js";
 
-const mockGame = {
-	emit: () => {}
-};
+const mockGame = MockGame;
 
 describe('When I work with the GameEvent class', () => {
 
 	it('should throw error if trying to instantiate', () => {
+		GameEvent.TakeDown();
 		expect(() => new GameEvent()).to.throw('GameEvent is static and cannot be instantiated');
 	});
 
 	it('should throw an error if there has been no setup', () => {
+		GameEvent.TakeDown();
 		expect(() => GameEvent.Emit('some-event')).to.throw('GameEvent object has not been set up');
 	});
 
