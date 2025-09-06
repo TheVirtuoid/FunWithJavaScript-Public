@@ -25,7 +25,8 @@ export default class Body {
 		return this.#segments[index];
 	}
 
-	grow(position, direction) {
+	grow(args = {}) {
+		const { position, direction } = args;
 		const newSegment = new Segment({ position, direction });
 		this.#segments.unshift(newSegment);
 	}

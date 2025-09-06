@@ -1,4 +1,4 @@
-# Snake Head
+# Head
 
 The design for the snake head in the Snake game.
 
@@ -6,28 +6,20 @@ The design for the snake head in the Snake game.
 All properties are set in the constructor, which takes the following key values:
 1. `position` (Vector) - The initial position of the snake head in the game grid. Defaults to VectorFactory.Zero();
 2. `direction` (Vector) - The initial movement direction of the snake head. Defaults to VectorFactory.Up();
-3. `ui` (UI) - The user interface component for the snake head. Defaults to undefined.
-4. `vectorFactory` (Vector) - The factory for creating vector instances. Required.
-5. `game` (Game) - The game instance that the snake head belongs to. Required.
 
 ## Properties
 
 ### Private
 1. `position`: (Vector) The current position of the snake head in the game grid.
 2. `direction`: (Vector) The current movement direction of the snake head.
-3. `ui`: (UI) The user interface component for the snake head.
-4. `vectorFactory`: (Vector) The factory for creating vector instances.
-5. `game`: (Game) The game instance that the snake head belongs to. 
 
 ### Public
 All public properties are the be read-only (getter functions) unless specified otherwise.
 
-1. `position`
-2. `direction`
+1. `position`: (Vector) - The current position of the snake head in the game grid.
+2. `direction`: (Vector) - The current movement direction of the snake head.
 
 ## Methods
-
-### Private
 
 ### Public
 1. `move(speed)`: Moves the snake head in the current direction at the specified speed. 

@@ -12,6 +12,8 @@ GameEvent.Setup(game);
 
 
 describe('When I work with the Head class', () => {
+	const position = new MockVector(5, 5);
+	const direction = MockVector.Up();
 
 	describe('And I work with the constructor', () => {
 		it('should create an instance of Head with default properties', () => {
