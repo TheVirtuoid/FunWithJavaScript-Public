@@ -43,6 +43,7 @@ export default class Game {
 			throw new Error(`'event' argument must be a valid event`);
 		}
 		if (event === GameEvent.GAME_EVENT_INITIALIZED) this.#onGameEventInitialized(...data);
+		else if (event === GameEvent.SNAKE_COLLISION_WALL) this.#onSnakeCollisionWall(...data);
 		/*else if (event === GameEvent.INPUT_MOVE) this.#onInputMove(...data)*/
 	}
 
@@ -62,6 +63,10 @@ export default class Game {
 
 	#onGameEventInitialized() {
 		this.#gameEventInitialized = true;
+	}
+
+	#onSnakeCollisionWall(data) {
+		GameEvent.Emit(GameEvent.GAME_OVER);
 	}
 
 	// TODO: Possible updates:

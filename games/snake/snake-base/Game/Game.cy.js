@@ -130,7 +130,147 @@ describe('And when I work with the Game class', () => {
 19. `#onGameReset()` - handles when player resets the game.
 20. `#onGameStart()` - handles when player starts the game.
 	 */
-	describe('And when I handle the events', () => {});
+	describe('And when I handle the events', () => {
+		const pitch = new Pitch({ dimensions: new MockVector(10, 10), id: 'pitch-test' });
+		const startPosition = new MockVector(5,5);
+		const startSpeed = 1;
+		const startDirection = MockVector.Right();
+		let game;
+
+		beforeEach(() => {
+			const snake = new Snake({ position: startPosition, direction: startDirection, speed: startSpeed, id: 'snake-test' });
+			game = new Game({ id: 'game-test' });
+			game.addPitch(pitch);
+			game.addSnake(snake);
+			cy.spy(game, 'emit').as('emit');
+		});
+
+		describe('And onGameOver fires', () => {
+			it('should fire when GameEvent.SNAKE_COLLISION_WALL is called', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
+
+				cy.then(() => {
+					GameEvent.Emit(GameEvent.SNAKE_COLLISION_WALL);
+				});
+
+				cy.get('@emit').should('have.been.calledWith', GameEvent.GAME_OVER);
+
+
+				/*cy.get('@emit').then((spy) => spy.resetHistory());
+				GameEvent.Emit(GameEvent.SNAKE_COLLISION_WALL);
+				// cy.get('@emit').should('have.been.calledWith', GameEvent.GAME_OVER);
+				cy.get('@emit').should('have.been.called');*/
+
+				/*// Add some debug logging
+				console.log('Game instance:', game);
+				console.log('GameEvent.SNAKE_COLLISION_WALL:', GameEvent.SNAKE_COLLISION_WALL);
+				console.log('GameEvent.GAME_OVER:', GameEvent.GAME_OVER);
+
+				// Check the spy before we start
+				cy.get('@emit').then((spy) => {
+					console.log('Spy before reset:', spy.getCalls());
+					spy.resetHistory();
+				});
+
+				// Try calling the method directly first to see if it works
+				cy.then(() => {
+					console.log('Calling GameEvent.Emit directly...');
+					GameEvent.Emit(GameEvent.SNAKE_COLLISION_WALL);
+				});
+
+				// Check if the spy was called at all
+				cy.get('@emit').then((spy) => {
+					console.log('Spy after GameEvent.Emit:', spy.getCalls());
+				});
+
+				// Verify that GAME_OVER was emitted
+				cy.get('@emit').should('have.been.called');
+				cy.get('@emit').should('have.been.calledWith', GameEvent.GAME_OVER);*/
+			});
+			
+			/*it('should fire when GameEvent.SNAKE_COLLISION_SELF is called', () => {
+				game.emit(GameEvent.SNAKE_COLLISION_SELF);
+				cy.then(() => {
+					cy.spy(game, 'emit').as('gameOverSpy');
+					cy.get('@gameOverSpy').should('have.been.calledWith', GameEvent.GAME_OVER);
+				});
+			});*/
+			
+			/*it('should fire when GameEvent.GAME_EXIT is called', () => {
+				game.emit(GameEvent.GAME_EXIT);
+				cy.then(() => {
+					cy.spy(game, 'emit').as('gameOverSpy');
+					cy.get('@gameOverSpy').should('have.been.calledWith', GameEvent.GAME_OVER);
+				});
+			});*/
+			
+			/*it('should fire when GameEvent.GAME_RESET is called', () => {
+				game.emit(GameEvent.GAME_RESET);
+				cy.then(() => {
+					cy.spy(game, 'emit').as('gameOverSpy');
+					game.emit(GameEvent.GAME_OVER);
+					cy.get('@gameOverSpy').should('have.been.calledWith', GameEvent.GAME_OVER);
+				});
+			});*/
+		});
+
+		describe('And onGameEventInitialized fires', () => {
+		});
+
+		describe('And onSnakeCollisionWall fires', () => {
+		});
+
+		describe('And onSnakeCollisionSelf fires', () => {
+		});
+
+		describe('And onSnakeCollisionPrize fires', () => {
+		});
+
+		describe('And onSnakeMove fires', () => {
+		});
+
+		describe('And onSnakeDirectionInvalid fires', () => {
+		});
+
+		describe('And onSnakeDirectionChanged fires', () => {
+		});
+
+		describe('And onSnakeJumpInvalid fires', () => {
+		});
+
+		describe('And onSnakeJumped fires', () => {
+		});
+
+		describe('And onSnakeReset fires', () => {
+		});
+
+		describe('And onDetectWallCollision fires', () => {
+		});
+
+		describe('And onDetectPrizeCollision fires', () => {
+		});
+
+		describe('And onDetectSelfCollision fires', () => {
+		});
+
+		describe('And onInputMove fires', () => {
+		});
+
+		describe('And onGameExit fires', () => {
+		});
+
+		describe('And onGamePause fires', () => {
+		});
+
+		describe('And onGameResume fires', () => {
+		});
+
+		describe('And onGameReset fires', () => {
+		});
+
+		describe('And onGameStart fires', () => {
+		});
+	});
 
 	/*describe('And when I handle the input events', () => {
 		const pitch = new Pitch({ dimensions: new MockVector(10, 10), id: 'pitch-test' });
