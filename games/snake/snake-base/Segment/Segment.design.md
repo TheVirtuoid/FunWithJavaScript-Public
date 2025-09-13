@@ -25,3 +25,5 @@ All properties are read-only (getter functions) unless specified otherwise.
    1. `speed` (Number) - speed of the segment. Default 1
 2. `changeDirection(newDirection)` - changes the direction of the segment.
    1. `newDirection` (Vector) - new direction of the segment. Required
+3. `getProjectedPosition(speed)` - returns the expected position based upon speed
+   1. `speed` (Number) - the speed of the segment. Default 1

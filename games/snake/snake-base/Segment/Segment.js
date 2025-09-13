@@ -31,8 +31,9 @@ export default class Segment {
 	}
 
 	move(speed = 1) {
-		const adder = this.#direction.multiply(this.#direction.fill(speed));
-		this.#position = this.#position.add(adder);
+		/*const adder = this.#direction.multiply(this.#direction.fill(speed));
+		this.#position = this.#position.add(adder);*/
+		this.#position = this.getProjectedPosition(speed);
 	}
 
 	changeDirection(newDirection) {
@@ -40,5 +41,10 @@ export default class Segment {
 			throw new Error(`'newDirection' argument must be an instance of Vector`);
 		}
 		this.#direction = newDirection;
+	}
+
+	getProjectedPosition(speed = 1) {
+		const adder = this.#direction.multiply(this.#direction.fill(speed));
+		return this.#position.add(adder);
 	}
 }

@@ -48,4 +48,24 @@ export default class Body {
 		return collided;
 	}
 
+	getProjectedPositions(speed = 1) {
+		return this.#segments.map((segment) => segment.getProjectedPosition(speed));
+	}
+
+	move(speed = 1) {
+		this.#segments.forEach((segment) => segment.move(speed));
+	}
+
+	shiftDirections(firstDirection) {
+		if (!(firstDirection instanceof Vector)) {
+			throw new Error(`'firstDirection' argument must be an instance of Vector`);
+		}
+		let newDirection = firstDirection.clone();
+		this.#segments.forEach((segment) => {
+			const oldDirection = segment.direction.clone();
+			segment.changeDirection(newDirection);
+			newDirection = oldDirection;
+		});
+	}
+
 }

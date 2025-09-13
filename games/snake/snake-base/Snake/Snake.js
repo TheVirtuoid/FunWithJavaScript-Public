@@ -1,6 +1,7 @@
 import Head from "../Head/Head.js";
 import Vector from "../Vector/Base/Vector.js";
 import Body from "../Body/Body.js";
+import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class Snake {
 	#id;
@@ -73,16 +74,17 @@ export default class Snake {
 	}
 
 	move(speed = this.#speed) {
-		let position = this.#head.position;
-		let newDirection = this.#head.direction;
-		this.#head.move(speed);
-		for (let i = 0; i < this.#body.length; i++) {
-			const segment = this.#body.getSegmentAt(i);
-			const previousSegmentDirection = segment.direction;
-			segment.move(speed);
-			segment.changeDirection(newDirection);
-			newDirection = previousSegmentDirection;
+		const proposedPosition = this.#head.getProjectedPosition(speed);
+		const projectedPositions = this.#body.getProjectedPositions(speed);
+		const collided = projectedPositions.some(position => position.equals(proposedPosition));
+		if (collided) {
+			GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
+		} else {
+			this.#head.move(speed);
+			this.#body.move(speed);
+			this.#body.shiftDirections(this.#head.direction);
 		}
+
 	}
 
 	changeDirection(direction) {

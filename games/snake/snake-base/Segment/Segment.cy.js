@@ -86,6 +86,20 @@ describe('And when I work with the Segment class', () => {
 			});
 		});
 
+		describe('And when I work with the getProjectedPosition() method', () => {
+			it('should return the projected position based on the direction using default', () => {
+				const newPosition = segment.getProjectedPosition();
+				const expectedPosition = position.add(direction);
+				expect(newPosition.equals(expectedPosition)).to.be.true;
+			});
+
+			it('should return projected position based on the direction using speed', () => {
+				const newPosition = segment.getProjectedPosition(2);
+				const expectedPosition = position.add(direction.multiply(direction.fill(2)));
+				expect(newPosition.equals(expectedPosition)).to.be.true;
+			});
+		});
+
 		describe('And I use the changeDirection() method', () => {
 			it('should throw an error if newDirection is not a Vector', () => {
 				expect(() => segment.changeDirection('bad')).to.throw(`'newDirection' argument must be an instance of Vector`);

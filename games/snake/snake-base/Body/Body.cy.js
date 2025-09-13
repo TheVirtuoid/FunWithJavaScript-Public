@@ -2,6 +2,7 @@ import { MockVector } from "../../tdd-utilities/tddUtilities.js";
 import Body from "./Body.js";
 import Segment from "../Segment/Segment.js";
 import GameEvent from "../GameEvent/GameEvent.js";
+import Snake from "../Snake/Snake.js";
 
 describe('And when I work with the Body class', () => {
 
@@ -130,6 +131,76 @@ describe('And when I work with the Body class', () => {
 				cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
 			});
 		});
+
+		describe('And when I move the body', () => {
+			beforeEach(() => {
+				body = new Body({ id });
+				body.grow({ position: new MockVector(2,2), direction: MockVector.Left() });
+				body.grow({ position: new MockVector(3,2), direction: MockVector.Left() });
+				body.grow({ position: new MockVector(4,2), direction: MockVector.Left() });
+			});
+
+			it('should move the distance of 1 (default)', () => {
+				body.move(); // (1,2) (2,2) (3,2)
+				const newPositions = body.segments;
+				expect(newPositions[2].equals(new MockVector(1,2))).to.be.true;
+				expect(newPositions[1].equals(new MockVector(2,2))).to.be.true;
+				expect(newPositions[0].equals(new MockVector(3,2))).to.be.true;
+			});
+
+			it('should move the distance of 2 (default)', () => {
+				body.move(2); // (0,2) (1,2) (2,2)
+				const newPositions = body.segments;
+				expect(newPositions[2].equals(new MockVector(0,2))).to.be.true;
+				expect(newPositions[1].equals(new MockVector(1,2))).to.be.true;
+				expect(newPositions[0].equals(new MockVector(2,2))).to.be.true;
+			});
+		});
+
+		describe('And when I get the projected positions of the body', () => {
+			beforeEach(() => {
+				body = new Body({ id });
+				body.grow({ position: new MockVector(2,2), direction: MockVector.Left() });
+				body.grow({ position: new MockVector(3,2), direction: MockVector.Left() });
+				body.grow({ position: new MockVector(4,2), direction: MockVector.Left() });
+			});
+
+			it('should project as if the speed was 1', () => {
+				const newPositions = body.getProjectedPositions(); // (1,2) (2,2) (3,2)
+				expect(newPositions[2].equals(new MockVector(1,2))).to.be.true;
+				expect(newPositions[1].equals(new MockVector(2,2))).to.be.true;
+				expect(newPositions[0].equals(new MockVector(3,2))).to.be.true;
+			});
+
+			it('should move the distance of 2 (default)', () => {
+				const newPositions = body.getProjectedPositions(2); // (0,2) (1,2) (2,2)
+				expect(newPositions[2].equals(new MockVector(0,2))).to.be.true;
+				expect(newPositions[1].equals(new MockVector(1,2))).to.be.true;
+				expect(newPositions[0].equals(new MockVector(2,2))).to.be.true;
+			});
+		});
+
+		describe('And when I shift directions', () => {
+			beforeEach(() => {
+				body = new Body({ id });
+				body.grow({ position: new MockVector(2,2), direction: MockVector.Up() });
+				body.grow({ position: new MockVector(3,2), direction: MockVector.Right() });
+				body.grow({ position: new MockVector(4,2), direction: MockVector.Down() });
+			});
+
+			it('should throw error id firstDirection is not a vector', () => {
+				expect(() => body.shiftDirections('bad')).to.throw();
+			});
+
+			it('should shift the directions', () => {
+				body.shiftDirections(MockVector.Left());
+				expect(body.getSegmentAt(0).direction.equals(MockVector.Left())).to.be.true;
+				expect(body.getSegmentAt(	1).direction.equals(MockVector.Down())).to.be.true;
+				expect(body.getSegmentAt(2).direction.equals(MockVector.Right())).to.be.true;
+			});
+		});
+
+
 	});
 
 });

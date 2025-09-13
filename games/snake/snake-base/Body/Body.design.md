@@ -13,7 +13,8 @@ All properties are read-only (getter functions) unless specified otherwise.
 
 ### Public
 1. `length` (Number) - number of segments in the body.
-2. 'id' (String) - the body ID
+2. `id` (String) - the body ID
+3. `segments` (Array<Vector>) - the positions of all the segments 
 
 ## Methods
 
@@ -28,3 +29,11 @@ All properties are read-only (getter functions) unless specified otherwise.
    1. `position` (Vector) - position to check. Required
    2. Returns `true` if the position collides with any part of the body, `false` otherwise.
    3. Will also send the `SNAKE_COLLISION_SELF` event
+4. `getProjectedPositions(speed)` - get the body positions as if it had moved
+   1. `speed` (Number) - the speed
+   2. Returns an array of positions.
+5. `move(speed)` - Move the body
+   1. `speed` (Number) - the speed of the body
+6. `shiftDirections(firstDirection)` - shift the directions of the body segments
+   1. `firstDirection` (Vector) - the new direction of the first segment
+   2. Each segment gets the direction of the segment lower in order. The first segment gets the direction of the argument
