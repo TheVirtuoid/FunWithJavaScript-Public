@@ -85,7 +85,7 @@ describe('And when I work with the Game class', () => {
 			});
 		});
 
-		describe('And when addPSnake() is called', () => {
+		describe('And when addSnake() is called', () => {
 			it('should throw an error if no snake is provided', () => {
 				expect(() => game.addSnake()).to.throw(`'snake' argument must be an instance of Snake`);
 			});
@@ -98,6 +98,41 @@ describe('And when I work with the Game class', () => {
 				expect(game.snakeBody.length).to.equal(length);
 			});
 		});
+
+		describe('And when moveSnake() is called', () => {
+			beforeEach(() => {
+				const snake = new Snake({ position, direction, length: 1, id: 'snake-test' });
+				const pitch = new Pitch({ dimensions });
+				game.addSnake(snake);
+				game.addPitch(pitch);
+			});
+
+			it('should move the snake', () => {
+				game.moveSnake();
+				const newPosition = position.clone().add(direction);
+				expect(game.snakePosition.equals(newPosition)).to.be.true;
+			});
+
+			it('should move the snake with speed', () => {
+				game.moveSnake(2);
+				const newPosition = position.clone().add(direction).add(direction);
+				expect(game.snakePosition.equals(newPosition)).to.be.true;
+			});
+		});
+
+		describe('And when changeSnakeDirection() is called', () => {
+			beforeEach(() => {
+				const snake = new Snake({ position, direction, length: 1, id: 'snake-test' });
+				game.addSnake(snake);
+			});
+
+			it('should change the direction', () => {
+				const newDirection = MockVector.Up();
+				game.changeSnakeDirection(newDirection);
+				expect(game.snakeDirection.equals(newDirection)).to.be.true;
+			});
+		});
+
 	});
 	/*
 
@@ -131,14 +166,14 @@ describe('And when I work with the Game class', () => {
 20. `#onGameStart()` - handles when player starts the game.
 	 */
 	describe('And when I handle the events', () => {
-		const pitch = new Pitch({ dimensions: new MockVector(10, 10), id: 'pitch-test' });
-		const startPosition = new MockVector(5,5);
-		const startSpeed = 1;
-		const startDirection = MockVector.Right();
 		let game;
 
 		beforeEach(() => {
-			const snake = new Snake({ position: startPosition, direction: startDirection, speed: startSpeed, id: 'snake-test' });
+			const startPosition = new MockVector(5,5);
+			const startSpeed = 1;
+			const startDirection = MockVector.Right();
+			const snake = new Snake({ position: startPosition, direction: startDirection, speed: startSpeed, length: 4, id: 'snake-test' });
+			const pitch = new Pitch({ dimensions: new MockVector(10, 10), id: 'pitch-test' });
 			game = new Game({ id: 'game-test' });
 			game.addPitch(pitch);
 			game.addSnake(snake);
@@ -148,79 +183,129 @@ describe('And when I work with the Game class', () => {
 		describe('And onGameOver fires', () => {
 			it('should fire when GameEvent.SNAKE_COLLISION_WALL is called', () => {
 				cy.get('@emit').then((spy) => spy.resetHistory());
-
 				cy.then(() => {
 					GameEvent.Emit(GameEvent.SNAKE_COLLISION_WALL);
 				});
-
 				cy.get('@emit').should('have.been.calledWith', GameEvent.GAME_OVER);
-
-
-				/*cy.get('@emit').then((spy) => spy.resetHistory());
-				GameEvent.Emit(GameEvent.SNAKE_COLLISION_WALL);
-				// cy.get('@emit').should('have.been.calledWith', GameEvent.GAME_OVER);
-				cy.get('@emit').should('have.been.called');*/
-
-				/*// Add some debug logging
-				console.log('Game instance:', game);
-				console.log('GameEvent.SNAKE_COLLISION_WALL:', GameEvent.SNAKE_COLLISION_WALL);
-				console.log('GameEvent.GAME_OVER:', GameEvent.GAME_OVER);
-
-				// Check the spy before we start
-				cy.get('@emit').then((spy) => {
-					console.log('Spy before reset:', spy.getCalls());
-					spy.resetHistory();
-				});
-
-				// Try calling the method directly first to see if it works
-				cy.then(() => {
-					console.log('Calling GameEvent.Emit directly...');
-					GameEvent.Emit(GameEvent.SNAKE_COLLISION_WALL);
-				});
-
-				// Check if the spy was called at all
-				cy.get('@emit').then((spy) => {
-					console.log('Spy after GameEvent.Emit:', spy.getCalls());
-				});
-
-				// Verify that GAME_OVER was emitted
-				cy.get('@emit').should('have.been.called');
-				cy.get('@emit').should('have.been.calledWith', GameEvent.GAME_OVER);*/
 			});
 			
-			/*it('should fire when GameEvent.SNAKE_COLLISION_SELF is called', () => {
-				game.emit(GameEvent.SNAKE_COLLISION_SELF);
+			it('should fire when GameEvent.SNAKE_COLLISION_SELF is called', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
 				cy.then(() => {
-					cy.spy(game, 'emit').as('gameOverSpy');
-					cy.get('@gameOverSpy').should('have.been.calledWith', GameEvent.GAME_OVER);
+					GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
 				});
-			});*/
+				cy.get('@emit').should('have.been.calledWith', GameEvent.GAME_OVER);
+			});
 			
-			/*it('should fire when GameEvent.GAME_EXIT is called', () => {
-				game.emit(GameEvent.GAME_EXIT);
+			it('should fire when GameEvent.GAME_EXIT is called', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
 				cy.then(() => {
-					cy.spy(game, 'emit').as('gameOverSpy');
-					cy.get('@gameOverSpy').should('have.been.calledWith', GameEvent.GAME_OVER);
+					GameEvent.Emit(GameEvent.GAME_EXIT);
 				});
-			});*/
+				cy.get('@emit').should('have.been.calledWith', GameEvent.GAME_OVER);
+			});
 			
-			/*it('should fire when GameEvent.GAME_RESET is called', () => {
-				game.emit(GameEvent.GAME_RESET);
+			it('should fire when GameEvent.GAME_RESET is called', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
 				cy.then(() => {
-					cy.spy(game, 'emit').as('gameOverSpy');
-					game.emit(GameEvent.GAME_OVER);
-					cy.get('@gameOverSpy').should('have.been.calledWith', GameEvent.GAME_OVER);
+					GameEvent.Emit(GameEvent.GAME_RESET);
 				});
-			});*/
-		});
-
-		describe('And onGameEventInitialized fires', () => {
+				cy.get('@emit').should('have.been.calledWith', GameEvent.GAME_OVER);
+			});
 		});
 
 		describe('And onSnakeCollisionWall fires', () => {
+			it('should NOT fire the event!', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
+				cy.then(() => {
+					game.moveSnake(); //6,5
+					game.moveSnake(); //7,5
+					game.moveSnake(); //8,5
+				});
+				cy.get('@emit').then((spy) => {
+					expect(spy).not.to.have.been.calledWith(GameEvent.SNAKE_COLLISION_WALL);
+				});
+			});
+
+			it('should fire the event when the snake hits the wall to the east', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
+				cy.then(() => {
+					game.moveSnake(); //6,5
+					game.moveSnake(); //7,5
+					game.moveSnake(); //8,5
+					game.moveSnake(); //9,5
+				});
+				cy.get('@emit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_WALL);
+			});
+
+			it('should fire the event when the snake hits the wall to the west', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
+				cy.then(() => {
+					game.changeSnakeDirection(MockVector.Up());
+					game.moveSnake(); //5,4
+					game.changeSnakeDirection(MockVector.Left());
+					game.moveSnake(); //4,4
+					game.moveSnake(); //3,4
+					game.moveSnake(); //2,4
+					game.moveSnake(); //1,4
+					game.moveSnake(); //0,4
+				});
+				cy.get('@emit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_WALL);
+			});
+
+			it('should fire the event when the snake hits the wall to the north', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
+				cy.then(() => {
+					game.changeSnakeDirection(MockVector.Up());
+					game.moveSnake(); // 5,4
+					game.moveSnake(); // 5,3
+					game.moveSnake(); // 5,2
+					game.moveSnake(); // 5,1
+					game.moveSnake(); // 5,0
+				});
+				cy.get('@emit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_WALL);
+			});
+
+			it('should fire the event when the snake hits the wall to the south', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
+				cy.then(() => {
+					game.changeSnakeDirection(MockVector.Down());
+					game.moveSnake(); // 5,6
+					game.moveSnake(); // 5,7
+					game.moveSnake(); // 5,8
+					game.moveSnake(); // 5,9
+				});
+				cy.get('@emit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_WALL);
+			});
+
+
+
+
 		});
 
 		describe('And onSnakeCollisionSelf fires', () => {
+			it('should NOT fire the event!', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
+				cy.then(() => {
+					game.moveSnake(); //6,5
+				});
+				cy.get('@emit').then((spy) => {
+					expect(spy).not.to.have.been.calledWith(GameEvent.SNAKE_COLLISION_SELF);
+				});
+			});
+
+			it('should fire the event when the snake hits itself', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
+				cy.then(() => {
+					game.changeSnakeDirection(MockVector.Up());
+					game.moveSnake(); //5,4
+					game.changeSnakeDirection(MockVector.Left());
+					game.moveSnake(); //4,4. Body should be at (3,5) (4,5) (5,5) (5,4)
+					game.changeSnakeDirection(MockVector.Down());
+					game.moveSnake(); //4,5 Should collide with body
+				});
+				cy.get('@emit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+			});
 		});
 
 		describe('And onSnakeCollisionPrize fires', () => {

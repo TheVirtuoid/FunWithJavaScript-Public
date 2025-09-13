@@ -1,4 +1,6 @@
 import Segment from './../Segment/Segment.js';
+import Vector from "../Vector/Base/Vector.js";
+import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class Body {
 	#segments;
@@ -33,6 +35,17 @@ export default class Body {
 		const { position, direction } = args;
 		const newSegment = new Segment({ position, direction });
 		this.#segments.unshift(newSegment);
+	}
+
+	collision(position) {
+		if (!(position instanceof Vector)) {
+			throw new Error(`'position' argument must be an instance of Vector`);
+		}
+		const collided = this.#segments.some(segment => segment.position.equals(position));
+		if (collided) {
+			GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
+		}
+		return collided;
 	}
 
 }

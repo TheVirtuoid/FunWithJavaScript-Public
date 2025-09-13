@@ -44,7 +44,9 @@ export default class Game {
 		}
 		if (event === GameEvent.GAME_EVENT_INITIALIZED) this.#onGameEventInitialized(...data);
 		else if (event === GameEvent.SNAKE_COLLISION_WALL) this.#onSnakeCollisionWall(...data);
-		/*else if (event === GameEvent.INPUT_MOVE) this.#onInputMove(...data)*/
+		else if (event === GameEvent.SNAKE_COLLISION_SELF) this.#onSnakeCollisionSelf(...data);
+		else if (event === GameEvent.GAME_EXIT) this.#onGameExit(...data);
+		else if (event === GameEvent.GAME_RESET) this.#onGameReset(...data);
 	}
 
 	addPitch(pitch) {
@@ -61,6 +63,21 @@ export default class Game {
 		this.#snake = snake;
 	}
 
+	moveSnake(speed) {
+		const newPosition = this.#snake.getProjectedPosition(speed);
+		if (!this.#pitch.collision(newPosition) && !this.#snake.collision(newPosition)) {
+			this.#snake.move(speed);
+		}
+		/*const collidedWithWall = this.#pitch.collision(newPosition);
+		if (!collidedWithWall) {
+			this.#snake.move(speed);
+		}*/
+	}
+
+	changeSnakeDirection(newDirection) {
+		this.#snake.changeDirection(newDirection);
+	}
+
 	#onGameEventInitialized() {
 		this.#gameEventInitialized = true;
 	}
@@ -69,6 +86,17 @@ export default class Game {
 		GameEvent.Emit(GameEvent.GAME_OVER);
 	}
 
+	#onSnakeCollisionSelf(data) {
+		GameEvent.Emit(GameEvent.GAME_OVER);
+	}
+
+	#onGameExit(data) {
+		GameEvent.Emit(GameEvent.GAME_OVER);
+	}
+
+	#onGameReset(data) {
+		GameEvent.Emit(GameEvent.GAME_OVER);
+	}
 	// TODO: Possible updates:
 	// 1. Accept speed parameter to move at different speeds - will need to determine speed and direction from args
 	/*#onInputMove(direction = this.getSnakeDirection()) {

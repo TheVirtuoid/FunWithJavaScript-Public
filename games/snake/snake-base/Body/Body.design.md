@@ -24,3 +24,7 @@ All properties are read-only (getter functions) unless specified otherwise.
 2. `getSegmentAt(index)` - get segment at index.
    1. `index` (Number) - index of the segment. Required
    2. Returns the Segment instance at the specified index, or `undefined` if index is out of bounds.
+3. `collision(position)` - did the position collide?
+   1. `position` (Vector) - position to check. Required
+   2. Returns `true` if the position collides with any part of the body, `false` otherwise.
+   3. Will also send the `SNAKE_COLLISION_SELF` event

@@ -1,6 +1,7 @@
 import { MockVector } from "../../tdd-utilities/tddUtilities.js";
 import Body from "./Body.js";
 import Segment from "../Segment/Segment.js";
+import GameEvent from "../GameEvent/GameEvent.js";
 
 describe('And when I work with the Body class', () => {
 
@@ -94,5 +95,41 @@ describe('And when I work with the Body class', () => {
 				expect(newSegment.direction.equals(direction)).to.be.true;
 			});
 		});
+
+		describe('And when I use collision', () => {
+			const position = new MockVector(4, 4);
+			const direction = MockVector.Up();
+
+			it('should throw if position is not a Vector', () => {
+				expect(() => body.collision('bad')).to.throw();
+			});
+
+			it('should return false if no collision', () => {
+				body.grow({position, direction}); // let's grow one segment for fun
+				const checkPosition = new MockVector(1, 1);
+				expect(body.collision(checkPosition)).to.be.false;
+			});
+
+			it('should return true if no collision', () => {
+				body.grow({position, direction}); // let's grow one segment for fun
+				expect(body.collision(position)).to.be.true;
+			});
+
+			it('should NOT send the event if no collision', () => {
+				cy.spy(GameEvent, 'Emit').as('gameEmit');
+				body.grow({position, direction}); // let's grow one segment for fun
+				const checkPosition = new MockVector(1, 1);
+				body.collision(checkPosition);
+				cy.get('@gameEmit').should('not.have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+			});
+
+			it('should SHOULD send the event if collision', () => {
+				cy.spy(GameEvent, 'Emit').as('gameEmit');
+				body.grow({position, direction}); // let's grow one segment for fun
+				body.collision(position);
+				cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+			});
+		});
 	});
+
 });
