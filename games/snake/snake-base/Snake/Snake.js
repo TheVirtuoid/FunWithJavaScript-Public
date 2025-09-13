@@ -84,7 +84,6 @@ export default class Snake {
 			this.#body.move(speed);
 			this.#body.shiftDirections(this.#head.direction);
 		}
-
 	}
 
 	changeDirection(direction) {
@@ -102,5 +101,12 @@ export default class Snake {
 
 	getProjectedPosition(speed = this.#speed) {
 		return this.#head.getProjectedPosition(speed);
+	}
+
+	collision(position) {
+		if (!(position instanceof Vector)) {
+			throw new Error(`'position' argument must be an instance of Vector`);
+		}
+		return this.#body.segments.some(segmentPosition => segmentPosition.equals(position));
 	}
 }

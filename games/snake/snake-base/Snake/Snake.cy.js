@@ -1,5 +1,6 @@
 import {MockGame, MockVector} from "../../tdd-utilities/tddUtilities.js";
 import Snake from "./Snake.js";
+import GameEvent from "../GameEvent/GameEvent.js";
 
 describe('And when I work with the Snake class', () => {
 	const position = new MockVector(5,5);
@@ -273,6 +274,38 @@ describe('And when I work with the Snake class', () => {
 				const expectedPosition = position.add(direction.multiply(multiplier));
 				expect(projectedPosition.equals(expectedPosition)).to.be.true;
 			});
+		});
+
+		describe('And I work with the collision method', () => {
+			let snake;
+
+			beforeEach(() => {
+				snake = new Snake({ direction: MockVector.Up(), position: new MockVector(4, 4) });
+				snake.grow({ direction: MockVector.Up(), position: new MockVector(1,1) });
+				snake.grow({ direction: MockVector.Up(), position: new MockVector(2,2) });
+				snake.grow({ direction: MockVector.Up(), position: new MockVector(3,3) });
+				cy.spy(GameEvent, 'Emit').as('gameEmit');
+			});
+
+			it('should throw an error if position argument is not a Vector', () => {
+				expect(() => snake.collision({})).to.throw();
+				cy.get('@gameEmit').should('not.have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+			});
+
+			it('should not send event if collision() does not collide with position', () => {
+				snake.collision(new MockVector(5,5));
+				cy.get('@gameEmit').should('not.have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+			});
+
+			it('should send event if collision() does not collide with position', () => {
+				snake.collision(new MockVector(1,1));
+				cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+				snake.collision(new MockVector(2,2));
+				cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+				snake.collision(new MockVector(3,3));
+				cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+			});
+
 		});
 	});
 

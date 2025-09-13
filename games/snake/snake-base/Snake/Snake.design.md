@@ -41,5 +41,7 @@ All properties are read-only unless otherwise noted.
 5. `getProjectedPosition()` - return the new position based upon current direction and speed. Performs `move()` without moving the snake.
 6. `setSpeed(speed)` - sets the speed of the snake
    1. `speed` (Number) - new speed of the snake. Required
+7. `collision(speed)` - determines if a collision has occurred with itself
+   1. `speed` (Number) - speed of the snake. Default 1
 
 
