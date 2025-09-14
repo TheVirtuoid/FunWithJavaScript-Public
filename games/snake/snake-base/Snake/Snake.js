@@ -75,8 +75,7 @@ export default class Snake {
 
 	move(speed = this.#speed) {
 		const proposedPosition = this.#head.getProjectedPosition(speed);
-		const projectedPositions = this.#body.getProjectedPositions(speed);
-		const collided = projectedPositions.some(position => position.equals(proposedPosition));
+		const collided = this.#body.projectedCollision({ position: proposedPosition, speed });
 		if (collided) {
 			GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
 		} else {
@@ -107,6 +106,12 @@ export default class Snake {
 		if (!(position instanceof Vector)) {
 			throw new Error(`'position' argument must be an instance of Vector`);
 		}
-		return this.#body.segments.some(segmentPosition => segmentPosition.equals(position));
+		// const collided = this.#body.segments.some(segmentPosition => segmentPosition.equals(position));
+		const collided = this.#body.collision(position);
+		if (collided) {
+			GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
+		}
+		return collided;
 	}
+
 }

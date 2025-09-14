@@ -31,8 +31,6 @@ export default class Segment {
 	}
 
 	move(speed = 1) {
-		/*const adder = this.#direction.multiply(this.#direction.fill(speed));
-		this.#position = this.#position.add(adder);*/
 		this.#position = this.getProjectedPosition(speed);
 	}
 

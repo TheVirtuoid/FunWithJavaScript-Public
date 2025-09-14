@@ -116,7 +116,7 @@ describe('And when I work with the Body class', () => {
 				expect(body.collision(position)).to.be.true;
 			});
 
-			it('should NOT send the event if no collision', () => {
+			/*it('should NOT send the event if no collision', () => {
 				cy.spy(GameEvent, 'Emit').as('gameEmit');
 				body.grow({position, direction}); // let's grow one segment for fun
 				const checkPosition = new MockVector(1, 1);
@@ -129,6 +129,35 @@ describe('And when I work with the Body class', () => {
 				body.grow({position, direction}); // let's grow one segment for fun
 				body.collision(position);
 				cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+			});*/
+		});
+
+		describe('And when I use projectedCollision', () => {
+			const position = new MockVector(4, 4);
+			const direction = MockVector.Up();
+			let body;
+			const segments = [
+				new Segment({ position: new MockVector(5, 5), direction }),
+				new Segment({ position: new MockVector(5, 6), direction }),
+				new Segment({ position: new MockVector(5, 7), direction }),
+			]
+
+			beforeEach(() => {
+				body = new Body({ segments });
+			});
+
+			it('should throw if position is not a Vector', () => {
+				expect(() => body.projectedCollision({ position: 'bad' })).to.throw();
+			});
+
+			it('should return false if no collision', () => {
+				const checkPosition = new MockVector(1, 1);
+				expect(body.projectedCollision({ position: checkPosition, speed: 1 })).to.be.false;
+			});
+
+			it('should return true if collision', () => {
+				const checkPosition = new MockVector(5, 4); // move up should give us this
+				expect(body.projectedCollision({ position: checkPosition, speed: 1 })).to.be.true;
 			});
 		});
 

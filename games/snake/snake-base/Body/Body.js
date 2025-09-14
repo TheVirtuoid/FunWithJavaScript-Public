@@ -41,11 +41,15 @@ export default class Body {
 		if (!(position instanceof Vector)) {
 			throw new Error(`'position' argument must be an instance of Vector`);
 		}
-		const collided = this.#segments.some(segment => segment.position.equals(position));
-		if (collided) {
-			GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
+		return this.#segments.some(segment => segment.position.equals(position));
+	}
+
+	projectedCollision(args = {}) {
+		const { position, speed = 1 } = args;
+		if (!(position instanceof Vector)) {
+			throw new Error(`'position' argument must be an instance of Vector`);
 		}
-		return collided;
+		return this.getProjectedPositions(speed).some(segmentPosition => segmentPosition.equals(position));
 	}
 
 	getProjectedPositions(speed = 1) {

@@ -28,7 +28,6 @@ All properties are read-only (getter functions) unless specified otherwise.
 3. `collision(position)` - did the position collide?
    1. `position` (Vector) - position to check. Required
    2. Returns `true` if the position collides with any part of the body, `false` otherwise.
-   3. Will also send the `SNAKE_COLLISION_SELF` event
 4. `getProjectedPositions(speed)` - get the body positions as if it had moved
    1. `speed` (Number) - the speed
    2. Returns an array of positions.
@@ -37,3 +36,6 @@ All properties are read-only (getter functions) unless specified otherwise.
 6. `shiftDirections(firstDirection)` - shift the directions of the body segments
    1. `firstDirection` (Vector) - the new direction of the first segment
    2. Each segment gets the direction of the segment lower in order. The first segment gets the direction of the argument
+7. `projectedCollision(position)` - checks if a collision will occur with the projected position of the body
+   1. `position` (Vector) - the position to check
+   2. Return `true` or `false`. Does not fire the event.

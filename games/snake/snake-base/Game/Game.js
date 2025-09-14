@@ -65,7 +65,9 @@ export default class Game {
 
 	moveSnake(speed) {
 		const newPosition = this.#snake.getProjectedPosition(speed);
+		console.log(newPosition);
 		if (!this.#pitch.collision(newPosition) && !this.#snake.collision(newPosition)) {
+			console.log('moved');
 			this.#snake.move(speed);
 		}
 		/*const collidedWithWall = this.#pitch.collision(newPosition);
