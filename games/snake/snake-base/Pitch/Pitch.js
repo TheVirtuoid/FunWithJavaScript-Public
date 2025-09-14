@@ -29,10 +29,10 @@ export default class Pitch {
 		if (!this.#dimensions.inBounds(position)) {
 			throw new Error(`'position' argument is outside the pitch`);
 		}
-		const collided = this.#dimensions.isPerimeter(position);
+		/*const collided = this.#dimensions.isPerimeter(position);
 		if (collided) {
 			GameEvent.Emit(GameEvent.SNAKE_COLLISION_WALL);
-		}
-		return collided;
+		}*/
+		return this.#dimensions.isPerimeter(position);
 	}
 }

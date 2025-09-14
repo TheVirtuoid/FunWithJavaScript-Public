@@ -20,4 +20,5 @@ All properties are read-only (getter functions) unless specified otherwise.
 ### Public
 1. `collision(position)` - checks if a position collides with the perimeter pitch.
    1. `position` (Vector) - position to check. Required
-    2. Returns `true` if the position collides with the perimeter, otherwise `false`.
+   2. Returns `true` if the position collides with the perimeter, otherwise `false`.
+   3. No event is thrown

@@ -23,13 +23,17 @@ export default class Snake {
 		this.#head = new Head({ position, direction });
 		this.#body = new Body();
 		if (length) {
+			// determine the last position and work backwards, as we need the closest one at [0].
 			let currentPosition = position.clone();
-			let currentDirection = direction.clone().opposite();
-			const fill = currentDirection.fill(this.#speed);
-			const movement = currentDirection.multiply(fill);
+			const currentDirection = direction.clone().opposite();
+			const speedVector = currentDirection.fill(this.#speed);
+			const lengthVector = currentDirection.fill(length);
+			const lastSegmentOffset = currentDirection.multiply(speedVector.multiply(lengthVector));
+			currentPosition = currentPosition.add(lastSegmentOffset); // this is the position of the last segment
+			const movement = direction.multiply(speedVector); // since we start at the end of the snake, we want to move forward in the direction towards the head
 			for (let i = 0; i < length; i++) {
-				currentPosition = currentPosition.add(movement);
 				this.#body.grow({ position: currentPosition.clone(), direction: currentDirection.clone() });
+				currentPosition = currentPosition.add(movement);
 			}
 		}
 	}
@@ -106,12 +110,12 @@ export default class Snake {
 		if (!(position instanceof Vector)) {
 			throw new Error(`'position' argument must be an instance of Vector`);
 		}
-		// const collided = this.#body.segments.some(segmentPosition => segmentPosition.equals(position));
-		const collided = this.#body.collision(position);
+		/*const collided = this.#body.collision(position);
 		if (collided) {
 			GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
 		}
-		return collided;
+		return collided;*/
+		return this.#body.collision(position);
 	}
 
 }

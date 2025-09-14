@@ -53,9 +53,9 @@ describe('And when I work with the Snake class', () => {
 		describe('And when I work with "body"', () => {
 			it('should return the correct positions', () => {
 				const body = snake.body;
-				expect(body[0].equals(new MockVector(5, 5 - speed * 3))).to.be.true;
+				expect(body[0].equals(new MockVector(5, 5 - speed))).to.be.true;
 				expect(body[1].equals(new MockVector(5, 5 - speed * 2))).to.be.true;
-				expect(body[2].equals(new MockVector(5, 5 - speed))).to.be.true;
+				expect(body[2].equals(new MockVector(5, 5 - speed * 3))).to.be.true;
 			});
 			it('should throw exception if trying to change body', () => {
 				expect(() => snake.body = 'bad').to.throw();
@@ -84,7 +84,7 @@ describe('And when I work with the Snake class', () => {
 			it('should return three body segments in the opposite direction', () => {
 				const oppositeDirection = direction.opposite();
 				let testPosition = new MockVector(5, 5 - speed);
-				let segment = snake.getBodySegmentAt(2);
+				let segment = snake.getBodySegmentAt(0);
 				expect(segment.position.equals(testPosition)).to.be.true;
 				expect(segment.direction.equals(oppositeDirection)).to.be.true;
 				testPosition = new MockVector(5, 5 - speed * 2);
@@ -92,7 +92,7 @@ describe('And when I work with the Snake class', () => {
 				expect(segment.position.equals(testPosition)).to.be.true;
 				expect(segment.direction.equals(oppositeDirection)).to.be.true;
 				testPosition = new MockVector(5, 5 - speed * 3);
-				segment = snake.getBodySegmentAt(0);
+				segment = snake.getBodySegmentAt(2);
 				expect(segment.position.equals(testPosition)).to.be.true;
 				expect(segment.direction.equals(oppositeDirection)).to.be.true;
 			});
@@ -284,26 +284,26 @@ describe('And when I work with the Snake class', () => {
 				snake.grow({ direction: MockVector.Up(), position: new MockVector(1,1) });
 				snake.grow({ direction: MockVector.Up(), position: new MockVector(2,2) });
 				snake.grow({ direction: MockVector.Up(), position: new MockVector(3,3) });
-				cy.spy(GameEvent, 'Emit').as('gameEmit');
+				// cy.spy(GameEvent, 'Emit').as('gameEmit');
 			});
 
 			it('should throw an error if position argument is not a Vector', () => {
 				expect(() => snake.collision({})).to.throw();
-				cy.get('@gameEmit').should('not.have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+				// cy.get('@gameEmit').should('not.have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
 			});
 
 			it('should not send event if collision() does not collide with position', () => {
-				snake.collision(new MockVector(5,5));
-				cy.get('@gameEmit').should('not.have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+				expect(snake.collision(new MockVector(5,5))).to.be.false;
+				// cy.get('@gameEmit').should('not.have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
 			});
 
 			it('should send event if collision() does not collide with position', () => {
-				snake.collision(new MockVector(1,1));
-				cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
-				snake.collision(new MockVector(2,2));
-				cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
-				snake.collision(new MockVector(3,3));
-				cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+				expect(snake.collision(new MockVector(1,1))).to.be.true;
+				// cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+				expect(snake.collision(new MockVector(2,2))).to.be.true;
+				// cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
+				expect(snake.collision(new MockVector(3,3))).to.be.true;
+				// cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
 			});
 
 		});

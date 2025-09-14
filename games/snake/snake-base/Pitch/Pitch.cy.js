@@ -45,41 +45,41 @@ describe('And when I work with the Pitch class', () => {
 		});
 
 		describe('And I work with the collision method', () => {
-			beforeEach(() => {
+			/*beforeEach(() => {
 				cy.spy(GameEvent, 'Emit').as('gameEmit');
-			});
+			});*/
 
 			it('should throw an error if position argument is not a Vector', () => {
 				expect(() => pitch.collision({})).to.throw(`'position' argument must be a Vector instance`);
-				cy.get('@gameEmit').should('not.have.been.called');
+				// cy.get('@gameEmit').should('not.have.been.called');
 			});
 
 			it('should throw an error if position is outside the pitch', () => {
 				expect(() => pitch.collision(new MockVector(10, 0))).to.throw(`'position' argument is outside the pitch`);
-				cy.get('@gameEmit').should('not.have.been.called');
+				// cy.get('@gameEmit').should('not.have.been.called');
 				expect(() => pitch.collision(new MockVector(0, 10))).to.throw(`'position' argument is outside the pitch`);
-				cy.get('@gameEmit').should('not.have.been.called');
+				// cy.get('@gameEmit').should('not.have.been.called');
 				expect(() => pitch.collision(new MockVector(-1, 0))).to.throw(`'position' argument is outside the pitch`);
-				cy.get('@gameEmit').should('not.have.been.called');
+				// cy.get('@gameEmit').should('not.have.been.called');
 				expect(() => pitch.collision(new MockVector(0, -1))).to.throw(`'position' argument is outside the pitch`);
-				cy.get('@gameEmit').should('not.have.been.called');
+				// cy.get('@gameEmit').should('not.have.been.called');
 			});
 
 
 			it('should not send event if collision() does not collide with position', () => {
-				pitch.collision(new MockVector(1,1));
-				cy.get('@gameEmit').should('not.have.been.called');
+				expect(pitch.collision(new MockVector(1,1))).to.be.false;
+				// cy.get('@gameEmit').should('not.have.been.called');
 			});
 
 			it('should send event if collision() does not collide with position', () => {
-				pitch.collision(new MockVector(0,1));
-				cy.get('@gameEmit').should('have.been.called.with', GameEvent.SNAKE_COLLISION_WALL);
-				pitch.collision(new MockVector(1,0));
-				cy.get('@gameEmit').should('have.been.called.with', GameEvent.SNAKE_COLLISION_WALL);
-				pitch.collision(new MockVector(1,9));
-				cy.get('@gameEmit').should('have.been.called.with', GameEvent.SNAKE_COLLISION_WALL);
-				pitch.collision(new MockVector(9,1));
-				cy.get('@gameEmit').should('have.been.called.with', GameEvent.SNAKE_COLLISION_WALL);
+				expect(pitch.collision(new MockVector(0,1))).to.be.true;
+				// cy.get('@gameEmit').should('have.been.called.with', GameEvent.SNAKE_COLLISION_WALL);
+				expect(pitch.collision(new MockVector(1,0))).to.be.true;
+				// cy.get('@gameEmit').should('have.been.called.with', GameEvent.SNAKE_COLLISION_WALL);
+				expect(pitch.collision(new MockVector(1,9))).to.be.true;
+				// cy.get('@gameEmit').should('have.been.called.with', GameEvent.SNAKE_COLLISION_WALL);
+				expect(pitch.collision(new MockVector(9,1))).to.be.true;
+				// cy.get('@gameEmit').should('have.been.called.with', GameEvent.SNAKE_COLLISION_WALL);
 			});
 
 		});
