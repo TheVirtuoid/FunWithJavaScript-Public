@@ -23,6 +23,10 @@ export default class Vector {
 		throw new Error('Static method not implemented');
 	}
 
+	static Random() {
+		throw new Error('Static method not implemented');
+	}
+
 	add(vector) {
 		throw new Error('Method not implemented');
 	}
@@ -68,6 +72,10 @@ export default class Vector {
 	}
 
 	opposite() {
+		throw new Error('Method not implemented');
+	}
+
+	random() {
 		throw new Error('Method not implemented');
 	}
 }

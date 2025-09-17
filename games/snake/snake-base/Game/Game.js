@@ -70,7 +70,6 @@ export default class Game {
 		} else if (this.#snake.collision(newPosition)) {
 			GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
 		} else {
-			console.log('moved');
 			this.#snake.move(speed);
 		}
 	}

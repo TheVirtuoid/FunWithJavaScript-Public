@@ -53,6 +53,7 @@ None
     - Returns a new Vector with each component set to the provided number
 12. `opposite()`: Returns the opposite of this vector.
     - Returns a new Vector that is the opposite of this vector (i.e., each component multiplied by -1)
+13. `random()`: Returns a random vector
 
 ### Static
 
@@ -64,3 +65,4 @@ None
 6. `Forward()`: Creates a vector pointing forward. To the right for LTR languages, to the left for RTL languages.
 7. `Backward()`: Creates a vector pointing backward. To the left for LTR languages, to the right for RTL languages.
 8. `Fill(number)`: Creates a vector with each component set to the provided number.
+9. `Random()`: Creates a random vector.

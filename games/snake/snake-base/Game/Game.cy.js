@@ -297,20 +297,12 @@ describe('And when I work with the Game class', () => {
 			it('should fire the event when the snake hits itself', () => {
 				cy.get('@emit').then((spy) => spy.resetHistory());
 				cy.then(() => {
-					console.log('----------------------------------------------------------------------------------------------START');
-					console.log('head start: ', game.snakePosition.toString(), ', direction: ', game.snakeDirection.toString(), 'body: ', game.snakeBody.toString());
 					game.changeSnakeDirection(MockVector.Up());
 					game.moveSnake(); //5,4
-					console.log('----------------------after move');
-					console.log('head start: ', game.snakePosition.toString(), ', direction: ', game.snakeDirection.toString(), 'body: ', game.snakeBody.toString());
 					game.changeSnakeDirection(MockVector.Left());
 					game.moveSnake(); //4,4. Body should be at (3,5) (4,5) (5,5) (5,4)
-					console.log('----------------------after move');
-					console.log('head start: ', game.snakePosition.toString(), ', direction: ', game.snakeDirection.toString(), 'body: ', game.snakeBody.toString());
 					game.changeSnakeDirection(MockVector.Down());
-					console.log('start with possible death');
 					game.moveSnake(); //4,5 Should collide with body
-					console.log('--------------------------------------------------------------------------------------------END');
 				});
 				cy.get('@emit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
 			});

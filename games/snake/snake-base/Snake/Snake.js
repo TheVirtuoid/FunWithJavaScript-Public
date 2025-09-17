@@ -32,7 +32,7 @@ export default class Snake {
 			currentPosition = currentPosition.add(lastSegmentOffset); // this is the position of the last segment
 			const movement = direction.multiply(speedVector); // since we start at the end of the snake, we want to move forward in the direction towards the head
 			for (let i = 0; i < length; i++) {
-				this.#body.grow({ position: currentPosition.clone(), direction: currentDirection.clone() });
+				this.#body.grow({ position: currentPosition.clone(), direction: direction.clone() });
 				currentPosition = currentPosition.add(movement);
 			}
 		}
@@ -78,15 +78,9 @@ export default class Snake {
 	}
 
 	move(speed = this.#speed) {
-		const proposedPosition = this.#head.getProjectedPosition(speed);
-		const collided = this.#body.projectedCollision({ position: proposedPosition, speed });
-		if (collided) {
-			GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
-		} else {
-			this.#head.move(speed);
-			this.#body.move(speed);
-			this.#body.shiftDirections(this.#head.direction);
-		}
+		this.#head.move(speed);
+		this.#body.move(speed);
+		this.#body.shiftDirections(this.#head.direction);
 	}
 
 	changeDirection(direction) {

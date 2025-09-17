@@ -30,6 +30,16 @@ export default class Vector2d extends Vector {
 		return new Vector2d(number, number);
 	}
 
+	static Random(dimensions) {
+		if (!(dimensions instanceof Vector2d)) {
+			throw new Error('Argument must be an instance of Vector2d');
+		}
+		return new Vector2d(
+			Math.floor(Math.random() * dimensions.x),
+			Math.floor(Math.random() * dimensions.y)
+		);
+	}
+
 	constructor(x, y) {
 		super({ x, y });
 		if (arguments.length !== 2) {
@@ -123,5 +133,9 @@ export default class Vector2d extends Vector {
 
 	opposite() {
 		return new Vector2d(this.#x * -1, this.#y * -1);
+	}
+
+	random(dimensions) {
+		return Vector2d.Random(dimensions)
 	}
 }

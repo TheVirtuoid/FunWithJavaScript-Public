@@ -31,6 +31,10 @@ describe('When I work with Vector', () => {
 		it('should throw an exception calling Fill()', () => {
 			expect(() => Vector.Fill()).to.throw('Static method not implemented');
 		});
+
+		it('should throw an exception calling Random()', () => {
+			expect(() => Vector.Random()).to.throw('Static method not implemented');
+		});
 	});
 
 	describe('And I work with the Public Methods', () => {
@@ -80,6 +84,10 @@ describe('When I work with Vector', () => {
 
 		it('should throw an exception when calling opposite()', () => {
 			expect(() => vector.opposite()).to.throw('Method not implemented');
+		});
+
+		it('should throw an exception when calling random()', () => {
+			expect(() => vector.random()).to.throw('Method not implemented');
 		});
 	});
 });

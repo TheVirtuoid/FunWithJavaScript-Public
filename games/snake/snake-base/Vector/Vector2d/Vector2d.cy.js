@@ -82,6 +82,16 @@ describe('When I work with the Vector2d class', () => {
 			expect(vector.x).to.equal(3);
 			expect(vector.y).to.equal(3);
 		});
+
+		it('should throw error if random() dimensions is not a Vector', () => {
+			expect(() => Vector2d.Random('bad')).to.throw('Argument must be an instance of Vector2d');
+		});
+
+		it('should return a random vector', () => {
+			const vector = Vector2d.Random(new Vector2d(10, 10));
+			expect(vector.x >= 0 && vector.x < 10).to.be.true;
+			expect(vector.y >= 0 && vector.y < 10).to.be.true;
+		});
 	});
 
 	describe('And I work with the public methods', () => {
@@ -337,5 +347,16 @@ describe('When I work with the Vector2d class', () => {
 			});
 		});
 
+		describe('And when I call random', () => {
+			it('should throw error if dimensions is not a Vector', () => {
+				expect(() => baseVector.random('bad')).to.throw('Argument must be an instance of Vector2d');
+			});
+
+			it('should return a random vector', () => {
+				const vector = baseVector.random(new Vector2d(10, 10));
+				expect(vector.x >= 0 && vector.x < 10).to.be.true;
+				expect(vector.y >= 0 && vector.y < 10).to.be.true;
+			});
+		});
 	});
 });
