@@ -81,20 +81,20 @@ describe('And when I work with the Snake class', () => {
 				expect(() => snake.length = 5).to.throw();
 			});
 
-			it('should return three body segments in the opposite direction', () => {
+			it('should return three body segments in the same direction', () => {
 				const oppositeDirection = direction.opposite();
 				let testPosition = new MockVector(5, 5 - speed);
 				let segment = snake.getBodySegmentAt(0);
 				expect(segment.position.equals(testPosition)).to.be.true;
-				expect(segment.direction.equals(oppositeDirection)).to.be.true;
+				expect(segment.direction.equals(direction)).to.be.true;
 				testPosition = new MockVector(5, 5 - speed * 2);
 				segment = snake.getBodySegmentAt(1);
 				expect(segment.position.equals(testPosition)).to.be.true;
-				expect(segment.direction.equals(oppositeDirection)).to.be.true;
+				expect(segment.direction.equals(direction)).to.be.true;
 				testPosition = new MockVector(5, 5 - speed * 3);
 				segment = snake.getBodySegmentAt(2);
 				expect(segment.position.equals(testPosition)).to.be.true;
-				expect(segment.direction.equals(oppositeDirection)).to.be.true;
+				expect(segment.direction.equals(direction)).to.be.true;
 			});
 
 			it('should return undefined if index is out of range', () => {

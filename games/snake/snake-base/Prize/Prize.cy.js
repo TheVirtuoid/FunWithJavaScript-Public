@@ -37,7 +37,7 @@ describe('And when I work with the Prize class', () => {
 	const type = PrizeType.APPLE;
 	const value = 10;
 	const pitch = new Pitch({ dimensions: new MockVector(10, 10) });
-	const snake = new Snake({ position: new MockVector(5,5), direction: MockVector.Up() });
+	const snake = new Snake({ position: new MockVector(5,5), direction: MockVector.Up(), length: 3 });
 	let prize;
 
 	it('should throw an error if pitch is not provided', () => {

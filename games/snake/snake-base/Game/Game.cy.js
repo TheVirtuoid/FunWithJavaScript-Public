@@ -3,6 +3,7 @@ import Game from "./Game.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 import Pitch from "../Pitch/Pitch.js";
 import Snake from "../Snake/Snake.js";
+import Prize from "../Prize/Prize.js";
 
 describe('And when I work with the Game class', () => {
 	const id = 'test-game';
@@ -174,6 +175,7 @@ describe('And when I work with the Game class', () => {
 			const startDirection = MockVector.Right();
 			const snake = new Snake({ position: startPosition, direction: startDirection, speed: startSpeed, length: 4, id: 'snake-test' });
 			const pitch = new Pitch({ dimensions: new MockVector(10, 10), id: 'pitch-test' });
+			const prize = new Prize({ snake, pitch, id: 'prize-test' });
 			game = new Game({ id: 'game-test' });
 			game.addPitch(pitch);
 			game.addSnake(snake);

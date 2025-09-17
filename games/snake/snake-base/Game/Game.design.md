@@ -16,6 +16,7 @@ All properties are read-only unless otherwise noted.
 4. `snakeBody` (Array of Vectors) - the current body of the snake. Derived from the snake body and snake head
 5. `pitchDimentions` (Vector) - the dimensions of the pitch, assuming one corner is Vector.Zero(). Derived from the pitch
 6. `gameEventInitialized` (Boolean) - whether the game event has been initialized.
+7. `prizePosition` (Vector) - current position of the generated prize (undefined if no prize);
 
 ## Methods
 
@@ -30,6 +31,7 @@ All properties are read-only unless otherwise noted.
    - `snake` (Snake) - the snake to add. Required
 4. `addPrize(prize)` - adds a prize to the game.
    - `prize` (Prize) - the prize to add. Required
+5. `generatePrize()` - generate a new prize; It will replace the old prize (if there is one);
 
 ### Private
 
