@@ -4,6 +4,8 @@ import GameEvent from "../GameEvent/GameEvent.js";
 import Pitch from "../Pitch/Pitch.js";
 import Snake from "../Snake/Snake.js";
 import Prize from "../Prize/Prize.js";
+import PrizeType from "../Prize/PrizeType.js";
+import Vector from "../Vector/Base/Vector.js";
 
 describe('And when I work with the Game class', () => {
 	const id = 'test-game';
@@ -134,6 +136,31 @@ describe('And when I work with the Game class', () => {
 			});
 		});
 
+		describe('And when generatePrize() is called', () => {
+			const snake = new Snake({ position, direction, length: 1, id: 'snake-test' });
+			const pitch = new Pitch({ dimensions });
+
+			it('should throw an error if no pitch is provided', () => {
+				game.addSnake(snake);
+				expect(() => game.generatePrize()).to.throw();
+			});
+
+			it('should throw an error if no snake is provided', () => {
+				game.addPitch(pitch);
+				expect(() => game.generatePrize()).to.throw();
+			});
+
+			it('should generate a prize', () => {
+				game.addSnake(snake);
+				game.addPitch(pitch);
+				game.generatePrize();
+				expect(game.prizeValue).to.equal(PrizeType.DEFAULT_VALUE);
+				expect(game.prizeType).to.equal(PrizeType.DEFAULT_TYPE);
+				expect(game.prizePosition).to.be.instanceof(Vector);
+			});
+
+		});
+
 	});
 	/*
 
@@ -175,10 +202,10 @@ describe('And when I work with the Game class', () => {
 			const startDirection = MockVector.Right();
 			const snake = new Snake({ position: startPosition, direction: startDirection, speed: startSpeed, length: 4, id: 'snake-test' });
 			const pitch = new Pitch({ dimensions: new MockVector(10, 10), id: 'pitch-test' });
-			const prize = new Prize({ snake, pitch, id: 'prize-test' });
 			game = new Game({ id: 'game-test' });
 			game.addPitch(pitch);
 			game.addSnake(snake);
+			game.generatePrize();
 			cy.spy(game, 'emit').as('emit');
 		});
 
@@ -279,10 +306,6 @@ describe('And when I work with the Game class', () => {
 				});
 				cy.get('@emit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_WALL);
 			});
-
-
-
-
 		});
 
 		describe('And onSnakeCollisionSelf fires', () => {
@@ -311,6 +334,30 @@ describe('And when I work with the Game class', () => {
 		});
 
 		describe('And onSnakeCollisionPrize fires', () => {
+			let prizePosition;
+
+			beforeEach(() => {
+				prizePosition = game.prizePosition;
+				console.log(prizePosition);
+			});
+			it('should fire the onSnakeCollisionPRize event', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
+				cy.then(() => {
+					// move until you get to Y
+					const difference = prizePosition.subtract(game.snakePosition);
+					const multiplier = new MockVector(difference.x < 0 ? -1 : 1, difference.y < 0 ? -1 : 1);
+					game.changeSnakeDirection(multiplier.y === -1 ? MockVector.Up() : MockVector.Down());
+					for (let i = 0; i < Math.abs(difference.y); i++) {
+						game.moveSnake();
+					}
+					game.changeSnakeDirection(multiplier.x === -1 ? MockVector.Left() : MockVector.Right());
+					for (let i = 0; i < Math.abs(difference.x); i++) {
+						game.moveSnake();
+					}
+					// should have hit the prize on the last move!
+				});
+				cy.get('@emit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_PRIZE);
+			});
 		});
 
 		describe('And onSnakeMove fires', () => {

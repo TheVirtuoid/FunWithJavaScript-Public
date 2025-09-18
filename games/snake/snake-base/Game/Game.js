@@ -1,12 +1,14 @@
 import GameEvent from "../GameEvent/GameEvent.js";
 import Pitch from "../Pitch/Pitch.js";
 import Snake from "../Snake/Snake.js";
+import Prize from "../Prize/Prize.js";
 
 export default class Game {
 	#pitch;
 	#snake;
 	#id;
 	#gameEventInitialized = false;
+	#prize;
 
 	constructor(args = {}) {
 		const { id = window.crypto.randomUUID() } = args;
@@ -36,6 +38,18 @@ export default class Game {
 
 	get pitchDimensions() {
 		return this.#pitch?.dimensions.clone();
+	}
+
+	get prizeType() {
+		return this.#prize?.type;
+	}
+
+	get prizeValue() {
+		return this.#prize?.value;
+	}
+
+	get prizePosition() {
+		return this.#prize?.position;
 	}
 
 	emit(event, ...data) {
@@ -70,8 +84,18 @@ export default class Game {
 		} else if (this.#snake.collision(newPosition)) {
 			GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
 		} else {
+			if (this.#prize?.collision(newPosition)) {
+				GameEvent.Emit(GameEvent.SNAKE_COLLISION_PRIZE);
+			}
 			this.#snake.move(speed);
 		}
+	}
+
+	generatePrize() {
+		if (!this.#pitch || !this.#snake) {
+			throw new Error(`'pitch' and 'snake' must be defined before generating a prize`);
+		}
+		this.#prize = new Prize({ pitch: this.#pitch, snake: this.#snake });
 	}
 
 	changeSnakeDirection(newDirection) {
