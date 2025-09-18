@@ -64,14 +64,17 @@ The list that follows each event handler describes the classes/methods that can 
 7. `#onSnakeDirectionChanged(newDirection)` - handles snake direction changed event.
    - `newDirection` (Vector) - the new direction of the snake.
    - `Game.#processInput`
-8. `#onSnakeJumped({position, direction})` - handles snake jumped event.
-   - `position` (Vector) - the new position of the snake.
-   - `direction` (Vector) - the new direction of the snake. If not specified, the current direction is used
-   - `Game.#onSnakeCollisionWall`
-   - `Game.#onSnakeCollisionSelf`
-9. `#onInput(inputEvent)` - handles generic input event.
-10. `#onGameExit()` - handles when player manually stops the game.
-11. `#onGamePause()` - handles when player pauses the game.
-12. `#onGameResume()` - handles when player resumes the game.
-13. `#onGameReset()` - handles when player resets the game.
-14. `#onGameStart()` - handles when player starts the game.
+8. `#onInput(inputEvent)` - handles generic input event.
+9. `#onGameExit()` - handles when player manually stops the game.
+10. `#onGamePause()` - handles when player pauses the game.
+11. `#onGameResume()` - handles when player resumes the game.
+12. `#onGameReset()` - handles when player resets the game.
+13. `#onGameStart()` - handles when player starts the game.
+
+## Future Work
+1. `jump(position, direction)`
+2. `#onSnakeJumped({position, direction})` - handles snake jumped event.
+    - `position` (Vector) - the new position of the snake.
+    - `direction` (Vector) - the new direction of the snake. If not specified, the current direction is used
+    - `Game.#onSnakeCollisionWall`
+    - `Game.#onSnakeCollisionSelf`

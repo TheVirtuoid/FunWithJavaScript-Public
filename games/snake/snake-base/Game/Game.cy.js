@@ -162,37 +162,7 @@ describe('And when I work with the Game class', () => {
 		});
 
 	});
-	/*
 
-	1. `#onGameOver()` - handles game over event.
-    - sent by the following events:
-2. `#onGameEventInitialized()` - handles game event initialized event.
-3. `#onSnakeCollisionWall()` - handles snake collision with wall event.
-4. `#onSnakeCollisionSelf()` - handles snake collision with self event.
-5. `#onSnakeCollisionPrize(prize)` - handles snake collision with prize event.
-   - `prize` (Prize) - the prize that was collided with.
-6. `#onSnakeMove(newHead)` - handles snake move event.
-   - `newHead` (Object) - the new head position of the snake.
-7. `#onSnakeDirectionInvalid(direction)` - handles invalid snake direction event.
-   - `direction` (String) - the invalid direction.
-8. `#onSnakeDirectionChanged(newDirection)` - handles snake direction changed event.
-   - `newDirection` (String) - the new direction of the snake.
-9. `#onSnakeJumpInvalid(position)` - handles invalid snake jump event.
-   - `position` (Object) - the position that was attempted to jump to.
-10. `#onSnakeJumped(newHead)` - handles snake jumped event.
-    - `newHead` (Object) - the new head position of the snake.
-11. `#onSnakeReset()` - handles snake reset event.
-12. `#onDetectWallCollision()` - handles detect wall collision event.
-13. `#onDetectPrizeCollision()` - handles detect prize collision event.
-14. `#onDetectSelfCollision()` - handles detect self collision event.
-15. `#onInputMove(direction)` - handles input move event.
-    - `direction` (String) - the direction to move.
-16. `#onGameExit()` - handles when player manually stops the game.
-17. `#onGamePause()` - handles when player pauses the game.
-18. `#onGameResume()` - handles when player resumes the game.
-19. `#onGameReset()` - handles when player resets the game.
-20. `#onGameStart()` - handles when player starts the game.
-	 */
 	describe('And when I handle the events', () => {
 		let game;
 
@@ -361,33 +331,27 @@ describe('And when I work with the Game class', () => {
 		});
 
 		describe('And onSnakeMove fires', () => {
-		});
-
-		describe('And onSnakeDirectionInvalid fires', () => {
+			it('should fire the onSnakeMove event', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
+				cy.then(() => {
+					game.moveSnake();
+				});
+				cy.get('@emit').should('have.been.calledWith', GameEvent.SNAKE_MOVE);
+			});
 		});
 
 		describe('And onSnakeDirectionChanged fires', () => {
+			it('should fire the onSnakeDirectionChange event', () => {
+				cy.get('@emit').then((spy) => spy.resetHistory());
+				cy.then(() => {
+					game.changeSnakeDirection(MockVector.Up());
+				});
+				cy.get('@emit').should('have.been.calledWith', GameEvent.SNAKE_DIRECTION_CHANGED);
+			});
 		});
 
-		describe('And onSnakeJumpInvalid fires', () => {
-		});
-
-		describe('And onSnakeJumped fires', () => {
-		});
-
-		describe('And onSnakeReset fires', () => {
-		});
-
-		describe('And onDetectWallCollision fires', () => {
-		});
-
-		describe('And onDetectPrizeCollision fires', () => {
-		});
-
-		describe('And onDetectSelfCollision fires', () => {
-		});
-
-		describe('And onInputMove fires', () => {
+		describe('And onInput fires', () => {
+			it('should have ')
 		});
 
 		describe('And onGameExit fires', () => {
@@ -405,48 +369,4 @@ describe('And when I work with the Game class', () => {
 		describe('And onGameStart fires', () => {
 		});
 	});
-
-	/*describe('And when I handle the input events', () => {
-		const pitch = new Pitch({ dimensions: new MockVector(10, 10), id: 'pitch-test' });
-		const game = new Game({ vectorFactory: MockVector });
-		const startPosition = new MockVector(5,5);
-		const startSpeed = 1;
-		const startDirection = MockVector.Right();
-		game.addPitch(pitch);
-
-		beforeEach(() => {
-			const snake = new Snake({ position: startPosition, direction: startDirection, speed: startSpeed, id: 'snake-test' });
-			game.addSnake(snake);
-		});
-
-		describe('And when I move the snake', () => {
-			it('should move with current direction', () => {
-				const newPosition = startPosition.add(startDirection.multiply(vectorFactory.Fill(startSpeed)));
-				game.emit(GameEvent.INPUT_MOVE);
-				expect(game.getSnakePosition().equals(newPosition)).to.be.true;
-			});
-
-			it('should move with new direction', () => {
-				const newDirection = MockVector.Up();
-				const newPosition = startPosition.add(newDirection.multiply(vectorFactory.Fill(startSpeed)));
-				game.emit(GameEvent.INPUT_MOVE, newDirection);
-				expect(game.getSnakePosition().equals(newPosition)).to.be.true;
-				expect(game.getSnakeDirection().equals(newDirection)).to.be.true;
-			});
-
-			describe('And when I test for colliding with walls', () => {
-				it('should collide with the right wall', () => {
-					game.emit(GameEvent.INPUT_MOVE);
-					game.emit(GameEvent.INPUT_MOVE);
-					game.emit(GameEvent.INPUT_MOVE); // moves to (8,5)
-					cy.spy(GameEvent, 'Emit').as('collisionSpy');
-					game.emit(GameEvent.INPUT_MOVE); // moves to (9,5) - collision
-					cy.get('@collisionSpy').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_WALL);
-				});
-			});
-			describe('ANd when I test for colliding with self', () => {});
-			describe('And when I test for colliding with prize', () => {});
-		});
-
-	});*/
 });
