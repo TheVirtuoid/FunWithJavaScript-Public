@@ -350,9 +350,7 @@ describe('And when I work with the Game class', () => {
 			});
 		});
 
-		describe('And onInput fires', () => {
-			it('should have ')
-		});
+		describe('And onInput fires', () => {});
 
 		describe('And onGameExit fires', () => {
 		});
