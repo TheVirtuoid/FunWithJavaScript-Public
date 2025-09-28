@@ -1,4 +1,6 @@
 let vector;
+let wasd;
+let arrow;
 
 export default class KeyboardLayout {
 	static UP = Symbol('up');
@@ -10,19 +12,31 @@ export default class KeyboardLayout {
 	static EXIT = Symbol('exit');
 
 	static get WASD () {
-		return new Map([
-				['KeyA', { action: KeyboardLayout.LEFT, direction: vector.Left() }],
-				['KeyD', { action: KeyboardLayout.RIGHT, direction: vector.Right() }],
-				['KeyS', { action: KeyboardLayout.DOWN, direction: vector.Down() }],
-				['KeyW', { action: KeyboardLayout.UP, direction: vector.Up() }],
-				['KeyP', { action: KeyboardLayout.PAUSE, direction: null }],
-				['KeyR', { action: KeyboardLayout.RESUME, direction: null }],
-				['Escape', { action: KeyboardLayout.EXIT, direction: null }]
-			]);
+		return wasd;
 	}
 
 	static get ARROW () {
-		return new Map([
+		return arrow;
+	}
+
+	static IsType(type) {
+		return [KeyboardLayout.WASD, KeyboardLayout.ARROW].includes(type);
+	}
+
+	static Setup(vectorConstructor) {
+		vector = vectorConstructor;
+
+		wasd = new Map([
+			['KeyA', { action: KeyboardLayout.LEFT, direction: vector.Left() }],
+			['KeyD', { action: KeyboardLayout.RIGHT, direction: vector.Right() }],
+			['KeyS', { action: KeyboardLayout.DOWN, direction: vector.Down() }],
+			['KeyW', { action: KeyboardLayout.UP, direction: vector.Up() }],
+			['KeyP', { action: KeyboardLayout.PAUSE, direction: null }],
+			['KeyR', { action: KeyboardLayout.RESUME, direction: null }],
+			['Escape', { action: KeyboardLayout.EXIT, direction: null }]
+		]);
+
+		arrow = new Map([
 			['ArrowLeft', { action: KeyboardLayout.LEFT, direction: vector.Left() }],
 			['ArrowRight', { action: KeyboardLayout.RIGHT, direction: vector.Right() }],
 			['ArrowDown', { action: KeyboardLayout.DOWN, direction: vector.Down() }],
@@ -31,10 +45,6 @@ export default class KeyboardLayout {
 			['KeyR', { action: KeyboardLayout.RESUME, direction: null }],
 			['Escape', { action: KeyboardLayout.EXIT, direction: null }]
 		]);
-	}
-
-	static Setup(vectorConstructor) {
-		vector = vectorConstructor;
 	}
 
 	constructor() {

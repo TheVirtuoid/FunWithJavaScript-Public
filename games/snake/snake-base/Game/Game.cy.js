@@ -350,7 +350,7 @@ describe('And when I work with the Game class', () => {
 			});
 		});
 
-		describe('And onInput fires', () => {});
+		describe('And onInputChangeDirection fires', () => {});
 
 		describe('And onGameExit fires', () => {
 		});
