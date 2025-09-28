@@ -42,6 +42,8 @@ export default class Keyboard {
 	#processKeystroke(event) {
 		const { code } = event;
 		const keyMapping = this.layout.get(code);
-		this.#input.onInput(keyMapping);
+		if (keyMapping) {
+			this.#input.onInput(keyMapping);
+		}
 	}
 }
