@@ -1,6 +1,6 @@
 import KeyboardLayout from "../KeyboardLayout/KeyboardLayout.js";
 import GameEvent from "../../snake-base/GameEvent/GameEvent.js";
-import { MockVector } from '../../tdd-utilities/tddUtilities.js'
+import { MockVector, MockInput } from '../../tdd-utilities/tddUtilities.js'
 import Keyboard from "./Keyboard.js";
 
 describe('Keyboard', () => {
@@ -8,14 +8,20 @@ describe('Keyboard', () => {
 
 	describe('Constructor', () => {
 		const layout = KeyboardLayout.WASD;
+		const input = new MockInput();
 		let keyboard;
 
 		it('should throw error if layout is not passed', () => {
-			expect(() => new Keyboard()).to.throw(`'layout' argument is required and must be a KeyboardLayout.`);
+			expect(() => new Keyboard({ input })).to.throw(`'layout' argument is required and must be a KeyboardLayout.`);
 		});
 
+		it('should throw error if input is not passed', () => {
+			expect(() => new Keyboard({ layout })).to.throw(`'input' argument is required and must be a Input.`);
+		});
+
+
 		it('should create a new Keyboard instance with required properties', () => {
-			keyboard = new Keyboard({ layout });
+			keyboard = new Keyboard({ layout, input });
 			expect(keyboard).to.exist;
 			expect(keyboard.id).to.be.a('string');
 			expect(keyboard.layout).to.equal(layout);
@@ -26,6 +32,7 @@ describe('Keyboard', () => {
 			const customId = 'custom-keyboard-id';
 			keyboard = new Keyboard({
 				layout,
+				input,
 				id: customId
 			});
 			expect(keyboard.id).to.equal(customId);
@@ -34,6 +41,7 @@ describe('Keyboard', () => {
 		it('should create a new Keyboard instance with explicit NODE driver', () => {
 			keyboard = new Keyboard({
 				layout,
+				input,
 				driver: Keyboard.DRIVER_NODE
 			});
 			expect(keyboard.driver).to.equal(Keyboard.DRIVER_NODE);
@@ -42,11 +50,13 @@ describe('Keyboard', () => {
 
 	describe('Properties', () => {
 		const layout = KeyboardLayout.WASD;
+		const input = new MockInput();
 		let keyboard;
 
 		beforeEach(() => {
 			keyboard = new Keyboard({
 				layout,
+				input,
 				id: 'test-id',
 				driver: Keyboard.DRIVER_BROWSER
 			});
@@ -67,31 +77,35 @@ describe('Keyboard', () => {
 
 	describe('Events', () => {
 		const layout = KeyboardLayout.WASD;
+		const input = new MockInput();
 		let keyboard;
 
 		beforeEach(() => {
 			keyboard = new Keyboard({
 				layout,
+				input,
 				id: 'test-id',
 				driver: Keyboard.DRIVER_BROWSER
 			});
 		});
 
 
-		it('should emit INPUT_CHANGE_DIRECTION event when direction key is pressed', () => {
-			const eventSpy = cy.spy(GameEvent, 'Emit').as('emitSpy');
-			cy.press("w");
-			/*cy.document().trigger('keydown', {
-				key: 'w',
-				code: 'KeyW',
-				keyCode: 87
-			});*/
-			/*cy.then(() => {
-				expect(eventSpy).to.have.been.calledWith(
-					{ action: KeyboardLayout.UP, direction: MockVector.Up() }
-				);
-			});*/
-			cy.get('@emitSpy').should('have.been.calledWith', { action: KeyboardLayout.UP, direction: MockVector.Up()});
+		it('should call "onInput" event when valid key is pressed', () => {
+			const eventSpy = cy.spy(input, 'onInput').as('onInputSpy');
+			const keyEvent = new KeyboardEvent('keydown', {
+				code: 'KeyW'
+			});
+			document.dispatchEvent(keyEvent);
+			cy.get('@onInputSpy').should('have.been.calledWith', { action: KeyboardLayout.UP, direction: MockVector.Up()});
+		});
+
+		it('should NOT call "onInput" event when invalid key is pressed', () => {
+			const eventSpy = cy.spy(input, 'onInput').as('onInputSpy');
+			const keyEvent = new KeyboardEvent('keydown', {
+				code: 'KeyQ'
+			});
+			document.dispatchEvent(keyEvent);
+			cy.get('@onInputSpy').should('not.have.been.called');
 		});
 
 		/*it('should emit INPUT_GAME_PAUSED event when pause key is pressed', () => {

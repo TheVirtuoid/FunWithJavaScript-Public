@@ -13,4 +13,4 @@ Should throw error if trying to instantiate directly.
 - `onGamePaused()`: Throws an error because it is not implemented.
 - `onGameEnded()`: Throws an error because it is not implemented.
 - `onGameResumed()`: Throws an error because it is not implemented.
-
+- `onInput(event)`: Throws an error because it is not implemented.

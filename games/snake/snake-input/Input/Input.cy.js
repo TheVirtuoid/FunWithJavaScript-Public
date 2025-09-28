@@ -36,6 +36,10 @@ describe('And when I work with the Input class', () => {
 				expect(() => input.onGameEnded()).to.throw('You must implement the method onGameEnded.');
 			});
 
+			it('should throw an error because onInput is not implemented', () => {
+				expect(() => input.onInput()).to.throw('You must implement the method onInput.');
+			});
+
 		});
 
 	});

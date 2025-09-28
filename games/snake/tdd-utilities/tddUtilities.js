@@ -1,5 +1,6 @@
 import Vector2d from "../snake-base/Vector/Vector2d/Vector2d.js";
 import Game from "../snake-base/Game/Game.js";
+import Input from "../snake-input/Input/Input.js";
 
 /*class MockGame {
 	emit () {}
@@ -7,6 +8,13 @@ import Game from "../snake-base/Game/Game.js";
 const MockVector = Vector2d;
 const MockGame = new Game({ vectorFactory: MockVector });
 
+class MockInput extends Input {
+	constructor(args) {
+		super(args);
+	}
+
+	onInput(event) {}
+}
 /*
 class MockVector {
 	x;
@@ -34,4 +42,4 @@ class MockVector {
 }
 */
 
-export { MockGame, MockVector}
+export { MockGame, MockVector, MockInput}

@@ -20,4 +20,8 @@ export default class Input {
 	onGameResumed() {
 		throw new Error('You must implement the method onGameResumed.');
 	}
+
+	onInput() {
+		throw new Error('You must implement the method onInput.');
+	}
 }
