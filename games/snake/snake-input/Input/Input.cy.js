@@ -1,44 +1,74 @@
 import Input from "./Input.js";
+import Keyboard from "../devices/Keyboard/Keyboard.js";
+import KeyboardLayout from "../devices/Keyboard/KeyboardLayout/KeyboardLayout.js";
+import GameEvent from "../../snake-base/GameEvent/GameEvent.js";
+import {MockVector} from "../../tdd-utilities/tddUtilities.js";
 
 describe('And when I work with the Input class', () => {
 	describe('And when I work with the constructor', () => {
+		it('should throw an error if no driver is passed', () => {
+			expect(() => new Input()).to.throw('You must pass a driver to the constructor.');
+		})
+
 		it('should create the class', () => {
-			const input = new Input();
+			const driver = new Keyboard(KeyboardLayout.WASD);
+			const input = new Input({ driver });
 			expect(input).to.be.an.instanceof(Input);
+		});
+	});
+
+	describe('And when I work with the properties', () => {
+		let input;
+		const driver = new Keyboard(KeyboardLayout.WASD);
+		const id = 'test-input';
+
+		beforeEach(() => {
+			input = new Input({driver, id});
+		});
+
+		it('should have set the driver property', () => {
+			expect(input.driver).to.be.an.instanceof(Keyboard);
+		});
+
+		it('should have set the id property', () => {
+			expect(input.id).to.equal(id);
+		});
+
+		it('should throw error when trying to set the driver', () => {
+			expect(() => input.driver = new Keyboard(KeyboardLayout.WASD)).to.throw();
+		});
+
+		it('should throw error when trying to set the id', () => {
+			expect(() => input.id = 'new-id').to.throw();
 		});
 	});
 
 	describe('And when I work with the methods', () => {
 		let input;
+		const driver = new Keyboard(KeyboardLayout.WASD);
+		const id = 'test-input';
 
 		beforeEach(() => {
-			input = new Input();
+			input = new Input({ driver, id });
 		});
 
 		describe('And when all the methods are called', () => {
-			it('should throw an error because onChangeDirection is not implemented', () => {
-				expect(() => input.onChangeDirection()).to.throw('You must implement the method onChangeDirection.');
+			beforeEach(() => {
+				cy.spy(GameEvent, 'Emit').as('gameEmit');
+				const keyEvent = new KeyboardEvent('keydown', {
+					code: 'KeyW'
+				});
+				document.dispatchEvent(keyEvent);
 			});
 
-			it('should throw an error because it is not implemented', () => {
-				expect(() => input.onChangeSpeed()).to.throw('You must implement the method onChangeSpeed.');
+			it('should issue a changeDirection with the new direction', () => {
+				const keyEvent = new KeyboardEvent('keydown', {
+					code: 'KeyW'
+				});
+				document.dispatchEvent(keyEvent);
+				cy.get('@gameEmit').should('have.been.called.with', GameEvent.INPUT_CHANGE_DIRECTION, { inputId: id, direction: MockVector.UP });
 			});
 
-			it('should throw an error because onGamePaused is not implemented', () => {
-				expect(() => input.onGamePaused()).to.throw('You must implement the method onGamePaused.');
-			});
-
-			it('should throw an error because onGameResumed is not implemented', () => {
-				expect(() => input.onGameResumed()).to.throw('You must implement the method onGameResumed.');
-			});
-
-			it('should throw an error because onGameEnded is not implemented', () => {
-				expect(() => input.onGameEnded()).to.throw('You must implement the method onGameEnded.');
-			});
-
-			it('should throw an error because onInput is not implemented', () => {
-				expect(() => input.onInput()).to.throw('You must implement the method onInput.');
-			});
 
 		});
 

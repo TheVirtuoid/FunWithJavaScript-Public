@@ -12,6 +12,7 @@ export default class GameEvent {
 	static SNAKE_JUMPED = Symbol('snake-jumped');
 
 	static INPUT_CHANGE_DIRECTION = Symbol('input-change-direction');
+	static INPUT_CHANGE_SPEED = Symbol('input-change-speed');
 
 	static GAME_EXIT = Symbol('game-exit');
 	static GAME_PAUSE = Symbol('game-pause');
@@ -29,6 +30,7 @@ export default class GameEvent {
 		GameEvent.SNAKE_DIRECTION_CHANGED,
 		GameEvent.SNAKE_JUMPED,
 		GameEvent.INPUT_CHANGE_DIRECTION,
+		GameEvent.INPUT_CHANGE_SPEED,
 		GameEvent.GAME_EXIT,
 		GameEvent.GAME_PAUSE,
 		GameEvent.GAME_RESUME,

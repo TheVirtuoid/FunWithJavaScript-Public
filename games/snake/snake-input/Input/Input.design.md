@@ -2,15 +2,23 @@
 
 The base class for all input devices.
 
-## constructor()
-Should throw error if trying to instantiate directly.
+## constructor(args)
+Arguments are:
+- `id` (String) - Optional. The id for the input. Defaults to a UUID.
+
+## Properties
+All properties are read-only.
+- `driver`: The driver for this input.
+- `id`: The id for this input
 
 ### Methods
-- `onChangeDirection(direction)`: Throws an error because it is not implemented.
+- `setInputDriver(driver)`: Sets the driver for this input.
+- `onChangeDirection(direction)`: Issues a GameEvent.INPUT_CHANGE_DIRECTION,
+  - `id` (String) - the id of the input 
   - `direction` (Vector) - The direction to change to.
-- `onChangeSpeed(speed)`: Throws an error because it is not implemented.
+- `onChangeSpeed(speed)`: Issues a GameEvent.INPUT_CHANGE_DIRECTION,
   - `speed` (Number) - the new speed.
-- `onGamePaused()`: Throws an error because it is not implemented.
-- `onGameEnded()`: Throws an error because it is not implemented.
-- `onGameResumed()`: Throws an error because it is not implemented.
-- `onInput(event)`: Throws an error because it is not implemented.
+- `onGamePaused()`: Issues a GameEvent.GAME_PAUSED,
+- `onGameEnded()`: Issues a GameEvent.GAME_EXIT,
+- `onGameResumed()`: Issues a GameEvent.GAME_RESUMED.
+- `onInput(event)`: Event that is fired by the input constructor. Calls one of the other routines.

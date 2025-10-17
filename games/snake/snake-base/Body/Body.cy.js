@@ -115,21 +115,6 @@ describe('And when I work with the Body class', () => {
 				body.grow({position, direction}); // let's grow one segment for fun
 				expect(body.collision(position)).to.be.true;
 			});
-
-			/*it('should NOT send the event if no collision', () => {
-				cy.spy(GameEvent, 'Emit').as('gameEmit');
-				body.grow({position, direction}); // let's grow one segment for fun
-				const checkPosition = new MockVector(1, 1);
-				body.collision(checkPosition);
-				cy.get('@gameEmit').should('not.have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
-			});
-
-			it('should SHOULD send the event if collision', () => {
-				cy.spy(GameEvent, 'Emit').as('gameEmit');
-				body.grow({position, direction}); // let's grow one segment for fun
-				body.collision(position);
-				cy.get('@gameEmit').should('have.been.calledWith', GameEvent.SNAKE_COLLISION_SELF);
-			});*/
 		});
 
 		describe('And when I use projectedCollision', () => {

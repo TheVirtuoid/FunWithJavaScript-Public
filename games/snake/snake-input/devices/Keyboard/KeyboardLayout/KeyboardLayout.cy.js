@@ -1,6 +1,6 @@
 
 import KeyboardLayout from "./KeyboardLayout.js";
-import { MockVector } from "../../tdd-utilities/tddUtilities.js";
+import { MockVector } from "../../../../tdd-utilities/tddUtilities.js";
 
 describe('And when I work with the KeyboardLayout class', () => {
 	describe('And when I work with the constructor', () => {

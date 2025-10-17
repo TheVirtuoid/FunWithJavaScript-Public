@@ -1,5 +1,11 @@
 export default class Input {
-	constructor() {}
+	#id;
+	#driver;
+
+	constructor(args = {}) {
+		const { id = window.crypto.randomUUID(), driver } = args;
+		if (!(driver instanceof Input)) {}
+	}
 
 	onChangeDirection() {
 		throw new Error('You must implement the method onChangeDirection.');
