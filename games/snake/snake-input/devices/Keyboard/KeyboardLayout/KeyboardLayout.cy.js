@@ -51,7 +51,6 @@ describe('And when I work with the KeyboardLayout class', () => {
 		describe('And when I check the movement keys', () => {
 			it('should have W key mapped to UP action with Up vector', () => {
 				const wMapping = KeyboardLayout.WASD.get('KeyW');
-				console.log(wMapping);
 				expect(wMapping).to.exist;
 				expect(wMapping.action).to.equal(KeyboardLayout.UP);
 				expect(wMapping.direction.equals(MockVector.Up())).to.be.true;

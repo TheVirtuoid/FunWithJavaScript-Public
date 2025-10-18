@@ -6,36 +6,24 @@ import {MockVector} from "../../tdd-utilities/tddUtilities.js";
 
 describe('And when I work with the Input class', () => {
 	describe('And when I work with the constructor', () => {
-		it('should throw an error if no driver is passed', () => {
-			expect(() => new Input()).to.throw('You must pass a driver to the constructor.');
-		})
 
 		it('should create the class', () => {
-			const driver = new Keyboard(KeyboardLayout.WASD);
-			const input = new Input({ driver });
+			const input = new Input();
 			expect(input).to.be.an.instanceof(Input);
+			expect(input.device).to.be.null;
 		});
 	});
 
 	describe('And when I work with the properties', () => {
 		let input;
-		const driver = new Keyboard(KeyboardLayout.WASD);
 		const id = 'test-input';
 
 		beforeEach(() => {
-			input = new Input({driver, id});
-		});
-
-		it('should have set the driver property', () => {
-			expect(input.driver).to.be.an.instanceof(Keyboard);
+			input = new Input({id});
 		});
 
 		it('should have set the id property', () => {
 			expect(input.id).to.equal(id);
-		});
-
-		it('should throw error when trying to set the driver', () => {
-			expect(() => input.driver = new Keyboard(KeyboardLayout.WASD)).to.throw();
 		});
 
 		it('should throw error when trying to set the id', () => {
@@ -45,14 +33,25 @@ describe('And when I work with the Input class', () => {
 
 	describe('And when I work with the methods', () => {
 		let input;
-		const driver = new Keyboard(KeyboardLayout.WASD);
+		const device = new Keyboard(KeyboardLayout.WASD);
 		const id = 'test-input';
 
 		beforeEach(() => {
-			input = new Input({ driver, id });
+			input = new Input({ id });
 		});
 
-		describe('And when all the methods are called', () => {
+		describe('using the setDevice method', () => {
+			it('should throw error if device is no a Device object', () => {
+				expect(() => input.setDevice('bad')).to.throw();
+			});
+
+			it('should set the device', () => {
+				input.setDevice(device);
+				expect(input.device).to.equal(device);
+			});
+		});
+
+		describe('And when all the event methods are called', () => {
 			beforeEach(() => {
 				cy.spy(GameEvent, 'Emit').as('gameEmit');
 				const keyEvent = new KeyboardEvent('keydown', {
