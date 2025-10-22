@@ -8,10 +8,8 @@ import Input from "../snake-input/Input/Input.js";
 const MockVector = Vector2d;
 const MockGame = new Game({ vectorFactory: MockVector });
 
-class MockInput extends Input {
-	constructor(args) {
-		super(args);
-	}
+class MockInput {
+	constructor(args) {}
 
 	onInput(event) {}
 }

@@ -43,4 +43,16 @@ describe('Device', () => {
 			expect(() => device.vectorReference = null).to.throw();
 		});
 	});
+
+	describe('Methods', () => {
+		let device;
+
+		beforeEach(() => {
+			device = new Device({ id: 'test-device', vectorReference: MockVector });
+		});
+
+		it('should throw error if trying to call dispose()', () => {
+			expect(() => device.dispose()).to.throw();
+		});
+	});
 });

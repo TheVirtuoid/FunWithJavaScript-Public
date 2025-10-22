@@ -17,3 +17,4 @@ All properties are read-only unless otherwise noted.
 
 ## Methods
 - `setInput(input)` - sets the Input object
+- `dispose()` - disposes of the Keyboard instance (removes event listeners)

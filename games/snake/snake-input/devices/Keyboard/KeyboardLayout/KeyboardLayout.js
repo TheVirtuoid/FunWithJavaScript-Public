@@ -11,6 +11,9 @@ export default class KeyboardLayout {
 	static RESUME = Symbol('resume');
 	static EXIT = Symbol('exit');
 
+	static LAYOUT_WASD = Symbol('layout-wasd');
+	static LAYOUT_ARROW = Symbol('layout-arrow');
+
 	static get WASD () {
 		return wasd;
 	}
@@ -19,8 +22,18 @@ export default class KeyboardLayout {
 		return arrow;
 	}
 
+	static Get(type) {
+		if (type === KeyboardLayout.LAYOUT_WASD) {
+			return wasd;
+		} else if (type === KeyboardLayout.LAYOUT_ARROW) {
+			return arrow;
+		} else {
+			return undefined;
+		}
+	}
+
 	static IsType(type) {
-		return [KeyboardLayout.WASD, KeyboardLayout.ARROW].includes(type);
+		return [KeyboardLayout.LAYOUT_WASD, KeyboardLayout.LAYOUT_ARROW].includes(type);
 	}
 
 	static Setup(vectorConstructor) {

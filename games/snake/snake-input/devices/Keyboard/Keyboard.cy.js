@@ -3,30 +3,46 @@ import { MockVector, MockInput } from '../../../tdd-utilities/tddUtilities.js'
 import Keyboard from "./Keyboard.js";
 
 describe('Keyboard', () => {
-	KeyboardLayout.Setup(MockVector);
 
 	describe('Constructor', () => {
-		const layout = KeyboardLayout.WASD;
+		const layout = KeyboardLayout.LAYOUT_WASD;
+		const vectorReference = MockVector;
 		const input = new MockInput();
 		let keyboard;
 
-		it('should throw error if layout is not passed', () => {
-			expect(() => new Keyboard({ input })).to.throw(`'layout' argument is required and must be a KeyboardLayout.`);
+		afterEach(() => {
+			if (keyboard) {
+				keyboard.dispose();
+			}
+		});
+
+		it('should throw error if vectorReference is illegal', () => {
+			expect(() => new Keyboard({ layout, input, vectorReference: 'bad' })).to.throw();
+		});
+
+		it('should throw error if layout is illegal', () => {
+			expect(() => new Keyboard({ input, vectorReference, layout: 'bad' })).to.throw();
+		});
+
+		it('should throw error if input is illegal', () => {
+			expect(() => new Keyboard({ layout, vectorReference, input: 'bad' })).to.throw();
 		});
 
 		it('should create a new Keyboard instance with required properties', () => {
-			keyboard = new Keyboard({ layout, input });
+			keyboard = new Keyboard({ layout, input, vectorReference });
 			expect(keyboard).to.exist;
 			expect(keyboard.id).to.be.a('string');
 			expect(keyboard.layout).to.equal(layout);
 			expect(keyboard.driver).to.equal(Keyboard.DRIVER_BROWSER);
-			expect(keyboard.input).to.be.null;
+			expect(keyboard.input).to.equal(input);
 		});
 
 		it('should create a new Keyboard instance with custom id', () => {
 			const customId = 'custom-keyboard-id';
 			keyboard = new Keyboard({
 				layout,
+				vectorReference,
+				input,
 				id: customId
 			});
 			expect(keyboard.id).to.equal(customId);
@@ -35,6 +51,8 @@ describe('Keyboard', () => {
 		it('should create a new Keyboard instance with explicit NODE driver', () => {
 			keyboard = new Keyboard({
 				layout,
+				vectorReference,
+				input,
 				driver: Keyboard.DRIVER_NODE
 			});
 			expect(keyboard.driver).to.equal(Keyboard.DRIVER_NODE);
@@ -42,18 +60,28 @@ describe('Keyboard', () => {
 	});
 
 	describe('Properties', () => {
-		const layout = KeyboardLayout.WASD;
+		const layout = KeyboardLayout.LAYOUT_WASD;
+		const vectorReference = MockVector;
 		const input = new MockInput();
+		const driver = Keyboard.DRIVER_BROWSER;
+		const id = 'test-id';
 		let keyboard;
 
 		beforeEach(() => {
 			keyboard = new Keyboard({
 				layout,
+				vectorReference,
 				input,
-				id: 'test-id',
-				driver: Keyboard.DRIVER_BROWSER
+				id,
+				driver
 			});
 		});
+
+		afterEach(() => {
+			if (keyboard) {
+				keyboard.dispose();
+			}
+		})
 
 		it('should have read-only id property', () => {
 			expect(() => keyboard.id = 'bad').to.throw();
@@ -73,43 +101,52 @@ describe('Keyboard', () => {
 	});
 
 	describe('Methods', () => {
-		const layout = KeyboardLayout.WASD;
-		const input = new MockInput();
-		let keyboard;
-
-		beforeEach(() => {
-			keyboard = new Keyboard({
+		it('should not send event if dispose() is called', () => {
+			const layout = KeyboardLayout.LAYOUT_WASD;
+			const vectorReference = MockVector;
+			const input = new MockInput();
+			const driver = Keyboard.DRIVER_BROWSER;
+			const id = 'test-id';
+			const keyboard = new Keyboard({
 				layout,
-				id: 'test-id',
-				driver: Keyboard.DRIVER_BROWSER
+				vectorReference,
+				input,
+				id,
+				driver
 			});
-		});
-
-		describe('using setInput', () => {
-			it('should throw an error if input is not an Input object', () => {
-				expect(() => keyboard.setInput('bad')).to.throw();
+			keyboard.dispose();
+			const eventSpy = cy.spy(input, 'onInput').as('onInputSpy');
+			const keyEvent = new KeyboardEvent('keydown', {
+				code: 'KeyW'
 			});
-
-			it('should set the input property', () => {
-				keyboard.setInput(input);
-				expect(keyboard.input).to.equal(input);
-			});
-
+			document.dispatchEvent(keyEvent);
+			cy.get('@onInputSpy').should('not.have.been.called');
 		});
 	})
 
 	describe('Events', () => {
-		const layout = KeyboardLayout.WASD;
+		const layout = KeyboardLayout.LAYOUT_WASD;
+		const vectorReference = MockVector;
 		const input = new MockInput();
+		const driver = Keyboard.DRIVER_BROWSER;
+		const id = 'test-id';
 		let keyboard;
 
 		beforeEach(() => {
 			keyboard = new Keyboard({
 				layout,
-				id: 'test-id',
-				driver: Keyboard.DRIVER_BROWSER
+				vectorReference,
+				input,
+				id,
+				driver
 			});
 		});
+
+		afterEach(() => {
+			if (keyboard) {
+				keyboard.dispose();
+			}
+		})
 
 		it('should call "onInput" event when valid key is pressed', () => {
 			const eventSpy = cy.spy(input, 'onInput').as('onInputSpy');

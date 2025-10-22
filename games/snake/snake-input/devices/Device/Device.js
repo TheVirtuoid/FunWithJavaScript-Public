@@ -21,4 +21,8 @@ export default class Device {
 	get vectorReference() {
 		return this.#vectorReference;
 	}
+
+	dispose() {
+		throw new Error('You must implement the method dispose.');
+	}
 }

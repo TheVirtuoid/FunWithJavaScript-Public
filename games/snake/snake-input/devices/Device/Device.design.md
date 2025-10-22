@@ -11,3 +11,6 @@ All properties are read-only unless otherwise noted.
 
 - `id` - The ID of the input device.
 - `vectorReference` - The vector constructor of the device. Defaults to null.
+
+## Methods
+- `dispose()` - Not implemented on this class.
