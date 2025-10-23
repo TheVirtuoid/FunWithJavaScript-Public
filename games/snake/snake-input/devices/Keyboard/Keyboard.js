@@ -1,5 +1,4 @@
 import KeyboardLayout from "./KeyboardLayout/KeyboardLayout.js";
-import Input from "../../Input/Input.js";
 import Device from "../Device/Device.js";
 import Vector from "../../../snake-base/Vector/Base/Vector.js";
 

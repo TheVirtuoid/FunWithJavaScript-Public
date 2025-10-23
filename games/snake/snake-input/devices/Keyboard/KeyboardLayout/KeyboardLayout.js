@@ -1,16 +1,10 @@
+import GameEvent from "../../../../snake-base/GameEvent/GameEvent.js";
+
 let vector;
 let wasd;
 let arrow;
 
 export default class KeyboardLayout {
-	static UP = Symbol('up');
-	static DOWN = Symbol('down');
-	static LEFT = Symbol('left');
-	static RIGHT = Symbol('right');
-	static PAUSE = Symbol('pause');
-	static RESUME = Symbol('resume');
-	static EXIT = Symbol('exit');
-
 	static LAYOUT_WASD = Symbol('layout-wasd');
 	static LAYOUT_ARROW = Symbol('layout-arrow');
 
@@ -40,23 +34,23 @@ export default class KeyboardLayout {
 		vector = vectorConstructor;
 
 		wasd = new Map([
-			['KeyA', { action: KeyboardLayout.LEFT, direction: vector.Left() }],
-			['KeyD', { action: KeyboardLayout.RIGHT, direction: vector.Right() }],
-			['KeyS', { action: KeyboardLayout.DOWN, direction: vector.Down() }],
-			['KeyW', { action: KeyboardLayout.UP, direction: vector.Up() }],
-			['KeyP', { action: KeyboardLayout.PAUSE, direction: null }],
-			['KeyR', { action: KeyboardLayout.RESUME, direction: null }],
-			['Escape', { action: KeyboardLayout.EXIT, direction: null }]
+			['KeyA', { action: GameEvent.DEVICE_CHANGE_DIRECTION, direction: vector.Left() }],
+			['KeyD', { action: GameEvent.DEVICE_CHANGE_DIRECTION, direction: vector.Right() }],
+			['KeyS', { action: GameEvent.DEVICE_CHANGE_DIRECTION, direction: vector.Down() }],
+			['KeyW', { action: GameEvent.DEVICE_CHANGE_DIRECTION, direction: vector.Up() }],
+			['KeyP', { action: GameEvent.DEVICE_GAME_PAUSE, direction: null }],
+			['KeyR', { action: GameEvent.DEVICE_GAME_RESUME, direction: null }],
+			['Escape', { action: GameEvent.DEVICE_GAME_EXIT, direction: null }]
 		]);
 
 		arrow = new Map([
-			['ArrowLeft', { action: KeyboardLayout.LEFT, direction: vector.Left() }],
-			['ArrowRight', { action: KeyboardLayout.RIGHT, direction: vector.Right() }],
-			['ArrowDown', { action: KeyboardLayout.DOWN, direction: vector.Down() }],
-			['ArrowUp', { action: KeyboardLayout.UP, direction: vector.Up() }],
-			['KeyP', { action: KeyboardLayout.PAUSE, direction: null }],
-			['KeyR', { action: KeyboardLayout.RESUME, direction: null }],
-			['Escape', { action: KeyboardLayout.EXIT, direction: null }]
+			['ArrowLeft', { action: GameEvent.DEVICE_CHANGE_DIRECTION, direction: vector.Left() }],
+			['ArrowRight', { action: GameEvent.DEVICE_CHANGE_DIRECTION, direction: vector.Right() }],
+			['ArrowDown', { action: GameEvent.DEVICE_CHANGE_DIRECTION, direction: vector.Down() }],
+			['ArrowUp', { action: GameEvent.DEVICE_CHANGE_DIRECTION, direction: vector.Up() }],
+			['KeyP', { action: GameEvent.DEVICE_GAME_PAUSE, direction: null }],
+			['KeyR', { action: GameEvent.DEVICE_GAME_RESUME, direction: null }],
+			['Escape', { action: GameEvent.DEVICE_GAME_EXIT, direction: null }]
 		]);
 	}
 

@@ -13,12 +13,22 @@ export default class GameEvent {
 
 	static INPUT_CHANGE_DIRECTION = Symbol('input-change-direction');
 	static INPUT_CHANGE_SPEED = Symbol('input-change-speed');
+	static INPUT_GAME_EXIT = Symbol('input-game-exit');
+	static INPUT_GAME_PAUSE = Symbol('input-game-pause');
+	static INPUT_GAME_RESUME = Symbol('input-game-resume');
+	static INPUT_GAME_RESET = Symbol('input-game-reset');
+	static INPUT_GAME_START = Symbol('input-game-start');
 
 	static GAME_EXIT = Symbol('game-exit');
 	static GAME_PAUSE = Symbol('game-pause');
 	static GAME_RESUME = Symbol('game-resume');
 	static GAME_RESET = Symbol('game-reset');
 	static GAME_START = Symbol('game-start');
+
+	static DEVICE_CHANGE_DIRECTION = Symbol('device-change-direction');
+	static DEVICE_GAME_EXIT = Symbol('device-exit');
+	static DEVICE_GAME_PAUSE = Symbol('device-pause');
+	static DEVICE_GAME_RESUME = Symbol('device-resume');
 
 	static TYPES = [
 		GameEvent.GAME_OVER,
@@ -31,11 +41,20 @@ export default class GameEvent {
 		GameEvent.SNAKE_JUMPED,
 		GameEvent.INPUT_CHANGE_DIRECTION,
 		GameEvent.INPUT_CHANGE_SPEED,
+		GameEvent.INPUT_GAME_EXIT,
+		GameEvent.INPUT_GAME_PAUSE,
+		GameEvent.INPUT_GAME_RESUME,
+		GameEvent.INPUT_GAME_RESET,
+		GameEvent.INPUT_GAME_START,
 		GameEvent.GAME_EXIT,
 		GameEvent.GAME_PAUSE,
 		GameEvent.GAME_RESUME,
 		GameEvent.GAME_RESET,
-		GameEvent.GAME_START
+		GameEvent.GAME_START,
+		GameEvent.DEVICE_CHANGE_DIRECTION,
+		GameEvent.DEVICE_GAME_EXIT,
+		GameEvent.DEVICE_GAME_PAUSE,
+		GameEvent.DEVICE_GAME_RESUME
 	]
 
 	static Setup(gameObject) {

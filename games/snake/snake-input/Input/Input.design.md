@@ -21,9 +21,10 @@ All properties are read-only.
 - `GameEvent.INPUT_CHANGE_DIRECTION` - passes id of the device and the direction to change to.
   - `id` (String) - the id of the input 
   - `direction` (Vector) - The direction to change to.
-- `onChangeSpeed(speed)`: Issues a GameEvent.INPUT_CHANGE_DIRECTION,
-  - `speed` (Number) - the new speed.
-- `onGamePaused()`: Issues a GameEvent.GAME_PAUSED,
-- `onGameEnded()`: Issues a GameEvent.GAME_EXIT,
-- `onGameResumed()`: Issues a GameEvent.GAME_RESUMED.
-- `onInput(event)`: Event that is fired by the input constructor. Calls one of the other routines.
+- `GameEvent.INPUT_CHANGE_SPEED` - (future)
+- `GameEvent.INPUT_GAME_PAUSED` - Pauses the game
+  - `id` (String) - the id of the input
+- `GameEvent.INPUT_GAME_RESET` - Resets the game
+    - `id` (String) - the id of the input
+- `GameEvent.INPUT_GAME_RESUMED` - Resumes the game
+  - `id` (String) - the id of the input

@@ -83,13 +83,35 @@ describe('And when I work with the Input class', () => {
 				});
 				document.dispatchEvent(keyEvent);
 				cy.get('@gameEmit').should('have.been.called.with', GameEvent.INPUT_CHANGE_DIRECTION, { inputId: id, direction: MockVector.UP });
-				/*cy.get('@gameEmit').should((spy) => {
-					expect(spy).to.have.been.calledOnce;
-					const call = spy.getCall(0);
-					expect(call.args[0]).to.equal(GameEvent.INPUT_CHANGE_DIRECTION);
-					expect(call.args[1]).to.deep.equal({ id: id, direction: MockVector.UP });
-				});*/
 			});
+
+			it('should issue a Game Paused', () => {
+				cy.spy(GameEvent, 'Emit').as('gameEmit');
+				const keyEvent = new KeyboardEvent('keydown', {
+					code: 'KeyP'
+				});
+				document.dispatchEvent(keyEvent);
+				cy.get('@gameEmit').should('have.been.called.with', GameEvent.INPUT_GAME_PAUSE, { inputId: id });
+			});
+
+			it('should issue a Game Exit', () => {
+				cy.spy(GameEvent, 'Emit').as('gameEmit');
+				const keyEvent = new KeyboardEvent('keydown', {
+					code: 'Escape'
+				});
+				document.dispatchEvent(keyEvent);
+				cy.get('@gameEmit').should('have.been.called.with', GameEvent.INPUT_GAME_EXIT, { inputId: id });
+			});
+
+			it('should issue a Game Resume', () => {
+				cy.spy(GameEvent, 'Emit').as('gameEmit');
+				const keyEvent = new KeyboardEvent('keydown', {
+					code: 'KeyR'
+				});
+				document.dispatchEvent(keyEvent);
+				cy.get('@gameEmit').should('have.been.called.with', GameEvent.INPUT_GAME_RESUME, { inputId: id });
+			});
+
 		});
 	});
 });

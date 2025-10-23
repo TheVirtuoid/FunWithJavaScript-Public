@@ -1,6 +1,7 @@
 import KeyboardLayout from "./KeyboardLayout/KeyboardLayout.js";
 import { MockVector, MockInput } from '../../../tdd-utilities/tddUtilities.js'
 import Keyboard from "./Keyboard.js";
+import GameEvent from "../../../snake-base/GameEvent/GameEvent.js";
 
 describe('Keyboard', () => {
 
@@ -154,7 +155,7 @@ describe('Keyboard', () => {
 				code: 'KeyW'
 			});
 			document.dispatchEvent(keyEvent);
-			cy.get('@onInputSpy').should('have.been.calledWith', { action: KeyboardLayout.UP, direction: MockVector.Up()});
+			cy.get('@onInputSpy').should('have.been.calledWith', { action: GameEvent.DEVICE_CHANGE_DIRECTION, direction: MockVector.Up()});
 		});
 
 		it('should NOT call "onInput" event when invalid key is pressed', () => {

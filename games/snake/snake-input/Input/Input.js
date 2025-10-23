@@ -37,8 +37,14 @@ export default class Input {
 
 	onInput(eventData) {
 		const { action, direction } = eventData;
-		if (direction) {
+		if (action === GameEvent.DEVICE_CHANGE_DIRECTION) {
 			this.#onChangeDirection(direction);
+		} else if (action === GameEvent.DEVICE_GAME_PAUSE) {
+				this.#onGamePause();
+		} else if (action === GameEvent.DEVICE_GAME_RESUME) {
+			this.#onGameResume();
+		} else if (action === GameEvent.DEVICE_GAME_EXIT) {
+			this.#onGameExit();
 		}
 	}
 
@@ -47,19 +53,19 @@ export default class Input {
 	}
 
 	#onChangeSpeed() {
-		throw new Error('You must implement the method onChangeSpeed.');
+		throw new Error('This is for future enhancement.');
 	}
 
-	#onGamePaused() {
-		throw new Error('You must implement the method onGamePaused.');
+	#onGamePause() {
+		GameEvent.Emit(GameEvent.INPUT_GAME_PAUSE, { id: this.id });
 	}
 
-	#onGameEnded() {
-		throw new Error('You must implement the method onGameEnded.');
+	#onGameExit() {
+		GameEvent.Emit(GameEvent.INPUT_GAME_EXIT, { id: this.id });
 	}
 
-	#onGameResumed() {
-		throw new Error('You must implement the method onGameResumed.');
+	#onGameResume() {
+		GameEvent.Emit(GameEvent.INPUT_GAME_RESUME, { id: this.id });
 	}
 
 }
