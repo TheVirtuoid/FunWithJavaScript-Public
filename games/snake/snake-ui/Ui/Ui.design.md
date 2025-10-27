@@ -13,33 +13,32 @@ All properties are read-only unless otherwise specified.
 - `id` (String). The ID of the UI.
 - `uiName` (String). The name of the UI.
 - `uiData` (Object). Data passed to the UI once it is created.`
-- `ui` (Object). The UI object.
 
 ## Methods
-- `drawBoard(board)` - Draws the board.
-- `resetBoard()` - Resets the board. Clears it out.
-- `clearBoard()` - Removes the board.
-- `drawSnake(snake)` - Draws the snake.
-- `updateSnake(snake)` - Updates the snake.
-- `clearSnake(snake)` - Removes the snake from the board.`
-- `drawPrize(prize)` - Draws the prize.
-- `clearPrize(prize)` - Removes the prize from the board.
-- `drawScore(score)` - Draws the score.
-- `updateScore(score)` - Updates the score.
-- `clearScore(score)` - Removes the score from the board.
+- `drawPitch(pitch)` - Draws the pitch.
+- `resetPitch()` - Resets the pitch. Clears it out.
+- `clearPitch()` - Removes the pitch.
+- `drawSnake(snake)` - Draws the snake. `snake` is an instance of Snake.
+- `updateSnake(snake)` - Updates the snake. `snake` is an instance of Snake.
+- `clearSnake(snake)` - Removes the snake from the pitch. `snake` is an instance of Snake.
+- `drawPrize(prize)` - Draws the prize. `prize` is an instance of Prize.
+- `clearPrize(prize)` - Removes the prize from the pitch. `prize` is an instance of Prize.
+- `drawScore(score)` - Draws the score. `score` is an instance of Score.
+- `updateScore(score)` - Updates the score. `score` is an instance of Score.
+- `clearScore(score)` - Removes the score from the pitch. `score` is an instance of Score.
 - `drawGameOver()` - draws the Game Over screen.
-- `clearGameOver()` - Removes the Game Over screen from the board.
+- `clearGameOver()` - Removes the Game Over screen from the pitch.
 - `startCountdown(countdownTime)` - Draws, countdowns, and removes the countdown screen. `CountdownTime` is the number of seconds in the countdown. Default 5.
  
 
 ## Events
 All events are fired from the GameEvent object
-- `UI_DRAW_BOARD_COMPLETE` - Fired when drawBoard() has finished.
-- `UI_RESET_BOARD_COMPLETE` - Fired when resetBoard() has finished.
-- `UI_CLEAR_BOARD_COMPLETE` - Fired when clearBoard() has finished.
+- `UI_DRAW_PITCH_COMPLETE` - Fired when drawPitch() has finished.
+- `UI_RESET_PITCH_COMPLETE` - Fired when resetPitch() has finished.
+- `UI_CLEAR_PITCH_COMPLETE` - Fired when clearPitch() has finished.
 - `UI_DRAW_SNAKE_COMPLETE` - Fired when drawSnake() has finished.
 - `UI_UPDATE_SNAKE_COMPLETE` - Fired when updateSnake() has finished.
-- `UI_CLEAR_BOARD_COMPLETE` - Fired when clearSnake() has finished.
+- `UI_CLEAR_PITCH_COMPLETE` - Fired when clearSnake() has finished.
 - `UI_DRAW_PRIZE_COMPLETE` - Fired when drawPrize() has finished.
 - `UI_CLEAR_PRIZE_COMPLETE` - Fired when clearPrize() has finished.
 - `UI_DRAW_SCORE_COMPLETE` - Fired when drawScore() has finished.

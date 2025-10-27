@@ -30,6 +30,23 @@ export default class GameEvent {
 	static DEVICE_GAME_PAUSE = Symbol('device-pause');
 	static DEVICE_GAME_RESUME = Symbol('device-resume');
 
+	static UI_START_COUNTDOWN_COMPLETE = Symbol('ui-start-countdown-complete');
+	static UI_COUNTDOWN_COMPLETE = Symbol('ui-countdown-complete');
+	static UI_COUNTDOWN_TICK_COMPLETE = Symbol('ui-countdown-tick-complete');
+	static UI_CLEAR_GAME_OVER_COMPLETE = Symbol('ui-clear-game-over-complete');
+	static UI_DRAW_GAME_OVER_COMPLETE = Symbol('ui-draw-game-over-complete');
+	static UI_CLEAR_SCORE_COMPLETE = Symbol('ui-clear-score-complete');
+	static UI_UPDATE_SCORE_COMPLETE = Symbol('ui-update-score-complete');
+	static UI_DRAW_SCORE_COMPLETE = Symbol('ui-draw-score-complete');
+	static UI_CLEAR_PRIZE_COMPLETE = Symbol('ui-clear-prize-complete');
+	static UI_DRAW_PRIZE_COMPLETE = Symbol('ui-draw-prize-complete');
+	static UI_CLEAR_SNAKE_COMPLETE = Symbol('ui-clear-snake-complete');
+	static UI_DRAW_SNAKE_COMPLETE = Symbol('ui-draw-snake-complete');
+	static UI_UPDATE_SNAKE_COMPLETE = Symbol('ui-update-snake-complete');
+	static UI_CLEAR_PITCH_COMPLETE = Symbol('ui-clear-pitch-complete');
+	static UI_DRAW_PITCH_COMPLETE = Symbol('ui-draw-pitch-complete');
+	static UI_RESET_PITCH_COMPLETE = Symbol('ui-reset-pitch-complete');
+
 	static TYPES = [
 		GameEvent.GAME_OVER,
 		GameEvent.GAME_EVENT_INITIALIZED,
@@ -54,7 +71,23 @@ export default class GameEvent {
 		GameEvent.DEVICE_CHANGE_DIRECTION,
 		GameEvent.DEVICE_GAME_EXIT,
 		GameEvent.DEVICE_GAME_PAUSE,
-		GameEvent.DEVICE_GAME_RESUME
+		GameEvent.DEVICE_GAME_RESUME,
+		GameEvent.UI_START_COUNTDOWN_COMPLETE,
+		GameEvent.UI_COUNTDOWN_COMPLETE,
+		GameEvent.UI_COUNTDOWN_TICK_COMPLETE,
+		GameEvent.UI_CLEAR_GAME_OVER_COMPLETE,
+		GameEvent.UI_DRAW_GAME_OVER_COMPLETE,
+		GameEvent.UI_CLEAR_SCORE_COMPLETE,
+		GameEvent.UI_UPDATE_SCORE_COMPLETE,
+		GameEvent.UI_DRAW_SCORE_COMPLETE,
+		GameEvent.UI_CLEAR_PRIZE_COMPLETE,
+		GameEvent.UI_DRAW_PRIZE_COMPLETE,
+		GameEvent.UI_CLEAR_SNAKE_COMPLETE,
+		GameEvent.UI_DRAW_SNAKE_COMPLETE,
+		GameEvent.UI_UPDATE_SNAKE_COMPLETE,
+		GameEvent.UI_CLEAR_PITCH_COMPLETE,
+		GameEvent.UI_DRAW_PITCH_COMPLETE,
+		GameEvent.UI_RESET_PITCH_COMPLETE
 	]
 
 	static Setup(gameObject) {
