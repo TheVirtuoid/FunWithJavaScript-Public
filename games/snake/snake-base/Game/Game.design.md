@@ -32,6 +32,8 @@ All properties are read-only unless otherwise noted.
 4. `addPrize(prize)` - adds a prize to the game.
    - `prize` (Prize) - the prize to add. Required
 5. `generatePrize()` - generate a new prize; It will replace the old prize (if there is one);
+6. `addUi(ui)` (Ui) - adds a UI to the game.
+7. `addInput(input)` (Input) - adds an Input to the game.
 
 ### Private
 

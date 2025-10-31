@@ -3,6 +3,7 @@ import GameEvent from "../../snake-base/GameEvent/GameEvent.js";
 import Snake from "../../snake-base/Snake/Snake.js";
 import Prize from "../../snake-base/Prize/Prize.js";
 import Score from "../../snake-base/Score/Score.js";
+import SnakeHtml from "../snake-html/SnakeHtml.js";
 
 class MockUi {
 	drawPitch(pitch) {
@@ -59,7 +60,8 @@ class MockUi {
 }
 
 const uiFactory = {
-	mock: MockUi
+	mock: MockUi,
+	html: SnakeHtml,
 }
 
 

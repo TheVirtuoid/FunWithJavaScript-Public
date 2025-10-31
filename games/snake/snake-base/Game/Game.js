@@ -2,6 +2,8 @@ import GameEvent from "../GameEvent/GameEvent.js";
 import Pitch from "../Pitch/Pitch.js";
 import Snake from "../Snake/Snake.js";
 import Prize from "../Prize/Prize.js";
+import Ui from "../../snake-ui/Ui/Ui.js";
+import Input from "../../snake-input/Input/Input.js";
 
 export default class Game {
 	#pitch;
@@ -9,6 +11,9 @@ export default class Game {
 	#id;
 	#gameEventInitialized = false;
 	#prize;
+	#ui;
+	#input;
+	#snakeMove;
 
 	constructor(args = {}) {
 		const { id = window.crypto.randomUUID() } = args;
@@ -61,6 +66,8 @@ export default class Game {
 		else if (event === GameEvent.SNAKE_COLLISION_SELF) this.#onSnakeCollisionSelf(...data);
 		else if (event === GameEvent.GAME_EXIT) this.#onGameExit(...data);
 		else if (event === GameEvent.GAME_RESET) this.#onGameReset(...data);
+		else if (event === GameEvent.INPUT_CHANGE_DIRECTION) this.#onInputChangeDirection(...data);
+		else if (event === GameEvent.INPUT_GAME_PAUSE) this.#onInputGamePause(...data);
 	}
 
 	addPitch(pitch) {
@@ -75,6 +82,20 @@ export default class Game {
 			throw new Error(`'snake' argument must be an instance of Snake`);
 		}
 		this.#snake = snake;
+	}
+
+	addUi(ui) {
+		if (!(ui instanceof Ui)) {
+			throw new Error(`'ui' argument must be an instance of Ui`);
+		}
+		this.#ui = ui;
+	}
+
+	addInput(input) {
+		if (!(input instanceof Input)) {
+			throw new Error(`'input' argument must be an instance of Input`);
+		}
+		this.#input = input;
 	}
 
 	moveSnake(speed) {
@@ -100,6 +121,27 @@ export default class Game {
 
 	changeSnakeDirection(newDirection) {
 		this.#snake.changeDirection(newDirection);
+	}
+
+	start() {
+		if (!this.#pitch) {
+			throw new Error(`'pitch' must be defined before starting the game`);
+		}
+		if (!this.#snake) {
+			throw new Error(`'snake' must be defined before starting the game`);
+		}
+		if (!this.#ui) {
+			throw new Error(`'ui' must be defined before starting the game`);
+		}
+		if (!this.#input) {
+			throw new Error(`'input' must be defined before starting the game`);
+		}
+		this.#ui.drawPitch(this.#pitch);
+		this.#ui.drawSnake(this.#snake);
+		this.#snakeMove = setInterval(() => {
+			this.moveSnake();
+			this.#ui.updateSnake(this.#snake);
+		}, 500);
 	}
 
 	#onGameEventInitialized() {
@@ -129,5 +171,13 @@ export default class Game {
 		}
 		this.#snake.move();
 	}*/
+
+	#onInputChangeDirection(args) {
+		this.#snake.changeDirection(args.direction);
+	}
+
+	#onInputGamePause(args) {
+		clearInterval(this.#snakeMove);
+	}
 
 }
