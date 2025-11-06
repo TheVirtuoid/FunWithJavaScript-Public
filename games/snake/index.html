@@ -12,7 +12,7 @@
 			<section class="selection-container">
 				<div>
 					<h3>Select your input</h3>
-					<ul>
+					<ul id="input-selection-group">
 						<li><label><input type="radio" value="kb-wasd" name="input-selection" />Keyboard (WASD keys)</label></li>
 						<li><label><input type="radio" value="kb-arrow" name="input-selection" />Keyboard (Arrow keys)</label></li>
 						<li><label><input type="radio" value="game-controller" name="input-selection" disabled />Game Controller</label></li>
@@ -21,7 +21,7 @@
 				</div>
 				<div>
 					<h3>Select your UI</h3>
-					<ul>
+					<ul id="ui-selection-group">
 						<li><label><input type="radio" value="ui-terminal" name="ui-selection" disabled />Terminal</label></li>
 						<li><label><input type="radio" value="ui-html" name="ui-selection" />HTML</label></li>
 						<li><label><input type="radio" value="ui-canvas" name="ui-selection" disabled />Canvas</label></li>
@@ -32,7 +32,7 @@
 				</div>
 			</section>
 			<section class="button-group">
-				<button class="primary small" id="go-button">Go!</button>
+				<button class="primary small" id="go-button" disabled>Go!</button>
 			</section>
 		</section>
 	</main>

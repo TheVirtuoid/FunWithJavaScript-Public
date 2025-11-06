@@ -141,7 +141,7 @@ export default class Game {
 		this.#snakeMove = setInterval(() => {
 			this.moveSnake();
 			this.#ui.updateSnake(this.#snake);
-		}, 500);
+		}, 250);
 	}
 
 	#onGameEventInitialized() {

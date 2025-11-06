@@ -1,6 +1,5 @@
 import Segment from './../Segment/Segment.js';
 import Vector from "../Vector/Base/Vector.js";
-import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class Body {
 	#segments;
