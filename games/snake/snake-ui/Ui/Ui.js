@@ -151,28 +151,37 @@ export default class Ui {
 		}
 		this.#ui.drawScore(score);
 	}
+
 	updateScore(score) {
 		if (!(score instanceof Score)) {
 			throw new Error(`'score' argument must be an instance of Score`);
 		}
 		this.#ui.updateScore(score);
 	}
+
 	clearScore(score) {
 		if (!(score instanceof Score)) {
 			throw new Error(`'score' argument must be an instance of Score`);
 		}
 		this.#ui.clearScore(score);
 	}
+
 	drawGameOver() {
 		this.#ui.drawGameOver();
 	}
+
 	clearGameOver() {
 		this.#ui.clearGameOver();
 	}
+
 	startCountdown(secondsToCountdown = 5) {
 		if (typeof secondsToCountdown !== 'number') {
 			throw new Error(`'secondsToCountdown' argument must be a number`);
 		}
 		this.#ui.startCountdown(secondsToCountdown);
+	}
+
+	clearCountdown() {
+		this.#ui.clearCountdown();
 	}
 }

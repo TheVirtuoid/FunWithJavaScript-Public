@@ -33,6 +33,7 @@ export default class GameEvent {
 	static UI_START_COUNTDOWN_COMPLETE = Symbol('ui-start-countdown-complete');
 	static UI_COUNTDOWN_COMPLETE = Symbol('ui-countdown-complete');
 	static UI_COUNTDOWN_TICK_COMPLETE = Symbol('ui-countdown-tick-complete');
+	static UI_CLEAR_COUNTDOWN_COMPLETE = Symbol('ui-clear-countdown-complete');
 	static UI_CLEAR_GAME_OVER_COMPLETE = Symbol('ui-clear-game-over-complete');
 	static UI_DRAW_GAME_OVER_COMPLETE = Symbol('ui-draw-game-over-complete');
 	static UI_CLEAR_SCORE_COMPLETE = Symbol('ui-clear-score-complete');
@@ -75,6 +76,7 @@ export default class GameEvent {
 		GameEvent.UI_START_COUNTDOWN_COMPLETE,
 		GameEvent.UI_COUNTDOWN_COMPLETE,
 		GameEvent.UI_COUNTDOWN_TICK_COMPLETE,
+		GameEvent.UI_CLEAR_COUNTDOWN_COMPLETE,
 		GameEvent.UI_CLEAR_GAME_OVER_COMPLETE,
 		GameEvent.UI_DRAW_GAME_OVER_COMPLETE,
 		GameEvent.UI_CLEAR_SCORE_COMPLETE,

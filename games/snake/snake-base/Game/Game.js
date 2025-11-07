@@ -4,6 +4,7 @@ import Snake from "../Snake/Snake.js";
 import Prize from "../Prize/Prize.js";
 import Ui from "../../snake-ui/Ui/Ui.js";
 import Input from "../../snake-input/Input/Input.js";
+import Score from "../Score/Score.js";
 
 export default class Game {
 	#pitch;
@@ -14,6 +15,7 @@ export default class Game {
 	#ui;
 	#input;
 	#snakeMove;
+	#score;
 
 	constructor(args = {}) {
 		const { id = window.crypto.randomUUID() } = args;
@@ -66,8 +68,12 @@ export default class Game {
 		else if (event === GameEvent.SNAKE_COLLISION_SELF) this.#onSnakeCollisionSelf(...data);
 		else if (event === GameEvent.GAME_EXIT) this.#onGameExit(...data);
 		else if (event === GameEvent.GAME_RESET) this.#onGameReset(...data);
+		else if (event === GameEvent.GAME_OVER) this.#onGameOver(...data);
 		else if (event === GameEvent.INPUT_CHANGE_DIRECTION) this.#onInputChangeDirection(...data);
 		else if (event === GameEvent.INPUT_GAME_PAUSE) this.#onInputGamePause(...data);
+		else if (event === GameEvent.UI_START_COUNTDOWN_COMPLETE) this.#onUiStartCountdownComplete(...data);
+		else if (event === GameEvent.UI_COUNTDOWN_TICK_COMPLETE) this.#onUiCountdownTickComplete(...data);
+		else if (event === GameEvent.UI_COUNTDOWN_COMPLETE) this.#onUiCountdownComplete(...data);
 	}
 
 	addPitch(pitch) {
@@ -96,6 +102,13 @@ export default class Game {
 			throw new Error(`'input' argument must be an instance of Input`);
 		}
 		this.#input = input;
+	}
+
+	addScore(score) {
+		if (!(score instanceof Score)) {
+			throw new Error(`'score' argument must be an instance of Score`);
+		}
+		this.#score = score;
 	}
 
 	moveSnake(speed) {
@@ -138,10 +151,8 @@ export default class Game {
 		}
 		this.#ui.drawPitch(this.#pitch);
 		this.#ui.drawSnake(this.#snake);
-		this.#snakeMove = setInterval(() => {
-			this.moveSnake();
-			this.#ui.updateSnake(this.#snake);
-		}, 250);
+		this.#ui.drawScore(this.#score);
+		this.#ui.startCountdown(5);
 	}
 
 	#onGameEventInitialized() {
@@ -149,6 +160,7 @@ export default class Game {
 	}
 
 	#onSnakeCollisionWall(data) {
+		console.log('wall collision');
 		GameEvent.Emit(GameEvent.GAME_OVER);
 	}
 
@@ -162,6 +174,11 @@ export default class Game {
 
 	#onGameReset(data) {
 		GameEvent.Emit(GameEvent.GAME_OVER);
+	}
+
+	#onGameOver(data) {
+		console.log('game over');
+		clearInterval(this.#snakeMove);
 	}
 	// TODO: Possible updates:
 	// 1. Accept speed parameter to move at different speeds - will need to determine speed and direction from args
@@ -178,6 +195,22 @@ export default class Game {
 
 	#onInputGamePause(args) {
 		clearInterval(this.#snakeMove);
+	}
+
+	#onUiStartCountdownComplete(args) {
+		return;
+	}
+
+	#onUiCountdownTickComplete(args) {
+		return;
+	}
+
+	#onUiCountdownComplete(args) {
+		this.#ui.clearCountdown();
+		this.#snakeMove = setInterval(() => {
+			this.moveSnake();
+			this.#ui.updateSnake(this.#snake);
+		}, 250);
 	}
 
 }
