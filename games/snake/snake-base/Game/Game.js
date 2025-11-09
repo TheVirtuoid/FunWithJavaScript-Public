@@ -5,6 +5,7 @@ import Prize from "../Prize/Prize.js";
 import Ui from "../../snake-ui/Ui/Ui.js";
 import Input from "../../snake-input/Input/Input.js";
 import Score from "../Score/Score.js";
+import Messages from "../Messages/Messages.js";
 
 export default class Game {
 	#pitch;
@@ -16,6 +17,7 @@ export default class Game {
 	#input;
 	#snakeMove;
 	#score;
+	#messages;
 
 	constructor(args = {}) {
 		const { id = window.crypto.randomUUID() } = args;
@@ -102,6 +104,13 @@ export default class Game {
 			throw new Error(`'input' argument must be an instance of Input`);
 		}
 		this.#input = input;
+	}
+
+	addMessages(messages) {
+		if (!(messages instanceof Messages)) {
+			throw new Error(`'messages' argument must be an instance of Messages`);
+		}
+		this.#messages = messages;
 	}
 
 	addScore(score) {
