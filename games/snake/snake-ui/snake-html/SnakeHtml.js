@@ -3,14 +3,18 @@ import GameEvent from "../../snake-base/GameEvent/GameEvent.js";
 export default class SnakeHtml {
 	#pitch;
 	#pitchElement;
+	#messagesElement;
 	#snakeOldHeadCell;
 	#snakeOldBodyCell;
 	#rowLength;
 	#score;
 	#scoreElements;
 
+	#messages = new Map();
+
 	constructor() {
 		this.#pitchElement = document.getElementById('pitch');
+		this.#messagesElement = document.getElementById('messages');
 	}
 
 	drawPitch(pitch) {
@@ -95,5 +99,87 @@ export default class SnakeHtml {
 		const countdownElement = document.getElementById('countdown');
 		countdownElement.textContent = '';
 		GameEvent.Emit(GameEvent.UI_CLEAR_COUNTDOWN_COMPLETE);
+	}
+
+	drawMessage(messageId, message) {
+		const messageHash = GameEvent.Key(messageId);
+		if (messageHash) {
+			let messageData = this.#messages.get(messageHash);
+			if (!messageData) {
+				const p = document.createElement('p');
+				p.innerText = message;
+				p.classList.add(messageHash);
+				this.#messages.set(messageHash, { element: p, message });
+				this.#messagesElement.appendChild(p);
+				messageData = this.#messages.get(messageHash);
+			}
+			messageData.message = message;
+			messageData.element.innerText = message;
+			GameEvent.Emit(GameEvent.UI_DRAW_MESSAGE_COMPLETE);
+		}
+	}
+
+	clearMessage(messageId) {
+		const messageHash = GameEvent.Key(messageId);
+		if (messageHash && this.#messages.has(messageHash)) {
+			const messageData = this.#messages.get(messageHash);
+			this.#messages.delete(messageHash);
+			this.#messagesElement.removeChild(messageData.element);
+			GameEvent.Emit(GameEvent.UI_CLEAR_MESSAGE_COMPLETE);
+		}
+	}
+
+	clearAllMessages() {
+		this.#messages.forEach((messageData) => {
+			this.#messagesElement.removeChild(messageData.element);
+		});
+		this.#messages.clear();
+		GameEvent.Emit(GameEvent.UI_CLEAR_ALL_MESSAGES_COMPLETE);
+	}
+
+	hideMessage(messageId) {
+		const messageHash = GameEvent.Key(messageId);
+		if (messageHash && this.#messages.has(messageHash)) {
+			const messageData = this.#messages.get(messageHash);
+			messageData.element.classList.add('hidden');
+			GameEvent.Emit(GameEvent.UI_HIDE_MESSAGE_COMPLETE);
+		}
+	}
+
+	showMessage(messageId) {
+		const messageHash = GameEvent.Key(messageId);
+		if (messageHash && this.#messages.has(messageHash)) {
+			const messageData = this.#messages.get(messageHash);
+			messageData.element.classList.remove('hidden');
+			GameEvent.Emit(GameEvent.UI_SHOW_MESSAGE_COMPLETE);
+		}
+	}
+
+	setInvisible(messageId) {
+		const messageHash = GameEvent.Key(messageId);
+		if (messageHash && this.#messages.has(messageHash)) {
+			this.#messages.get(messageHash).element.classList.add('invisible');
+		}
+	}
+
+	setVisible(messageId) {
+		const messageHash = GameEvent.Key(messageId);
+		if (messageHash && this.#messages.has(messageHash)) {
+			this.#messages.get(messageHash).element.classList.remove('invisible');
+		}
+	}
+
+	drawPrize(prize) {
+		const prizeCellLocation = prize.position.y * this.#rowLength + prize.position.x;
+		const prizeCell = document.querySelector(`#pitch .cell:nth-child(${prizeCellLocation + 1})`);
+		prizeCell.classList.add('prize');
+		GameEvent.Emit(GameEvent.UI_DRAW_PRIZE_COMPLETE);
+	}
+
+	clearPrize(prize) {
+		const prizeCellLocation = prize.position.y * this.#rowLength + prize.position.x;
+		const prizeCell = document.querySelector(`#pitch .cell:nth-child(${prizeCellLocation + 1})`);
+		prizeCell.classList.remove('prize');
+		GameEvent.Emit(GameEvent.UI_CLEAR_PRIZE_COMPLETE);
 	}
 }

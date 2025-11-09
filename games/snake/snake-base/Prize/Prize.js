@@ -30,6 +30,13 @@ export default class Prize {
 		this.#setPosition();
 	}
 
+	static Random(args = {}) {
+		const { pitch, snake } = args;
+		const type = PrizeType.TYPES[Math.floor(Math.random() * PrizeType.TYPES.length)];
+		const value = PrizeType.VALUES[type][Math.floor(Math.random() * PrizeType.VALUES[type].length)];
+		return new Prize({ pitch, snake, type, value });
+	}
+
 	get id() {
 		return this.#id;
 	}
@@ -56,7 +63,7 @@ export default class Prize {
 	#setPosition() {
 		let passed = false;
 		let position = null;
-		let stopGap = 100;		// do not try more than 100 times to find a position
+		let stopGap = 500;		// do not try more than 100 times to find a position
 		while (!passed && stopGap > 0) {
 			passed = true;
 			position = this.#pitch.dimensions.random(this.#pitch.dimensions);

@@ -70,6 +70,7 @@ export default class Ui {
 	#uiName;
 	#uiData;
 	#ui;
+	#messages;
 
 	constructor(args = {}) {
 		const { id = window.crypto.randomUUID(), uiName, uiData = {} } = args;
@@ -88,11 +89,17 @@ export default class Ui {
 	get id () {
 		return this.#id;
 	}
+
 	get uiName () {
 		return this.#uiName;
 	}
+
 	get uiData () {
 		return this.#uiData;
+	}
+
+	addMessages(messages) {
+		this.#messages = messages;
 	}
 
 	drawPitch(pitch) {
@@ -183,5 +190,33 @@ export default class Ui {
 
 	clearCountdown() {
 		this.#ui.clearCountdown();
+	}
+
+	drawMessage(messageId) {
+		this.#ui.drawMessage(messageId, this.#messages.get(messageId));
+	}
+
+	clearMessage(messageId) {
+		this.#ui.clearMessage(messageId);
+	}
+
+	clearAllMessages() {
+		this.#ui.clearAllMessages();
+	}
+
+	showMessage(messageId) {
+		this.#ui.showMessage(messageId);
+	}
+
+	hideMessage(messageId) {
+		this.#ui.hideMessage(messageId);
+	}
+
+	setInvisible(messageId) {
+		this.#ui.setInvisible(messageId);
+	}
+
+	setVisible(messageId) {
+		this.#ui.setVisible(messageId);
 	}
 }

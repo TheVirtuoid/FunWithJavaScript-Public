@@ -43,7 +43,10 @@ export default class Messages {
 		[GameEvent.UI_UPDATE_SNAKE_COMPLETE, 'Snake update rendering complete'],
 		[GameEvent.UI_CLEAR_PITCH_COMPLETE, 'Pitch clear rendering complete'],
 		[GameEvent.UI_DRAW_PITCH_COMPLETE, 'Pitch draw rendering complete'],
-		[GameEvent.UI_RESET_PITCH_COMPLETE, 'Pitch reset rendering complete']
+		[GameEvent.UI_RESET_PITCH_COMPLETE, 'Pitch reset rendering complete'],
+		[GameEvent.UI_DRAW_MESSAGE_COMPLETE, 'Message draw rendering complete'],
+		[GameEvent.UI_CLEAR_MESSAGE_COMPLETE, 'Message clear rendering complete'],
+		[GameEvent.UI_CLEAR_ALL_MESSAGES_COMPLETE, 'Clear all messages rendering complete'],
 	]);
 
 	constructor(args = {}) {

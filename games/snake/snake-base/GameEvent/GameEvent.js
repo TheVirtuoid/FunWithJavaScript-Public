@@ -47,6 +47,11 @@ export default class GameEvent {
 	static UI_CLEAR_PITCH_COMPLETE = Symbol('ui-clear-pitch-complete');
 	static UI_DRAW_PITCH_COMPLETE = Symbol('ui-draw-pitch-complete');
 	static UI_RESET_PITCH_COMPLETE = Symbol('ui-reset-pitch-complete');
+	static UI_DRAW_MESSAGE_COMPLETE = Symbol('ui-draw-message-complete');
+	static UI_CLEAR_MESSAGE_COMPLETE = Symbol('ui-clear-message-complete');
+	static UI_CLEAR_ALL_MESSAGES_COMPLETE = Symbol('ui-clear-all-messages-complete');
+	static UI_SHOW_MESSAGE_COMPLETE = Symbol('ui-show-message-complete');
+	static UI_HIDE_MESSAGE_COMPLETE = Symbol('ui-hide-message-complete');
 
 	static TYPES = [
 		GameEvent.GAME_OVER,
@@ -89,7 +94,12 @@ export default class GameEvent {
 		GameEvent.UI_UPDATE_SNAKE_COMPLETE,
 		GameEvent.UI_CLEAR_PITCH_COMPLETE,
 		GameEvent.UI_DRAW_PITCH_COMPLETE,
-		GameEvent.UI_RESET_PITCH_COMPLETE
+		GameEvent.UI_RESET_PITCH_COMPLETE,
+		GameEvent.UI_DRAW_MESSAGE_COMPLETE,
+		GameEvent.UI_CLEAR_MESSAGE_COMPLETE,
+		GameEvent.UI_CLEAR_ALL_MESSAGES_COMPLETE,
+		GameEvent.UI_SHOW_MESSAGE_COMPLETE,
+		GameEvent.UI_HIDE_MESSAGE_COMPLETE
 	]
 
 	static Setup(gameObject) {
@@ -105,6 +115,16 @@ export default class GameEvent {
 		return {
 			vectorFactory: game.vectorFactory
 		};
+	}
+
+	static Key(key) {
+		if (!GameEvent.TYPES.includes(key)) {
+			return undefined;
+		}
+		const keyString = key.toString();
+		const start = keyString.indexOf('(') + 1;
+		const end = keyString.indexOf(')');
+		return keyString.substring(start, end);
 	}
 
 	static Emit(eventName, ...args) {

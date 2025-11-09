@@ -112,4 +112,10 @@ export default class Snake {
 		return this.#body.collision(position);
 	}
 
+	moveAndGrow(speed = this.#speed) {
+		const { position, direction } = this.#head;
+		this.#head.move(speed);
+		this.#body.grow({ position, direction });
+	}
+
 }

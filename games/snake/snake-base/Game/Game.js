@@ -68,6 +68,7 @@ export default class Game {
 		if (event === GameEvent.GAME_EVENT_INITIALIZED) this.#onGameEventInitialized(...data);
 		else if (event === GameEvent.SNAKE_COLLISION_WALL) this.#onSnakeCollisionWall(...data);
 		else if (event === GameEvent.SNAKE_COLLISION_SELF) this.#onSnakeCollisionSelf(...data);
+		else if (event === GameEvent.SNAKE_COLLISION_PRIZE) this.#onSnakeCollisionPrize(...data);
 		else if (event === GameEvent.GAME_EXIT) this.#onGameExit(...data);
 		else if (event === GameEvent.GAME_RESET) this.#onGameReset(...data);
 		else if (event === GameEvent.GAME_OVER) this.#onGameOver(...data);
@@ -97,6 +98,9 @@ export default class Game {
 			throw new Error(`'ui' argument must be an instance of Ui`);
 		}
 		this.#ui = ui;
+		if (this.#messages) {
+			this.#ui.addMessages(this.#messages);
+		}
 	}
 
 	addInput(input) {
@@ -111,6 +115,9 @@ export default class Game {
 			throw new Error(`'messages' argument must be an instance of Messages`);
 		}
 		this.#messages = messages;
+		if (this.#ui) {
+			this.#ui.addMessages(messages);
+		}
 	}
 
 	addScore(score) {
@@ -128,9 +135,12 @@ export default class Game {
 			GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
 		} else {
 			if (this.#prize?.collision(newPosition)) {
-				GameEvent.Emit(GameEvent.SNAKE_COLLISION_PRIZE);
+				GameEvent.Emit(GameEvent.SNAKE_COLLISION_PRIZE, this.#prize);
+				this.#snake.moveAndGrow(speed);
+				this.#ui.updateSnake(this.#snake);
+			} else {
+				this.#snake.move(speed);
 			}
-			this.#snake.move(speed);
 		}
 	}
 
@@ -161,6 +171,8 @@ export default class Game {
 		this.#ui.drawPitch(this.#pitch);
 		this.#ui.drawSnake(this.#snake);
 		this.#ui.drawScore(this.#score);
+		this.#ui.drawMessage(GameEvent.GAME_OVER);
+		this.#ui.setInvisible(GameEvent.GAME_OVER);
 		this.#ui.startCountdown(5);
 	}
 
@@ -169,12 +181,22 @@ export default class Game {
 	}
 
 	#onSnakeCollisionWall(data) {
-		console.log('wall collision');
+		this.#ui.drawMessage(GameEvent.SNAKE_COLLISION_WALL);
 		GameEvent.Emit(GameEvent.GAME_OVER);
 	}
 
 	#onSnakeCollisionSelf(data) {
+		this.#ui.drawMessage(GameEvent.SNAKE_COLLISION_SELF);
 		GameEvent.Emit(GameEvent.GAME_OVER);
+	}
+
+	#onSnakeCollisionPrize(prize) {
+		this.#ui.clearPrize(prize);
+		this.#score.incrementScore(prize.value);
+		this.#score.incrementLength(1);
+		this.#ui.updateScore(this.#score);
+		this.#prize = this.#generatePrize();
+		this.#ui.drawPrize(this.#prize);
 	}
 
 	#onGameExit(data) {
@@ -186,7 +208,7 @@ export default class Game {
 	}
 
 	#onGameOver(data) {
-		console.log('game over');
+		this.#ui.setVisible(GameEvent.GAME_OVER);
 		clearInterval(this.#snakeMove);
 	}
 	// TODO: Possible updates:
@@ -216,10 +238,19 @@ export default class Game {
 
 	#onUiCountdownComplete(args) {
 		this.#ui.clearCountdown();
+		this.#prize = this.#generatePrize();
+		this.#ui.drawPrize(this.#prize);
 		this.#snakeMove = setInterval(() => {
 			this.moveSnake();
 			this.#ui.updateSnake(this.#snake);
 		}, 250);
+	}
+
+	#generatePrize() {
+		if (!this.#pitch || !this.#snake) {
+			throw new Error(`'pitch' and 'snake' must be defined before generating a prize`);
+		}
+		return new Prize({ pitch: this.#pitch, snake: this.#snake });
 	}
 
 }
