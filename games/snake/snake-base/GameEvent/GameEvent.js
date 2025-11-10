@@ -7,6 +7,7 @@ export default class GameEvent {
 	static SNAKE_COLLISION_WALL = Symbol('snake-collision-wall');
 	static SNAKE_COLLISION_SELF = Symbol('snake-collision-self');
 	static SNAKE_COLLISION_PRIZE = Symbol('snake-collision-prize');
+	static SNAKE_COLLISION_BOMB	= Symbol('snake-collision-bomb');
 	static SNAKE_MOVE = Symbol('snake-move');
 	static SNAKE_DIRECTION_CHANGED = Symbol('snake-direction-changed');
 	static SNAKE_JUMPED = Symbol('snake-jumped');
@@ -59,6 +60,7 @@ export default class GameEvent {
 		GameEvent.SNAKE_COLLISION_WALL,
 		GameEvent.SNAKE_COLLISION_SELF,
 		GameEvent.SNAKE_COLLISION_PRIZE,
+		GameEvent.SNAKE_COLLISION_BOMB,
 		GameEvent.SNAKE_MOVE,
 		GameEvent.SNAKE_DIRECTION_CHANGED,
 		GameEvent.SNAKE_JUMPED,

@@ -8,6 +8,7 @@ export default class Messages {
 		[GameEvent.SNAKE_COLLISION_WALL, 'Collided with wall'],
 		[GameEvent.SNAKE_COLLISION_SELF, 'Collided with self'],
 		[GameEvent.SNAKE_COLLISION_PRIZE, 'Collided with prize'],
+		[GameEvent.SNAKE_COLLISION_BOMB, 'Collided with bomb'],
 		[GameEvent.SNAKE_MOVE, 'Snake has moved'],
 		[GameEvent.SNAKE_DIRECTION_CHANGED, 'Snake has changed direction'],
 		[GameEvent.SNAKE_JUMPED, 'Snake has jumped'],

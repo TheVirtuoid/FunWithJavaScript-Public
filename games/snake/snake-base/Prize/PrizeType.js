@@ -10,9 +10,9 @@ export default class PrizeType {
 	];
 
 	static VALUES = new Map([
-		[PrizeType.APPLE, { value: 1, color: 'red', grow: true }],
-		[PrizeType.BANANA, { value: 5, color: 'yellow', grow: false }],
-		[PrizeType.BOMB, { value: 0, color: 'black', grow: false }],
+		[PrizeType.APPLE, { value: 1, color: 'prize-apple', grow: true }],
+		[PrizeType.BANANA, { value: 5, color: 'prize-banana', grow: false }],
+		[PrizeType.BOMB, { value: 0, color: 'prize-bomb', grow: false }],
 	]);
 
 	static DEFAULT_TYPE = PrizeType.APPLE;

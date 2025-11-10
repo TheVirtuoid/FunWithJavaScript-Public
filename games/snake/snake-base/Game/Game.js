@@ -6,6 +6,7 @@ import Ui from "../../snake-ui/Ui/Ui.js";
 import Input from "../../snake-input/Input/Input.js";
 import Score from "../Score/Score.js";
 import Messages from "../Messages/Messages.js";
+import PrizeType from "../Prize/PrizeType.js";
 
 export default class Game {
 	#pitch;
@@ -18,10 +19,12 @@ export default class Game {
 	#snakeMove;
 	#score;
 	#messages;
+	#prizes;
 
 	constructor(args = {}) {
 		const { id = window.crypto.randomUUID() } = args;
 		this.#id = id;
+		this.#prizes = new Set();
 		GameEvent.Setup(this);
 	}
 
@@ -49,7 +52,7 @@ export default class Game {
 		return this.#pitch?.dimensions.clone();
 	}
 
-	get prizeType() {
+	/*get prizeType() {
 		return this.#prize?.type;
 	}
 
@@ -59,7 +62,7 @@ export default class Game {
 
 	get prizePosition() {
 		return this.#prize?.position;
-	}
+	}*/
 
 	emit(event, ...data) {
 		if (!GameEvent.TYPES.includes(event)) {
@@ -134,7 +137,8 @@ export default class Game {
 		} else if (this.#snake.collision(newPosition)) {
 			GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
 		} else {
-			if (this.#prize?.collision(newPosition)) {
+			const prizeCollision = this.#prizesCollision(newPosition);
+			if (prizeCollision) {
 				GameEvent.Emit(GameEvent.SNAKE_COLLISION_PRIZE, this.#prize);
 				this.#snake.moveAndGrow(speed);
 				this.#ui.updateSnake(this.#snake);
@@ -148,7 +152,7 @@ export default class Game {
 		if (!this.#pitch || !this.#snake) {
 			throw new Error(`'pitch' and 'snake' must be defined before generating a prize`);
 		}
-		this.#prize = new Prize({ pitch: this.#pitch, snake: this.#snake });
+		return new Prize({ pitch: this.#pitch, snake: this.#snake });
 	}
 
 	changeSnakeDirection(newDirection) {
@@ -191,12 +195,17 @@ export default class Game {
 	}
 
 	#onSnakeCollisionPrize(prize) {
-		this.#ui.clearPrize(prize);
-		this.#score.incrementScore(prize.value);
-		this.#score.incrementLength(1);
-		this.#ui.updateScore(this.#score);
-		this.#prize = this.#generatePrize();
-		this.#ui.drawPrize(this.#prize);
+		if (prize.type === PrizeType.BOMB) {
+			this.#ui.drawMessage(GameEvent.SNAKE_COLLISION_BOMB);
+			GameEvent.Emit(GameEvent.GAME_OVER);
+		} else {
+			this.#ui.clearPrize(prize);
+			this.#score.incrementScore(prize.value);
+			this.#score.incrementLength(1);
+			this.#ui.updateScore(this.#score);
+			this.#prize = this.#generatePrize();
+			this.#ui.drawPrize(this.#prize);
+		}
 	}
 
 	#onGameExit(data) {
@@ -238,19 +247,39 @@ export default class Game {
 
 	#onUiCountdownComplete(args) {
 		this.#ui.clearCountdown();
-		this.#prize = this.#generatePrize();
-		this.#ui.drawPrize(this.#prize);
+		const prize = this.#generatePrize();
+		this.#prizes.add(prize);
+		this.#ui.drawPrize(prize);
+		while (prize.type === PrizeType.BOMB) {
+			const prize = this.#generatePrize();
+			this.#prizes.add(prize);
+			this.#ui.drawPrize(prize);
+		}
 		this.#snakeMove = setInterval(() => {
 			this.moveSnake();
 			this.#ui.updateSnake(this.#snake);
-		}, 250);
+		}, 200);
 	}
 
 	#generatePrize() {
 		if (!this.#pitch || !this.#snake) {
 			throw new Error(`'pitch' and 'snake' must be defined before generating a prize`);
 		}
-		return new Prize({ pitch: this.#pitch, snake: this.#snake });
+		return Prize.Random({ pitch: this.#pitch, snake: this.#snake });
+	}
+
+	#addPrize(prize) {
+		if (!this.#prizes.has(prize)) {
+			this.#prizes.add(prize);
+		}
+	}
+
+	#removePrize(prize) {
+		this.#prizes.delete(prize);
+	}
+
+	#prizesCollision(position) {
+		return [...this.#prizes.entries()].find((prize) => prize.position.equals(position));
 	}
 
 }

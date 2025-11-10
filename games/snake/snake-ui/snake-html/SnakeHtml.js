@@ -1,4 +1,5 @@
 import GameEvent from "../../snake-base/GameEvent/GameEvent.js";
+import PrizeType from "../../snake-base/Prize/PrizeType.js";
 
 export default class SnakeHtml {
 	#pitch;
@@ -172,14 +173,16 @@ export default class SnakeHtml {
 	drawPrize(prize) {
 		const prizeCellLocation = prize.position.y * this.#rowLength + prize.position.x;
 		const prizeCell = document.querySelector(`#pitch .cell:nth-child(${prizeCellLocation + 1})`);
-		prizeCell.classList.add('prize');
+		const prizeValue = PrizeType.VALUES.get(prize.type);
+		prizeCell.classList.add(prizeValue.color);
 		GameEvent.Emit(GameEvent.UI_DRAW_PRIZE_COMPLETE);
 	}
 
 	clearPrize(prize) {
 		const prizeCellLocation = prize.position.y * this.#rowLength + prize.position.x;
 		const prizeCell = document.querySelector(`#pitch .cell:nth-child(${prizeCellLocation + 1})`);
-		prizeCell.classList.remove('prize');
+		const prizeValue = PrizeType.VALUES.get(prize.type);
+		prizeCell.classList.remove(prizeValue.color);
 		GameEvent.Emit(GameEvent.UI_CLEAR_PRIZE_COMPLETE);
 	}
 }

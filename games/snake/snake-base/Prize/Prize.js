@@ -33,8 +33,8 @@ export default class Prize {
 	static Random(args = {}) {
 		const { pitch, snake } = args;
 		const type = PrizeType.TYPES[Math.floor(Math.random() * PrizeType.TYPES.length)];
-		const value = PrizeType.VALUES[type][Math.floor(Math.random() * PrizeType.VALUES[type].length)];
-		return new Prize({ pitch, snake, type, value });
+		const prizeValue = PrizeType.VALUES.get(type);
+		return new Prize({ pitch, snake, type, value: prizeValue.value });
 	}
 
 	get id() {
