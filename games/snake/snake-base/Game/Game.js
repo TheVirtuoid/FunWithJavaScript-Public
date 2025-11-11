@@ -20,11 +20,13 @@ export default class Game {
 	#score;
 	#messages;
 	#prizes;
+	#paused;
 
 	constructor(args = {}) {
 		const { id = window.crypto.randomUUID() } = args;
 		this.#id = id;
 		this.#prizes = new Set();
+		this.#paused = false;
 		GameEvent.Setup(this);
 	}
 
@@ -56,6 +58,7 @@ export default class Game {
 		if (!GameEvent.TYPES.includes(event)) {
 			throw new Error(`'event' argument must be a valid event`);
 		}
+		console.log(event);
 		if (event === GameEvent.GAME_EVENT_INITIALIZED) this.#onGameEventInitialized(...data);
 		else if (event === GameEvent.SNAKE_COLLISION_WALL) this.#onSnakeCollisionWall(...data);
 		else if (event === GameEvent.SNAKE_COLLISION_SELF) this.#onSnakeCollisionSelf(...data);
@@ -65,6 +68,7 @@ export default class Game {
 		else if (event === GameEvent.GAME_OVER) this.#onGameOver(...data);
 		else if (event === GameEvent.INPUT_CHANGE_DIRECTION) this.#onInputChangeDirection(...data);
 		else if (event === GameEvent.INPUT_GAME_PAUSE) this.#onInputGamePause(...data);
+		else if (event === GameEvent.INPUT_GAME_RESUME) this.#onInputGameResume(...data);
 		else if (event === GameEvent.UI_START_COUNTDOWN_COMPLETE) this.#onUiStartCountdownComplete(...data);
 		else if (event === GameEvent.UI_COUNTDOWN_TICK_COMPLETE) this.#onUiCountdownTickComplete(...data);
 		else if (event === GameEvent.UI_COUNTDOWN_COMPLETE) this.#onUiCountdownComplete(...data);
@@ -217,6 +221,7 @@ export default class Game {
 		this.#ui.setVisible(GameEvent.GAME_OVER);
 		clearInterval(this.#snakeMove);
 	}
+
 	// TODO: Possible updates:
 	// 1. Accept speed parameter to move at different speeds - will need to determine speed and direction from args
 	/*#onInputMove(direction = this.getSnakeDirection()) {
@@ -231,7 +236,13 @@ export default class Game {
 	}
 
 	#onInputGamePause(args) {
-		clearInterval(this.#snakeMove);
+		this.#paused = true;
+		this.#ui.drawMessage(GameEvent.GAME_PAUSE);
+	}
+
+	#onInputGameResume(args) {
+		this.#paused = false;
+		this.#ui.clearMessage(GameEvent.GAME_PAUSE);
 	}
 
 	#onUiStartCountdownComplete(args) {
@@ -251,8 +262,10 @@ export default class Game {
 		this.#prizes.add(prize);
 		this.#ui.drawPrize(prize);
 		this.#snakeMove = setInterval(() => {
-			this.moveSnake();
-			this.#ui.updateSnake(this.#snake);
+			if (!this.#paused) {
+				this.moveSnake();
+				this.#ui.updateSnake(this.#snake);
+			}
 		}, 200);
 	}
 
