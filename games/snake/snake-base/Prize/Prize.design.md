@@ -25,6 +25,7 @@ All properties are read-only.
 1. `collision(position)` - (Boolean) determines if a collision has occurred.
    - Returns `true` if prize and position match.
    - `position` (Vector) - the position to check.
+2. `addBomb(position)` - adds a Bomb position (Vector)
 
 ### Private
 1. `setPosition()` - determines the position of the prize. 

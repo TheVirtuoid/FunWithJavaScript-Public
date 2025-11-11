@@ -104,11 +104,6 @@ export default class Snake {
 		if (!(position instanceof Vector)) {
 			throw new Error(`'position' argument must be an instance of Vector`);
 		}
-		/*const collided = this.#body.collision(position);
-		if (collided) {
-			GameEvent.Emit(GameEvent.SNAKE_COLLISION_SELF);
-		}
-		return collided;*/
 		return this.#body.collision(position);
 	}
 

@@ -139,7 +139,7 @@ export default class Game {
 		} else {
 			const prizeCollision = this.#prizesCollision(newPosition);
 			if (prizeCollision) {
-				GameEvent.Emit(GameEvent.SNAKE_COLLISION_PRIZE, this.#prize);
+				GameEvent.Emit(GameEvent.SNAKE_COLLISION_PRIZE, prizeCollision);
 				this.#snake.moveAndGrow(speed);
 				this.#ui.updateSnake(this.#snake);
 			} else {
@@ -203,8 +203,16 @@ export default class Game {
 			this.#score.incrementScore(prize.value);
 			this.#score.incrementLength(1);
 			this.#ui.updateScore(this.#score);
-			this.#prize = this.#generatePrize();
-			this.#ui.drawPrize(this.#prize);
+			this.#removePrize(prize);
+			let newPrize = this.#generatePrize();
+			this.#addPrize(newPrize);
+			this.#ui.drawPrize(newPrize);
+			while (newPrize.type === PrizeType.BOMB) {
+				Prize.AddBomb(newPrize.position);
+				newPrize = this.#generatePrize();
+				this.#addPrize(newPrize);
+				this.#ui.drawPrize(newPrize);
+			}
 		}
 	}
 
@@ -247,14 +255,12 @@ export default class Game {
 
 	#onUiCountdownComplete(args) {
 		this.#ui.clearCountdown();
-		const prize = this.#generatePrize();
+		let prize = this.#generatePrize();
+		while (prize.type === PrizeType.BOMB) {
+			prize = this.#generatePrize();
+		}
 		this.#prizes.add(prize);
 		this.#ui.drawPrize(prize);
-		while (prize.type === PrizeType.BOMB) {
-			const prize = this.#generatePrize();
-			this.#prizes.add(prize);
-			this.#ui.drawPrize(prize);
-		}
 		this.#snakeMove = setInterval(() => {
 			this.moveSnake();
 			this.#ui.updateSnake(this.#snake);
@@ -265,7 +271,7 @@ export default class Game {
 		if (!this.#pitch || !this.#snake) {
 			throw new Error(`'pitch' and 'snake' must be defined before generating a prize`);
 		}
-		return Prize.Random({ pitch: this.#pitch, snake: this.#snake });
+		return Prize.Random({ pitch: this.#pitch, snake: this.#snake, prizes: this.#prizes });
 	}
 
 	#addPrize(prize) {
@@ -279,7 +285,7 @@ export default class Game {
 	}
 
 	#prizesCollision(position) {
-		return [...this.#prizes.entries()].find((prize) => prize.position.equals(position));
+		return [...this.#prizes.values()].find((prize) => prize.position.equals(position));
 	}
 
 }

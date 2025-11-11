@@ -3,6 +3,8 @@ import Snake from "../Snake/Snake.js";
 import PrizeType from "./PrizeType.js";
 import Vector from "../Vector/Base/Vector.js";
 
+const bombs = [];
+
 export default class Prize {
 	#id;
 	#type;
@@ -53,6 +55,13 @@ export default class Prize {
 		return this.#position.clone();
 	}
 
+	static AddBomb(position) {
+		if (!(position instanceof Vector)) {
+			throw new Error(`'position' argument must be an instance of Vector`);
+		}
+		bombs.push(position);
+	}
+
 	collision(position) {
 		if (!(position instanceof Vector)) {
 			throw new Error(`'position' argument must be an instance of Vector`);
@@ -63,15 +72,20 @@ export default class Prize {
 	#setPosition() {
 		let passed = false;
 		let position = null;
-		let stopGap = 500;		// do not try more than 100 times to find a position
+		let stopGap = 500;		// do not try more than 500 times to find a position
 		while (!passed && stopGap > 0) {
 			passed = true;
 			position = this.#pitch.dimensions.random(this.#pitch.dimensions);
 			passed &= !this.#pitch.collision(position);
 			passed &= !this.#snake.collision(position);
+			passed &= !this.#bombCollision(position);
 			stopGap--;
 		}
 		this.#position = !!passed ? position : null;
+	}
+
+	#bombCollision(position) {
+		return bombs.some(bomb => bomb.equals(position));
 	}
 
 }
