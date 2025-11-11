@@ -156,7 +156,7 @@ export default class Ui {
 		if (!(score instanceof Score)) {
 			throw new Error(`'score' argument must be an instance of Score`);
 		}
-		this.#ui.drawScore(score);
+		this.#ui.drawScore(score, this.#messages);
 	}
 
 	updateScore(score) {
@@ -194,6 +194,10 @@ export default class Ui {
 
 	drawMessage(messageId) {
 		this.#ui.drawMessage(messageId, this.#messages.get(messageId));
+	}
+
+	drawText(textId) {
+		this.#ui.drawText(textId, this.#messages.get(textId));
 	}
 
 	clearMessage(messageId) {

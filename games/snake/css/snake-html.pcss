@@ -1,33 +1,14 @@
 #pitch {
     background-color: var(--v-color-quaternary200);
     display: grid;
-    grid-template-columns: repeat(30, 20px);
-    grid-template-rows: repeat(30, 20px);
+    grid-template-columns: repeat(var(--pitch-dimensions-x), 30px);
+    grid-template-rows: repeat(var(--pitch-dimensions-y), 30px);
 
     .cell {
         border: 1px solid black;
+        font-size: 20px;
 
-        /*&:nth-child(1) {
-            background-color: var(--v-color-tertiary900);
-        }*/
-
-        /* top edge */
-        &:nth-child(-n + 30) {
-            background-color: var(--v-color-tertiary900);
-        }
-
-        /* Bottom edge (last 30 cells) */
-        &:nth-child(n + 871) {
-            background-color: var(--v-color-tertiary900);
-        }
-
-        /* Left edge (every 30th cell starting from 1) */
-        &:nth-child(30n + 1) {
-            background-color: var(--v-color-tertiary900);
-        }
-
-        /* Right edge (every 30th cell starting from 30) */
-        &:nth-child(30n + 30) {
+        &.wall {
             background-color: var(--v-color-tertiary900);
         }
 
@@ -40,15 +21,23 @@
         }
 
         &.prize-apple {
-            background-color: red;
+            &::after {
+                content: '\1F34E';
+            }
+            background-color: #555555;
         }
 
         &.prize-banana {
-            background-color: yellow;
+            &::after {
+                content: '\1F34C'
+            }
+            background-color: #555555;
         }
 
         &.prize-bomb {
-            background-color: black;
+            &::after {
+                content: '\1F4A3';
+            }
         }
     }
 }

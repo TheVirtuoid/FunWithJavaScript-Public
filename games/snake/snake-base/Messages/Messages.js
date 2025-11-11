@@ -1,6 +1,12 @@
 import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class Messages {
+
+	static TITLE = Symbol('title');
+	static STATS_TITLE = Symbol('stats-title');
+	static STATS_SCORE = Symbol('stats-score');
+	static STATS_LENGTH = Symbol('stats-length');
+
 	#id;
 	#messages = new Map([
 		[GameEvent.GAME_OVER, 'Game over'],
@@ -48,6 +54,11 @@ export default class Messages {
 		[GameEvent.UI_DRAW_MESSAGE_COMPLETE, 'Message draw rendering complete'],
 		[GameEvent.UI_CLEAR_MESSAGE_COMPLETE, 'Message clear rendering complete'],
 		[GameEvent.UI_CLEAR_ALL_MESSAGES_COMPLETE, 'Clear all messages rendering complete'],
+
+		[Messages.TITLE, 'Snake on HTML'],
+		[Messages.STATS_TITLE, 'Statistics'],
+		[Messages.STATS_SCORE, 'Score'],
+		[Messages.STATS_LENGTH, 'Length'],
 	]);
 
 	constructor(args = {}) {

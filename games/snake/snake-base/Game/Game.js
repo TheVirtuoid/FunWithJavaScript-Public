@@ -52,18 +52,6 @@ export default class Game {
 		return this.#pitch?.dimensions.clone();
 	}
 
-	/*get prizeType() {
-		return this.#prize?.type;
-	}
-
-	get prizeValue() {
-		return this.#prize?.value;
-	}
-
-	get prizePosition() {
-		return this.#prize?.position;
-	}*/
-
 	emit(event, ...data) {
 		if (!GameEvent.TYPES.includes(event)) {
 			throw new Error(`'event' argument must be a valid event`);
@@ -175,6 +163,7 @@ export default class Game {
 		this.#ui.drawPitch(this.#pitch);
 		this.#ui.drawSnake(this.#snake);
 		this.#ui.drawScore(this.#score);
+		this.#ui.drawText(Messages.TITLE);
 		this.#ui.drawMessage(GameEvent.GAME_OVER);
 		this.#ui.setInvisible(GameEvent.GAME_OVER);
 		this.#ui.startCountdown(5);

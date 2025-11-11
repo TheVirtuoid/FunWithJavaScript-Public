@@ -11,7 +11,6 @@ import Keyboard from "../snake-input/devices/Keyboard/Keyboard.js";
 import KeyboardLayout from "../snake-input/devices/Keyboard/KeyboardLayout/KeyboardLayout.js";
 import Score from "../snake-base/Score/Score.js";
 import Messages from "../snake-base/Messages/Messages.js";
-import GameEvent from "../snake-base/GameEvent/GameEvent.js";
 
 const deviceReference = Keyboard;
 const vectorReference = Vector2d;
@@ -19,10 +18,11 @@ const deviceData = { layout: KeyboardLayout.LAYOUT_WASD };
 const direction = Vector2d.Right();
 const speed = 1;
 const length = 3;
-const position = new Vector2d(15, 15);
+const dimensions = new Vector2d(20, 20);
+const position = new Vector2d(dimensions.x / 2, dimensions.y / 2);
 
 const game = new Game();
-const pitch = new Pitch({ dimensions: new Vector2d(30, 30) });
+const pitch = new Pitch({ dimensions });
 const ui = new Ui({ uiName: 'html' });
 const snake = new Snake({ position, direction, speed, length });
 const input = new Input({ deviceReference, vectorReference, deviceData });

@@ -1,5 +1,6 @@
 import GameEvent from "../../snake-base/GameEvent/GameEvent.js";
 import PrizeType from "../../snake-base/Prize/PrizeType.js";
+import Messages from "../../snake-base/Messages/Messages.js";
 
 export default class SnakeHtml {
 	#pitch;
@@ -21,11 +22,17 @@ export default class SnakeHtml {
 	drawPitch(pitch) {
 		this.#pitch = pitch;
 		this.#pitchElement.replaceChildren();
+		this.#pitchElement.style.setProperty('--pitch-dimensions-x', `${pitch.dimensions.x}`);
+		this.#pitchElement.style.setProperty('--pitch-dimensions-y', `${pitch.dimensions.y}`);
 		const dimensions = pitch.dimensions;
 		for (let row = 0; row < dimensions.y; row++) {
 			for (let column = 0; column < dimensions.x; column++) {
 				const cell = document.createElement('span');
-				cell.classList.add('cell');
+				const classesToAdd = ['cell'];
+				if (row === 0 || column === 0 || row === dimensions.y - 1 || column === dimensions.x - 1) {
+					classesToAdd.push('wall');
+				}
+				cell.classList.add(...classesToAdd);
 				this.#pitchElement.appendChild(cell);
 			}
 		}
@@ -45,15 +52,12 @@ export default class SnakeHtml {
 		GameEvent.Emit(GameEvent.UI_DRAW_SNAKE_COMPLETE);
 	}
 
-	drawScore(score) {
+	drawScore(score, statsMessages) {
 		this.#score = score;
 		const scoreElement = document.getElementById('score');
-		scoreElement.insertAdjacentHTML('afterbegin', `
-			<h2>Statistics</h2>
-			<ul>
-				<li><span>Score</span><span data-score></span></li>
-				<li><span>Length</span><span data-length></span></li>
-			</ul>`);
+		scoreElement.querySelector('h2').textContent = statsMessages.get(Messages.STATS_TITLE);
+		scoreElement.querySelector('ul li:first-child span:first-child').textContent = statsMessages.get(Messages.STATS_SCORE);
+		scoreElement.querySelector('ul li:nth-child(2) span:first-child').textContent = statsMessages.get(Messages.STATS_LENGTH);
 		this.#scoreElements = {
 			score: scoreElement.querySelector('[data-score]'),
 			length: scoreElement.querySelector('[data-length]')
@@ -175,7 +179,6 @@ export default class SnakeHtml {
 		const prizeCell = document.querySelector(`#pitch .cell:nth-child(${prizeCellLocation + 1})`);
 		const prizeValue = PrizeType.VALUES.get(prize.type);
 		prizeCell.classList.add(prizeValue.color);
-		console.log('place: ', prize.position.y * this.#rowLength + prize.position.x);
 		GameEvent.Emit(GameEvent.UI_DRAW_PRIZE_COMPLETE);
 	}
 
@@ -183,11 +186,13 @@ export default class SnakeHtml {
 		const prizeCellLocation = prize.position.y * this.#rowLength + prize.position.x;
 		const prizeCell = document.querySelector(`#pitch .cell:nth-child(${prizeCellLocation + 1})`);
 		const prizeValue = PrizeType.VALUES.get(prize.type);
-		console.log('remove: ', prize.position.y * this.#rowLength + prize.position.x);
-		console.log(prizeValue);
 		prizeCell.classList.remove(prizeValue.color);
-		console.log([...prizeCell.classList]);
-		console.log(prizeCell.classList.contains(prizeValue.color));
 		GameEvent.Emit(GameEvent.UI_CLEAR_PRIZE_COMPLETE);
+	}
+
+	drawText(textId, text) {
+		if (textId === Messages.TITLE) {
+			document.getElementById('title').textContent = text;
+		}
 	}
 }
