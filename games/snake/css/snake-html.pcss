@@ -3,6 +3,7 @@
     display: grid;
     grid-template-columns: repeat(var(--pitch-dimensions-x), 30px);
     grid-template-rows: repeat(var(--pitch-dimensions-y), 30px);
+    flex: 0 0 auto;
 
     .cell {
         border: 1px solid black;
@@ -90,5 +91,21 @@
             font-size: 3rem;
             font-weight: bold;
         }
+    }
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .button-group {
+        margin-top: auto;
     }
 }

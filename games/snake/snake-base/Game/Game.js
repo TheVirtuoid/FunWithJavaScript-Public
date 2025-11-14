@@ -21,12 +21,23 @@ export default class Game {
 	#messages;
 	#prizes;
 	#paused;
+	#movementDelay;
+	#movementTimestamp;
+	#actionButtons;
+
+	static BUTTON_TRY_AGAIN = Symbol("tryAgain");
+	static BUTTON_GO_BACK = Symbol("goBack");
 
 	constructor(args = {}) {
 		const { id = window.crypto.randomUUID() } = args;
 		this.#id = id;
 		this.#prizes = new Set();
 		this.#paused = false;
+		this.#movementDelay = 200; // in milliseconds
+		this.#actionButtons = new Map([
+			[Game.BUTTON_TRY_AGAIN, { action: null }],
+			[Game.BUTTON_GO_BACK, { action: null }]
+		]);
 		GameEvent.Setup(this);
 	}
 
@@ -151,6 +162,10 @@ export default class Game {
 		this.#snake.changeDirection(newDirection);
 	}
 
+	setActionButton(type, action) {
+		this.#actionButtons.set(type, { action });
+	}
+
 	start() {
 		if (!this.#pitch) {
 			throw new Error(`'pitch' must be defined before starting the game`);
@@ -222,15 +237,6 @@ export default class Game {
 		clearInterval(this.#snakeMove);
 	}
 
-	// TODO: Possible updates:
-	// 1. Accept speed parameter to move at different speeds - will need to determine speed and direction from args
-	/*#onInputMove(direction = this.getSnakeDirection()) {
-		if (!direction.equals(this.getSnakeDirection())) {
-			this.#snake.changeDirection(direction);
-		}
-		this.#snake.move();
-	}*/
-
 	#onInputChangeDirection(args) {
 		this.#snake.changeDirection(args.direction);
 	}
@@ -261,6 +267,7 @@ export default class Game {
 		}
 		this.#prizes.add(prize);
 		this.#ui.drawPrize(prize);
+		this.#movementTimestamp = performance.now();
 		this.#snakeMove = setInterval(() => {
 			if (!this.#paused) {
 				this.moveSnake();

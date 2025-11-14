@@ -29,11 +29,35 @@ const input = new Input({ deviceReference, vectorReference, deviceData });
 const score = new Score({ length });
 const messages = new Messages();
 
+const tryAgainButton = document.getElementById('try-again');
+const goBackButton = document.getElementById('go-back');
+
+const onTryAgainClick = () => {
+	tryAgainButton.setAttribute('disabled');
+	tryAgainButton.classList.add('hidden');
+	goBackButton.setAttribute('disabled');
+	goBackButton.classList.add('hidden');
+	game.start();
+}
+const onGoBackClick = () => {
+	window.location.href = 'index.html';
+}
+
+tryAgainButton.addEventListener('click', onTryAgainClick);
+goBackButton.addEventListener('click', onGoBackClick);
+
+tryAgainButton.removeAttribute('disabled');
+
 game.addPitch(pitch);
 game.addUi(ui);
 game.addInput(input);
 game.addSnake(snake);
 game.addScore(score);
 game.addMessages(messages);
+
+tryAgainButton.setAttribute('disabled', '');
+tryAgainButton.classList.add('hidden');
+goBackButton.setAttribute('disabled', '');
+goBackButton.classList.add('hidden');
 
 game.start();
