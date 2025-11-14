@@ -1,4 +1,4 @@
-import { ActionButtons } from '.ActionButtons'; // adjust as needed
+import ActionButtons from './ActionButtons'; // adjust as needed
 
 describe('ActionButtons', () => {
 	let buttons;
