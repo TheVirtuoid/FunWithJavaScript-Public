@@ -45,6 +45,39 @@ describe('ActionButtons', () => {
 			expect(btn.hidden).to.be.false;
 		});
 
+		it('defaults classList to an empty array', () => {
+			const TYPE = Symbol('NO_CLASSES');
+			const action = cy.stub().as('noClassAction');
+
+			buttons.addButton({
+				type: TYPE,
+				label: 'No Classes',
+				action,
+			});
+
+			const btn = buttons.getButton(TYPE);
+
+			expect(btn.classList).to.be.an('array');
+			expect(btn.classList).to.have.length(0);
+		});
+
+		it('honors an explicit classList array', () => {
+			const TYPE = Symbol('WITH_CLASSES');
+			const action = cy.stub().as('withClassAction');
+			const classes = ['primary', 'large'];
+
+			buttons.addButton({
+				type: TYPE,
+				label: 'With Classes',
+				action,
+				classList: classes,
+			});
+
+			const btn = buttons.getButton(TYPE);
+
+			expect(btn.classList).to.deep.equal(classes);
+		});
+
 		it('honors explicit disabled and hidden flags', () => {
 			const TYPE = Symbol('GO_BACK');
 			const action = cy.stub().as('goBackAction');
@@ -179,6 +212,109 @@ describe('ActionButtons', () => {
 
 			const btn = buttons.getButton(A);
 			expect(btn.hidden).to.be.false;
+		});
+	});
+
+	context('setTitle', () => {
+		it('sets the title for an existing button', () => {
+			const A = Symbol('A');
+			buttons.addButton({ type: A, label: 'A', action: () => {} });
+
+			buttons.setTitle(A, 'Click me');
+
+			const btn = buttons.getButton(A);
+			expect(btn.title).to.equal('Click me');
+		});
+
+		it('overwrites an existing title', () => {
+			const A = Symbol('A');
+			buttons.addButton({
+				type: A,
+				label: 'A',
+				action: () => {},
+			});
+
+			buttons.setTitle(A, 'First title');
+			buttons.setTitle(A, 'Second title');
+
+			const btn = buttons.getButton(A);
+			expect(btn.title).to.equal('Second title');
+		});
+
+		it('does nothing when type is not found', () => {
+			const A = Symbol('A');
+			buttons.addButton({ type: A, label: 'A', action: () => {} });
+
+			buttons.setTitle(Symbol('NON_EXISTENT'), 'Should not be used');
+
+			const btn = buttons.getButton(A);
+			expect(btn.title).to.be.undefined;
+		});
+	});
+
+	context('setClassList', () => {
+		it('sets classList for an existing button', () => {
+			const A = Symbol('A');
+			buttons.addButton({
+				type: A,
+				label: 'A',
+				action: () => {},
+			});
+
+			const newClasses = ['primary', 'rounded'];
+
+			buttons.setClassList(A, newClasses);
+
+			const btn = buttons.getButton(A);
+			expect(btn.classList).to.deep.equal(newClasses);
+		});
+
+		it('replaces existing classList with a new array', () => {
+			const A = Symbol('A');
+			buttons.addButton({
+				type: A,
+				label: 'A',
+				action: () => {},
+				classList: ['small'],
+			});
+
+			const replacement = ['large', 'secondary'];
+
+			buttons.setClassList(A, replacement);
+
+			const btn = buttons.getButton(A);
+			expect(btn.classList).to.deep.equal(replacement);
+		});
+
+		it('allows setting classList to an empty array', () => {
+			const A = Symbol('A');
+			buttons.addButton({
+				type: A,
+				label: 'A',
+				action: () => {},
+				classList: ['to-be-cleared'],
+			});
+
+			buttons.setClassList(A, []);
+
+			const btn = buttons.getButton(A);
+			expect(btn.classList).to.be.an('array');
+			expect(btn.classList).to.have.length(0);
+		});
+
+		it('does nothing when type is not found', () => {
+			const A = Symbol('A');
+			buttons.addButton({
+				type: A,
+				label: 'A',
+				action: () => {},
+				classList: ['original'],
+			});
+
+			buttons.setClassList(Symbol('NON_EXISTENT'), ['should-not-apply']);
+
+			const btn = buttons.getButton(A);
+			expect(btn.classList).to.deep.equal(['original']);
 		});
 	});
 });

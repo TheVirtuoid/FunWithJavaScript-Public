@@ -29,6 +29,8 @@ const input = new Input({ deviceReference, vectorReference, deviceData });
 const score = new Score({ length });
 const messages = new Messages();
 
+messages
+
 const tryAgainButton = document.getElementById('try-again');
 const goBackButton = document.getElementById('go-back');
 

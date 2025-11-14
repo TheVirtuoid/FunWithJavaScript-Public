@@ -69,4 +69,14 @@ export default class ActionButtons {
 			button.hidden = hidden;
 		}
 	}
+
+	setClassList(type, classList) {
+		if (!Array.isArray(classList)) {
+			throw new Error(`'classList' argument must be an Array of Strings`);
+		}
+		const button = this.#buttons.get(type);
+		if (button) {
+			button.classList = classList;
+		}
+	}
 }

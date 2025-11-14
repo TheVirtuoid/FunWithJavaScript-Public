@@ -17,8 +17,11 @@ All properties are read-only unless otherwise noted.
   - `action` (Function) - the action to perform when the button is clicked. Required. This is called with a 'click' event on the button
   - `disabled` (Boolean) - whether the button is disabled. Default to false.
   - `hidden` (Boolean) - whether the button is hidden. Default to false.
+  - `classList` (Array<string>) - an array of CSS classes to add to the button. Default to an empty array.
 - `removeButton(type)` - removes a button from the list
   - `type` (any) - the type of button to remove. If not found, no error is thrown. Otherwise, the action button is removed.
 - `setButtonAction(type, action)` - sets/changes the action for a button. Does nothing if `type` is not found.
 - `setDisabled(type, disabled)` - sets/changes the disabled flag for a button. Does nothing if `type` is not found.
 - `setHidden(type, hidden)` - sets/changes the disabled flag for a button. Does nothing if `type` is not found.
+- `setTitle(type, tutle)` - sets/changes the title for a button. Does nothing if `type` is not found.
+- `setClassList(type, classList)` - sets/changes the classList for a button. Does nothing if `type` is not found.
