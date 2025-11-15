@@ -4,6 +4,7 @@ import Snake from "../../snake-base/Snake/Snake.js";
 import Prize from "../../snake-base/Prize/Prize.js";
 import Score from "../../snake-base/Score/Score.js";
 import SnakeHtml from "../snake-html/SnakeHtml.js";
+import ActionButtons from "../ActionButtons/ActionButtons.js";
 
 class MockUi {
 	drawPitch(pitch) {
@@ -157,6 +158,20 @@ export default class Ui {
 			throw new Error(`'score' argument must be an instance of Score`);
 		}
 		this.#ui.drawScore(score, this.#messages);
+	}
+
+	drawActionButtons(buttons) {
+		if (!(buttons instanceof ActionButtons)) {
+			throw new Error(`'buttons' argument must be an instance of ActionButtons`);
+		}
+		this.#ui.drawActionButtons(buttons);
+	}
+
+	updateActionButtons(buttons) {
+		if (!(buttons instanceof ActionButtons)) {
+			throw new Error(`'buttons' argument must be an instance of ActionButtons`);
+		}
+		this.#ui.updateActionButtons(buttons);
 	}
 
 	updateScore(score) {

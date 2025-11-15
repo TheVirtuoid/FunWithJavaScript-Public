@@ -23,3 +23,4 @@ All properties are read only unless otherwise specified.
 - `incrementLevel(value)` - updates the level by `value`. Defaults to 1.
 - `incrementLength(value)` - updates the length by `value`. Defaults to 1.
 - `setTime(value)` - the new time. Value is a Date object.
+- `reset()` - resets the score back to the starting values.

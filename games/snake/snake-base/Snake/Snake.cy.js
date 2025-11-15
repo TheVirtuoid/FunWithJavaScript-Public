@@ -307,6 +307,9 @@ describe('And when I work with the Snake class', () => {
 			});
 
 		});
+
+		describe('Ans when I work with the reset method', () => {});
 	});
+
 
 });

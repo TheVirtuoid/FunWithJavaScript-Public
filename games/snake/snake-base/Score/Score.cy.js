@@ -214,3 +214,5 @@ describe('Score - setTime()', () => {
 		expect(() => score.setTime(-100)).to.throw();
 	});
 });
+
+describe('Score - reset()', () => {});

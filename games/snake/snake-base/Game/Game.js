@@ -7,6 +7,7 @@ import Input from "../../snake-input/Input/Input.js";
 import Score from "../Score/Score.js";
 import Messages from "../Messages/Messages.js";
 import PrizeType from "../Prize/PrizeType.js";
+import ActionButtons from "../../snake-ui/ActionButtons/ActionButtons.js";
 
 export default class Game {
 	#pitch;
@@ -69,7 +70,7 @@ export default class Game {
 		if (!GameEvent.TYPES.includes(event)) {
 			throw new Error(`'event' argument must be a valid event`);
 		}
-		console.log(event);
+		// console.log(event);
 		if (event === GameEvent.GAME_EVENT_INITIALIZED) this.#onGameEventInitialized(...data);
 		else if (event === GameEvent.SNAKE_COLLISION_WALL) this.#onSnakeCollisionWall(...data);
 		else if (event === GameEvent.SNAKE_COLLISION_SELF) this.#onSnakeCollisionSelf(...data);
@@ -133,6 +134,13 @@ export default class Game {
 		this.#score = score;
 	}
 
+	addActionButtons(buttons) {
+		if (!(buttons instanceof ActionButtons)) {
+			throw new Error(`'buttons' argument must be an instance of ActionButtons`);
+		}
+		this.#actionButtons = buttons;
+	}
+
 	moveSnake(speed) {
 		const newPosition = this.#snake.getProjectedPosition(speed);
 		if (this.#pitch.collision(newPosition)) {
@@ -185,6 +193,22 @@ export default class Game {
 		this.#ui.drawText(Messages.TITLE);
 		this.#ui.drawMessage(GameEvent.GAME_OVER);
 		this.#ui.setInvisible(GameEvent.GAME_OVER);
+		this.#ui.drawActionButtons(this.#actionButtons);
+		this.#actionButtons.disableButtons();
+		this.#actionButtons.hideButtons();
+		this.#ui.updateActionButtons(this.#actionButtons);
+		this.#ui.startCountdown(5);
+	}
+
+	restart() {
+		this.#ui.clearSnake(this.#snake);
+		this.#clearPrizes();
+		this.#clearScore();
+		this.#clearSnake();
+		this.#clearMessages();
+		this.#actionButtons.disableButtons();
+		this.#actionButtons.hideButtons();
+		this.#ui.updateActionButtons(this.#actionButtons);
 		this.#ui.startCountdown(5);
 	}
 
@@ -235,6 +259,9 @@ export default class Game {
 	#onGameOver(data) {
 		this.#ui.setVisible(GameEvent.GAME_OVER);
 		clearInterval(this.#snakeMove);
+		this.#actionButtons.enableButtons();
+		this.#actionButtons.showButtons();
+		this.#ui.updateActionButtons(this.#actionButtons);
 	}
 
 	#onInputChangeDirection(args) {
@@ -293,8 +320,31 @@ export default class Game {
 		this.#prizes.delete(prize);
 	}
 
+	#clearPrizes() {
+		this.#prizes.forEach((prize) => this.#ui.clearPrize(prize));
+		this.#prizes.clear();
+	}
+
 	#prizesCollision(position) {
 		return [...this.#prizes.values()].find((prize) => prize.position.equals(position));
+	}
+
+	#clearScore() {
+		this.#score.reset();
+		this.#ui.updateScore(this.#score);
+	}
+
+	#clearSnake() {
+		this.#snake.reset();
+		this.#ui.drawSnake(this.#snake);
+	}
+
+	#clearMessages() {
+		this.#ui.clearMessage(GameEvent.SNAKE_COLLISION_PRIZE);
+		this.#ui.clearMessage(GameEvent.SNAKE_COLLISION_SELF);
+		this.#ui.clearMessage(GameEvent.SNAKE_COLLISION_BOMB);
+		this.#ui.clearMessage(GameEvent.SNAKE_COLLISION_WALL);
+		this.#ui.setInvisible(GameEvent.GAME_OVER);
 	}
 
 }

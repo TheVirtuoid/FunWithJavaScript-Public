@@ -13,3 +13,7 @@ All properties are read-only unless otherwise noted.
 - `addButton(button)` - adds a button to the list
 - `removeButton(button)` - removes a button from the list
 - `getButtons()` - returns an array of all buttons
+- `disableButtons()` - disables all buttons
+- `enableButtons()` - enables all buttons
+- `hideButtons()` - hides all buttons
+- `showButtons()` - shows all buttons

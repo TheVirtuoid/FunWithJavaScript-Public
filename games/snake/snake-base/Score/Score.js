@@ -4,14 +4,12 @@ export default class Score {
 	#level;
 	#time;
 	#length;
+	#startingValues;
 
 	constructor(args = {}) {
 		const { score = 0, speed = 0, level = 1, time = 0, length = 0 } = args;
-		this.#score = score;
-		this.#speed = speed;
-		this.#level = level;
-		this.#time = time;
-		this.#length = length;
+		this.#startingValues = { score, speed, level, time, length };
+		this.#setValues({ score, speed, level, time, length});
 	}
 
 	get score() {
@@ -50,5 +48,19 @@ export default class Score {
 			throw new Error(`'time' argument must be a positive number`);
 		}
 		this.#time = time;
+	}
+
+	reset() {
+		const { score, speed, level, time, length } = this.#startingValues;
+		this.#setValues({ score, speed, level, time, length });
+	}
+
+	#setValues(values) {
+		const { score, speed, level, time, length } = values;
+		this.#score = score;
+		this.#speed = speed;
+		this.#level = level;
+		this.#time = time;
+		this.#length = length;
 	}
 }

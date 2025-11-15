@@ -44,5 +44,6 @@ All properties are read-only unless otherwise noted.
 7. `collision(speed)` - determines if a collision has occurred with itself
    1. `speed` (Number) - speed of the snake. Default 1
 8. `moveAndGrow(speed)` - Moves and grows the snake.
+9. `reset()` - resets the snake to its initial state.
 
 

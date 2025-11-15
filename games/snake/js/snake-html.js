@@ -11,6 +11,8 @@ import Keyboard from "../snake-input/devices/Keyboard/Keyboard.js";
 import KeyboardLayout from "../snake-input/devices/Keyboard/KeyboardLayout/KeyboardLayout.js";
 import Score from "../snake-base/Score/Score.js";
 import Messages from "../snake-base/Messages/Messages.js";
+import ActionButton from "../snake-ui/ActionButton/ActionButton.js";
+import ActionButtons from "../snake-ui/ActionButtons/ActionButtons.js";
 
 const deviceReference = Keyboard;
 const vectorReference = Vector2d;
@@ -28,27 +30,34 @@ const snake = new Snake({ position, direction, speed, length });
 const input = new Input({ deviceReference, vectorReference, deviceData });
 const score = new Score({ length });
 const messages = new Messages();
+const actionButtons = new ActionButtons();
 
-messages
-
-const tryAgainButton = document.getElementById('try-again');
-const goBackButton = document.getElementById('go-back');
 
 const onTryAgainClick = () => {
-	tryAgainButton.setAttribute('disabled');
-	tryAgainButton.classList.add('hidden');
-	goBackButton.setAttribute('disabled');
-	goBackButton.classList.add('hidden');
-	game.start();
+	game.restart();
 }
 const onGoBackClick = () => {
 	window.location.href = 'index.html';
 }
 
-tryAgainButton.addEventListener('click', onTryAgainClick);
-goBackButton.addEventListener('click', onGoBackClick);
+const tryAgainButton = new ActionButton({
+	label: 'Try Again',
+	action: onTryAgainClick.bind(this),
+	classList: ['primary', 'medium'],
+	disabled: true,
+	hidden: true
+});
 
-tryAgainButton.removeAttribute('disabled');
+const goBackButton = new ActionButton({
+	label: 'Go Back',
+	action: onGoBackClick.bind(this),
+	classList: ['secondary', 'medium'],
+	disabled: true,
+	hidden: true
+});
+
+actionButtons.addButton(tryAgainButton);
+actionButtons.addButton(goBackButton);
 
 game.addPitch(pitch);
 game.addUi(ui);
@@ -56,10 +65,6 @@ game.addInput(input);
 game.addSnake(snake);
 game.addScore(score);
 game.addMessages(messages);
-
-tryAgainButton.setAttribute('disabled', '');
-tryAgainButton.classList.add('hidden');
-goBackButton.setAttribute('disabled', '');
-goBackButton.classList.add('hidden');
+game.addActionButtons(actionButtons);
 
 game.start();

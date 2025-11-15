@@ -11,12 +11,14 @@ export default class SnakeHtml {
 	#rowLength;
 	#score;
 	#scoreElements;
+	#actionButtonsElement;
 
 	#messages = new Map();
 
 	constructor() {
 		this.#pitchElement = document.getElementById('pitch');
 		this.#messagesElement = document.getElementById('messages');
+		this.#actionButtonsElement = document.getElementById('action-buttons');
 	}
 
 	drawPitch(pitch) {
@@ -52,6 +54,16 @@ export default class SnakeHtml {
 		GameEvent.Emit(GameEvent.UI_DRAW_SNAKE_COMPLETE);
 	}
 
+	clearSnake(snake) {
+		const cellPosition = snake.position.y * this.#rowLength + snake.position.x + 1;
+		document.querySelector(`#pitch .cell:nth-child(${cellPosition})`).classList.remove(`snake-head`, 'snake-body');
+		snake.body.forEach((bodySegment) => {
+			const cellPosition = bodySegment.y * this.#rowLength + bodySegment.x + 1;
+			document.querySelector(`#pitch .cell:nth-child(${cellPosition})`).classList.remove(`snake-body`, 'snake-head');
+		});
+		GameEvent.Emit(GameEvent.UI_CLEAR_SNAKE_COMPLETE);
+	}
+
 	drawScore(score, statsMessages) {
 		this.#score = score;
 		const scoreElement = document.getElementById('score');
@@ -64,6 +76,31 @@ export default class SnakeHtml {
 		}
 		GameEvent.Emit(GameEvent.UI_DRAW_SCORE_COMPLETE);
 		this.updateScore(score);
+	}
+
+	drawActionButtons(buttons) {
+		buttons.getButtons().forEach((button) => {
+			const buttonElement = document.createElement('button');
+			buttonElement.textContent = button.label;
+			buttonElement.addEventListener('click', button.action);
+			buttonElement.disabled = button.disabled;
+			buttonElement.classList.add(...button.classList, button.hidden ? 'invisible' : '');
+			buttonElement.id = `vrt-${button.id}`;
+			this.#actionButtonsElement.appendChild(buttonElement);
+		});
+	}
+
+	updateActionButtons(buttons) {
+		buttons.getButtons().forEach((button) => {
+			const buttonElement = this.#actionButtonsElement.querySelector(`#vrt-${button.id}`);
+			buttonElement.textContent = button.label;
+			buttonElement.disabled = button.disabled;
+			if (button.hidden) {
+				buttonElement.classList.add('invisible');
+			} else {
+				buttonElement.classList.remove('invisible');
+			}
+		});
 	}
 
 	updateScore(score) {

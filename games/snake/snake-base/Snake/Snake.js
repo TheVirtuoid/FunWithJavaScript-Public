@@ -9,6 +9,7 @@ export default class Snake {
 	#head;
 	#body;
 	#speed;
+	#startingValues;
 
 	constructor(args = {}) {
 		const { position, direction, speed = 1, id = window.crypto.randomUUID(), length = 0 } = args;
@@ -19,23 +20,8 @@ export default class Snake {
 			throw new Error(`'position' property must be an instance of Vector`);
 		}
 		this.#id = id;
-		this.#speed = speed;
-		this.#head = new Head({ position, direction });
-		this.#body = new Body();
-		if (length) {
-			// determine the last position and work backwards, as we need the closest one at [0].
-			let currentPosition = position.clone();
-			const currentDirection = direction.clone().opposite();
-			const speedVector = currentDirection.fill(this.#speed);
-			const lengthVector = currentDirection.fill(length);
-			const lastSegmentOffset = currentDirection.multiply(speedVector.multiply(lengthVector));
-			currentPosition = currentPosition.add(lastSegmentOffset); // this is the position of the last segment
-			const movement = direction.multiply(speedVector); // since we start at the end of the snake, we want to move forward in the direction towards the head
-			for (let i = 0; i < length; i++) {
-				this.#body.grow({ position: currentPosition.clone(), direction: direction.clone() });
-				currentPosition = currentPosition.add(movement);
-			}
-		}
+		this.#startingValues = { speed, position, direction, length };
+		this.#setupSnake(this.#startingValues);
 	}
 
 	get id() {
@@ -111,6 +97,32 @@ export default class Snake {
 		const { position, direction } = this.#head;
 		this.#head.move(speed);
 		this.#body.grow({ position, direction });
+	}
+
+	reset() {
+		this.#setupSnake(this.#startingValues);
+	}
+
+	#setupSnake(values) {
+		const { speed, position, direction, length } = values;
+		this.#speed = speed;
+		this.#head = new Head({ position, direction });
+		this.#body = new Body();
+		if (length) {
+			// determine the last position and work backwards, as we need the closest one at [0].
+			let currentPosition = position.clone();
+			const currentDirection = direction.clone().opposite();
+			const speedVector = currentDirection.fill(this.#speed);
+			const lengthVector = currentDirection.fill(length);
+			const lastSegmentOffset = currentDirection.multiply(speedVector.multiply(lengthVector));
+			currentPosition = currentPosition.add(lastSegmentOffset); // this is the position of the last segment
+			const movement = direction.multiply(speedVector); // since we start at the end of the snake, we want to move forward in the direction towards the head
+			for (let i = 0; i < length; i++) {
+				this.#body.grow({ position: currentPosition.clone(), direction: direction.clone() });
+				currentPosition = currentPosition.add(movement);
+			}
+		}
+
 	}
 
 }

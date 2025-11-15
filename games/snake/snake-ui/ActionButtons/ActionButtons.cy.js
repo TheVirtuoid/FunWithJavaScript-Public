@@ -109,4 +109,9 @@ describe('ActionButtons', () => {
 			expect(after[0]).to.equal(button);
 		});
 	});
+
+	context('disableButtons', () => {});
+	context('enableButtons', () => {});
+	context('hideButtons', () => {});
+	context('showButtons', () => {});
 });

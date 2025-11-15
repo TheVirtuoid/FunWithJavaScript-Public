@@ -32,4 +32,20 @@ export default class ActionButtons {
 		return [...this.#buttons.values()];
 	}
 
+	disableButtons() {
+		this.#buttons.forEach((button) => button.setDisabled(true));
+	}
+
+	enableButtons() {
+		this.#buttons.forEach((button) => button.setDisabled(false));
+	}
+
+	hideButtons() {
+		this.#buttons.forEach((button) => button.setHidden(true));
+	}
+
+	showButtons() {
+		this.#buttons.forEach((button) => button.setHidden(false));
+	}
+
 }
