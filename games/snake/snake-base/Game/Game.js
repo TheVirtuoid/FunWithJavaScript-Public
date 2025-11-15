@@ -14,7 +14,6 @@ export default class Game {
 	#snake;
 	#id;
 	#gameEventInitialized = false;
-	#prize;
 	#ui;
 	#input;
 	#snakeMove;
@@ -26,19 +25,12 @@ export default class Game {
 	#movementTimestamp;
 	#actionButtons;
 
-	static BUTTON_TRY_AGAIN = Symbol("tryAgain");
-	static BUTTON_GO_BACK = Symbol("goBack");
-
 	constructor(args = {}) {
 		const { id = window.crypto.randomUUID() } = args;
 		this.#id = id;
 		this.#prizes = new Set();
 		this.#paused = false;
 		this.#movementDelay = 200; // in milliseconds
-		this.#actionButtons = new Map([
-			[Game.BUTTON_TRY_AGAIN, { action: null }],
-			[Game.BUTTON_GO_BACK, { action: null }]
-		]);
 		GameEvent.Setup(this);
 	}
 
@@ -192,7 +184,9 @@ export default class Game {
 		this.#ui.drawScore(this.#score);
 		this.#ui.drawText(Messages.TITLE);
 		this.#ui.drawMessage(GameEvent.GAME_OVER);
+		this.#ui.drawMessage(GameEvent.GAME_PAUSE);
 		this.#ui.setInvisible(GameEvent.GAME_OVER);
+		this.#ui.setInvisible(GameEvent.GAME_PAUSE);
 		this.#ui.drawActionButtons(this.#actionButtons);
 		this.#actionButtons.disableButtons();
 		this.#actionButtons.hideButtons();
@@ -201,6 +195,7 @@ export default class Game {
 	}
 
 	restart() {
+		clearInterval(this.#snakeMove);
 		this.#ui.clearSnake(this.#snake);
 		this.#clearPrizes();
 		this.#clearScore();
@@ -209,6 +204,7 @@ export default class Game {
 		this.#actionButtons.disableButtons();
 		this.#actionButtons.hideButtons();
 		this.#ui.updateActionButtons(this.#actionButtons);
+		this.#paused = false;
 		this.#ui.startCountdown(5);
 	}
 
@@ -270,12 +266,18 @@ export default class Game {
 
 	#onInputGamePause(args) {
 		this.#paused = true;
-		this.#ui.drawMessage(GameEvent.GAME_PAUSE);
+		this.#ui.setVisible(GameEvent.GAME_PAUSE);
+		this.#actionButtons.enableButtons();
+		this.#actionButtons.showButtons();
+		this.#ui.updateActionButtons(this.#actionButtons);
 	}
 
 	#onInputGameResume(args) {
 		this.#paused = false;
-		this.#ui.clearMessage(GameEvent.GAME_PAUSE);
+		this.#ui.setInvisible(GameEvent.GAME_PAUSE);
+		this.#actionButtons.disableButtons();
+		this.#actionButtons.hideButtons();
+		this.#ui.updateActionButtons(this.#actionButtons);
 	}
 
 	#onUiStartCountdownComplete(args) {
@@ -345,6 +347,7 @@ export default class Game {
 		this.#ui.clearMessage(GameEvent.SNAKE_COLLISION_BOMB);
 		this.#ui.clearMessage(GameEvent.SNAKE_COLLISION_WALL);
 		this.#ui.setInvisible(GameEvent.GAME_OVER);
+		this.#ui.setInvisible(GameEvent.GAME_PAUSE);
 	}
 
 }

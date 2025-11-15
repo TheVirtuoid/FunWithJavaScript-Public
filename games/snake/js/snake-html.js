@@ -19,7 +19,6 @@ const inputTypes = new Map([
 	['kb-arrow', KeyboardLayout.LAYOUT_ARROW ]
 ]);
 const { inputValue } = JSON.parse(localStorage.getItem('virtuoid-snake') || '{}');
-console.log(inputValue);
 
 const deviceReference = Keyboard;
 const vectorReference = Vector2d;
