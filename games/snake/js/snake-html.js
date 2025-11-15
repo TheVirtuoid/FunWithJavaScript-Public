@@ -14,9 +14,16 @@ import Messages from "../snake-base/Messages/Messages.js";
 import ActionButton from "../snake-ui/ActionButton/ActionButton.js";
 import ActionButtons from "../snake-ui/ActionButtons/ActionButtons.js";
 
+const inputTypes = new Map([
+	['kb-wasd', KeyboardLayout.LAYOUT_WASD ],
+	['kb-arrow', KeyboardLayout.LAYOUT_ARROW ]
+]);
+const { inputValue } = JSON.parse(localStorage.getItem('virtuoid-snake') || '{}');
+console.log(inputValue);
+
 const deviceReference = Keyboard;
 const vectorReference = Vector2d;
-const deviceData = { layout: KeyboardLayout.LAYOUT_WASD };
+const deviceData = { layout: inputTypes.get(inputValue) };
 const direction = Vector2d.Right();
 const speed = 1;
 const length = 3;
