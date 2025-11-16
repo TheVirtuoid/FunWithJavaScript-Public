@@ -2,11 +2,17 @@
 
 export default class KrampusScene extends Phaser.Scene {
 	#krampus;
+	#ship;
 	#gamepad;
 	#speed = 400;
 
+	#shipRadius = 30;
+
 	#leftTriggerDown = false;
 	#rightTriggerDown = false;
+
+	#gun;
+	#gunAngle;
 
 	constructor() {
 		super({
@@ -32,7 +38,7 @@ export default class KrampusScene extends Phaser.Scene {
 
 		this.#krampus = this.add.sprite(middleX, middleY, 'krampus');
 		this.#krampus.setOrigin(0.5);
-		this.#krampus.setScale(0.10);
+		this.#krampus.setScale(0.075);
 
 		this.add.text(10, 10, 'Krampus-oid', {
 			fontFamily: '"Press Start 2P"',
@@ -69,11 +75,36 @@ export default class KrampusScene extends Phaser.Scene {
 		if (this.input.gamepad.total) {
 			this.#gamepad = this.input.gamepad.gamepads[0];
 		}
+
+		// Krampus Ship
+		this.#ship = this.add.graphics();
+		this.#ship.lineStyle(2, 0xff0000, 1); // width, color, alpha
+		this.#ship.strokeCircle(0, 0, this.#shipRadius);
+		this.#ship.fillStyle(0x0000ff, 0.35);
+		this.#ship.fillCircle(0, 0, this.#shipRadius);
+		this.#ship.setPosition(this.#krampus.x, this.#krampus.y);
+
+		// Krampus Gun
+		this.#gun = this.add.graphics();
+		this.#gun.fillStyle(0xffffff, 1); // color, alpha
+		this.#gun.fillCircle(0, 0, 4);
+		this.#gunAngle = (-Math.PI / 2) + ((12 * 2 * Math.PI) / 12);
+		const gunPosition = this.#getGunPositionOnCircle();
+		this.#gun.setPosition(gunPosition.x, gunPosition.y);
 	}
 
 	update(time, delta) {
 		if (!this.#gamepad || !this.#krampus){
 			return;
+		}
+
+		// process gun rotataion
+		const { x:gunRotation} = this.#gamepad.rightStick;
+		if (gunRotation !== 0) {
+			const direction = gunRotation > 0 ? 1 : -1;
+			this.#gunAngle += direction * .03;
+			const gunPosition = this.#getGunPositionOnCircle();
+			this.#gun.setPosition(gunPosition.x, gunPosition.y);
 		}
 
 		// Read gamepad axes (left stick)
@@ -127,6 +158,13 @@ export default class KrampusScene extends Phaser.Scene {
 		// Remember state for next frame
 		this.#leftTriggerDown = leftDown;
 		this.#rightTriggerDown = rightDown;
+
+		if (this.#ship) {
+			this.#ship.setPosition(this.#krampus.x, this.#krampus.y);
+		}
+		this.#gun.setPosition(this.#krampus.x, this.#krampus.y - this.#shipRadius);
+		const gunPosition = this.#getGunPositionOnCircle();
+		this.#gun.setPosition(gunPosition.x, gunPosition.y);
 	}
 
 	#fireLeftMissile() {
@@ -135,5 +173,12 @@ export default class KrampusScene extends Phaser.Scene {
 
 	#fireRightMissile() {
 		console.log('Fire right missile');
+	}
+
+	#getGunPositionOnCircle() {
+		return {
+			x: this.#krampus.x + this.#shipRadius * Math.cos(this.#gunAngle),
+			y: this.#krampus.y + this.#shipRadius * Math.sin(this.#gunAngle)
+		};
 	}
 }
