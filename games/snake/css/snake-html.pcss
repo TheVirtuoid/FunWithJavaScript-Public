@@ -14,11 +14,19 @@
         }
 
         &.snake-head {
-            background-color: var(--v-color-primary900);
+            &::after {
+                content: '\2BC1';
+            }
+            // background-color: #333333;
+            color: red;
         }
 
         &.snake-body {
-            background-color: var(--v-color-secondary900);
+            &::after {
+                content: '\25C8';
+            }
+            // background-color: #777777;
+            color: var(--v-color-secondary900);
         }
 
         &.prize-apple {

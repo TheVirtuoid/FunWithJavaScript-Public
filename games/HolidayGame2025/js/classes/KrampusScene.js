@@ -1,18 +1,21 @@
 // import Statistics from "../Statistics.js";
 
+import Asteroid from "./Asteroid.js";
+import Krampus from "./Krampus.js";
+
 export default class KrampusScene extends Phaser.Scene {
 	#krampus;
-	#ship;
 	#gamepad;
 	#speed = 400;
-
-	#shipRadius = 30;
 
 	#leftTriggerDown = false;
 	#rightTriggerDown = false;
 
 	#gun;
 	#gunAngle;
+
+	#asteroids = new Set();
+	#asteroidGroup;
 
 	constructor() {
 		super({
@@ -23,11 +26,8 @@ export default class KrampusScene extends Phaser.Scene {
 	}
 
 	preload() {
-		/*this.load.image('picture-frame', '/src/images/picture-frame.png');
-		this.load.image('castle', '/src/images/castle.png');
-		this.load.image('finger', '/src/images/one-finger.png');
-		this.load.image('new-game-button', '/src/images/new-game-button.png');*/
-		this.load.image('krampus', '/img/gunner.png');
+		Krampus.Preload(this);
+		Asteroid.Preload(this);
 	}
 
 	create() {
@@ -36,9 +36,7 @@ export default class KrampusScene extends Phaser.Scene {
 		const middleX = Math.floor(width / 2);
 		const middleY = Math.floor(height / 2);
 
-		this.#krampus = this.add.sprite(middleX, middleY, 'krampus');
-		this.#krampus.setOrigin(0.5);
-		this.#krampus.setScale(0.075);
+		this.#krampus = new Krampus(this, middleX, middleY);
 
 		this.add.text(10, 10, 'Krampus-oid', {
 			fontFamily: '"Press Start 2P"',
@@ -55,16 +53,6 @@ export default class KrampusScene extends Phaser.Scene {
 			align: 'center'
 		});
 
-		this.physics.add.existing(this.#krampus);
-		this.#krampus.body.setCollideWorldBounds(true);
-		// Enable damping so drag is applied smoothly
-		this.#krampus.body.setDamping(false);
-		// Drag acts like friction; tune these values
-		this.#krampus.body.setDrag(100, 100);
-		// Limit maximum speed
-		this.#krampus.body.setMaxVelocity(400, 400);
-
-		// Treat #speed as THRUST (acceleration magnitude), not direct velocity
 		this.#speed = 600; // pixels/sec²; tweak to taste
 
 		// Gamepad setup
@@ -76,14 +64,6 @@ export default class KrampusScene extends Phaser.Scene {
 			this.#gamepad = this.input.gamepad.gamepads[0];
 		}
 
-		// Krampus Ship
-		this.#ship = this.add.graphics();
-		this.#ship.lineStyle(2, 0xff0000, 1); // width, color, alpha
-		this.#ship.strokeCircle(0, 0, this.#shipRadius);
-		this.#ship.fillStyle(0x0000ff, 0.35);
-		this.#ship.fillCircle(0, 0, this.#shipRadius);
-		this.#ship.setPosition(this.#krampus.x, this.#krampus.y);
-
 		// Krampus Gun
 		this.#gun = this.add.graphics();
 		this.#gun.fillStyle(0xffffff, 1); // color, alpha
@@ -91,10 +71,64 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#gunAngle = (-Math.PI / 2) + ((12 * 2 * Math.PI) / 12);
 		const gunPosition = this.#getGunPositionOnCircle();
 		this.#gun.setPosition(gunPosition.x, gunPosition.y);
+
+		// adjust physics positipon
+		const { width: cameraWidth, height: cameraHeight } = this.cameras.main;
+		const leftInset = 450; // tweak to taste
+		this.physics.world.setBounds(leftInset, 10, cameraWidth - leftInset - 10, cameraHeight - 10);
+
+		// asteroids
+		// --- Create asteroids with non-overlapping starting positions ---
+		const numAsteroids = 4;
+		for (let i = 0; i < numAsteroids; i++) {
+			const asteroid = new Asteroid(this);
+
+			const spawnPos = this.#findNonOverlappingPosition({
+				asteroidRadius: 60,           // approximate; tweak if needed
+				minDistanceFromKrampus: 120,  // how far from Krampus
+				edgePadding: 40               // don't spawn right on the edges
+			});
+
+			asteroid.create({
+				scale: Asteroid.SCALE_LARGE,
+				x: spawnPos.x,
+				y: spawnPos.y
+			});
+
+			this.#asteroids.add(asteroid);
+		}
+
+		// --- Make asteroids bounce off each other ---
+		this.#asteroidGroup = this.physics.add.group({
+			bounceX: 1,
+			bounceY: 1,
+			collideWorldBounds: true
+		});
+		this.#asteroids.forEach(asteroid => {
+			if (asteroid.sprite) {
+				this.#asteroidGroup.add(asteroid.sprite);
+				// Make sure bounce is fully elastic
+				asteroid.sprite.setBounce(1, 1);
+				asteroid.sprite.body.setAllowGravity(false);
+				asteroid.setAttributes();
+				// console.log('after group add', asteroid.sprite.body.velocity);
+			}
+		});
+
+		this.physics.add.collider(this.#asteroidGroup, this.#asteroidGroup);
+		this.physics.add.collider(
+			this.#krampus.sprite,
+			this.#asteroidGroup,
+			this.#onKrampusHitAsteroid,
+			null,
+			this
+		);
+
 	}
 
 	update(time, delta) {
-		if (!this.#gamepad || !this.#krampus){
+		if (!this.#gamepad || !this.#krampus) {
+			this.#keepBoxSpeedConstant();
 			return;
 		}
 
@@ -134,10 +168,10 @@ export default class KrampusScene extends Phaser.Scene {
 			thrustY /= len;
 
 			// Apply thrust as acceleration
-			this.#krampus.body.setAcceleration(thrustX * this.#speed, thrustY * this.#speed);
+			this.#krampus.setAcceleration(thrustX * this.#speed, thrustY * this.#speed);
 		} else {
 			// No thrust — coast with current velocity (drag will slow it down)
-			this.#krampus.body.setAcceleration(0, 0);
+			this.#krampus.setAcceleration(0, 0);
 		}
 
 		// Buttons 6 & 7 are LT/RT on most Xbox-style controllers.
@@ -159,12 +193,12 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#leftTriggerDown = leftDown;
 		this.#rightTriggerDown = rightDown;
 
-		if (this.#ship) {
-			this.#ship.setPosition(this.#krampus.x, this.#krampus.y);
-		}
-		this.#gun.setPosition(this.#krampus.x, this.#krampus.y - this.#shipRadius);
+		this.#gun.setPosition(this.#krampus.x, this.#krampus.y - this.#krampus.displayRadius);
 		const gunPosition = this.#getGunPositionOnCircle();
 		this.#gun.setPosition(gunPosition.x, gunPosition.y);
+
+		// asteroid
+		this.#keepBoxSpeedConstant();
 	}
 
 	#fireLeftMissile() {
@@ -177,8 +211,104 @@ export default class KrampusScene extends Phaser.Scene {
 
 	#getGunPositionOnCircle() {
 		return {
-			x: this.#krampus.x + this.#shipRadius * Math.cos(this.#gunAngle),
-			y: this.#krampus.y + this.#shipRadius * Math.sin(this.#gunAngle)
+			x: this.#krampus.x + this.#krampus.displayRadius * Math.cos(this.#gunAngle),
+			y: this.#krampus.y + this.#krampus.displayRadius * Math.sin(this.#gunAngle)
 		};
+	}
+
+	#keepBoxSpeedConstant() {
+		this.#asteroids.forEach((asteroid) => {
+			// Keep the box moving at a (nearly) constant speed
+			const sprite = asteroid.sprite;
+			if (!sprite || !sprite.body) return;
+
+			const targetSpeed = 100; // must match the value used in create()
+			const body = sprite.body;
+			const vx = body.velocity.x;
+			const vy = body.velocity.y;
+			const len = Math.hypot(vx, vy);
+
+			if (len === 0) {
+				return;
+			}
+
+			// Re-normalize velocity to targetSpeed
+			const scale = targetSpeed / len;
+			body.setVelocity(vx * scale, vy * scale);
+		});
+	}
+
+	// Helper: find a random position that doesn't overlap Krampus or any existing asteroid
+	#findNonOverlappingPosition(options) {
+		const {
+			asteroidRadius,
+			minDistanceFromKrampus,
+			edgePadding
+		} = options;
+
+		const bounds = this.physics.world.bounds;
+		const minX = bounds.x + edgePadding;
+		const maxX = bounds.right - edgePadding;
+		const minY = bounds.y + edgePadding;
+		const maxY = bounds.bottom - edgePadding;
+
+		const maxAttempts = 50;
+		for (let attempt = 0; attempt < maxAttempts; attempt++) {
+			const x = Phaser.Math.Between(minX, maxX);
+			const y = Phaser.Math.Between(minY, maxY);
+
+			let valid = true;
+
+			// 1) Not too close to Krampus
+			const distToKrampus = Phaser.Math.Distance.Between(x, y, this.#krampus.x, this.#krampus.y);
+			if (distToKrampus < this.#krampus.displayRadius + minDistanceFromKrampus) {
+				valid = false;
+			}
+
+			// 2) Not overlapping any already-created asteroid
+			if (valid) {
+				for (const existing of this.#asteroids) {
+					const sprite = existing.sprite;
+					if (!sprite) continue;
+
+					const existingRadius = Math.max(sprite.displayWidth, sprite.displayHeight) / 2;
+					const dist = Phaser.Math.Distance.Between(x, y, sprite.x, sprite.y);
+
+					if (dist < asteroidRadius + existingRadius + 10) { // +10 = small gap
+						valid = false;
+						break;
+					}
+				}
+			}
+
+			if (valid) {
+				return { x, y };
+			}
+		}
+
+		// If we can't find a perfect spot, just fall back to center
+		return {
+			x: (minX + maxX) / 2,
+			y: (minY + maxY) / 2
+		};
+	}
+
+	#onKrampusHitAsteroid(krampusSprite, asteroidSprite) {
+		// Handle what should happen when Krampus hits an asteroid:
+		// e.g., end game, reduce lives, play explosion animation, etc.
+
+		// Example: stop movement and fade out Krampus
+		/*krampusSprite.body.setAcceleration(0, 0);
+		krampusSprite.body.setVelocity(0, 0);
+
+		this.tweens.add({
+			targets: krampusSprite,
+			alpha: 0,
+			duration: 250,
+			onComplete: () => {
+				// TODO: show Game Over screen / restart scene
+				// this.scene.restart();
+			}
+		});*/
 	}
 }
