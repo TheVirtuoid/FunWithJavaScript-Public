@@ -2,10 +2,13 @@
 
 import Asteroid from "./Asteroid.js";
 import Krampus from "./Krampus.js";
+import ElfShip from "./Elfship.js";
 
 export default class KrampusScene extends Phaser.Scene {
 	#krampus;
 	#gamepad;
+	#elfShip;
+	#elfShipTarget = null;
 	#speed = 400;
 
 	#leftTriggerDown = false;
@@ -23,20 +26,30 @@ export default class KrampusScene extends Phaser.Scene {
 		});
 		this.#krampus = null;
 		this.#gamepad = null;
+		this.#elfShip = null;
 	}
 
 	preload() {
 		Krampus.Preload(this);
 		Asteroid.Preload(this);
+		ElfShip.Preload(this);
 	}
 
 	create() {
 		this.input.gamepad.enabled = true;
+
+		// adjust physics positipon
+		const { width: cameraWidth, height: cameraHeight } = this.cameras.main;
+		const leftInset = 450; // tweak to taste
+		this.physics.world.setBounds(leftInset, 10, cameraWidth - leftInset - 10, cameraHeight - 10);
+
 		const { width, height } = this.cameras.main;
 		const middleX = Math.floor(width / 2);
 		const middleY = Math.floor(height / 2);
 
 		this.#krampus = new Krampus(this, middleX, middleY);
+		this.#launchElfShip();
+		// this.#elfShip = new ElfShip(this, 0, 0);
 
 		this.add.text(10, 10, 'Krampus-oid', {
 			fontFamily: '"Press Start 2P"',
@@ -72,10 +85,6 @@ export default class KrampusScene extends Phaser.Scene {
 		const gunPosition = this.#getGunPositionOnCircle();
 		this.#gun.setPosition(gunPosition.x, gunPosition.y);
 
-		// adjust physics positipon
-		const { width: cameraWidth, height: cameraHeight } = this.cameras.main;
-		const leftInset = 450; // tweak to taste
-		this.physics.world.setBounds(leftInset, 10, cameraWidth - leftInset - 10, cameraHeight - 10);
 
 		// asteroids
 		// --- Create asteroids with non-overlapping starting positions ---
@@ -123,10 +132,37 @@ export default class KrampusScene extends Phaser.Scene {
 			null,
 			this
 		);
+		this.physics.add.collider(
+			this.#elfShip.sprite,
+			this.#asteroidGroup,
+			this.#onKrampusHitAsteroid,
+			null,
+			this
+		);
+		this.physics.add.collider(
+			this.#elfShip.sprite,
+			this.#krampus.sprite,
+			this.#onKrampusHitAsteroid,
+			null,
+			this
+		);
 
 	}
 
 	update(time, delta) {
+		if (this.#elfShip && this.#elfShipTarget) {
+			const dist = Phaser.Math.Distance.Between(
+				this.#elfShip.x, this.#elfShip.y,
+				this.#elfShipTarget.x, this.#elfShipTarget.y
+			);
+
+			if (dist < 10) {
+				this.#elfShip.sprite.destroy();
+				this.#elfShip = null;
+				this.#elfShipTarget = null;
+			}
+		}
+
 		if (!this.#gamepad || !this.#krampus) {
 			this.#keepBoxSpeedConstant();
 			return;
@@ -310,5 +346,60 @@ export default class KrampusScene extends Phaser.Scene {
 				// this.scene.restart();
 			}
 		});*/
+	}
+
+	#launchElfShip() {
+		// Create the ship initially off-screen so we can read its radius
+		this.#elfShip = new ElfShip(this, -1000, -1000);
+		const radius = this.#elfShip.displayRadius;
+
+		// Use physics world bounds to define the playing area
+		const bounds = this.physics.world.bounds;
+		const offset = radius + 20; // Ensure it is fully off-screen relative to the bounds
+
+		let startX, startY, endX, endY;
+
+		// Randomly determine start side: 0=Left, 1=Right, 2=Top, 3=Bottom
+		const side = Phaser.Math.Between(0, 3);
+
+		switch (side) {
+			case 0: // Left -> Right
+				startX = bounds.x - offset;
+				startY = Phaser.Math.Between(bounds.y, bounds.bottom);
+				endX = bounds.right + offset;
+				endY = Phaser.Math.Between(bounds.y, bounds.bottom);
+				break;
+
+			case 1: // Right -> Left
+				startX = bounds.right + offset;
+				startY = Phaser.Math.Between(bounds.y, bounds.bottom);
+				endX = bounds.x - offset;
+				endY = Phaser.Math.Between(bounds.y, bounds.bottom);
+				break;
+
+			case 2: // Top -> Bottom
+				startX = Phaser.Math.Between(bounds.x, bounds.right);
+				startY = bounds.y - offset;
+				endX = Phaser.Math.Between(bounds.x, bounds.right);
+				endY = bounds.bottom + offset;
+				break;
+
+			case 3: // Bottom -> Top
+				startX = Phaser.Math.Between(bounds.x, bounds.right);
+				startY = bounds.bottom + offset;
+				endX = Phaser.Math.Between(bounds.x, bounds.right);
+				endY = bounds.y - offset;
+				break;
+		}
+
+		// Position the ship
+		this.#elfShip.sprite.setPosition(startX, startY);
+
+		// Set the target for cleanup
+		this.#elfShipTarget = { x: endX, y: endY };
+
+		// Move to target at constant rate
+		const elfSpeed = 200;
+		this.physics.moveTo(this.#elfShip.sprite, endX, endY, elfSpeed);
 	}
 }

@@ -11,7 +11,8 @@ export default class Asteroid {
 	}
 
 	static Preload(scene) {
-		scene.load.image('asteroid', '/img/asteroid-shape.png');
+		// scene.load.image('asteroid', '/img/asteroid-shape.png');
+		scene.load.image('asteroid', '/img/giftbox.png');
 	}
 
 	create(args = {}) {
