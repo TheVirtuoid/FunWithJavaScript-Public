@@ -5,6 +5,7 @@ export default class Asteroid {
 
 	#scene;
 	#asteroid;
+	#scale;
 
 	constructor(scene) {
 		this.#scene = scene;
@@ -21,6 +22,7 @@ export default class Asteroid {
 		this.#asteroid.setOrigin(0.5);
 		this.#asteroid.setScale(scale);
 		this.#asteroid.setCollideWorldBounds(true);
+		this.#scale = scale;
 		const radius = (this.#asteroid.width) * 0.5;
 		this.#asteroid.body.setCircle(
 			radius,
@@ -31,6 +33,10 @@ export default class Asteroid {
 
 	get sprite() {
 		return this.#asteroid;
+	}
+
+	get scale() {
+		return this.#scale;
 	}
 
 	setAttributes() {

@@ -3,13 +3,18 @@
 import Asteroid from "./Asteroid.js";
 import Krampus from "./Krampus.js";
 import ElfShip from "./Elfship.js";
+import Santa from "./Santa.js";
+import Missile from "./MIssile.js";
 
 export default class KrampusScene extends Phaser.Scene {
 	#krampus;
 	#gamepad;
 	#elfShip;
 	#elfShipTarget = null;
+	#santa;
+	#santaTarget = null;
 	#speed = 400;
+	#missiles;
 
 	#leftTriggerDown = false;
 	#rightTriggerDown = false;
@@ -27,18 +32,21 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#krampus = null;
 		this.#gamepad = null;
 		this.#elfShip = null;
+		this.#santa = null;
 	}
 
 	preload() {
 		Krampus.Preload(this);
 		Asteroid.Preload(this);
 		ElfShip.Preload(this);
+		Santa.Preload(this);
+		Missile.Preload(this);
 	}
 
 	create() {
 		this.input.gamepad.enabled = true;
 
-		// adjust physics positipon
+		// adjust physics position
 		const { width: cameraWidth, height: cameraHeight } = this.cameras.main;
 		const leftInset = 450; // tweak to taste
 		this.physics.world.setBounds(leftInset, 10, cameraWidth - leftInset - 10, cameraHeight - 10);
@@ -49,7 +57,14 @@ export default class KrampusScene extends Phaser.Scene {
 
 		this.#krampus = new Krampus(this, middleX, middleY);
 		this.#launchElfShip();
-		// this.#elfShip = new ElfShip(this, 0, 0);
+		this.#launchSanta();
+		// Initialize Missile Group
+		this.#missiles = this.physics.add.group({
+			// classType: Phaser.Physics.Arcade.Image,
+			classType: Missile,
+			maxSize: 30,
+			runChildUpdate: true
+		});
 
 		this.add.text(10, 10, 'Krampus-oid', {
 			fontFamily: '"Press Start 2P"',
@@ -146,6 +161,28 @@ export default class KrampusScene extends Phaser.Scene {
 			null,
 			this
 		);
+		this.physics.add.collider(
+			this.#santa.sprite,
+			this.#asteroidGroup,
+			this.#onKrampusHitAsteroid,
+			null,
+			this
+		);
+		this.physics.add.collider(
+			this.#santa.sprite,
+			this.#krampus.sprite,
+			this.#onKrampusHitAsteroid,
+			null,
+			this
+		);
+		// Missile vs Asteroid Collision
+		this.physics.add.collider(
+			this.#missiles,
+			this.#asteroidGroup,
+			this.#onMissileHitAsteroid,
+			null,
+			this
+		);
 
 	}
 
@@ -238,11 +275,24 @@ export default class KrampusScene extends Phaser.Scene {
 	}
 
 	#fireLeftMissile() {
-		console.log('Fire left missile');
+		this.#fireMissile();
 	}
 
 	#fireRightMissile() {
-		console.log('Fire right missile');
+		this.#fireMissile();
+	}
+
+	#fireMissile() {
+		const gunPos = this.#getGunPositionOnCircle();
+
+		// Create missile at gun position
+		const missile = this.#missiles.get(gunPos.x, gunPos.y, 'missile');
+		// const missile = new Missile(this, gunPos.x, gunPos.y);
+
+		if (missile) {
+			// Use the fire method on our custom Missile class
+			missile.fire(gunPos.x, gunPos.y, this.#gunAngle);
+		}
 	}
 
 	#getGunPositionOnCircle() {
@@ -401,5 +451,116 @@ export default class KrampusScene extends Phaser.Scene {
 		// Move to target at constant rate
 		const elfSpeed = 200;
 		this.physics.moveTo(this.#elfShip.sprite, endX, endY, elfSpeed);
+	}
+
+	#launchSanta() {
+		// Create the ship initially off-screen so we can read its radius
+		this.#santa = new Santa(this, -1000, -1000);
+		const radius = this.#santa.displayRadius;
+
+		// Use physics world bounds to define the playing area
+		const bounds = this.physics.world.bounds;
+		const offset = radius + 20; // Ensure it is fully off-screen relative to the bounds
+
+		let startX, startY, endX, endY;
+
+		// Randomly determine start side: 0=Left, 1=Right, 2=Top, 3=Bottom
+		const side = Phaser.Math.Between(0, 3);
+
+		switch (side) {
+			case 0: // Left -> Right
+				startX = bounds.x - offset;
+				startY = Phaser.Math.Between(bounds.y, bounds.bottom);
+				endX = bounds.right + offset;
+				endY = Phaser.Math.Between(bounds.y, bounds.bottom);
+				break;
+
+			case 1: // Right -> Left
+				startX = bounds.right + offset;
+				startY = Phaser.Math.Between(bounds.y, bounds.bottom);
+				endX = bounds.x - offset;
+				endY = Phaser.Math.Between(bounds.y, bounds.bottom);
+				break;
+
+			case 2: // Top -> Bottom
+				startX = Phaser.Math.Between(bounds.x, bounds.right);
+				startY = bounds.y - offset;
+				endX = Phaser.Math.Between(bounds.x, bounds.right);
+				endY = bounds.bottom + offset;
+				break;
+
+			case 3: // Bottom -> Top
+				startX = Phaser.Math.Between(bounds.x, bounds.right);
+				startY = bounds.bottom + offset;
+				endX = Phaser.Math.Between(bounds.x, bounds.right);
+				endY = bounds.y - offset;
+				break;
+		}
+
+		// Position the ship
+		this.#santa.sprite.setPosition(startX, startY);
+
+		// Set the target for cleanup
+		this.#santaTarget = { x: endX, y: endY };
+
+		// Move to target at constant rate
+		const santaSpeed = 300;
+		this.physics.moveTo(this.#santa.sprite, endX, endY, santaSpeed);
+	}
+
+	#onMissileHitAsteroid(missile, asteroidSprite) {
+		// Destroy the missile
+		missile.destroy();
+		// Find the wrapper class instance for this sprite
+		let hitAsteroid = null;
+		for (const asteroid of this.#asteroids) {
+			if (asteroid.sprite === asteroidSprite) {
+				hitAsteroid = asteroid;
+				break;
+			}
+		}
+		if (!hitAsteroid) return;
+		// Check if it's a large asteroid
+		if (hitAsteroid.scale === Asteroid.SCALE_LARGE) {
+			this.#spawnSplitAsteroids(hitAsteroid.sprite.x, hitAsteroid.sprite.y, Asteroid.SCALE_MEDIUM, 2);
+		}
+		if (hitAsteroid.scale === Asteroid.SCALE_MEDIUM) {
+			this.#spawnSplitAsteroids(hitAsteroid.sprite.x, hitAsteroid.sprite.y, Asteroid.SCALE_SMALL, 2);
+		}
+
+		// Handle asteroid destruction or splitting logic here
+		// For now, let's just destroy the asteroid sprite
+		asteroidSprite.destroy();
+
+		// Cleanup original asteroid
+		this.#asteroids.delete(hitAsteroid);
+		asteroidSprite.destroy();
+	}
+
+	#spawnSplitAsteroids(x, y, newScale, count) {
+		const baseSpeed = 100; // The speed of large asteroids (from #keepBoxSpeedConstant)
+		const newSpeed = baseSpeed * 1.5;
+
+		for (let i = 0; i < count; i++) {
+			const newAsteroid = new Asteroid(this);
+			newAsteroid.create({
+				scale: newScale,
+				x: x,
+				y: y
+			});
+
+			// Setup physics properties
+			const sprite = newAsteroid.sprite;
+			this.#asteroidGroup.add(sprite);
+			sprite.setBounce(1, 1);
+			sprite.body.setAllowGravity(false);
+			newAsteroid.setAttributes(); // Sets rotation, etc.
+
+			// Set random velocity
+			const angle = Phaser.Math.FloatBetween(0, Math.PI * 2);
+			this.physics.velocityFromRotation(angle, newSpeed, sprite.body.velocity);
+
+			this.#asteroids.add(newAsteroid);
+		}
 	}
 }
