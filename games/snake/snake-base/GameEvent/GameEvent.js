@@ -114,6 +114,9 @@ export default class GameEvent {
 	}
 
 	static Game() {
+		if (game === null) {
+			return undefined;
+		}
 		return {
 			vectorFactory: game.vectorFactory
 		};

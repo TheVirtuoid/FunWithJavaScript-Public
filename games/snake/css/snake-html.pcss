@@ -1,7 +1,9 @@
 #pitch {
     background-color: var(--v-color-quaternary200);
     display: grid;
+    /* noinspection CssUnresolvedCustomProperty */
     grid-template-columns: repeat(var(--pitch-dimensions-x), 30px);
+    /* noinspection CssUnresolvedCustomProperty */
     grid-template-rows: repeat(var(--pitch-dimensions-y), 30px);
     flex: 0 0 auto;
 
@@ -14,19 +16,17 @@
         }
 
         &.snake-head {
-            &::after {
+            /*&::after {
                 content: '\2BC1';
-            }
-            // background-color: #333333;
-            color: red;
+            }*/
+            background-color: var(--v-color-primary900);
         }
 
         &.snake-body {
-            &::after {
+            /*&::after {
                 content: '\25C8';
-            }
-            // background-color: #777777;
-            color: var(--v-color-secondary900);
+            }*/
+            background-color: var(--v-color-secondary900);
         }
 
         &.prize-apple {

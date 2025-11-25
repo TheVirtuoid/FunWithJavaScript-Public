@@ -215,4 +215,27 @@ describe('Score - setTime()', () => {
 	});
 });
 
-describe('Score - reset()', () => {});
+describe('Score - reset()', () => {
+	it ('should reset the score back to initial values', () => {
+		const options = {
+			score: 100,
+			speed: 5,
+			level: 3,
+			time: 1000,
+			length: 10
+		};
+
+		const score = new Score(options);
+		score.incrementScore();
+		score.incrementSpeed();
+		score.incrementLevel();
+		score.incrementLength();
+		score.setTime(500);
+		score.reset();
+		expect(score.score).to.equal(100);
+		expect(score.speed).to.equal(5);
+		expect(score.level).to.equal(3);
+		expect(score.time).to.equal(1000);
+		expect(score.length).to.equal(10);
+	});
+});

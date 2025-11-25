@@ -73,6 +73,10 @@ describe('Messages', () => {
 			expect(instance.get(GameEvent.UI_CLEAR_PITCH_COMPLETE)).to.not.be.undefined;
 			expect(instance.get(GameEvent.UI_DRAW_PITCH_COMPLETE)).to.not.be.undefined;
 			expect(instance.get(GameEvent.UI_RESET_PITCH_COMPLETE)).to.not.be.undefined;
+			expect(instance.get(Messages.TITLE)).to.not.be.undefined;
+			expect(instance.get(Messages.STATS_TITLE)).to.not.be.undefined;
+			expect(instance.get(Messages.STATS_SCORE)).to.not.be.undefined;
+			expect(instance.get(Messages.STATS_LENGTH)).to.not.be.undefined;
 		});
 	});
 

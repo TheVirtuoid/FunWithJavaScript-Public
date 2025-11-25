@@ -308,7 +308,28 @@ describe('And when I work with the Snake class', () => {
 
 		});
 
-		describe('Ans when I work with the reset method', () => {});
+		describe('Ans when I work with the reset method', () => {
+			it('should reset the snake to its starting position, length, so forth', () => {
+				snake = new Snake({ direction: MockVector.Up(), position: new MockVector(4, 4) , length: 2});
+				snake.grow({ direction: MockVector.Up(), position: new MockVector(4,7) });
+				snake.move();
+				snake.changeDirection(MockVector.Left());
+				snake.move();
+				snake.reset();
+				expect(snake.position.equals(new MockVector(4, 4))).to.be.true;
+				expect(snake.length).to.equal(2);
+				expect(snake.direction.equals(MockVector.Up())).to.be.true;
+			})
+		});
+
+		describe('And when I work with the moveAndGRow method', () => {
+			it('should move the snake and grow a body segment', () => {
+				snake = new Snake({ direction: MockVector.Up(), position: new MockVector(4, 4) });
+				snake.moveAndGrow();
+				expect(snake.position.equals(new MockVector(4, 3))).to.be.true;
+				expect(snake.length).to.equal(1);
+			});
+		});
 	});
 
 

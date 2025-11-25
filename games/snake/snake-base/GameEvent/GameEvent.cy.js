@@ -46,4 +46,26 @@ describe('When I work with the GameEvent class', () => {
 		});
 	});
 
+	describe('And when I work with the static methods', () => {
+		beforeEach(() => {
+			GameEvent.Setup(mockGame);
+		});
+		afterEach(() => {
+			GameEvent.TakeDown();
+		});
+		it('should return a string for Key()', () => {
+			expect(GameEvent.Key(GameEvent.GAME_OVER)).to.equal('GAME_OVER');
+		});
+		it('should return undefined for Key() if key cannot be found', () => {
+			expect(GameEvent.Key('some-key')).to.be.undefined;
+		});
+		it('should null out the Game property when TakeDown() is called', () => {
+			GameEvent.TakeDown();
+			expect(GameEvent.Game()).to.be.undefined;
+		});
+		it('should return information for the Game() method', () => {
+			expect(GameEvent.Game().vectorFactory).to.not.be.undefined;
+		});
+	});
+
 });
