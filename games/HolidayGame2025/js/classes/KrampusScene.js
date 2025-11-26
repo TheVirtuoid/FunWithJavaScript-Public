@@ -1,11 +1,9 @@
-// import Statistics from "../Statistics.js";
-
 import Asteroid from "./Asteroid.js";
 import Krampus from "./Krampus.js";
 import ElfShip from "./Elfship.js";
 import Santa from "./Santa.js";
-import Missile from "./MIssile.js";
-import KrampusMissile from "./KrampusMIssile.js";
+import Statistics from "./Statistics.js";
+import Start from "./Start.js";
 
 export default class KrampusScene extends Phaser.Scene {
 	#krampus;
@@ -17,14 +15,14 @@ export default class KrampusScene extends Phaser.Scene {
 	#leftTriggerDown = false;
 	#rightTriggerDown = false;
 
-	// #gun;
-	// #gunAngle;
-
 	#asteroids = new Set();
 	#asteroidGroup;
 
 	#shipTimer = 15000;
 	#lastShipTime = 0;
+
+	#statistics;
+	#start;
 
 	constructor() {
 		super({
@@ -72,6 +70,8 @@ export default class KrampusScene extends Phaser.Scene {
 			align: 'center'
 		});
 
+		this.#statistics = new Statistics(this);
+
 		this.#speed = 600; // pixels/sec²; tweak to taste
 
 		// Gamepad setup
@@ -82,15 +82,6 @@ export default class KrampusScene extends Phaser.Scene {
 		if (this.input.gamepad.total) {
 			this.#gamepad = this.input.gamepad.gamepads[0];
 		}
-
-		// Krampus Gun
-		/*this.#gun = this.add.graphics();
-		this.#gun.fillStyle(0xffffff, 1); // color, alpha
-		this.#gun.fillCircle(0, 0, 4);
-		this.#gunAngle = (-Math.PI / 2) + ((12 * 2 * Math.PI) / 12);
-		const gunPosition = this.#getGunPositionOnCircle();
-		this.#gun.setPosition(gunPosition.x, gunPosition.y);*/
-
 
 		// asteroids
 		// --- Create asteroids with non-overlapping starting positions ---
@@ -142,6 +133,9 @@ export default class KrampusScene extends Phaser.Scene {
 		// this.#launchElfShip();
 		// this.#launchSanta();
 		this.#lastShipTime = 0;
+
+		this.#start = new Start(this);
+		this.#statistics.startBonusTimer();
 	}
 
 	update(time, delta) {
@@ -158,15 +152,7 @@ export default class KrampusScene extends Phaser.Scene {
 			return;
 		}
 
-		// process gun rotataion
 		this.#krampus.processGunRotation(this.#gamepad);
-		/*const { x:gunRotation} = this.#gamepad.rightStick;
-		if (gunRotation !== 0) {
-			const direction = gunRotation > 0 ? 1 : -1;
-			this.#gunAngle += direction * .03;
-			const gunPosition = this.#getGunPositionOnCircle();
-			this.#gun.setPosition(gunPosition.x, gunPosition.y);
-		}*/
 
 		// Read gamepad axes (left stick)
 		const axisH = this.#gamepad.axes.length > 0 ? this.#gamepad.axes[0].getValue() : 0; // X axis
@@ -221,11 +207,6 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#rightTriggerDown = rightDown;
 
 		this.#krampus.updateGunPosition();
-
-		/*this.#gun.setPosition(this.#krampus.x, this.#krampus.y - this.#krampus.displayRadius);
-		const gunPosition = this.#getGunPositionOnCircle();
-		this.#gun.setPosition(gunPosition.x, gunPosition.y);*/
-
 		// asteroid
 		this.#keepBoxSpeedConstant();
 	}
@@ -241,14 +222,6 @@ export default class KrampusScene extends Phaser.Scene {
 	#fireMissile() {
 		this.#krampus.fireMissile();
 	}
-
-	/*#getGunPositionOnCircle() {
-		return {
-			x: this.#krampus.x + this.#krampus.displayRadius * Math.cos(this.#gunAngle),
-			y: this.#krampus.y + this.#krampus.displayRadius * Math.sin(this.#gunAngle)
-		};
-	}*/
-
 	#keepBoxSpeedConstant() {
 		this.#asteroids.forEach((asteroid) => {
 			// Keep the box moving at a (nearly) constant speed
@@ -431,6 +404,10 @@ export default class KrampusScene extends Phaser.Scene {
 		// Cleanup original asteroid
 		this.#asteroids.delete(hitAsteroid);
 		asteroidSprite.destroy();
+		this.#statistics.incrementScore(1);
+		if (this.#asteroids.size === 0) {
+			this.#statistics.stopBonusTimer();
+		}
 	}
 
 	#spawnSplitAsteroids(x, y, newScale, count) {
