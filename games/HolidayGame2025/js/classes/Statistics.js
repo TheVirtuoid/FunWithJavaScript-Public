@@ -10,7 +10,13 @@ export default class Statistics {
 	#timeBonusText;
 
 	#bonusInterval;
-	#currentBonus;
+
+	#startingLevelText;
+
+	#st;
+	#lt;
+	#bt;
+
 
 	#textConfig = {
 		fontFamily: '"Press Start 2P"',
@@ -42,14 +48,16 @@ export default class Statistics {
 	constructor(scene) {
 		this.#scene = scene;
 		this.reset();
-		this.#scene.add.text(20, 150, 'Score:', this.#textConfig);
+		this.#st = this.#scene.add.text(20, 150, 'Score:', this.#textConfig);
 		this.#scoreText = this.#scene.add.text(20, 150, this.score, this.#valueConfig );
-		this.#scene.add.text(20, 190, 'Level:', this.#textConfig);
+		this.#lt = this.#scene.add.text(20, 190, 'Level:', this.#textConfig);
 		this.#levelText = this.#scene.add.text(20, 190, this.level, this.#valueConfig );
-		this.#scene.add.text(20, 230, 'Bonus:', this.#textConfig);
+		this.#bt = this.#scene.add.text(20, 230, 'Bonus:', this.#textConfig);
 		this.#bonusText = this.#scene.add.text(20, 230, this.bonus, this.#valueConfig );
 
 		this.#timeBonusText = this.#scene.add.text(20, 300, 'Time Bonus: ', this.#timeBonusConfig );
+
+		this.hide();
 	}
 
 	reset() {
@@ -100,5 +108,28 @@ export default class Statistics {
 		clearInterval(this.#bonusInterval);
 		this.incrementScore(this.#bonus);
 	}
+
+	show() {
+		this.#st.setVisible(true);
+		this.#lt.setVisible(true);
+		this.#bt.setVisible(true);
+		this.#scoreText.setVisible(true);
+		this.#levelText.setVisible(true);
+		this.#bonusText.setVisible(true);
+		this.#timeBonusText.setVisible(true);
+	}
+
+	hide() {
+		this.#st.setVisible(false);
+		this.#lt.setVisible(false);
+		this.#bt.setVisible(false);
+		this.#scoreText.setVisible(false);
+		this.#levelText.setVisible(false);
+		this.#bonusText.setVisible(false);
+		this.#timeBonusText.setVisible(false);
+	}
+
+
+
 
 }

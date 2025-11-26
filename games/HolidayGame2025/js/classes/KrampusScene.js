@@ -4,6 +4,7 @@ import ElfShip from "./Elfship.js";
 import Santa from "./Santa.js";
 import Statistics from "./Statistics.js";
 import Start from "./Start.js";
+import GameEvent from "./GameEvent.js";
 
 export default class KrampusScene extends Phaser.Scene {
 	#krampus;
@@ -23,6 +24,7 @@ export default class KrampusScene extends Phaser.Scene {
 
 	#statistics;
 	#start;
+	#gameStarted = false;
 
 	constructor() {
 		super({
@@ -32,6 +34,7 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#gamepad = null;
 		this.#elfShip = null;
 		this.#santaShip = null;
+		GameEvent.Setup(this);
 	}
 
 	preload() {
@@ -48,6 +51,9 @@ export default class KrampusScene extends Phaser.Scene {
 		const { width: cameraWidth, height: cameraHeight } = this.cameras.main;
 		const leftInset = 450; // tweak to taste
 		this.physics.world.setBounds(leftInset, 10, cameraWidth - leftInset - 10, cameraHeight - 10);
+		this.add.rectangle(leftInset, 10, cameraWidth - leftInset - 10, cameraHeight - 10, 0x1a1a2e)
+			.setOrigin(0, 0)
+			.setDepth(-1); // Ensure it is drawn behind the game objects
 
 		const { width, height } = this.cameras.main;
 		const middleX = Math.floor(width / 2);
@@ -209,6 +215,10 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#krampus.updateGunPosition();
 		// asteroid
 		this.#keepBoxSpeedConstant();
+	}
+
+	onEvent(eventName, ...data) {
+		console.log(eventName, data);
 	}
 
 	#fireLeftMissile() {
@@ -435,5 +445,11 @@ export default class KrampusScene extends Phaser.Scene {
 
 			this.#asteroids.add(newAsteroid);
 		}
+	}
+
+	#destroyAssets() {}
+
+	#buildAssets() {
+		this.#krampus = new Krampus(this, middleX, middleY);
 	}
 }
