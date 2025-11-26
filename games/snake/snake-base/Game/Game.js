@@ -62,7 +62,6 @@ export default class Game {
 		if (!GameEvent.TYPES.includes(event)) {
 			throw new Error(`'event' argument must be a valid event`);
 		}
-		// console.log(event);
 		if (event === GameEvent.GAME_EVENT_INITIALIZED) this.#onGameEventInitialized(...data);
 		else if (event === GameEvent.SNAKE_COLLISION_WALL) this.#onSnakeCollisionWall(...data);
 		else if (event === GameEvent.SNAKE_COLLISION_SELF) this.#onSnakeCollisionSelf(...data);
