@@ -5,25 +5,26 @@ import Krampus from "./Krampus.js";
 import ElfShip from "./Elfship.js";
 import Santa from "./Santa.js";
 import Missile from "./MIssile.js";
+import KrampusMissile from "./KrampusMIssile.js";
 
 export default class KrampusScene extends Phaser.Scene {
 	#krampus;
 	#gamepad;
 	#elfShip;
-	#elfShipTarget = null;
-	#santa;
-	#santaTarget = null;
+	#santaShip;
 	#speed = 400;
-	#missiles;
 
 	#leftTriggerDown = false;
 	#rightTriggerDown = false;
 
-	#gun;
-	#gunAngle;
+	// #gun;
+	// #gunAngle;
 
 	#asteroids = new Set();
 	#asteroidGroup;
+
+	#shipTimer = 15000;
+	#lastShipTime = 0;
 
 	constructor() {
 		super({
@@ -32,7 +33,7 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#krampus = null;
 		this.#gamepad = null;
 		this.#elfShip = null;
-		this.#santa = null;
+		this.#santaShip = null;
 	}
 
 	preload() {
@@ -40,7 +41,6 @@ export default class KrampusScene extends Phaser.Scene {
 		Asteroid.Preload(this);
 		ElfShip.Preload(this);
 		Santa.Preload(this);
-		Missile.Preload(this);
 	}
 
 	create() {
@@ -56,15 +56,6 @@ export default class KrampusScene extends Phaser.Scene {
 		const middleY = Math.floor(height / 2);
 
 		this.#krampus = new Krampus(this, middleX, middleY);
-		this.#launchElfShip();
-		this.#launchSanta();
-		// Initialize Missile Group
-		this.#missiles = this.physics.add.group({
-			// classType: Phaser.Physics.Arcade.Image,
-			classType: Missile,
-			maxSize: 30,
-			runChildUpdate: true
-		});
 
 		this.add.text(10, 10, 'Krampus-oid', {
 			fontFamily: '"Press Start 2P"',
@@ -93,12 +84,12 @@ export default class KrampusScene extends Phaser.Scene {
 		}
 
 		// Krampus Gun
-		this.#gun = this.add.graphics();
+		/*this.#gun = this.add.graphics();
 		this.#gun.fillStyle(0xffffff, 1); // color, alpha
 		this.#gun.fillCircle(0, 0, 4);
 		this.#gunAngle = (-Math.PI / 2) + ((12 * 2 * Math.PI) / 12);
 		const gunPosition = this.#getGunPositionOnCircle();
-		this.#gun.setPosition(gunPosition.x, gunPosition.y);
+		this.#gun.setPosition(gunPosition.x, gunPosition.y);*/
 
 
 		// asteroids
@@ -147,58 +138,20 @@ export default class KrampusScene extends Phaser.Scene {
 			null,
 			this
 		);
-		this.physics.add.collider(
-			this.#elfShip.sprite,
-			this.#asteroidGroup,
-			this.#onKrampusHitAsteroid,
-			null,
-			this
-		);
-		this.physics.add.collider(
-			this.#elfShip.sprite,
-			this.#krampus.sprite,
-			this.#onKrampusHitAsteroid,
-			null,
-			this
-		);
-		this.physics.add.collider(
-			this.#santa.sprite,
-			this.#asteroidGroup,
-			this.#onKrampusHitAsteroid,
-			null,
-			this
-		);
-		this.physics.add.collider(
-			this.#santa.sprite,
-			this.#krampus.sprite,
-			this.#onKrampusHitAsteroid,
-			null,
-			this
-		);
-		// Missile vs Asteroid Collision
-		this.physics.add.collider(
-			this.#missiles,
-			this.#asteroidGroup,
-			this.#onMissileHitAsteroid,
-			null,
-			this
-		);
-
+		this.#krampus.addAsteroidCollider(this.#asteroidGroup, this.#onMissileHitAsteroid.bind(this));
+		// this.#launchElfShip();
+		// this.#launchSanta();
+		this.#lastShipTime = 0;
 	}
 
 	update(time, delta) {
-		if (this.#elfShip && this.#elfShipTarget) {
-			const dist = Phaser.Math.Distance.Between(
-				this.#elfShip.x, this.#elfShip.y,
-				this.#elfShipTarget.x, this.#elfShipTarget.y
-			);
-
-			if (dist < 10) {
-				this.#elfShip.sprite.destroy();
-				this.#elfShip = null;
-				this.#elfShipTarget = null;
-			}
+		if (time - this.#lastShipTime > this.#shipTimer) {
+			this.#launchElfShip();
+			this.#lastShipTime = time;
 		}
+		// this.#elfShip = this.#elfShip?.updateMovement() ? null : this.#elfShip;
+		this.#elfShip = this.#elfShip?.update(time, this.#krampus) ? null : this.#elfShip;
+		this.#santaShip = this.#santaShip?.updateMovement() ? null : this.#santaShip;
 
 		if (!this.#gamepad || !this.#krampus) {
 			this.#keepBoxSpeedConstant();
@@ -206,13 +159,14 @@ export default class KrampusScene extends Phaser.Scene {
 		}
 
 		// process gun rotataion
-		const { x:gunRotation} = this.#gamepad.rightStick;
+		this.#krampus.processGunRotation(this.#gamepad);
+		/*const { x:gunRotation} = this.#gamepad.rightStick;
 		if (gunRotation !== 0) {
 			const direction = gunRotation > 0 ? 1 : -1;
 			this.#gunAngle += direction * .03;
 			const gunPosition = this.#getGunPositionOnCircle();
 			this.#gun.setPosition(gunPosition.x, gunPosition.y);
-		}
+		}*/
 
 		// Read gamepad axes (left stick)
 		const axisH = this.#gamepad.axes.length > 0 ? this.#gamepad.axes[0].getValue() : 0; // X axis
@@ -266,9 +220,11 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#leftTriggerDown = leftDown;
 		this.#rightTriggerDown = rightDown;
 
-		this.#gun.setPosition(this.#krampus.x, this.#krampus.y - this.#krampus.displayRadius);
+		this.#krampus.updateGunPosition();
+
+		/*this.#gun.setPosition(this.#krampus.x, this.#krampus.y - this.#krampus.displayRadius);
 		const gunPosition = this.#getGunPositionOnCircle();
-		this.#gun.setPosition(gunPosition.x, gunPosition.y);
+		this.#gun.setPosition(gunPosition.x, gunPosition.y);*/
 
 		// asteroid
 		this.#keepBoxSpeedConstant();
@@ -283,24 +239,15 @@ export default class KrampusScene extends Phaser.Scene {
 	}
 
 	#fireMissile() {
-		const gunPos = this.#getGunPositionOnCircle();
-
-		// Create missile at gun position
-		const missile = this.#missiles.get(gunPos.x, gunPos.y, 'missile');
-		// const missile = new Missile(this, gunPos.x, gunPos.y);
-
-		if (missile) {
-			// Use the fire method on our custom Missile class
-			missile.fire(gunPos.x, gunPos.y, this.#gunAngle);
-		}
+		this.#krampus.fireMissile();
 	}
 
-	#getGunPositionOnCircle() {
+	/*#getGunPositionOnCircle() {
 		return {
 			x: this.#krampus.x + this.#krampus.displayRadius * Math.cos(this.#gunAngle),
 			y: this.#krampus.y + this.#krampus.displayRadius * Math.sin(this.#gunAngle)
 		};
-	}
+	}*/
 
 	#keepBoxSpeedConstant() {
 		this.#asteroids.forEach((asteroid) => {
@@ -401,111 +348,60 @@ export default class KrampusScene extends Phaser.Scene {
 	#launchElfShip() {
 		// Create the ship initially off-screen so we can read its radius
 		this.#elfShip = new ElfShip(this, -1000, -1000);
-		const radius = this.#elfShip.displayRadius;
-
-		// Use physics world bounds to define the playing area
-		const bounds = this.physics.world.bounds;
-		const offset = radius + 20; // Ensure it is fully off-screen relative to the bounds
-
-		let startX, startY, endX, endY;
-
-		// Randomly determine start side: 0=Left, 1=Right, 2=Top, 3=Bottom
-		const side = Phaser.Math.Between(0, 3);
-
-		switch (side) {
-			case 0: // Left -> Right
-				startX = bounds.x - offset;
-				startY = Phaser.Math.Between(bounds.y, bounds.bottom);
-				endX = bounds.right + offset;
-				endY = Phaser.Math.Between(bounds.y, bounds.bottom);
-				break;
-
-			case 1: // Right -> Left
-				startX = bounds.right + offset;
-				startY = Phaser.Math.Between(bounds.y, bounds.bottom);
-				endX = bounds.x - offset;
-				endY = Phaser.Math.Between(bounds.y, bounds.bottom);
-				break;
-
-			case 2: // Top -> Bottom
-				startX = Phaser.Math.Between(bounds.x, bounds.right);
-				startY = bounds.y - offset;
-				endX = Phaser.Math.Between(bounds.x, bounds.right);
-				endY = bounds.bottom + offset;
-				break;
-
-			case 3: // Bottom -> Top
-				startX = Phaser.Math.Between(bounds.x, bounds.right);
-				startY = bounds.bottom + offset;
-				endX = Phaser.Math.Between(bounds.x, bounds.right);
-				endY = bounds.y - offset;
-				break;
-		}
-
-		// Position the ship
-		this.#elfShip.sprite.setPosition(startX, startY);
-
-		// Set the target for cleanup
-		this.#elfShipTarget = { x: endX, y: endY };
-
-		// Move to target at constant rate
-		const elfSpeed = 200;
-		this.physics.moveTo(this.#elfShip.sprite, endX, endY, elfSpeed);
+		this.#elfShip.addCollisionDetection({
+			asteroids: this.#asteroidGroup,
+			krampus: this.#krampus.sprite,
+			krampusMissiles: this.#krampus.missiles,
+			hitKrampusCallback: this.#onKrampusHitAsteroid.bind(this),
+			hitAsteroidCallback: this.#onKrampusHitAsteroid.bind(this),
+			hitKrampusMissileCallback: this.#onMissileHitElfShip.bind(this),
+			// elfMissileHitAsteroidCallback: this.#onMissileHitAsteroid.bind(this),
+			elfMissileHitKrampusCallback: this.#onElfMissileHitKrampus.bind(this)
+		});
+		this.#elfShip.launch();
 	}
 
 	#launchSanta() {
 		// Create the ship initially off-screen so we can read its radius
-		this.#santa = new Santa(this, -1000, -1000);
-		const radius = this.#santa.displayRadius;
-
-		// Use physics world bounds to define the playing area
-		const bounds = this.physics.world.bounds;
-		const offset = radius + 20; // Ensure it is fully off-screen relative to the bounds
-
-		let startX, startY, endX, endY;
-
-		// Randomly determine start side: 0=Left, 1=Right, 2=Top, 3=Bottom
-		const side = Phaser.Math.Between(0, 3);
-
-		switch (side) {
-			case 0: // Left -> Right
-				startX = bounds.x - offset;
-				startY = Phaser.Math.Between(bounds.y, bounds.bottom);
-				endX = bounds.right + offset;
-				endY = Phaser.Math.Between(bounds.y, bounds.bottom);
-				break;
-
-			case 1: // Right -> Left
-				startX = bounds.right + offset;
-				startY = Phaser.Math.Between(bounds.y, bounds.bottom);
-				endX = bounds.x - offset;
-				endY = Phaser.Math.Between(bounds.y, bounds.bottom);
-				break;
-
-			case 2: // Top -> Bottom
-				startX = Phaser.Math.Between(bounds.x, bounds.right);
-				startY = bounds.y - offset;
-				endX = Phaser.Math.Between(bounds.x, bounds.right);
-				endY = bounds.bottom + offset;
-				break;
-
-			case 3: // Bottom -> Top
-				startX = Phaser.Math.Between(bounds.x, bounds.right);
-				startY = bounds.bottom + offset;
-				endX = Phaser.Math.Between(bounds.x, bounds.right);
-				endY = bounds.y - offset;
-				break;
+		this.#santaShip = new Santa(this, -1000, -1000);
+		this.physics.add.collider(
+			this.#santaShip.sprite,
+			this.#asteroidGroup,
+			this.#onKrampusHitAsteroid,
+			null,
+			this
+		);
+		this.physics.add.collider(
+			this.#santaShip.sprite,
+			this.#krampus.sprite,
+			this.#onKrampusHitAsteroid,
+			null,
+			this
+		);
+		this.#santaShip.launch();
+	}
+	tester = false;
+	#onMissileHitElfShip(elfSprite, missile) {
+		if (!this.tester) {
+			console.log('****** KA-BOOM ************');
+			console.log(missile);
+			console.log(elfSprite);
+			this.tester = true;
+		}
+		missile.destroy();
+		elfSprite.destroy();
+		this.#elfShip = null;
+	}
+	test = false;
+	#onElfMissileHitKrampus(missile, krampusSprite) {
+		//  missile.destroy();
+		if (!this.test) {
+			console.log('****** BOOM ************');
+			console.log(missile);
+			console.log(krampusSprite);
+			this.test = true;
 		}
 
-		// Position the ship
-		this.#santa.sprite.setPosition(startX, startY);
-
-		// Set the target for cleanup
-		this.#santaTarget = { x: endX, y: endY };
-
-		// Move to target at constant rate
-		const santaSpeed = 300;
-		this.physics.moveTo(this.#santa.sprite, endX, endY, santaSpeed);
 	}
 
 	#onMissileHitAsteroid(missile, asteroidSprite) {
