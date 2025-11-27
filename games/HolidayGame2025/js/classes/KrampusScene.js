@@ -5,6 +5,7 @@ import Santa from "./Santa.js";
 import Statistics from "./Statistics.js";
 import Start from "./Start.js";
 import GameEvent from "./GameEvent.js";
+import Space from "./Space.js";
 
 export default class KrampusScene extends Phaser.Scene {
 	#krampus;
@@ -25,6 +26,7 @@ export default class KrampusScene extends Phaser.Scene {
 	#statistics;
 	#start;
 	#gameStarted = false;
+	#space;
 
 	constructor() {
 		super({
@@ -46,20 +48,8 @@ export default class KrampusScene extends Phaser.Scene {
 
 	create() {
 		this.input.gamepad.enabled = true;
-
-		// adjust physics position
-		const { width: cameraWidth, height: cameraHeight } = this.cameras.main;
-		const leftInset = 450; // tweak to taste
-		this.physics.world.setBounds(leftInset, 10, cameraWidth - leftInset - 10, cameraHeight - 10);
-		this.add.rectangle(leftInset, 10, cameraWidth - leftInset - 10, cameraHeight - 10, 0x1a1a2e)
-			.setOrigin(0, 0)
-			.setDepth(-1); // Ensure it is drawn behind the game objects
-
-		const { width, height } = this.cameras.main;
-		const middleX = Math.floor(width / 2);
-		const middleY = Math.floor(height / 2);
-
-		this.#krampus = new Krampus(this, middleX, middleY);
+		this.#space = new Space(this);
+		this.#krampus = new Krampus(this, this.#space.midPoint.x, this.#space.midPoint.y);
 
 		this.add.text(10, 10, 'Krampus-oid', {
 			fontFamily: '"Press Start 2P"',
@@ -77,9 +67,7 @@ export default class KrampusScene extends Phaser.Scene {
 		});
 
 		this.#statistics = new Statistics(this);
-
 		this.#speed = 600; // pixels/sec²; tweak to taste
-
 		// Gamepad setup
 		this.input.gamepad.once('connected', (pad) => {
 			this.#gamepad = pad;
@@ -135,9 +123,8 @@ export default class KrampusScene extends Phaser.Scene {
 			null,
 			this
 		);
-		this.#krampus.addAsteroidCollider(this.#asteroidGroup, this.#onMissileHitAsteroid.bind(this));
-		// this.#launchElfShip();
-		// this.#launchSanta();
+		// this.#krampus.addAsteroidCollider(this.#asteroidGroup, this.#onMissileHitAsteroid.bind(this));
+		this.#krampus.addAsteroidCollider(this.#asteroidGroup, GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID);
 		this.#lastShipTime = 0;
 
 		this.#start = new Start(this);
@@ -218,7 +205,12 @@ export default class KrampusScene extends Phaser.Scene {
 	}
 
 	onEvent(eventName, ...data) {
-		console.log(eventName, data);
+		if (eventName === GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID) this.#onMissileHitAsteroid(...data);
+		else if (eventName === GameEvent.ELF_SHIP_HIT_ASTEROID) this.#onKrampusHitAsteroid(...data);
+		else if (eventName === GameEvent.ELF_SHIP_HIT_KRAMPUS) this.#onKrampusHitAsteroid(...data);
+		else if (eventName === GameEvent.ELF_SHIP_HIT_KRAMPUS_MISSILE) this.#onMissileHitElfShip(...data);
+		else if (eventName === GameEvent.ELF_MISSILE_HIT_KRAMPUS) this.#onElfMissileHitKrampus(...data);
+		// console.log(eventName, data);
 	}
 
 	#fireLeftMissile() {
@@ -262,11 +254,11 @@ export default class KrampusScene extends Phaser.Scene {
 			edgePadding
 		} = options;
 
-		const bounds = this.physics.world.bounds;
-		const minX = bounds.x + edgePadding;
-		const maxX = bounds.right - edgePadding;
-		const minY = bounds.y + edgePadding;
-		const maxY = bounds.bottom - edgePadding;
+		// const bounds = this.physics.world.bounds;
+		const minX = this.#space.left + edgePadding;
+		const maxX = this.#space.right - edgePadding;
+		const minY = this.#space.top + edgePadding;
+		const maxY = this.#space.bottom - edgePadding;
 
 		const maxAttempts = 50;
 		for (let attempt = 0; attempt < maxAttempts; attempt++) {
@@ -310,22 +302,7 @@ export default class KrampusScene extends Phaser.Scene {
 	}
 
 	#onKrampusHitAsteroid(krampusSprite, asteroidSprite) {
-		// Handle what should happen when Krampus hits an asteroid:
-		// e.g., end game, reduce lives, play explosion animation, etc.
-
-		// Example: stop movement and fade out Krampus
-		/*krampusSprite.body.setAcceleration(0, 0);
-		krampusSprite.body.setVelocity(0, 0);
-
-		this.tweens.add({
-			targets: krampusSprite,
-			alpha: 0,
-			duration: 250,
-			onComplete: () => {
-				// TODO: show Game Over screen / restart scene
-				// this.scene.restart();
-			}
-		});*/
+		// purposefully left empty
 	}
 
 	#launchElfShip() {
@@ -335,11 +312,6 @@ export default class KrampusScene extends Phaser.Scene {
 			asteroids: this.#asteroidGroup,
 			krampus: this.#krampus.sprite,
 			krampusMissiles: this.#krampus.missiles,
-			hitKrampusCallback: this.#onKrampusHitAsteroid.bind(this),
-			hitAsteroidCallback: this.#onKrampusHitAsteroid.bind(this),
-			hitKrampusMissileCallback: this.#onMissileHitElfShip.bind(this),
-			// elfMissileHitAsteroidCallback: this.#onMissileHitAsteroid.bind(this),
-			elfMissileHitKrampusCallback: this.#onElfMissileHitKrampus.bind(this)
 		});
 		this.#elfShip.launch();
 	}

@@ -1,5 +1,6 @@
 import Missile from "./MIssile.js";
 import ElfMissile from "./ElfMIssile.js";
+import GameEvent from "./GameEvent.js";
 
 export default class Elfship {
 	#sprite;
@@ -153,37 +154,52 @@ export default class Elfship {
 	}
 
 	addCollisionDetection(args = {}) {
-		const { asteroids, krampus, krampusMissiles, hitKrampusCallback, hitAsteroidCallback, hitKrampusMissileCallback, elfMissileHitKrampusCallback } = args;
+		const { asteroids, krampus, krampusMissiles } = args;
 		this.#scene.physics.add.collider(
 			this.#sprite,
 			asteroids,
-			hitAsteroidCallback,
+			this.#onHitAsteroid,
 			null,
 			this.#scene
 		);
 		this.#scene.physics.add.collider(
 			this.#sprite,
 			krampus,
-			hitKrampusCallback,
+			this.#onHitKrampus,
 			null,
 			this.#scene
 		);
 		this.#scene.physics.add.overlap(
 			this.#sprite,
 			krampusMissiles,
-			hitKrampusMissileCallback,
+			this.#onHitKrampusMissile,
 			null,
 			this.#scene
 		);
 		this.#scene.physics.add.overlap(
 			this.#missiles,
 			krampus,
-			elfMissileHitKrampusCallback,
+			this.#onMissileHitKrampus,
 			null,
 			this.#scene
 		);
 		/*elfMissileHitAsteroidCallback: this.#onMissileHitAsteroid.bind(this),
 			elfMissileHitKrampusCallback: this.#onMissileHitElfShip.bind(this)*/
+	}
 
+	#onHitAsteroid(...data) {
+		GameEvent.Emit(GameEvent.ELF_SHIP_HIT_ASTEROID, ...data);
+	}
+
+	#onHitKrampus(...data) {
+		GameEvent.Emit(GameEvent.ELF_SHIP_HIT_KRAMPUS, ...data);
+	}
+
+	#onHitKrampusMissile(...data) {
+		GameEvent.Emit(GameEvent.ELF_SHIP_HIT_KRAMPUS_MISSILE, ...data);
+	}
+
+	#onMissileHitKrampus(...data) {
+		GameEvent.Emit(GameEvent.ELF_MISSILE_HIT_KRAMPUS, ...data);
 	}
 }

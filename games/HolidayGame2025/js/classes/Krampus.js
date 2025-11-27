@@ -1,4 +1,5 @@
 import KrampusMissile from "./KrampusMIssile.js";
+import GameEvent from "./GameEvent.js";
 
 export default class Krampus {
 
@@ -49,14 +50,18 @@ export default class Krampus {
 		this.#sprite.body.setAcceleration(x, y);
 	}
 
-	addAsteroidCollider(asteroids, callback) {
+	addAsteroidCollider(asteroids, event) {
 		this.#scene.physics.add.collider(
 			this.#missiles,
 			asteroids,
-			callback,
+			this.#onMissileHitAsteroid,
 			null,
 			this.#scene
 		);
+	}
+
+	#onMissileHitAsteroid(missile, asteroid) {
+		GameEvent.Emit(GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID, missile, asteroid);
 	}
 
 	fireMissile() {
