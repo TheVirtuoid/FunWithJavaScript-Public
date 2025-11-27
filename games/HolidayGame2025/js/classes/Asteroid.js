@@ -23,12 +23,6 @@ export default class Asteroid {
 		this.#asteroid.setScale(scale);
 		this.#asteroid.setCollideWorldBounds(true);
 		this.#scale = scale;
-		const radius = (this.#asteroid.width) * 0.5;
-		this.#asteroid.body.setCircle(
-			radius,
-			this.#asteroid.width * 0.5 - radius,
-			this.#asteroid.height * 0.5 - radius
-		);
 	}
 
 	get sprite() {

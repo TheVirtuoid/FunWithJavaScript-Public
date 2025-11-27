@@ -124,14 +124,15 @@ export default class Krampus {
 	}
 
 	processGunRotation(gamepad) {
-		const { x:gunRotation} = gamepad.rightStick;
-		if (gunRotation !== 0) {
-			const direction = gunRotation > 0 ? 1 : -1;
-			this.#gunAngle += direction * .03;
-			const gunPosition = this.#getGunPositionOnCircle();
-			this.#gun.setPosition(gunPosition.x, gunPosition.y);
+		if (gamepad?.rightStick) {
+			const { x:gunRotation} = gamepad.rightStick;
+			if (gunRotation !== 0) {
+				const direction = gunRotation > 0 ? 1 : -1;
+				this.#gunAngle += direction * .03;
+				const gunPosition = this.#getGunPositionOnCircle();
+				this.#gun.setPosition(gunPosition.x, gunPosition.y);
+			}
 		}
-
 	}
 
 	updateGunPosition() {

@@ -6,10 +6,12 @@ import Statistics from "./Statistics.js";
 import Start from "./Start.js";
 import GameEvent from "./GameEvent.js";
 import Space from "./Space.js";
+import GameController from "./GameController.js";
 
 export default class KrampusScene extends Phaser.Scene {
 	#krampus;
 	#gamepad;
+	#gameController;
 	#elfShip;
 	#santaShip;
 	#speed = 400;
@@ -34,6 +36,7 @@ export default class KrampusScene extends Phaser.Scene {
 		});
 		this.#krampus = null;
 		this.#gamepad = null;
+		this.#gameController = null;
 		this.#elfShip = null;
 		this.#santaShip = null;
 		GameEvent.Setup(this);
@@ -47,7 +50,8 @@ export default class KrampusScene extends Phaser.Scene {
 	}
 
 	create() {
-		this.input.gamepad.enabled = true;
+		this.#gameController = new GameController(this);
+		// this.input.gamepad.enabled = true;
 		this.#space = new Space(this);
 		this.#krampus = new Krampus(this, this.#space.midPoint.x, this.#space.midPoint.y);
 
@@ -69,13 +73,13 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#statistics = new Statistics(this);
 		this.#speed = 600; // pixels/sec²; tweak to taste
 		// Gamepad setup
-		this.input.gamepad.once('connected', (pad) => {
+		/*this.input.gamepad.once('connected', (pad) => {
 			this.#gamepad = pad;
-		});
+		});*/
 
-		if (this.input.gamepad.total) {
+		/*if (this.input.gamepad.total) {
 			this.#gamepad = this.input.gamepad.gamepads[0];
-		}
+		}*/
 
 		// asteroids
 		// --- Create asteroids with non-overlapping starting positions ---
@@ -140,67 +144,22 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#elfShip = this.#elfShip?.update(time, this.#krampus) ? null : this.#elfShip;
 		this.#santaShip = this.#santaShip?.updateMovement() ? null : this.#santaShip;
 
-		if (!this.#gamepad || !this.#krampus) {
+		if (!this.#gameController.online || !this.#krampus) {
 			this.#keepBoxSpeedConstant();
 			return;
 		}
+		this.#krampus.processGunRotation(this.#gameController);
+		const { thrustX, thrustY } = this.#gameController.getThrust();
+		this.#krampus.setAcceleration(thrustX * this.#speed, thrustY * this.#speed);
 
-		this.#krampus.processGunRotation(this.#gamepad);
-
-		// Read gamepad axes (left stick)
-		const axisH = this.#gamepad.axes.length > 0 ? this.#gamepad.axes[0].getValue() : 0; // X axis
-		const axisV = this.#gamepad.axes.length > 1 ? this.#gamepad.axes[1].getValue() : 0; // Y axis
-
-		// Deadzone to avoid drift
-		const deadZone = 0.2;
-		let thrustX = Math.abs(axisH) > deadZone ? axisH : 0;
-		let thrustY = Math.abs(axisV) > deadZone ? axisV : 0;
-
-		// D-pad fallback (some controllers use buttons instead of axes for dpad)
-		const dPadLeft = this.#gamepad.left || this.#gamepad.buttons[14]?.pressed;
-		const dPadRight = this.#gamepad.right || this.#gamepad.buttons[15]?.pressed;
-		const dPadUp = this.#gamepad.up || this.#gamepad.buttons[12]?.pressed;
-		const dPadDown = this.#gamepad.down || this.#gamepad.buttons[13]?.pressed;
-
-		if (dPadLeft)  thrustX = -1;
-		if (dPadRight) thrustX =  1;
-		if (dPadUp)    thrustY = -1;
-		if (dPadDown)  thrustY =  1;
-
-		// If there is any thrust, normalize so diagonals aren't faster
-		if (thrustX !== 0 || thrustY !== 0) {
-			const len = Math.hypot(thrustX, thrustY);
-			thrustX /= len;
-			thrustY /= len;
-
-			// Apply thrust as acceleration
-			this.#krampus.setAcceleration(thrustX * this.#speed, thrustY * this.#speed);
-		} else {
-			// No thrust — coast with current velocity (drag will slow it down)
-			this.#krampus.setAcceleration(0, 0);
-		}
-
-		// Buttons 6 & 7 are LT/RT on most Xbox-style controllers.
-		const leftButton = this.#gamepad.buttons[6];
-		const rightButton = this.#gamepad.buttons[7];
-
-		const leftDown = leftButton && leftButton.pressed;
-		const rightDown = rightButton && rightButton.pressed;
-
-		// Fire once on press (rising edge)
-		if (leftDown && !this.#leftTriggerDown) {
+		if (this.#gameController.leftFireMissile) {
 			this.#fireLeftMissile();
 		}
-		if (rightDown && !this.#rightTriggerDown) {
+		if (this.#gameController.rightFireMissile) {
 			this.#fireRightMissile();
 		}
 
-		// Remember state for next frame
-		this.#leftTriggerDown = leftDown;
-		this.#rightTriggerDown = rightDown;
-
 		this.#krampus.updateGunPosition();
-		// asteroid
 		this.#keepBoxSpeedConstant();
 	}
 
@@ -279,10 +238,17 @@ export default class KrampusScene extends Phaser.Scene {
 					const sprite = existing.sprite;
 					if (!sprite) continue;
 
-					const existingRadius = Math.max(sprite.displayWidth, sprite.displayHeight) / 2;
-					const dist = Phaser.Math.Distance.Between(x, y, sprite.x, sprite.y);
+					// For squares, we check X and Y overlap separately (AABB check)
+					// We treat 'asteroidRadius' as the half-width of the new asteroid
+					const existingHalfWidth = sprite.displayWidth / 2;
+					const existingHalfHeight = sprite.displayHeight / 2;
 
-					if (dist < asteroidRadius + existingRadius + 10) { // +10 = small gap
+					const dx = Math.abs(x - sprite.x);
+					const dy = Math.abs(y - sprite.y);
+
+					// Check overlap on both axes with a 10px buffer
+					if (dx < asteroidRadius + existingHalfWidth + 10 &&
+						dy < asteroidRadius + existingHalfHeight + 10) {
 						valid = false;
 						break;
 					}
