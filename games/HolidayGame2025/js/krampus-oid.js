@@ -2,6 +2,7 @@ import '/css/krampus-oid.pcss';
 import Phaser from 'phaser';
 import WebFont from 'webfontloader';
 import KrampusScene from "./classes/KrampusScene.js";
+import Credits from "./classes/Credits.js";
 
 
 const multiplier = .90;
@@ -11,6 +12,7 @@ const config = {
 	height: window.innerHeight * multiplier,
 	parent: 'phaser-example',
 	pixelArt: true,
+	scene: [KrampusScene, Credits],
 	input: {
 		gamepad: true
 	},
@@ -28,7 +30,7 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-game.scene.add('krampus', KrampusScene);
+// game.scene.add('krampus', KrampusScene);
 game.events.once('start', (sceneName) => {
 	game.scene.start(sceneName);
 })
@@ -38,6 +40,7 @@ WebFont.load({
 		families: ['Tiny5', 'Press Start 2P']
 	},
 	active: function() {
+		game.scene.start('credits');
 		game.scene.start('krampus');
 	},
 });

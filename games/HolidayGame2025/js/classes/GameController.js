@@ -52,6 +52,10 @@ export default class GameController {
 		return this.#online;
 	}
 
+	get gameStart() {
+		return this.#pad?.Y;
+	}
+
 	get leftFireMissile() {
 		const triggered = !!this.#pad.L2;
 		if (triggered && !this.#leftTriggerDown) {
@@ -99,4 +103,5 @@ export default class GameController {
 		}
 		return { thrustX, thrustY };
 	}
+
 }
