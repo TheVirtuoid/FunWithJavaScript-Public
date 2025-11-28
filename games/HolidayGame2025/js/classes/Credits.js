@@ -53,6 +53,8 @@ export default class Credits extends Phaser.Scene {
 			"",
 			"SPECIAL THANKS",
 			"You, the player!",
+			"",
+			"HAPPY HOLIDAYS!"
 		];
 
 		// 3. The Scrolling Text Object

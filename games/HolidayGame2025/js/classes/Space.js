@@ -15,12 +15,10 @@ export default class Space {
 		this.#width = cameraWidth - this.#leftInset - this.#margin * 2;
 		this.#height = cameraHeight - this.#margin * 2;
 		this.#scene.physics.world.setBounds(this.left, this.top, this.width, this.height);
-		this.#scene.add.rectangle(this.left, this.top, this.width, this.height, 0x1a1a2e)
+		this.#scene.add.rectangle(this.left, this.top, this.width, this.height, 0x000000)
 			.setOrigin(0, 0)
 			.setDepth(-1); // Ensure it is drawn behind the game objects
 		const { width, height } = this.#scene.cameras.main;
-		const middleX = Math.floor(width / 2);
-		const middleY = Math.floor(height / 2);
 	}
 
 	get width () {

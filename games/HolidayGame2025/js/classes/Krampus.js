@@ -10,6 +10,7 @@ export default class Krampus {
 	#missiles;
 	#gun;
 	#gunAngle;
+	#asteroidMissileCollider
 
 	static Preload(scene) {
 		scene.load.image('krampus', '/img/krampus.png');
@@ -47,11 +48,11 @@ export default class Krampus {
 	}
 
 	setAcceleration(x, y) {
-		this.#sprite.body.setAcceleration(x, y);
+		this.#sprite.body?.setAcceleration(x, y);
 	}
 
 	addAsteroidCollider(asteroids, event) {
-		this.#scene.physics.add.collider(
+		this.#asteroidMissileCollider = this.#scene.physics.add.collider(
 			this.#missiles,
 			asteroids,
 			this.#onMissileHitAsteroid,
@@ -59,6 +60,23 @@ export default class Krampus {
 			this.#scene
 		);
 	}
+
+	setInvisible() {
+		this.#sprite.setVisible(false);
+		this.#gun.setVisible(false);
+	}
+
+	setVisible() {
+		this.#sprite.setVisible(true);
+		this.#gun.setVisible(true);
+	}
+
+	/*destroy() {
+		this.#asteroidMissileCollider?.destroy();
+		this.#missiles.destroy(true);
+		this.#gun.destroy();
+		this.#sprite.destroy();
+	}*/
 
 	#onMissileHitAsteroid(missile, asteroid) {
 		GameEvent.Emit(GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID, missile, asteroid);

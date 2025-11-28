@@ -2,7 +2,7 @@ import Asteroid from "./Asteroid.js";
 import Krampus from "./Krampus.js";
 import ElfShip from "./Elfship.js";
 import Santa from "./Santa.js";
-import Statistics from "./Statistics.js";
+import Sidebar from "./Sidebar.js";
 import Start from "./Start.js";
 import GameEvent from "./GameEvent.js";
 import Space from "./Space.js";
@@ -16,16 +16,13 @@ export default class KrampusScene extends Phaser.Scene {
 	#santaShip;
 	#speed = 400;
 
-	#leftTriggerDown = false;
-	#rightTriggerDown = false;
-
 	#asteroids = new Set();
 	#asteroidGroup;
 
-	#shipTimer = 15000;
-	#lastShipTime = 0;
+	#elfShipTimer = 15000;
+	#lastElfShipTime = 0;
 
-	#statistics;
+	#sidebar;
 	#start;
 	#gameStarted = false;
 	#space;
@@ -39,6 +36,7 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#gameController = null;
 		this.#elfShip = null;
 		this.#santaShip = null;
+		this.#sidebar = null;
 		GameEvent.Setup(this);
 	}
 
@@ -50,111 +48,44 @@ export default class KrampusScene extends Phaser.Scene {
 	}
 
 	create() {
-		this.#gameController = new GameController(this);
-		// this.input.gamepad.enabled = true;
-		this.#space = new Space(this);
-		this.#krampus = new Krampus(this, this.#space.midPoint.x, this.#space.midPoint.y);
+		this.#buildStaticAssets();
+		this.#buildAssets();
 
-		this.add.text(10, 10, 'Krampus-oid', {
-			fontFamily: '"Press Start 2P"',
-			fontSize: '38px',
-			fill: '#bb2222'
-		});
-
-		const text = this.add.text(10, 70, 'Help Krampus save Christmas from Santa and his elves!', {
-			fontFamily: '"Press Start 2P"',
-			fontSize: '14px',
-			fixedWidth: 400,
-			fill: '#aabbcc',
-			wordWrap: { width: 400, useAdvancedWrap: true },
-			align: 'center'
-		});
-
-		this.#statistics = new Statistics(this);
 		this.#speed = 600; // pixels/sec²; tweak to taste
-		// asteroids
-		// --- Create asteroids with non-overlapping starting positions ---
-		const numAsteroids = 4;
-		for (let i = 0; i < numAsteroids; i++) {
-			const asteroid = new Asteroid(this);
 
-			const spawnPos = this.#findNonOverlappingPosition({
-				asteroidRadius: 60,           // approximate; tweak if needed
-				minDistanceFromKrampus: 120,  // how far from Krampus
-				edgePadding: 40               // don't spawn right on the edges
-			});
-
-			asteroid.create({
-				scale: Asteroid.SCALE_LARGE,
-				x: spawnPos.x,
-				y: spawnPos.y
-			});
-
-			this.#asteroids.add(asteroid);
-		}
-
-		// --- Make asteroids bounce off each other ---
-		this.#asteroidGroup = this.physics.add.group({
-			bounceX: 1,
-			bounceY: 1,
-			// collideWorldBounds: true
-			colliderWorldBounds: false
-		});
-		this.#asteroids.forEach(asteroid => {
-			if (asteroid.sprite) {
-				this.#asteroidGroup.add(asteroid.sprite);
-				// Make sure bounce is fully elastic
-				asteroid.sprite.setBounce(1, 1);
-				asteroid.sprite.body.setAllowGravity(false);
-				asteroid.setAttributes();
-				// console.log('after group add', asteroid.sprite.body.velocity);
-			}
-		});
-
-		this.physics.add.collider(this.#asteroidGroup, this.#asteroidGroup);
+		/*this.physics.add.collider(this.#asteroidGroup, this.#asteroidGroup);
 		this.physics.add.collider(
 			this.#krampus.sprite,
 			this.#asteroidGroup,
 			this.#onKrampusHitAsteroid,
 			null,
 			this
-		);
+		);*/
 		// this.#krampus.addAsteroidCollider(this.#asteroidGroup, this.#onMissileHitAsteroid.bind(this));
-		this.#krampus.addAsteroidCollider(this.#asteroidGroup, GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID);
-		this.#lastShipTime = 0;
+		// this.#krampus.addAsteroidCollider(this.#asteroidGroup, GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID);
+		this.#lastElfShipTime = 0;
 
 		this.#start = new Start(this);
-		this.#statistics.startBonusTimer();
+		this.#gameStarted = false;
+		// this.#sidebar.startBonusTimer();
 	}
 
 	update(time, delta) {
-		if (time - this.#lastShipTime > this.#shipTimer) {
-			this.#launchElfShip();
-			this.#lastShipTime = time;
+		if (!this.#gameStarted && this.#gameController.gameStart) {
+			this.onEvent(GameEvent.GAME_STARTED);
 		}
-		// this.#elfShip = this.#elfShip?.updateMovement() ? null : this.#elfShip;
-		this.#elfShip = this.#elfShip?.update(time, this.#krampus) ? null : this.#elfShip;
-		this.#santaShip = this.#santaShip?.updateMovement() ? null : this.#santaShip;
+		// this.#launchShips(time);
 		this.physics.world.wrap(this.#asteroidGroup, 40);
-
-		if (!this.#gameController.online || !this.#krampus) {
-			this.#keepBoxSpeedConstant();
-			return;
-		}
-		this.#krampus.processGunRotation(this.#gameController);
+		this.#krampus?.processGunRotation(this.#gameController);
 		const { thrustX, thrustY } = this.#gameController.getThrust();
-		this.#krampus.setAcceleration(thrustX * this.#speed, thrustY * this.#speed);
-
+		this.#krampus?.setAcceleration(thrustX * this.#speed, thrustY * this.#speed);
 		if (this.#gameController.leftFireMissile) {
 			this.#fireLeftMissile();
 		}
 		if (this.#gameController.rightFireMissile) {
 			this.#fireRightMissile();
 		}
-
-		this.#krampus.updateGunPosition();
-		this.#keepBoxSpeedConstant();
-
+		this.#krampus?.updateGunPosition();
 	}
 
 	onEvent(eventName, ...data) {
@@ -163,6 +94,10 @@ export default class KrampusScene extends Phaser.Scene {
 		else if (eventName === GameEvent.ELF_SHIP_HIT_KRAMPUS) this.#onKrampusHitAsteroid(...data);
 		else if (eventName === GameEvent.ELF_SHIP_HIT_KRAMPUS_MISSILE) this.#onMissileHitElfShip(...data);
 		else if (eventName === GameEvent.ELF_MISSILE_HIT_KRAMPUS) this.#onElfMissileHitKrampus(...data);
+		else if (eventName === GameEvent.GAME_STARTED) this.#onGameStarted(...data);
+		else if (eventName === GameEvent.LEVEL_STARTED) this.#onLevelStarted(...data);
+		else if (eventName === GameEvent.LEVEL_COMPLETE) this.#onLevelComplete(...data);
+		else if (eventName === GameEvent.LEVEL_NEXT) this.#onLevelNext(...data);
 		// console.log(eventName, data);
 	}
 
@@ -176,27 +111,6 @@ export default class KrampusScene extends Phaser.Scene {
 
 	#fireMissile() {
 		this.#krampus.fireMissile();
-	}
-	#keepBoxSpeedConstant() {
-		this.#asteroids.forEach((asteroid) => {
-			// Keep the box moving at a (nearly) constant speed
-			const sprite = asteroid.sprite;
-			if (!sprite || !sprite.body) return;
-
-			const targetSpeed = 100; // must match the value used in create()
-			const body = sprite.body;
-			const vx = body.velocity.x;
-			const vy = body.velocity.y;
-			const len = Math.hypot(vx, vy);
-
-			if (len === 0) {
-				return;
-			}
-
-			// Re-normalize velocity to targetSpeed
-			const scale = targetSpeed / len;
-			body.setVelocity(vx * scale, vy * scale);
-		});
 	}
 
 	// Helper: find a random position that doesn't overlap Krampus or any existing asteroid
@@ -265,6 +179,15 @@ export default class KrampusScene extends Phaser.Scene {
 		// purposefully left empty
 	}
 
+	#launchShips(time) {
+		if (time - this.#lastElfShipTime > this.#elfShipTimer) {
+			this.#launchElfShip();
+			this.#lastElfShipTime = time;
+		}
+		this.#elfShip = this.#elfShip?.update(time, this.#krampus) ? null : this.#elfShip;
+		// this.#santaShip = this.#santaShip?.updateMovement() ? null : this.#santaShip;
+	}
+
 	#launchElfShip() {
 		// Create the ship initially off-screen so we can read its radius
 		this.#elfShip = new ElfShip(this, -1000, -1000);
@@ -294,6 +217,13 @@ export default class KrampusScene extends Phaser.Scene {
 			this
 		);
 		this.#santaShip.launch();
+	}
+
+	#onLevelComplete(data) {
+		this.#sidebar.stopBonusTimer();
+		setTimeout(() => {
+			GameEvent.Emit(GameEvent.LEVEL_NEXT);
+		}, 5000)
 	}
 
 	#onMissileHitElfShip(elfSprite, missile) {
@@ -331,11 +261,69 @@ export default class KrampusScene extends Phaser.Scene {
 			asteroidSprite.destroy();
 			this.#asteroids.delete(hitAsteroid);
 			asteroidSprite.destroy();
-			this.#statistics.incrementScore(1);
+			this.#sidebar.incrementScore(1);
 			if (this.#asteroids.size === 0) {
-				this.#statistics.stopBonusTimer();
+				GameEvent.Emit(GameEvent.LEVEL_COMPLETE);
 			}
 		}
+	}
+
+	#onGameStarted() {
+		this.scene.stop('credits');
+		this.#gameStarted = true;
+		this.#sidebar.reset();
+		GameEvent.Emit(GameEvent.LEVEL_NEXT);
+		/*// make krampus invisible
+		this.#krampus.setInvisible();
+		// reset krampus to the middle of the screen
+		this.#krampus.sprite.setPosition(this.#space.midPoint.x, this.#space.midPoint.y);
+		// remove the asteroids to asteroid collision group
+		this.#asteroidGroup.clear(true, true);
+		this.#asteroids.clear();
+		// remove the krampus to asteroids collision group
+		this.#krampus.missiles.clear(true, true);
+		// ramdomize 4 more new asteroids
+		this.#spawnSplitAsteroids(this.#space.midPoint.x, this.#space.midPoint.y, Asteroid.SCALE_LARGE, 4);
+		// make the asteroids invisible
+		this.#asteroids.forEach(asteroid => asteroid.sprite.setVisible(false));
+		// game over invisible
+		this.#sidebar.hideGameOver();
+		// start the countdown
+		this.#sidebar.startCountdown();*/
+	}
+
+	#onLevelNext() {
+		this.#sidebar.incrementLevel(1);
+		this.#sidebar.hideScore();
+		this.#sidebar.hideBonusTimer();
+		// make krampus invisible
+		this.#krampus.setInvisible();
+		// reset krampus to the middle of the screen
+		this.#krampus.sprite.setPosition(this.#space.midPoint.x, this.#space.midPoint.y);
+		// remove the asteroids to asteroid collision group
+		this.#asteroidGroup.clear(true, true);
+		this.#asteroids.clear();
+		// remove the krampus to asteroids collision group
+		this.#krampus.missiles.clear(true, true);
+		// ramdomize 4 more new asteroids
+		this.#spawnSplitAsteroids(this.#space.midPoint.x, this.#space.midPoint.y, Asteroid.SCALE_LARGE, 4);
+		// make the asteroids invisible
+		this.#asteroids.forEach(asteroid => asteroid.sprite.setVisible(false));
+		// game over invisible
+		this.#sidebar.hideGameOver();
+		// start the countdown
+		this.#sidebar.startCountdown();
+	}
+
+	#onLevelStarted() {
+		//krampus visible!
+		this.#krampus.setVisible();
+		// asteroids visible!
+		this.#asteroids.forEach(asteroid => asteroid.sprite.setVisible(true));
+		// show stats
+		this.#sidebar.showScore();
+		// start bonus timer
+		this.#sidebar.startBonusTimer();
 	}
 
 	#spawnSplitAsteroids(x, y, newScale, count) {
@@ -365,9 +353,79 @@ export default class KrampusScene extends Phaser.Scene {
 		}
 	}
 
-	#destroyAssets() {}
+	#destroyAssets() {
+		// this.#krampus.destroy();
+		// this.#krampus = null;
+		// this.#asteroids = null;
+		// this.#sidebar = null;
+	}
 
 	#buildAssets() {
+		this.#gameController = new GameController(this);
+		this.#space = new Space(this);
 		this.#krampus = new Krampus(this, this.#space.midPoint.x, this.#space.midPoint.y);
+		// this.#sidebar = new Sidebar(this);
+		this.#asteroidGroup?.destroy(true);
+		this.#asteroids.clear();
+
+		const numAsteroids = 4;
+		for (let i = 0; i < numAsteroids; i++) {
+			const asteroid = new Asteroid(this);
+			const spawnPos = this.#findNonOverlappingPosition({
+				asteroidRadius: 60,           // approximate; tweak if needed
+				minDistanceFromKrampus: 120,  // how far from Krampus
+				edgePadding: 40               // don't spawn right on the edges
+			});
+
+			asteroid.create({
+				scale: Asteroid.SCALE_LARGE,
+				x: spawnPos.x,
+				y: spawnPos.y
+			});
+
+			this.#asteroids.add(asteroid);
+		}
+		this.#asteroidGroup = this.physics.add.group({
+			bounceX: 1,
+			bounceY: 1,
+			colliderWorldBounds: false
+		});
+		this.#asteroids.forEach(asteroid => {
+			if (asteroid.sprite) {
+				this.#asteroidGroup.add(asteroid.sprite);
+				// Make sure bounce is fully elastic
+				asteroid.sprite.setBounce(1, 1);
+				asteroid.sprite.body.setAllowGravity(false);
+				asteroid.setAttributes();
+				// console.log('after group add', asteroid.sprite.body.velocity);
+			}
+		});
+		this.physics.add.collider(this.#asteroidGroup, this.#asteroidGroup);
+		this.physics.add.collider(
+			this.#krampus.sprite,
+			this.#asteroidGroup,
+			this.#onKrampusHitAsteroid,
+			null,
+			this
+		);
+		this.#krampus.addAsteroidCollider(this.#asteroidGroup, GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID);
+	}
+
+	#buildStaticAssets() {
+		this.#sidebar = new Sidebar(this);
+/*		this.add.text(10, 10, 'Krampus-oid', {
+			fontFamily: '"Press Start 2P"',
+			fontSize: '38px',
+			fill: '#bb2222'
+		});
+
+		const text = this.add.text(10, 70, 'Help Krampus save Christmas from Santa and his elves!', {
+			fontFamily: '"Press Start 2P"',
+			fontSize: '14px',
+			fixedWidth: 400,
+			fill: '#aabbcc',
+			wordWrap: { width: 400, useAdvancedWrap: true },
+			align: 'center'
+		});*/
 	}
 }

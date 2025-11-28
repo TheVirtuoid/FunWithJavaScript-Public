@@ -30,7 +30,6 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-// game.scene.add('krampus', KrampusScene);
 game.events.once('start', (sceneName) => {
 	game.scene.start(sceneName);
 })

@@ -6,7 +6,7 @@ A game where a player defends a tower from waves of enemies by upgrading their o
 
 1. The player clicks upon New Game
    - Playing field is displayed
-   - Statistics table is displayed
+   - Sidebar table is displayed
    - Set all the defaults.
 2. The player clicks Start Round
    - A wave of enemies is generated.
