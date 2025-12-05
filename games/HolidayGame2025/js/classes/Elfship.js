@@ -145,12 +145,18 @@ export default class Elfship {
 			);
 
 			if (dist < 10) {
-				this.#sprite.destroy();
-				this.#movingTarget = null;
+				// this.removeShip();
+				/*this.#sprite.destroy();
+				this.#movingTarget = null;*/
 				removeShip = true;
 			}
 		}
 		return removeShip;
+	}
+
+	removeShip() {
+		this.#sprite.destroy();
+		this.#movingTarget = null;
 	}
 
 	addCollisionDetection(args = {}) {
@@ -183,6 +189,13 @@ export default class Elfship {
 			null,
 			this.#scene
 		);
+		this.#scene.physics.add.overlap(
+			this.#missiles,
+			asteroids,
+			this.#onMissileHitAsteroid,
+			null,
+			this.#scene
+		);
 		/*elfMissileHitAsteroidCallback: this.#onMissileHitAsteroid.bind(this),
 			elfMissileHitKrampusCallback: this.#onMissileHitElfShip.bind(this)*/
 	}
@@ -201,5 +214,9 @@ export default class Elfship {
 
 	#onMissileHitKrampus(...data) {
 		GameEvent.Emit(GameEvent.ELF_MISSILE_HIT_KRAMPUS, ...data);
+	}
+
+	#onMissileHitAsteroid(...data) {
+		GameEvent.Emit(GameEvent.ELF_MISSILE_HIT_ASTEROID, ...data);
 	}
 }

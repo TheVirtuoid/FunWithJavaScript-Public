@@ -71,6 +71,10 @@ export default class Krampus {
 		this.#gun.setVisible(true);
 	}
 
+	setPosition(x, y) {
+		this.#sprite.setPosition(x, y);
+	}
+
 	/*destroy() {
 		this.#asteroidMissileCollider?.destroy();
 		this.#missiles.destroy(true);
