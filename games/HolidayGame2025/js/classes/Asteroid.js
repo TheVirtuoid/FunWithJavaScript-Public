@@ -12,7 +12,6 @@ export default class Asteroid {
 	}
 
 	static Preload(scene) {
-		// scene.load.image('asteroid', '/img/asteroid-shape.png');
 		scene.load.image('asteroid', '/img/giftbox.png');
 	}
 
@@ -22,6 +21,9 @@ export default class Asteroid {
 		this.#asteroid.setOrigin(0.5);
 		this.#asteroid.setScale(scale);
 		this.#asteroid.setCollideWorldBounds(true);
+		this.#asteroid.setBounce(1, 1);
+		this.#asteroid.body.setAllowGravity(false);
+		this.#asteroid.setAttributes();
 		this.#scale = scale;
 	}
 

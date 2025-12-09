@@ -1,6 +1,6 @@
 export default class Credits extends Phaser.Scene {
 	#scrollingContent;
-	#scrollSpeed = 0.3;
+	#scrollSpeed = 100;
 	#offset = 200;
 
 	constructor() {
@@ -66,9 +66,6 @@ export default class Credits extends Phaser.Scene {
 			lineSpacing: 20
 		}).setOrigin(0.5, 0); // Origin at top-center
 
-		// 4. Masking (Optional but recommended)
-		// This creates a invisible box starting at Y=100.
-		// Text is only visible when inside this box.
 		const shape = this.make.graphics();
 		shape.fillStyle(0xffffff);
 		shape.fillRect(0, 100, width, height - 100);
@@ -81,9 +78,10 @@ export default class Credits extends Phaser.Scene {
 		});*/
 	}
 
-	update() {
+	update(time, delta) {
 		// Move text up
-		this.#scrollingContent.y -= this.#scrollSpeed;
+		const movementAmount = this.#scrollSpeed * (delta / 1000);
+		this.#scrollingContent.y -= movementAmount;
 
 		// If the bottom of the text goes off the top of the screen...
 		if (this.#scrollingContent.y < -this.#scrollingContent.height) {

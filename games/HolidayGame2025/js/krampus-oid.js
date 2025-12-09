@@ -4,7 +4,6 @@ import WebFont from 'webfontloader';
 import KrampusScene from "./classes/KrampusScene.js";
 import Credits from "./classes/Credits.js";
 
-
 const multiplier = .90;
 const config = {
 	type: Phaser.AUTO,
