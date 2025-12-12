@@ -10,6 +10,7 @@ import GameController from "./GameController.js";
 // import { Scene } from "phaser";
 import Phaser from "phaser";
 import AsteroidGroup from "./AsteroidGroup.js";
+import ElfMissile from "./ElfMIssile.js";
 
 export default class KrampusScene extends Phaser.Scene {
 	#krampus;
@@ -33,6 +34,11 @@ export default class KrampusScene extends Phaser.Scene {
 	#space;
 
 	#currentTime;
+	#currentDelta;
+
+	#shipsPhysicsGroup;
+	#asteroidsPhysicsGroup;
+	#missilesPhysicsGroup;
 
 	constructor() {
 		super({
@@ -44,7 +50,7 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#elfShip = null;
 		this.#santaShip = null;
 		this.#sidebar = null;
-		// GameEvent.Setup(this);
+		GameEvent.Setup(this);
 	}
 
 	preload() {
@@ -61,7 +67,53 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#asteroidGroup = new AsteroidGroup({ scene: this, krampus: this.#krampus, space: this.#space, addToPhysics: true });
 		this.#sidebar = new Sidebar(this);
 		this.#start = new Start(this);
+		this.#shipsPhysicsGroup = this.physics.add.group();
+		this.#asteroidsPhysicsGroup = this.physics.add.group();
+		this.#missilesPhysicsGroup = this.physics.add.group();
 		this.#gameStarted = false;
+
+		this.#shipsPhysicsGroup.add(this.#krampus.sprite);
+
+		this.physics.add.collider(
+			this.#shipsPhysicsGroup,
+			this.#asteroidsPhysicsGroup,
+			this.#handleShipHitAsteroid,
+			null,
+			this
+		);
+
+		this.physics.add.collider(
+			this.#shipsPhysicsGroup,
+			this.#shipsPhysicsGroup,
+			this.#handleShipHitShip,
+			null,
+			this
+		);
+
+		this.physics.add.overlap(
+			this.#shipsPhysicsGroup,
+			this.#missilesPhysicsGroup,
+			this.#handleMissileHitShip,
+			null,
+			this
+		);
+
+		this.physics.add.overlap(
+			this.#asteroidsPhysicsGroup,
+			this.#missilesPhysicsGroup,
+			this.#handleMissileHitAsteroid,
+			null,
+			this
+		);
+
+		this.physics.add.collider(
+			this.#asteroidsPhysicsGroup,
+			this.#asteroidsPhysicsGroup,
+			this.#handleAsteroidHitAsteroid,
+			null,
+			this
+		);
+
 		/*this.#buildStaticAssets();
 		this.#buildAssets();
 
@@ -84,10 +136,13 @@ export default class KrampusScene extends Phaser.Scene {
 	}
 
 	update(time, delta) {
+		this.#currentTime = time;
+		this.#currentDelta = delta;
+		this.#launchShips(time);
+		this.#updateShips(time);
 		/*if (!this.#gameStarted && this.#gameController.gameStart) {
 			this.onEvent(GameEvent.GAME_STARTED);
 		}
-		this.#currentTime = time;
 		this.#launchShips(time);
 		this.#updateShips(time);
 		this.physics.world.wrap(this.#asteroidGroup, 40);
@@ -105,21 +160,58 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#krampus?.updateGunPosition();*/
 	}
 
-	/*onEvent(eventName, ...data) {
-		if (eventName === GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID) this.#onMissileHitAsteroid(...data);
-		else if (eventName === GameEvent.ELF_SHIP_HIT_ASTEROID) this.#onKrampusHitAsteroid(...data);
-		else if (eventName === GameEvent.ELF_SHIP_HIT_KRAMPUS) this.#onKrampusHitAsteroid(...data);
-		else if (eventName === GameEvent.ELF_SHIP_HIT_KRAMPUS_MISSILE) this.#onMissileHitElfShip(...data);
-		else if (eventName === GameEvent.ELF_MISSILE_HIT_KRAMPUS) this.#onElfOrSantaMissileHitKrampus(...data);
-		else if (eventName === GameEvent.ELF_MISSILE_HIT_ASTEROID) this.#onElfOrSantaMissileHitAsteroid(...data);
+	onEvent(eventName, ...data) {
+		if (eventName === GameEvent.GAME_STARTED) this.#onGameStarted(...data);
+		else if (eventName === GameEvent.LAUNCH_ELF_SHIP) this.#onLaunchElfShip(...data);
+		else if (eventName === GameEvent.REMOVE_ELF_SHIP) this.#onRemoveElfShip(...data);
+		else if (eventName === GameEvent.ELF_MISSILE_HIT_KRAMPUS) this.#onElfMissileHitKrampus(...data);
+		else if (eventName === GameEvent.KRAMPUS_HIT_ELF) this.#onKrampusHitElf(...data);
+		/*  else if (eventName === GameEvent.KRAMPUS_HIT_ASTEROID) this.#onKrampusHitAsteroid(...data);
+		else if (eventName === GameEvent.KRAMPUS_HIT_SANTA) thie.#onKrampusHitSanta(...data);
+		else if (eventName === GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID) this.#onKrampusMissileHitAsteroid(...data);
+		else if (eventName === GameEvent.KRAMPUS_MISSILE_HIT_ELF) this.#onKrampusMissileHitElfShip(...data);
+		else if (eventName === GameEvent.KRAMPUS_MISSILE_HIT_SANTA) this.#onKrampusMissileHitSanta(...data);
+
+		else if (eventName === GameEvent.ELF_MISSILE_HIT_ASTEROID) this.#onElfMissileHitAsteroid(...data);
+
+		else if (eventName === GameEvent.SANTA_MISSILE_HIT_ASTEROID) this.#onSantaMissileHitAsteroid(...data);
+		else if (eventName === GameEvent.SANTA_MISSILE_HIT_KRAMPUS) this.#onSantaMissileHitKrampus(...data);
+
+
+
 		else if (eventName === GameEvent.GAME_STARTED) this.#onGameStarted(...data);
 		else if (eventName === GameEvent.LEVEL_STARTED) this.#onLevelStarted(...data);
 		else if (eventName === GameEvent.LEVEL_COMPLETE) this.#onLevelComplete(...data);
-		else if (eventName === GameEvent.LEVEL_NEXT) this.#onLevelNext(...data);
-		else if (eventName === GameEvent.LAUNCH_ELF_SHIP) this.#onLaunchElfShip(...data);
-		else if (eventName === GameEvent.REMOVE_ELF_SHIP) this.#onRemoveElfShip(...data);
+		else if (eventName === GameEvent.LEVEL_NEXT) this.#onLevelNext(...data);*/
 	}
-*/
+
+	#handleShipHitAsteroid(...data) {
+		console.log('a ship has hit an asteroid');
+		console.log(data);
+	}
+
+	#handleMissileHitShip(ship, missile) {
+		if (missile instanceof ElfMissile && ship.name === Krampus.NAME) {
+			GameEvent.Emit(GameEvent.ELF_MISSILE_HIT_KRAMPUS, ship, missile);
+		}
+	}
+
+	#handleAsteroidHitAsteroid(...data) {
+		console.log('an asteroid has hit an asteroid');
+		console.log(data);
+	}
+
+	#handleShipHitShip(ship1, ship2) {
+		if ((ship1.name === Krampus.NAME || ship2.name === Krampus.NAME) && (ship1.name === ElfShip.NAME || ship2.name === ElfShip.NAME)) {
+			GameEvent.Emit(GameEvent.KRAMPUS_HIT_ELF, ship1, ship2);
+		}
+	}
+
+	#handleMissileHitAsteroid(asteroid, missile) {
+		console.log('missile hit asteroid');
+		console.log(asteroid, missile);
+	}
+
 	/*#fireLeftMissile() {
 		this.#fireMissile();
 	}*/
@@ -198,33 +290,32 @@ export default class KrampusScene extends Phaser.Scene {
 		// purposefully left empty
 	}*/
 
-	/*#launchShips(time) {
+	#launchShips(time) {
 		if (time - this.#lastElfShipTime > this.#elfShipTimer) {
 			GameEvent.Emit(GameEvent.LAUNCH_ELF_SHIP);
 		}
 		// this.#elfShip = this.#elfShip?.update(time, this.#krampus) ? null : this.#elfShip;
 		// this.#santaShip = this.#santaShip?.updateMovement() ? null : this.#santaShip;
-	}*/
+	}
 
-	/*#updateShips(time) {
-		const elfRemoveShip = this.#elfShip?.update(time, this.#krampus);
-		// if (elfRemoveShip || (!elfRemoveShip && this.#lastElfShipTime === Number.POSITIVE_INFINITY)) {
-		if (elfRemoveShip) {
-			GameEvent.Emit(GameEvent.REMOVE_ELF_SHIP, time);
-		}
-	}*/
-
-	/*#launchElfShip() {
+	#launchElfShip() {
 		// Create the ship initially off-screen so we can read its radius
-		this.#elfShip = new ElfShip(this, -1000, -1000);
-		this.#elfShip.addCollisionDetection({
+		this.#elfShip = new ElfShip({ scene: this, x: -1000, y: -1000, missilePhysicsGroup: this.#missilesPhysicsGroup });
+		this.#shipsPhysicsGroup.add(this.#elfShip.sprite);
+		/*this.#elfShip.addCollisionDetection({
 			asteroids: this.#asteroidGroup,
 			krampus: this.#krampus.sprite,
 			krampusMissiles: this.#krampus.missiles,
-		});
+		});*/
 		this.#elfShip.launch();
-	}*/
+	}
 
+	#updateShips(time) {
+		const elfRemoveShip = this.#elfShip?.update(time, this.#krampus);
+		if (elfRemoveShip) {
+			GameEvent.Emit(GameEvent.REMOVE_ELF_SHIP, time);
+		}
+	}
 	/*#launchSanta() {
 		// Create the ship initially off-screen so we can read its radius
 		this.#santaShip = new Santa(this, -1000, -1000);
@@ -286,10 +377,7 @@ export default class KrampusScene extends Phaser.Scene {
 		GameEvent.Emit(GameEvent.LEVEL_NEXT);
 	}*/
 
-	/*#onLaunchElfShip() {
-		this.#launchElfShip();
-		this.#lastElfShipTime = Number.POSITIVE_INFINITY;
-	}*/
+
 
 	/*#onRemoveElfShip(time) {
 		this.#elfShip.removeShip();
@@ -452,4 +540,25 @@ export default class KrampusScene extends Phaser.Scene {
 	/*#buildStaticAssets() {
 		this.#sidebar = new Sidebar(this);
 	}*/
+
+	/* ---------------------------------------------- EVENT HANDLERS ------------------------------------------------ */
+	#onElfMissileHitKrampus(ship, missile) {
+		missile.destroy();
+	}
+
+	#onGameStarted(data) {}
+
+	#onKrampusHitElf(ship1, ship2) {
+		// they bounce off each other, so no action is taken.
+	}
+
+	#onLaunchElfShip() {
+		this.#launchElfShip();
+		this.#lastElfShipTime = Number.POSITIVE_INFINITY;
+	}
+	#onRemoveElfShip(time) {
+		this.#elfShip.removeShip();
+		this.#elfShip = null;
+		this.#lastElfShipTime = time;
+}
 }

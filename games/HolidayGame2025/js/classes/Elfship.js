@@ -9,15 +9,20 @@ export default class Elfship {
 	#scene;
 	#movingTarget;
 	#speed = 150;
-	#missiles;
+	#missiles = new Set();
 	#nextFireTime = 0;
+	#missilePhysicsGroup;
+	#name;
 
 	static Preload(scene) {
 		scene.load.image('elfship', '/img/elf-ship.png');
 		scene.load.image('elf-missile', '/img/lightning.png');
 	}
 
-	constructor(scene, x, y) {
+	static NAME = 'ElfShip';
+
+	constructor(args = {}) {
+		const { scene, x, y, missilePhysicsGroup } = args;
 		this.#sprite = scene.physics.add.sprite(x, y, 'elfship');
 		this.#sprite.setOrigin(0.5);
 		this.#sprite.setScale(0.15);
@@ -27,11 +32,8 @@ export default class Elfship {
 		this.#displayRadius = this.#sprite.displayWidth / 2;
 		this.#scene = scene;
 		this.#movingTarget = null;
-		this.#missiles = this.#scene.physics.add.group({
-			classType: ElfMissile,
-			maxSize: 50,
-			runChildUpdate: true
-		});
+		this.#missilePhysicsGroup = missilePhysicsGroup;
+		this.#sprite.name = Elfship.NAME;
 	}
 
 	get x() {
@@ -61,8 +63,8 @@ export default class Elfship {
 	get height() {
 		return this.#sprite.height;
 	}
-	get missiles() {
-		return this.#missiles;
+	get name() {
+		return this.#sprite.name;
 	}
 
 	launch() {
@@ -107,16 +109,17 @@ export default class Elfship {
 
 	fireMissile(time, krampus) {
 		if (time > this.#nextFireTime) {
-			const missile = this.#missiles.get(this.x, this.y, 'elf-missile');
+			// const missile = this.#missiles.get(this.x, this.y, 'elf-missile');
+			const angle = Phaser.Math.Angle.Between(this.x, this.y, krampus.x, krampus.y);
+			const speed = 400;
+			const missile = new ElfMissile(this.#scene, this.x, this.y, angle);
+			this.#missilePhysicsGroup.add(missile);
 			// const missile = this.#missiles.get(gunPos.x, gunPos.y, 'missile');
-			if (missile) {
-				missile.setScale(0.05);
-				const speed = 400;
-				const angle = Phaser.Math.Angle.Between(this.x, this.y, krampus.x, krampus.y);
-				this.#scene.physics.velocityFromRotation(angle, speed, missile.body.velocity);
-				missile.setRotation(angle);
-				this.#nextFireTime = time + 500;
-			}
+			// const angle = Phaser.Math.Angle.Between(this.x, this.y, krampus.x, krampus.y);
+			missile.fire(krampus.x, krampus.y, angle, speed);
+			this.#missiles.add(missile);
+			// this.#scene.physics.velocityFromRotation(angle, speed, missile.velocity);
+			this.#nextFireTime = time + 500;
 		}
 	}
 
@@ -126,7 +129,7 @@ export default class Elfship {
 
 		// 2. Cleanup missiles that are off-screen
 		const bounds = this.#scene.physics.world.bounds;
-		this.#missiles.children.iterate((missile) => {
+		this.#missiles.forEach((missile) => {
 			if (missile && !bounds.contains(missile.x, missile.y)) {
 				missile.destroy();
 			}
@@ -139,15 +142,18 @@ export default class Elfship {
 	updateMovement() {
 		let removeShip = false;
 		if (this.#movingTarget) {
+			this.#scene.physics.moveTo(
+				this.#sprite,
+				this.#movingTarget.x,
+				this.#movingTarget.y,
+				this.#speed
+			);
 			const dist = Phaser.Math.Distance.Between(
 				this.x, this.y,
 				this.#movingTarget.x, this.#movingTarget.y
 			);
 
 			if (dist < 10) {
-				// this.removeShip();
-				/*this.#sprite.destroy();
-				this.#movingTarget = null;*/
 				removeShip = true;
 			}
 		}
@@ -156,11 +162,12 @@ export default class Elfship {
 
 	removeShip() {
 		this.#sprite.destroy();
+		this.#missiles.forEach((missile) => missile.destroy());
 		this.#movingTarget = null;
 	}
 
 	addCollisionDetection(args = {}) {
-		const { asteroids, krampus, krampusMissiles } = args;
+		/*const { asteroids, krampus, krampusMissiles } = args;
 		this.#scene.physics.add.collider(
 			this.#sprite,
 			asteroids,
@@ -195,17 +202,17 @@ export default class Elfship {
 			this.#onMissileHitAsteroid,
 			null,
 			this.#scene
-		);
+		);*/
 		/*elfMissileHitAsteroidCallback: this.#onMissileHitAsteroid.bind(this),
 			elfMissileHitKrampusCallback: this.#onMissileHitElfShip.bind(this)*/
 	}
 
 	#onHitAsteroid(...data) {
-		GameEvent.Emit(GameEvent.ELF_SHIP_HIT_ASTEROID, ...data);
+		GameEvent.Emit(GameEvent.ELF_HIT_ASTEROID, ...data);
 	}
 
 	#onHitKrampus(...data) {
-		GameEvent.Emit(GameEvent.ELF_SHIP_HIT_KRAMPUS, ...data);
+		GameEvent.Emit(GameEvent.ELF_HIT_KRAMPUS, ...data);
 	}
 
 	#onHitKrampusMissile(...data) {

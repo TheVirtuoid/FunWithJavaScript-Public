@@ -17,6 +17,8 @@ export default class Krampus {
 		KrampusMissile.Preload(scene);
 	}
 
+	static NAME = 'Krampus';
+
 	constructor(scene, x, y) {
 		this.#scene = scene;
 
@@ -28,6 +30,7 @@ export default class Krampus {
 		this.#sprite.body.setCollideWorldBounds(true);
 		// Enable damping so drag is applied smoothly
 		this.#sprite.body.setDamping(false);
+
 		// Drag acts like friction; tune these values
 		this.#sprite.body.setDrag(100, 100);
 		// Limit maximum speed
@@ -45,6 +48,7 @@ export default class Krampus {
 		this.#gunAngle = (-Math.PI / 2) + ((12 * 2 * Math.PI) / 12);
 		const gunPosition = this.#getGunPositionOnCircle();
 		this.#gun.setPosition(gunPosition.x, gunPosition.y);
+		this.#sprite.name = Krampus.NAME;
 	}
 
 	setAcceleration(x, y) {
@@ -136,6 +140,10 @@ export default class Krampus {
 
 	get gunAngle() {
 		return this.#gunAngle;
+	}
+
+	get name() {
+		return this.#sprite.name;
 	}
 
 	#getGunPositionOnCircle() {

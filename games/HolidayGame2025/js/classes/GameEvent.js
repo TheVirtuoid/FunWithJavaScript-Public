@@ -9,12 +9,20 @@ export default class GameEvent {
 		game.onEvent(eventName, ...args);
 	}
 
+	static KRAMPUS_HIT_ASTEROID = Symbol('krampus-hit-asteroid');
+	static KRAMPUS_HIT_ELF = Symbol('krampus-hit-elf');
+	static KRAMPUS_HIT_SANTA = Symbol('krampus-hit-santa');
+	static KRAMPUS_MISSILE_HIT_ELF = Symbol('krampus-missile-hit-elf');
+	static KRAMPUS_MISSILE_HIT_SANTA = Symbol('krampus-missile-hit-santa');
 	static KRAMPUS_MISSILE_HIT_ASTEROID = Symbol('krampus-missile-hit-asteroid');
-	static ELF_SHIP_HIT_ASTEROID = Symbol('elf-ship-hit-asteroid');
-	static ELF_SHIP_HIT_KRAMPUS = Symbol('elf-ship-hit-krampus');
-	static ELF_SHIP_HIT_KRAMPUS_MISSILE = Symbol('elf-ship-hit-krampus-missile');
+
 	static ELF_MISSILE_HIT_KRAMPUS = Symbol('elf-missile-hit-krampus');
 	static ELF_MISSILE_HIT_ASTEROID = Symbol('elf-missile-hit-asteroid');
+
+	static SANTA_MISSILE_HIT_KRAMPUS = Symbol('santa-missile-hit-krampus');
+	static SANTA_MISSILE_HIT_ASTEROID = Symbol('santa-missile-hit-asteroid');
+
+
 	static GAME_STARTED = Symbol('game-started');
 	static GAME_OVER = Symbol('game-over');
 	static LEVEL_STARTED = Symbol('level-started');
