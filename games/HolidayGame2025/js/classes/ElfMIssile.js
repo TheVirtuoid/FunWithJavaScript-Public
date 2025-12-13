@@ -8,6 +8,7 @@ export default class ElfMissile extends Missile {
 
 	constructor(args = {}) {
 		args.spriteName = 'elf-missile';
+		args.speed = 400;
 		super(args);
 	}
 

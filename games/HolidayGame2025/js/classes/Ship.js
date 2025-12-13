@@ -104,16 +104,11 @@ export default class Ship {
 
 	fireMissile(time, krampus) {
 		if (time > this.#nextFireTime) {
-			// const missile = this.#missiles.get(this.x, this.y, 'elf-missile');
 			const angle = Phaser.Math.Angle.Between(this.x, this.y, krampus.x, krampus.y);
-			const missileSpeed = 400;
 			const missile = new this.#missleConstructor({ scene: this.#scene, x: this.x, y: this.y, angle });
 			this.#missilePhysicsGroup.add(missile);
-			// const missile = this.#missiles.get(gunPos.x, gunPos.y, 'missile');
-			// const angle = Phaser.Math.Angle.Between(this.x, this.y, krampus.x, krampus.y);
-			missile.fire({ x: krampus.x, y: krampus.y, angle, speed: missileSpeed });
+			missile.fire({ x: krampus.x, y: krampus.y, angle });
 			this.#missiles.add(missile);
-			// this.#scene.physics.velocityFromRotation(angle, speed, missile.velocity);
 			this.#nextFireTime = time + 500;
 		}
 	}
