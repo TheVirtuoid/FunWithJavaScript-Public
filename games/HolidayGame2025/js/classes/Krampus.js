@@ -28,19 +28,12 @@ export default class Krampus {
 		this.#radius = this.#sprite.width / 2;
 		this.#sprite.body.setCircle(this.#radius, this.#sprite.width * .5 - this.#radius, this.#sprite.height * .5 - this.#radius);
 		this.#sprite.body.setCollideWorldBounds(true);
-		// Enable damping so drag is applied smoothly
-		this.#sprite.body.setDamping(false);
-
-		// Drag acts like friction; tune these values
-		this.#sprite.body.setDrag(100, 100);
-		// Limit maximum speed
-		this.#sprite.body.setMaxVelocity(400, 400);
 		this.#displayRadius = this.#sprite.displayWidth / 2;
-		this.#missiles = this.#scene.physics.add.group({
+		/*this.#missiles = this.#scene.physics.add.group({
 			classType: KrampusMissile,
 			maxSize: 30,
 			runChildUpdate: true
-		});
+		});*/
 		// Krampus Gun
 		this.#gun = this.#scene.add.graphics();
 		this.#gun.fillStyle(0xffffff, 1); // color, alpha
@@ -49,6 +42,12 @@ export default class Krampus {
 		const gunPosition = this.#getGunPositionOnCircle();
 		this.#gun.setPosition(gunPosition.x, gunPosition.y);
 		this.#sprite.name = Krampus.NAME;
+	}
+
+	setPhysicsAttributes() {
+		this.#sprite.body.setDamping(true);
+		this.#sprite.body.setDrag(.5, .5);
+		this.#sprite.body.setMaxVelocity(400, 400);
 	}
 
 	setAcceleration(x, y) {

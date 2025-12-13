@@ -23,7 +23,6 @@ export default class Asteroid {
 		this.#asteroid.setCollideWorldBounds(true);
 		this.#asteroid.setBounce(1, 1);
 		this.#asteroid.body.setAllowGravity(false);
-		this.#asteroid.setAttributes();
 		this.#scale = scale;
 	}
 
@@ -35,12 +34,9 @@ export default class Asteroid {
 		return this.#scale;
 	}
 
-	setAttributes() {
-		this.#asteroid.setBounce(1,1);
-		this.#asteroid.body.setAllowGravity(false);
+	setPhysicsAttributes() {
 		const asteroidAngle = Phaser.Math.DegToRad(Math.random() * 360);
 		this.#asteroid.body.setVelocity(Math.cos(asteroidAngle) * (Math.random() * 200 + 100), Math.sin(asteroidAngle) * (Math.random() * 200 + 100));
 		this.#asteroid.setAngularVelocity(Math.random() * 30 + 50);
-
 	}
 }

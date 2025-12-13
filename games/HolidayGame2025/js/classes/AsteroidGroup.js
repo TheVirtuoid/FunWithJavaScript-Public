@@ -15,11 +15,11 @@ export default class AsteroidGroup {
 		this.#krampus = krampus;
 		this.#space = space;
 		this.#asteroids = new Set();
-		this.#physicsGroup = this.#scene.physics.add.group({
+		/*this.#physicsGroup = this.#scene.physics.add.group({
 			bounceX: 1,
 			bounceY: 1,
 			colliderWorldBounds: false
-		});
+		});*/
 	}
 
 	addKrampus(krampus) {
@@ -29,6 +29,45 @@ export default class AsteroidGroup {
 	removeKrampus() {
 		this.#krampus = null;
 	}
+
+	getSprites() {
+		return [ ...this.#asteroids.values()].map(asteroid => asteroid.sprite);
+	}
+
+	addAsteroid(x, y, scale) {
+		const randomize = x === Number.POSITIVE_INFINITY || y === Number.POSITIVE_INFINITY;
+		const newAsteroid = new Asteroid(this.#scene);
+		if (randomize) {
+			const spawnPos = this.#findNonOverlappingPosition({
+				asteroidRadius: 60,           // approximate; tweak if needed
+				minDistanceFromKrampus: 120,  // how far from Krampus
+				edgePadding: 40               // don't spawn right on the edges
+			});
+			x = spawnPos.x;
+			y = spawnPos.y;
+		}
+		newAsteroid.create({
+			scale,
+			x,
+			y
+		});
+
+		/*// Setup physics properties
+		const sprite = newAsteroid.sprite;
+		this.#asteroidGroup.add(sprite);
+		sprite.setBounce(1, 1);
+		sprite.body.setAllowGravity(false);
+		newAsteroid.setAttributes(); // Sets rotation, etc.*/
+
+		// Set random velocity
+		/*const angle = Phaser.Math.FloatBetween(0, Math.PI * 2);
+		this.#scene.physics.velocityFromRotation(angle, 100, newAsteroid.sprite.body.velocity);*/
+
+		this.#asteroids.add(newAsteroid);
+		return newAsteroid;
+	}
+
+
 
 	generate(number = this.#numStart) {
 		for (let i = 0; i < number; i++) {

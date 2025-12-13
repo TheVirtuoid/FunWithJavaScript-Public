@@ -66,16 +66,12 @@ export default class KrampusScene extends Phaser.Scene {
 	create() {
 		this.#gameController = new GameController(this);
 		this.#space = new Space(this);
-		this.#krampus = new Krampus(this, this.#space.midPoint.x, this.#space.midPoint.y);
-		this.#asteroidGroup = new AsteroidGroup({ scene: this, krampus: this.#krampus, space: this.#space, addToPhysics: true });
 		this.#sidebar = new Sidebar(this);
 		this.#start = new Start(this);
 		this.#shipsPhysicsGroup = this.physics.add.group();
 		this.#asteroidsPhysicsGroup = this.physics.add.group();
 		this.#missilesPhysicsGroup = this.physics.add.group();
 		this.#gameStarted = false;
-
-		this.#shipsPhysicsGroup.add(this.#krampus.sprite);
 
 		this.physics.add.collider(
 			this.#shipsPhysicsGroup,
@@ -117,6 +113,17 @@ export default class KrampusScene extends Phaser.Scene {
 			this
 		);
 
+		this.#gameStarted = false;
+		GameEvent.Emit(GameEvent.LEVEL_STARTED);
+
+		/*this.#krampus = new Krampus(this, this.#space.midPoint.x, this.#space.midPoint.y);
+		this.#asteroidGroup = new AsteroidGroup({ scene: this, krampus: this.#krampus, space: this.#space });
+		this.#shipsPhysicsGroup.add(this.#krampus.sprite);
+
+		const asteroid = this.#asteroidGroup.addAsteroid(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Asteroid.SCALE_LARGE);
+		this.#asteroidsPhysicsGroup.add(asteroid.sprite);
+		asteroid.setPhysicsAttributes();*/
+
 		/*this.#buildStaticAssets();
 		this.#buildAssets();
 
@@ -143,6 +150,16 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#currentDelta = delta;
 		this.#launchShips(time);
 		this.#updateShips(time);
+		this.physics.world.wrap(this.#asteroidsPhysicsGroup, 40);
+		this.physics.world.wrap(this.#krampus.sprite, 40);
+		this.#krampus?.processGunRotation(this.#gameController);
+		const { thrustX, thrustY } = this.#gameController.getThrust();
+		// deadzone for stick
+		const deadzone = 0.12;
+		const ax = Math.abs(thrustX) < deadzone ? 0 : thrustX;
+		const ay = Math.abs(thrustY) < deadzone ? 0 : thrustY;
+		this.#krampus?.setAcceleration(ax * this.#speed, ay * this.#speed);
+		this.#krampus?.updateGunPosition();
 		/*if (!this.#gameStarted && this.#gameController.gameStart) {
 			this.onEvent(GameEvent.GAME_STARTED);
 		}
@@ -173,6 +190,7 @@ export default class KrampusScene extends Phaser.Scene {
 		else if (eventName === GameEvent.SANTA_MISSILE_HIT_KRAMPUS) this.#onSantaMissileHitKrampus(...data);
 		else if (eventName === GameEvent.KRAMPUS_HIT_ELF) this.#onKrampusHitElf(...data);
 		else if (eventName === GameEvent.KRAMPUS_HIT_SANTA) this.#onKrampusHitSanta(...data);
+		else if (eventName === GameEvent.LEVEL_STARTED) this.#onLevelStarted(...data);
 		/*  else if (eventName === GameEvent.KRAMPUS_HIT_ASTEROID) this.#onKrampusHitAsteroid(...data);
 		else if (eventName === GameEvent.KRAMPUS_HIT_SANTA) thie.#onKrampusHitSanta(...data);
 		else if (eventName === GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID) this.#onKrampusMissileHitAsteroid(...data);
@@ -192,12 +210,15 @@ export default class KrampusScene extends Phaser.Scene {
 		else if (eventName === GameEvent.LEVEL_NEXT) this.#onLevelNext(...data);*/
 	}
 
+	/** -------------------------------------------------------- METHODS -------------------------------------- */
+
 	#handleShipHitAsteroid(...data) {
 		console.log('a ship has hit an asteroid');
 		console.log(data);
 	}
 
 	#handleMissileHitShip(ship, missile) {
+		console.log('missile hit ship');
 		if (missile instanceof ElfMissile && ship.name === Krampus.NAME) {
 			GameEvent.Emit(GameEvent.ELF_MISSILE_HIT_KRAMPUS, ship, missile);
 		}
@@ -212,6 +233,7 @@ export default class KrampusScene extends Phaser.Scene {
 	}
 
 	#handleShipHitShip(ship1, ship2) {
+		console.log('ship hit ship');
 		if ((ship1.name === Krampus.NAME || ship2.name === Krampus.NAME) && (ship1.name === Elf.NAME || ship2.name === Elf.NAME)) {
 			GameEvent.Emit(GameEvent.KRAMPUS_HIT_ELF, ship1, ship2);
 		}
@@ -304,14 +326,12 @@ export default class KrampusScene extends Phaser.Scene {
 	}*/
 
 	#launchShips(time) {
-		if (time - this.#lastElfTime > this.#elfTimer) {
+		/*if (time - this.#lastElfTime > this.#elfTimer) {
 			GameEvent.Emit(GameEvent.LAUNCH_ELF_SHIP);
-		}
+		}*/
 		/*if (time - this.#lastSantaTime > this.#santaTimer) {
 			GameEvent.Emit(GameEvent.LAUNCH_SANTA_SHIP);
 		}*/
-		// this.#elf = this.#elf?.update(time, this.#krampus) ? null : this.#elf;
-		// this.#santa = this.#santa?.updateMovement() ? null : this.#santa;
 	}
 
 	#launchElf() {
@@ -586,15 +606,46 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#lastElfTime = Number.POSITIVE_INFINITY;
 	}
 
+	#onLaunchSanta() {
+		this.#launchSanta();
+		this.#lastSantaTime = Number.POSITIVE_INFINITY;
+	}
+
+	#onLevelStarted() {
+		this.#krampus = new Krampus(this, this.#space.midPoint.x, this.#space.midPoint.y);
+		this.#asteroidGroup = new AsteroidGroup({ scene: this, krampus: this.#krampus, space: this.#space });
+		this.#shipsPhysicsGroup.add(this.#krampus.sprite);
+		this.#krampus.setPhysicsAttributes();
+
+		/*for (let i = 0; i < 4; i++) {
+			const asteroid = this.#asteroidGroup.addAsteroid(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Asteroid.SCALE_LARGE);
+			this.#asteroidsPhysicsGroup.add(asteroid.sprite);
+			asteroid.setPhysicsAttributes();
+		}*/
+
+
+
+
+		/*this.#krampus = new Krampus(this, this.#space.midPoint.x, this.#space.midPoint.y);
+		// this.#asteroidGroup = new AsteroidGroup({ scene: this, krampus: this.#krampus, space: this.#space });
+		this.#shipsPhysicsGroup.add(this.#krampus.sprite);
+		// this.#krampus.setPosition(this.#space.midPoint.x, this.#space.midPoint.y);
+		// this.#krampus.setVisible();
+		// ramdomize 4 more new asteroids
+		// this.#spawnSplitAsteroids(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Asteroid.SCALE_LARGE, 4);
+		this.#addAsteroids(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Asteroid.SCALE_LARGE, 4);
+		// make the asteroids invisible
+		this.#asteroids.forEach(asteroid => asteroid.sprite.setVisible(true));
+		// show stats
+		this.#sidebar.showScore();
+		// start bonus timer
+		this.#sidebar.startBonusTimer();*/
+	}
+
 	#onRemoveElf(time) {
 		this.#elf.removeShip();
 		this.#elf = null;
 		this.#lastElfTime = time;
-	}
-
-	#onLaunchSanta() {
-		this.#launchSanta();
-		this.#lastSantaTime = Number.POSITIVE_INFINITY;
 	}
 
 	#onRemoveSanta(time) {
