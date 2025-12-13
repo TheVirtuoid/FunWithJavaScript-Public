@@ -1,4 +1,4 @@
-import Missile from "./MIssile.js";
+import Missile from "./Missile.js";
 
 export default class KrampusMissile extends Missile {
 	#sprite
@@ -7,8 +7,9 @@ export default class KrampusMissile extends Missile {
 		scene.load.image('krampus-missile', '../img/coal.png');
 	}
 
-	constructor(scene, x, y, angle) {
-		super(scene, x, y, 'krampus-missile');
+	constructor(args) {
+		args.spriteName = 'krampus-missile';
+		super(args);
 	}
 
 }

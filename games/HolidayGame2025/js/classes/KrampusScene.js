@@ -12,6 +12,7 @@ import Phaser from "phaser";
 import AsteroidGroup from "./AsteroidGroup.js";
 import ElfMissile from "./ElfMIssile.js";
 import SantaMissile from "./SantaMIssile.js";
+import KrampusMissile from "./KrampusMIssile.js";
 
 export default class KrampusScene extends Phaser.Scene {
 	#krampus;
@@ -154,12 +155,16 @@ export default class KrampusScene extends Phaser.Scene {
 		this.physics.world.wrap(this.#krampus.sprite, 40);
 		this.#krampus?.processGunRotation(this.#gameController);
 		const { thrustX, thrustY } = this.#gameController.getThrust();
-		// deadzone for stick
-		const deadzone = 0.12;
-		const ax = Math.abs(thrustX) < deadzone ? 0 : thrustX;
-		const ay = Math.abs(thrustY) < deadzone ? 0 : thrustY;
-		this.#krampus?.setAcceleration(ax * this.#speed, ay * this.#speed);
+		this.#krampus?.setAcceleration(thrustX * this.#speed, thrustY * this.#speed);
 		this.#krampus?.updateGunPosition();
+		// if (this.#gameStarted) {
+			if (this.#gameController.leftFireMissile) {
+				this.#krampus?.fireMissile();
+			}
+			if (this.#gameController.rightFireMissile) {
+				this.#krampus?.fireMissile();
+			}
+		// }
 		/*if (!this.#gameStarted && this.#gameController.gameStart) {
 			this.onEvent(GameEvent.GAME_STARTED);
 		}
@@ -191,11 +196,11 @@ export default class KrampusScene extends Phaser.Scene {
 		else if (eventName === GameEvent.KRAMPUS_HIT_ELF) this.#onKrampusHitElf(...data);
 		else if (eventName === GameEvent.KRAMPUS_HIT_SANTA) this.#onKrampusHitSanta(...data);
 		else if (eventName === GameEvent.LEVEL_STARTED) this.#onLevelStarted(...data);
+		else if (eventName === GameEvent.KRAMPUS_MISSILE_HIT_ELF) this.#onKrampusMissileHitElf(...data);
+		else if (eventName === GameEvent.KRAMPUS_MISSILE_HIT_SANTA) this.#onKrampusMissileHitSanta(...data);
 		/*  else if (eventName === GameEvent.KRAMPUS_HIT_ASTEROID) this.#onKrampusHitAsteroid(...data);
 		else if (eventName === GameEvent.KRAMPUS_HIT_SANTA) thie.#onKrampusHitSanta(...data);
 		else if (eventName === GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID) this.#onKrampusMissileHitAsteroid(...data);
-		else if (eventName === GameEvent.KRAMPUS_MISSILE_HIT_ELF) this.#onKrampusMissileHitElf(...data);
-		else if (eventName === GameEvent.KRAMPUS_MISSILE_HIT_SANTA) this.#onKrampusMissileHitSanta(...data);
 
 		else if (eventName === GameEvent.ELF_MISSILE_HIT_ASTEROID) this.#onElfMissileHitAsteroid(...data);
 
@@ -218,12 +223,15 @@ export default class KrampusScene extends Phaser.Scene {
 	}
 
 	#handleMissileHitShip(ship, missile) {
-		console.log('missile hit ship');
 		if (missile instanceof ElfMissile && ship.name === Krampus.NAME) {
 			GameEvent.Emit(GameEvent.ELF_MISSILE_HIT_KRAMPUS, ship, missile);
 		}
 		if (missile instanceof SantaMissile && ship.name === Krampus.NAME) {
 			GameEvent.Emit(GameEvent.SANTA_MISSILE_HIT_KRAMPUS, ship, missile);
+		}
+		if (missile instanceof KrampusMissile && ship.name !== Krampus.NAME) {
+			const eventName = ship.name === Elf.NAME ? GameEvent.KRAMPUS_MISSILE_HIT_ELF : GameEvent.KRAMPUS_MISSILE_HIT_SANTA;
+			GameEvent.Emit(eventName, ship, missile);
 		}
 	}
 
@@ -329,9 +337,9 @@ export default class KrampusScene extends Phaser.Scene {
 		/*if (time - this.#lastElfTime > this.#elfTimer) {
 			GameEvent.Emit(GameEvent.LAUNCH_ELF_SHIP);
 		}*/
-		/*if (time - this.#lastSantaTime > this.#santaTimer) {
+		if (time - this.#lastSantaTime > this.#santaTimer) {
 			GameEvent.Emit(GameEvent.LAUNCH_SANTA_SHIP);
-		}*/
+		}
 	}
 
 	#launchElf() {
@@ -601,6 +609,14 @@ export default class KrampusScene extends Phaser.Scene {
 		// they bounce off each other, so no action is taken.
 	}
 
+	#onKrampusMissileHitElf(ship, missile) {
+		missile.destroy();
+	}
+
+	#onKrampusMissileHitSanta(ship, missile) {
+		missile.destroy();
+	}
+
 	#onLaunchElf() {
 		this.#launchElf();
 		this.#lastElfTime = Number.POSITIVE_INFINITY;
@@ -612,7 +628,7 @@ export default class KrampusScene extends Phaser.Scene {
 	}
 
 	#onLevelStarted() {
-		this.#krampus = new Krampus(this, this.#space.midPoint.x, this.#space.midPoint.y);
+		this.#krampus = new Krampus({ scene: this, x: this.#space.midPoint.x, y: this.#space.midPoint.y, missilesPhysicsGroup: this.#missilesPhysicsGroup });
 		this.#asteroidGroup = new AsteroidGroup({ scene: this, krampus: this.#krampus, space: this.#space });
 		this.#shipsPhysicsGroup.add(this.#krampus.sprite);
 		this.#krampus.setPhysicsAttributes();

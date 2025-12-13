@@ -10,7 +10,7 @@ export default class Krampus {
 	#missiles;
 	#gun;
 	#gunAngle;
-	#asteroidMissileCollider
+	#missilesPhysicsGroup;
 
 	static Preload(scene) {
 		scene.load.image('krampus', '/img/krampus.png');
@@ -19,7 +19,8 @@ export default class Krampus {
 
 	static NAME = 'Krampus';
 
-	constructor(scene, x, y) {
+	constructor(args = {}) {
+		const { scene, x, y, missilesPhysicsGroup } = args;
 		this.#scene = scene;
 
 		this.#sprite = this.#scene.physics.add.sprite(x, y, 'krampus');
@@ -42,6 +43,7 @@ export default class Krampus {
 		const gunPosition = this.#getGunPositionOnCircle();
 		this.#gun.setPosition(gunPosition.x, gunPosition.y);
 		this.#sprite.name = Krampus.NAME;
+		this.#missilesPhysicsGroup = missilesPhysicsGroup;
 	}
 
 	setPhysicsAttributes() {
@@ -54,7 +56,7 @@ export default class Krampus {
 		this.#sprite.body?.setAcceleration(x, y);
 	}
 
-	addAsteroidCollider(asteroids, event) {
+	/*addAsteroidCollider(asteroids, event) {
 		this.#asteroidMissileCollider = this.#scene.physics.add.collider(
 			this.#missiles,
 			asteroids,
@@ -62,7 +64,7 @@ export default class Krampus {
 			null,
 			this.#scene
 		);
-	}
+	}*/
 
 	setInvisible() {
 		this.#sprite.setVisible(false);
@@ -91,10 +93,20 @@ export default class Krampus {
 
 	fireMissile() {
 		const gunPos = this.#getGunPositionOnCircle();
-		const missile = this.#missiles.get(gunPos.x, gunPos.y, 'krampus-missile');
+
+
+		const missile = new KrampusMissile({ scene: this.#scene, x: this.x, y: this.y });
+		this.#missilesPhysicsGroup.add(missile);
+		missile.fire({ x: gunPos.x, y: gunPos.y, angle: this.#gunAngle });
+		// this.#missiles.add(missile);
+
+
+
+
+		/*const missile = this.#missiles.get(gunPos.x, gunPos.y, 'krampus-missile');
 		if (missile) {
 			missile.fire(gunPos.x, gunPos.y, this.#gunAngle);
-		}
+		}*/
 	}
 
 	get x() {

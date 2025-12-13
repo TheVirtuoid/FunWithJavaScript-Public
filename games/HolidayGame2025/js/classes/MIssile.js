@@ -6,7 +6,7 @@ export default class Missile extends Phaser.Physics.Arcade.Sprite {
 	static MISSILE_SPEED = 600;
 
 	constructor(args = {}) {
-		const { scene, x, y, spriteName, angle, speed = Missile.MISSILE_SPEED } = args;
+		const { scene, x, y, spriteName, angle = 0, speed = Missile.MISSILE_SPEED } = args;
 		super(scene, x, y, spriteName);
 		this.#scene = scene;
 		this.#speed = speed;
@@ -35,6 +35,7 @@ export default class Missile extends Phaser.Physics.Arcade.Sprite {
 		if (!this.scene.physics.world.bounds.contains(this.x, this.y)) {
 			this.setActive(false);
 			this.setVisible(false);
+			this.destroy();
 		}
 	}
 }
