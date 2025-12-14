@@ -1,4 +1,5 @@
 import Asteroid from "./Asteroid.js";
+import GameEvent from "./GameEvent.js";
 
 export default class AsteroidGroup {
 	#scene;
@@ -7,14 +8,17 @@ export default class AsteroidGroup {
 	#asteroids;
 	#physicsGroup;
 
+	#asteroidsPhysicsGroup;
+
 	#numStart = 4;
 
 	constructor(args = {}) {
-		const { scene, krampus, space } = args;
+		const { scene, krampus, space, asteroidsPhysicsGroup } = args;
 		this.#scene = scene;
 		this.#krampus = krampus;
 		this.#space = space;
 		this.#asteroids = new Set();
+		this.#asteroidsPhysicsGroup = asteroidsPhysicsGroup;
 		/*this.#physicsGroup = this.#scene.physics.add.group({
 			bounceX: 1,
 			bounceY: 1,
@@ -65,6 +69,37 @@ export default class AsteroidGroup {
 
 		this.#asteroids.add(newAsteroid);
 		return newAsteroid;
+	}
+
+	remove(sprite) {
+		let hitAsteroid = null;
+		for (const asteroid of this.#asteroids) {
+			if (asteroid.sprite === sprite) {
+				hitAsteroid = asteroid;
+				break;
+			}
+		}
+		if (!hitAsteroid) return;
+		if (hitAsteroid.scale !== Asteroid.SCALE_SMALL) {
+			const newScale = hitAsteroid.scale === Asteroid.SCALE_LARGE ? Asteroid.SCALE_MEDIUM : Asteroid.SCALE_SMALL;
+			for (let i = 0; i < 2; i++) {
+				const asteroid = this.addAsteroid(hitAsteroid.sprite.x, hitAsteroid.sprite.y, newScale);
+				this.#asteroidsPhysicsGroup.add(asteroid.sprite);
+				asteroid.setPhysicsAttributes();
+			}
+		}
+		sprite.destroy();
+		this.#asteroids.delete(hitAsteroid);
+		if (this.#asteroids.size === 0) {
+			GameEvent.Emit(GameEvent.LEVEL_COMPLETE);
+		}
+	}
+
+	removeAll() {
+		for (const asteroid of this.#asteroids) {
+			asteroid.sprite.destroy();
+		}
+		this.#asteroids.clear();
 	}
 
 

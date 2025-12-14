@@ -182,5 +182,10 @@ export default class Krampus {
 		this.#gun.setPosition(gunPosition.x, gunPosition.y);
 	}
 
+	destroy() {
+		this.#sprite.destroy();
+		this.#gun.destroy();
+	}
+
 
 }

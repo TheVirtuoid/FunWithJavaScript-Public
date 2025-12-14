@@ -154,5 +154,6 @@ export default class Ship {
 		this.#sprite.destroy();
 		this.#missiles.forEach((missile) => missile.destroy());
 		this.#movingTarget = null;
+		this.#nextFireTime = Number.MAX_SAFE_INTEGER;
 	}
 }

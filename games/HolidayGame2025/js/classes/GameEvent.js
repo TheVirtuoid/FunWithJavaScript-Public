@@ -22,6 +22,7 @@ export default class GameEvent {
 	static SANTA_MISSILE_HIT_KRAMPUS = Symbol('santa-missile-hit-krampus');
 	static SANTA_MISSILE_HIT_ASTEROID = Symbol('santa-missile-hit-asteroid');
 
+	static ASTEROID_HIT_ASTEROID = Symbol('asteroid-hit-asteroid');
 
 	static GAME_STARTED = Symbol('game-started');
 	static GAME_OVER = Symbol('game-over');
