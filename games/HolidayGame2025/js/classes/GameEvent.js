@@ -26,6 +26,7 @@ export default class GameEvent {
 
 	static GAME_STARTED = Symbol('game-started');
 	static GAME_OVER = Symbol('game-over');
+	static GAME_RESET = Symbol('game-reset');
 	static LEVEL_STARTED = Symbol('level-started');
 	static LEVEL_COMPLETE = Symbol('level-complete');
 	static LEVEL_NEXT = Symbol('level-next');
@@ -34,4 +35,7 @@ export default class GameEvent {
 	static LAUNCH_SANTA_SHIP = Symbol('launch-santa-ship');
 	static REMOVE_ELF_SHIP = Symbol('remove-elf-ship');
 	static REMOVE_SANTA_SHIP = Symbol('remove-santa-ship');
+
+	static COUNTDOWN_STARTED = Symbol('countdown-started');
+	static COUNTDOWN_COMPLETE = Symbol('countdown-complete');
 }

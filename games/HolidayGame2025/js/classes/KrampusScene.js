@@ -7,7 +7,6 @@ import Start from "./Start.js";
 import GameEvent from "./GameEvent.js";
 import Space from "./Space.js";
 import GameController from "./GameController.js";
-// import { Scene } from "phaser";
 import Phaser from "phaser";
 import AsteroidGroup from "./AsteroidGroup.js";
 import ElfMissile from "./ElfMIssile.js";
@@ -21,16 +20,15 @@ export default class KrampusScene extends Phaser.Scene {
 	#elf;
 	#santa;
 
+	#kaBoomSprite;
+
 	#asteroidGroup;
 	#speed = 400;
 
 	#asteroids = new Set();
-	// #asteroidGroup;
 
-	#elfTimer = 15000;
-	#lastElfTime = 0;
-	#santaTimer = 15000;
-	#lastSantaTime = 0;
+	#shipTimer = 15000;
+	#lastShipTime = 0;
 
 	#sidebar;
 	#start;
@@ -44,6 +42,8 @@ export default class KrampusScene extends Phaser.Scene {
 	#asteroidsPhysicsGroup;
 	#missilesPhysicsGroup;
 
+	#inCountdown;
+
 	constructor() {
 		super({
 			key: 'krampus',
@@ -54,6 +54,7 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#elf = null;
 		this.#santa = null;
 		this.#sidebar = null;
+		this.#inCountdown = false;
 		GameEvent.Setup(this);
 	}
 
@@ -62,6 +63,7 @@ export default class KrampusScene extends Phaser.Scene {
 		Asteroid.Preload(this);
 		Elf.Preload(this);
 		Santa.Preload(this);
+		this.load.image('ka-boom', '/img/blast.png');
 	}
 
 	create() {
@@ -116,34 +118,6 @@ export default class KrampusScene extends Phaser.Scene {
 
 		this.#gameStarted = false;
 		GameEvent.Emit(GameEvent.LEVEL_STARTED);
-
-		/*this.#krampus = new Krampus(this, this.#space.midPoint.x, this.#space.midPoint.y);
-		this.#asteroidGroup = new AsteroidGroup({ scene: this, krampus: this.#krampus, space: this.#space });
-		this.#shipsPhysicsGroup.add(this.#krampus.sprite);
-
-		const asteroid = this.#asteroidGroup.addAsteroid(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Asteroid.SCALE_LARGE);
-		this.#asteroidsPhysicsGroup.add(asteroid.sprite);
-		asteroid.setPhysicsAttributes();*/
-
-		/*this.#buildStaticAssets();
-		this.#buildAssets();
-
-		this.#speed = 600; // pixels/sec²; tweak to taste*/
-
-		/*this.physics.add.collider(this.#asteroidGroup, this.#asteroidGroup);
-		this.physics.add.collider(
-			this.#krampus.sprite,
-			this.#asteroidGroup,
-			this.#onKrampusHitAsteroid,
-			null,
-			this
-		);*/
-		// this.#krampus.addAsteroidCollider(this.#asteroidGroup, this.#onMissileHitAsteroid.bind(this));
-		// this.#krampus.addAsteroidCollider(this.#asteroidGroup, GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID);
-		/*this.#lastElfTime = 0;
-
-		this.#start = new Start(this);
-		this.#gameStarted = false;*/
 	}
 
 	update(time, delta) {
@@ -160,35 +134,21 @@ export default class KrampusScene extends Phaser.Scene {
 		const { thrustX, thrustY } = this.#gameController.getThrust();
 		this.#krampus?.setAcceleration(thrustX * this.#speed, thrustY * this.#speed);
 		this.#krampus?.updateGunPosition();
-		if (this.#gameController.leftFireMissile) {
-			this.#krampus?.fireMissile();
-		}
-		if (this.#gameController.rightFireMissile) {
-			this.#krampus?.fireMissile();
-		}
-		/*if (!this.#gameStarted && this.#gameController.gameStart) {
-			this.onEvent(GameEvent.GAME_STARTED);
-		}
-		this.#launchShips(time);
-		this.#updateShips(time);
-		this.physics.world.wrap(this.#asteroidGroup, 40);
-		this.#krampus?.processGunRotation(this.#gameController);
-		const { thrustX, thrustY } = this.#gameController.getThrust();
-		this.#krampus?.setAcceleration(thrustX * this.#speed, thrustY * this.#speed);
-		if (this.#gameStarted) {
+		if (this.#gameStarted && !this.#inCountdown) {
 			if (this.#gameController.leftFireMissile) {
-				this.#fireLeftMissile();
+				this.#krampus?.fireMissile();
 			}
 			if (this.#gameController.rightFireMissile) {
-				this.#fireRightMissile();
+				this.#krampus?.fireMissile();
 			}
 		}
-		this.#krampus?.updateGunPosition();*/
 	}
 
 	onEvent(eventName, ...data) {
 		if (eventName === GameEvent.GAME_STARTED) this.#onGameStarted(...data);
 		else if (eventName === GameEvent.GAME_OVER) this.#onGameOver(...data);
+		else if (eventName === GameEvent.COUNTDOWN_STARTED) this.#onCountdownStarted(...data);
+		else if (eventName === GameEvent.COUNTDOWN_COMPLETE) this.#onCountdownComplete(...data);
 		else if (eventName === GameEvent.LAUNCH_ELF_SHIP) this.#onLaunchElf(...data);
 		else if (eventName === GameEvent.REMOVE_ELF_SHIP) this.#onRemoveElf(...data);
 		else if (eventName === GameEvent.ELF_MISSILE_HIT_KRAMPUS) this.#onElfMissileHitKrampus(...data);
@@ -205,18 +165,7 @@ export default class KrampusScene extends Phaser.Scene {
 		else if (eventName === GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID) this.#onKrampusMissileHitAsteroid(...data);
 		else if (eventName === GameEvent.LEVEL_COMPLETE) this.#onLevelComplete(...data);
 		else if (eventName === GameEvent.ELF_MISSILE_HIT_ASTEROID) this.#onElfMissileHitAsteroid(...data);
-		else if (eventName === GameEvent.GAME_STARTED) this.#onGameStarted(...data);
-		/*  else if (eventName === GameEvent.KRAMPUS_HIT_ASTEROID) this.#onKrampusHitAsteroid(...data);
-		else if (eventName === GameEvent.KRAMPUS_HIT_SANTA) thie.#onKrampusHitSanta(...data);
-
-
-		else if (eventName === GameEvent.SANTA_MISSILE_HIT_ASTEROID) this.#onSantaMissileHitAsteroid(...data);
-		else if (eventName === GameEvent.SANTA_MISSILE_HIT_KRAMPUS) this.#onSantaMissileHitKrampus(...data);
-
-
-
-		else if (eventName === GameEvent.LEVEL_STARTED) this.#onLevelStarted(...data);
-		else if (eventName === GameEvent.LEVEL_NEXT) this.#onLevelNext(...data);*/
+		else if (eventName === GameEvent.GAME_RESET) this.#onGameReset(...data);
 	}
 
 	/** -------------------------------------------------------- METHODS -------------------------------------- */
@@ -262,91 +211,15 @@ export default class KrampusScene extends Phaser.Scene {
 		}
 	}
 
-	/*#fireLeftMissile() {
-		this.#fireMissile();
-	}*/
-
-	/*#fireRightMissile() {
-		this.#fireMissile();
-	}*/
-
-	/*#fireMissile() {
-		this.#krampus.fireMissile();
-	}*/
-
-	// Helper: find a random position that doesn't overlap Krampus or any existing asteroid
-	/*#findNonOverlappingPosition(options) {
-		const {
-			asteroidRadius,
-			minDistanceFromKrampus,
-			edgePadding
-		} = options;
-
-		// const bounds = this.physics.world.bounds;
-		const minX = this.#space.left + edgePadding;
-		const maxX = this.#space.right - edgePadding;
-		const minY = this.#space.top + edgePadding;
-		const maxY = this.#space.bottom - edgePadding;
-
-		const maxAttempts = 50;
-		for (let attempt = 0; attempt < maxAttempts; attempt++) {
-			const x = Phaser.Math.Between(minX, maxX);
-			const y = Phaser.Math.Between(minY, maxY);
-
-			let valid = true;
-
-			// 1) Not too close to Krampus
-			const distToKrampus = Phaser.Math.Distance.Between(x, y, this.#krampus.x, this.#krampus.y);
-			if (distToKrampus < this.#krampus.displayRadius + minDistanceFromKrampus) {
-				valid = false;
-			}
-
-			// 2) Not overlapping any already-created asteroid
-			if (valid) {
-				for (const existing of this.#asteroids) {
-					const sprite = existing.sprite;
-					if (!sprite) continue;
-
-					// For squares, we check X and Y overlap separately (AABB check)
-					// We treat 'asteroidRadius' as the half-width of the new asteroid
-					const existingHalfWidth = sprite.displayWidth / 2;
-					const existingHalfHeight = sprite.displayHeight / 2;
-
-					const dx = Math.abs(x - sprite.x);
-					const dy = Math.abs(y - sprite.y);
-
-					// Check overlap on both axes with a 10px buffer
-					if (dx < asteroidRadius + existingHalfWidth + 10 &&
-						dy < asteroidRadius + existingHalfHeight + 10) {
-						valid = false;
-						break;
-					}
-				}
-			}
-
-			if (valid) {
-				return { x, y };
-			}
-		}
-
-		// If we can't find a perfect spot, just fall back to center
-		return {
-			x: (minX + maxX) / 2,
-			y: (minY + maxY) / 2
-		};
-	}*/
-
-	/*#onKrampusHitAsteroid(krampusSprite, asteroidSprite) {
-		// purposefully left empty
-	}*/
-
 	#launchShips(time) {
-		if (time - this.#lastElfTime > this.#elfTimer) {
-			GameEvent.Emit(GameEvent.LAUNCH_ELF_SHIP);
+		if (time - this.#lastShipTime > this.#shipTimer) {
+			const whoGetsToShootAtKrampus = Math.floor(Math.random() * 100);
+			if (whoGetsToShootAtKrampus < (this.#sidebar.level - 1) * 10) {
+				GameEvent.Emit(GameEvent.LAUNCH_SANTA_SHIP);
+			} else {
+				GameEvent.Emit(GameEvent.LAUNCH_ELF_SHIP);
+			}
 		}
-		/*if (time - this.#lastSantaTime > this.#santaTimer) {
-			GameEvent.Emit(GameEvent.LAUNCH_SANTA_SHIP);
-		}*/
 	}
 
 	#launchElf() {
@@ -372,234 +245,18 @@ export default class KrampusScene extends Phaser.Scene {
 			GameEvent.Emit(GameEvent.REMOVE_SANTA_SHIP, time);
 		}
 	}
-	/*#launchSanta() {
-		// Create the ship initially off-screen so we can read its radius
-		this.#santa = new Santa(this, -1000, -1000);
-		this.physics.add.collider(
-			this.#santa.sprite,
-			this.#asteroidGroup,
-			this.#onKrampusHitAsteroid,
-			null,
-			this
-		);
-		this.physics.add.collider(
-			this.#santa.sprite,
-			this.#krampus.sprite,
-			this.#onKrampusHitAsteroid,
-			null,
-			this
-		);
-		this.#santa.launch();
-	}*/
-
-	/*#onLevelComplete(data) {
-		this.#sidebar.stopBonusTimer();
-		this.#elf?.removeShip();
-		setTimeout(() => {
-			GameEvent.Emit(GameEvent.LEVEL_NEXT);
-		}, 5000)
-	}*/
-
-	/*#onMissileHitElf(elfSprite, missile) {
-		if (this.#gameStarted) {
-			missile.destroy();
-			GameEvent.Emit(GameEvent.REMOVE_ELF_SHIP, this.#currentTime);
-		}
-	}*/
-
-	/*#onElfOrSantaMissileHitKrampus(missile, krampusSprite) {
-		if (this.#gameStarted) {
-			//  missile.destroy();
-		}
-	}*/
-
-	/*#onElfOrSantaMissileHitAsteroid(missile, asteroidSprite) {
-		if (this.#gameStarted) {
-			this.#missileDestroysAsteroid(missile, asteroidSprite);
-		}
-	}*/
-
-	/*#onMissileHitAsteroid(missile, asteroidSprite) {
-		if (this.#gameStarted) {
-			this.#sidebar.incrementScore(1);
-			this.#missileDestroysAsteroid(missile, asteroidSprite);
-		}
-	}*/
-
-	/*#onGameStarted() {
-		this.scene.stop('credits');
-		this.#gameStarted = true;
-		this.#sidebar.reset();
-		GameEvent.Emit(GameEvent.LEVEL_NEXT);
-	}*/
-
-
-
-	/*#onRemoveElf(time) {
-		this.#elf.removeShip();
-		this.#elf = null;
-		this.#lastElfTime = time;
-	}*/
-
-	/*#onLevelNext() {
-		this.#sidebar.incrementLevel(1);
-		this.#sidebar.hideScore();
-		this.#sidebar.hideBonusTimer();
-		// make krampus invisible
-		this.#krampus.setInvisible();
-		// remove the asteroids to asteroid collision group
-		this.#asteroidGroup.clear(true, true);
-		this.#asteroids.clear();
-		// remove the krampus to asteroids collision group
-		this.#krampus.missiles.clear(true, true);
-		// game over invisible
-		this.#sidebar.hideGameOver();
-		// start the countdown
-		this.#sidebar.startCountdown();
-	}*/
-
-	/*#onLevelStarted() {
-		//krampus visible!
-		this.#krampus.setPosition(this.#space.midPoint.x, this.#space.midPoint.y);
-		this.#krampus.setVisible();
-		// asteroids visible!
-		// ramdomize 4 more new asteroids
-		this.#spawnSplitAsteroids(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Asteroid.SCALE_LARGE, 4);
-		// make the asteroids invisible
-		this.#asteroids.forEach(asteroid => asteroid.sprite.setVisible(true));
-		// show stats
-		this.#sidebar.showScore();
-		// start bonus timer
-		this.#sidebar.startBonusTimer();
-	}*/
-
-	/*#missileDestroysAsteroid(missile, asteroidSprite) {
-		missile.destroy();
-		// Find the wrapper class instance for this sprite
-		let hitAsteroid = null;
-		for (const asteroid of this.#asteroids) {
-			if (asteroid.sprite === asteroidSprite) {
-				hitAsteroid = asteroid;
-				break;
-			}
-		}
-		if (!hitAsteroid) return;
-		if (hitAsteroid.scale === Asteroid.SCALE_LARGE) {
-			this.#spawnSplitAsteroids(hitAsteroid.sprite.x, hitAsteroid.sprite.y, Asteroid.SCALE_MEDIUM, 2);
-		}
-		if (hitAsteroid.scale === Asteroid.SCALE_MEDIUM) {
-			this.#spawnSplitAsteroids(hitAsteroid.sprite.x, hitAsteroid.sprite.y, Asteroid.SCALE_SMALL, 2);
-		}
-		asteroidSprite.destroy();
-		this.#asteroids.delete(hitAsteroid);
-		asteroidSprite.destroy();
-		if (this.#asteroids.size === 0) {
-			GameEvent.Emit(GameEvent.LEVEL_COMPLETE);
-		}
-	}*/
-
-	/*#spawnSplitAsteroids(x, y, newScale, count) {
-		const baseSpeed = 100; // The speed of large asteroids (from #keepBoxSpeedConstant)
-		const newSpeed = baseSpeed * 1.5;
-		const randomize = x === Number.POSITIVE_INFINITY || y === Number.POSITIVE_INFINITY;
-
-		for (let i = 0; i < count; i++) {
-			const newAsteroid = new Asteroid(this);
-			if (randomize) {
-				const spawnPos = this.#findNonOverlappingPosition({
-					asteroidRadius: 60,           // approximate; tweak if needed
-					minDistanceFromKrampus: 120,  // how far from Krampus
-					edgePadding: 40               // don't spawn right on the edges
-				});
-				x = spawnPos.x;
-				y = spawnPos.y;
-			}
-			newAsteroid.create({
-				scale: newScale,
-				x: x,
-				y: y
-			});
-
-			// Setup physics properties
-			const sprite = newAsteroid.sprite;
-			this.#asteroidGroup.add(sprite);
-			sprite.setBounce(1, 1);
-			sprite.body.setAllowGravity(false);
-			newAsteroid.setAttributes(); // Sets rotation, etc.
-
-			// Set random velocity
-			const angle = Phaser.Math.FloatBetween(0, Math.PI * 2);
-			this.physics.velocityFromRotation(angle, newSpeed, sprite.body.velocity);
-
-			this.#asteroids.add(newAsteroid);
-		}
-	}*/
-
-	/*#destroyAssets() {
-		// this.#krampus.destroy();
-		// this.#krampus = null;
-		// this.#asteroids = null;
-		// this.#sidebar = null;
-	}*/
-
-	/*#buildAssets() {
-		this.#gameController = new GameController(this);
-		this.#space = new Space(this);
-		this.#krampus = new Krampus(this, this.#space.midPoint.x, this.#space.midPoint.y);
-		// this.#sidebar = new Sidebar(this);
-		this.#asteroidGroup?.destroy(true);
-		this.#asteroids.clear();
-
-		const numAsteroids = 4;
-		for (let i = 0; i < numAsteroids; i++) {
-			const asteroid = new Asteroid(this);
-			const spawnPos = this.#findNonOverlappingPosition({
-				asteroidRadius: 60,           // approximate; tweak if needed
-				minDistanceFromKrampus: 120,  // how far from Krampus
-				edgePadding: 40               // don't spawn right on the edges
-			});
-
-			asteroid.create({
-				scale: Asteroid.SCALE_LARGE,
-				x: spawnPos.x,
-				y: spawnPos.y
-			});
-
-			this.#asteroids.add(asteroid);
-		}
-		this.#asteroidGroup = this.physics.add.group({
-			bounceX: 1,
-			bounceY: 1,
-			colliderWorldBounds: false
-		});
-		this.#asteroids.forEach(asteroid => {
-			if (asteroid.sprite) {
-				this.#asteroidGroup.add(asteroid.sprite);
-				// Make sure bounce is fully elastic
-				asteroid.sprite.setBounce(1, 1);
-				asteroid.sprite.body.setAllowGravity(false);
-				asteroid.setAttributes();
-				// console.log('after group add', asteroid.sprite.body.velocity);
-			}
-		});
-		this.physics.add.collider(this.#asteroidGroup, this.#asteroidGroup);
-		this.physics.add.collider(
-			this.#krampus.sprite,
-			this.#asteroidGroup,
-			this.#onKrampusHitAsteroid,
-			null,
-			this
-		);
-		this.#krampus.addAsteroidCollider(this.#asteroidGroup, GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID);
-	}*/
-
-	/*#buildStaticAssets() {
-		this.#sidebar = new Sidebar(this);
-	}*/
 
 	/* ---------------------------------------------- EVENT HANDLERS ------------------------------------------------ */
 	#onAsteroidHitAsteroid(data) {
 		// no operation - physics takes care of everything
+	}
+
+	#onCountdownStarted() {
+		this.#inCountdown = true;
+	}
+
+	#onCountdownComplete() {
+		this.#inCountdown = false;
 	}
 
 	#onElfMissileHitAsteroid(asteroidSprite, missile) {
@@ -618,10 +275,30 @@ export default class KrampusScene extends Phaser.Scene {
 
 	#onSantaMissileHitKrampus(ship, missile) {
 		missile.destroy();
+		if (this.#gameStarted) {
+			GameEvent.Emit(GameEvent.GAME_OVER, this.#currentTime);
+		}
+	}
+
+	#onGameReset() {
+		if (this.#kaBoomSprite) {
+			this.#kaBoomSprite.destroy();
+			this.#kaBoomSprite = null;
+		}
+		this.#sidebar.reset();
+		this.#sidebar.showGameOver();
+		this.#sidebar.showPressStart();
+		this.#sidebar.hideScore();
+		this.#krampus.destroy();
+		this.#krampus.setVisible(false);
+		this.#asteroidGroup.removeAll();
+		this.#gameStarted = false;
+		this.scene.wake('credits');
+		GameEvent.Emit(GameEvent.LEVEL_STARTED);
 	}
 
 	#onGameStarted(data) {
-		this.scene.stop('credits');
+		this.scene.sleep('credits');
 		if (this.#elf) {
 			this.#elf.removeShip();
 		}
@@ -636,7 +313,24 @@ export default class KrampusScene extends Phaser.Scene {
 	}
 
 	#onGameOver(data) {
+		this.#sidebar.stopBonusTimer(false);
 		this.#sidebar.showGameOver();
+		this.#sidebar.hidePressStart();
+		this.#sidebar.hideBonusTimer();
+		const { x, y } = this.#krampus.sprite;
+		this.#krampus.destroy();
+		this.#krampus.setVisible(false);
+		this.#gameStarted = false;
+		if (this.#kaBoomSprite) {
+			this.#kaBoomSprite.destroy();
+			this.#kaBoomSprite = null;
+		}
+		this.#kaBoomSprite = this.add.image(x, y, 'ka-boom');
+		this.#kaBoomSprite.setScale(.5);
+		this.#kaBoomSprite.setDepth(10000);
+		setTimeout(() => {
+			GameEvent.Emit(GameEvent.GAME_RESET);
+		}, 10000);
 	}
 
 	#onKrampusHitElf(ship1, ship2) {
@@ -671,24 +365,23 @@ export default class KrampusScene extends Phaser.Scene {
 
 	#onLaunchElf() {
 		this.#launchElf();
-		this.#lastElfTime = Number.POSITIVE_INFINITY;
+		this.#lastShipTime = Number.POSITIVE_INFINITY;
 	}
 
 	#onLaunchSanta() {
 		this.#launchSanta();
-		this.#lastSantaTime = Number.POSITIVE_INFINITY;
+		this.#lastShipTime = Number.POSITIVE_INFINITY;
 	}
 
 	#onLevelComplete(data) {
 		this.#sidebar.stopBonusTimer();
 		if (this.#elf) {
 			this.#elf.removeShip();
-			this.#lastElfTime = Number.POSITIVE_INFINITY;
 		}
 		if (this.#santa) {
 			this.#santa.removeShip();
-			this.#lastSantaTime = Number.POSITIVE_INFINITY;
 		}
+		this.#lastShipTime = Number.POSITIVE_INFINITY;
 		setTimeout(() => {
 			GameEvent.Emit(GameEvent.LEVEL_NEXT);
 		}, 5000)
@@ -708,7 +401,8 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#sidebar.hideScore();
 		this.#sidebar.hideBonusTimer();
 		this.#sidebar.hideGameOver();
-		this.#lastElfTime = Number.POSITIVE_INFINITY;
+		this.#sidebar.hidePressStart();
+		this.#lastShipTime = Number.POSITIVE_INFINITY;
 		// start the countdown
 		this.#sidebar.startCountdown();
 	}
@@ -719,7 +413,7 @@ export default class KrampusScene extends Phaser.Scene {
 		this.#shipsPhysicsGroup.add(this.#krampus.sprite);
 		this.#krampus.setPhysicsAttributes();
 
-		for (let i = 0; i < 4; i++) {
+		for (let i = 0; i < 3 + this.#sidebar.level; i++) {
 			const asteroid = this.#asteroidGroup.addAsteroid(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Asteroid.SCALE_LARGE);
 			this.#asteroidsPhysicsGroup.add(asteroid.sprite);
 			asteroid.setPhysicsAttributes();
@@ -727,20 +421,19 @@ export default class KrampusScene extends Phaser.Scene {
 		if (this.#gameStarted) {
 			this.#sidebar.showScore();
 			this.#sidebar.startBonusTimer();
-			this.#lastElfTime = this.#currentTime;
+			this.#lastShipTime = this.#currentTime;
 		}
-
 	}
 
 	#onRemoveElf(time) {
 		this.#elf.removeShip();
 		this.#elf = null;
-		this.#lastElfTime = time;
+		this.#lastShipTime = time;
 	}
 
 	#onRemoveSanta(time) {
 		this.#santa.removeShip();
 		this.#santa = null;
-		this.#lastSantaTime = time;
+		this.#lastShipTime = time;
 	}
 }

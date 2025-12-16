@@ -1,3 +1,14 @@
+/**
+ * I left the comments that AI generated for me when I asked it to create the Credits screen.
+ *
+ * I wanted you to see what I had to work with.
+ *
+ * Even so, I still checked it!
+ *
+ * ALWAYS, ALWAYS, ALWAYS check any code AI generates for you! Why?
+ * Because it's your code, and you should know what it does.
+ */
+
 export default class Credits extends Phaser.Scene {
 	#scrollingContent;
 	#scrollSpeed = 100;
@@ -32,6 +43,7 @@ export default class Credits extends Phaser.Scene {
 			"Santa's Sleigh - Aranagraphics",
 			"Elf Space Ship - Freepik",
 			"Elf - Freepik",
+			"Krampus Explosion (ka-boom) - Ylivdesign",
 			"",
 			"Additional Bad Artwork - TheVirtuoid",
 			"",

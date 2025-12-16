@@ -81,6 +81,7 @@ export default class Sidebar {
 		this.drawScore();
 		this.drawBonusTimer();
 		this.drawGameOver();
+		this.drawPressStart();
 		this.hideScore();
 		this.hideBonusTimer();
 	}
@@ -123,19 +124,19 @@ export default class Sidebar {
 	}
 
 	startBonusTimer() {
-		this.#bonus = 30 * this.#level;
+		this.#bonus = 30;
 		this.#bonusText.setText(this.#bonus);
 		this.#bonusInterval = setInterval(() => {
-			this.incrementBonus(-this.#level);
+			this.incrementBonus(-1);
 			if (this.#bonus <= 0) {
 				clearInterval(this.#bonusInterval);
 			}
 		}, 1000);
 	}
 
-	stopBonusTimer() {
+	stopBonusTimer(incrementScore = true) {
 		clearInterval(this.#bonusInterval);
-		this.incrementScore(this.#bonus);
+		this.incrementScore(incrementScore ? this.#bonus : 0);
 		this.showBonusTimer();
 	}
 
@@ -215,12 +216,23 @@ export default class Sidebar {
 
 	drawGameOver() {
 		this.#gameOver = this.#scene.add.text(10, 400, 'GAME OVER', this.#gameOverConfig);
-		this.#pressStart = this.#scene.add.text(10, 500, 'Press "Y" on controller to start', {...this.#gameOverConfig, fontSize: '20px', fill: '#1234dd' });
 		this.#startingCountdownText = this.#scene.add.text(5, 250, `Starting Level in 5`, this.#startingLevelConfig );
 		this.#gameOver.setDepth(2);
-		this.#pressStart.setDepth(2);
 		this.#startingCountdownText.setDepth(2);
 		this.#startingCountdownText.setVisible(false);
+	}
+
+	drawPressStart() {
+		this.#pressStart = this.#scene.add.text(10, 500, 'Press "Y" on controller to start', {...this.#gameOverConfig, fontSize: '20px', fill: '#1234dd' });
+		this.#pressStart.setDepth(2);
+	}
+
+	hidePressStart() {
+		this.#pressStart.setVisible(false);
+	}
+
+	showPressStart() {
+		this.#pressStart.setVisible(true);
 	}
 
 	hideGameOver() {
@@ -235,6 +247,7 @@ export default class Sidebar {
 
 	startCountdown() {
 		let countDown = 5;
+		GameEvent.Emit(GameEvent.COUNTDOWN_STARTED);
 		this.#startingCountdownText.setText(`Starting Level ${this.level} in ${countDown}`);
 		this.#startingCountdownText.setVisible(true);
 		const countdownTimer = setInterval(() => {
@@ -242,13 +255,10 @@ export default class Sidebar {
 			this.#startingCountdownText.setText(`Starting Level ${this.level} in ${countDown}`);
 			if (countDown <= 0) {
 				clearInterval(countdownTimer);
+				GameEvent.Emit(GameEvent.COUNTDOWN_COMPLETE);
 				this.#startingCountdownText.setVisible(false);
 				GameEvent.Emit(GameEvent.LEVEL_STARTED);
 			}
 		}, 1000);
 	}
-
-
-
-
 }

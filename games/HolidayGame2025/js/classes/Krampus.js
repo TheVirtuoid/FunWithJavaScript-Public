@@ -1,5 +1,4 @@
 import KrampusMissile from "./KrampusMIssile.js";
-import GameEvent from "./GameEvent.js";
 
 export default class Krampus {
 
@@ -30,11 +29,6 @@ export default class Krampus {
 		this.#sprite.body.setCircle(this.#radius, this.#sprite.width * .5 - this.#radius, this.#sprite.height * .5 - this.#radius);
 		this.#sprite.body.setCollideWorldBounds(true);
 		this.#displayRadius = this.#sprite.displayWidth / 2;
-		/*this.#missiles = this.#scene.physics.add.group({
-			classType: KrampusMissile,
-			maxSize: 30,
-			runChildUpdate: true
-		});*/
 		// Krampus Gun
 		this.#gun = this.#scene.add.graphics();
 		this.#gun.fillStyle(0xffffff, 1); // color, alpha
@@ -56,16 +50,6 @@ export default class Krampus {
 		this.#sprite.body?.setAcceleration(x, y);
 	}
 
-	/*addAsteroidCollider(asteroids, event) {
-		this.#asteroidMissileCollider = this.#scene.physics.add.collider(
-			this.#missiles,
-			asteroids,
-			this.#onMissileHitAsteroid,
-			null,
-			this.#scene
-		);
-	}*/
-
 	setInvisible() {
 		this.#sprite.setVisible(false);
 		this.#gun.setVisible(false);
@@ -80,33 +64,11 @@ export default class Krampus {
 		this.#sprite.setPosition(x, y);
 	}
 
-	/*destroy() {
-		this.#asteroidMissileCollider?.destroy();
-		this.#missiles.destroy(true);
-		this.#gun.destroy();
-		this.#sprite.destroy();
-	}*/
-
-	#onMissileHitAsteroid(missile, asteroid) {
-		GameEvent.Emit(GameEvent.KRAMPUS_MISSILE_HIT_ASTEROID, missile, asteroid);
-	}
-
 	fireMissile() {
 		const gunPos = this.#getGunPositionOnCircle();
-
-
 		const missile = new KrampusMissile({ scene: this.#scene, x: this.x, y: this.y });
 		this.#missilesPhysicsGroup.add(missile);
 		missile.fire({ x: gunPos.x, y: gunPos.y, angle: this.#gunAngle });
-		// this.#missiles.add(missile);
-
-
-
-
-		/*const missile = this.#missiles.get(gunPos.x, gunPos.y, 'krampus-missile');
-		if (missile) {
-			missile.fire(gunPos.x, gunPos.y, this.#gunAngle);
-		}*/
 	}
 
 	get x() {
@@ -169,7 +131,7 @@ export default class Krampus {
 			const { x:gunRotation} = gamepad.rightStick;
 			if (gunRotation !== 0) {
 				const direction = gunRotation > 0 ? 1 : -1;
-				this.#gunAngle += direction * .03;
+				this.#gunAngle += direction * .075;
 				const gunPosition = this.#getGunPositionOnCircle();
 				this.#gun.setPosition(gunPosition.x, gunPosition.y);
 			}
@@ -186,6 +148,5 @@ export default class Krampus {
 		this.#sprite.destroy();
 		this.#gun.destroy();
 	}
-
 
 }

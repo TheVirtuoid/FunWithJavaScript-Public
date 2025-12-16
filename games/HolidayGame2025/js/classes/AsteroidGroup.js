@@ -55,18 +55,6 @@ export default class AsteroidGroup {
 			x,
 			y
 		});
-
-		/*// Setup physics properties
-		const sprite = newAsteroid.sprite;
-		this.#asteroidGroup.add(sprite);
-		sprite.setBounce(1, 1);
-		sprite.body.setAllowGravity(false);
-		newAsteroid.setAttributes(); // Sets rotation, etc.*/
-
-		// Set random velocity
-		/*const angle = Phaser.Math.FloatBetween(0, Math.PI * 2);
-		this.#scene.physics.velocityFromRotation(angle, 100, newAsteroid.sprite.body.velocity);*/
-
 		this.#asteroids.add(newAsteroid);
 		return newAsteroid;
 	}
@@ -100,26 +88,6 @@ export default class AsteroidGroup {
 			asteroid.sprite.destroy();
 		}
 		this.#asteroids.clear();
-	}
-
-
-
-	generate(number = this.#numStart) {
-		for (let i = 0; i < number; i++) {
-			const asteroid = new Asteroid(this);
-			const spawnPos = this.#findNonOverlappingPosition({
-				asteroidRadius: 60,
-				minDistanceFromKrampus: 120,
-				edgePadding: 40
-			});
-			asteroid.create({
-				scale: Asteroid.SCALE_LARGE,
-				x: spawnPos.x,
-				y: spawnPos.y
-			});
-			this.#physicsGroup.add(asteroid.sprite);
-			this.#asteroids.add(asteroid);
-		}
 	}
 
 	#findNonOverlappingPosition(options) {

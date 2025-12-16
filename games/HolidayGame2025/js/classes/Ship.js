@@ -1,6 +1,3 @@
-import Missile from "./MIssile.js";
-import ElfMissile from "./ElfMIssile.js";
-import GameEvent from "./GameEvent.js";
 
 export default class Ship {
 	#sprite;
@@ -12,7 +9,7 @@ export default class Ship {
 	#missiles = new Set();
 	#nextFireTime = 0;
 	#missilePhysicsGroup;
-	#missleConstructor;
+	#missileConstructor;
 
 	constructor(args = {}) {
 		const { scene, x, y, missilePhysicsGroup, spriteName, shipName, speed, missileConstructor } = args;
@@ -28,7 +25,7 @@ export default class Ship {
 		this.#missilePhysicsGroup = missilePhysicsGroup;
 		this.#sprite.name = shipName;
 		this.#speed = speed;
-		this.#missleConstructor = missileConstructor;
+		this.#missileConstructor = missileConstructor;
 	}
 
 	get x() {
@@ -105,7 +102,7 @@ export default class Ship {
 	fireMissile(time, krampus) {
 		if (time > this.#nextFireTime) {
 			const angle = Phaser.Math.Angle.Between(this.x, this.y, krampus.x, krampus.y);
-			const missile = new this.#missleConstructor({ scene: this.#scene, x: this.x, y: this.y, angle });
+			const missile = new this.#missileConstructor({ scene: this.#scene, x: this.x, y: this.y, angle });
 			this.#missilePhysicsGroup.add(missile);
 			missile.fire({ x: krampus.x, y: krampus.y, angle });
 			this.#missiles.add(missile);
@@ -114,18 +111,13 @@ export default class Ship {
 	}
 
 	update(time, krampus) {
-		// 1. Handle firing
 		this.fireMissile(time, krampus);
-
-		// 2. Cleanup missiles that are off-screen
 		const bounds = this.#scene.physics.world.bounds;
 		this.#missiles.forEach((missile) => {
 			if (missile && !bounds.contains(missile.x, missile.y)) {
 				missile.destroy();
 			}
 		});
-
-		// 3. Existing movement logic
 		return this.updateMovement();
 	}
 
