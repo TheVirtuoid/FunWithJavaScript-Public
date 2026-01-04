@@ -19,11 +19,6 @@ export default class AsteroidGroup {
 		this.#space = space;
 		this.#asteroids = new Set();
 		this.#asteroidsPhysicsGroup = asteroidsPhysicsGroup;
-		/*this.#physicsGroup = this.#scene.physics.add.group({
-			bounceX: 1,
-			bounceY: 1,
-			colliderWorldBounds: false
-		});*/
 	}
 
 	addKrampus(krampus) {
