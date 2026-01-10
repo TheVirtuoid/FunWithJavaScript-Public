@@ -35,6 +35,7 @@ describe('Mineral Class', () => {
 			const mineral = new Mineral({ type: Mineral.AETHERITE });
 			expect(mineral.type).to.equal(Mineral.AETHERITE);
 			expect(mineral.purity).to.be.a('number');
+			expect(mineral.id).to.be.a('string');
 		})
 	});
 
@@ -46,6 +47,10 @@ describe('Mineral Class', () => {
 		it('should throw error if trying to change purity', () => {
 			const mineral = new Mineral({ type: Mineral.AETHERITE });
 			expect(() => mineral.purity = 2).to.throw();
+		});
+		it('should throw error if trying to change id', () => {
+			const mineral = new Mineral({ type: Mineral.AETHERITE });
+			expect(() => mineral.id = 'newId').to.throw();
 		});
 	});
 

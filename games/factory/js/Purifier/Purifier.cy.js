@@ -20,6 +20,7 @@ describe('Purifier Class', () => {
 		it('should create a purifier with default level 1', () => {
 			const purifier = new Purifier();
 			expect(purifier.level).to.equal(1);
+			expect(purifier.id).to.be.a('string');
 		});
 	});
 
@@ -45,6 +46,10 @@ describe('Purifier Class', () => {
 		it('should throw error if level is changed', () => {
 			const purifier = new Purifier();
 			expect(() => purifier.level = 2).to.throw();
+		});
+		it('should throw error if id is changed', () => {
+			const purifier = new Purifier();
+			expect(() => purifier.id = 'newId').to.throw();
 		});
 	});
 

@@ -20,12 +20,14 @@ export default class Mineral {
 
 	#type;
 	#purity;
+	#id;
 
 	constructor(args = {}) {
 		const { type } = args;
 		if (!Mineral.Has(type)) {
 			throw new Error(`Invalid mineral type: ${type}`);
 		}
+		this.#id = window.crypto.randomUUID();
 		this.#type = type;
 		this.#purity = 10;
 	}
@@ -36,6 +38,10 @@ export default class Mineral {
 
 	get purity() {
 		return this.#purity;
+	}
+
+	get id() {
+		return this.#id;
 	}
 
 	purify(level = 1) {
