@@ -1,7 +1,7 @@
 {
-  "name": "fwjs-snake-game",
+  "name": "fwjs-factory",
   "version": "0.0.1",
-  "description": "Fun With JavaScript - Snake Game",
+  "description": "Fun With JavaScript - Factory Game",
   "author": "TheVirtuoid <thevirtuoid@gmail.com>",
   "license": "MIT",
   "type": "module",
