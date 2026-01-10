@@ -2,16 +2,16 @@ export default class Mineral {
 
 	static AETHERITE = Symbol('aetherite');
 	static PYROTITE = Symbol('pyrotite');
-	static LUMINUM = Symbol('luminum');
+	static LUMINITE = Symbol('luminite');
 	static OBSIDIANITE = Symbol('obsidianite');
-	static ZENITHIUM = Symbol('zenithium');
+	static ZENITHITE = Symbol('zenithite');
 
 	static TYPES = [
 		Mineral.AETHERITE,
 		Mineral.PYROTITE,
-		Mineral.LUMINUM,
+		Mineral.LUMINITE,
 		Mineral.OBSIDIANITE,
-		Mineral.ZENITHIUM
+		Mineral.ZENITHITE
 	];
 
 	static Has(element) {
@@ -36,5 +36,10 @@ export default class Mineral {
 
 	get purity() {
 		return this.#purity;
+	}
+
+	purify(level = 1) {
+		console.warn('Mineral.purify() is not currently implemented');
+		this.#purity += level;
 	}
 }
