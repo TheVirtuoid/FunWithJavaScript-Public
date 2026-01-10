@@ -1,11 +1,9 @@
 import Alloy from "../Alloy/Alloy.js";
 import Mineral from "../Mineral/Mineral.js";
+import Base from "../Base/Base.js";
 
-export default class Combinator {
+export default class Combinator extends Base {
 
-	#id;
-	#level;
-	#type;
 	#capacity;
 	#inventory;
 
@@ -14,23 +12,9 @@ export default class Combinator {
 		if (!Alloy.Has(type)) {
 			throw new Error('Invalid alloy type provided');
 		}
-		this.#id = window.crypto.randomUUID();
-		this.#level = 1;
-		this.#type = type;
+		super(args);
 		this.#capacity = 100;
 		this.#inventory = new Map();
-	}
-
-	get id() {
-		return this.#id;
-	}
-
-	get level() {
-		return this.#level;
-	}
-
-	get type() {
-		return this.#type;
 	}
 
 	get capacity() {
@@ -55,11 +39,11 @@ export default class Combinator {
 			const count = this.#inventory.get(mineral) ?? 0;
 			this.#inventory.set(mineral, count + 1);
 		});
-		const alloyRecipe = Alloy.Ingredients(this.#type);
+		const alloyRecipe = Alloy.Ingredients(this.type);
 		if ([...alloyRecipe].every(([mineral, count]) => this.#inventory.get(mineral) >= count)) {
 			[...alloyRecipe].forEach(([mineral, count]) => this.#inventory.set(mineral, this.#inventory.get(mineral) - count));
 			// TODO: Purity
-			return new Alloy({ type: this.#type, purity: 0 });
+			return new Alloy({ type: this.type, purity: 0 });
 		} else {
 			return undefined;
 		}

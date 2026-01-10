@@ -1,4 +1,6 @@
-export default class Conveyor {
+import Base from "../Base/Base.js";
+
+export default class Conveyor extends Base {
 	static STRAIGHT = Symbol('straight');
 	static CURVE = Symbol('curve');
 	static BRIDGE = Symbol('bridge');
@@ -7,34 +9,19 @@ export default class Conveyor {
 
 	static TYPES = [Conveyor.STRAIGHT, Conveyor.CURVE, Conveyor.BRIDGE, Conveyor.T_INTERSECTION, Conveyor.X_INTERSECTION];
 
-	#id;
-	#type;
 	#orientation;
-	#level;
 
 	constructor(args = {}) {
 		const { type, orientation = 0 } = args;
 		if (!Conveyor.TYPES.includes(type)) {
 			throw new Error(`Invalid conveyor type: ${type}`);
 		}
-		this.#orientation = this.setOrientation(orientation);
-		this.#id = window.crypto.randomUUID();
-		this.#type = type;
-		this.#orientation = orientation;
-		this.#level = 1;
+		super(args);
+		this.setOrientation(orientation);
 	}
 
-	get id() {
-		return this.#id;
-	}
-	get type() {
-		return this.#type;
-	}
 	get orientation() {
 		return this.#orientation;
-	}
-	get level() {
-		return this.#level;
 	}
 
 	setOrientation(orientation) {
@@ -44,7 +31,4 @@ export default class Conveyor {
 		this.#orientation = orientation;
 	}
 
-	incrementLevel() {
-		this.#level++;
-	}
 }

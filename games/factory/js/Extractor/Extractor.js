@@ -1,7 +1,8 @@
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import Mineral from "../Mineral/Mineral.js";
+import Base from "../Base/Base.js";
 
-export default class Extractor {
+export default class Extractor extends Base {
 
 	static #MINERAL_DATA = new Map([
 		[Mineral.AETHERITE, { cost: 100, speed: 1 }],
@@ -19,11 +20,7 @@ export default class Extractor {
 		return Extractor.#MINERAL_DATA.get(extractor)?.speed;
 	}
 
-	#type;
-	#level;
-	#position;
 	#speed;
-	#id;
 	#cost;
 
 	constructor(args = {}) {
@@ -34,43 +31,18 @@ export default class Extractor {
 		if (!Extractor.#MINERAL_DATA.has(type)) {
 			throw new Error(`Invalid extractor type: ${type}`);
 		}
-		this.#type = type;
-		this.#level = 1;
-		this.#position = new Vector2d(0, 0);
+		super(args);
 		this.#speed = Extractor.Speed(type);
-		this.#id = window.crypto.randomUUID();
 		this.#cost = Extractor.Cost(type);
 	}
 
-	get type() {
-		return this.#type;
-	}
-
-	get level() {
-		return this.#level;
-	}
-
-	get position() {
-		return this.#position;
-	}
-
 	get speed() {
+		// TODO: integrate with level
 		return this.#speed;
-	}
-
-	get id() {
-		return this.#id;
 	}
 
 	sell() {
 		console.warn('Extractor.sell() is not currently implemented');
 		return this.#cost;
-	}
-
-	setPosition(position) {
-		if (!(position instanceof Vector2d)) {
-			throw new Error('Position must be a Vector2d');
-		}
-		this.#position = position;
 	}
 }

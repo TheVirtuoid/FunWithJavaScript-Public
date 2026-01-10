@@ -1,27 +1,16 @@
 import Mineral from "../Mineral/Mineral.js";
+import Base from "../Base/Base.js";
 
-export default class Purifier {
-
-	#level;
-	#id;
+export default class Purifier extends Base {
 
 	constructor(args = {}) {
-		this.#level = 1;
-		this.#id = window.crypto.randomUUID();
-	}
-
-	get level() {
-		return this.#level;
-	}
-
-	get id() {
-		return this.#id;
+		super(args);
 	}
 
 	purify(mineral) {
 		if (!(mineral instanceof Mineral)) {
 			throw new Error('Purifier.purify() requires a Mineral');
 		}
-		mineral.purify(this.#level);
+		mineral.purify(this.level);
 	}
 }

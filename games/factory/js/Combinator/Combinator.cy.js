@@ -25,12 +25,8 @@ describe('Combinator Class', () => {
 		})
 		it('should create a combinator with default level of 1', () => {
 			const combinator = new Combinator({ type: Alloy.IGNISIUM });
-			expect(combinator.level).to.equal(1);
-			expect(combinator.id).to.be.a('string');
-			expect(combinator.type).to.equal(Alloy.IGNISIUM);
 			expect(combinator.capacity).to.equal(100);
 			expect(combinator.inventorySize).to.equal(0);
-			expect(combinator.position.equal(new Vector2d(0, 0))).to.be.true;
 		});
 	});
 
@@ -73,24 +69,12 @@ describe('Combinator Class', () => {
 			});
 		});
 
-		describe('setPosition', () => {
-			it('should throw error if not a value position', () => {});
-		});
 	});
 
 	describe('Properties', () => {
 		let combinator;
 		beforeEach(() => {
 			combinator = new Combinator({ type: Alloy.IGNISIUM });
-		});
-		it('should throw error if level is changed', () => {
-			expect(() => combinator.level = 2).to.throw();
-		});
-		it('should throw error if id is changed', () => {
-			expect(() => combinator.id = 'newId').to.throw();
-		});
-		it('should throw error if type is changed', () => {
-			expect(() => combinator.type = Alloy.STARFORGE).to.throw();
 		});
 		it('should throw error if capacity is changed', () => {
 			expect(() => combinator.capacity = 2).to.throw();

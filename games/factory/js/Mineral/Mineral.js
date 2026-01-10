@@ -1,4 +1,6 @@
-export default class Mineral {
+import Base from "../Base/Base.js";
+
+export default class Mineral extends Base{
 
 	static AETHERITE = Symbol('aetherite');
 	static PYROTITE = Symbol('pyrotite');
@@ -18,30 +20,19 @@ export default class Mineral {
 		return Mineral.TYPES.includes(element);
 	}
 
-	#type;
 	#purity;
-	#id;
 
 	constructor(args = {}) {
 		const { type } = args;
 		if (!Mineral.Has(type)) {
 			throw new Error(`Invalid mineral type: ${type}`);
 		}
-		this.#id = window.crypto.randomUUID();
-		this.#type = type;
+		super(args);
 		this.#purity = 10;
-	}
-
-	get type() {
-		return this.#type;
 	}
 
 	get purity() {
 		return this.#purity;
-	}
-
-	get id() {
-		return this.#id;
 	}
 
 	purify(level = 1) {

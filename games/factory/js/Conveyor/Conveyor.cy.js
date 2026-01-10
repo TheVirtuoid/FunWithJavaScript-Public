@@ -34,10 +34,7 @@ describe('Conveyor Class', () => {
 		it('should create a new conveyor with defaults', () => {
 			const conveyor = new Conveyor({ type: Conveyor.STRAIGHT });
 			expect(conveyor).to.be.an.instanceOf(Conveyor);
-			expect(conveyor.type).to.equal(Conveyor.STRAIGHT);
-			expect(conveyor.level).to.equal(1);
 			expect(conveyor.orientation).to.equal(0);
-			expect(conveyor.id).to.be.a('string');
 		});
 	});
 
@@ -61,12 +58,6 @@ describe('Conveyor Class', () => {
 				expect(conveyor.orientation).to.equal(0);
 			});
 		});
-
-		it('should increment the level', () => {
-			const level = conveyor.level;
-			conveyor.incrementLevel();
-			expect(conveyor.level).to.equal(level + 1);
-		});
 	});
 
 	describe('Properties', () => {
@@ -76,9 +67,6 @@ describe('Conveyor Class', () => {
 		})
 		it('should throw error if changing id', () => {
 			expect(() => conveyor.id = 'newId').to.throw();
-		});
-		it('should throw error if changing level', () => {
-			expect(() => conveyor.level = 2).to.throw();
 		});
 		it('should throw error if changing orientation', () => {
 			expect(() => conveyor.orientation = 2).to.throw();

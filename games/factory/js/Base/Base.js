@@ -4,11 +4,13 @@ export default class Base {
 	#id;
 	#type;
 	#position;
+	#level;
 
 	constructor(args = {}) {
 		const { type, position = new Vector2d(0, 0) } = args;
 		this.#id = window.crypto.randomUUID();
 		this.#type = type;
+		this.#level = 1;
 		this.setPosition(position);
 	}
 
@@ -21,11 +23,18 @@ export default class Base {
 	get position() {
 		return this.#position;
 	}
+	get level() {
+		return this.#level;
+	}
 
 	setPosition(position) {
 		if (!(position instanceof Vector2d)) {
 			throw new Error('Position must be a Vector2d');
 		}
 		this.#position = position;
+	}
+
+	incrementLevel() {
+		this.#level++;
 	}
 }
