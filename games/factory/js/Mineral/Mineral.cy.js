@@ -1,9 +1,6 @@
 import Mineral from "./Mineral.js";
 
 describe('Element Class', () => {
-	it('should throw error when using constructor', () => {
-		expect(() => new Mineral()).to.throw();
-	});
 
 	describe('Static Properties', () => {
 		it('should have definitions for the 5 extractor types', () => {
@@ -28,4 +25,29 @@ describe('Element Class', () => {
 			expect(Mineral.Has(Symbol('invalid'))).to.be.false;
 		});
 	});
+
+	describe('constructor', () => {
+		it('should throw error if type is invalid', () => {
+			expect(() => new Mineral({ type: 'bad' })).to.throw();
+		});
+
+		it('should create a mineral with the specified type', () => {
+			const mineral = new Mineral({ type: Mineral.AETHERITE });
+			expect(mineral.type).to.equal(Mineral.AETHERITE);
+			expect(mineral.purity).to.be.a('number');
+		})
+	});
+
+	describe('Properties', () => {
+		it('should throw error if trying to change type', () => {
+			const mineral = new Mineral({ type: Mineral.AETHERITE });
+			expect(() => mineral.type = Mineral.PYROTITE).to.throw();
+		});
+		it('should throw error if trying to change purity', () => {
+			const mineral = new Mineral({ type: Mineral.AETHERITE });
+			expect(() => mineral.purity = 2).to.throw();
+		});
+	});
+
+	describe('Methods', () => {});
 })
