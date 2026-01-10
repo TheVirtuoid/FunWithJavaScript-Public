@@ -116,11 +116,24 @@ describe('Alloy Class', () => {
 			expect(() => new Alloy({ type, purity: -1 })).to.throw();
 			expect(() => new Alloy({ type, purity: 101 })).to.throw();
 		});
+		it('should construct an alloy', () => {
+			const alloy = new Alloy({ type, purity });
+			expect(alloy.type).to.equal(type);
+			expect(alloy.purity).to.equal(purity);
+		});
 	});
 
 	describe('Methods', () => {});
 
-	describe('Properties', () => {});
+	describe('Properties', () => {
+		let alloy;
+		beforeEach(() => {
+			alloy = new Alloy({ type: Alloy.IGNISIUM, purity: 50 });
+		});
+		it('should throw error if trying to change purity', () => {
+			expect(() => alloy.purity = 50).to.throw();
+		});
+	});
 
 	describe('Events', () => {});
 

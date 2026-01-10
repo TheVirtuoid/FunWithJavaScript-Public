@@ -1,6 +1,7 @@
 import Mineral from "../Mineral/Mineral.js";
+import Base from "../Base/Base.js";
 
-export default class Alloy {
+export default class Alloy extends Base {
 
 	static IGNISIUM = Symbol('Ignisium');
 	static PHOTONIUM = Symbol('Photonium');
@@ -41,9 +42,7 @@ export default class Alloy {
 		return Alloy.#INGREDIENTS.get(alloy);
 	}
 
-	#type;
 	#purity;
-	#id;
 
 	constructor(args = {}) {
 		const { type, purity } = args;
@@ -53,17 +52,8 @@ export default class Alloy {
 		if (isNaN(purity) || (purity < 0 || purity > 100)) {
 			throw new Error(`Invalid alloy purity: ${purity}`);
 		}
-		this.#id = window.crypto.randomUUID();
-		this.#type = type;
+		super(args);
 		this.#purity = purity;
-	}
-
-	get id() {
-		return this.#id;
-	}
-
-	get type() {
-		return this.#type;
 	}
 
 	get purity() {

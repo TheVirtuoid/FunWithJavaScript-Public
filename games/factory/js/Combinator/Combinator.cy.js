@@ -13,6 +13,7 @@
 import Combinator from "./Combinator.js";
 import Alloy from "../Alloy/Alloy.js";
 import Mineral from "../Mineral/Mineral.js";
+import Vector2d from "../Vector/Vector2d/Vector2d.js";
 
 describe('Combinator Class', () => {
 
@@ -28,6 +29,8 @@ describe('Combinator Class', () => {
 			expect(combinator.id).to.be.a('string');
 			expect(combinator.type).to.equal(Alloy.IGNISIUM);
 			expect(combinator.capacity).to.equal(100);
+			expect(combinator.inventorySize).to.equal(0);
+			expect(combinator.position.equal(new Vector2d(0, 0))).to.be.true;
 		});
 	});
 
@@ -68,6 +71,10 @@ describe('Combinator Class', () => {
 				expect(alloy).to.be.an.instanceOf(Alloy);
 				expect(alloy.type).to.equal(combinator.type);
 			});
+		});
+
+		describe('setPosition', () => {
+			it('should throw error if not a value position', () => {});
 		});
 	});
 
