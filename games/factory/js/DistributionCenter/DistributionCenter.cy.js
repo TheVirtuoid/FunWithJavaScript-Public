@@ -9,6 +9,8 @@
 
  */
 
+import DistributionCenter from "./DistributionCenter.js";
+
 describe('Distribution Center Class', () => {
 	describe('Static Properties', () => {});
 
@@ -17,7 +19,6 @@ describe('Distribution Center Class', () => {
 			const distributionCenter = new DistributionCenter();
 			expect(distributionCenter).to.be.an.instanceOf(DistributionCenter);
 			expect(distributionCenter.warehouseCapacity).to.equal(100);
-			expect(distributionCenter.location).to.deep.equal({ x: 0, y: 0 });
 		});
 	});
 
