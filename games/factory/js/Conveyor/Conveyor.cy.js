@@ -38,27 +38,7 @@ describe('Conveyor Class', () => {
 		});
 	});
 
-	describe('Methods', () => {
-		let conveyor;
-		beforeEach(() => {
-			conveyor = new Conveyor({ type: Conveyor.STRAIGHT });
-		})
-		describe('orientation()', () => {
-			it('should throw error if value is not 0, 90, 180, or 270', () => {
-				expect(() => conveyor.setOrientation(45)).to.throw();
-			});
-			it('should set the orientation', () => {
-				conveyor.setOrientation(90);
-				expect(conveyor.orientation).to.equal(90);
-				conveyor.setOrientation(180);
-				expect(conveyor.orientation).to.equal(180);
-				conveyor.setOrientation(270);
-				expect(conveyor.orientation).to.equal(270);
-				conveyor.setOrientation(0);
-				expect(conveyor.orientation).to.equal(0);
-			});
-		});
-	});
+	describe('Methods', () => {});
 
 	describe('Properties', () => {
 		let conveyor;

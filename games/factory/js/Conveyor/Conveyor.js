@@ -9,26 +9,11 @@ export default class Conveyor extends Base {
 
 	static TYPES = [Conveyor.STRAIGHT, Conveyor.CURVE, Conveyor.BRIDGE, Conveyor.T_INTERSECTION, Conveyor.X_INTERSECTION];
 
-	#orientation;
-
 	constructor(args = {}) {
 		const { type, orientation = 0 } = args;
 		if (!Conveyor.TYPES.includes(type)) {
 			throw new Error(`Invalid conveyor type: ${type}`);
 		}
 		super(args);
-		this.setOrientation(orientation);
 	}
-
-	get orientation() {
-		return this.#orientation;
-	}
-
-	setOrientation(orientation) {
-		if (![0, 90, 180, 270].includes(orientation)) {
-			throw new Error(`Invalid orientation: ${orientation}`);
-		}
-		this.#orientation = orientation;
-	}
-
 }
