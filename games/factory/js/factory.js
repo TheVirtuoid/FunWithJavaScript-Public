@@ -47,6 +47,24 @@ let conveyorStraight;
 let conveyorTIntersectionLeft;
 let conveyorTIntersectionRight;
 let conveyorXIntersection;
+let distributionCenter;
+
+let combinatorAetherite;
+let combinatorLiminite;
+let combinatorObsidianite;
+let combinatorPyrotite;
+let combinatorZenithite;
+let extractorAetherite;
+let extractorLiminite;
+let extractorObsidianite;
+let extractorPyrotite;
+let extractorZenithite;
+let purifierAetherite;
+let purifierLiminite;
+let purifierObsidianite;
+let purifierPyrotite;
+let purifierZenithite;
+
 
 function preload() {
 	conveyorStraight = this.load.image('conveyor-straight', 'img/conveyor-straight.png');
@@ -55,6 +73,22 @@ function preload() {
 	conveyorTIntersectionLeft = this.load.image('conveyor-t-intersection-left', 'img/conveyor-t-intersection-left.png');
 	conveyorTIntersectionRight = this.load.image('conveyor-t-intersection-right', 'img/conveyor-t-intersection-right.png');
 	conveyorXIntersection = this.load.image('conveyor-x-intersection', 'img/conveyor-x-intersection.png');
+	distributionCenter = this.load.image('distribution-center', 'img/distribution-center.png');
+	combinatorAetherite = this.load.image('combinator-aetherite', 'img/combinator-aetherite.png');
+	combinatorLiminite = this.load.image('combinator-luminite', 'img/combinator-luminite.png');
+	combinatorObsidianite = this.load.image('combinator-obsidianite', 'img/combinator-obsidianite.png');
+	combinatorPyrotite = this.load.image('combinator-pyrotite', 'img/combinator-pyrotite.png');
+	combinatorZenithite = this.load.image('combinator-zenithite', 'img/combinator-zenithite.png');
+	extractorAetherite = this.load.image('extractor-aetherite', 'img/extractor-aetherite.png');
+	extractorLiminite = this.load.image('extractor-luminite', 'img/extractor-luminite.png');
+	extractorObsidianite = this.load.image('extractor-obsidianite', 'img/extractor-obsidianite.png');
+	extractorPyrotite = this.load.image('extractor-pyrotite', 'img/extractor-pyrotite.png');
+	extractorZenithite = this.load.image('extractor-zenithite', 'img/extractor-zenithite.png');
+	purifierAetherite = this.load.image('purifier-aetherite', 'img/purifier-aetherite.png');
+	purifierLiminite = this.load.image('purifier-luminite', 'img/purifier-luminite.png');
+	purifierObsidianite = this.load.image('purifier-obsidianite', 'img/purifier-obsidianite.png');
+	purifierPyrotite = this.load.image('purifier-pyrotite', 'img/purifier-pyrotite.png');
+	purifierZenithite = this.load.image('purifier-zenithite', 'img/purifier-zenithite.png');
 }
 
 function create() {
@@ -96,9 +130,11 @@ function create() {
 		this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
 	});
 
-	/*const centerX = worldPx / 2;
+	const centerX = worldPx / 2;
 	const centerY = worldPx / 2;
-	this.add.image(centerX - 32, centerY - 32, 'conveyor-straight');*/
+	this.add.image(centerX - 64, centerY - 64, 'distribution-center');
+
+
 	place(this, new Vector2d(10, 10), 'conveyor-curve-left');
 	place(this, new Vector2d(11, 10), 'conveyor-curve-right');
 	place(this, new Vector2d(12, 10), 'conveyor-straight');
@@ -119,6 +155,26 @@ function create() {
 	place(this, new Vector2d(15, 13), 'conveyor-straight', 90);
 	place(this, new Vector2d(15, 14), 'conveyor-straight', 90);
 	place(this, new Vector2d(15, 15), 'conveyor-curve-right', 90);
+
+	place(this, new Vector2d(15, 20), 'combinator-aetherite');
+	place(this, new Vector2d(15, 22), 'combinator-luminite');
+	place(this, new Vector2d(15, 24), 'combinator-obsidianite');
+	place(this, new Vector2d(15, 26), 'combinator-pyrotite');
+	place(this, new Vector2d(15, 28), 'combinator-zenithite');
+	place(this, new Vector2d(17, 20), 'extractor-aetherite');
+	place(this, new Vector2d(17, 22), 'extractor-luminite');
+	place(this, new Vector2d(17, 24), 'extractor-obsidianite');
+	place(this, new Vector2d(17, 26), 'extractor-pyrotite');
+	place(this, new Vector2d(17, 28), 'extractor-zenithite');
+	place(this, new Vector2d(19, 20), 'purifier-aetherite');
+	place(this, new Vector2d(19, 22), 'purifier-luminite');
+	place(this, new Vector2d(19, 24), 'purifier-obsidianite');
+	place(this, new Vector2d(19, 26), 'purifier-pyrotite');
+	place(this, new Vector2d(19, 28), 'purifier-zenithite');
+
+
+
+
 
 	// 3. Setup Mouse Wheel Zoom
 	this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {

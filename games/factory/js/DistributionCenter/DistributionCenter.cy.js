@@ -18,13 +18,51 @@ describe('Distribution Center Class', () => {
 		it('should create a class with the default values', () => {
 			const distributionCenter = new DistributionCenter();
 			expect(distributionCenter).to.be.an.instanceOf(DistributionCenter);
-			expect(distributionCenter.warehouseCapacity).to.equal(100);
+			expect(distributionCenter.cash).to.equal(0);
+			expect(distributionCenter.name).to.equal('');
 		});
 	});
 
-	describe('Methods', () => {});
+	describe('Methods', () => {
+		it('should report on sales')
+	});
 
-	describe('Properties', () => {});
+	describe('Properties', () => {
+		let distributionCenter;
+		beforeEach(() => {
+			distributionCenter = new DistributionCenter();
+		});
+
+		it('should throw error if trying to change cash', () => {
+			expect(() => distributionCenter.cash = 2).to.throw();
+		});
+
+		it('should throw error if trying to change name', () => {
+			expect(() => distributionCenter.name = 'newName').to.throw();
+		});
+
+		describe('initialize()', () => {
+			it('should throw an error if no name is specified', () => {
+				expect(() => distributionCenter.initialize()).to.throw();
+			});
+
+			it('should throw an error if blank name is specified', () => {
+				expect(() => distributionCenter.initialize('')).to.throw();
+			});
+
+			it('should throw an error if the name is too long or invalid', () => {
+				expect(() => distributionCenter.initialize('a'.repeat(31))).to.throw();
+				expect( () => distributionCenter.initialize(123)).to.throw();
+			});
+
+			it('should initialize the game', () => {
+				distributionCenter.initialize('test');
+				expect(distributionCenter.name).to.equal('test');
+				expect(distributionCenter.cash).to.equal(1000);
+			});
+		});
+
+	});
 
 	describe('Events', () => {});
 
