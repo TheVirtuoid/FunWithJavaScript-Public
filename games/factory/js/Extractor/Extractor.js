@@ -4,18 +4,26 @@ import Base from "../Base/Base.js";
 
 export default class Extractor extends Base {
 
-	static AETHERITE = Symbol('aetherite');
-	static PYROTITE = Symbol('pyrotite');
-	static LUMINITE = Symbol('luminite');
-	static OBSIDIANITE = Symbol('obsidianite');
-	static ZENITHITE = Symbol('zenithite');
+	static AETHERITE = Symbol('extractor-aetherite');
+	static PYROTITE = Symbol('extractor-pyrotite');
+	static LUMINITE = Symbol('extractor-luminite');
+	static OBSIDIANITE = Symbol('extractor-obsidianite');
+	static ZENITHITE = Symbol('extractor-zenithite');
+
+	static TYPES = [
+		Extractor.AETHERITE,
+		Extractor.PYROTITE,
+		Extractor.LUMINITE,
+		Extractor.OBSIDIANITE,
+		Extractor.ZENITHITE
+	];
 
 	static #EXTRACTOR_DATA = new Map([
-		[Mineral.AETHERITE, { cost: 100, speed: 1 }],
-		[Mineral.PYROTITE, { cost: 200, speed: 1 }],
-		[Mineral.LUMINITE, { cost: 400, speed: 1 }],
-		[Mineral.OBSIDIANITE, { cost: 800, speed: 1 }],
-		[Mineral.ZENITHITE, { cost: 1600, speed: 1 }]
+		[Extractor.AETHERITE, { cost: 100, speed: 1 }],
+		[Extractor.PYROTITE, { cost: 200, speed: 1 }],
+		[Extractor.LUMINITE, { cost: 400, speed: 1 }],
+		[Extractor.OBSIDIANITE, { cost: 800, speed: 1 }],
+		[Extractor.ZENITHITE, { cost: 1600, speed: 1 }]
 	]);
 
 	static Cost(extractor) {

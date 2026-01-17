@@ -1,5 +1,7 @@
 import Mineral from "../Mineral/Mineral.js";
 import Extractor from "../Extractor/Extractor.js";
+import Purifier from "../Purifier/Purifier.js";
+import Combinator from "../Combinator/Combinator.js";
 
 export default class WorldData {
 	static IsEmpty = (data) => {
@@ -10,19 +12,13 @@ export default class WorldData {
 
 	static GROUND_TYPES = [
 		WorldData.GROUND_NORMAL,
-		Mineral.AETHERITE,
-		Mineral.PYROTITE,
-		Mineral.LUMINITE,
-		Mineral.OBSIDIANITE,
-		Mineral.ZENITHITE
+		...Mineral.TYPES,
 	];
 
 	static BUILDING_TYPES = [
-		Extractor.AETHERITE,
-		Extractor.PYROTITE,
-		Extractor.LUMINITE,
-		Extractor.OBSIDIANITE,
-		Extractor.ZENITHITE,
+		...Extractor.TYPES,
+		...Purifier.TYPES,
+		...Combinator.TYPES,
 	];
 
 	#ground;
@@ -31,7 +27,7 @@ export default class WorldData {
 	constructor(args = {}) {
 		let { ground = null } = args;
 		if (ground !== null && !WorldData.GROUND_TYPES.includes(ground)) {
-			ground = null;
+			throw new Error(`Invalid ground type: ${ground}`);
 		}
 		this.#ground = ground;
 		this.#building = null;
@@ -45,5 +41,13 @@ export default class WorldData {
 		return this.#building;
 	}
 
-	addBuilding(building) {}
+	addBuilding(building) {
+		if (!WorldData.BUILDING_TYPES.includes(building)) {
+			throw new Error(`Invalid building type: ${building}`);
+		}
+		if (this.#building !== null) {
+			throw new Error('WorldData already has a building');
+		}
+		this.#building = building;
+	}
 }

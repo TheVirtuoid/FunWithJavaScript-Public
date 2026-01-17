@@ -4,7 +4,23 @@ import Base from "../Base/Base.js";
 
 export default class Combinator extends Base {
 
-	static
+	static IGNISIUM = Symbol('conbinator-ignisium');
+	static PHOTONIUM = Symbol('conbinator-photonium');
+	static VOIDTISSIUM = Symbol('conbinator-voidtissium');
+	static SOLTARIUM = Symbol('conbinator-soltarium');
+	static MAGNANIUM = Symbol('conbinator-magnanium');
+	static ETHERIUM = Symbol('conbinator-etherium');
+	static STARFORGE = Symbol('conbinator-starforge');
+
+	static TYPES = [
+		Combinator.IGNISIUM,
+		Combinator.PHOTONIUM,
+		Combinator.VOIDTISSIUM,
+		Combinator.SOLTARIUM,
+		Combinator.MAGNANIUM,
+		Combinator.ETHERIUM,
+		Combinator.STARFORGE
+	];
 
 	#capacity;
 	#inventory;
