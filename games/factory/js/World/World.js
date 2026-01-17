@@ -49,7 +49,6 @@ export default class World {
 				this.#mineralPositions.set(mineral, positionCollection);
 			}
 		});
-		console.log(this.#mineralPositions);
 	}
 
 	get unitSize() {
@@ -75,7 +74,7 @@ export default class World {
 		if (position.x >= World.UNIT_WIDTH || position.y >= World.UNIT_HEIGHT) {
 			return undefined;
 		}
-		return this.#map.get(position);
+		return this.#map.get(position.toString());
 	}
 
 	#getRandomPosition() {

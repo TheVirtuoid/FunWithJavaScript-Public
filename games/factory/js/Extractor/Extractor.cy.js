@@ -32,15 +32,15 @@ describe('Extractor Class', () => {
 		});
 
 		it('should create the instance with the specified type and the defaults', () => {
-			const extractor = new Extractor({ type: Mineral.AETHERITE });
-			expect(extractor.speed).to.equal(Extractor.Speed(Mineral.AETHERITE));
+			const extractor = new Extractor({ type: Extractor.AETHERITE });
+			expect(extractor.speed).to.equal(Extractor.Speed(Extractor.AETHERITE));
 		});
 	});
 
 	describe('Methods', () => {
 		let extractor;
 		beforeEach(() => {
-			extractor = new Extractor({ type: Mineral.AETHERITE });
+			extractor = new Extractor({ type: Extractor.AETHERITE });
 		});
 
 		it('should sell the machine', () => {
@@ -51,7 +51,7 @@ describe('Extractor Class', () => {
 	describe('Properties', () => {
 		let extractor;
 		beforeEach(() => {
-			extractor = new Extractor({ type: Mineral.AETHERITE });
+			extractor = new Extractor({ type: Extractor.AETHERITE });
 		});
 
 		it('should throw error if trying to change speed', () => {

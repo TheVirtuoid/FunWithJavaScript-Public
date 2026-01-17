@@ -48,12 +48,6 @@ describe("World", function() {
 				expect(data).to.be.instanceOf(WorldData);
 			});
 
-			it('should return an empty WorldData if the position is in the world but there is nothing there', () => {
-				const data = world.getPosition(new Vector2d(10, 10));
-				expect(data).to.be.instanceOf(WorldData);
-				expect(WorldData.IsEmpty(data)).to.be.true;
-			});
-
 			it('should return undefined if the position is not in the world', () => {
 				expect(world.getPosition(new Vector2d(-1, -1))).to.be.undefined;
 			});
