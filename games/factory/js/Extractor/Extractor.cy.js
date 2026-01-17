@@ -11,7 +11,6 @@
  */
 
 import Extractor from './Extractor';
-import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import Mineral from "../Mineral/Mineral.js";
 
 describe('Extractor Class', () => {
