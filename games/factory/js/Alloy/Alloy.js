@@ -5,7 +5,7 @@ export default class Alloy extends Base {
 
 	static IGNISIUM = Symbol('Ignisium');
 	static PHOTONIUM = Symbol('Photonium');
-	static VOIDTISSUM = Symbol('Voidtissium');
+	static VOIDTISSIUM = Symbol('Voidtissium');
 	static SOLTARIUM = Symbol('Soltarium');
 	static MAGNANIUM = Symbol('Magnanium');
 	static ETHERIUM = Symbol('Etherium');
@@ -14,7 +14,7 @@ export default class Alloy extends Base {
 	static TYPES = [
 		Alloy.IGNISIUM,
 		Alloy.PHOTONIUM,
-		Alloy.VOIDTISSUM,
+		Alloy.VOIDTISSIUM,
 		Alloy.SOLTARIUM,
 		Alloy.MAGNANIUM,
 		Alloy.ETHERIUM,
@@ -24,7 +24,7 @@ export default class Alloy extends Base {
 	static #INGREDIENTS = new Map([
 		[Alloy.IGNISIUM, new Map([[Mineral.AETHERITE, 3], [Mineral.PYROTITE, 1]])],
 		[Alloy.PHOTONIUM, new Map([[Mineral.AETHERITE, 5], [Mineral.LUMINITE, 1]])],
-		[Alloy.VOIDTISSUM, new Map([[Mineral.AETHERITE, 7], [Mineral.OBSIDIANITE, 1]])],
+		[Alloy.VOIDTISSIUM, new Map([[Mineral.AETHERITE, 7], [Mineral.OBSIDIANITE, 1]])],
 		[Alloy.SOLTARIUM, new Map([[Mineral.PYROTITE, 2], [Mineral.LUMINITE, 1]])],
 		[Alloy.MAGNANIUM, new Map([[Mineral.PYROTITE, 4], [Mineral.OBSIDIANITE, 1]])],
 		[Alloy.ETHERIUM, new Map([[Mineral.LUMINITE, 9], [Mineral.ZENITHITE, 1]])],

@@ -4,6 +4,8 @@ import Base from "../Base/Base.js";
 
 export default class Combinator extends Base {
 
+	static
+
 	#capacity;
 	#inventory;
 

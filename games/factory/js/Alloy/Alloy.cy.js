@@ -18,7 +18,7 @@ describe('Alloy Class', () => {
 		it('should have defined the alloys', () => {
 			expect(Alloy.IGNISIUM).to.exist;
 			expect(Alloy.PHOTONIUM).to.exist;
-			expect(Alloy.VOIDTISSUM).to.exist;
+			expect(Alloy.VOIDTISSIUM).to.exist;
 			expect(Alloy.SOLTARIUM).to.exist;
 			expect(Alloy.MAGNANIUM).to.exist;
 			expect(Alloy.ETHERIUM).to.exist;
@@ -30,7 +30,7 @@ describe('Alloy Class', () => {
 		it('should return element using has()', () => {
 			expect(Alloy.Has(Alloy.IGNISIUM)).to.be.true;
 			expect(Alloy.Has(Alloy.PHOTONIUM)).to.be.true;
-			expect(Alloy.Has(Alloy.VOIDTISSUM)).to.be.true;
+			expect(Alloy.Has(Alloy.VOIDTISSIUM)).to.be.true;
 			expect(Alloy.Has(Alloy.SOLTARIUM)).to.be.true;
 			expect(Alloy.Has(Alloy.MAGNANIUM)).to.be.true;
 			expect(Alloy.Has(Alloy.ETHERIUM)).to.be.true;
@@ -61,8 +61,8 @@ describe('Alloy Class', () => {
 				expect(ingredients.get(Mineral.LUMINITE)).to.equal(1);
 			});
 
-			it('should return the ingredients for the alloy VOIDTISSUM', () => {
-				const ingredients = Alloy.Ingredients(Alloy.VOIDTISSUM);
+			it('should return the ingredients for the alloy VOIDTISSIUM', () => {
+				const ingredients = Alloy.Ingredients(Alloy.VOIDTISSIUM);
 				expect(ingredients.size).to.equal(2);
 				expect(ingredients.get(Mineral.AETHERITE)).to.equal(7);
 				expect(ingredients.get(Mineral.OBSIDIANITE)).to.equal(1);

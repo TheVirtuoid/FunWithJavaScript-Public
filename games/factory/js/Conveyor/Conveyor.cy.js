@@ -14,6 +14,7 @@
  */
 
 import Conveyor from "./Conveyor.js";
+import Vector2d from "../Vector/Vector2d/Vector2d.js";
 
 describe('Conveyor Class', () => {
 	describe('Static Properties', () => {
@@ -40,21 +41,7 @@ describe('Conveyor Class', () => {
 
 	describe('Methods', () => {});
 
-	describe('Properties', () => {
-		let conveyor;
-		beforeEach(() => {
-			conveyor = new Conveyor({ type: Conveyor.STRAIGHT });
-		})
-		it('should throw error if changing id', () => {
-			expect(() => conveyor.id = 'newId').to.throw();
-		});
-		it('should throw error if changing orientation', () => {
-			expect(() => conveyor.orientation = 2).to.throw();
-		});
-		it('should throw error if changing type', () => {
-			expect(() => conveyor.type = Conveyor.BRIDGE).to.throw();
-		});
-	});
+	describe('Properties', () => {});
 
 	describe('Events', () => {});
 

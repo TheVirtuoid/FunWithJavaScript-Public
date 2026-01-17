@@ -4,6 +4,12 @@ import Base from "../Base/Base.js";
 
 export default class Extractor extends Base {
 
+	static AETHERITE = Symbol('aetherite');
+	static PYROTITE = Symbol('pyrotite');
+	static LUMINITE = Symbol('luminite');
+	static OBSIDIANITE = Symbol('obsidianite');
+	static ZENITHITE = Symbol('zenithite');
+
 	static #EXTRACTOR_DATA = new Map([
 		[Mineral.AETHERITE, { cost: 100, speed: 1 }],
 		[Mineral.PYROTITE, { cost: 200, speed: 1 }],

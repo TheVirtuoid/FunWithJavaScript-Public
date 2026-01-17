@@ -49,11 +49,14 @@ let conveyorTIntersectionRight;
 let conveyorXIntersection;
 let distributionCenter;
 
-let combinatorAetherite;
-let combinatorLiminite;
-let combinatorObsidianite;
-let combinatorPyrotite;
-let combinatorZenithite;
+let combinatorIgnisium;
+let combinatorPhotonium;
+let combinatorVoidtissium;
+let combinatorSoltarium;
+let combinatorMagnanium;
+let combinatorEtherium;
+let combinatorStarforge;
+
 let extractorAetherite;
 let extractorLiminite;
 let extractorObsidianite;
@@ -74,11 +77,15 @@ function preload() {
 	conveyorTIntersectionRight = this.load.image('conveyor-t-intersection-right', 'img/conveyor-t-intersection-right.png');
 	conveyorXIntersection = this.load.image('conveyor-x-intersection', 'img/conveyor-x-intersection.png');
 	distributionCenter = this.load.image('distribution-center', 'img/distribution-center.png');
-	combinatorAetherite = this.load.image('combinator-aetherite', 'img/combinator-aetherite.png');
-	combinatorLiminite = this.load.image('combinator-luminite', 'img/combinator-luminite.png');
-	combinatorObsidianite = this.load.image('combinator-obsidianite', 'img/combinator-obsidianite.png');
-	combinatorPyrotite = this.load.image('combinator-pyrotite', 'img/combinator-pyrotite.png');
-	combinatorZenithite = this.load.image('combinator-zenithite', 'img/combinator-zenithite.png');
+
+	combinatorIgnisium = this.load.image('combinator-ignisium', 'img/combinator-ignisium.png');
+	combinatorPhotonium = this.load.image('combinator-photonium', 'img/combinator-photonium.png');
+	combinatorVoidtissium = this.load.image('combinator-voidtissium', 'img/combinator-voidtissium.png');
+	combinatorSoltarium = this.load.image('combinator-soltarium', 'img/combinator-soltarium.png');
+	combinatorMagnanium = this.load.image('combinator-magnanium', 'img/combinator-magnanium.png');
+	combinatorEtherium = this.load.image('combinator-etherium', 'img/combinator-etherium.png');
+	combinatorStarforge = this.load.image('combinator-starforge', 'img/combinator-starforge.png');
+
 	extractorAetherite = this.load.image('extractor-aetherite', 'img/extractor-aetherite.png');
 	extractorLiminite = this.load.image('extractor-luminite', 'img/extractor-luminite.png');
 	extractorObsidianite = this.load.image('extractor-obsidianite', 'img/extractor-obsidianite.png');
@@ -134,47 +141,40 @@ function create() {
 	const centerY = worldPx / 2;
 	this.add.image(centerX - 64, centerY - 64, 'distribution-center');
 
-
-	place(this, new Vector2d(10, 10), 'conveyor-curve-left');
-	place(this, new Vector2d(11, 10), 'conveyor-curve-right');
+	place(this, new Vector2d(10,10), 'extractor-aetherite', 270);
+	place(this, new Vector2d(11, 10), 'conveyor-straight');
 	place(this, new Vector2d(12, 10), 'conveyor-straight');
-	place(this, new Vector2d(13, 10), 'conveyor-t-intersection-left');
-	place(this, new Vector2d(14, 10), 'conveyor-t-intersection-right');
-	place(this, new Vector2d(15, 10), 'conveyor-x-intersection');
+	place(this, new Vector2d(13, 10), 'conveyor-straight');
+	place(this, new Vector2d(14, 10), 'conveyor-straight');
+	place(this, new Vector2d(15, 10), 'conveyor-straight');
 
 	place(this, new Vector2d(16, 10), 'conveyor-curve-left', 270);
+
 	place(this, new Vector2d(16, 11), 'conveyor-straight', 90);
 	place(this, new Vector2d(16, 12), 'conveyor-straight', 90);
 	place(this, new Vector2d(16, 13), 'conveyor-straight', 90);
 	place(this, new Vector2d(16, 14), 'conveyor-straight', 90);
+	place(this, new Vector2d(16, 15), 'conveyor-straight', 90);
+	place(this, new Vector2d(16, 16), 'conveyor-straight', 90);
+	place(this, new Vector2d(16, 17), 'conveyor-straight', 90);
+	place(this, new Vector2d(16, 18), 'conveyor-straight', 90);
+	place(this, new Vector2d(16, 19), 'conveyor-straight', 90);
+	place(this, new Vector2d(16, 20), 'conveyor-straight', 90);
 
-	place(this, new Vector2d(16, 15), 'conveyor-t-intersection-right', 90);
+	place(this, new Vector2d(16, 21), 'conveyor-curve-right', 90);
 
-	place(this, new Vector2d(15, 11), 'conveyor-straight', 90);
-	place(this, new Vector2d(15, 12), 'conveyor-straight', 90);
-	place(this, new Vector2d(15, 13), 'conveyor-straight', 90);
-	place(this, new Vector2d(15, 14), 'conveyor-straight', 90);
-	place(this, new Vector2d(15, 15), 'conveyor-curve-right', 90);
+	place(this, new Vector2d(17, 21), 'conveyor-straight');
+	place(this, new Vector2d(18, 21), 'conveyor-straight');
+	place(this, new Vector2d(19, 21), 'conveyor-straight');
+	place(this, new Vector2d(20, 21), 'conveyor-straight');
+	place(this, new Vector2d(21, 21), 'conveyor-straight');
+	place(this, new Vector2d(22, 21), 'conveyor-straight');
+	place(this, new Vector2d(23, 21), 'conveyor-straight');
 
-	place(this, new Vector2d(15, 20), 'combinator-aetherite');
-	place(this, new Vector2d(15, 22), 'combinator-luminite');
-	place(this, new Vector2d(15, 24), 'combinator-obsidianite');
-	place(this, new Vector2d(15, 26), 'combinator-pyrotite');
-	place(this, new Vector2d(15, 28), 'combinator-zenithite');
-	place(this, new Vector2d(17, 20), 'extractor-aetherite');
-	place(this, new Vector2d(17, 22), 'extractor-luminite');
-	place(this, new Vector2d(17, 24), 'extractor-obsidianite');
-	place(this, new Vector2d(17, 26), 'extractor-pyrotite');
-	place(this, new Vector2d(17, 28), 'extractor-zenithite');
-	place(this, new Vector2d(19, 20), 'purifier-aetherite');
-	place(this, new Vector2d(19, 22), 'purifier-luminite');
-	place(this, new Vector2d(19, 24), 'purifier-obsidianite');
-	place(this, new Vector2d(19, 26), 'purifier-pyrotite');
-	place(this, new Vector2d(19, 28), 'purifier-zenithite');
+	place(this, new Vector2d(24, 21), 'conveyor-curve-left', 270);
 
-
-
-
+	place(this, new Vector2d(24, 22), 'conveyor-straight', 90);
+	place(this, new Vector2d(24, 23), 'conveyor-straight', 90);
 
 	// 3. Setup Mouse Wheel Zoom
 	this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
