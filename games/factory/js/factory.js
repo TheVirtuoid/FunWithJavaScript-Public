@@ -6,6 +6,13 @@ import Vector2d from "./Vector/Vector2d/Vector2d.js";
 import World from "./World/World.js";
 import Mineral from "./Mineral/Mineral.js";
 
+import ConveyorUI from './Conveyor/ConveyorUI.js';
+import CombinatorUI from "./Combinator/CombinatorUI.js";
+import ExtractorUI from "./Extractor/ExtractorUI.js";
+import PurifierUI from "./Purifier/PurifierUI.js";
+import DistributionCenterUI from "./DistributionCenter/DistributionCenterUI.js";
+import MineralUI from "./Mineral/MineralUI.js";
+
 const canvasSize = window.innerHeight * .9;
 const config = {
 	type: Phaser.AUTO,
@@ -43,70 +50,15 @@ const place = (scene, position, piece, orientation = 0) => {
 		}
 };
 
-let conveyorCurveLeft;
-let conveyorCurveRight;
-let conveyorStraight;
-let conveyorTIntersectionLeft;
-let conveyorTIntersectionRight;
-let conveyorXIntersection;
-let distributionCenter;
-
-let combinatorIgnisium;
-let combinatorPhotonium;
-let combinatorVoidtissium;
-let combinatorSoltarium;
-let combinatorMagnanium;
-let combinatorEtherium;
-let combinatorStarforge;
-
-let extractorAetherite;
-let extractorLiminite;
-let extractorObsidianite;
-let extractorPyrotite;
-let extractorZenithite;
-let purifierAetherite;
-let purifierLiminite;
-let purifierObsidianite;
-let purifierPyrotite;
-let purifierZenithite;
-
 let ground;
 
-const createCircleTexture = (scene, key, color, alpha) => {
-	const g = scene.make.graphics({ x: 0, y: 0, add: false });
-	g.fillStyle(color, alpha);
-	g.fillCircle(32, 32, 24);
-	g.generateTexture(key, 64, 64);
-	g.destroy(); // Clean up the temporary graphics object
-};
-
 function preload() {
-	conveyorStraight = this.load.image('conveyor-straight', 'img/conveyor-straight.png');
-	conveyorCurveLeft = this.load.image('conveyor-curve-left', 'img/conveyor-curve-left.png');
-	conveyorCurveRight = this.load.image('conveyor-curve-right', 'img/conveyor-curve-right.png');
-	conveyorTIntersectionLeft = this.load.image('conveyor-t-intersection-left', 'img/conveyor-t-intersection-left.png');
-	conveyorTIntersectionRight = this.load.image('conveyor-t-intersection-right', 'img/conveyor-t-intersection-right.png');
-	conveyorXIntersection = this.load.image('conveyor-x-intersection', 'img/conveyor-x-intersection.png');
-	distributionCenter = this.load.image('distribution-center', 'img/distribution-center.png');
-
-	combinatorIgnisium = this.load.image('combinator-ignisium', 'img/combinator-ignisium.png');
-	combinatorPhotonium = this.load.image('combinator-photonium', 'img/combinator-photonium.png');
-	combinatorVoidtissium = this.load.image('combinator-voidtissium', 'img/combinator-voidtissium.png');
-	combinatorSoltarium = this.load.image('combinator-soltarium', 'img/combinator-soltarium.png');
-	combinatorMagnanium = this.load.image('combinator-magnanium', 'img/combinator-magnanium.png');
-	combinatorEtherium = this.load.image('combinator-etherium', 'img/combinator-etherium.png');
-	combinatorStarforge = this.load.image('combinator-starforge', 'img/combinator-starforge.png');
-
-	extractorAetherite = this.load.image('extractor-aetherite', 'img/extractor-aetherite.png');
-	extractorLiminite = this.load.image('extractor-luminite', 'img/extractor-luminite.png');
-	extractorObsidianite = this.load.image('extractor-obsidianite', 'img/extractor-obsidianite.png');
-	extractorPyrotite = this.load.image('extractor-pyrotite', 'img/extractor-pyrotite.png');
-	extractorZenithite = this.load.image('extractor-zenithite', 'img/extractor-zenithite.png');
-	purifierAetherite = this.load.image('purifier-aetherite', 'img/purifier-aetherite.png');
-	purifierLiminite = this.load.image('purifier-luminite', 'img/purifier-luminite.png');
-	purifierObsidianite = this.load.image('purifier-obsidianite', 'img/purifier-obsidianite.png');
-	purifierPyrotite = this.load.image('purifier-pyrotite', 'img/purifier-pyrotite.png');
-	purifierZenithite = this.load.image('purifier-zenithite', 'img/purifier-zenithite.png');
+	ConveyorUI.Preload(this);
+	CombinatorUI.Preload(this);
+	ExtractorUI.Preload(this);
+	PurifierUI.Preload(this);
+	DistributionCenterUI.Preload(this);
+	MineralUI.Preload(this);
 
 	ground = this.load.image('ground', 'img/ground.png');
 }
@@ -119,12 +71,6 @@ function create() {
 	const minZoom = Math.max(zoomX, zoomY);
 
 	this.add.tileSprite(0, 0, worldPx, worldPx, 'ground').setOrigin(0, 0);
-
-	createCircleTexture(this, Mineral.AETHERITE.description, 0xff0000, 0.50);
-	createCircleTexture(this, Mineral.LUMINITE.description, 0x198028, 0.5);
-	createCircleTexture(this, Mineral.PYROTITE.description, 0x24249a, 0.5);
-	createCircleTexture(this, Mineral.OBSIDIANITE.description, 0xfff401, 0.5);
-	createCircleTexture(this, Mineral.ZENITHITE.description, 0x000000, 0.5);
 
 	const mineralLoop = new Map([
 		[Mineral.AETHERITE, Mineral.AETHERITE.description],
@@ -168,17 +114,6 @@ function create() {
 		this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
 	});
 
-	// Optional: Add a simple grid to visualize the 199x199 layout
-	/*const graphics = this.add.graphics();
-	graphics.lineStyle(2, 0x00ff00, 0.5);
-	for (let i = 0; i <= worldUnits; i++) {
-		graphics.moveTo(i * unitSize, 0);
-		graphics.lineTo(i * unitSize, worldPx);
-		graphics.moveTo(0, i * unitSize);
-		graphics.lineTo(worldPx, i * unitSize);
-	}
-	graphics.strokePath();*/
-
 	this.input.on('pointermove', (pointer) => {
 		if (!pointer.isDown) return;
 
@@ -190,7 +125,7 @@ function create() {
 	const centerY = worldPx / 2;
 	this.add.image(centerX - 64, centerY - 64, 'distribution-center');
 
-	place(this, new Vector2d(10,10), 'extractor-aetherite', 270);
+	/*place(this, new Vector2d(10,10), 'extractor-aetherite', 270);
 	place(this, new Vector2d(11, 10), 'conveyor-straight');
 	place(this, new Vector2d(12, 10), 'conveyor-straight');
 	place(this, new Vector2d(13, 10), 'conveyor-straight');
@@ -223,7 +158,7 @@ function create() {
 	place(this, new Vector2d(24, 21), 'conveyor-curve-left', 270);
 
 	place(this, new Vector2d(24, 22), 'conveyor-straight', 90);
-	place(this, new Vector2d(24, 23), 'conveyor-straight', 90);
+	place(this, new Vector2d(24, 23), 'conveyor-straight', 90);*/
 
 	// 3. Setup Mouse Wheel Zoom
 	this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {

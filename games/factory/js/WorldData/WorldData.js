@@ -2,6 +2,7 @@ import Mineral from "../Mineral/Mineral.js";
 import Extractor from "../Extractor/Extractor.js";
 import Purifier from "../Purifier/Purifier.js";
 import Combinator from "../Combinator/Combinator.js";
+import Conveyor from "../Conveyor/Conveyor.js";
 
 export default class WorldData {
 	static IsEmpty = (data) => {
@@ -19,6 +20,7 @@ export default class WorldData {
 		...Extractor.TYPES,
 		...Purifier.TYPES,
 		...Combinator.TYPES,
+		...Conveyor.TYPES
 	];
 
 	#ground;
