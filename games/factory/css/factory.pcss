@@ -10,7 +10,57 @@ body {
     gap: 2rem;
     justify-content: space-around;
 
-    div:not(#pitch) {
+    section:not(#pitch) {
         flex: 1;
+    }
+}
+
+.stat {
+    border-radius: 1em;
+    border: 3px inset black;
+    font-size: 1.25rem;
+    padding: .5em;
+    margin-bottom: .5rem;
+    font-weight: 500;
+    color: var(--v-color-primary900);
+}
+
+.cursor-position {
+    border-color: var(--v-color-primary50);
+    background-color: var(--v-color-primary100);
+}
+
+.cash {
+    border-color: var(--v-color-secondary50);
+    background-color: var(--v-color-secondary100);
+}
+
+.level {
+    border-color: var(--v-color-quaternary50);
+    background-color: var(--v-color-quaternary100);
+}
+
+.inventory {
+    border-color: var(--v-color-tertiary50);
+    background-color: var(--v-color-tertiary100);
+
+    h4 {
+        margin: 0 0 .5em 0;
+    }
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+
+        li {
+            display: flex;
+            flex-direction: row;
+            gap: 1.5em;
+            align-items: center;
+
+            img {
+                width: 3rem;
+            }
+        }
     }
 }

@@ -149,6 +149,18 @@ function create() {
 
 	// 2. Setup mouse "drag to scroll"
 	this.input.on('pointermove', (pointer) => {
+		const worldPoint = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
+
+		// 2. Convert world pixels to grid coordinates
+		const gridX = Math.floor(worldPoint.x / unitSize);
+		const gridY = Math.floor(worldPoint.y / unitSize);
+
+		// 3. Optional: Clamp the values so they stay within your 50x50 bounds
+		const clampedX = Phaser.Math.Clamp(gridX, 0, worldUnits - 1);
+		const clampedY = Phaser.Math.Clamp(gridY, 0, worldUnits - 1);
+
+		document.getElementById('cursor-position').textContent = new Vector2d(clampedX, clampedY).toString();
+
 		if (!pointer.isDown) return;
 
 		// Move the camera based on mouse movement (inverted for natural scrolling)
