@@ -12,6 +12,7 @@ import ExtractorUI from "./Extractor/ExtractorUI.js";
 import PurifierUI from "./Purifier/PurifierUI.js";
 import DistributionCenterUI from "./DistributionCenter/DistributionCenterUI.js";
 import MineralUI from "./Mineral/MineralUI.js";
+import StatsUI from "./Stats/StatsUI.js";
 
 const canvasSize = window.innerHeight * .9;
 const config = {
@@ -52,6 +53,8 @@ const place = (scene, position, piece, orientation = 0) => {
 
 let ground;
 
+const stats = new StatsUI();
+
 function preload() {
 	ConveyorUI.Preload(this);
 	CombinatorUI.Preload(this);
@@ -64,6 +67,8 @@ function preload() {
 }
 
 function create() {
+	stats.create(this);
+	stats.start();
 	const worldPx = unitSize * worldUnits;
 
 	const zoomX = this.cameras.main.width / worldPx;

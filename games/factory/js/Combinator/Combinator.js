@@ -4,13 +4,13 @@ import Base from "../Base/Base.js";
 
 export default class Combinator extends Base {
 
-	static IGNISIUM = Symbol('conbinator-ignisium');
-	static PHOTONIUM = Symbol('conbinator-photonium');
-	static VOIDTISSIUM = Symbol('conbinator-voidtissium');
-	static SOLTARIUM = Symbol('conbinator-soltarium');
-	static MAGNANIUM = Symbol('conbinator-magnanium');
-	static ETHERIUM = Symbol('conbinator-etherium');
-	static STARFORGE = Symbol('conbinator-starforge');
+	static IGNISIUM = Symbol('combinator-ignisium');
+	static PHOTONIUM = Symbol('combinator-photonium');
+	static VOIDTISSIUM = Symbol('combinator-voidtissium');
+	static SOLTARIUM = Symbol('combinator-soltarium');
+	static MAGNANIUM = Symbol('combinator-magnanium');
+	static ETHERIUM = Symbol('combinator-etherium');
+	static STARFORGE = Symbol('combinator-starforge');
 
 	static TYPES = [
 		Combinator.IGNISIUM,

@@ -6,7 +6,7 @@ export default class Conveyor extends Base {
 	static CURVE_RIGHT = Symbol('conveyor-curve-right');
 	static T_INTERSECTION_LEFT = Symbol('conveyor-t-intersection-left');
 	static T_INTERSECTION_RIGHT = Symbol('conveyor-t-intersection-right');
-	static X_INTERSECTION = Symbol('conveyor-x_intersection');
+	static X_INTERSECTION = Symbol('conveyor-x-intersection');
 
 	static TYPES = [
 		Conveyor.STRAIGHT,
