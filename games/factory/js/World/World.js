@@ -77,6 +77,13 @@ export default class World {
 		return this.#map.get(position.toString());
 	}
 
+	getMineralDeposits(mineral) {
+		if (!Mineral.Has(mineral)) {
+			throw new Error('Invalid mineral provided');
+		}
+		return this.#mineralPositions.get(mineral);
+	}
+
 	#getRandomPosition() {
 		const xMid = Math.floor(World.UNIT_WIDTH / 2);
 		const yMid = Math.floor(World.UNIT_HEIGHT / 2);

@@ -1,6 +1,7 @@
 import World from "./World.js";
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import WorldData from "../WorldData/WorldData.js";
+import Mineral from "../Mineral/Mineral.js";
 
 describe("World", function() {
 	it('should create the world', () => {
@@ -51,7 +52,16 @@ describe("World", function() {
 			it('should return undefined if the position is not in the world', () => {
 				expect(world.getPosition(new Vector2d(-1, -1))).to.be.undefined;
 			});
+		});
 
+		describe('getMineralDeposits()', () => {
+			it('should throw error if argument is not a mineral', () => {
+				expect(() => world.getMineralDeposits('bad')).to.throw();
+			});
+			it('should get mineral deposits', () => {
+				const deposits = world.getMineralDeposits(Mineral.LUMINITE);
+				expect(deposits).to.be.an('array');
+			});
 		});
 	});
 })

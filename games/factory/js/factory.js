@@ -3,6 +3,8 @@ import '../css/factory.pcss';
 
 import Phaser from 'phaser';
 import Vector2d from "./Vector/Vector2d/Vector2d.js";
+import World from "./World/World.js";
+import Mineral from "./Mineral/Mineral.js";
 
 const canvasSize = window.innerHeight * .9;
 const config = {
@@ -68,6 +70,15 @@ let purifierObsidianite;
 let purifierPyrotite;
 let purifierZenithite;
 
+let ground;
+
+const createCircleTexture = (scene, key, color, alpha) => {
+	const g = scene.make.graphics({ x: 0, y: 0, add: false });
+	g.fillStyle(color, alpha);
+	g.fillCircle(32, 32, 24);
+	g.generateTexture(key, 64, 64);
+	g.destroy(); // Clean up the temporary graphics object
+};
 
 function preload() {
 	conveyorStraight = this.load.image('conveyor-straight', 'img/conveyor-straight.png');
@@ -96,6 +107,8 @@ function preload() {
 	purifierObsidianite = this.load.image('purifier-obsidianite', 'img/purifier-obsidianite.png');
 	purifierPyrotite = this.load.image('purifier-pyrotite', 'img/purifier-pyrotite.png');
 	purifierZenithite = this.load.image('purifier-zenithite', 'img/purifier-zenithite.png');
+
+	ground = this.load.image('ground', 'img/ground.png');
 }
 
 function create() {
@@ -104,6 +117,30 @@ function create() {
 	const zoomX = this.cameras.main.width / worldPx;
 	const zoomY = this.cameras.main.height / worldPx;
 	const minZoom = Math.max(zoomX, zoomY);
+
+	this.add.tileSprite(0, 0, worldPx, worldPx, 'ground').setOrigin(0, 0);
+
+	createCircleTexture(this, Mineral.AETHERITE.description, 0xff0000, 0.50);
+	createCircleTexture(this, Mineral.LUMINITE.description, 0x198028, 0.5);
+	createCircleTexture(this, Mineral.PYROTITE.description, 0x24249a, 0.5);
+	createCircleTexture(this, Mineral.OBSIDIANITE.description, 0xfff401, 0.5);
+	createCircleTexture(this, Mineral.ZENITHITE.description, 0x000000, 0.5);
+
+	const mineralLoop = new Map([
+		[Mineral.AETHERITE, Mineral.AETHERITE.description],
+		[Mineral.LUMINITE, Mineral.LUMINITE.description],
+		[Mineral.PYROTITE, Mineral.PYROTITE.description],
+		[Mineral.OBSIDIANITE, Mineral.OBSIDIANITE.description],
+		[Mineral.ZENITHITE, Mineral.ZENITHITE.description]
+	]);
+
+	const world = new World();
+	mineralLoop.forEach((mineral, key) => {
+		world.getMineralDeposits(key).forEach(position => {
+			place(this, position, mineral);
+		});
+	})
+
 
 	// 1. Set the bounds of the world so the camera doesn't go into the void
 	this.cameras.main.setBounds(0, 0, worldPx, worldPx);
@@ -120,7 +157,7 @@ function create() {
 	});
 
 	// Optional: Add a simple grid to visualize the 199x199 layout
-	const graphics = this.add.graphics();
+	/*const graphics = this.add.graphics();
 	graphics.lineStyle(2, 0x00ff00, 0.5);
 	for (let i = 0; i <= worldUnits; i++) {
 		graphics.moveTo(i * unitSize, 0);
@@ -128,7 +165,7 @@ function create() {
 		graphics.moveTo(0, i * unitSize);
 		graphics.lineTo(worldPx, i * unitSize);
 	}
-	graphics.strokePath();
+	graphics.strokePath();*/
 
 	this.input.on('pointermove', (pointer) => {
 		if (!pointer.isDown) return;
