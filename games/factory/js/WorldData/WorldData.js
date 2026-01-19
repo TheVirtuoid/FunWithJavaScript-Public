@@ -23,6 +23,43 @@ export default class WorldData {
 		...Conveyor.TYPES
 	];
 
+	static GetDatabase() {
+		const conveyorStraight = 10;
+		const conveyorCurveLeft = 15;
+		const conveyorCurveRight = 15;
+		const conveyorTIntersectionLeft = 25;
+		const conveyorTIntersectionRight = 25;
+		const conveyorXIntersection = 40;
+
+		const extractorAetherite = 100;
+		const extractorPyrotite = 200;
+		const extractorLuminite = 400;
+		const extractorObsidianite = 800;
+		const extractorZenithite = 1600;
+
+		const prices = new Map([
+			[Conveyor.STRAIGHT, conveyorStraight],
+			[Conveyor.CURVE_LEFT, conveyorCurveLeft],
+			[Conveyor.CURVE_RIGHT, conveyorCurveRight],
+			[Conveyor.T_INTERSECTION_LEFT, conveyorTIntersectionLeft],
+			[Conveyor.T_INTERSECTION_RIGHT, conveyorTIntersectionRight],
+			[Conveyor.X_INTERSECTION, conveyorXIntersection],
+
+			[Extractor.AETHERITE, extractorAetherite],
+			[Extractor.PYROTITE, extractorPyrotite],
+			[Extractor.LUMINITE, extractorLuminite],
+			[Extractor.OBSIDIANITE, extractorObsidianite],
+			[Extractor.ZENITHITE, extractorZenithite],
+
+			[Purifier.AETHERITE, extractorAetherite * 2],
+			[Purifier.PYROTITE, extractorPyrotite * 2],
+			[Purifier.LUMINITE, extractorLuminite * 2],
+			[Purifier.OBSIDIANITE, extractorObsidianite * 2],
+			[Purifier.ZENITHITE, extractorZenithite * 2],
+		]);
+
+	}
+
 	#ground;
 	#building;
 

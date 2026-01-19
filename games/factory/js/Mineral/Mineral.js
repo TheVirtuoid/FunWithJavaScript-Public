@@ -24,6 +24,22 @@ export default class Mineral extends Base{
 		[Mineral.ZENITHITE, `mineral-${ Mineral.ZENITHITE.description }`],
 	]);
 
+	static PRICE_RAW = new Map([
+		[Mineral.AETHERITE, 1],
+		[Mineral.PYROTITE, 2],
+		[Mineral.LUMINITE, 4],
+		[Mineral.OBSIDIANITE, 8],
+		[Mineral.ZENITHITE, 16],
+	]);
+
+	static PRICE_PURIFIED = new Map([
+		[Mineral.AETHERITE, 4],
+		[Mineral.PYROTITE, 8],
+		[Mineral.LUMINITE, 16],
+		[Mineral.OBSIDIANITE, 32],
+		[Mineral.ZENITHITE, 64],
+	])
+
 	static Has(element) {
 		return Mineral.TYPES.includes(element);
 	}

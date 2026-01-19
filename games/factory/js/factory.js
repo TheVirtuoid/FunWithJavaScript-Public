@@ -110,7 +110,9 @@ function create() {
 		const clampedX = Phaser.Math.Clamp(gridX, 0, worldUnits - 1);
 		const clampedY = Phaser.Math.Clamp(gridY, 0, worldUnits - 1);
 
-		document.getElementById('cursor-position').textContent = new Vector2d(clampedX, clampedY).toString();
+		stats.setCursorPosition(new Vector2d(clampedX, clampedY));
+
+		// document.getElementById('cursor-position').textContent = new Vector2d(clampedX, clampedY).toString();
 
 		if (!pointer.isDown) return;
 

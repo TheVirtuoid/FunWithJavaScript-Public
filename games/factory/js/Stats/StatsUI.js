@@ -25,35 +25,11 @@ export default class StatsUI extends Stats {
 
 	start() {
 		super.start();
-		this.updateInventory(Conveyor.STRAIGHT, 10);
-		this.updateInventory(Conveyor.CURVE_RIGHT, 10);
-		this.updateInventory(Conveyor.CURVE_LEFT, 10);
-		this.updateInventory(Conveyor.T_INTERSECTION_LEFT, 10);
-		this.updateInventory(Conveyor.T_INTERSECTION_RIGHT, 10);
-		this.updateInventory(Conveyor.X_INTERSECTION, 10);
+		this.updateDom();
+	}
 
-		this.updateInventory(Extractor.AETHERITE, 10);
-		this.updateInventory(Extractor.OBSIDIANITE, 10);
-		this.updateInventory(Extractor.LUMINITE, 10);
-		this.updateInventory(Extractor.PYROTITE, 10);
-		this.updateInventory(Extractor.ZENITHITE, 10);
-
-		this.updateInventory(Purifier.AETHERITE, 10);
-		this.updateInventory(Purifier.OBSIDIANITE, 10);
-		this.updateInventory(Purifier.LUMINITE, 10);
-		this.updateInventory(Purifier.PYROTITE, 10);
-		this.updateInventory(Purifier.ZENITHITE, 10);
-
-		this.updateInventory(Combinator.ETHERIUM, 10);
-		this.updateInventory(Combinator.IGNISIUM, 10);
-		this.updateInventory(Combinator.MAGNANIUM, 10);
-		this.updateInventory(Combinator.PHOTONIUM, 10);
-		this.updateInventory(Combinator.SOLTARIUM, 10);
-		this.updateInventory(Combinator.VOIDTISSIUM, 10);
-		this.updateInventory(Combinator.STARFORGE, 10);
-
-		this.updateInventory(Conveyor.STRAIGHT, 20);
-		this.updateInventory(Conveyor.CURVE_RIGHT, -10);
+	setCursorPosition(position) {
+		super.setCursorPosition(position);
 		this.updateDom();
 	}
 
@@ -81,7 +57,6 @@ export default class StatsUI extends Stats {
 				li.appendChild(span);
 				this.#domInventory.appendChild(li);
 			}
-			console.log(item, count, existingDom);
 		})
 	}
 
