@@ -33,6 +33,16 @@ export default class StatsUI extends Stats {
 		this.updateDom();
 	}
 
+	updateInventory(item, amount) {
+		super.updateInventory(item, amount);
+		this.updateDom();
+	}
+
+	updateCash(amount) {
+		super.updateCash(amount);
+		this.updateDom();
+	}
+
 	updateDom() {
 		this.#domCursorPosition.textContent = this.started ? this.cursorPosition.toString() : 'n/a';
 		this.#domCash.textContent = this.started ? this.cash : 'n/a';

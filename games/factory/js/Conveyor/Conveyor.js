@@ -17,6 +17,15 @@ export default class Conveyor extends Base {
 		Conveyor.X_INTERSECTION
 	];
 
+	static SYMBOLS = new Map([
+		[Conveyor.STRAIGHT.description, Conveyor.STRAIGHT],
+		[Conveyor.CURVE_LEFT.description, Conveyor.CURVE_LEFT],
+		[Conveyor.CURVE_RIGHT.description, Conveyor.CURVE_RIGHT],
+		[Conveyor.T_INTERSECTION_LEFT.description, Conveyor.T_INTERSECTION_LEFT],
+		[Conveyor.T_INTERSECTION_RIGHT.description, Conveyor.T_INTERSECTION_RIGHT],
+		[Conveyor.X_INTERSECTION.description, Conveyor.X_INTERSECTION]
+	]);
+
 	constructor(args = {}) {
 		const { type, orientation = 0 } = args;
 		if (!Conveyor.TYPES.includes(type)) {

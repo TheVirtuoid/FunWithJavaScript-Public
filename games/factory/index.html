@@ -13,6 +13,10 @@
 	<h1>Virtuoid: Factory</h1>
 	<div class="field">
 		<section class="stats">
+			<div class="stat information">
+				<h4>Information</h4>
+				<p>Nothing to see here.</p>
+			</div>
 			<div class="stat cursor-position">
 				Cursor Position: <span id="cursor-position"></span>
 			</div>
@@ -28,38 +32,38 @@
 			</div>
 		</section>
 		<section id="pitch"></section>
-		<section class="store">
+		<section class="store" id="store">
 			<h3>Factory Store</h3>
 			<div class="subsection levels">
 				<span>Advance to Level <span id="next-level">2</span></span>
-				<button class="primary small" id="buy-level-up">1000</button>
+				<button class="primary small purchase" id="level-up">1000</button>
 			</div>
 			<div class="subsection conveyors">
 				<h5>Conveyors</h5>
 				<ul>
 					<li>
 						<img src="img/conveyor-straight.png" alt="Conveyor Straight"/>
-						<button class="primary small" id="buy-conveyor-straight">100</button>
+						<button class="primary small purchase" data-id="conveyor-straight">100</button>
 					</li>
 					<li>
 						<img src="img/conveyor-curve-left.png" alt="Conveyor Curve Left"/>
-						<button class="primary small" id="buy-conveyor-curve-left">100</button>
+						<button class="primary small purchase" data-id="conveyor-curve-left">100</button>
 					</li>
 					<li>
 						<img src="img/conveyor-curve-right.png" alt="Conveyor Curve Right"/>
-						<button class="primary small" id="buy-conveyor-curve-right">100</button>
+						<button class="primary small purchase" data-id="conveyor-curve-right">100</button>
 					</li>
 					<li>
 						<img src="img/conveyor-t-intersection-right.png" alt="Conveyor T Right"/>
-						<button class="primary small" id="buy-conveyor-t-intersection-right">100</button>
+						<button class="primary small purchase" data-id="conveyor-t-intersection-right">100</button>
 					</li>
 					<li>
 						<img src="img/conveyor-t-intersection-left.png" alt="Conveyor T Left"/>
-						<button class="primary small" id="buy-conveyor-t-intersection-left">100</button>
+						<button class="primary small purchase" data-id="conveyor-t-intersection-left">100</button>
 					</li>
 					<li>
 						<img src="img/conveyor-x-intersection.png" alt="Conveyor X"/>
-						<button class="primary small" id="buy-conveyor-x-intersection">100</button>
+						<button class="primary small purchase" data-id="conveyor-x-intersection">100</button>
 					</li>
 				</ul>
 			</div>
@@ -68,23 +72,23 @@
 				<ul>
 					<li>
 						<img src="img/extractor-aetherite.png" alt="Extractor Aetherite"/>
-						<button class="primary small" id="buy-extractor-aetherite">100</button>
+						<button class="primary small purchase" data-id="extractor-aetherite">100</button>
 					</li>
 					<li>
 						<img src="img/extractor-obsidianite.png" alt="Extractor Obsidianite"/>
-						<button class="primary small" id="buy-extractor-obsidianite">100</button>
+						<button class="primary small purchase" data-id="extractor-obsidianite">100</button>
 					</li>
 					<li>
 						<img src="img/extractor-pyrotite.png" alt="Exractor Pyrotite"/>
-						<button class="primary small" id="buy-extractor-pyrotite">100</button>
+						<button class="primary small purchase" data-id="extractor-pyrotite">100</button>
 					</li>
 					<li>
 						<img src="img/extractor-luminite.png" alt="Extractor Luminite"/>
-						<button class="primary small" id="buy-extractor-luminite">100</button>
+						<button class="primary small purchase" data-id="extractor-luminite">100</button>
 					</li>
 					<li>
 						<img src="img/extractor-zenithite.png" alt="Extractor Zenithite"/>
-						<button class="primary small" id="buy-extractor-zenithite">100</button>
+						<button class="primary small purchase" data-id="extractor-zenithite">100</button>
 					</li>
 				</ul>
 			</div>
@@ -93,23 +97,23 @@
 				<ul>
 					<li>
 						<img src="img/purifier-aetherite.png" alt="Purifier Aetherite"/>
-						<button class="primary small" id="buy-purifier-aetherite">100</button>
+						<button class="primary small purchase" data-id="purifier-aetherite">100</button>
 					</li>
 					<li>
 						<img src="img/purifier-obsidianite.png" alt="Purifier Obsidianite"/>
-						<button class="primary small" id="buy-purifier-obsidianite">100</button>
+						<button class="primary small purchase" data-id="purifier-obsidianite">100</button>
 					</li>
 					<li>
 						<img src="img/purifier-pyrotite.png" alt="Purifier Pyrotite"/>
-						<button class="primary small" id="buy-purifier-pyrotite">100</button>
+						<button class="primary small purchase" data-id="purifier-pyrotite">100</button>
 					</li>
 					<li>
 						<img src="img/purifier-luminite.png" alt="Purifier Luminite"/>
-						<button class="primary small" id="buy-purifier-luminite">100</button>
+						<button class="primary small purchase" data-id="purifier-luminite">100</button>
 					</li>
 					<li>
 						<img src="img/purifier-zenithite.png" alt="Purifier Zenithite"/>
-						<button class="primary small" id="buy-purifier-zenithite">100</button>
+						<button class="primary small purchase" data-id="purifier-zenithite">100</button>
 					</li>
 				</ul>
 			</div>
@@ -118,31 +122,31 @@
 				<ul>
 					<li>
 						<img src="img/combinator-etherium.png" alt="Combinator Etherium"/>
-						<button class="primary small" id="buy-combinator-etherium">100</button>
+						<button class="primary small purchase" data-id="combinator-etherium">100</button>
 					</li>
 					<li>
 						<img src="img/combinator-ignisium.png" alt="Combinator Ignisium"/>
-						<button class="primary small" id="buy-combinator-ignisium">100</button>
+						<button class="primary small purchase" data-id="combinator-ignisium">100</button>
 					</li>
 					<li>
 						<img src="img/combinator-magnanium.png" alt="Combinator Magnanium"/>
-						<button class="primary small" id="buy-combinator-magnanium">100</button>
+						<button class="primary small purchase" data-id="combinator-magnanium">100</button>
 					</li>
 					<li>
 						<img src="img/combinator-photonium.png" alt="Combinator Photonium"/>
-						<button class="primary small" id="buy-combinator-photonium">100</button>
+						<button class="primary small purchase" data-id="combinator-photonium">100</button>
 					</li>
 					<li>
 						<img src="img/combinator-soltarium.png" alt="Combinator Soltarium"/>
-						<button class="primary small" id="buy-combinator-soltarium">100</button>
+						<button class="primary small purchase" data-id="combinator-soltarium">100</button>
 					</li>
 					<li>
 						<img src="img/combinator-voidtissium.png" alt="Combinator Voidtissium"/>
-						<button class="primary small" id="buy-combinator-voidtissium">100</button>
+						<button class="primary small purchase" data-id="combinator-voidtissium">100</button>
 					</li>
 					<li>
 						<img src="img/combinator-starforge.png" alt="Combinator Starforge"/>
-						<button class="primary small" id="buy-combinator-starforge">100</button>
+						<button class="primary small purchase" data-id="combinator-starforge">100</button>
 					</li>
 				</ul>
 			</div>

@@ -15,6 +15,16 @@ export default class Purifier extends Base {
 		Purifier.OBSIDIANITE,
 		Purifier.ZENITHITE
 	];
+
+	static SYMBOLS = new Map([
+		[Purifier.AETHERITE.description, Purifier.AETHERITE],
+		[Purifier.PYROTITE.description, Purifier.PYROTITE],
+		[Purifier.LUMINITE.description, Purifier.LUMINITE],
+		[Purifier.OBSIDIANITE.description, Purifier.OBSIDIANITE],
+		[Purifier.ZENITHITE.description, Purifier.ZENITHITE]
+	])
+
+
 	constructor(args = {}) {
 		super(args);
 	}

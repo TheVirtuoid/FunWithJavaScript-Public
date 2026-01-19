@@ -23,6 +23,15 @@ export default class WorldData {
 		...Conveyor.TYPES
 	];
 
+	static BUILDING_SYMBOLS = new Map([
+		...Conveyor.SYMBOLS,
+		...Combinator.SYMBOLS,
+		...Purifier.SYMBOLS,
+		...Extractor.SYMBOLS
+	]);
+
+	static GetBuildingSymbol(buildingName) {}
+
 	static GetDatabase() {
 		const conveyorStraight = 10;
 		const conveyorCurveLeft = 15;

@@ -31,7 +31,7 @@ export default class Alloy extends Base {
 		[Alloy.STARFORGE, new Map([[Mineral.PYROTITE, 12], [Mineral.LUMINITE, 7], [Mineral.ZENITHITE, 1]])]
 	]);
 
-	static PRICE_PURIFIED = new Map([
+/*	static PRICE_PURIFIED = new Map([
 		[Alloy.IGNISIUM, (Mineral.PRICE_PURIFIED.get(Mineral.AETHERITE) * 3 + Mineral.PRICE_PURIFIED.get(Mineral.PYROTITE) * 1) * 1.5],
 		[Alloy.PHOTONIUM, (Mineral.PRICE_PURIFIED.get(Mineral.AETHERITE) * 5 + Mineral.PRICE_PURIFIED.get(Mineral.LUMINITE) * 1) * 1.5],
 		[Alloy.VOIDTISSIUM, (Mineral.PRICE_PURIFIED.get(Mineral.AETHERITE) * 7 + Mineral.PRICE_PURIFIED.get(Mineral.OBSIDIANITE) * 1) * 1.5],
@@ -39,7 +39,7 @@ export default class Alloy extends Base {
 		[Alloy.MAGNANIUM, (Mineral.PRICE_PURIFIED.get(Mineral.PYROTITE) * 4 + Mineral.PRICE_PURIFIED.get(Mineral.OBSIDIANITE) * 1) * 1.5],
 		[Alloy.ETHERIUM, (Mineral.PRICE_PURIFIED.get(Mineral.LUMINITE) * 9 + Mineral.PRICE_PURIFIED.get(Mineral.ZENITHITE) * 1) * 1.5],
 		[Alloy.STARFORGE, (Mineral.PRICE_PURIFIED.get(Mineral.PYROTITE) * 12 + Mineral.PRICE_PURIFIED.get(Mineral.LUMINITE) * 7 + Mineral.PRICE_PURIFIED.get(Mineral.ZENITHITE * 1)) * 1.5],
-	]);
+	]);*/
 
 	static Has(element) {
 		return Alloy.TYPES.includes(element);

@@ -22,6 +22,16 @@ export default class Combinator extends Base {
 		Combinator.STARFORGE
 	];
 
+	static SYMBOLS = new Map([
+		[Combinator.IGNISIUM.description, Combinator.IGNISIUM],
+		[Combinator.PHOTONIUM.description, Combinator.PHOTONIUM],
+		[Combinator.VOIDTISSIUM.description, Combinator.VOIDTISSIUM],
+		[Combinator.SOLTARIUM.description, Combinator.SOLTARIUM],
+		[Combinator.MAGNANIUM.description, Combinator.MAGNANIUM],
+		[Combinator.ETHERIUM.description, Combinator.ETHERIUM],
+		[Combinator.STARFORGE.description, Combinator.STARFORGE]
+	]);
+
 	#capacity;
 	#inventory;
 

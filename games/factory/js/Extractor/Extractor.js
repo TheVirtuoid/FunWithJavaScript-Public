@@ -18,6 +18,14 @@ export default class Extractor extends Base {
 		Extractor.ZENITHITE
 	];
 
+	static SYMBOLS = new Map([
+		[Extractor.AETHERITE.description, Extractor.AETHERITE],
+		[Extractor.PYROTITE.description, Extractor.PYROTITE],
+		[Extractor.LUMINITE.description, Extractor.LUMINITE],
+		[Extractor.OBSIDIANITE.description, Extractor.OBSIDIANITE],
+		[Extractor.ZENITHITE.description, Extractor.ZENITHITE]
+	])
+
 	static #EXTRACTOR_DATA = new Map([
 		[Extractor.AETHERITE, { cost: 100, speed: 1 }],
 		[Extractor.PYROTITE, { cost: 200, speed: 1 }],

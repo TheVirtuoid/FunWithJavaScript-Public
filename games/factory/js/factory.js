@@ -13,6 +13,8 @@ import PurifierUI from "./Purifier/PurifierUI.js";
 import DistributionCenterUI from "./DistributionCenter/DistributionCenterUI.js";
 import MineralUI from "./Mineral/MineralUI.js";
 import StatsUI from "./Stats/StatsUI.js";
+import WorldData from "./WorldData/WorldData.js";
+import Conveyor from "./Conveyor/Conveyor.js";
 
 const canvasSize = window.innerHeight * .9;
 const config = {
@@ -189,6 +191,15 @@ function create() {
 		cam.scrollY -= (newWorldPoint.y - worldPoint.y);
 	});
 
+	document.getElementById('store').addEventListener('click', (event) => {
+		if (event.target.classList.contains('purchase')) {
+			const building = event.target.dataset.id;
+			const amount = parseInt(event.target.textContent);
+			const symbol = [...WorldData.BUILDING_SYMBOLS].find(entry => entry[0] === building)[1];
+			stats.updateInventory(symbol, 1);
+			stats.updateCash(-amount);
+		}
+	})
 }
 
 function update() {
