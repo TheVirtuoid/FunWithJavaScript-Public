@@ -15,6 +15,7 @@ import MineralUI from "./Mineral/MineralUI.js";
 import StatsUI from "./Stats/StatsUI.js";
 import WorldData from "./WorldData/WorldData.js";
 import Conveyor from "./Conveyor/Conveyor.js";
+import AlloyUI from "./Alloy/AlloyUI.js";
 
 const canvasSize = window.innerHeight * .9;
 const config = {
@@ -34,6 +35,8 @@ const worldUnits = 50;
 const halfSize = unitSize / 2;
 
 const game = new Phaser.Game(config);
+
+let activePlacement = null;
 
 const place = (scene, position, piece, orientation = 0) => {
 		const { x, y } = position;
@@ -64,6 +67,7 @@ function preload() {
 	PurifierUI.Preload(this);
 	DistributionCenterUI.Preload(this);
 	MineralUI.Preload(this);
+	AlloyUI.Preload(this);
 
 	ground = this.load.image('ground', 'img/ground.png');
 }
@@ -97,8 +101,15 @@ function create() {
 
 	// 1. Set the bounds of the world so the camera doesn't go into the void
 	this.cameras.main.setBounds(0, 0, worldPx, worldPx);
-
 	this.cameras.main.setZoom(minZoom);
+
+	// Handle keyboard ESC key
+	this.input.keyboard.on('keydown-ESC', () => {
+		if (activePlacement) {
+			activePlacement.ghost.destroy();
+			activePlacement = null;
+		}
+	});
 
 	// 2. Setup mouse "drag to scroll"
 	this.input.on('pointermove', (pointer) => {
@@ -114,6 +125,13 @@ function create() {
 
 		stats.setCursorPosition(new Vector2d(clampedX, clampedY));
 
+		// Update ghost image position if active
+		if (activePlacement) {
+			const snapX = clampedX * unitSize + halfSize;
+			const snapY = clampedY * unitSize + halfSize;
+			activePlacement.ghost.setPosition(snapX, snapY);
+		}
+
 		// document.getElementById('cursor-position').textContent = new Vector2d(clampedX, clampedY).toString();
 
 		if (!pointer.isDown) return;
@@ -121,6 +139,25 @@ function create() {
 		// Move the camera based on mouse movement (inverted for natural scrolling)
 		this.cameras.main.scrollX -= (pointer.x - pointer.prevPosition.x) / this.cameras.main.zoom;
 		this.cameras.main.scrollY -= (pointer.y - pointer.prevPosition.y) / this.cameras.main.zoom;
+	});
+
+	this.input.on('pointerdown', (pointer) => {
+		if (activePlacement) {
+			const worldPoint = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
+			const gridX = Math.floor(worldPoint.x / unitSize);
+			const gridY = Math.floor(worldPoint.y / unitSize);
+
+			// Grid is 0-indexed, but the 'place' function uses 1-based logic based on existing code
+			// (looking at screenX = x * unitSize - halfSize).
+			// Let's adjust to match your 'place' function's coordinate system.
+			console.log(activePlacement);
+			place(this, new Vector2d(gridX + 1, gridY + 1), activePlacement.key);
+
+			// Reset the cursor/placement state
+			// activePlacement.ghost.destroy();
+			// activePlacement = null;
+
+		}
 	});
 
 	this.input.on('pointermove', (pointer) => {
@@ -133,41 +170,6 @@ function create() {
 	const centerX = worldPx / 2;
 	const centerY = worldPx / 2;
 	this.add.image(centerX - 64, centerY - 64, 'distribution-center');
-
-	/*place(this, new Vector2d(10,10), 'extractor-aetherite', 270);
-	place(this, new Vector2d(11, 10), 'conveyor-straight');
-	place(this, new Vector2d(12, 10), 'conveyor-straight');
-	place(this, new Vector2d(13, 10), 'conveyor-straight');
-	place(this, new Vector2d(14, 10), 'conveyor-straight');
-	place(this, new Vector2d(15, 10), 'conveyor-straight');
-
-	place(this, new Vector2d(16, 10), 'conveyor-curve-left', 270);
-
-	place(this, new Vector2d(16, 11), 'conveyor-straight', 90);
-	place(this, new Vector2d(16, 12), 'conveyor-straight', 90);
-	place(this, new Vector2d(16, 13), 'conveyor-straight', 90);
-	place(this, new Vector2d(16, 14), 'conveyor-straight', 90);
-	place(this, new Vector2d(16, 15), 'conveyor-straight', 90);
-	place(this, new Vector2d(16, 16), 'conveyor-straight', 90);
-	place(this, new Vector2d(16, 17), 'conveyor-straight', 90);
-	place(this, new Vector2d(16, 18), 'conveyor-straight', 90);
-	place(this, new Vector2d(16, 19), 'conveyor-straight', 90);
-	place(this, new Vector2d(16, 20), 'conveyor-straight', 90);
-
-	place(this, new Vector2d(16, 21), 'conveyor-curve-right', 90);
-
-	place(this, new Vector2d(17, 21), 'conveyor-straight');
-	place(this, new Vector2d(18, 21), 'conveyor-straight');
-	place(this, new Vector2d(19, 21), 'conveyor-straight');
-	place(this, new Vector2d(20, 21), 'conveyor-straight');
-	place(this, new Vector2d(21, 21), 'conveyor-straight');
-	place(this, new Vector2d(22, 21), 'conveyor-straight');
-	place(this, new Vector2d(23, 21), 'conveyor-straight');
-
-	place(this, new Vector2d(24, 21), 'conveyor-curve-left', 270);
-
-	place(this, new Vector2d(24, 22), 'conveyor-straight', 90);
-	place(this, new Vector2d(24, 23), 'conveyor-straight', 90);*/
 
 	// 3. Setup Mouse Wheel Zoom
 	this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
@@ -189,6 +191,24 @@ function create() {
 		const newWorldPoint = cam.getWorldPoint(pointer.x, pointer.y);
 		cam.scrollX -= (newWorldPoint.x - worldPoint.x);
 		cam.scrollY -= (newWorldPoint.y - worldPoint.y);
+	});
+
+	document.getElementById('inventory').addEventListener('click', (event) => {
+		const img = event.target.closest('img');
+		if (img && (event.target.closest('.inventory') || event.target.closest('.store'))) {
+			// Extract key from src or data attribute.
+			// Based on your UI, the dataset 'id' or the filename is likely the key.
+			const key = img.dataset.id || img.src.split('/').pop().split('.')[0];
+
+			// If already placing something, remove old ghost
+			if (activePlacement) activePlacement.ghost.destroy();
+
+			const ghost = this.add.image(0, 0, key);
+			ghost.setAlpha(0.5);
+			ghost.setDepth(100); // Ensure it's above other elements
+
+			activePlacement = { key, ghost };
+		}
 	});
 
 	document.getElementById('store').addEventListener('click', (event) => {

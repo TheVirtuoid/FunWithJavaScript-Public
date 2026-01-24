@@ -17,6 +17,14 @@ export default class MineralUI {
 		createCircleTexture(scene, Mineral.PYROTITE.description, 0x24249a, 0.5);
 		createCircleTexture(scene, Mineral.OBSIDIANITE.description, 0xfff401, 0.5);
 		createCircleTexture(scene, Mineral.ZENITHITE.description, 0x000000, 0.5);
+
+		Mineral.TYPES.forEach(mineral => {
+			const ore = `ore-${mineral.description}`;
+			scene.load.image(ore, `img/${ore}.png`);
+			const pure = `pure-${mineral.description}`;
+			scene.load.image(pure, `img/${pure}.png`);
+		});
+
 	}
 
 
