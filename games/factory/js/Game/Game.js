@@ -38,7 +38,11 @@ export default class Game extends Phaser.Scene {
 		this.#distributionCenter = new DistributionCenterUI(this);
 	}
 
-	emit() {}
+	emit(eventName, payload) {
+		if (eventName === GameEvent.STAT_CURSOR_POSITION) {
+			this.#stats.setCursorPosition(payload);
+		}
+	}
 
 	start() {}
 
@@ -55,9 +59,10 @@ export default class Game extends Phaser.Scene {
 
 	create() {
 		this.#stats.create();
-		this.#stats.start();
 		this.#world.create();
 		this.#distributionCenter.create();
+		this.#stats.start();
+
 
 		/*const worldPx = Game.UNIT_SIZE * Game.WORLD_UNITS;
 		const zoomX = this.cameras.main.width / worldPx;
