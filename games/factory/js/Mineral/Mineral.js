@@ -16,6 +16,14 @@ export default class Mineral extends Base{
 		Mineral.ZENITHITE
 	];
 
+	static DESCRIPTIONS = new Map([
+		[Mineral.AETHERITE, Mineral.AETHERITE.description],
+		[Mineral.PYROTITE, Mineral.PYROTITE.description],
+		[Mineral.LUMINITE, Mineral.LUMINITE.description],
+		[Mineral.OBSIDIANITE, Mineral.OBSIDIANITE.description],
+		[Mineral.ZENITHITE, Mineral.ZENITHITE.description],
+	]);
+
 	static NAMES = new Map([
 		[Mineral.AETHERITE, `mineral-${ Mineral.AETHERITE.description }`],
 		[Mineral.PYROTITE, `mineral-${ Mineral.PYROTITE.description }`],

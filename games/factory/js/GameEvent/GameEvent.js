@@ -1,0 +1,53 @@
+let game;
+
+export default class GameEvent {
+
+	static GAME_EVENT_INITIALIZED = Symbol('game-event-initialized');
+
+	static STAT_CURSOR_POSITION = Symbol('ui-stat-cursor-position');
+	static STAT_CASH = Symbol('stat-cash');
+	static STAT_LEVEL = Symbol('stat-level');
+
+	static INVENTORY_ADD = Symbol('inventory-add');
+	static INVENTORY_REMOVE = Symbol('inventory-remove');
+
+	static TYPES = [
+		GameEvent.GAME_EVENT_INITIALIZED,
+		GameEvent.STAT_CURSOR_POSITION,
+		GameEvent.STAT_CASH,
+		GameEvent.STAT_LEVEL,
+		GameEvent.INVENTORY_ADD,
+		GameEvent.INVENTORY_REMOVE,
+	]
+
+	static Setup(gameObject) {
+		game = gameObject;
+		GameEvent.Emit(GameEvent.GAME_EVENT_INITIALIZED);
+	}
+
+	static TakeDown() {
+		game = null;
+	}
+
+	static Key(key) {
+		if (!GameEvent.TYPES.includes(key)) {
+			return undefined;
+		}
+		return key.description;
+	}
+
+	static Emit(eventName, ...args) {
+		if (!game) {
+			throw new Error('GameEvent object has not been set up');
+		}
+		if (!GameEvent.TYPES.includes(eventName)) {
+			throw new Error(`Event '${eventName}' is not defined in GameEvent`);
+		}
+		game.emit(eventName, ...args);
+	}
+
+	constructor() {
+		throw(new Error('GameEvent is static and cannot be instantiated'));
+	}
+
+}

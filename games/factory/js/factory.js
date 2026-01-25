@@ -16,7 +16,24 @@ import StatsUI from "./Stats/StatsUI.js";
 import WorldData from "./WorldData/WorldData.js";
 import Conveyor from "./Conveyor/Conveyor.js";
 import AlloyUI from "./Alloy/AlloyUI.js";
+import Game from "./Game/Game.js";
 
+const game = new Game();
+const canvasSize = window.innerHeight * .9;
+const config = {
+	type: Phaser.AUTO,
+	width: canvasSize,
+	height: canvasSize,
+	parent: 'pitch',
+	scene: game
+};
+const phaserGame = new Phaser.Game(config);
+
+
+
+
+
+/*
 const canvasSize = window.innerHeight * .9;
 const config = {
 	type: Phaser.AUTO,
@@ -29,16 +46,19 @@ const config = {
 		update: update
 	}
 };
+*/
 
+/*
 const unitSize = 64;
 const worldUnits = 50;
 const halfSize = unitSize / 2;
 
 const game = new Phaser.Game(config);
+*/
 
 let activePlacement = null;
 
-const place = (scene, position, piece, orientation = 0) => {
+/*const place = (scene, position, piece, orientation = 0) => {
 		const { x, y } = position;
 		const screenX = x * unitSize - halfSize;
 		const screenY = y * unitSize - halfSize;
@@ -54,13 +74,13 @@ const place = (scene, position, piece, orientation = 0) => {
 				image.rotation = 3 * Math.PI / 2;
 				break;
 		}
-};
+};*/
 
-let ground;
+// let ground;
 
-const stats = new StatsUI();
+// const stats = new StatsUI();
 
-function preload() {
+/*function preload() {
 	ConveyorUI.Preload(this);
 	CombinatorUI.Preload(this);
 	ExtractorUI.Preload(this);
@@ -70,7 +90,7 @@ function preload() {
 	AlloyUI.Preload(this);
 
 	ground = this.load.image('ground', 'img/ground.png');
-}
+}*/
 
 function create() {
 	stats.create(this);
