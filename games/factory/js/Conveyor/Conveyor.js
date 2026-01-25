@@ -17,6 +17,8 @@ export default class Conveyor extends Base {
 		Conveyor.X_INTERSECTION
 	];
 
+	static Has = (element) => Conveyor.TYPES.includes(element);
+
 	static SYMBOLS = new Map([
 		[Conveyor.STRAIGHT.description, Conveyor.STRAIGHT],
 		[Conveyor.CURVE_LEFT.description, Conveyor.CURVE_LEFT],

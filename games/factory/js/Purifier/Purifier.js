@@ -16,6 +16,8 @@ export default class Purifier extends Base {
 		Purifier.ZENITHITE
 	];
 
+	static Has = (element) => Purifier.TYPES.includes(element);
+
 	static SYMBOLS = new Map([
 		[Purifier.AETHERITE.description, Purifier.AETHERITE],
 		[Purifier.PYROTITE.description, Purifier.PYROTITE],

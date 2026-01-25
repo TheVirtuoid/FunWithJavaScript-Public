@@ -18,6 +18,8 @@ export default class Extractor extends Base {
 		Extractor.ZENITHITE
 	];
 
+	static Has = (element) => Extractor.TYPES.includes(element);
+
 	static SYMBOLS = new Map([
 		[Extractor.AETHERITE.description, Extractor.AETHERITE],
 		[Extractor.PYROTITE.description, Extractor.PYROTITE],
