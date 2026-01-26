@@ -13,6 +13,7 @@ import World from "../World/World.js";
 import Mineral from "../Mineral/Mineral.js";
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import WorldUI from "../World/WorldUI.js";
+import StoreUI from "../Store/StoreUI.js";
 
 export default class Game extends Phaser.Scene {
 
@@ -24,6 +25,7 @@ export default class Game extends Phaser.Scene {
 	#phaserGame;
 	#stats;
 	#ground;
+	#store;
 	#scene;
 	#world;
 	#distributionCenter;
@@ -35,16 +37,28 @@ export default class Game extends Phaser.Scene {
 		this.#stats = new StatsUI(this);
 		this.#ground = new GroundUI(this);
 		this.#world = new WorldUI(this);
+		this.#store = new StoreUI(this);
 		this.#distributionCenter = new DistributionCenterUI(this);
 	}
 
 	emit(eventName, payload) {
 		if (eventName === GameEvent.STAT_CURSOR_POSITION) {
 			this.#stats.setCursorPosition(payload);
+		} else if (eventName === GameEvent.GAME_READY) {
+			this.start();
+		} else if (eventName === GameEvent.INVENTORY_ADD) {
+			this.#stats.updateInventory(payload.symbol, payload.number);
+		} else if (eventName === GameEvent.STAT_CASH) {
+			this.#stats.updateCash(payload);
+			this.#store.setCash(this.#stats.cash);
 		}
 	}
 
-	start() {}
+	start() {
+		this.#stats.start();
+		this.#store.start();
+		this.#store.setCash(this.#stats.cash);
+	}
 
 	preload() {
 		ConveyorUI.Preload(this);
@@ -61,7 +75,7 @@ export default class Game extends Phaser.Scene {
 		this.#stats.create();
 		this.#world.create();
 		this.#distributionCenter.create();
-		this.#stats.start();
+		GameEvent.Emit(GameEvent.GAME_READY);
 
 
 		/*const worldPx = Game.UNIT_SIZE * Game.WORLD_UNITS;
@@ -189,7 +203,7 @@ export default class Game extends Phaser.Scene {
 			}
 		});
 
-		document.getElementById('store').addEventListener('click', (event) => {
+		/*document.getElementById('store').addEventListener('click', (event) => {
 			if (event.target.classList.contains('purchase')) {
 				const building = event.target.dataset.id;
 				const amount = parseInt(event.target.textContent);
@@ -197,7 +211,7 @@ export default class Game extends Phaser.Scene {
 				stats.updateInventory(symbol, 1);
 				stats.updateCash(-amount);
 			}
-		})
+		})*/
 	}
 
 	update() {}

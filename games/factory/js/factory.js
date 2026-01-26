@@ -28,11 +28,6 @@ const config = {
 	scene: game
 };
 const phaserGame = new Phaser.Game(config);
-
-
-
-
-
 /*
 const canvasSize = window.innerHeight * .9;
 const config = {

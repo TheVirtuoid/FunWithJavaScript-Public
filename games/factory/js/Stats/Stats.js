@@ -55,9 +55,9 @@ export default class Stats {
 		if (!(position instanceof Vector2d)) {
 			throw new Error('Position must be a Vector2d');
 		}
-		if (!this.started) {
+		/*if (!this.started) {
 			throw new Error('Cannot set cursor position before game has started');
-		}
+		}*/
 		this.#cursorPosition = position;
 	}
 

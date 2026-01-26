@@ -3,21 +3,26 @@ let game;
 export default class GameEvent {
 
 	static GAME_EVENT_INITIALIZED = Symbol('game-event-initialized');
+	static GAME_READY = Symbol('game-ready');
 
 	static STAT_CURSOR_POSITION = Symbol('ui-stat-cursor-position');
 	static STAT_CASH = Symbol('stat-cash');
 	static STAT_LEVEL = Symbol('stat-level');
+
+	static STAT_GET_CASH = Symbol('stat-get-cash');
 
 	static INVENTORY_ADD = Symbol('inventory-add');
 	static INVENTORY_REMOVE = Symbol('inventory-remove');
 
 	static TYPES = [
 		GameEvent.GAME_EVENT_INITIALIZED,
+		GameEvent.GAME_READY,
 		GameEvent.STAT_CURSOR_POSITION,
 		GameEvent.STAT_CASH,
+		GameEvent.STAT_GET_CASH,
 		GameEvent.STAT_LEVEL,
 		GameEvent.INVENTORY_ADD,
-		GameEvent.INVENTORY_REMOVE,
+		GameEvent.INVENTORY_REMOVE
 	]
 
 	static Setup(gameObject) {
