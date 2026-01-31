@@ -51,6 +51,12 @@ export default class Game extends Phaser.Scene {
 		} else if (eventName === GameEvent.STAT_CASH) {
 			this.#stats.updateCash(payload);
 			this.#store.setCash(this.#stats.cash);
+		} else if (eventName === GameEvent.INVENTORY_SET_ACTIVE) {
+			this.#world.setActiveInventory(payload);
+		} else if (eventName === GameEvent.INVENTORY_REMOVE_ACTIVE) {
+			this.#world.removeActiveInventory();
+		} else if (eventName === GameEvent.INVENTORY_REMOVE) {
+			this.#stats.updateInventory(payload.symbol, -payload.number);
 		}
 	}
 
@@ -185,7 +191,7 @@ export default class Game extends Phaser.Scene {
 			cam.scrollY -= (newWorldPoint.y - worldPoint.y);
 		});*/
 
-		document.getElementById('inventory').addEventListener('click', (event) => {
+/*		document.getElementById('inventory').addEventListener('click', (event) => {
 			const img = event.target.closest('img');
 			if (img && (event.target.closest('.inventory') || event.target.closest('.store'))) {
 				// Extract key from src or data attribute.
@@ -201,7 +207,7 @@ export default class Game extends Phaser.Scene {
 
 				activePlacement = { key, ghost };
 			}
-		});
+		});*/
 
 		/*document.getElementById('store').addEventListener('click', (event) => {
 			if (event.target.classList.contains('purchase')) {

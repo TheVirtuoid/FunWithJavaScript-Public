@@ -18,6 +18,8 @@ export default class Mineral extends Base{
 
 	static Has = (element) => Mineral.TYPES.includes(element);
 
+	static HasDescription = (description) => [...Mineral.DESCRIPTIONS].some((data) => data[1] === description);
+
 	static DESCRIPTIONS = new Map([
 		[Mineral.AETHERITE, Mineral.AETHERITE.description],
 		[Mineral.PYROTITE, Mineral.PYROTITE.description],

@@ -77,6 +77,63 @@ export default class World {
 		return this.#map.get(position.toString());
 	}
 
+	addBuilding(position, building) {
+		if (!(position instanceof Vector2d)) {
+			throw new Error('Position must be a Vector2d');
+		}
+		if (position.x < 0 || position.y < 0) {
+			return false;
+		}
+		if (position.x >= World.UNIT_WIDTH || position.y >= World.UNIT_HEIGHT) {
+			return false;
+		}
+		if (!WorldData.BUILDING_TYPES.includes(building)) {
+			return false;
+		}
+		const worldData = this.#map.get(position.toString());
+		if (worldData.building) {
+			return false;
+		}
+		worldData.addBuilding(building);
+		return true;
+	}
+
+	addBuildingImage(position, image) {
+		if (!(position instanceof Vector2d)) {
+			throw new Error('Position must be a Vector2d');
+		}
+		if (position.x < 0 || position.y < 0) {
+			return false;
+		}
+		if (position.x >= World.UNIT_WIDTH || position.y >= World.UNIT_HEIGHT) {
+			return false;
+		}
+		const worldData = this.#map.get(position.toString());
+		if (worldData.image) {
+			return false;
+		}
+		worldData.addBuildingImage(image);
+		return true;
+	}
+
+	removeBuilding(position) {
+		if (!(position instanceof Vector2d)) {
+			throw new Error('Position must be a Vector2d');
+		}
+		if (position.x < 0 || position.y < 0) {
+			return false;
+		}
+		if (position.x >= World.UNIT_WIDTH || position.y >= World.UNIT_HEIGHT) {
+			return false;
+		}
+		const worldData = this.#map.get(position.toString());
+		if (!worldData.building) {
+			return false;
+		}
+		worldData.removeBuilding();
+		return true;
+	}
+
 	getMineralDeposits(mineral) {
 		if (!Mineral.Has(mineral)) {
 			throw new Error('Invalid mineral provided');

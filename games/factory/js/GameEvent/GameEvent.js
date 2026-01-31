@@ -13,6 +13,8 @@ export default class GameEvent {
 
 	static INVENTORY_ADD = Symbol('inventory-add');
 	static INVENTORY_REMOVE = Symbol('inventory-remove');
+	static INVENTORY_SET_ACTIVE = Symbol('inventory-set-active');
+	static INVENTORY_REMOVE_ACTIVE = Symbol('inventory-remove-active');
 
 	static TYPES = [
 		GameEvent.GAME_EVENT_INITIALIZED,
@@ -22,7 +24,9 @@ export default class GameEvent {
 		GameEvent.STAT_GET_CASH,
 		GameEvent.STAT_LEVEL,
 		GameEvent.INVENTORY_ADD,
-		GameEvent.INVENTORY_REMOVE
+		GameEvent.INVENTORY_REMOVE,
+		GameEvent.INVENTORY_SET_ACTIVE,
+		GameEvent.INVENTORY_REMOVE_ACTIVE
 	]
 
 	static Setup(gameObject) {

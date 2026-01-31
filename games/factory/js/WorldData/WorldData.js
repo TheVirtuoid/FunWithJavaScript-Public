@@ -71,6 +71,7 @@ export default class WorldData {
 
 	#ground;
 	#building;
+	#buildingImage;
 
 	constructor(args = {}) {
 		let { ground = null } = args;
@@ -79,6 +80,7 @@ export default class WorldData {
 		}
 		this.#ground = ground;
 		this.#building = null;
+		this.#buildingImage = null;
 	}
 
 	get ground() {
@@ -97,5 +99,17 @@ export default class WorldData {
 			throw new Error('WorldData already has a building');
 		}
 		this.#building = building;
+	}
+
+	addBuildingImage(image) {
+		this.#buildingImage = image;
+	}
+
+	removeBuilding() {
+		if (this.#buildingImage) {
+			this.#buildingImage.destroy();
+		}
+		this.#buildingImage = null;
+		this.#building = null;
 	}
 }

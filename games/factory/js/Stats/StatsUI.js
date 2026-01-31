@@ -3,6 +3,7 @@ import Conveyor from "../Conveyor/Conveyor.js";
 import Extractor from "../Extractor/Extractor.js";
 import Purifier from "../Purifier/Purifier.js";
 import Combinator from "../Combinator/Combinator.js";
+import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class StatsUI extends Stats {
 
@@ -10,9 +11,12 @@ export default class StatsUI extends Stats {
 	#domCash;
 	#domLevel;
 	#domInventory;
+	#inventoryPlacement;
+	#scene;
 
-	constructor() {
+	constructor(scene) {
 		super();
+		this.#scene = scene;
 	}
 
 	create() {
@@ -21,6 +25,18 @@ export default class StatsUI extends Stats {
 		this.#domLevel = document.getElementById('level');
 		this.#domInventory = document.getElementById('inventory');
 		this.updateDom();
+		document.getElementById('inventory').addEventListener('click', (event) => {
+			const button = event.target.closest('button');
+			if (button) {
+				const key = button.closest('li').dataset.item;
+				GameEvent.Emit(GameEvent.INVENTORY_REMOVE_ACTIVE);
+				if (this.#inventoryPlacement) this.#inventoryPlacement.ghost.destroy();
+				const ghost = this.#scene.add.image(0, 0, key);
+				ghost.setAlpha(0.5);
+				ghost.setDepth(100);
+				GameEvent.Emit(GameEvent.INVENTORY_SET_ACTIVE, { key, ghost });
+			}
+		});
 	}
 
 	start() {
@@ -35,6 +51,10 @@ export default class StatsUI extends Stats {
 
 	updateInventory(item, amount) {
 		super.updateInventory(item, amount);
+		const inventoryAmount = this.inventory.get(item);
+		if (inventoryAmount === 0) {
+			GameEvent.Emit(GameEvent.INVENTORY_REMOVE_ACTIVE);
+		}
 		this.updateDom();
 	}
 
@@ -61,9 +81,12 @@ export default class StatsUI extends Stats {
 				const img = document.createElement('img');
 				img.src = `img/${item.description}.png`;
 				img.alt = item.description;
+				const button = document.createElement('button');
+				button.classList.add('icon-only');
+				button.appendChild(img);
 				const span = document.createElement('span');
 				span.textContent = count;
-				li.appendChild(img);
+				li.appendChild(button);
 				li.appendChild(span);
 				this.#domInventory.appendChild(li);
 			}
