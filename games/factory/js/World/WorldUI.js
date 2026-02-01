@@ -5,6 +5,7 @@ import Phaser from "phaser";
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 import WorldData from "../WorldData/WorldData.js";
+import Extractor from "../Extractor/Extractor.js";
 
 export default class WorldUI extends World {
 
@@ -19,6 +20,7 @@ export default class WorldUI extends World {
 	#minZoom;
 	#activePlacement = null;
 	#selectedGridPoint;
+	#buildingFactory = new Map();
 
 	constructor(scene) {
 		super();
@@ -45,6 +47,10 @@ export default class WorldUI extends World {
 		this.#scene.input.on('pointerdown', this.#onPointerDown.bind(this));
 		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
 		this.#scene.input.on('wheel', this.#onWheel.bind(this));
+
+		this.#buildingFactory = new Map([
+			[Extractor.AETHERITE, Extractor]
+		]);
 	}
 
 	place (args = {}) {
@@ -64,9 +70,7 @@ export default class WorldUI extends World {
 				image.rotation = 3 * Math.PI / 2;
 				break;
 		}
-		if (!Mineral.HasDescription(piece)) {
-			this.addBuildingImage(position, image);
-		}
+		return image;
 	}
 
 	setActiveInventory(inventory) {
@@ -133,13 +137,26 @@ export default class WorldUI extends World {
 		}
 	}
 
+	#createBuilding(buildingSymbol, buildingData) {
+		console.log(buildingSymbol, buildingData);
+		if (!this.#buildingFactory.has(buildingSymbol)) {
+			return false;
+		}
+		const BuildingClass = this.#buildingFactory.get(buildingSymbol);
+		return new BuildingClass(buildingData);
+	}
+
 	#onPointerDown(pointer) {
 		const { gridX, gridY } = this.#getGridCoordinates(pointer);
 		if (this.#activePlacement) {
 			const position = new Vector2d(gridX, gridY);
 			const symbol = [...WorldData.BUILDING_SYMBOLS].find(entry => entry[0] === this.#activePlacement.key)[1];
-			if (this.addBuilding(position, symbol)) {
-				this.place({ position, piece: this.#activePlacement.key, orientation: this.#activePlacement.orientation });
+			if (!this.hasBuilding(position)) {
+				const piece = this.#activePlacement.key;
+				const orientation = this.#activePlacement.orientation;
+				const image = this.place({ position, piece, orientation });
+				const building = this.#createBuilding(symbol, { type: symbol, position, orientation });
+				this.addBuilding({ position, image, building });
 				GameEvent.Emit(GameEvent.INVENTORY_REMOVE, { symbol, number: 1 });
 			}
 		} else {

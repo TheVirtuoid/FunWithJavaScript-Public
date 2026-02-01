@@ -6,14 +6,16 @@ export default class Base {
 	#position;
 	#level;
 	#orientation;
+	#directionVector;
 
 	constructor(args = {}) {
-		const { type, position = new Vector2d(0, 0), orientation = 0 } = args;
+		const { type, position = new Vector2d(0, 0), orientation = 0, directionVector = Vector2d.Down() } = args;
 		this.#id = window.crypto.randomUUID();
 		this.#type = type;
 		this.#level = 1;
 		this.setPosition(position);
 		this.setOrientation(orientation);
+		this.setDirectionVector(directionVector);
 	}
 
 	get id() {
@@ -30,6 +32,9 @@ export default class Base {
 	}
 	get orientation() {
 		return this.#orientation;
+	}
+	get directionVector() {
+		return this.#directionVector.clone();
 	}
 
 	setPosition(position) {
@@ -48,5 +53,12 @@ export default class Base {
 			throw new Error(`Invalid orientation: ${orientation}`);
 		}
 		this.#orientation = orientation;
+	}
+
+	setDirectionVector(directionVector) {
+		if (!(directionVector instanceof Vector2d)) {
+			throw new Error('Direction vector must be a Vector2d');
+		}
+		this.#directionVector = directionVector;
 	}
 }

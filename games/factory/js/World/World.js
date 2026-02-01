@@ -1,6 +1,7 @@
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import WorldData from "../WorldData/WorldData.js";
 import Mineral from "../Mineral/Mineral.js";
+import Extractor from "../Extractor/Extractor.js";
 
 export default class World {
 	static UNIT_WIDTH = 50;
@@ -21,6 +22,7 @@ export default class World {
 	#id;
 	#mineralPositions;
 	#map;
+	#extractors;
 
 	constructor() {
 		this.#unitSize = World.UNIT_SIZE;
@@ -49,6 +51,7 @@ export default class World {
 				this.#mineralPositions.set(mineral, positionCollection);
 			}
 		});
+		this.#extractors = new Map();
 	}
 
 	get unitSize() {
@@ -62,6 +65,9 @@ export default class World {
 	}
 	get id() {
 		return this.#id;
+	}
+	get extractors() {
+		return new Map([...this.#extractors]);
 	}
 
 	getPosition(position) {
@@ -77,7 +83,8 @@ export default class World {
 		return this.#map.get(position.toString());
 	}
 
-	addBuilding(position, building) {
+	addBuilding(args = {}) {
+		const { position, building, image } = args;
 		if (!(position instanceof Vector2d)) {
 			throw new Error('Position must be a Vector2d');
 		}
@@ -87,15 +94,28 @@ export default class World {
 		if (position.x >= World.UNIT_WIDTH || position.y >= World.UNIT_HEIGHT) {
 			return false;
 		}
-		if (!WorldData.BUILDING_TYPES.includes(building)) {
+		if (this.hasBuilding(position)) {
 			return false;
 		}
 		const worldData = this.#map.get(position.toString());
-		if (worldData.building) {
-			return false;
+		worldData.addBuilding({ building, image });
+		console.log(building);
+
+		if (Extractor.Has(building.type)) {
+			this.#extractors.set(position, worldData);
 		}
-		worldData.addBuilding(building);
 		return true;
+	}
+
+	hasBuilding(position) {
+		if (!(position instanceof Vector2d)) {
+			throw new Error('Position must be a Vector2d');
+		}
+		if (position.x < 0 || position.y < 0 || position.x >= World.UNIT_WIDTH || position.y >= World.UNIT_HEIGHT) {
+			throw new Error('Position is an invalid position');
+		}
+		const worldData = this.#map.get(position.toString());
+		return !!worldData.building;
 	}
 
 	addBuildingImage(position, image) {
@@ -129,6 +149,9 @@ export default class World {
 		const worldData = this.#map.get(position.toString());
 		if (!worldData.building) {
 			return false;
+		}
+		if (Extractor.Has(worldData.building)) {
+			this.#extractors.delete(position);
 		}
 		worldData.removeBuilding();
 		return true;

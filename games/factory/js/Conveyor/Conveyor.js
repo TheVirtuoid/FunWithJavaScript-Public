@@ -14,7 +14,7 @@ export default class Conveyor extends Base {
 		Conveyor.CURVE_RIGHT,
 		Conveyor.T_INTERSECTION_LEFT,
 		Conveyor.T_INTERSECTION_RIGHT,
-		Conveyor.X_INTERSECTION
+		// Conveyor.X_INTERSECTION
 	];
 
 	static Has = (element) => Conveyor.TYPES.includes(element);
@@ -25,7 +25,7 @@ export default class Conveyor extends Base {
 		[Conveyor.CURVE_RIGHT.description, Conveyor.CURVE_RIGHT],
 		[Conveyor.T_INTERSECTION_LEFT.description, Conveyor.T_INTERSECTION_LEFT],
 		[Conveyor.T_INTERSECTION_RIGHT.description, Conveyor.T_INTERSECTION_RIGHT],
-		[Conveyor.X_INTERSECTION.description, Conveyor.X_INTERSECTION]
+		// [Conveyor.X_INTERSECTION.description, Conveyor.X_INTERSECTION]
 	]);
 
 	constructor(args = {}) {
