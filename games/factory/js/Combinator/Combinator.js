@@ -36,6 +36,7 @@ export default class Combinator extends Base {
 
 	#capacity;
 	#inventory;
+	#image;
 
 	constructor(args = {}) {
 		const { type } = args;

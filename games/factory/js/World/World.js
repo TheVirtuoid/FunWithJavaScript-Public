@@ -99,7 +99,6 @@ export default class World {
 		}
 		const worldData = this.#map.get(position.toString());
 		worldData.addBuilding({ building, image });
-		console.log(building);
 
 		if (Extractor.Has(building.type)) {
 			this.#extractors.set(position, worldData);

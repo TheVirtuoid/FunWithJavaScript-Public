@@ -78,4 +78,12 @@ export default class Vector {
 	random() {
 		throw new Error('Method not implemented');
 	}
+
+	rotate() {
+		throw new Error('Method not implemented');
+	}
+
+	round() {
+		throw new Error('Method not implemented');
+	}
 }

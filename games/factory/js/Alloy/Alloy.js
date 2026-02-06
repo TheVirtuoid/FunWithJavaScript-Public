@@ -55,6 +55,7 @@ export default class Alloy extends Base {
 	}
 
 	#purity;
+	#image;
 
 	constructor(args = {}) {
 		const { type, purity } = args;
@@ -66,9 +67,14 @@ export default class Alloy extends Base {
 		}
 		super(args);
 		this.#purity = purity;
+		this.#image = `ingot-${type.description}`;
 	}
 
 	get purity() {
 		return this.#purity;
+	}
+
+	setImage(image) {
+		this.#image = image;
 	}
 }

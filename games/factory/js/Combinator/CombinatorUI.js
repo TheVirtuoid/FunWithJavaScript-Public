@@ -1,4 +1,5 @@
 import Alloy from "../Alloy/Alloy.js";
+import Combinator from "./Combinator.js";
 
 export default class CombinatorUI {
 
@@ -9,8 +10,15 @@ export default class CombinatorUI {
 		});
 	}
 
+	#scene;
+	#image;
 
-	constructor(combinator) {
-
+	constructor(scene) {
+		this.#scene = scene;
 	}
+
+	createCombinator(type) {
+		return new Combinator({ type });
+	}
+
 }

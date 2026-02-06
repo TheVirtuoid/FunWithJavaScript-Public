@@ -6,6 +6,7 @@ import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 import WorldData from "../WorldData/WorldData.js";
 import Extractor from "../Extractor/Extractor.js";
+import Conveyor from "../Conveyor/Conveyor.js";
 
 export default class WorldUI extends World {
 
@@ -21,6 +22,8 @@ export default class WorldUI extends World {
 	#activePlacement = null;
 	#selectedGridPoint;
 	#buildingFactory = new Map();
+
+	#ore;
 
 	constructor(scene) {
 		super();
@@ -49,7 +52,13 @@ export default class WorldUI extends World {
 		this.#scene.input.on('wheel', this.#onWheel.bind(this));
 
 		this.#buildingFactory = new Map([
-			[Extractor.AETHERITE, Extractor]
+			[Extractor.AETHERITE, Extractor],
+			[Conveyor.STRAIGHT, Conveyor],
+			[Conveyor.CURVE_LEFT, Conveyor],
+			[Conveyor.CURVE_RIGHT, Conveyor],
+			[Conveyor.T_INTERSECTION_LEFT, Conveyor],
+			[Conveyor.T_INTERSECTION_RIGHT, Conveyor],
+			[Conveyor.X_INTERSECTION, Conveyor]
 		]);
 	}
 
@@ -143,6 +152,7 @@ export default class WorldUI extends World {
 			return false;
 		}
 		const BuildingClass = this.#buildingFactory.get(buildingSymbol);
+		console.log(new BuildingClass(buildingData));
 		return new BuildingClass(buildingData);
 	}
 
@@ -172,6 +182,7 @@ export default class WorldUI extends World {
 				.setFillStyle(0x00ff00, 0.25)
 				.setStrokeStyle(2, 0x00ff00, 1);
 			this.#selectedGridPoint = { gridX, gridY, rect };
+			console.log(this.getPosition(new Vector2d(gridX, gridY)));
 		}
 	}
 

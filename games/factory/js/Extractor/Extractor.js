@@ -1,6 +1,7 @@
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import Mineral from "../Mineral/Mineral.js";
 import Base from "../Base/Base.js";
+import MineralUI from "../Mineral/MineralUI.js";
 
 export default class Extractor extends Base {
 
@@ -29,11 +30,11 @@ export default class Extractor extends Base {
 	])
 
 	static #EXTRACTOR_DATA = new Map([
-		[Extractor.AETHERITE, { cost: 100, speed: 1 }],
-		[Extractor.PYROTITE, { cost: 200, speed: 1 }],
-		[Extractor.LUMINITE, { cost: 400, speed: 1 }],
-		[Extractor.OBSIDIANITE, { cost: 800, speed: 1 }],
-		[Extractor.ZENITHITE, { cost: 1600, speed: 1 }]
+		[Extractor.AETHERITE, { cost: 100, speed: 1, mineral: Mineral.AETHERITE }],
+		[Extractor.PYROTITE, { cost: 200, speed: 1, mineral: Mineral.PYROTITE }],
+		[Extractor.LUMINITE, { cost: 400, speed: 1, mineral: Mineral.LUMINITE }],
+		[Extractor.OBSIDIANITE, { cost: 800, speed: 1, mineral: Mineral.OBSIDIANITE }],
+		[Extractor.ZENITHITE, { cost: 1600, speed: 1, mineral: Mineral.ZENITHITE }]
 	]);
 
 	static Cost(extractor) {
@@ -55,6 +56,7 @@ export default class Extractor extends Base {
 		if (!Extractor.#EXTRACTOR_DATA.has(type)) {
 			throw new Error(`Invalid extractor type: ${type}`);
 		}
+		args.directionVector = new Vector2d(0, 1).rotate(args.orientation ?? 0).round();
 		super(args);
 		this.#speed = Extractor.Speed(type);
 		this.#cost = Extractor.Cost(type);
@@ -68,5 +70,11 @@ export default class Extractor extends Base {
 	sell() {
 		console.warn('Extractor.sell() is not currently implemented');
 		return this.#cost;
+	}
+
+	produceOre() {
+		const type = Extractor.#EXTRACTOR_DATA.get(this.type).mineral;
+		const ore = new MineralUI({ type, position: this.position.clone(), directionVector: this.directionVector.clone() });
+		ore.createOre();
 	}
 }

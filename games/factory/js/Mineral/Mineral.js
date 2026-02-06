@@ -65,6 +65,7 @@ export default class Mineral extends Base{
 	}
 
 	#purity;
+	#image;
 
 	constructor(args = {}) {
 		const { type } = args;

@@ -138,4 +138,15 @@ export default class Vector2d extends Vector {
 	random(dimensions) {
 		return Vector2d.Random(dimensions)
 	}
+
+	rotate(degrees) {
+		const rad = (degrees * Math.PI) / 180;
+		const cos = Math.cos(rad);
+		const sin = Math.sin(rad);
+		return new Vector2d(this.#x * cos - this.#y * sin, this.#x * sin + this.#y * cos);
+	}
+
+	round() {
+		return new Vector2d(Math.round(this.#x) + 0, Math.round(this.#y) + 0);
+	}
 }

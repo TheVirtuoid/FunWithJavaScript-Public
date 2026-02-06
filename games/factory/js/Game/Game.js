@@ -91,11 +91,28 @@ export default class Game extends Phaser.Scene {
 	update(time, delta) {
 		this.#updateTimer -= delta;
 		if (this.#updateTimer <= 0) {
-			this.#updateTimer = 1000;
+			this.#updateTimer = 2000;
 			const extractors = this.#world.extractors;
-			extractors.forEach(extractor => {
-				console.log(extractor);
+			extractors.forEach(worldData => {
+				const { building } = worldData;
+				const { building: extractor, image } = building;
+				const ore = extractor.produceOre();
+				this.#scene.tweens.add({
+					targets: ore,
+					x: this.#gridToWorldCenter(extractor.position.x, extractor.position.y, Game.UNIT_SIZE).x,
+				});
+				console.log(ore);
 			});
 		}
+		if (this.#oreTimer <= 0) {
+			this.#oreTimer = 100;
+		}
+	}
+
+	#gridToWorldCenter = (gridX, gridY, tileSize, originX = 0, originY = 0) => {
+		return {
+			x: originX + gridX * Game.UNIT_SIZE + Game.HALF_SIZE,
+			y: originY + gridY * Game.UNIT_SIZE + Game.HALF_SIZE
+		};
 	}
 }
