@@ -47,6 +47,7 @@ export default class Extractor extends Base {
 
 	#speed;
 	#cost;
+	#image;
 
 	constructor(args = {}) {
 		const { type } = args;
@@ -67,6 +68,10 @@ export default class Extractor extends Base {
 		return this.#speed;
 	}
 
+	get image() {
+		return this.#image;
+	}
+
 	sell() {
 		console.warn('Extractor.sell() is not currently implemented');
 		return this.#cost;
@@ -76,5 +81,9 @@ export default class Extractor extends Base {
 		const type = Extractor.#EXTRACTOR_DATA.get(this.type).mineral;
 		const ore = new MineralUI({ type, position: this.position.clone(), directionVector: this.directionVector.clone() });
 		ore.createOre();
+	}
+
+	setImage(image) {
+		this.#image = image;
 	}
 }

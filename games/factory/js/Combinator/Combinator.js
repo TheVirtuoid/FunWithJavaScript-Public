@@ -79,4 +79,12 @@ export default class Combinator extends Base {
 			return undefined;
 		}
 	}
+
+	get image()	{
+		return this.#image;
+	}
+
+	setImage(image) {
+		this.#image = image;
+	}
 }

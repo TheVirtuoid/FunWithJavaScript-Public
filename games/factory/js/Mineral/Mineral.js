@@ -65,7 +65,9 @@ export default class Mineral extends Base{
 	}
 
 	#purity;
-	#image;
+	#oreImage;
+	#pureImage;
+
 
 	constructor(args = {}) {
 		const { type } = args;
@@ -84,4 +86,21 @@ export default class Mineral extends Base{
 		console.warn('Mineral.purify() is not currently implemented');
 		this.#purity += level;
 	}
+
+	get oreImage() {
+		return this.#oreImage;
+	}
+
+	get pureImage() {
+		return this.#pureImage;
+	}
+
+	setOreImage(oreImage) {
+		this.#oreImage = oreImage;
+	}
+
+	setPureImage(pureImage) {
+		this.#pureImage = pureImage;
+	}
+
 }

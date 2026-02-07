@@ -1,4 +1,5 @@
 import Mineral from "../Mineral/Mineral.js";
+import Purifier from "./Purifier.js";
 
 export default class PurifierUI {
 
@@ -9,6 +10,15 @@ export default class PurifierUI {
 		})
 	}
 
-	constructor(purifier) {
+	#scene;
+
+	constructor(scene) {
+		this.#scene = scene;
+	}
+
+	createPurifier(type) {
+		const purifier = new Purifier({ type });
+		purifier.setImage(`purifier-${type.description}`);
+		return purifier;
 	}
 }

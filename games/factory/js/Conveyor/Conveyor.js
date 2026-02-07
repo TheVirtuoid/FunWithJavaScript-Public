@@ -31,6 +31,7 @@ export default class Conveyor extends Base {
 
 	#startDirectionVector;
 	#endDirectionVector;
+	#image;
 
 	constructor(args = {}) {
 		const { type, orientation = 0 } = args;
@@ -59,7 +60,15 @@ export default class Conveyor extends Base {
 		}
 	}
 
+	get image()	{
+		return this.#image;
+	}
+
 	setOrientation(orientation) {}
 
 	setDirectionVector() {}
+
+	setImage(image) {
+		this.#image = image;
+	}
 }

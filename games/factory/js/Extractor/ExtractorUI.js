@@ -1,4 +1,5 @@
 import Mineral from "../Mineral/Mineral.js";
+import Extractor from "./Extractor.js";
 
 export default class ExtractorUI {
 
@@ -9,6 +10,15 @@ export default class ExtractorUI {
 		})
 	}
 
-	constructor(extractor) {
+	#scene;
+
+	constructor(scene) {
+		this.#scene = scene;
+	}
+
+	createExtractor(type) {
+		const extractor = new Extractor({ type });
+		extractor.setImage(`extractor-${type.description}`);
+		return extractor;
 	}
 }

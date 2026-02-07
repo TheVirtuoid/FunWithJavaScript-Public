@@ -8,8 +8,15 @@ export default class ConveyorUI {
 		});
 	};
 
+	#scene;
 
-	constructor(conveyor) {
+	constructor(scene) {
+		this.#scene = scene;
+	}
 
+	createConveyor(type) {
+		const conveyor = new Conveyor({ type });
+		conveyor.setImage(`conveyor-${type.description}`);
+		return conveyor;
 	}
 }

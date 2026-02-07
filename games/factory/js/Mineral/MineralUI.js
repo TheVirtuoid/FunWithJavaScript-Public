@@ -1,6 +1,6 @@
 import Mineral from "./Mineral.js";
 
-export default class MineralUI extends Mineral {
+export default class MineralUI {
 
 	static Preload = (scene) => {
 
@@ -27,20 +27,17 @@ export default class MineralUI extends Mineral {
 
 	}
 
-	#oreImage;
 	#scene;
 
-	constructor(args) {
-		super(args);
-		this.#oreImage = null;
-		this.#scene = args.scene;
+	constructor(scene) {
+		this.#scene = scene;
 	}
 
-	get oreImage() {
-		return this.#oreImage;
+	createMineral(type) {
+		const mineral = new Mineral({ type });
+		mineral.setOreImage(this.#scene.textures.get(`ore-${type.description}`));
+		mineral.setPureImage(this.#scene.textures.get(`pure-${type.description}`));
+		return mineral;
 	}
 
-	createOre() {
-		this.#oreImage = this.#scene
-	}
 }

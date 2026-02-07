@@ -74,6 +74,10 @@ export default class Alloy extends Base {
 		return this.#purity;
 	}
 
+	get image()	{
+		return this.#image;
+	}
+
 	setImage(image) {
 		this.#image = image;
 	}

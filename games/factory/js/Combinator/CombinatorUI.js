@@ -18,7 +18,9 @@ export default class CombinatorUI {
 	}
 
 	createCombinator(type) {
-		return new Combinator({ type });
+		const combinator = new Combinator({ type });
+		combinator.setImage(`combinator-${type.description}`);
+		return combinator;
 	}
 
 }
