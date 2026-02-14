@@ -2,10 +2,6 @@ import Game from "../Game/Game.js";
 
 export default class GroundUI {
 
-	static Preload(scene) {
-		scene.load.image('ground', 'img/ground.png');
-	}
-
 	#scene;
 
 	constructor(scene) {
@@ -30,4 +26,8 @@ export default class GroundUI {
 				break;
 		}
 	};
+
+	preload() {
+		this.#scene.load.image('ground', 'img/ground.png');
+	}
 }

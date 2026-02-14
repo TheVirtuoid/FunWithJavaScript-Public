@@ -16,6 +16,9 @@ export default class GameEvent {
 	static INVENTORY_SET_ACTIVE = Symbol('inventory-set-active');
 	static INVENTORY_REMOVE_ACTIVE = Symbol('inventory-remove-active');
 
+	static ORE_CREATE = Symbol('ore-create');
+	static ORE_CREATED = Symbol('ore-created');
+
 	static TYPES = [
 		GameEvent.GAME_EVENT_INITIALIZED,
 		GameEvent.GAME_READY,
@@ -26,7 +29,9 @@ export default class GameEvent {
 		GameEvent.INVENTORY_ADD,
 		GameEvent.INVENTORY_REMOVE,
 		GameEvent.INVENTORY_SET_ACTIVE,
-		GameEvent.INVENTORY_REMOVE_ACTIVE
+		GameEvent.INVENTORY_REMOVE_ACTIVE,
+		GameEvent.ORE_CREATED,
+		GameEvent.ORE_CREATE,
 	]
 
 	static Setup(gameObject) {

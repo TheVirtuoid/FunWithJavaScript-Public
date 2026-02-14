@@ -3,13 +3,6 @@ import Extractor from "./Extractor.js";
 
 export default class ExtractorUI {
 
-	static Preload = (scene) => {
-		Mineral.TYPES.forEach(mineral => {
-			const extractor = `extractor-${mineral.description}`;
-			scene.load.image(extractor, `img/${extractor}.png`);
-		})
-	}
-
 	#scene;
 
 	constructor(scene) {
@@ -21,4 +14,13 @@ export default class ExtractorUI {
 		extractor.setImage(`extractor-${type.description}`);
 		return extractor;
 	}
+
+	preload() {
+		Mineral.TYPES.forEach(mineral => {
+			const extractor = `extractor-${mineral.description}`;
+			this.#scene.load.image(extractor, `img/${extractor}.png`);
+		})
+	}
+
+
 }

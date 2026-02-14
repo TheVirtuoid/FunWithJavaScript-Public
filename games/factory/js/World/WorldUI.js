@@ -10,10 +10,6 @@ import Conveyor from "../Conveyor/Conveyor.js";
 
 export default class WorldUI extends World {
 
-	static Preload(scene) {
-		scene.load.image('ground', 'img/ground.png');
-	}
-
 	#scene;
 	#worldPx;
 	#zoomX;
@@ -60,6 +56,10 @@ export default class WorldUI extends World {
 			[Conveyor.T_INTERSECTION_RIGHT, Conveyor],
 			[Conveyor.X_INTERSECTION, Conveyor]
 		]);
+	}
+
+	preload() {
+		this.#scene.load.image('ground', 'img/ground.png');
 	}
 
 	place (args = {}) {
@@ -147,12 +147,10 @@ export default class WorldUI extends World {
 	}
 
 	#createBuilding(buildingSymbol, buildingData) {
-		console.log(buildingSymbol, buildingData);
 		if (!this.#buildingFactory.has(buildingSymbol)) {
 			return false;
 		}
 		const BuildingClass = this.#buildingFactory.get(buildingSymbol);
-		console.log(new BuildingClass(buildingData));
 		return new BuildingClass(buildingData);
 	}
 

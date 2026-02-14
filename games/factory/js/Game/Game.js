@@ -14,6 +14,8 @@ import Mineral from "../Mineral/Mineral.js";
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import WorldUI from "../World/WorldUI.js";
 import StoreUI from "../Store/StoreUI.js";
+import Extractor from "../Extractor/Extractor.js";
+import Transporter from "../Transporter/Transporter.js";
 
 export default class Game extends Phaser.Scene {
 
@@ -23,66 +25,94 @@ export default class Game extends Phaser.Scene {
 
 	#config;
 	#phaserGame;
-	#stats;
-	#ground;
-	#store;
+	#statsUI;
+	#groundUI;
+	#storeUI;
 	#scene;
-	#world;
-	#distributionCenter;
+	#worldUI;
+	#distributionCenterUI;
 	#activePlacement;
 	#updateTimer;
 	#oreTimer;
+	#mineralUI;
+	#conveyorUI;
+	#combinatorUI;
+	#extractorUI;
+	#purifierUI;
+	#alloyUI;
+	#transporter;
 
 	constructor() {
 		super({ key: 'factory' });
 		GameEvent.Setup(this);
-		this.#stats = new StatsUI(this);
-		this.#ground = new GroundUI(this);
-		this.#world = new WorldUI(this);
-		this.#store = new StoreUI(this);
-		this.#distributionCenter = new DistributionCenterUI(this);
+		this.#statsUI = new StatsUI(this);
+		this.#groundUI = new GroundUI(this);
+		this.#worldUI = new WorldUI(this);
+		this.#storeUI = new StoreUI(this);
+		this.#mineralUI = new MineralUI(this);
+		this.#distributionCenterUI = new DistributionCenterUI(this);
+		this.#conveyorUI = new ConveyorUI(this);
+		this.#combinatorUI = new CombinatorUI(this);
+		this.#extractorUI = new ExtractorUI(this);
+		this.#purifierUI = new PurifierUI(this);
+		this.#alloyUI = new AlloyUI(this);
+		this.#transporter = new Transporter(this);
 	}
 
-	emit(eventName, payload) {
+	emit(eventName, payload, ...additionalData) {
 		if (eventName === GameEvent.STAT_CURSOR_POSITION) {
-			this.#stats.setCursorPosition(payload);
+			this.#statsUI.setCursorPosition(payload);
 		} else if (eventName === GameEvent.GAME_READY) {
 			this.start();
 		} else if (eventName === GameEvent.INVENTORY_ADD) {
-			this.#stats.updateInventory(payload.symbol, payload.number);
+			this.#statsUI.updateInventory(payload.symbol, payload.number);
 		} else if (eventName === GameEvent.STAT_CASH) {
-			this.#stats.updateCash(payload);
-			this.#store.setCash(this.#stats.cash);
+			this.#statsUI.updateCash(payload);
+			this.#storeUI.setCash(this.#statsUI.cash);
 		} else if (eventName === GameEvent.INVENTORY_SET_ACTIVE) {
-			this.#world.setActiveInventory(payload);
+			this.#worldUI.setActiveInventory(payload);
 		} else if (eventName === GameEvent.INVENTORY_REMOVE_ACTIVE) {
-			this.#world.removeActiveInventory();
+			this.#worldUI.removeActiveInventory();
 		} else if (eventName === GameEvent.INVENTORY_REMOVE) {
-			this.#stats.updateInventory(payload.symbol, -payload.number);
+			this.#statsUI.updateInventory(payload.symbol, -payload.number);
+		} else if (eventName === GameEvent.ORE_CREATE) {
+			const ore = this.#mineralUI.createMineral(payload.mineral);
+			this.#mineralUI.createOreImage(ore, additionalData[0]);
+			this.#transporter.add(ore);
+			this.tweens.add({
+				targets: ore.oreImage,
+				y: ore.oreImage.y + Game.HALF_SIZE,
+				duration: 500,
+				onComplete: (data) => {
+					console.log(data);
+					ore.oreImage.destroy();
+				}
+			});
 		}
 	}
 
 	start() {
-		this.#stats.start();
-		this.#store.start();
-		this.#store.setCash(this.#stats.cash);
+		this.#statsUI.start();
+		this.#storeUI.start();
+		this.#storeUI.setCash(this.#statsUI.cash);
 	}
 
 	preload() {
-		ConveyorUI.Preload(this);
-		CombinatorUI.Preload(this);
-		ExtractorUI.Preload(this);
-		PurifierUI.Preload(this);
-		DistributionCenterUI.Preload(this);
-		MineralUI.Preload(this);
-		AlloyUI.Preload(this);
-		WorldUI.Preload(this);
+		this.#conveyorUI.preload(this);
+		this.#combinatorUI.preload(this);
+		this.#extractorUI.preload(this);
+		this.#purifierUI.preload(this);
+		this.#distributionCenterUI.preload(this);
+		this.#mineralUI.preload(this);
+		this.#alloyUI.preload(this);
+		this.#worldUI.preload(this);
+		this.#alloyUI.preload(this);
 	}
 
 	create() {
-		this.#stats.create();
-		this.#world.create();
-		this.#distributionCenter.create();
+		this.#statsUI.create();
+		this.#worldUI.create();
+		this.#distributionCenterUI.create();
 		this.#updateTimer = 1000;
 		this.#oreTimer = 100;
 		GameEvent.Emit(GameEvent.GAME_READY);
@@ -92,16 +122,15 @@ export default class Game extends Phaser.Scene {
 		this.#updateTimer -= delta;
 		if (this.#updateTimer <= 0) {
 			this.#updateTimer = 2000;
-			const extractors = this.#world.extractors;
+			const extractors = this.#worldUI.extractors;
 			extractors.forEach(worldData => {
 				const { building } = worldData;
 				const { building: extractor, image } = building;
 				const ore = extractor.produceOre();
-				this.#scene.tweens.add({
+				/*this.tweens.add({
 					targets: ore,
 					x: this.#gridToWorldCenter(extractor.position.x, extractor.position.y, Game.UNIT_SIZE).x,
-				});
-				console.log(ore);
+				});*/
 			});
 		}
 		if (this.#oreTimer <= 0) {

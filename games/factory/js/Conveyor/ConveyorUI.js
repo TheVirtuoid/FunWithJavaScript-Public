@@ -2,11 +2,6 @@ import Conveyor from "./Conveyor.js";
 
 export default class ConveyorUI {
 
-	static Preload = (scene) => {
-		Conveyor.TYPES.forEach(conveyor => {
-			scene.load.image(conveyor.description, `img/${conveyor.description}.png`);
-		});
-	};
 
 	#scene;
 
@@ -19,4 +14,11 @@ export default class ConveyorUI {
 		conveyor.setImage(`conveyor-${type.description}`);
 		return conveyor;
 	}
+
+	preload() {
+		Conveyor.TYPES.forEach(conveyor => {
+			this.#scene.load.image(conveyor.description, `img/${conveyor.description}.png`);
+		});
+	};
+
 }

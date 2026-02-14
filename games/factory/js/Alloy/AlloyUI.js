@@ -2,13 +2,6 @@ import Alloy from "./Alloy.js";
 
 export default class AlloyUI {
 
-	static Preload = (scene) => {
-		Alloy.TYPES.forEach(alloy => {
-			const ingot = `ingot-${alloy.description}`;
-			scene.load.image(ingot, `img/${ingot}.png`);
-		});
-	}
-
 	#scene;
 
 	constructor(scene) {
@@ -19,5 +12,12 @@ export default class AlloyUI {
 		const alloy = new Alloy({ type });
 		alloy.setImage(`ingot-${type.description}`);
 		return alloy;
+	}
+
+	preload() {
+		Alloy.TYPES.forEach(alloy => {
+			const ingot = `ingot-${alloy.description}`;
+			this.#scene.load.image(ingot, `img/${ingot}.png`);
+		});
 	}
 }

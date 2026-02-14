@@ -3,10 +3,6 @@ import DistributionCenter from "./DistributionCenter.js";
 
 export default class DistributionCenterUI extends DistributionCenter{
 
-	static Preload = (scene) => {
-		scene.load.image('distribution-center', 'img/distribution-center.png');
-	}
-
 	#scene;
 	#centerX;
 	#centerY;
@@ -22,4 +18,10 @@ export default class DistributionCenterUI extends DistributionCenter{
 	create() {
 		this.#scene.add.image(this.#centerX, this.#centerY, 'distribution-center');
 	}
+
+	preload() {
+		this.#scene.load.image('distribution-center', 'img/distribution-center.png');
+	}
+
+
 }

@@ -1,7 +1,7 @@
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import Mineral from "../Mineral/Mineral.js";
 import Base from "../Base/Base.js";
-import MineralUI from "../Mineral/MineralUI.js";
+import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class Extractor extends Base {
 
@@ -78,9 +78,7 @@ export default class Extractor extends Base {
 	}
 
 	produceOre() {
-		const type = Extractor.#EXTRACTOR_DATA.get(this.type).mineral;
-		const ore = new MineralUI({ type, position: this.position.clone(), directionVector: this.directionVector.clone() });
-		ore.createOre();
+		GameEvent.Emit(GameEvent.ORE_CREATE, Extractor.#EXTRACTOR_DATA.get(this.type), this.position);
 	}
 
 	setImage(image) {
