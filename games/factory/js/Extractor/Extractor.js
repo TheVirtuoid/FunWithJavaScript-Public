@@ -78,7 +78,7 @@ export default class Extractor extends Base {
 	}
 
 	produceOre() {
-		GameEvent.Emit(GameEvent.ORE_CREATE, Extractor.#EXTRACTOR_DATA.get(this.type), this.position);
+		GameEvent.Emit(GameEvent.ORE_CREATE, Extractor.#EXTRACTOR_DATA.get(this.type), this);
 	}
 
 	setImage(image) {
