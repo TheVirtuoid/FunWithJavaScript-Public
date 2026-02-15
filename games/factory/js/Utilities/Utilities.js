@@ -9,6 +9,13 @@ export default class Utilities {
 		};
 	}
 
+	static PositionToGrid = (position) => {
+		return {
+			x: Math.floor(position.x / Game.UNIT_SIZE),
+			y: Math.floor(position.y / Game.UNIT_SIZE)
+		};
+	}
+
 	constructor() {
 		throw new Error('Cannot instantiate. Static class');
 	}

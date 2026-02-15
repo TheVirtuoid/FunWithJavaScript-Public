@@ -23,7 +23,8 @@ export default class TransporterUI {
 
 	activateItems() {
 		this.#inactiveItems.forEach((building, item) => {
-			this.#scene.tweens.add({
+			this.#moveItem(item, building);
+			/*this.#scene.tweens.add({
 				onCompleteParams: [item, building],
 				targets: item.oreImage,
 				y: item.oreImage.y + Game.HALF_SIZE,
@@ -32,9 +33,22 @@ export default class TransporterUI {
 					item.oreImage.destroy();
 					this.#activeItems.delete(item);
 				}
-			});
+			});*/
 			this.#activeItems.set(item, building);
 			this.#inactiveItems.delete(item);
+		});
+	}
+
+	#moveItem(item, building) {
+		this.#scene.tweens.add({
+			onCompleteParams: [item, building],
+			targets: item.oreImage,
+			y: item.oreImage.y + Game.HALF_SIZE,
+			duration: 500,
+			onComplete: (tween, targets, item) => {
+				item.oreImage.destroy();
+				this.#activeItems.delete(item);
+			}
 		});
 	}
 
