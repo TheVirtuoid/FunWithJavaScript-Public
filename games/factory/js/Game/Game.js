@@ -120,8 +120,7 @@ export default class Game extends Phaser.Scene {
 			this.#updateTimer = 2000;
 			const extractors = this.#worldUI.extractors;
 			extractors.forEach(worldData => {
-				const { building } = worldData;
-				const { building: extractor, image } = building;
+				const { building: extractor } = worldData;
 				const ore = extractor.produceOre();
 			});
 		}
@@ -129,12 +128,5 @@ export default class Game extends Phaser.Scene {
 			this.#transportTimer = 1000;
 			this.#transporter.activateItems();
 		}
-	}
-
-	#gridToWorldCenter = (gridX, gridY, tileSize, originX = 0, originY = 0) => {
-		return {
-			x: originX + gridX * Game.UNIT_SIZE + Game.HALF_SIZE,
-			y: originY + gridY * Game.UNIT_SIZE + Game.HALF_SIZE
-		};
 	}
 }

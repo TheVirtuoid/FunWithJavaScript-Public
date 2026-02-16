@@ -67,6 +67,7 @@ export default class Mineral extends Base{
 	#purity;
 	#oreImage;
 	#pureImage;
+	#depositImage;
 
 
 	constructor(args = {}) {
@@ -95,12 +96,20 @@ export default class Mineral extends Base{
 		return this.#pureImage;
 	}
 
+	get depositImage() {
+		return this.#depositImage;
+	}
+
 	setOreImage(oreImage) {
 		this.#oreImage = oreImage;
 	}
 
 	setPureImage(pureImage) {
 		this.#pureImage = pureImage;
+	}
+
+	setDepositImage(depositImage) {
+		this.#depositImage = depositImage;
 	}
 
 }

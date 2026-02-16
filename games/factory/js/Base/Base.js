@@ -7,12 +7,14 @@ export default class Base {
 	#level;
 	#orientation;
 	#directionVector;
+	#active;
 
 	constructor(args = {}) {
 		const { type, position = new Vector2d(0, 0), orientation = 0, directionVector = Vector2d.Down() } = args;
 		this.#id = window.crypto.randomUUID();
 		this.#type = type;
 		this.#level = 1;
+		this.#active = true;
 		this.setPosition(position);
 		this.setOrientation(orientation);
 		this.setDirectionVector(directionVector);
@@ -36,6 +38,9 @@ export default class Base {
 	get directionVector() {
 		return this.#directionVector.clone();
 	}
+	get active() {
+		return this.#active;
+	}
 
 	setPosition(position) {
 		if (!(position instanceof Vector2d)) {
@@ -46,6 +51,10 @@ export default class Base {
 
 	incrementLevel() {
 		this.#level++;
+	}
+
+	setInactive() {
+		this.#active = false;
 	}
 
 	setOrientation(orientation) {

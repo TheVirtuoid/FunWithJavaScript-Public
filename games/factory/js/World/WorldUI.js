@@ -19,8 +19,6 @@ export default class WorldUI extends World {
 	#selectedGridPoint;
 	#buildingFactory = new Map();
 
-	#ore;
-
 	constructor(scene) {
 		super();
 		this.#scene = scene;
@@ -41,7 +39,7 @@ export default class WorldUI extends World {
 		this.#scene.cameras.main.setZoom(this.#minZoom)
 		this.#scene.input.keyboard.on('keydown-ESC', this.#onEscape.bind(this));
 		this.#scene.input.keyboard.on('keydown-R', this.#onRotate.bind(this));
-		this.#scene.input.keyboard.on('keydown-D', this.#onDelete.bind(this));
+		this.#scene.input.keyboard.on('keydown-DELETE', this.#onDelete.bind(this));
 		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
 		this.#scene.input.on('pointerdown', this.#onPointerDown.bind(this));
 		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
@@ -100,6 +98,7 @@ export default class WorldUI extends World {
 
 	#clearGridSelection() {
 		if (this.#selectedGridPoint) {
+			console.log(this.#selectedGridPoint);
 			this.#selectedGridPoint.rect.destroy();
 			this.#selectedGridPoint = null;
 		}

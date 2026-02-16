@@ -21,8 +21,6 @@ export default class Alloy extends Base {
 		Alloy.STARFORGE
 	];
 
-	static Has = (element) => Alloy.TYPES.includes(element);
-
 	static #INGREDIENTS = new Map([
 		[Alloy.IGNISIUM, new Map([[Mineral.AETHERITE, 3], [Mineral.PYROTITE, 1]])],
 		[Alloy.PHOTONIUM, new Map([[Mineral.AETHERITE, 5], [Mineral.LUMINITE, 1]])],
