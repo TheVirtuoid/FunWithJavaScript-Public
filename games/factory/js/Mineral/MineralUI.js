@@ -22,17 +22,23 @@ export default class MineralUI {
 	}
 
 	createMineral(type) {
-		const mineral = new Mineral({ type });
-		mineral.setOreImage(this.#scene.textures.get(`ore-${type.description}`));
-		mineral.setPureImage(this.#scene.textures.get(`pure-${type.description}`));
-		mineral.setDepositImage(this.#scene.textures.get(`deposit-${type.description}`));
+		const mineral = new Mineral({
+			type,
+			oreTexture: `ore-${type.description}`,
+			pureTexture: `pure-${type.description}`,
+			depositTexture: `deposit-${type.description}`
+		});
 		return mineral;
 	}
 
 	createOreImage(mineral, position) {
 		const worldPosition = Utilities.GridToPosition(position);
-		mineral.setOreImage(this.#scene.add.image(worldPosition.x, worldPosition.y, `ore-${mineral.type.description}`));
-		return mineral;
+		mineral.setOreImage(this.#scene.add.image(worldPosition.x, worldPosition.y, mineral.oreTexture));
+	}
+
+	createDepositImage(mineral) {
+		/*const worldPosition = Utilities.GridToPosition(mineral.position);
+		mineral.setDepositImage(this.#scene.add.image(worldPosition.x, worldPosition.y, mineral.depositTexture));*/
 	}
 
 	preload() {

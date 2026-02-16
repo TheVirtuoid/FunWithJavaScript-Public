@@ -32,7 +32,10 @@ export default class WorldUI extends World {
 		this.#scene.add.tileSprite(0, 0, this.#worldPx, this.#worldPx, 'ground').setOrigin(0, 0);
 		Mineral.DESCRIPTIONS.forEach((mineral, key) => {
 			this.getMineralDeposits(key).forEach(position => {
-				this.place({ position, piece: mineral });
+				const data = this.getPosition(position);
+				const mineralData = this.#scene.createMineral(key, 'deposit');
+				mineralData.setDepositImage(this.place({ position, piece: mineralData.depositTexture }));
+				this.setPosition(position, data);
 			});
 		});
 		this.#scene.cameras.main.setBounds(0, 0, this.#worldPx, this.#worldPx);

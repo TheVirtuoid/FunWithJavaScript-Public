@@ -41,7 +41,6 @@ export default class World {
 		for (let x = 0; x < World.UNIT_WIDTH; x++) {
 			for (let y = 0; y < World.UNIT_HEIGHT; y++) {
 				const worldData = new WorldData();
-				worldData.setDeposit(WorldData.DEPOSIT_NONE);
 				this.#map.set((new Vector2d(x,y)).toString(), worldData);
 			}
 		}
@@ -73,7 +72,6 @@ export default class World {
 			for (let i = 0; i < count; i++) {
 				const position = this.#getRandomPosition(takenPositions);
 				const worldData = this.#map.get(position.toString());
-				worldData.setDeposit(mineral);
 				this.#map.set(position.toString(), worldData);
 				takenPositions.push(position);
 				const mineralPositions = this.#mineralPositions.get(mineral);

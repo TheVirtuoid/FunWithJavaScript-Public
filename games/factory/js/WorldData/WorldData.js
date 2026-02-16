@@ -9,10 +9,7 @@ export default class WorldData {
 		return data.ground === null && data.building === null;
 	}
 
-	static DEPOSIT_NONE = Symbol('deposit-none');
-
 	static DEPOSIT_TYPES = [
-		WorldData.DEPOSIT_NONE,
 		...Mineral.TYPES,
 	];
 
@@ -74,7 +71,7 @@ export default class WorldData {
 
 	constructor(args = {}) {
 		let { deposit = null } = args;
-		if (deposit !== null && !WorldData.DEPOSIT_TYPES.includes(deposit)) {
+		if (deposit !== null && !WorldData.DEPOSIT_TYPES.includes(deposit.type)) {
 			throw new Error(`Invalid deposit type: ${deposit}`);
 		}
 		this.#deposit = deposit;
@@ -102,7 +99,7 @@ export default class WorldData {
 		}
 		this.#building = building;
 		// adding a building always removes the deposit;
-		this.setDeposit(WorldData.DEPOSIT_NONE);
+		this.setDeposit(null);
 	}
 
 	removeBuilding() {

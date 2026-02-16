@@ -129,4 +129,18 @@ export default class Game extends Phaser.Scene {
 			this.#transporter.activateItems();
 		}
 	}
+
+	createMineral(type) {
+		const mineral = this.#mineralUI.createMineral(type);
+		/*switch(state) {
+			case 'ore':
+				break;
+			case 'pure':
+				break;
+			case 'deposit':
+				this.#mineralUI.createDepositImage(mineral);
+				break;
+		}*/
+		return mineral;
+	}
 }
