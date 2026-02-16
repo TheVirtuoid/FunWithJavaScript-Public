@@ -19,6 +19,14 @@ export default class Extractor extends Base {
 		Extractor.ZENITHITE
 	];
 
+	static MINERAL_TYPES = new Map([
+		[Extractor.AETHERITE, Mineral.AETHERITE],
+		[Extractor.PYROTITE, Mineral.PYROTITE],
+		[Extractor.LUMINITE, Mineral.LUMINITE],
+		[Extractor.OBSIDIANITE, Mineral.OBSIDIANITE],
+		[Extractor.ZENITHITE, Mineral.ZENITHITE]
+	]);
+
 	static Has = (element) => Extractor.TYPES.includes(element);
 
 	static SYMBOLS = new Map([
@@ -48,6 +56,7 @@ export default class Extractor extends Base {
 	#speed;
 	#cost;
 	#image;
+	#mineralType;
 
 	constructor(args = {}) {
 		const { type } = args;
@@ -61,6 +70,7 @@ export default class Extractor extends Base {
 		super(args);
 		this.#speed = Extractor.Speed(type);
 		this.#cost = Extractor.Cost(type);
+		this.#mineralType = Extractor.MINERAL_TYPES.get(type);
 	}
 
 	get speed() {
@@ -70,6 +80,10 @@ export default class Extractor extends Base {
 
 	get image() {
 		return this.#image;
+	}
+
+	get mineralType() {
+		return this.#mineralType;
 	}
 
 	sell() {

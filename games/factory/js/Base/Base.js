@@ -57,6 +57,10 @@ export default class Base {
 		this.#active = false;
 	}
 
+	setActive() {
+		this.#active = true;
+	}
+
 	setOrientation(orientation) {
 		if (![0, 90, 180, 270].includes(orientation)) {
 			throw new Error(`Invalid orientation: ${orientation}`);

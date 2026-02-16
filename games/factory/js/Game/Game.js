@@ -119,9 +119,10 @@ export default class Game extends Phaser.Scene {
 		if (this.#updateTimer <= 0) {
 			this.#updateTimer = 2000;
 			const extractors = this.#worldUI.extractors;
-			extractors.forEach(worldData => {
-				const { building: extractor } = worldData;
-				const ore = extractor.produceOre();
+			extractors.forEach(extractor => {
+				if (extractor.active) {
+					const ore = extractor.produceOre();
+				}
 			});
 		}
 		if (this.#transportTimer <= 0) {

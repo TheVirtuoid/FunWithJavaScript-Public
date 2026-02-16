@@ -98,11 +98,11 @@ export default class WorldData {
 			throw new Error('WorldData already has a building');
 		}
 		this.#building = building;
-		// adding a building always removes the deposit;
-		this.setDeposit(null);
 	}
 
 	removeBuilding() {
+		const building = this.#building;
 		this.#building = null;
+		return building;
 	}
 }

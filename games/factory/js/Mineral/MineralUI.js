@@ -36,11 +36,6 @@ export default class MineralUI {
 		mineral.setOreImage(this.#scene.add.image(worldPosition.x, worldPosition.y, mineral.oreTexture));
 	}
 
-	createDepositImage(mineral) {
-		/*const worldPosition = Utilities.GridToPosition(mineral.position);
-		mineral.setDepositImage(this.#scene.add.image(worldPosition.x, worldPosition.y, mineral.depositTexture));*/
-	}
-
 	preload() {
 		const createCircleTexture = (scene, mineral) => {
 			const g = scene.make.graphics({ x: 0, y: 0, add: false });

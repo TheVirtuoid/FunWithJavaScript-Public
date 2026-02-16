@@ -114,12 +114,17 @@ export default class World {
 		if (this.hasBuilding(position)) {
 			return false;
 		}
+		if (Extractor.Has(building.type)) {
+			building.setInactive();
+			this.#extractors.set(position.toString(), building);
+		}
+		building.setImage(image);
 		const worldData = this.getPosition(position);
 		worldData.addBuilding(building);
-		this.setPosition(position, worldData);
-		if (Extractor.Has(building.type)) {
-			this.#extractors.set(position, worldData);
+		if (worldData.deposit?.type === building.mineralType) {
+			building.setActive();
 		}
+		this.setPosition(position, worldData);
 		return true;
 	}
 
@@ -135,12 +140,13 @@ export default class World {
 		if (!worldData.building) {
 			return false;
 		}
-		if (Extractor.Has(worldData.building)) {
-			this.#extractors.delete(position);
+		console.log(worldData.building);
+		if (Extractor.Has(worldData.building.type)) {
+			this.#extractors.delete(position.toString());
 		}
-		worldData.removeBuilding();
+		const removedBuilding = worldData.removeBuilding();
 		this.setPosition(position, worldData);
-		return true;
+		return removedBuilding;
 	}
 
 	removeDeposit(position) {
