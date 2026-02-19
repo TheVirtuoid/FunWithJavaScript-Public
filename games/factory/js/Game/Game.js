@@ -144,4 +144,8 @@ export default class Game extends Phaser.Scene {
 		}*/
 		return mineral;
 	}
+
+	getPosition(position) {
+		return this.#worldUI.getPosition(position);
+	}
 }

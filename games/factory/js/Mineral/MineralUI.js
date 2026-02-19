@@ -34,6 +34,7 @@ export default class MineralUI {
 	createOreImage(mineral, position) {
 		const worldPosition = Utilities.GridToPosition(position);
 		mineral.setOreImage(this.#scene.add.image(worldPosition.x, worldPosition.y, mineral.oreTexture));
+		mineral.oreImage.setDepth(10000);
 	}
 
 	preload() {

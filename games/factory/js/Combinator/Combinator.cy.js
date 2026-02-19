@@ -17,7 +17,58 @@ import Vector2d from "../Vector/Vector2d/Vector2d.js";
 
 describe('Combinator Class', () => {
 
-	describe('Static Properties', () => {});
+	describe('Static Properties', () => {
+		it('should have defined the combinator types', () => {
+			expect(Combinator.IGNISIUM).to.exist;
+			expect(Combinator.PHOTONIUM).to.exist;
+			expect(Combinator.VOIDTISSIUM).to.exist;
+			expect(Combinator.SOLTARIUM).to.exist;
+			expect(Combinator.MAGNANIUM).to.exist;
+			expect(Combinator.ETHERIUM).to.exist;
+			expect(Combinator.STARFORGE).to.exist;
+		});
+
+		it('should have TYPES array containing all combinator types', () => {
+			expect(Combinator.TYPES).to.be.an('array');
+			expect(Combinator.TYPES).to.have.lengthOf(7);
+			expect(Combinator.TYPES).to.include(Combinator.IGNISIUM);
+			expect(Combinator.TYPES).to.include(Combinator.PHOTONIUM);
+			expect(Combinator.TYPES).to.include(Combinator.VOIDTISSIUM);
+			expect(Combinator.TYPES).to.include(Combinator.SOLTARIUM);
+			expect(Combinator.TYPES).to.include(Combinator.MAGNANIUM);
+			expect(Combinator.TYPES).to.include(Combinator.ETHERIUM);
+			expect(Combinator.TYPES).to.include(Combinator.STARFORGE);
+		});
+
+		it('should have SYMBOLS map containing all combinator type mappings', () => {
+			expect(Combinator.SYMBOLS).to.be.an.instanceOf(Map);
+			expect(Combinator.SYMBOLS.size).to.equal(7);
+			expect(Combinator.SYMBOLS.get('combinator-ignisium')).to.equal(Combinator.IGNISIUM);
+			expect(Combinator.SYMBOLS.get('combinator-photonium')).to.equal(Combinator.PHOTONIUM);
+			expect(Combinator.SYMBOLS.get('combinator-voidtissium')).to.equal(Combinator.VOIDTISSIUM);
+			expect(Combinator.SYMBOLS.get('combinator-soltarium')).to.equal(Combinator.SOLTARIUM);
+			expect(Combinator.SYMBOLS.get('combinator-magnanium')).to.equal(Combinator.MAGNANIUM);
+			expect(Combinator.SYMBOLS.get('combinator-etherium')).to.equal(Combinator.ETHERIUM);
+			expect(Combinator.SYMBOLS.get('combinator-starforge')).to.equal(Combinator.STARFORGE);
+		});
+	});
+
+	describe('Static Methods', () => {
+		it('should return true using Has() for valid combinator types', () => {
+			expect(Combinator.Has(Combinator.IGNISIUM)).to.be.true;
+			expect(Combinator.Has(Combinator.PHOTONIUM)).to.be.true;
+			expect(Combinator.Has(Combinator.VOIDTISSIUM)).to.be.true;
+			expect(Combinator.Has(Combinator.SOLTARIUM)).to.be.true;
+			expect(Combinator.Has(Combinator.MAGNANIUM)).to.be.true;
+			expect(Combinator.Has(Combinator.ETHERIUM)).to.be.true;
+			expect(Combinator.Has(Combinator.STARFORGE)).to.be.true;
+		});
+
+		it('should return false using Has() for invalid combinator types', () => {
+			expect(Combinator.Has(Symbol('invalid'))).to.be.false;
+			expect(Combinator.Has('invalid')).to.be.false;
+		});
+	});
 
 	describe('constructor', () => {
 		it('should throw error if type is not specified', () => {
@@ -40,6 +91,11 @@ describe('Combinator Class', () => {
 
 			it('should throw error if argument is not an array', () => {
 				expect(() => combinator.combine('invalid')).to.throw();
+			});
+
+			it('should throw error if minerals array contains invalid mineral', () => {
+				expect(() => combinator.combine([Symbol('invalid')])).to.throw('Invalid minerals provided');
+				expect(() => combinator.combine([Mineral.AETHERITE, 'invalid'])).to.throw('Invalid minerals provided');
 			});
 
 			it('should throw error if there is no enough capacity', () => {
@@ -76,8 +132,44 @@ describe('Combinator Class', () => {
 		beforeEach(() => {
 			combinator = new Combinator({ type: Alloy.IGNISIUM });
 		});
+
+		it('should have type property set correctly', () => {
+			expect(combinator.type).to.equal(Alloy.IGNISIUM);
+		});
+
 		it('should throw error if capacity is changed', () => {
 			expect(() => combinator.capacity = 2).to.throw();
+		});
+
+		it('should have inventorySize property that returns the total count', () => {
+			expect(combinator.inventorySize).to.equal(0);
+			combinator.combine([Mineral.AETHERITE]);
+			expect(combinator.inventorySize).to.equal(1);
+			combinator.combine([Mineral.PYROTITE]);
+			expect(combinator.inventorySize).to.equal(2);
+			combinator.combine([Mineral.AETHERITE, Mineral.AETHERITE]);
+			expect(combinator.inventorySize).to.equal(4);
+		});
+
+		it('should throw error if inventorySize is changed', () => {
+			expect(() => combinator.inventorySize = 10).to.throw();
+		});
+
+		it('should have image property', () => {
+			expect(combinator.image).to.be.undefined;
+		});
+
+		it('should throw error if image is changed directly', () => {
+			expect(() => combinator.image = 'test').to.throw();
+		});
+	});
+
+	describe('Methods - setImage', () => {
+		it('should set a new image using setImage()', () => {
+			const combinator = new Combinator({ type: Alloy.IGNISIUM });
+			const newImage = 'combinator-image';
+			combinator.setImage(newImage);
+			expect(combinator.image).to.equal(newImage);
 		});
 	});
 

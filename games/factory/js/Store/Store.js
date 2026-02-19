@@ -49,7 +49,7 @@ export default class Store {
 		this.#purifiers.clear();
 		this.#extractors.clear();
 		this.#combinators.clear();
-		this.#level = 0;
+		this.#level = 7;
 	}
 
 	start() {
@@ -80,17 +80,14 @@ export default class Store {
 
 
 	#adjustStoreLevel() {
-		if (this.level === 1) this.#setLevel1();
-		else if (this.level === 2) this.#setLevel2();
-		else if (this.level === 3) this.#setLevel3();
-		else if (this.level === 4) this.#setLevel4();
-		else if (this.level === 5) this.#setLevel5();
-		else if (this.level === 6) this.#setLevel6();
-		else if (this.level === 7) this.#setLevel7();
-		else if (this.level === 8) this.#setLevel8();
-		else {
-			// do nothing!!
-		}
+		if (this.level > 7 ) this.#setLevel8();
+		if (this.level > 6 ) this.#setLevel7();
+		if (this.level > 5 ) this.#setLevel6();
+		if (this.level > 4 ) this.#setLevel5();
+		if (this.level > 3 ) this.#setLevel4();
+		if (this.level > 2 ) this.#setLevel3();
+		if (this.level > 1 ) this.#setLevel2();
+		this.#setLevel1();
 	}
 
 	#setLevel1() {
