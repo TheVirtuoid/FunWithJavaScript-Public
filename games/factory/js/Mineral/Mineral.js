@@ -60,10 +60,6 @@ export default class Mineral extends Base{
 		[Mineral.ZENITHITE, 64],
 	])
 
-	static Has(element) {
-		return Mineral.TYPES.includes(element);
-	}
-
 	#purity;
 	#oreImage;
 	#pureImage;
