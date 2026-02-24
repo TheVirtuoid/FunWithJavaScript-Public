@@ -67,6 +67,9 @@ export default class Conveyor extends Base {
 	get startDirectionVector() {
 		return this.#startDirectionVector.map((vector) => vector.clone());
 	}
+	get endDirectionVector() {
+		return this.#endDirectionVector.map((vector) => vector.clone());
+	}
 
 	setOrientation(orientation) {}
 

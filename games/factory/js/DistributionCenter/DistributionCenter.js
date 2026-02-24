@@ -1,5 +1,5 @@
 export default class DistributionCenter {
-	static DEFAULT_CASH = 1000;
+	static DEFAULT_CASH = 10000;
 
 	#id;
 	#name;
