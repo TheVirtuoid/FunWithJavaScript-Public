@@ -19,8 +19,6 @@ export default class WorldUI extends World {
 	#selectedGridPoint;
 	#buildingFactory = new Map();
 
-	#ore;
-
 	constructor(scene) {
 		super();
 		this.#scene = scene;
@@ -34,14 +32,18 @@ export default class WorldUI extends World {
 		this.#scene.add.tileSprite(0, 0, this.#worldPx, this.#worldPx, 'ground').setOrigin(0, 0);
 		Mineral.DESCRIPTIONS.forEach((mineral, key) => {
 			this.getMineralDeposits(key).forEach(position => {
-				this.place({ position, piece: mineral });
+				const data = this.getPosition(position);
+				const mineralData = this.#scene.createMineral(key, 'deposit');
+				mineralData.setDepositImage(this.place({ position, piece: mineralData.depositTexture }));
+				data.setDeposit(mineralData);
+				this.setPosition(position, data);
 			});
 		});
 		this.#scene.cameras.main.setBounds(0, 0, this.#worldPx, this.#worldPx);
 		this.#scene.cameras.main.setZoom(this.#minZoom)
 		this.#scene.input.keyboard.on('keydown-ESC', this.#onEscape.bind(this));
 		this.#scene.input.keyboard.on('keydown-R', this.#onRotate.bind(this));
-		this.#scene.input.keyboard.on('keydown-D', this.#onDelete.bind(this));
+		this.#scene.input.keyboard.on('keydown-DELETE', this.#onDelete.bind(this));
 		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
 		this.#scene.input.on('pointerdown', this.#onPointerDown.bind(this));
 		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
@@ -115,7 +117,8 @@ export default class WorldUI extends World {
 
 	#onDelete() {
 		if (this.#selectedGridPoint) {
-			this.removeBuilding(new Vector2d(this.#selectedGridPoint.gridX, this.#selectedGridPoint.gridY));
+			const removedBuilding = this.removeBuilding(new Vector2d(this.#selectedGridPoint.gridX, this.#selectedGridPoint.gridY));
+			removedBuilding.image.destroy();
 			this.#clearGridSelection();
 		}
 	}
@@ -156,8 +159,8 @@ export default class WorldUI extends World {
 
 	#onPointerDown(pointer) {
 		const { gridX, gridY } = this.#getGridCoordinates(pointer);
+		const position = new Vector2d(gridX, gridY);
 		if (this.#activePlacement) {
-			const position = new Vector2d(gridX, gridY);
 			const symbol = [...WorldData.BUILDING_SYMBOLS].find(entry => entry[0] === this.#activePlacement.key)[1];
 			if (!this.hasBuilding(position)) {
 				const piece = this.#activePlacement.key;
@@ -165,6 +168,12 @@ export default class WorldUI extends World {
 				const image = this.place({ position, piece, orientation });
 				const building = this.#createBuilding(symbol, { type: symbol, position, orientation });
 				this.addBuilding({ position, image, building });
+				const gridData = this.getPosition(position);
+				if (gridData.deposit) {
+					const deposit = gridData.deposit;
+					gridData.setDeposit(null);
+					deposit.depositImage.destroy();
+				}
 				GameEvent.Emit(GameEvent.INVENTORY_REMOVE, { symbol, number: 1 });
 			}
 		} else {
@@ -180,7 +189,6 @@ export default class WorldUI extends World {
 				.setFillStyle(0x00ff00, 0.25)
 				.setStrokeStyle(2, 0x00ff00, 1);
 			this.#selectedGridPoint = { gridX, gridY, rect };
-			console.log(this.getPosition(new Vector2d(gridX, gridY)));
 		}
 	}
 

@@ -80,7 +80,8 @@ export default class Game extends Phaser.Scene {
 			this.#statsUI.updateInventory(payload.symbol, -payload.number);
 		} else if (eventName === GameEvent.ORE_CREATE) {
 			const extractor = additionalData[0]; // for documentation purposes
-			const ore = this.#mineralUI.createMineral(payload.mineral);
+			const ore = this.#mineralUI.createMineral(payload.mineral)
+			ore.setDirectionVector(extractor.directionVector);
 			this.#mineralUI.createOreImage(ore, extractor.position);
 			this.#transporter.add(ore, extractor);
 		}
@@ -119,22 +120,34 @@ export default class Game extends Phaser.Scene {
 		if (this.#updateTimer <= 0) {
 			this.#updateTimer = 2000;
 			const extractors = this.#worldUI.extractors;
-			extractors.forEach(worldData => {
-				const { building } = worldData;
-				const { building: extractor, image } = building;
-				const ore = extractor.produceOre();
+			extractors.forEach(extractor => {
+				if (extractor.active) {
+					const ore = extractor.produceOre();
+				}
 			});
 		}
 		if (this.#transportTimer <= 0) {
 			this.#transportTimer = 1000;
 			this.#transporter.activateItems();
 		}
+		this.#transporter.keepItemsInMotion();
 	}
 
-	#gridToWorldCenter = (gridX, gridY, tileSize, originX = 0, originY = 0) => {
-		return {
-			x: originX + gridX * Game.UNIT_SIZE + Game.HALF_SIZE,
-			y: originY + gridY * Game.UNIT_SIZE + Game.HALF_SIZE
-		};
+	createMineral(type) {
+		const mineral = this.#mineralUI.createMineral(type);
+		/*switch(state) {
+			case 'ore':
+				break;
+			case 'pure':
+				break;
+			case 'deposit':
+				this.#mineralUI.createDepositImage(mineral);
+				break;
+		}*/
+		return mineral;
+	}
+
+	getPosition(position) {
+		return this.#worldUI.getPosition(position);
 	}
 }

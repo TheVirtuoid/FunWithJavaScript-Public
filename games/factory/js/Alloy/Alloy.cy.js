@@ -24,6 +24,18 @@ describe('Alloy Class', () => {
 			expect(Alloy.ETHERIUM).to.exist;
 			expect(Alloy.STARFORGE).to.exist;
 		});
+
+		it('should have TYPES array containing all alloy types', () => {
+			expect(Alloy.TYPES).to.be.an('array');
+			expect(Alloy.TYPES).to.have.lengthOf(7);
+			expect(Alloy.TYPES).to.include(Alloy.IGNISIUM);
+			expect(Alloy.TYPES).to.include(Alloy.PHOTONIUM);
+			expect(Alloy.TYPES).to.include(Alloy.VOIDTISSIUM);
+			expect(Alloy.TYPES).to.include(Alloy.SOLTARIUM);
+			expect(Alloy.TYPES).to.include(Alloy.MAGNANIUM);
+			expect(Alloy.TYPES).to.include(Alloy.ETHERIUM);
+			expect(Alloy.TYPES).to.include(Alloy.STARFORGE);
+		});
 	});
 
 	describe('Static Methods', () => {
@@ -123,15 +135,39 @@ describe('Alloy Class', () => {
 		});
 	});
 
-	describe('Methods', () => {});
+	describe('Methods', () => {
+		it('should set a new image using setImage()', () => {
+			const alloy = new Alloy({ type: Alloy.IGNISIUM, purity: 50 });
+			const newImage = 'custom-image';
+			alloy.setImage(newImage);
+			expect(alloy.image).to.equal(newImage);
+		});
+	});
 
 	describe('Properties', () => {
 		let alloy;
 		beforeEach(() => {
 			alloy = new Alloy({ type: Alloy.IGNISIUM, purity: 50 });
 		});
-		it('should throw error if trying to change purity', () => {
-			expect(() => alloy.purity = 50).to.throw();
+
+		it('should have type property set correctly', () => {
+			expect(alloy.type).to.equal(Alloy.IGNISIUM);
+		});
+
+		it('should have purity property as read-only', () => {
+			const originalPurity = alloy.purity;
+			expect(originalPurity).to.equal(50);
+			expect(() => { alloy.purity = 75; }).to.throw();
+			expect(alloy.purity).to.equal(originalPurity);
+		});
+
+		it('should have image property with correct default value', () => {
+			expect(alloy.image).to.equal('ingot-Ignisium');
+		});
+
+		it('should return the image value using the image getter', () => {
+			const etheriumAlloy = new Alloy({ type: Alloy.ETHERIUM, purity: 75 });
+			expect(etheriumAlloy.image).to.equal('ingot-Etherium');
 		});
 	});
 

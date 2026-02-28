@@ -9,10 +9,7 @@ export default class WorldData {
 		return data.ground === null && data.building === null;
 	}
 
-	static GROUND_NORMAL = Symbol('ground-normal');
-
-	static GROUND_TYPES = [
-		WorldData.GROUND_NORMAL,
+	static DEPOSIT_TYPES = [
 		...Mineral.TYPES,
 	];
 
@@ -69,26 +66,28 @@ export default class WorldData {
 
 	}
 
-	#ground;
+	#deposit;
 	#building;
-	#buildingImage;
 
 	constructor(args = {}) {
-		let { ground = null } = args;
-		if (ground !== null && !WorldData.GROUND_TYPES.includes(ground)) {
-			throw new Error(`Invalid ground type: ${ground}`);
+		let { deposit = null } = args;
+		if (deposit !== null && !WorldData.DEPOSIT_TYPES.includes(deposit.type)) {
+			throw new Error(`Invalid deposit type: ${deposit}`);
 		}
-		this.#ground = ground;
+		this.#deposit = deposit;
 		this.#building = null;
-		this.#buildingImage = null;
 	}
 
-	get ground() {
-		return this.#ground;
+	get deposit() {
+		return this.#deposit;
 	}
 
 	get building() {
 		return this.#building;
+	}
+
+	setDeposit(deposit) {
+		this.#deposit = deposit;
 	}
 
 	addBuilding(building) {
@@ -101,15 +100,9 @@ export default class WorldData {
 		this.#building = building;
 	}
 
-	addBuildingImage(image) {
-		this.#buildingImage = image;
-	}
-
 	removeBuilding() {
-		if (this.#buildingImage) {
-			this.#buildingImage.destroy();
-		}
-		this.#buildingImage = null;
+		const building = this.#building;
 		this.#building = null;
+		return building;
 	}
 }

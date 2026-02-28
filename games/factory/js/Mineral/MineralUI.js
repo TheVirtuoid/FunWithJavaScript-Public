@@ -1,8 +1,19 @@
 import Mineral from "./Mineral.js";
 import Utilities from "../Utilities/Utilities.js";
+import World from "../World/World.js";
 
 export default class MineralUI {
 
+	static DEPOSIT_COLORS = new Map([
+		[Mineral.AETHERITE, 0xff0000],
+		[Mineral.LUMINITE, 0x198028],
+		[Mineral.PYROTITE, 0x24249a],
+		[Mineral.OBSIDIANITE, 0xfff401],
+		[Mineral.ZENITHITE, 0x000000],
+	]);
+
+	static DEPOSIT_ALPHA = 0.5;
+	static DEPOSIT_RADIUS = 24;
 
 	#scene;
 
@@ -11,38 +22,36 @@ export default class MineralUI {
 	}
 
 	createMineral(type) {
-		const mineral = new Mineral({ type });
-		mineral.setOreImage(this.#scene.textures.get(`ore-${type.description}`));
-		mineral.setPureImage(this.#scene.textures.get(`pure-${type.description}`));
+		const mineral = new Mineral({
+			type,
+			oreTexture: `ore-${type.description}`,
+			pureTexture: `pure-${type.description}`,
+			depositTexture: `deposit-${type.description}`
+		});
 		return mineral;
 	}
 
 	createOreImage(mineral, position) {
 		const worldPosition = Utilities.GridToPosition(position);
-		mineral.setOreImage(this.#scene.add.image(worldPosition.x, worldPosition.y, `ore-${mineral.type.description}`));
-		return mineral;
+		mineral.setOreImage(this.#scene.add.image(worldPosition.x, worldPosition.y, mineral.oreTexture));
+		mineral.oreImage.setDepth(10000);
 	}
 
 	preload() {
-		const createCircleTexture = (scene, key, color, alpha) => {
+		const createCircleTexture = (scene, mineral) => {
 			const g = scene.make.graphics({ x: 0, y: 0, add: false });
-			g.fillStyle(color, alpha);
-			g.fillCircle(32, 32, 24);
-			g.generateTexture(key, 64, 64);
+			g.fillStyle(MineralUI.DEPOSIT_COLORS.get(mineral), MineralUI.DEPOSIT_ALPHA);
+			g.fillCircle(World.UNIT_HALF_SIZE, World.UNIT_HALF_SIZE, MineralUI.DEPOSIT_RADIUS);
+			g.generateTexture(`deposit-${mineral.description}`, World.UNIT_SIZE, World.UNIT_SIZE);
 			g.destroy();
 		};
-
-		createCircleTexture(this.#scene, Mineral.AETHERITE.description, 0xff0000, 0.50);
-		createCircleTexture(this.#scene, Mineral.LUMINITE.description, 0x198028, 0.5);
-		createCircleTexture(this.#scene, Mineral.PYROTITE.description, 0x24249a, 0.5);
-		createCircleTexture(this.#scene, Mineral.OBSIDIANITE.description, 0xfff401, 0.5);
-		createCircleTexture(this.#scene, Mineral.ZENITHITE.description, 0x000000, 0.5);
 
 		Mineral.TYPES.forEach(mineral => {
 			const ore = `ore-${mineral.description}`;
 			this.#scene.load.image(ore, `img/${ore}.png`);
 			const pure = `pure-${mineral.description}`;
 			this.#scene.load.image(pure, `img/${pure}.png`);
+			createCircleTexture(this.#scene, mineral);
 		});
 	}
 

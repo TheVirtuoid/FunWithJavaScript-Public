@@ -1,12 +1,24 @@
-export default class DistributionCenter {
-	static DEFAULT_CASH = 1000;
+import Base from "../Base/Base.js";
+
+export default class DistributionCenter extends Base {
+	static DEFAULT_CASH = 10000;
+	static BUILDING = Symbol('building');
+
+	static TYPES = [
+		DistributionCenter.BUILDING
+	]
+
+	static Has(type) {
+		return DistributionCenter.TYPES.includes(type);
+	}
 
 	#id;
 	#name;
 	#cash;
 
 	constructor(args = {}) {
-		this.#id = window.crypto.randomUUID();
+		args.type = DistributionCenter.BUILDING;
+		super(args);
 		this.#name = '';
 		this.#cash = 0;
 	}
