@@ -108,7 +108,7 @@ export default class Game extends Phaser.Scene {
 	create() {
 		this.#statsUI.create();
 		this.#worldUI.create();
-		this.#distributionCenterUI.create();
+		this.#distributionCenterUI.createDistributionCenter();
 		this.#updateTimer = 2000;
 		this.#transportTimer = 1000;
 		GameEvent.Emit(GameEvent.GAME_READY);

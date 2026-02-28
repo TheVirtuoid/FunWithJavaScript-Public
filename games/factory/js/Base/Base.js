@@ -8,13 +8,17 @@ export default class Base {
 	#orientation;
 	#directionVector;
 	#active;
+	#purity;
+	#image;
 
 	constructor(args = {}) {
-		const { type, position = new Vector2d(0, 0), orientation = 0, directionVector = Vector2d.Down() } = args;
+		const { image, purity, type, position = new Vector2d(0, 0), orientation = 0, directionVector = Vector2d.Down() } = args;
 		this.#id = window.crypto.randomUUID();
 		this.#type = type;
 		this.#level = 1;
 		this.#active = true;
+		this.#purity = this.setPurity(purity || 0);
+		this.#image = this.setImage(image);
 		this.setPosition(position);
 		this.setOrientation(orientation);
 		this.setDirectionVector(directionVector);
@@ -41,6 +45,12 @@ export default class Base {
 	get active() {
 		return this.#active;
 	}
+	get purity() {
+		return this.#purity;
+	}
+	get image() {
+		return this.#image;
+	}
 
 	setPosition(position) {
 		if (!(position instanceof Vector2d)) {
@@ -61,6 +71,14 @@ export default class Base {
 		this.#active = true;
 	}
 
+	setPurity(purity) {
+		if (!Number.isInteger(purity)) {
+			throw new Error('Purity must be an integer');
+		}
+		purity = Math.max(0, Math.min(purity, 100));
+		this.#purity = purity;
+	}
+
 	setOrientation(orientation) {
 		if (![0, 90, 180, 270].includes(orientation)) {
 			throw new Error(`Invalid orientation: ${orientation}`);
@@ -73,5 +91,9 @@ export default class Base {
 			throw new Error('Direction vector must be a Vector2d');
 		}
 		this.#directionVector = directionVector;
+	}
+
+	setImage(image) {
+		this.#image = image;
 	}
 }

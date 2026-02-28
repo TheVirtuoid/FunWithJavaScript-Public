@@ -36,7 +36,6 @@ export default class Combinator extends Base {
 
 	#capacity;
 	#inventory;
-	#image;
 
 	constructor(args = {}) {
 		const { type } = args;
@@ -78,13 +77,5 @@ export default class Combinator extends Base {
 		} else {
 			return undefined;
 		}
-	}
-
-	get image()	{
-		return this.#image;
-	}
-
-	setImage(image) {
-		this.#image = image;
 	}
 }

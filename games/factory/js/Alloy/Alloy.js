@@ -46,37 +46,16 @@ export default class Alloy extends Base {
 	}
 
 	static Ingredients(alloy) {
-		if (!Alloy.Has(alloy)) {
-			throw new Error(`Invalid alloy type: ${alloy}`);
+		if (Alloy.Has(alloy)) {
+			return Alloy.#INGREDIENTS.get(alloy);
 		}
-		return Alloy.#INGREDIENTS.get(alloy);
 	}
 
-	#purity;
-	#image;
-
 	constructor(args = {}) {
-		const { type, purity } = args;
+		const { type } = args;
 		if (!Alloy.Has(type)) {
 			throw new Error(`Invalid alloy type: ${type}`);
 		}
-		if (isNaN(purity) || (purity < 0 || purity > 100)) {
-			throw new Error(`Invalid alloy purity: ${purity}`);
-		}
 		super(args);
-		this.#purity = purity;
-		this.#image = `ingot-${type.description}`;
-	}
-
-	get purity() {
-		return this.#purity;
-	}
-
-	get image()	{
-		return this.#image;
-	}
-
-	setImage(image) {
-		this.#image = image;
 	}
 }

@@ -1,22 +1,22 @@
 import Game from "../Game/Game.js";
 import DistributionCenter from "./DistributionCenter.js";
+import Utilities from "../Utilities/Utilities.js";
 
-export default class DistributionCenterUI extends DistributionCenter{
+export default class DistributionCenterUI {
 
 	#scene;
-	#centerX;
-	#centerY;
+	#distributionCenter;
 
 	constructor(scene) {
-		super();
 		this.#scene = scene;
-		this.#centerX = Game.UNIT_SIZE * Game.WORLD_UNITS / 2 - Game.UNIT_SIZE;
-		this.#centerY = Game.UNIT_SIZE * Game.WORLD_UNITS / 2 - Game.UNIT_SIZE;
-
 	}
 
-	create() {
-		this.#scene.add.image(this.#centerX, this.#centerY, 'distribution-center');
+	createDistributionCenter(position) {
+		this.#distributionCenter = new DistributionCenter();
+		let { x, y } = Utilities.GridToPosition(this.#distributionCenter.position);
+		x -= Game.HALF_SIZE;
+		y -= Game.HALF_SIZE;
+		this.#distributionCenter.setImage(this.#scene.add.image(x, y, 'distribution-center'));
 	}
 
 	preload() {

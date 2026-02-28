@@ -1,7 +1,8 @@
 import Base from "../Base/Base.js";
+import World from "../World/World.js";
+import Vector2d from "../Vector/Vector2d/Vector2d.js";
 
 export default class DistributionCenter extends Base {
-	static DEFAULT_CASH = 10000;
 	static BUILDING = Symbol('building');
 
 	static TYPES = [
@@ -14,25 +15,36 @@ export default class DistributionCenter extends Base {
 
 	#id;
 	#name;
-	#cash;
+	#buildingPosition;
 
+	// the distribution center is always at the center of the map
 	constructor(args = {}) {
+		const position= new Vector2d(Math.floor(World.UNIT_WIDTH/2) - 1, Math.floor(World.UNIT_WIDTH/2) - 1)
 		args.type = DistributionCenter.BUILDING;
+		args.position = position;
 		super(args);
 		this.#name = '';
-		this.#cash = 0;
+		this.#buildingPosition = [args.position];
+		this.#buildingPosition.push(args.position.add(new Vector2d(1, 0)));
+		this.#buildingPosition.push(args.position.add(new Vector2d(2, 0)));
+		this.#buildingPosition.push(args.position.add(new Vector2d(0, 1)));
+		this.#buildingPosition.push(args.position.add(new Vector2d(1, 1)));
+		this.#buildingPosition.push(args.position.add(new Vector2d(2, 1)));
+		this.#buildingPosition.push(args.position.add(new Vector2d(0, 2)));
+		this.#buildingPosition.push(args.position.add(new Vector2d(1, 2)));
+		this.#buildingPosition.push(args.position.add(new Vector2d(2, 2)));
 	}
 
 	get name() {
 		return this.#name;
 	}
 
-	get cash() {
-		return this.#cash;
-	}
-
 	get id() {
 		return this.#id;
+	}
+
+	get buildingPosition() {
+		return [...this.#buildingPosition].map((vector) => vector.clone());
 	}
 
 	initialize(name) {
@@ -46,6 +58,5 @@ export default class DistributionCenter extends Base {
 			throw new Error('DistributionCenter.initialize() requires a string shorter than 30 characters');
 		}
 		this.#name = name;
-		this.#cash = DistributionCenter.DEFAULT_CASH;
 	}
 }

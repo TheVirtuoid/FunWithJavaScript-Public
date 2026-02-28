@@ -29,9 +29,17 @@ export default class Conveyor extends Base {
 		[Conveyor.X_INTERSECTION.description, Conveyor.X_INTERSECTION]
 	]);
 
+	static DESCRIPTIONS = new Map([
+		[Conveyor.STRAIGHT, Conveyor.STRAIGHT.description],
+		[Conveyor.CURVE_LEFT, Conveyor.CURVE_LEFT.description],
+		[Conveyor.CURVE_RIGHT, Conveyor.CURVE_RIGHT.description],
+		[Conveyor.T_INTERSECTION_LEFT, Conveyor.T_INTERSECTION_LEFT.description],
+		[Conveyor.T_INTERSECTION_RIGHT, Conveyor.T_INTERSECTION_RIGHT.description],
+		[Conveyor.X_INTERSECTION, Conveyor.X_INTERSECTION.description]
+	]);
+
 	#startDirectionVector;
 	#endDirectionVector;
-	#image;
 
 	constructor(args = {}) {
 		const { type, orientation = 0 } = args;
@@ -60,22 +68,10 @@ export default class Conveyor extends Base {
 		}
 	}
 
-	get image()	{
-		return this.#image;
-	}
-
 	get startDirectionVector() {
 		return this.#startDirectionVector.map((vector) => vector.clone());
 	}
 	get endDirectionVector() {
 		return this.#endDirectionVector.map((vector) => vector.clone());
-	}
-
-	setOrientation(orientation) {}
-
-	setDirectionVector() {}
-
-	setImage(image) {
-		this.#image = image;
 	}
 }
