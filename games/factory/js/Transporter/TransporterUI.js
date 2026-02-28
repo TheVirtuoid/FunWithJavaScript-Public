@@ -103,7 +103,6 @@ export default class TransporterUI {
 			if (building.type === Conveyor.STRAIGHT) {
 				const startDirectionVector = building.startDirectionVector[0].round();
 				if (!item.directionVector.equals(startDirectionVector)) {
-					console.log(item.directionVector, startDirectionVector);
 					return false;
 				}
 				const start = Utilities.GridToPosition(building.position);
@@ -175,5 +174,4 @@ export default class TransporterUI {
 			return false;
 		}
 	}
-
 }
