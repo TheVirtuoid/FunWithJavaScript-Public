@@ -17,8 +17,8 @@ export default class Base {
 		this.#type = type;
 		this.#level = 1;
 		this.#active = true;
-		this.#purity = this.setPurity(purity || 0);
 		this.#image = this.setImage(image);
+		this.setPurity(purity || 0);
 		this.setPosition(position);
 		this.setOrientation(orientation);
 		this.setDirectionVector(directionVector);

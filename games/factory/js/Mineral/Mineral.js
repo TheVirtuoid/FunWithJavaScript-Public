@@ -60,7 +60,6 @@ export default class Mineral extends Base{
 		[Mineral.ZENITHITE, 64],
 	])
 
-	#purity;
 	#oreImage;
 	#pureImage;
 	#depositImage;
@@ -75,19 +74,13 @@ export default class Mineral extends Base{
 			throw new Error(`Invalid mineral type: ${type}`);
 		}
 		super(args);
-		this.#purity = 10;
 		this.#oreTexture = oreTexture;
 		this.#pureTexture = pureTexture;
 		this.#depositTexture = depositTexture;
 	}
 
-	get purity() {
-		return this.#purity;
-	}
-
 	purify(level = 1) {
 		console.warn('Mineral.purify() is not currently implemented');
-		this.#purity += level;
 	}
 
 	get oreImage() {

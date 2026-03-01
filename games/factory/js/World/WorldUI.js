@@ -7,6 +7,7 @@ import GameEvent from "../GameEvent/GameEvent.js";
 import WorldData from "../WorldData/WorldData.js";
 import Extractor from "../Extractor/Extractor.js";
 import Conveyor from "../Conveyor/Conveyor.js";
+import Utilities from "../Utilities/Utilities.js";
 
 export default class WorldUI extends World {
 
@@ -118,17 +119,9 @@ export default class WorldUI extends World {
 		}
 	}
 
-	#getGridCoordinates(pointer) {
-		const worldPoint = this.#scene.cameras.main.getWorldPoint(pointer.x, pointer.y);
-		const gridX = Math.floor(worldPoint.x / Game.UNIT_SIZE);
-		const gridY = Math.floor(worldPoint.y / Game.UNIT_SIZE);
-		return { gridX, gridY };
-	}
-
-
 	#onDelete() {
 		if (this.#selectedGridPoint) {
-			const removedBuilding = this.removeBuilding(new Vector2d(this.#selectedGridPoint.gridX, this.#selectedGridPoint.gridY));
+			const removedBuilding = this.removeBuilding(new Vector2d(this.#selectedGridPoint.x, this.#selectedGridPoint.y));
 			removedBuilding.image.destroy();
 			this.#clearGridSelection();
 		}
@@ -147,11 +140,11 @@ export default class WorldUI extends World {
 	}
 
 	#onPointerMove(pointer) {
-		const { gridX, gridY } = this.#getGridCoordinates(pointer);
-		GameEvent.Emit(GameEvent.STAT_CURSOR_POSITION, new Vector2d(gridX, gridY));
+		const { x, y } = Utilities.PositionToGrid(this.#scene.cameras.main.getWorldPoint(pointer.x, pointer.y));
+		GameEvent.Emit(GameEvent.STAT_CURSOR_POSITION, new Vector2d(x, y));
 		if (this.#activePlacement) {
-			const snapX = gridX * Game.UNIT_SIZE + Game.HALF_SIZE;
-			const snapY = gridY * Game.UNIT_SIZE + Game.HALF_SIZE;
+			const snapX = x * Game.UNIT_SIZE + Game.HALF_SIZE;
+			const snapY = y * Game.UNIT_SIZE + Game.HALF_SIZE;
 			this.#activePlacement.ghost.setPosition(snapX, snapY);
 		}
 		if (pointer.isDown) {
@@ -169,8 +162,8 @@ export default class WorldUI extends World {
 	}
 
 	#onPointerDown(pointer) {
-		const { gridX, gridY } = this.#getGridCoordinates(pointer);
-		const position = new Vector2d(gridX, gridY);
+		const { x, y } = Utilities.PositionToGrid(this.#scene.cameras.main.getWorldPoint(pointer.x, pointer.y));
+		const position = new Vector2d(x, y);
 		if (this.#activePlacement) {
 			const symbol = [...WorldData.BUILDING_SYMBOLS].find(entry => entry[0] === this.#activePlacement.key)[1];
 			if (!this.hasBuilding(position)) {
@@ -191,15 +184,16 @@ export default class WorldUI extends World {
 			this.#clearGridSelection();
 			const rect = this.#scene.add
 				.rectangle(
-					gridX * Game.UNIT_SIZE,
-					gridY * Game.UNIT_SIZE,
+					x * Game.UNIT_SIZE,
+					y * Game.UNIT_SIZE,
 					Game.UNIT_SIZE,
 					Game.UNIT_SIZE
 				)
 				.setOrigin(0, 0)
 				.setFillStyle(0x00ff00, 0.25)
 				.setStrokeStyle(2, 0x00ff00, 1);
-			this.#selectedGridPoint = { gridX, gridY, rect };
+			GameEvent.Emit(GameEvent.GRID_SELECTED, new Vector2d(x, y));
+			this.#selectedGridPoint = { x, y, rect };
 		}
 	}
 

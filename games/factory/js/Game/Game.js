@@ -84,6 +84,8 @@ export default class Game extends Phaser.Scene {
 			ore.setDirectionVector(extractor.directionVector);
 			this.#mineralUI.createOreImage(ore, extractor.position);
 			this.#transporter.add(ore, extractor);
+		} else if (eventName === GameEvent.GRID_SELECTED) {
+			this.#statsUI.updateInformation(payload, this.#worldUI.getPosition(payload));
 		}
 	}
 

@@ -3,7 +3,7 @@ import World from "../World/World.js";
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 
 export default class DistributionCenter extends Base {
-	static BUILDING = Symbol('building');
+	static BUILDING = Symbol('distribution-center');
 
 	static TYPES = [
 		DistributionCenter.BUILDING

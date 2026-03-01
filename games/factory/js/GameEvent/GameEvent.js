@@ -19,6 +19,8 @@ export default class GameEvent {
 	static ORE_CREATE = Symbol('ore-create');
 	static ORE_CREATED = Symbol('ore-created');
 
+	static GRID_SELECTED = Symbol('grid-selected');
+
 	static TYPES = [
 		GameEvent.GAME_EVENT_INITIALIZED,
 		GameEvent.GAME_READY,
@@ -32,6 +34,7 @@ export default class GameEvent {
 		GameEvent.INVENTORY_REMOVE_ACTIVE,
 		GameEvent.ORE_CREATED,
 		GameEvent.ORE_CREATE,
+		GameEvent.GRID_SELECTED
 	]
 
 	static Setup(gameObject) {

@@ -4,6 +4,8 @@ import Extractor from "../Extractor/Extractor.js";
 import Purifier from "../Purifier/Purifier.js";
 import Combinator from "../Combinator/Combinator.js";
 import GameEvent from "../GameEvent/GameEvent.js";
+import Vector2d from "../Vector/Vector2d/Vector2d.js";
+import DistributionCenter from "../DistributionCenter/DistributionCenter.js";
 
 export default class StatsUI extends Stats {
 
@@ -11,6 +13,7 @@ export default class StatsUI extends Stats {
 	#domCash;
 	#domLevel;
 	#domInventory;
+	#domInformation;
 	#inventoryPlacement;
 	#scene;
 
@@ -24,7 +27,9 @@ export default class StatsUI extends Stats {
 		this.#domCash = document.getElementById('cash');
 		this.#domLevel = document.getElementById('level');
 		this.#domInventory = document.getElementById('inventory');
+		this.#domInformation = document.querySelector('.stats .stat.information');
 		this.updateDom();
+		this.updateInformation();
 		document.getElementById('inventory').addEventListener('click', (event) => {
 			const button = event.target.closest('button');
 			if (button) {
@@ -47,6 +52,38 @@ export default class StatsUI extends Stats {
 	setCursorPosition(position) {
 		super.setCursorPosition(position);
 		this.updateDom();
+	}
+
+	updateInformation(position, worldData) {
+		this.#domInformation.replaceChildren();
+		if (!(position instanceof Vector2d)) {
+			return;
+		}
+		if (worldData?.building) {
+			let p = document.createElement('p');
+			p.textContent = `${position.toString()} - ${worldData.building.type.description}`;
+			this.#domInformation.appendChild(p);
+			if (!DistributionCenter.Has(worldData.building.type) && !Conveyor.Has(worldData.building.type)) {
+				p = document.createElement('p');
+				p.classList.add('information-stats');
+				let s = document.createElement('span');
+				s.textContent = `Level: ${worldData.building.level}`;
+				p.appendChild(s);
+				s = document.createElement('span');
+				s.textContent = `Speed: ${worldData.building.speed}`;
+				p.appendChild(s);
+				s = document.createElement('span');
+				s.textContent = `Purity: ${worldData.building.purity}`;
+				p.appendChild(s);
+				this.#domInformation.appendChild(p);
+				return;
+			}
+		}
+		if (worldData?.deposit) {
+			let p = document.createElement('p');
+			p.textContent = `${position.toString()} - ${worldData.deposit.type.description} deposit`;
+			this.#domInformation.appendChild(p);
+		}
 	}
 
 	updateInventory(item, amount) {
