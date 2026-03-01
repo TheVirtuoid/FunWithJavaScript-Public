@@ -44,41 +44,6 @@ export default class World {
 				this.#map.set((new Vector2d(x,y)).toString(), worldData);
 			}
 		}
-		// the following represent the distribution center positions
-		const xMid = Math.floor(World.UNIT_WIDTH / 2);
-		const yMid = Math.floor(World.UNIT_HEIGHT / 2);
-		const takenPositions = [
-			new Vector2d(xMid - 2, yMid - 2).toString(),
-			new Vector2d(xMid - 2, yMid - 1).toString(),
-			new Vector2d(xMid - 2, yMid).toString(),
-			new Vector2d(xMid - 2, yMid + 1).toString(),
-
-			new Vector2d(xMid - 1, yMid - 2).toString(),
-			new Vector2d(xMid - 1, yMid - 1).toString(),
-			new Vector2d(xMid - 1, yMid).toString(),
-			new Vector2d(xMid - 1, yMid + 1).toString(),
-
-			new Vector2d(xMid, yMid - 2).toString(),
-			new Vector2d(xMid, yMid - 1).toString(),
-			new Vector2d(xMid, yMid).toString(),
-			new Vector2d(xMid, yMid + 1).toString(),
-
-			new Vector2d(xMid + 1, yMid - 2).toString(),
-			new Vector2d(xMid + 1, yMid - 1).toString(),
-			new Vector2d(xMid + 1, yMid).toString(),
-			new Vector2d(xMid + 1, yMid + 1).toString(),
-		];
-		World.DISTRIBUTION.forEach((count, mineral) => {
-			for (let i = 0; i < count; i++) {
-				const position = this.#getRandomPosition(takenPositions);
-				const worldData = this.#map.get(position.toString());
-				this.#map.set(position.toString(), worldData);
-				takenPositions.push(position);
-				const mineralPositions = this.#mineralPositions.get(mineral);
-				mineralPositions.push(position);
-				this.#mineralPositions.set(mineral, mineralPositions);
-			}
-		});
 		this.#extractors = new Map();
 	}
 
@@ -96,6 +61,21 @@ export default class World {
 	}
 	get extractors() {
 		return new Map([...this.#extractors]);
+	}
+
+	initialize(distributionCenterPositions) {
+		const takenPositions = distributionCenterPositions.map((position) => position.toString());
+		World.DISTRIBUTION.forEach((count, mineral) => {
+			for (let i = 0; i < count; i++) {
+				const position = this.#getRandomPosition(takenPositions);
+				const worldData = this.#map.get(position.toString());
+				this.#map.set(position.toString(), worldData);
+				takenPositions.push(position);
+				const mineralPositions = this.#mineralPositions.get(mineral);
+				mineralPositions.push(position);
+				this.#mineralPositions.set(mineral, mineralPositions);
+			}
+		});
 	}
 
 	getPosition(position) {
@@ -140,7 +120,6 @@ export default class World {
 		if (!worldData.building) {
 			return false;
 		}
-		console.log(worldData.building);
 		if (Extractor.Has(worldData.building.type)) {
 			this.#extractors.delete(position.toString());
 		}

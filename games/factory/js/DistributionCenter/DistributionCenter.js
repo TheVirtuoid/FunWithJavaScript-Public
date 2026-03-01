@@ -26,13 +26,8 @@ export default class DistributionCenter extends Base {
 		this.#name = '';
 		this.#buildingPosition = [args.position];
 		this.#buildingPosition.push(args.position.add(new Vector2d(1, 0)));
-		this.#buildingPosition.push(args.position.add(new Vector2d(2, 0)));
 		this.#buildingPosition.push(args.position.add(new Vector2d(0, 1)));
 		this.#buildingPosition.push(args.position.add(new Vector2d(1, 1)));
-		this.#buildingPosition.push(args.position.add(new Vector2d(2, 1)));
-		this.#buildingPosition.push(args.position.add(new Vector2d(0, 2)));
-		this.#buildingPosition.push(args.position.add(new Vector2d(1, 2)));
-		this.#buildingPosition.push(args.position.add(new Vector2d(2, 2)));
 	}
 
 	get name() {

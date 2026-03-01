@@ -9,18 +9,26 @@ export default class DistributionCenterUI {
 
 	constructor(scene) {
 		this.#scene = scene;
+		this.#distributionCenter = new DistributionCenter();
 	}
 
-	createDistributionCenter(position) {
-		this.#distributionCenter = new DistributionCenter();
+	createDistributionCenter() {
 		let { x, y } = Utilities.GridToPosition(this.#distributionCenter.position);
-		x -= Game.HALF_SIZE;
-		y -= Game.HALF_SIZE;
+		x += Game.HALF_SIZE;
+		y += Game.HALF_SIZE;
 		this.#distributionCenter.setImage(this.#scene.add.image(x, y, 'distribution-center'));
 	}
 
 	preload() {
 		this.#scene.load.image('distribution-center', 'img/distribution-center.png');
+	}
+
+	get distributionCenter() {
+		return this.#distributionCenter;
+	}
+
+	get distributionCenterPositions() {
+		return this.#distributionCenter.buildingPosition;
 	}
 
 

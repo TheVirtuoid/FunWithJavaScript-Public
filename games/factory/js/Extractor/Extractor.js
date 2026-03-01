@@ -55,7 +55,6 @@ export default class Extractor extends Base {
 
 	#speed;
 	#cost;
-	#image;
 	#mineralType;
 
 	constructor(args = {}) {
@@ -78,10 +77,6 @@ export default class Extractor extends Base {
 		return this.#speed;
 	}
 
-	get image() {
-		return this.#image;
-	}
-
 	get mineralType() {
 		return this.#mineralType;
 	}
@@ -95,7 +90,4 @@ export default class Extractor extends Base {
 		GameEvent.Emit(GameEvent.ORE_CREATE, Extractor.#EXTRACTOR_DATA.get(this.type), this);
 	}
 
-	setImage(image) {
-		this.#image = image;
-	}
 }

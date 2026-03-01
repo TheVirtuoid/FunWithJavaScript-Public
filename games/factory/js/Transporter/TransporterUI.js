@@ -2,6 +2,8 @@ import Game from "../Game/Game.js";
 import Extractor from "../Extractor/Extractor.js";
 import Conveyor from "../Conveyor/Conveyor.js";
 import Utilities from "../Utilities/Utilities.js";
+import DistributionCenter from "../DistributionCenter/DistributionCenter.js";
+import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class TransporterUI {
 
@@ -80,6 +82,9 @@ export default class TransporterUI {
 				const nextPosition = cellData.building.position.add(tweenInformation.endDirectionVector);
 				const nextWorldItem = this.#scene.getPosition(nextPosition);
 				if (!Conveyor.Has(nextWorldItem.building?.type)) {
+					if (DistributionCenter.Has(nextWorldItem.building?.type)) {
+						GameEvent.Emit(GameEvent.STAT_CASH, 10);
+					}
 					item.oreImage.destroy();
 				} else {
 					this.#inMotionItems.set(item, { building: nextWorldItem.building, directionVector: nextWorldItem.building.startDirectionVector });

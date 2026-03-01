@@ -23,6 +23,7 @@ export default class WorldUI extends World {
 		super();
 		this.#scene = scene;
 		this.#worldPx = Game.UNIT_SIZE * Game.WORLD_UNITS;
+		this.initialize(scene.getDistributionCenterPosition());
 	}
 
 	create() {
@@ -39,6 +40,12 @@ export default class WorldUI extends World {
 				this.setPosition(position, data);
 			});
 		});
+		const distributionCenter = this.#scene.getDistributionCenter();
+		this.#scene.getDistributionCenterPosition().forEach(position => {
+			const data = this.getPosition(position);
+			data.addBuilding(distributionCenter);
+			this.setPosition(position, data);
+		});
 		this.#scene.cameras.main.setBounds(0, 0, this.#worldPx, this.#worldPx);
 		this.#scene.cameras.main.setZoom(this.#minZoom)
 		this.#scene.input.keyboard.on('keydown-ESC', this.#onEscape.bind(this));
@@ -51,6 +58,10 @@ export default class WorldUI extends World {
 
 		this.#buildingFactory = new Map([
 			[Extractor.AETHERITE, Extractor],
+			[Extractor.PYROTITE, Extractor],
+			[Extractor.LUMINITE, Extractor],
+			[Extractor.OBSIDIANITE, Extractor],
+			[Extractor.ZENITHITE, Extractor],
 			[Conveyor.STRAIGHT, Conveyor],
 			[Conveyor.CURVE_LEFT, Conveyor],
 			[Conveyor.CURVE_RIGHT, Conveyor],

@@ -50,7 +50,6 @@ export default class Game extends Phaser.Scene {
 		GameEvent.Setup(this);
 		this.#statsUI = new StatsUI(this);
 		this.#groundUI = new GroundUI(this);
-		this.#worldUI = new WorldUI(this);
 		this.#storeUI = new StoreUI(this);
 		this.#mineralUI = new MineralUI(this);
 		this.#distributionCenterUI = new DistributionCenterUI(this);
@@ -60,6 +59,7 @@ export default class Game extends Phaser.Scene {
 		this.#purifierUI = new PurifierUI(this);
 		this.#alloyUI = new AlloyUI(this);
 		this.#transporter = new TransporterUI(this);
+		this.#worldUI = new WorldUI(this);
 	}
 
 	emit(eventName, payload, ...additionalData) {
@@ -135,16 +135,15 @@ export default class Game extends Phaser.Scene {
 
 	createMineral(type) {
 		const mineral = this.#mineralUI.createMineral(type);
-		/*switch(state) {
-			case 'ore':
-				break;
-			case 'pure':
-				break;
-			case 'deposit':
-				this.#mineralUI.createDepositImage(mineral);
-				break;
-		}*/
 		return mineral;
+	}
+
+	getDistributionCenterPosition() {
+		return this.#distributionCenterUI.distributionCenterPositions;
+	}
+
+	getDistributionCenter() {
+		return this.#distributionCenterUI.distributionCenter;
 	}
 
 	getPosition(position) {
