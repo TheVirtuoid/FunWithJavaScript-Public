@@ -49,7 +49,7 @@ export default class Store {
 		this.#purifiers.clear();
 		this.#extractors.clear();
 		this.#combinators.clear();
-		this.#level = 7;
+		this.#level = 0;
 	}
 
 	start() {
@@ -97,28 +97,28 @@ export default class Store {
 		this.#conveyors.set(Conveyor.T_INTERSECTION_RIGHT, { price: 10 });
 		this.#conveyors.set(Conveyor.T_INTERSECTION_LEFT, { price: 10 });
 		this.#conveyors.set(Conveyor.X_INTERSECTION, { price: 10 });
-		this.#extractors.set(Extractor.AETHERITE, { price: 100 });
+		this.#extractors.set(Extractor.AETHERITE, { price: Extractor.Price(Extractor.AETHERITE) });
 	}
 
 	#setLevel2() {
-		this.#extractors.set(Extractor.PYROTITE, { price: 100 });
+		this.#extractors.set(Extractor.PYROTITE, { price: Extractor.Price(Extractor.PYROTITE) });
 		this.#purifiers.set(Purifier.AETHERITE, { price: 100 });
 	}
 
 	#setLevel3() {
-		this.#extractors.set(Extractor.LUMINITE, { price: 100 });
+		this.#extractors.set(Extractor.LUMINITE, { price: Extractor.Price(Extractor.LUMINITE) });
 		this.#purifiers.set(Purifier.PYROTITE, { price: 100 });
 		this.#combinators.set(Combinator.IGNISIUM, { price: 100 });
 	}
 
 	#setLevel4() {
-		this.#extractors.set(Extractor.OBSIDIANITE, { price: 100 });
+		this.#extractors.set(Extractor.OBSIDIANITE, { price: Extractor.Price(Extractor.OBSIDIANITE) });
 		this.#purifiers.set(Purifier.LUMINITE, { price: 100 });
 		this.#combinators.set(Combinator.PHOTONIUM, { price: 100 });
 	}
 
 	#setLevel5() {
-		this.#extractors.set(Extractor.ZENITHITE, { price: 100 });
+		this.#extractors.set(Extractor.ZENITHITE, { price: Extractor.Price(Extractor.ZENITHITE) });
 		this.#purifiers.set(Purifier.OBSIDIANITE, { price: 100 });
 		this.#combinators.set(Combinator.VOIDTISSIUM, { price: 100 });
 	}

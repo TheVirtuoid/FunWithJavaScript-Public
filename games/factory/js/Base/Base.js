@@ -72,10 +72,10 @@ export default class Base {
 	}
 
 	setPurity(purity) {
-		if (!Number.isInteger(purity)) {
-			throw new Error('Purity must be an integer');
+		if (purity < 0 || purity > 1) {
+			throw new Error('Purity must be between 0 and 1 inclusive');
 		}
-		purity = Math.max(0, Math.min(purity, 100));
+		purity = Math.max(0, Math.min(purity, 1));
 		this.#purity = purity;
 	}
 

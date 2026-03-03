@@ -80,7 +80,7 @@ export default class Game extends Phaser.Scene {
 			this.#statsUI.updateInventory(payload.symbol, -payload.number);
 		} else if (eventName === GameEvent.ORE_CREATE) {
 			const extractor = additionalData[0]; // for documentation purposes
-			const ore = this.#mineralUI.createMineral(payload.mineral)
+			const ore = this.#mineralUI.createMineral(payload)
 			ore.setDirectionVector(extractor.directionVector);
 			this.#mineralUI.createOreImage(ore, extractor.position);
 			this.#transporter.add(ore, extractor);
@@ -117,9 +117,17 @@ export default class Game extends Phaser.Scene {
 	}
 
 	update(time, delta) {
-		this.#updateTimer -= delta;
+		this.#worldUI.extractors.forEach(extractor => {
+			if (extractor.active) {
+				const moveOre = extractor.adjustSpeedDelta(delta);
+				if (moveOre) {
+					extractor.produceOre();
+				}
+			}
+		});
+		// this.#updateTimer -= delta;
 		this.#transportTimer -= delta;
-		if (this.#updateTimer <= 0) {
+		/*if (this.#updateTimer <= 0) {
 			this.#updateTimer = 2000;
 			const extractors = this.#worldUI.extractors;
 			extractors.forEach(extractor => {
@@ -127,7 +135,7 @@ export default class Game extends Phaser.Scene {
 					const ore = extractor.produceOre();
 				}
 			});
-		}
+		}*/
 		if (this.#transportTimer <= 0) {
 			this.#transportTimer = 1000;
 			this.#transporter.activateItems();
