@@ -39,22 +39,19 @@ export default class Store {
 		return new Map([...this.#combinators]);
 	}
 
-	incrementLevel() {
-		this.#level++;
-		this.#adjustStoreLevel();
-	}
-
 	reset() {
 		this.#conveyors.clear();
 		this.#purifiers.clear();
 		this.#extractors.clear();
 		this.#combinators.clear();
-		this.#level = 0;
 	}
 
 	start() {
 		this.reset();
-		this.incrementLevel();
+		this.#addConveyors();
+		this.#addExtractors();
+		this.#addPurifiers();
+		this.#addCombinators();
 	}
 
 	getExtractor(extractor) {
@@ -78,63 +75,48 @@ export default class Store {
 		}
 	}
 
-
-	#adjustStoreLevel() {
-		if (this.level > 7 ) this.#setLevel8();
-		if (this.level > 6 ) this.#setLevel7();
-		if (this.level > 5 ) this.#setLevel6();
-		if (this.level > 4 ) this.#setLevel5();
-		if (this.level > 3 ) this.#setLevel4();
-		if (this.level > 2 ) this.#setLevel3();
-		if (this.level > 1 ) this.#setLevel2();
-		this.#setLevel1();
+	purchaseBuilding(buildingType) {
+		if (Conveyor.Has(buildingType)) {
+			return this.#adjustBuildingForPurchase({ db: this.#conveyors, type: buildingType });
+		} else if (Purifier.Has(buildingType)) {
+			return this.#adjustBuildingForPurchase({ db: this.#purifiers, type: buildingType });
+		} else if (Extractor.Has(buildingType)) {
+			return this.#adjustBuildingForPurchase({ db: this.#extractors, type: buildingType });
+		} else if (Combinator.Has(buildingType)) {
+			return this.#adjustBuildingForPurchase({ db: this.#combinators, type: buildingType });
+		}
 	}
 
-	#setLevel1() {
-		this.#conveyors.set(Conveyor.STRAIGHT, { price: 10 });
-		this.#conveyors.set(Conveyor.CURVE_LEFT, { price: 10 });
-		this.#conveyors.set(Conveyor.CURVE_RIGHT, { price: 10 });
-		this.#conveyors.set(Conveyor.T_INTERSECTION_RIGHT, { price: 10 });
-		this.#conveyors.set(Conveyor.T_INTERSECTION_LEFT, { price: 10 });
-		this.#conveyors.set(Conveyor.X_INTERSECTION, { price: 10 });
-		this.#extractors.set(Extractor.AETHERITE, { price: Extractor.Price(Extractor.AETHERITE) });
+	#adjustBuildingForPurchase(args) {
+		const { db, type } = args;
+		const { cost } = db.get(type);
+		const level = Extractor.Base(type).level;
+		const newCost = Math.round(cost * level);
+		db.set(type, { cost: newCost });
+		return newCost;
 	}
 
-	#setLevel2() {
-		this.#extractors.set(Extractor.PYROTITE, { price: Extractor.Price(Extractor.PYROTITE) });
-		this.#purifiers.set(Purifier.AETHERITE, { price: 100 });
+	#addConveyors() {
+		Conveyor.TYPES.forEach((type) => {
+			this.#conveyors.set(type, { cost: 10 });
+		});
 	}
 
-	#setLevel3() {
-		this.#extractors.set(Extractor.LUMINITE, { price: Extractor.Price(Extractor.LUMINITE) });
-		this.#purifiers.set(Purifier.PYROTITE, { price: 100 });
-		this.#combinators.set(Combinator.IGNISIUM, { price: 100 });
+	#addExtractors() {
+		Extractor.TYPES.forEach((type) => {
+			this.#extractors.set(type, { cost: Extractor.Base(type)?.cost || 100 });
+		})
 	}
 
-	#setLevel4() {
-		this.#extractors.set(Extractor.OBSIDIANITE, { price: Extractor.Price(Extractor.OBSIDIANITE) });
-		this.#purifiers.set(Purifier.LUMINITE, { price: 100 });
-		this.#combinators.set(Combinator.PHOTONIUM, { price: 100 });
+	#addPurifiers() {
+		Purifier.TYPES.forEach((type) => {
+			this.#purifiers.set(type, { cost: 100 });
+		})
 	}
 
-	#setLevel5() {
-		this.#extractors.set(Extractor.ZENITHITE, { price: Extractor.Price(Extractor.ZENITHITE) });
-		this.#purifiers.set(Purifier.OBSIDIANITE, { price: 100 });
-		this.#combinators.set(Combinator.VOIDTISSIUM, { price: 100 });
+	#addCombinators() {
+		Combinator.TYPES.forEach((type) => {
+			this.#combinators.set(type, { cost: 100 });
+		})
 	}
-
-	#setLevel6() {
-		this.#purifiers.set(Purifier.ZENITHITE, { price: 100 });
-		this.#combinators.set(Combinator.SOLTARIUM, { price: 100 });
-		this.#combinators.set(Combinator.MAGNANIUM, { price: 100 });
-	}
-
-	#setLevel7() {
-		this.#combinators.set(Combinator.ETHERIUM, { price: 100 });
-	}
-
-	#setLevel8() {
-		this.#combinators.set(Combinator.STARFORGE, { price: 100 });
-	}
-
 }

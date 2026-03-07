@@ -4,8 +4,7 @@ import WorldData from "../WorldData/WorldData.js";
 
 export default class Stats {
 
-	static CASH_START = 10000;
-	static LEVEL_START = 1;
+	static CASH_START = 250;
 	static CURSOR_POSITION_START = new Vector2d(-1, -1);
 
 	#id;

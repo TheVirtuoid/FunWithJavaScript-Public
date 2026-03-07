@@ -11,7 +11,6 @@ export default class StatsUI extends Stats {
 
 	#domCursorPosition;
 	#domCash;
-	#domLevel;
 	#domInventory;
 	#domInformation;
 	#inventoryPlacement;
@@ -25,7 +24,6 @@ export default class StatsUI extends Stats {
 	create() {
 		this.#domCursorPosition = document.getElementById('cursor-position');
 		this.#domCash = document.getElementById('cash');
-		this.#domLevel = document.getElementById('level');
 		this.#domInventory = document.getElementById('inventory');
 		this.#domInformation = document.querySelector('.stats .stat.information');
 		this.updateDom();
@@ -67,9 +65,6 @@ export default class StatsUI extends Stats {
 				p = document.createElement('p');
 				p.classList.add('information-stats');
 				let s = document.createElement('span');
-				s.textContent = `Level: ${worldData.building.level}`;
-				p.appendChild(s);
-				s = document.createElement('span');
 				s.textContent = `Speed: ${worldData.building.speed}`;
 				p.appendChild(s);
 				s = document.createElement('span');
@@ -103,7 +98,6 @@ export default class StatsUI extends Stats {
 	updateDom() {
 		this.#domCursorPosition.textContent = this.started ? this.cursorPosition.toString() : 'n/a';
 		this.#domCash.textContent = this.started ? this.cash : 'n/a';
-		this.#domLevel.textContent = this.started ? this.level : 'n/a';
 		[...this.inventory].forEach(([item, count]) => {
 			const existingDom = this.#domInventory.querySelector(`li[data-item="${item.description}"]`);
 			if (existingDom) {

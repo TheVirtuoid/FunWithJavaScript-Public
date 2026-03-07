@@ -56,7 +56,7 @@ export default class StoreUI extends Store {
 				const button = document.createElement('button');
 				button.classList.add('primary', 'small', 'purchase');
 				button.dataset.id = key.description;
-				button.textContent = item.price;
+				button.textContent = item.cost;
 				liElement.appendChild(button);
 				ul.appendChild(liElement);
 			} else if (!item && li) {
@@ -82,8 +82,11 @@ export default class StoreUI extends Store {
 			if (amount <= this.#cash) {
 				const building = event.target.dataset.id;
 				const symbol = [...WorldData.BUILDING_SYMBOLS].find(entry => entry[0] === building)[1];
+				const newCost = this.purchaseBuilding(symbol);
+				event.target.textContent = newCost;
 				GameEvent.Emit(GameEvent.INVENTORY_ADD, { symbol, number: 1 });
 				GameEvent.Emit(GameEvent.STAT_CASH, -amount);
+				console.log(building, symbol);
 			}
 		}
 	}
