@@ -5,6 +5,7 @@ import Purifier from "../Purifier/Purifier.js";
 import Extractor from "../Extractor/Extractor.js";
 import WorldData from "../WorldData/WorldData.js";
 import GameEvent from "../GameEvent/GameEvent.js";
+import Utilities from "../Utilities/Utilities.js";
 
 export default class StoreUI extends Store {
 
@@ -35,16 +36,16 @@ export default class StoreUI extends Store {
 	}
 
 	render() {
-		this.#renderSection('conveyors', this.conveyors, Conveyor.TYPES);
-		this.#renderSection('extractors', this.extractors, Extractor.TYPES);
-		this.#renderSection('purifiers', this.purifiers, Purifier.TYPES);
-		this.#renderSection('combinators', this.combinators, Combinator.TYPES);
+		this.#renderSection('conveyors', Conveyor.DESCRIPTIONS);
+		this.#renderSection('extractors', Extractor.DESCRIPTIONS);
+		this.#renderSection('purifiers', Purifier.DESCRIPTIONS);
+		this.#renderSection('combinators', Combinator.DESCRIPTIONS);
 	}
 
-	#renderSection(section, items, database) {
+	#renderSection(section, database) {
 		const ul = document.querySelector(`#store .subsection.${section} ul`);
-		database.forEach((key) => {
-			const item = items.get(key);
+		database.forEach((description, key) => {
+			const item = this.getInventory(description);
 			const li = ul.querySelector(`li[data-key="${key.description}"]`);
 			if (item && !li) {
 				const liElement = document.createElement('li');
@@ -55,8 +56,8 @@ export default class StoreUI extends Store {
 				liElement.appendChild(img);
 				const button = document.createElement('button');
 				button.classList.add('primary', 'small', 'purchase');
-				button.dataset.id = key.description;
-				button.textContent = item.cost;
+				button.textContent = Utilities.FormatShortNumber(item.cost);
+				button.title = `Total cost: ${item.cost}`;
 				liElement.appendChild(button);
 				ul.appendChild(liElement);
 			} else if (!item && li) {
@@ -78,15 +79,16 @@ export default class StoreUI extends Store {
 
 	#purchase(event) {
 		if (event.target.tagName === 'BUTTON') {
-			const amount = parseInt(event.target.textContent);
+			const description = event.target.closest('li').dataset.key;
+			const item = this.getInventory(description);
+			const amount = item.cost;
 			if (amount <= this.#cash) {
-				const building = event.target.dataset.id;
-				const symbol = [...WorldData.BUILDING_SYMBOLS].find(entry => entry[0] === building)[1];
-				const newCost = this.purchaseBuilding(symbol);
-				event.target.textContent = newCost;
+				const newCost = this.purchaseBuilding(description);
+				event.target.textContent = Utilities.FormatShortNumber(newCost);
+				event.target.title = `Total cost: ${newCost}`;
+				const symbol = [...WorldData.BUILDING_SYMBOLS].find(entry => entry[0] === description)[1];
 				GameEvent.Emit(GameEvent.INVENTORY_ADD, { symbol, number: 1 });
 				GameEvent.Emit(GameEvent.STAT_CASH, -amount);
-				console.log(building, symbol);
 			}
 		}
 	}

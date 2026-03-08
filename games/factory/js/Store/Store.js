@@ -4,46 +4,28 @@ import Purifier from "../Purifier/Purifier.js";
 import Combinator from "../Combinator/Combinator.js";
 
 export default class Store {
-	#conveyors;
-	#purifiers;
-	#extractors;
-	#combinators;
-	#level;
 	#id;
+	#inventory;
 
 	constructor() {
 		this.#id = window.crypto.randomUUID();
-		this.#level = 0;
-		this.#conveyors = new Map();
-		this.#purifiers = new Map();
-		this.#extractors = new Map();
-		this.#combinators = new Map();
+		this.#inventory = new Map();
 	}
 
 	get id() {
 		return this.#id;
 	}
-	get level() {
-		return this.#level;
+
+	getInventory(description) {
+		return this.#inventory.get(description);
 	}
-	get conveyors() {
-		return new Map([...this.#conveyors]);
-	}
-	get purifiers() {
-		return new Map([...this.#purifiers]);
-	}
-	get extractors() {
-		return new Map([...this.#extractors]);
-	}
-	get combinators() {
-		return new Map([...this.#combinators]);
+
+	setInventory(description, data) {
+		this.#inventory.set(description, data);
 	}
 
 	reset() {
-		this.#conveyors.clear();
-		this.#purifiers.clear();
-		this.#extractors.clear();
-		this.#combinators.clear();
+		this.#inventory.clear();
 	}
 
 	start() {
@@ -54,69 +36,35 @@ export default class Store {
 		this.#addCombinators();
 	}
 
-	getExtractor(extractor) {
-		if (Extractor.Has(extractor)) {
-			const price = this.#extractors.get(extractor);
-			return { price };
-		}
-	}
-
-	getPurifier(purifier) {
-		if (Purifier.Has(purifier)) {
-			const price = this.#purifiers.get(purifier);
-			return { price };
-		}
-	}
-
-	getCombinator(combinator) {
-		if (Combinator.Has(combinator)) {
-			const price = this.#combinators.get(combinator);
-			return { price };
-		}
-	}
-
-	purchaseBuilding(buildingType) {
-		if (Conveyor.Has(buildingType)) {
-			return this.#adjustBuildingForPurchase({ db: this.#conveyors, type: buildingType });
-		} else if (Purifier.Has(buildingType)) {
-			return this.#adjustBuildingForPurchase({ db: this.#purifiers, type: buildingType });
-		} else if (Extractor.Has(buildingType)) {
-			return this.#adjustBuildingForPurchase({ db: this.#extractors, type: buildingType });
-		} else if (Combinator.Has(buildingType)) {
-			return this.#adjustBuildingForPurchase({ db: this.#combinators, type: buildingType });
-		}
-	}
-
-	#adjustBuildingForPurchase(args) {
-		const { db, type } = args;
-		const { cost } = db.get(type);
-		const level = Extractor.Base(type).level;
-		const newCost = Math.round(cost * level);
-		db.set(type, { cost: newCost });
-		return newCost;
+	purchaseBuilding(description) {
+		const item = this.getInventory(description);
+		const { cost, level } = item;
+		item.cost = Math.round(cost * level);
+		this.setInventory(description, item);
+		return item.cost;
 	}
 
 	#addConveyors() {
 		Conveyor.TYPES.forEach((type) => {
-			this.#conveyors.set(type, { cost: 10 });
+			this.#inventory.set(type.description, { ...Conveyor.Base(type) });
 		});
 	}
 
 	#addExtractors() {
 		Extractor.TYPES.forEach((type) => {
-			this.#extractors.set(type, { cost: Extractor.Base(type)?.cost || 100 });
+			this.#inventory.set(type.description, { ...Extractor.Base(type) });
 		})
 	}
 
 	#addPurifiers() {
 		Purifier.TYPES.forEach((type) => {
-			this.#purifiers.set(type, { cost: 100 });
+			this.#inventory.set(type.description, { cost: 100 });
 		})
 	}
 
 	#addCombinators() {
 		Combinator.TYPES.forEach((type) => {
-			this.#combinators.set(type, { cost: 100 });
+			this.#inventory.set(type.description, { cost: 100 });
 		})
 	}
 }

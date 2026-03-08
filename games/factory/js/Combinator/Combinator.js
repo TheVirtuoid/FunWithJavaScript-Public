@@ -22,6 +22,16 @@ export default class Combinator extends Base {
 		Combinator.STARFORGE
 	];
 
+	static DESCRIPTIONS = new Map([
+		[Combinator.IGNISIUM, Combinator.IGNISIUM.description],
+		[Combinator.PHOTONIUM, Combinator.PHOTONIUM.description],
+		[Combinator.VOIDTISSIUM, Combinator.VOIDTISSIUM.description],
+		[Combinator.SOLTARIUM, Combinator.SOLTARIUM.description],
+		[Combinator.MAGNANIUM, Combinator.MAGNANIUM.description],
+		[Combinator.ETHERIUM, Combinator.ETHERIUM.description],
+		[Combinator.STARFORGE, Combinator.STARFORGE.description]
+	])
+
 	static Has = (element) => Combinator.TYPES.includes(element);
 
 	static SYMBOLS = new Map([

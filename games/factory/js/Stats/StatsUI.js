@@ -6,6 +6,7 @@ import Combinator from "../Combinator/Combinator.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import DistributionCenter from "../DistributionCenter/DistributionCenter.js";
+import Utilities from "../Utilities/Utilities.js";
 
 export default class StatsUI extends Stats {
 
@@ -62,15 +63,13 @@ export default class StatsUI extends Stats {
 			p.textContent = `${position.toString()} - ${worldData.building.type.description}`;
 			this.#domInformation.appendChild(p);
 			if (!DistributionCenter.Has(worldData.building.type) && !Conveyor.Has(worldData.building.type)) {
-				p = document.createElement('p');
-				p.classList.add('information-stats');
-				let s = document.createElement('span');
-				s.textContent = `Speed: ${worldData.building.speed}`;
-				p.appendChild(s);
-				s = document.createElement('span');
-				s.textContent = `Purity: ${worldData.building.purity}`;
-				p.appendChild(s);
-				this.#domInformation.appendChild(p);
+				const ul = document.createElement('ul');
+				const { building } = worldData;
+				ul.classList.add('information-stats');
+				ul.appendChild(this.#buildInformationItem({ text: 'Speed', id: building.id, value: building.speed, buttonValue: building.upgrade.speed }));
+				ul.appendChild(this.#buildInformationItem({ text: 'Level', id: building.id, value: building.level, buttonValue: building.upgrade.level }));
+				ul.appendChild(this.#buildInformationItem({ text: 'Purity', id: building.id, value: building.purity, buttonValue: building.upgrade.purity }));
+				this.#domInformation.appendChild(ul);
 				return;
 			}
 		}
@@ -121,7 +120,25 @@ export default class StatsUI extends Stats {
 				li.appendChild(span);
 				this.#domInventory.appendChild(li);
 			}
+		});
+		this.#domInformation.querySelectorAll('button').forEach(button => {
+
 		})
+	}
+
+	#buildInformationItem(item) {
+		const { text, value, id, buttonValue } = item;
+		const li = document.createElement('li');
+		li.dataset.id = id;
+		const span = document.createElement('span');
+		span.textContent = `${text}: ${value}`;
+		li.appendChild(span);
+		const button = document.createElement('button');
+		button.classList.add('tertiary', 'small', 'thin');
+		button.textContent = Utilities.FormatShortNumber(buttonValue);
+		button.title = `Total cost: ${buttonValue}`;
+		li.appendChild(button);
+		return li;
 	}
 
 	/*
