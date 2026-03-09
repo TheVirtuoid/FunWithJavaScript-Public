@@ -2,6 +2,8 @@ import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import WorldData from "../WorldData/WorldData.js";
 import Mineral from "../Mineral/Mineral.js";
 import Extractor from "../Extractor/Extractor.js";
+import Purifier from "../Purifier/Purifier.js";
+import Combinator from "../Combinator/Combinator.js";
 
 export default class World {
 	static UNIT_WIDTH = 50;
@@ -24,6 +26,8 @@ export default class World {
 	#mineralPositions;
 	#map;
 	#extractors;
+	#purifiers;
+	#combinators;
 
 	constructor() {
 		this.#unitSize = World.UNIT_SIZE;
@@ -45,6 +49,8 @@ export default class World {
 			}
 		}
 		this.#extractors = new Map();
+		this.#purifiers = new Map();
+		this.#combinators = new Map();
 	}
 
 	get unitSize() {
@@ -61,6 +67,12 @@ export default class World {
 	}
 	get extractors() {
 		return new Map([...this.#extractors]);
+	}
+	get purifiers() {
+		return new Map([...this.#purifiers]);
+	}
+	get combinators() {
+		return new Map([...this.#combinators]);
 	}
 
 	initialize(distributionCenterPositions) {
@@ -97,6 +109,12 @@ export default class World {
 		if (Extractor.Has(building.type)) {
 			building.setInactive();
 			this.#extractors.set(position.toString(), building);
+		} else if (Purifier.Has(building.type)) {
+			building.setInactive();
+			this.#purifiers.set(position.toString(), building);
+		} else if (Combinator.Has(building.type)) {
+			building.setInactive();
+			this.#combinators.set(position.toString(), building);
 		}
 		building.setImage(image);
 		const worldData = this.getPosition(position);
@@ -122,6 +140,10 @@ export default class World {
 		}
 		if (Extractor.Has(worldData.building.type)) {
 			this.#extractors.delete(position.toString());
+		} else if (Purifier.Has(worldData.building.type)) {
+			this.#purifiers.delete(position.toString());
+		} else if (Combinator.Has(worldData.building.type)) {
+			this.#combinators.delete(position.toString());
 		}
 		const removedBuilding = worldData.removeBuilding();
 		this.setPosition(position, worldData);

@@ -69,7 +69,9 @@ export default class StoreUI extends Store {
 	#disablePurchases() {
 		const buttons = document.querySelectorAll('#store .subsection button.purchase');
 		buttons.forEach(button => {
-			if (parseInt(button.textContent) <= this.#cash) {
+			const description = button.closest('li').dataset.key;
+			const item = this.getInventory(description);
+			if (item.cost <= this.#cash) {
 				button.disabled = false;
 			} else {
 				button.disabled = true;

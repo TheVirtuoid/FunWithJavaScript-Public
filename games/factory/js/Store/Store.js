@@ -58,13 +58,13 @@ export default class Store {
 
 	#addPurifiers() {
 		Purifier.TYPES.forEach((type) => {
-			this.#inventory.set(type.description, { cost: 100 });
+			this.#inventory.set(type.description, { ...Purifier.Base(type) });
 		})
 	}
 
 	#addCombinators() {
 		Combinator.TYPES.forEach((type) => {
-			this.#inventory.set(type.description, { cost: 100 });
+			this.#inventory.set(type.description, { ...Combinator.Base(type) });
 		})
 	}
 }

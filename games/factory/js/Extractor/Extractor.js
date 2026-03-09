@@ -63,7 +63,7 @@ export default class Extractor extends Base {
 
 	static #DATA = new Map([
 		 [Extractor.AETHERITE,
-			 { base: { speed: 2000, purity: .1, cost: 50, upgrade: { speed: 100, purity: 100, level: 2000 }, level: 1.5 } },
+			 { base: { speed: 2000, purity: .1, cost: 50, upgrade: { speed: 100, purity: 100 }, level: 1.5 } },
 			 { 1: { speed: 1600, purity: .18, cost: 500 } },
 			 { 2: { speed: 1200, purity: .26, cost: 2500 } },
 			 { 3: { speed: 900, purity: .34, cost: 10000 } },
