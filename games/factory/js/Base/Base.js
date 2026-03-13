@@ -10,9 +10,11 @@ export default class Base {
 	#active;
 	#purity;
 	#image;
+	#startingDirectionVector;
+	#endingDirectionVector;
 
 	constructor(args = {}) {
-		const { image, purity, type, position = new Vector2d(0, 0), orientation = 0, directionVector = Vector2d.Down() } = args;
+		const { image, purity, type, position = new Vector2d(0, 0), orientation = 0, directionVector = Vector2d.Down(), startingDirectionVector = [], endingDirectionVector = [] } = args;
 		this.#id = window.crypto.randomUUID();
 		this.#type = type;
 		this.#level = 1;
@@ -22,6 +24,8 @@ export default class Base {
 		this.setPosition(position);
 		this.setOrientation(orientation);
 		this.setDirectionVector(directionVector);
+		this.#startingDirectionVector = startingDirectionVector;
+		this.#endingDirectionVector = endingDirectionVector;
 	}
 
 	get id() {
@@ -50,6 +54,12 @@ export default class Base {
 	}
 	get image() {
 		return this.#image;
+	}
+	get startingDirectionVector() {
+		return this.#startingDirectionVector;
+	}
+	get endingDirectionVector() {
+		return this.#endingDirectionVector;
 	}
 
 	setPosition(position) {
@@ -95,5 +105,23 @@ export default class Base {
 
 	setImage(image) {
 		this.#image = image;
+	}
+
+	setStartingDirectionVector(startingDirectionVector) {
+		this.#startingDirectionVector = this.#setDirectionVector(startingDirectionVector);
+	}
+
+	setEndingDirectionVector(endingDirectionVector) {
+		this.#endingDirectionVector = this.#setDirectionVector(endingDirectionVector);
+	}
+
+	#setDirectionVector(directionVector) {
+		if (!Array.isArray(directionVector)) {
+			throw new Error('Direction vector must be an array of Vector2d');
+		}
+		if (directionVector.some((vector) => !(vector instanceof Vector2d))) {
+			throw new Error('Direction vector must be an array of Vector2d');
+		}
+		return directionVector;
 	}
 }

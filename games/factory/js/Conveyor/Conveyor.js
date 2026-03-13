@@ -43,19 +43,19 @@ export default class Conveyor extends Base {
 			{ base: { cost: 5, level: 1.1 } }
 		],
 		[Conveyor.CURVE_LEFT,
-			{ base: { cost: 8, level: 1.1 } }
+			{ base: { cost: 8, level: 1.2 } }
 		],
 		[Conveyor.CURVE_RIGHT,
-			{ base: { cost: 8, level: 1.1 } }
+			{ base: { cost: 8, level: 1.2 } }
 		],
 		[Conveyor.T_INTERSECTION_LEFT,
-			{ base: { cost: 13, level: 1.1 } }
+			{ base: { cost: 13, level: 1.35 } }
 		],
 		[Conveyor.T_INTERSECTION_RIGHT,
-			{ base: { cost: 13, level: 1.1 } }
+			{ base: { cost: 13, level: 1.35 } }
 		],
 		[Conveyor.X_INTERSECTION,
-			{ base: { cost: 20, level: 1.1 } }
+			{ base: { cost: 20, level: 1.5 } }
 		],
 	]);
 
@@ -63,40 +63,32 @@ export default class Conveyor extends Base {
 		return Conveyor.#DATA.get(type)?.base;
 	}
 
-	#startDirectionVector;
-	#endDirectionVector;
-
 	constructor(args = {}) {
 		const { type, orientation = 0 } = args;
 		if (!Conveyor.TYPES.includes(type)) {
 			throw new Error(`Invalid conveyor type: ${type}`);
 		}
-		super(args);
+		let startingDirectionVector;
+		let endingDirectionVector;
 		if (type === Conveyor.STRAIGHT) {
-			this.#startDirectionVector = [new Vector2d(1, 0).rotate(orientation)];
-			this.#endDirectionVector = [new Vector2d(1, 0).rotate(orientation)];
+			startingDirectionVector = [new Vector2d(1, 0).rotate(orientation)];
+			endingDirectionVector = [new Vector2d(1, 0).rotate(orientation)];
 		} else if (type === Conveyor.CURVE_LEFT) {
-			this.#startDirectionVector = [new Vector2d(0, 1).rotate(orientation)];
-			this.#endDirectionVector = [new Vector2d(-1, 0).rotate(orientation)];
+			startingDirectionVector = [new Vector2d(0, 1).rotate(orientation)];
+			endingDirectionVector = [new Vector2d(-1, 0).rotate(orientation)];
 		} else if (type === Conveyor.CURVE_RIGHT) {
-			this.#startDirectionVector = [new Vector2d(1, 0).rotate(orientation)];
-			this.#endDirectionVector = [new Vector2d(0, -1).rotate(orientation)];
+			startingDirectionVector = [new Vector2d(1, 0).rotate(orientation)];
+			endingDirectionVector = [new Vector2d(0, -1).rotate(orientation)];
 		} else if (type === Conveyor.T_INTERSECTION_LEFT) {
-			this.#startDirectionVector = [new Vector2d(-1, 0).rotate(orientation), new Vector2d(0, -1).rotate(orientation)];
-			this.#endDirectionVector = [new Vector2d(-1, 0).rotate(orientation)];
+			startingDirectionVector = [new Vector2d(-1, 0).rotate(orientation), new Vector2d(0, -1).rotate(orientation)];
+			endingDirectionVector = [new Vector2d(-1, 0).rotate(orientation)];
 		} else if (type === Conveyor.T_INTERSECTION_RIGHT) {
-			this.#startDirectionVector = [new Vector2d(1, 0).rotate(orientation), new Vector2d(0, -1).rotate(orientation)];
-			this.#endDirectionVector = [new Vector2d(1, 0).rotate(orientation)];
+			startingDirectionVector = [new Vector2d(1, 0).rotate(orientation), new Vector2d(0, -1).rotate(orientation)];
+			endingDirectionVector = [new Vector2d(1, 0).rotate(orientation)];
 		} else if (type === Conveyor.X_INTERSECTION) {
-			this.#startDirectionVector = [new Vector2d(0, 1).rotate(orientation), new Vector2d(1, 0).rotate(orientation)];
-			this.#endDirectionVector = [new Vector2d(0, 1).rotate(orientation), new Vector2d(1, 0).rotate(orientation)];
+			startingDirectionVector = [new Vector2d(0, 1).rotate(orientation), new Vector2d(1, 0).rotate(orientation)];
+			endingDirectionVector = [new Vector2d(0, 1).rotate(orientation), new Vector2d(1, 0).rotate(orientation)];
 		}
-	}
-
-	get startDirectionVector() {
-		return this.#startDirectionVector.map((vector) => vector.clone());
-	}
-	get endDirectionVector() {
-		return this.#endDirectionVector.map((vector) => vector.clone());
+		super({...args, startingDirectionVector, endingDirectionVector});
 	}
 }

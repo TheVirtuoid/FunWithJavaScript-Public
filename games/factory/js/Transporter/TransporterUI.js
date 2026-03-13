@@ -79,7 +79,7 @@ export default class TransporterUI {
 			onComplete: (tween, targets, item, building) => {
 				this.#activeItems.delete(item);
 				// const nextPosition = cellData.building.position.add(cellData.directionVector[0]);
-				const nextPosition = cellData.building.position.add(tweenInformation.endDirectionVector);
+				const nextPosition = cellData.building.position.add(tweenInformation.endingDirectionVector);
 				const nextWorldItem = this.#scene.getPosition(nextPosition);
 				if (!Conveyor.Has(nextWorldItem.building?.type)) {
 					if (DistributionCenter.Has(nextWorldItem.building?.type)) {
@@ -87,7 +87,7 @@ export default class TransporterUI {
 					}
 					item.oreImage.destroy();
 				} else {
-					this.#inMotionItems.set(item, { building: nextWorldItem.building, directionVector: nextWorldItem.building.startDirectionVector });
+					this.#inMotionItems.set(item, { building: nextWorldItem.building, directionVector: nextWorldItem.building.startingDirectionVector });
 				}
 			}
 		});
@@ -98,82 +98,82 @@ export default class TransporterUI {
 		if (Extractor.Has(building.type)) {
 			const duration = 500;
 			const movement = Game.HALF_SIZE;
-			const startDirectionVector = building.directionVector.round();
+			const startingDirectionVector = building.directionVector.round();
 			const start = Utilities.GridToPosition(building.position);
-			const end = { x: start.x + Game.HALF_SIZE * startDirectionVector.x, y: start.y + Game.HALF_SIZE * startDirectionVector.y };
-			return { item, building, start, end, duration, movement, endDirectionVector: startDirectionVector };
+			const end = { x: start.x + Game.HALF_SIZE * startingDirectionVector.x, y: start.y + Game.HALF_SIZE * startingDirectionVector.y };
+			return { item, building, start, end, duration, movement, endingDirectionVector: startingDirectionVector };
 		} else if (Conveyor.Has(building.type)) {
 			const duration = 1000;
 			const movement = Game.UNIT_SIZE;
 			if (building.type === Conveyor.STRAIGHT) {
-				const startDirectionVector = building.startDirectionVector[0].round();
-				if (!item.directionVector.equals(startDirectionVector)) {
+				const startingDirectionVector = building.startingDirectionVector[0].round();
+				if (!item.directionVector.equals(startingDirectionVector)) {
 					return false;
 				}
 				const start = Utilities.GridToPosition(building.position);
-				const oppositeDirectionVector = startDirectionVector.opposite();
+				const oppositeDirectionVector = startingDirectionVector.opposite();
 				start.x += oppositeDirectionVector.x * Game.HALF_SIZE;
 				start.y += oppositeDirectionVector.y * Game.HALF_SIZE;
-				const end = { x: start.x + Game.UNIT_SIZE * startDirectionVector.x, y: start.y + Game.UNIT_SIZE * startDirectionVector.y };
-				return { item, building, start, end, duration, movement, endDirectionVector: startDirectionVector };
+				const end = { x: start.x + Game.UNIT_SIZE * startingDirectionVector.x, y: start.y + Game.UNIT_SIZE * startingDirectionVector.y };
+				return { item, building, start, end, duration, movement, endingDirectionVector: startingDirectionVector };
 			}
 			if (building.type === Conveyor.CURVE_LEFT || building.type === Conveyor.CURVE_RIGHT) {
-				const startDirectionVector = building.startDirectionVector[0].round();
-				const endDirectionVector = building.endDirectionVector[0].round();
-				if (!item.directionVector.equals(startDirectionVector)) {
+				const startingDirectionVector = building.startingDirectionVector[0].round();
+				const endingDirectionVector = building.endingDirectionVector[0].round();
+				if (!item.directionVector.equals(startingDirectionVector)) {
 					return false;
 				}
 				const start = Utilities.GridToPosition(building.position);
-				const oppositeDirectionVector = startDirectionVector.opposite();
+				const oppositeDirectionVector = startingDirectionVector.opposite();
 				start.x += oppositeDirectionVector.x * Game.HALF_SIZE;
 				start.y += oppositeDirectionVector.y * Game.HALF_SIZE;
 				const end = Utilities.GridToPosition(building.position);
-				end.x += endDirectionVector.x * Game.HALF_SIZE;
-				end.y += endDirectionVector.y * Game.HALF_SIZE;
-				item.setDirectionVector(endDirectionVector);
-				return { item, building, start, end, duration, movement, endDirectionVector };
+				end.x += endingDirectionVector.x * Game.HALF_SIZE;
+				end.y += endingDirectionVector.y * Game.HALF_SIZE;
+				item.setDirectionVector(endingDirectionVector);
+				return { item, building, start, end, duration, movement, endingDirectionVector };
 			}
 			if (building.type === Conveyor.T_INTERSECTION_RIGHT || building.type === Conveyor.T_INTERSECTION_LEFT) {
-				let startDirectionVector;
-				if (item.directionVector.equals(building.startDirectionVector[0].round())) {
-					startDirectionVector = building.startDirectionVector[0].round();
-				} else if (item.directionVector.equals(building.startDirectionVector[1].round())) {
-					startDirectionVector = building.startDirectionVector[1].round();
+				let startingDirectionVector;
+				if (item.directionVector.equals(building.startingDirectionVector[0].round())) {
+					startingDirectionVector = building.startingDirectionVector[0].round();
+				} else if (item.directionVector.equals(building.startingDirectionVector[1].round())) {
+					startingDirectionVector = building.startingDirectionVector[1].round();
 				} else {
 					return false;
 				}
-				const endDirectionVector = building.endDirectionVector[0].round();
+				const endingDirectionVector = building.endingDirectionVector[0].round();
 				const start = Utilities.GridToPosition(building.position);
-				const oppositeDirectionVector = startDirectionVector.opposite();
+				const oppositeDirectionVector = startingDirectionVector.opposite();
 				start.x += oppositeDirectionVector.x * Game.HALF_SIZE;
 				start.y += oppositeDirectionVector.y * Game.HALF_SIZE;
 				const end = Utilities.GridToPosition(building.position);
-				end.x += endDirectionVector.x * Game.HALF_SIZE;
-				end.y += endDirectionVector.y * Game.HALF_SIZE;
-				item.setDirectionVector(endDirectionVector);
-				return { item, building, start, end, duration, movement, endDirectionVector };
+				end.x += endingDirectionVector.x * Game.HALF_SIZE;
+				end.y += endingDirectionVector.y * Game.HALF_SIZE;
+				item.setDirectionVector(endingDirectionVector);
+				return { item, building, start, end, duration, movement, endingDirectionVector };
 			}
 			if (building.type === Conveyor.X_INTERSECTION) {
-				let startDirectionVector;
-				let endDirectionVector;
-				if (item.directionVector.equals(building.startDirectionVector[0].round())) {
-					startDirectionVector = building.startDirectionVector[0].round();
-					endDirectionVector = building.endDirectionVector[0].round();
-				} else if (item.directionVector.equals(building.startDirectionVector[1].round())) {
-					startDirectionVector = building.startDirectionVector[1].round();
-					endDirectionVector = building.endDirectionVector[1].round();
+				let startingDirectionVector;
+				let endingDirectionVector;
+				if (item.directionVector.equals(building.startingDirectionVector[0].round())) {
+					startingDirectionVector = building.startingDirectionVector[0].round();
+					endingDirectionVector = building.endingDirectionVector[0].round();
+				} else if (item.directionVector.equals(building.startingDirectionVector[1].round())) {
+					startingDirectionVector = building.startingDirectionVector[1].round();
+					endingDirectionVector = building.endingDirectionVector[1].round();
 				} else {
 					return false;
 				}
 				const start = Utilities.GridToPosition(building.position);
-				const oppositeDirectionVector = startDirectionVector.opposite();
+				const oppositeDirectionVector = startingDirectionVector.opposite();
 				start.x += oppositeDirectionVector.x * Game.HALF_SIZE;
 				start.y += oppositeDirectionVector.y * Game.HALF_SIZE;
 				const end = Utilities.GridToPosition(building.position);
-				end.x += endDirectionVector.x * Game.HALF_SIZE;
-				end.y += endDirectionVector.y * Game.HALF_SIZE;
-				item.setDirectionVector(endDirectionVector);
-				return { item, building, start, end, duration, movement, endDirectionVector };
+				end.x += endingDirectionVector.x * Game.HALF_SIZE;
+				end.y += endingDirectionVector.y * Game.HALF_SIZE;
+				item.setDirectionVector(endingDirectionVector);
+				return { item, building, start, end, duration, movement, endingDirectionVector };
 			}
 		} else {
 			return false;
