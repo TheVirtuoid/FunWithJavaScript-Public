@@ -20,10 +20,12 @@ export default class StatsUI {
 
 	#cursorPositionUI;
 	#stats;
+	#eventHandlerId;
 
 
 	constructor(scene) {
 		this.#scene = scene;
+		this.#eventHandlerId = window.crypto.randomUUID();
 	}
 
 	preload() {}
@@ -76,21 +78,12 @@ export default class StatsUI {
 
 	start(stats) {
 		this.#stats = stats;
-		this.#stats.setEventCallback(this.updateDom.bind(this));
-		this.updateDom();
+		this.#stats.setCallback(this.#eventHandlerId, this.#eventCallback.bind(this));
 	}
 
 	#eventCallback(event) {
 		if (event.type === GameEvent.STAT_CURSOR_POSITION) {
 			this.#cursorPositionUI.update(event.data);
-			const { key, ghost } = event.data;
-			this.#inventoryPlacement = { key, ghost };
-			this.#scene.input.setDraggable(ghost);
-			this.#scene.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-				gameObject.x = dragX;
-				gameObject.y = dragY;
-			});
-			this.#scene.input.on('dragend', (pointer, gameObject) => {})
 		}
 	}
 

@@ -67,7 +67,9 @@ export default class Game extends Phaser.Scene {
 	}
 
 	emit(eventName, payload, ...additionalData) {
-		if (eventName === GameEvent.STAT_CURSOR_POSITION) {
+		if (eventName === GameEvent.GAME_READY) {
+			this.start();
+		} else if (eventName === GameEvent.STAT_CURSOR_POSITION) {
 			this.#stats.setCursorPosition(payload);
 		}
 		/*if (eventName === GameEvent.STAT_CURSOR_POSITION) {
@@ -98,6 +100,7 @@ export default class Game extends Phaser.Scene {
 
 	start() {
 		this.#statsUI.start(this.#stats);
+		this.#stats.setCursorPosition(new Vector2d(10, 10));
 		/*this.#storeUI.start();
 		this.#storeUI.setCash(this.#statsUI.cash);*/
 	}

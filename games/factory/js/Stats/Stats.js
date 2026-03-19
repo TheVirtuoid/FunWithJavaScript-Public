@@ -2,8 +2,10 @@ import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import Mineral from "../Mineral/Mineral.js";
 import WorldData from "../WorldData/WorldData.js";
 import StatCursorPosition from "./StatCursorPosition/StatCursorPosition.js";
+import EventHandler from "../Utilities/EventHandler.js";
+import GameEvent from "../GameEvent/GameEvent.js";
 
-export default class Stats {
+export default class Stats extends EventHandler{
 
 	static CASH_START = 200000;
 
@@ -12,9 +14,9 @@ export default class Stats {
 	#inventory;
 	#cursorPosition;
 	#started;
-	#eventCallback;
 
 	constructor() {
+		super();
 		this.#id = window.crypto.randomUUID();
 		this.#cash = -1;
 		this.#inventory = new Map();
@@ -42,10 +44,6 @@ export default class Stats {
 		return this.#started;
 	}
 
-	setEventCallback(callback) {
-		this.#eventCallback = callback;
-	}
-
 	start() {
 		this.#cash = Stats.CASH_START;
 		this.#cursorPosition = Stats.CURSOR_POSITION_START;
@@ -55,6 +53,7 @@ export default class Stats {
 
 	setCursorPosition(position) {
 		this.#cursorPosition.setCursorPosition(position);
+		this.triggerAllCallbacks({ type: GameEvent.STAT_CURSOR_POSITION, data: position });
 	}
 
 	updateCash(amount) {
