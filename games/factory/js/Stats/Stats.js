@@ -1,63 +1,60 @@
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import Mineral from "../Mineral/Mineral.js";
 import WorldData from "../WorldData/WorldData.js";
+import StatCursorPosition from "./StatCursorPosition/StatCursorPosition.js";
 
 export default class Stats {
 
 	static CASH_START = 200000;
-	static CURSOR_POSITION_START = new Vector2d(-1, -1);
 
 	#id;
 	#cash;
 	#inventory;
-	#level;
 	#cursorPosition;
 	#started;
+	#eventCallback;
 
 	constructor() {
 		this.#id = window.crypto.randomUUID();
 		this.#cash = -1;
 		this.#inventory = new Map();
-		this.#level = 0;
-		this.#cursorPosition = new Vector2d(-1, -1);
+		this.#cursorPosition = new StatCursorPosition();
 		this.#started = false;
 	}
 
 	get id() {
 		return this.#id;
 	}
+
 	get cash() {
 		return this.#cash;
 	}
+
 	get inventory() {
 		return new Map([...this.#inventory]);
 	}
-	get level() {
-		return this.#level;
-	}
+
 	get cursorPosition() {
-		return this.#cursorPosition;
+		return this.#cursorPosition.cursorPosition;
 	}
+
 	get started() {
 		return this.#started;
 	}
 
+	setEventCallback(callback) {
+		this.#eventCallback = callback;
+	}
+
 	start() {
 		this.#cash = Stats.CASH_START;
-		this.#level = Stats.LEVEL_START;
 		this.#cursorPosition = Stats.CURSOR_POSITION_START;
 		this.#inventory.clear();
 		this.#started = true;
 	}
 
 	setCursorPosition(position) {
-		if (!(position instanceof Vector2d)) {
-			throw new Error('Position must be a Vector2d');
-		}
-		/*if (!this.started) {
-			throw new Error('Cannot set cursor position before game has started');
-		}*/
-		this.#cursorPosition = position;
+		this.#cursorPosition.setCursorPosition(position);
 	}
 
 	updateCash(amount) {
@@ -82,12 +79,5 @@ export default class Stats {
 		}
 		const currentCount = this.#inventory.get(item) ?? 0;
 		this.#inventory.set(item, currentCount + amount);
-	}
-
-	incrementLevel() {
-		if (!this.started) {
-			throw new Error('Cannot increment level before game has started');
-		}
-		this.#level++;
 	}
 }

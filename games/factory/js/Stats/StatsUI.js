@@ -7,8 +7,9 @@ import GameEvent from "../GameEvent/GameEvent.js";
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import DistributionCenter from "../DistributionCenter/DistributionCenter.js";
 import Utilities from "../Utilities/Utilities.js";
+import StatCursorPositionUI from "./StatCursorPosition/StatCursorPositionUI.js";
 
-export default class StatsUI extends Stats {
+export default class StatsUI {
 
 	#domCursorPosition;
 	#domCash;
@@ -17,14 +18,19 @@ export default class StatsUI extends Stats {
 	#inventoryPlacement;
 	#scene;
 
+	#cursorPositionUI;
+	#stats;
+
+
 	constructor(scene) {
-		super();
 		this.#scene = scene;
 	}
 
+	preload() {}
+
 	create() {
-		this.#domCursorPosition = document.getElementById('cursor-position');
-		this.#domCash = document.getElementById('cash');
+		this.#cursorPositionUI = new StatCursorPositionUI(document.getElementById('cursor-position'));
+		/*this.#domCash = document.getElementById('cash');
 		this.#domInventory = document.getElementById('inventory');
 		this.#domInformation = document.querySelector('.stats .stat.information');
 		this.updateDom();
@@ -40,20 +46,55 @@ export default class StatsUI extends Stats {
 				ghost.setDepth(100);
 				GameEvent.Emit(GameEvent.INVENTORY_SET_ACTIVE, { key, ghost });
 			}
-		});
+		});*/
+		/*this.#domInformation.addEventListener('click', (event) => {
+			const button = event.target.closest('button');
+				if (button) {
+					const li = button.closest('li');
+					const id = li.dataset.id;
+					const building = this.#scene.getBuildingById(id);
+					if (building) {
+						const baseData = Extractor.Base(building.type);
+						const levelData = Extractor.Level(building.type, building.level);
+						const upgradeType = button.dataset.type;
+						console.log(building, baseData, levelData, upgradeType);
+						if (upgradeType === 'speed') {
+							const newSpeed = Math.floor(building.speed - (building.speed * .1));
+							if (newSpeed >= levelData.speed) {
+								building.setSpeed(newSpeed);
+								building.upgrade.speed *= building.level;
+								button.textContent = Utilities.FormatShortNumber(building.upgrade.speed);
+								button.title = `Total cost: ${building.upgrade.speed}`;
+								const span = li.querySelector('span');
+								span.textContent = `Speed: ${building.speed}`;
+							}
+						}
+					}
+				}
+		});*/
 	}
 
-	start() {
-		super.start();
+	start(stats) {
+		this.#stats = stats;
+		this.#stats.setEventCallback(this.updateDom.bind(this));
 		this.updateDom();
 	}
 
-	setCursorPosition(position) {
-		super.setCursorPosition(position);
-		this.updateDom();
+	#eventCallback(event) {
+		if (event.type === GameEvent.STAT_CURSOR_POSITION) {
+			this.#cursorPositionUI.update(event.data);
+			const { key, ghost } = event.data;
+			this.#inventoryPlacement = { key, ghost };
+			this.#scene.input.setDraggable(ghost);
+			this.#scene.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+				gameObject.x = dragX;
+				gameObject.y = dragY;
+			});
+			this.#scene.input.on('dragend', (pointer, gameObject) => {})
+		}
 	}
 
-	updateInformation(position, worldData) {
+	/*updateInformation(position, worldData) {
 		this.#domInformation.replaceChildren();
 		if (!(position instanceof Vector2d)) {
 			return;
@@ -67,7 +108,7 @@ export default class StatsUI extends Stats {
 				const { building } = worldData;
 				ul.classList.add('information-stats');
 				ul.appendChild(this.#buildInformationItem({ text: 'Speed', id: building.id, value: building.speed, buttonValue: building.upgrade.speed }));
-				ul.appendChild(this.#buildInformationItem({ text: 'Level', id: building.id, value: building.level, buttonValue: building.upgrade.level }));
+				ul.appendChild(this.#buildInformationItem({ text: 'Level', id: building.id, value: building.level, buttonValue: Extractor.Level(building.type, building.level).cost }));
 				ul.appendChild(this.#buildInformationItem({ text: 'Purity', id: building.id, value: building.purity, buttonValue: building.upgrade.purity }));
 				this.#domInformation.appendChild(ul);
 				return;
@@ -78,25 +119,25 @@ export default class StatsUI extends Stats {
 			p.textContent = `${position.toString()} - ${worldData.deposit.type.description} deposit`;
 			this.#domInformation.appendChild(p);
 		}
-	}
+	}*/
 
-	updateInventory(item, amount) {
+/*	updateInventory(item, amount) {
 		super.updateInventory(item, amount);
 		const inventoryAmount = this.inventory.get(item);
 		if (inventoryAmount === 0) {
 			GameEvent.Emit(GameEvent.INVENTORY_REMOVE_ACTIVE);
 		}
 		this.updateDom();
-	}
+	}*/
 
-	updateCash(amount) {
+	/*updateCash(amount) {
 		super.updateCash(amount);
 		this.updateDom();
-	}
+	}*/
 
 	updateDom() {
-		this.#domCursorPosition.textContent = this.started ? this.cursorPosition.toString() : 'n/a';
-		this.#domCash.textContent = this.started ? this.cash : 'n/a';
+		this.#cursorPositionUI.update(this.#stats.cursorPosition);
+		/*this.#domCash.textContent = this.started ? this.cash : 'n/a';
 		[...this.inventory].forEach(([item, count]) => {
 			const existingDom = this.#domInventory.querySelector(`li[data-item="${item.description}"]`);
 			if (existingDom) {
@@ -123,10 +164,10 @@ export default class StatsUI extends Stats {
 		});
 		this.#domInformation.querySelectorAll('button').forEach(button => {
 
-		})
+		})*/
 	}
 
-	#buildInformationItem(item) {
+	/*#buildInformationItem(item) {
 		const { text, value, id, buttonValue } = item;
 		const li = document.createElement('li');
 		li.dataset.id = id;
@@ -135,14 +176,10 @@ export default class StatsUI extends Stats {
 		li.appendChild(span);
 		const button = document.createElement('button');
 		button.classList.add('tertiary', 'small', 'thin');
+		button.dataset.type = text.toLowerCase();
 		button.textContent = Utilities.FormatShortNumber(buttonValue);
 		button.title = `Total cost: ${buttonValue}`;
 		li.appendChild(button);
 		return li;
-	}
-
-	/*
-						<li><img src="img/extractor-aetherite.png" alt="Extractor Aetherite"/><span>2</span></li>
-
-	 */
+	}*/
 }

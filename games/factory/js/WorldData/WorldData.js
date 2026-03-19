@@ -91,9 +91,6 @@ export default class WorldData {
 	}
 
 	addBuilding(building) {
-		/*if (!WorldData.BUILDING_TYPES.includes(building)) {
-			throw new Error(`Invalid building type: ${building}`);
-		}*/
 		if (this.#building !== null) {
 			throw new Error('WorldData already has a building');
 		}

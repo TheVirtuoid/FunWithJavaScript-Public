@@ -25,6 +25,7 @@ export default class World {
 	#id;
 	#mineralPositions;
 	#map;
+	#idMap;
 	#extractors;
 	#purifiers;
 	#combinators;
@@ -35,6 +36,7 @@ export default class World {
 		this.#unitHeight = World.UNIT_HEIGHT;
 		this.#id = window.crypto.randomUUID();
 		this.#map = new Map();
+		this.#idMap = new Map();
 		this.#mineralPositions = new Map([
 			[Mineral.AETHERITE, []],
 			[Mineral.PYROTITE, []],
@@ -123,6 +125,7 @@ export default class World {
 			building.setActive();
 		}
 		this.setPosition(position, worldData);
+		this.#idMap.set(building.id, building);
 		return true;
 	}
 
@@ -130,6 +133,10 @@ export default class World {
 		this.#validatePosition(position);
 		const worldData = this.getPosition(position);
 		return !!worldData.building;
+	}
+
+	getBuildingById(id) {
+		return this.#idMap.get(id);
 	}
 
 	removeBuilding(position) {
@@ -147,6 +154,7 @@ export default class World {
 		}
 		const removedBuilding = worldData.removeBuilding();
 		this.setPosition(position, worldData);
+		this.#idMap.delete(removedBuilding.id);
 		return removedBuilding;
 	}
 

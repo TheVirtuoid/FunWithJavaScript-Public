@@ -16,6 +16,7 @@ import WorldUI from "../World/WorldUI.js";
 import StoreUI from "../Store/StoreUI.js";
 import Extractor from "../Extractor/Extractor.js";
 import TransporterUI from "../Transporter/TransporterUI.js";
+import Stats from "../Stats/Stats.js";
 
 export default class Game extends Phaser.Scene {
 
@@ -45,11 +46,14 @@ export default class Game extends Phaser.Scene {
 	#alloyUI;
 	#transporter;
 
+	#stats;
+
 	constructor() {
 		super({ key: 'factory' });
 		GameEvent.Setup(this);
+		this.#stats = new Stats();
 		this.#statsUI = new StatsUI(this);
-		this.#groundUI = new GroundUI(this);
+		/*this.#groundUI = new GroundUI(this);
 		this.#storeUI = new StoreUI(this);
 		this.#mineralUI = new MineralUI(this);
 		this.#distributionCenterUI = new DistributionCenterUI(this);
@@ -59,11 +63,14 @@ export default class Game extends Phaser.Scene {
 		this.#purifierUI = new PurifierUI(this);
 		this.#alloyUI = new AlloyUI(this);
 		this.#transporter = new TransporterUI(this);
-		this.#worldUI = new WorldUI(this);
+		this.#worldUI = new WorldUI(this);*/
 	}
 
 	emit(eventName, payload, ...additionalData) {
 		if (eventName === GameEvent.STAT_CURSOR_POSITION) {
+			this.#stats.setCursorPosition(payload);
+		}
+		/*if (eventName === GameEvent.STAT_CURSOR_POSITION) {
 			this.#statsUI.setCursorPosition(payload);
 		} else if (eventName === GameEvent.GAME_READY) {
 			this.start();
@@ -86,17 +93,18 @@ export default class Game extends Phaser.Scene {
 			this.#transporter.add(ore, extractor);
 		} else if (eventName === GameEvent.GRID_SELECTED) {
 			this.#statsUI.updateInformation(payload, this.#worldUI.getPosition(payload));
-		}
+		}*/
 	}
 
 	start() {
-		this.#statsUI.start();
-		this.#storeUI.start();
-		this.#storeUI.setCash(this.#statsUI.cash);
+		this.#statsUI.start(this.#stats);
+		/*this.#storeUI.start();
+		this.#storeUI.setCash(this.#statsUI.cash);*/
 	}
 
 	preload() {
-		this.#conveyorUI.preload(this);
+		this.#statsUI.preload();
+		/*this.#conveyorUI.preload(this);
 		this.#combinatorUI.preload(this);
 		this.#extractorUI.preload(this);
 		this.#purifierUI.preload(this);
@@ -104,20 +112,20 @@ export default class Game extends Phaser.Scene {
 		this.#mineralUI.preload(this);
 		this.#alloyUI.preload(this);
 		this.#worldUI.preload(this);
-		this.#alloyUI.preload(this);
+		this.#alloyUI.preload(this);*/
 	}
 
 	create() {
 		this.#statsUI.create();
-		this.#worldUI.create();
+		/*this.#worldUI.create();
 		this.#distributionCenterUI.createDistributionCenter();
 		this.#updateTimer = 2000;
-		this.#transportTimer = 1000;
+		this.#transportTimer = 1000;*/
 		GameEvent.Emit(GameEvent.GAME_READY);
 	}
 
 	update(time, delta) {
-		this.#worldUI.extractors.forEach(extractor => {
+		/*this.#worldUI.extractors.forEach(extractor => {
 			if (extractor.active) {
 				const moveOre = extractor.adjustSpeedDelta(delta);
 				if (moveOre) {
@@ -125,22 +133,12 @@ export default class Game extends Phaser.Scene {
 				}
 			}
 		});
-		// this.#updateTimer -= delta;
 		this.#transportTimer -= delta;
-		/*if (this.#updateTimer <= 0) {
-			this.#updateTimer = 2000;
-			const extractors = this.#worldUI.extractors;
-			extractors.forEach(extractor => {
-				if (extractor.active) {
-					const ore = extractor.produceOre();
-				}
-			});
-		}*/
 		if (this.#transportTimer <= 0) {
 			this.#transportTimer = 1000;
 			this.#transporter.activateItems();
 		}
-		this.#transporter.keepItemsInMotion();
+		this.#transporter.keepItemsInMotion();*/
 	}
 
 	createMineral(type) {
@@ -158,5 +156,9 @@ export default class Game extends Phaser.Scene {
 
 	getPosition(position) {
 		return this.#worldUI.getPosition(position);
+	}
+
+	getBuildingById(id) {
+		return this.#worldUI.getBuildingById(id);
 	}
 }
