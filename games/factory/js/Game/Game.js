@@ -101,6 +101,7 @@ export default class Game extends Phaser.Scene {
 	start() {
 		this.#statsUI.start(this.#stats);
 		this.#stats.setCursorPosition(new Vector2d(10, 10));
+		this.#stats.updateCash(12345);
 		/*this.#storeUI.start();
 		this.#storeUI.setCash(this.#statsUI.cash);*/
 	}

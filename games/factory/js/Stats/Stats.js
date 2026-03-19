@@ -4,23 +4,24 @@ import WorldData from "../WorldData/WorldData.js";
 import StatCursorPosition from "./StatCursorPosition/StatCursorPosition.js";
 import EventHandler from "../Utilities/EventHandler.js";
 import GameEvent from "../GameEvent/GameEvent.js";
+import StatCash from "./StatCash/StatCash.js";
 
 export default class Stats extends EventHandler{
 
 	static CASH_START = 200000;
 
 	#id;
-	#cash;
 	#inventory;
 	#cursorPosition;
+	#cash;
 	#started;
 
 	constructor() {
 		super();
 		this.#id = window.crypto.randomUUID();
-		this.#cash = -1;
-		this.#inventory = new Map();
+		this.#cash = new StatCash({ cash: Stats.CASH_START });
 		this.#cursorPosition = new StatCursorPosition();
+		this.#inventory = new Map();
 		this.#started = false;
 	}
 
@@ -29,7 +30,7 @@ export default class Stats extends EventHandler{
 	}
 
 	get cash() {
-		return this.#cash;
+		return this.#cash.cash;
 	}
 
 	get inventory() {
@@ -56,14 +57,13 @@ export default class Stats extends EventHandler{
 		this.triggerAllCallbacks({ type: GameEvent.STAT_CURSOR_POSITION, data: position });
 	}
 
+
 	updateCash(amount) {
 		if (!Number.isInteger(amount)) {
 			throw new Error('Amount must be an integer');
 		}
-		if (!this.started) {
-			throw new Error('Cannot update cash before game has started');
-		}
-		this.#cash += amount;
+		this.#cash.setCash(this.#cash.cash + amount);
+		this.triggerAllCallbacks({ type: GameEvent.STAT_CASH, data: this.#cash.cash });
 	}
 
 	updateInventory(item, amount) {

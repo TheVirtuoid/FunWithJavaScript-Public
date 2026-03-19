@@ -8,6 +8,7 @@ import Vector2d from "../Vector/Vector2d/Vector2d.js";
 import DistributionCenter from "../DistributionCenter/DistributionCenter.js";
 import Utilities from "../Utilities/Utilities.js";
 import StatCursorPositionUI from "./StatCursorPosition/StatCursorPositionUI.js";
+import StatCashUI from "./StatCash/StatCashUI.js";
 
 export default class StatsUI {
 
@@ -19,6 +20,7 @@ export default class StatsUI {
 	#scene;
 
 	#cursorPositionUI;
+	#cashUI;
 	#stats;
 	#eventHandlerId;
 
@@ -32,6 +34,7 @@ export default class StatsUI {
 
 	create() {
 		this.#cursorPositionUI = new StatCursorPositionUI(document.getElementById('cursor-position'));
+		this.#cashUI = new StatCashUI(document.getElementById('cash'));
 		/*this.#domCash = document.getElementById('cash');
 		this.#domInventory = document.getElementById('inventory');
 		this.#domInformation = document.querySelector('.stats .stat.information');
@@ -84,6 +87,8 @@ export default class StatsUI {
 	#eventCallback(event) {
 		if (event.type === GameEvent.STAT_CURSOR_POSITION) {
 			this.#cursorPositionUI.update(event.data);
+		} else if (event.type === GameEvent.STAT_CASH) {
+			this.#cashUI.update(event.data);
 		}
 	}
 
