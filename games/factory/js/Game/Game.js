@@ -17,6 +17,7 @@ import StoreUI from "../Store/StoreUI.js";
 import Extractor from "../Extractor/Extractor.js";
 import TransporterUI from "../Transporter/TransporterUI.js";
 import Stats from "../Stats/Stats.js";
+import WorldData from "../WorldData/WorldData.js";
 
 export default class Game extends Phaser.Scene {
 
@@ -53,6 +54,7 @@ export default class Game extends Phaser.Scene {
 		GameEvent.Setup(this);
 		this.#stats = new Stats();
 		this.#statsUI = new StatsUI(this);
+		this.#mineralUI = new MineralUI(this);
 		/*this.#groundUI = new GroundUI(this);
 		this.#storeUI = new StoreUI(this);
 		this.#mineralUI = new MineralUI(this);
@@ -102,6 +104,12 @@ export default class Game extends Phaser.Scene {
 		this.#statsUI.start(this.#stats);
 		this.#stats.setCursorPosition(new Vector2d(10, 10));
 		this.#stats.updateCash(12345);
+		this.#stats.updateInventory(Extractor.AETHERITE, 10);
+		const worldData = new WorldData();
+		// worldData.setDeposit(this.createMineral(Mineral.AETHERITE));
+		worldData.addBuilding(new Extractor({ type: Extractor.AETHERITE}));
+		this.#stats.populateInformation({ position: new Vector2d(10, 10), worldData });
+
 		/*this.#storeUI.start();
 		this.#storeUI.setCash(this.#statsUI.cash);*/
 	}

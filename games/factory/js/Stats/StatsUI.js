@@ -9,6 +9,8 @@ import DistributionCenter from "../DistributionCenter/DistributionCenter.js";
 import Utilities from "../Utilities/Utilities.js";
 import StatCursorPositionUI from "./StatCursorPosition/StatCursorPositionUI.js";
 import StatCashUI from "./StatCash/StatCashUI.js";
+import StatInformationUI from "./StatInformation/StatInformationUI.js";
+import StatInventoryUI from "./StatInventory/StatInventoryUI.js";
 
 export default class StatsUI {
 
@@ -21,6 +23,8 @@ export default class StatsUI {
 
 	#cursorPositionUI;
 	#cashUI;
+	#informationUI;
+	#inventoryUI;
 	#stats;
 	#eventHandlerId;
 
@@ -35,9 +39,9 @@ export default class StatsUI {
 	create() {
 		this.#cursorPositionUI = new StatCursorPositionUI(document.getElementById('cursor-position'));
 		this.#cashUI = new StatCashUI(document.getElementById('cash'));
-		/*this.#domCash = document.getElementById('cash');
-		this.#domInventory = document.getElementById('inventory');
-		this.#domInformation = document.querySelector('.stats .stat.information');
+		this.#informationUI = new StatInformationUI(document.querySelector('.stats .stat.information'));
+		this.#inventoryUI = new StatInventoryUI(document.getElementById('inventory'));
+		/*
 		this.updateDom();
 		this.updateInformation();
 		document.getElementById('inventory').addEventListener('click', (event) => {
@@ -52,31 +56,6 @@ export default class StatsUI {
 				GameEvent.Emit(GameEvent.INVENTORY_SET_ACTIVE, { key, ghost });
 			}
 		});*/
-		/*this.#domInformation.addEventListener('click', (event) => {
-			const button = event.target.closest('button');
-				if (button) {
-					const li = button.closest('li');
-					const id = li.dataset.id;
-					const building = this.#scene.getBuildingById(id);
-					if (building) {
-						const baseData = Extractor.Base(building.type);
-						const levelData = Extractor.Level(building.type, building.level);
-						const upgradeType = button.dataset.type;
-						console.log(building, baseData, levelData, upgradeType);
-						if (upgradeType === 'speed') {
-							const newSpeed = Math.floor(building.speed - (building.speed * .1));
-							if (newSpeed >= levelData.speed) {
-								building.setSpeed(newSpeed);
-								building.upgrade.speed *= building.level;
-								button.textContent = Utilities.FormatShortNumber(building.upgrade.speed);
-								button.title = `Total cost: ${building.upgrade.speed}`;
-								const span = li.querySelector('span');
-								span.textContent = `Speed: ${building.speed}`;
-							}
-						}
-					}
-				}
-		});*/
 	}
 
 	start(stats) {
@@ -89,35 +68,12 @@ export default class StatsUI {
 			this.#cursorPositionUI.update(event.data);
 		} else if (event.type === GameEvent.STAT_CASH) {
 			this.#cashUI.update(event.data);
+		} else if (event.type === GameEvent.STAT_INVENTORY_UPDATE) {
+			this.#inventoryUI.update(event.data);
+		} else if (event.type === GameEvent.STAT_INFORMATION_UPDATE) {
+			this.#informationUI.update(event.data);
 		}
 	}
-
-	/*updateInformation(position, worldData) {
-		this.#domInformation.replaceChildren();
-		if (!(position instanceof Vector2d)) {
-			return;
-		}
-		if (worldData?.building) {
-			let p = document.createElement('p');
-			p.textContent = `${position.toString()} - ${worldData.building.type.description}`;
-			this.#domInformation.appendChild(p);
-			if (!DistributionCenter.Has(worldData.building.type) && !Conveyor.Has(worldData.building.type)) {
-				const ul = document.createElement('ul');
-				const { building } = worldData;
-				ul.classList.add('information-stats');
-				ul.appendChild(this.#buildInformationItem({ text: 'Speed', id: building.id, value: building.speed, buttonValue: building.upgrade.speed }));
-				ul.appendChild(this.#buildInformationItem({ text: 'Level', id: building.id, value: building.level, buttonValue: Extractor.Level(building.type, building.level).cost }));
-				ul.appendChild(this.#buildInformationItem({ text: 'Purity', id: building.id, value: building.purity, buttonValue: building.upgrade.purity }));
-				this.#domInformation.appendChild(ul);
-				return;
-			}
-		}
-		if (worldData?.deposit) {
-			let p = document.createElement('p');
-			p.textContent = `${position.toString()} - ${worldData.deposit.type.description} deposit`;
-			this.#domInformation.appendChild(p);
-		}
-	}*/
 
 /*	updateInventory(item, amount) {
 		super.updateInventory(item, amount);
@@ -128,13 +84,9 @@ export default class StatsUI {
 		this.updateDom();
 	}*/
 
-	/*updateCash(amount) {
-		super.updateCash(amount);
-		this.updateDom();
-	}*/
-
 	updateDom() {
 		this.#cursorPositionUI.update(this.#stats.cursorPosition);
+		this.#cashUI.update(this.#stats.cash);
 		/*this.#domCash.textContent = this.started ? this.cash : 'n/a';
 		[...this.inventory].forEach(([item, count]) => {
 			const existingDom = this.#domInventory.querySelector(`li[data-item="${item.description}"]`);
@@ -164,20 +116,4 @@ export default class StatsUI {
 
 		})*/
 	}
-
-	/*#buildInformationItem(item) {
-		const { text, value, id, buttonValue } = item;
-		const li = document.createElement('li');
-		li.dataset.id = id;
-		const span = document.createElement('span');
-		span.textContent = `${text}: ${value}`;
-		li.appendChild(span);
-		const button = document.createElement('button');
-		button.classList.add('tertiary', 'small', 'thin');
-		button.dataset.type = text.toLowerCase();
-		button.textContent = Utilities.FormatShortNumber(buttonValue);
-		button.title = `Total cost: ${buttonValue}`;
-		li.appendChild(button);
-		return li;
-	}*/
 }

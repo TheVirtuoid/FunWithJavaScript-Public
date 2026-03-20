@@ -11,8 +11,8 @@ export default class StatCash {
 	}
 
 	setCash(cash) {
-		if (typeof cash !== 'number') {
-			throw new Error('StatCash.setCash requires a number');
+		if (!Number.isInteger(cash)) {
+			throw new Error('Amount must be an integer');
 		}
 		this.#cash = cash;
 	}
