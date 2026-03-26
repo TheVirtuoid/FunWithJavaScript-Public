@@ -6,17 +6,34 @@ import Extractor from "../Extractor/Extractor.js";
 import WorldData from "../WorldData/WorldData.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 import Utilities from "../Utilities/Utilities.js";
+import ConveyorUI from "../Conveyor/ConveyorUI.js";
+import StoreSection from "./StoreSection/StoreSection.js";
+import StoreSectionUI from "./StoreSection/StoreSectionUI.js";
 
-export default class StoreUI extends Store {
+export default class StoreUI {
 
 	#scene;
+	#store;
 	#cash;
+	#dom;
+	#storeSectionUI;
+	#eventHandlerId;
+
+	#stores = new Map();
 
 	constructor(scene) {
-		super();
 		this.#scene = scene;
-		this.reset();
-		document.getElementById('store').addEventListener('click', this.#purchase.bind(this));
+		this.#storeSectionUI = new Map();
+		this.#eventHandlerId = window.crypto.randomUUID();
+	}
+
+	preload() {}
+
+	create() {
+		this.#dom = document.querySelector('#store');
+		Store.STORES.forEach(storeData => {
+			this.#storeSectionUI.set(storeData.name, new StoreSectionUI({ dom: this.#dom, name: storeData.name }));
+		});
 	}
 
 	setCash(cash) {
@@ -24,58 +41,26 @@ export default class StoreUI extends Store {
 		this.#disablePurchases();
 	}
 
-	start() {
-		super.start();
-		this.render();
-		this.#disablePurchases();
-	}
-
-	reset() {
-		super.reset();
-		this.render();
-	}
-
-	render() {
-		this.#renderSection('conveyors', Conveyor.DESCRIPTIONS);
-		this.#renderSection('extractors', Extractor.DESCRIPTIONS);
-		this.#renderSection('purifiers', Purifier.DESCRIPTIONS);
-		this.#renderSection('combinators', Combinator.DESCRIPTIONS);
-	}
-
-	#renderSection(section, database) {
-		const ul = document.querySelector(`#store .subsection.${section} ul`);
-		database.forEach((description, key) => {
-			const item = this.getInventory(description);
-			const li = ul.querySelector(`li[data-key="${key.description}"]`);
-			if (item && !li) {
-				const liElement = document.createElement('li');
-				liElement.dataset.key = key.description;
-				const img = document.createElement('img');
-				img.src = `img/${key.description}.png`;
-				img.alt = key.description;
-				liElement.appendChild(img);
-				const button = document.createElement('button');
-				button.classList.add('primary', 'small', 'purchase');
-				button.textContent = Utilities.FormatShortNumber(item.cost);
-				button.title = `Total cost: ${item.cost}`;
-				liElement.appendChild(button);
-				ul.appendChild(liElement);
-			} else if (!item && li) {
-				li.remove();
-			}
+	start(store) {
+		this.#store = store;
+		this.#storeSectionUI.forEach((storeSectionUI) => {
+			const storeSection = store.getStoreSection(storeSectionUI.name);
+			storeSectionUI.build(storeSectionUI.name, storeSection);
 		});
+		this.#store.setCallback(this.#eventHandlerId, this.#eventCallback.bind(this));
 	}
+
+	#eventCallback(event) {
+		if (event.type === GameEvent.STORE_UPDATE_CASH) {
+			this.setCash(event.data);
+		}
+	}
+
 
 	#disablePurchases() {
-		const buttons = document.querySelectorAll('#store .subsection button.purchase');
-		buttons.forEach(button => {
-			const description = button.closest('li').dataset.key;
-			const item = this.getInventory(description);
-			if (item.cost <= this.#cash) {
-				button.disabled = false;
-			} else {
-				button.disabled = true;
-			}
+		this.#storeSectionUI.forEach((storeSectionUI) => {
+			storeSectionUI.setCash(this.#cash);
+			storeSectionUI.setDisabled(this.#cash);
 		});
 	}
 

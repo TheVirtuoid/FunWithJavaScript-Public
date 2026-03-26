@@ -2,6 +2,9 @@ import Mineral from "../Mineral/Mineral.js";
 import Base from "../Base/Base.js";
 
 export default class Purifier extends Base {
+
+	static NAME = 'Purifier';
+
 	static AETHERITE = Symbol('purifier-aetherite');
 	static PYROTITE = Symbol('purifier-pyrotite');
 	static LUMINITE = Symbol('purifier-luminite');
@@ -81,6 +84,12 @@ export default class Purifier extends Base {
 		return Purifier.#DATA.get(type)?.base;
 	}
 
+	static Pricing = (type) => {
+		const pricing = Purifier.#DATA.get(type);
+		if (pricing) {
+			return structuredClone(pricing);
+		}
+	}
 
 	#image;
 

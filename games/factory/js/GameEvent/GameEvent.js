@@ -23,6 +23,9 @@ export default class GameEvent {
 
 	static GRID_SELECTED = Symbol('grid-selected');
 
+
+	static STORE_UPDATE_CASH = Symbol('store-update-cash');
+
 	static TYPES = [
 		GameEvent.GAME_EVENT_INITIALIZED,
 		GameEvent.GAME_READY,
@@ -38,7 +41,9 @@ export default class GameEvent {
 		GameEvent.INVENTORY_REMOVE_ACTIVE,
 		GameEvent.ORE_CREATED,
 		GameEvent.ORE_CREATE,
-		GameEvent.GRID_SELECTED
+		GameEvent.GRID_SELECTED,
+
+		GameEvent.STORE_UPDATE_CASH
 	]
 
 	static Setup(gameObject) {

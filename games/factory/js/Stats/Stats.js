@@ -7,8 +7,6 @@ import StatInventory from "./StatInventory/StatInventory.js";
 
 export default class Stats extends EventHandler{
 
-	static CASH_START = 200000;
-
 	#id;
 	#inventory;
 	#cursorPosition;
@@ -18,7 +16,7 @@ export default class Stats extends EventHandler{
 	constructor() {
 		super();
 		this.#id = window.crypto.randomUUID();
-		this.#cash = new StatCash({ cash: Stats.CASH_START });
+		this.#cash = new StatCash({ cash: 0 });
 		this.#cursorPosition = new StatCursorPosition();
 		this.#information = new StatInformation();
 		this.#inventory = new StatInventory();
@@ -37,7 +35,6 @@ export default class Stats extends EventHandler{
 	}
 
 	start() {
-		this.#cash = Stats.CASH_START;
 		this.#cursorPosition = Stats.CURSOR_POSITION_START;
 		this.#inventory.clear();
 	}

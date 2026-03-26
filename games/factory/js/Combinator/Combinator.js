@@ -4,6 +4,8 @@ import Base from "../Base/Base.js";
 
 export default class Combinator extends Base {
 
+	static NAME = 'Combinator';
+
 	static IGNISIUM = Symbol('combinator-ignisium');
 	static PHOTONIUM = Symbol('combinator-photonium');
 	static VOIDTISSIUM = Symbol('combinator-voidtissium');
@@ -106,6 +108,14 @@ export default class Combinator extends Base {
 	static Base = (type) => {
 		return Combinator.#DATA.get(type)?.base;
 	}
+
+	static Pricing = (type) => {
+		const pricing = Combinator.#DATA.get(type);
+		if (pricing) {
+			return structuredClone(pricing);
+		}
+	}
+
 
 	#capacity;
 	#inventory;

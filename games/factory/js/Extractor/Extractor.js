@@ -5,6 +5,8 @@ import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class Extractor extends Base {
 
+	static NAME = 'Extractor';
+
 	static AETHERITE = Symbol('extractor-aetherite');
 	static PYROTITE = Symbol('extractor-pyrotite');
 	static LUMINITE = Symbol('extractor-luminite');
@@ -71,8 +73,8 @@ export default class Extractor extends Base {
 			 5: { speed: 400, purity: .5, cost: Number.POSITIVE_INFINITY }
 			}
 		 ],
-		 [Extractor.PYROTITE,
-			 { base: { speed: 2500, purity: .1, cost: 250, upgrade: { speed: 500, purity: 500 }, level: 1.5 },
+		 [Extractor.PYROTITE, {
+				base: { speed: 2500, purity: .1, cost: 250, upgrade: { speed: 500, purity: 500 }, level: 1.5 },
 			 1: { speed: 2100, purity: .18, cost: 2500 },
 			 2: { speed: 1700, purity: .26, cost: 12500 },
 			 3: { speed: 1300, purity: .34, cost: 50000 },
@@ -108,6 +110,13 @@ export default class Extractor extends Base {
 
 	static Base = (type) => {
 		return Extractor.#DATA.get(type)?.base;
+	}
+
+	static Pricing = (type) => {
+		const pricing = Extractor.#DATA.get(type);
+		if (pricing) {
+			return structuredClone(pricing);
+		}
 	}
 
 	static Level = (type, level) => {

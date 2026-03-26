@@ -2,6 +2,9 @@ import Base from "../Base/Base.js";
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
 
 export default class Conveyor extends Base {
+
+	static NAME = 'Conveyor';
+
 	static STRAIGHT = Symbol('conveyor-straight');
 	static CURVE_LEFT = Symbol('conveyor-curve-left');
 	static CURVE_RIGHT = Symbol('conveyor-curve-right');
@@ -58,6 +61,14 @@ export default class Conveyor extends Base {
 			{ base: { cost: 20, level: 1.5 } }
 		],
 	]);
+
+	static Pricing = (type) => {
+		const pricing = Conveyor.#DATA.get(type);
+		if (pricing) {
+			return structuredClone(pricing);
+		}
+	}
+
 
 	static Base = (type) => {
 		return Conveyor.#DATA.get(type)?.base;

@@ -18,12 +18,14 @@ import Extractor from "../Extractor/Extractor.js";
 import TransporterUI from "../Transporter/TransporterUI.js";
 import Stats from "../Stats/Stats.js";
 import WorldData from "../WorldData/WorldData.js";
+import Store from "../Store/Store.js";
 
 export default class Game extends Phaser.Scene {
 
 	static UNIT_SIZE = 64;
 	static WORLD_UNITS = 50;
 	static HALF_SIZE = Game.UNIT_SIZE / 2;
+	static START_CASH = 10000;
 
 	#config;
 	#phaserGame;
@@ -48,13 +50,18 @@ export default class Game extends Phaser.Scene {
 	#transporter;
 
 	#stats;
+	#store;
+	#cash;
 
 	constructor() {
 		super({ key: 'factory' });
 		GameEvent.Setup(this);
+		this.#cash = Game.START_CASH;
 		this.#stats = new Stats();
+		this.#store = new Store();
 		this.#statsUI = new StatsUI(this);
-		this.#mineralUI = new MineralUI(this);
+		this.#storeUI = new StoreUI(this);
+		// this.#mineralUI = new MineralUI(this);
 		/*this.#groundUI = new GroundUI(this);
 		this.#storeUI = new StoreUI(this);
 		this.#mineralUI = new MineralUI(this);
@@ -73,6 +80,8 @@ export default class Game extends Phaser.Scene {
 			this.start();
 		} else if (eventName === GameEvent.STAT_CURSOR_POSITION) {
 			this.#stats.setCursorPosition(payload);
+		} else if (eventName === GameEvent.INVENTORY_ADD) {
+			this.#statsUI.updateInventory(payload.symbol, payload.number);
 		}
 		/*if (eventName === GameEvent.STAT_CURSOR_POSITION) {
 			this.#statsUI.setCursorPosition(payload);
@@ -101,9 +110,12 @@ export default class Game extends Phaser.Scene {
 	}
 
 	start() {
+		this.#stats.updateCash(this.#cash);
 		this.#statsUI.start(this.#stats);
+		this.#storeUI.start(this.#store);
+		this.#store.updateCash(this.#cash);
+
 		this.#stats.setCursorPosition(new Vector2d(10, 10));
-		this.#stats.updateCash(12345);
 		this.#stats.updateInventory(Extractor.AETHERITE, 10);
 		const worldData = new WorldData();
 		// worldData.setDeposit(this.createMineral(Mineral.AETHERITE));
@@ -116,6 +128,7 @@ export default class Game extends Phaser.Scene {
 
 	preload() {
 		this.#statsUI.preload();
+		this.#storeUI.preload();
 		/*this.#conveyorUI.preload(this);
 		this.#combinatorUI.preload(this);
 		this.#extractorUI.preload(this);
@@ -129,6 +142,7 @@ export default class Game extends Phaser.Scene {
 
 	create() {
 		this.#statsUI.create();
+		this.#storeUI.create();
 		/*this.#worldUI.create();
 		this.#distributionCenterUI.createDistributionCenter();
 		this.#updateTimer = 2000;
