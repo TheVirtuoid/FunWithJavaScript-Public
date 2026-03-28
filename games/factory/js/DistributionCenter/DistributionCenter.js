@@ -19,7 +19,7 @@ export default class DistributionCenter extends Base {
 
 	// the distribution center is always at the center of the map
 	constructor(args = {}) {
-		const position= new Vector2d(Math.floor(World.UNIT_WIDTH/2) - 1, Math.floor(World.UNIT_WIDTH/2) - 1)
+		const position= new Vector2d(Math.floor(World.WIDTH/2) - 1, Math.floor(World.HEIGHT/2) - 1)
 		args.type = DistributionCenter.BUILDING;
 		args.position = position;
 		super(args);

@@ -8,10 +8,11 @@ import WorldData from "../WorldData/WorldData.js";
 import Extractor from "../Extractor/Extractor.js";
 import Conveyor from "../Conveyor/Conveyor.js";
 import Utilities from "../Utilities/Utilities.js";
+import MineralUI from "../Mineral/MineralUI.js";
+import DistributionCenterUI from "../DistributionCenter/DistributionCenterUI.js";
 
-export default class WorldUI extends World {
+export default class WorldUI {
 
-	#scene;
 	#worldPx;
 	#zoomX;
 	#zoomY;
@@ -20,43 +21,42 @@ export default class WorldUI extends World {
 	#selectedGridPoint;
 	#buildingFactory = new Map();
 
+	#scene;
+	#world;
+	#widthPx;
+	#heightPx;
+
+	#mineralUI;
+	#distributionCenterUI;
+
 	constructor(scene) {
-		super();
 		this.#scene = scene;
-		this.#worldPx = Game.UNIT_SIZE * Game.WORLD_UNITS;
-		this.initialize(scene.getDistributionCenterPosition());
+		this.#worldPx = World.UNIT_SIZE * World.WIDTH;
+		this.#heightPx = World.UNIT_SIZE * World.HEIGHT;
+		this.#widthPx = World.UNIT_SIZE * World.WIDTH;
+		this.#mineralUI = new MineralUI(this.#scene);
+		this.#distributionCenterUI = new DistributionCenterUI(this.#scene);
 	}
 
-	create() {
-		this.#zoomX = this.#scene.cameras.main.width / this.#worldPx;
-		this.#zoomY = this.#scene.cameras.main.height / this.#worldPx;
-		this.#minZoom = Math.max(this.#zoomX, this.#zoomY);
-		this.#scene.add.tileSprite(0, 0, this.#worldPx, this.#worldPx, 'ground').setOrigin(0, 0);
-		Mineral.DESCRIPTIONS.forEach((mineral, key) => {
-			this.getMineralDeposits(key).forEach(position => {
-				const data = this.getPosition(position);
-				const mineralData = this.#scene.createMineral(key, 'deposit');
+	start(world) {
+		this.#world = world;
+		this.#scene.add.tileSprite(0, 0, this.#widthPx, this.#heightPx, 'ground').setOrigin(0, 0);
+		Mineral.TYPES.forEach((type) => {
+			this.#world.getMineralDeposits(type).forEach(position => {
+				const data = this.#world.getPosition(position);
+				const mineralData = this.#mineralUI.createMineral(type, 'deposit');
 				mineralData.setDepositImage(this.place({ position, piece: mineralData.depositTexture }));
 				data.setDeposit(mineralData);
-				this.setPosition(position, data);
+				this.#world.setPosition(position, data);
 			});
 		});
-		const distributionCenter = this.#scene.getDistributionCenter();
-		this.#scene.getDistributionCenterPosition().forEach(position => {
-			const data = this.getPosition(position);
+		const distributionCenter = this.#world.distributionCenter;
+		distributionCenter.buildingPosition.forEach(position => {
+			const data = this.#world.getPosition(position);
 			data.addBuilding(distributionCenter);
-			this.setPosition(position, data);
+			this.#world.setPosition(position, data);
 		});
-		this.#scene.cameras.main.setBounds(0, 0, this.#worldPx, this.#worldPx);
-		this.#scene.cameras.main.setZoom(this.#minZoom)
-		this.#scene.input.keyboard.on('keydown-ESC', this.#onEscape.bind(this));
-		this.#scene.input.keyboard.on('keydown-R', this.#onRotate.bind(this));
-		this.#scene.input.keyboard.on('keydown-DELETE', this.#onDelete.bind(this));
-		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
-		this.#scene.input.on('pointerdown', this.#onPointerDown.bind(this));
-		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
-		this.#scene.input.on('wheel', this.#onWheel.bind(this));
-
+		this.#distributionCenterUI.create(distributionCenter);
 		this.#buildingFactory = new Map([
 			[Extractor.AETHERITE, Extractor],
 			[Extractor.PYROTITE, Extractor],
@@ -70,10 +70,32 @@ export default class WorldUI extends World {
 			[Conveyor.T_INTERSECTION_RIGHT, Conveyor],
 			[Conveyor.X_INTERSECTION, Conveyor]
 		]);
+		this.#startZoom();
+		this.#startInputs();
+	}
+
+	#startZoom() {
+		this.#zoomX = this.#scene.cameras.main.width / this.#worldPx;
+		this.#zoomY = this.#scene.cameras.main.height / this.#worldPx;
+		this.#minZoom = Math.max(this.#zoomX, this.#zoomY);
+		this.#scene.cameras.main.setBounds(0, 0, this.#worldPx, this.#worldPx);
+		this.#scene.cameras.main.setZoom(this.#minZoom)
+	}
+
+	#startInputs() {
+		this.#scene.input.keyboard.on('keydown-ESC', this.#onEscape.bind(this));
+		this.#scene.input.keyboard.on('keydown-R', this.#onRotate.bind(this));
+		this.#scene.input.keyboard.on('keydown-DELETE', this.#onDelete.bind(this));
+		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
+		this.#scene.input.on('pointerdown', this.#onPointerDown.bind(this));
+		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
+		this.#scene.input.on('wheel', this.#onWheel.bind(this));
 	}
 
 	preload() {
 		this.#scene.load.image('ground', 'img/ground.png');
+		this.#mineralUI.preload();
+		this.#distributionCenterUI.preload();
 	}
 
 	place (args = {}) {

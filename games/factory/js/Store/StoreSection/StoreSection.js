@@ -3,12 +3,14 @@ import GameEvent from "../../GameEvent/GameEvent.js";
 
 export default class StoreSection {
 	#inventory;
+	#availableCash;
 	#name;
 
 	constructor(args = {}) {
 		const { name } = args;
 		this.#name = name;
 		this.#inventory = new Map();
+		this.#availableCash = 0;
 	}
 
 	get name() {
@@ -19,8 +21,16 @@ export default class StoreSection {
 		return this.#inventory;
 	}
 
+	get availableCash() {
+		return this.#availableCash;
+	}
+
 	getInventoryItem(type) {
 		return this.#inventory.get(type);
+	}
+
+	setAvailableCash(cash) {
+		this.#availableCash = cash;
 	}
 
 	addInventory(buildingClass) {

@@ -14,7 +14,6 @@ export default class StoreUI {
 
 	#scene;
 	#store;
-	#cash;
 	#dom;
 	#storeSectionUI;
 	#eventHandlerId;
@@ -36,11 +35,6 @@ export default class StoreUI {
 		});
 	}
 
-	setCash(cash) {
-		this.#cash = cash;
-		this.#disablePurchases();
-	}
-
 	start(store) {
 		this.#store = store;
 		this.#storeSectionUI.forEach((storeSectionUI) => {
@@ -52,19 +46,18 @@ export default class StoreUI {
 
 	#eventCallback(event) {
 		if (event.type === GameEvent.STORE_UPDATE_CASH) {
-			this.setCash(event.data);
+			this.#disablePurchases(event.data);
 		}
 	}
 
 
-	#disablePurchases() {
+	#disablePurchases(availableCash) {
 		this.#storeSectionUI.forEach((storeSectionUI) => {
-			storeSectionUI.setCash(this.#cash);
-			storeSectionUI.setDisabled(this.#cash);
+			storeSectionUI.setDisabled(availableCash);
 		});
 	}
 
-	#purchase(event) {
+	/*#purchase(event) {
 		if (event.target.tagName === 'BUTTON') {
 			const description = event.target.closest('li').dataset.key;
 			const item = this.getInventory(description);
@@ -78,5 +71,5 @@ export default class StoreUI {
 				GameEvent.Emit(GameEvent.STAT_CASH, -amount);
 			}
 		}
-	}
+	}*/
 }

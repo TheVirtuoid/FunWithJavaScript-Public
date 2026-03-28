@@ -17,7 +17,7 @@ export default class Store extends EventHandler {
 
 	#id;
 	#stores;
-	#cash;
+	#availableCash;
 
 	constructor() {
 		super();
@@ -36,9 +36,10 @@ export default class Store extends EventHandler {
 		return this.#stores.get(name);
 	}
 
-	updateCash(cash) {
-		this.#cash = cash;
-		this.triggerAllCallbacks({ type: GameEvent.STORE_UPDATE_CASH, data: this.#cash });
+	setAvailableCash(cash) {
+		this.#availableCash = cash;
+		this.#stores.forEach((storeSection) => storeSection.setAvailableCash(cash));
+		this.triggerAllCallbacks({ type: GameEvent.STORE_UPDATE_CASH, data: this.#availableCash });
 	}
 
 	#addSection(name, buildClass) {

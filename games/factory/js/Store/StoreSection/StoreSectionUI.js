@@ -6,7 +6,6 @@ export default class StoreSectionUI {
 	#name;
 	#inventoryList;
 	#inventoryListItem;
-	#cash;
 	#storeSection;
 
 	constructor(args = {}) {
@@ -18,10 +17,6 @@ export default class StoreSectionUI {
 
 	get name() {
 		return this.#name;
-	}
-
-	setCash(cash) {
-		this.#cash = cash;
 	}
 
 	build(name, storeSection) {
@@ -65,7 +60,7 @@ export default class StoreSectionUI {
 		if (data.length) {
 			const [type] = data;
 			const { cost } = this.#storeSection.getInventoryItem(type);
-			if (cost <= this.#cash) {
+			if (cost <= this.#storeSection.availableCash) {
 				const newCost = this.#storeSection.purchaseBuilding(type, cost);
 				event.target.textContent = Utilities.FormatShortNumber(newCost);
 				event.target.title = `Total cost: ${newCost}`;

@@ -51,18 +51,20 @@ export default class Game extends Phaser.Scene {
 
 	#stats;
 	#store;
-	#cash;
+	#world;
 
 	constructor() {
 		super({ key: 'factory' });
 		GameEvent.Setup(this);
-		this.#cash = Game.START_CASH;
 		this.#stats = new Stats();
 		this.#store = new Store();
+		this.#world = new World();
 		this.#statsUI = new StatsUI(this);
 		this.#storeUI = new StoreUI(this);
+		this.#worldUI = new WorldUI(this);
 		// this.#mineralUI = new MineralUI(this);
-		/*this.#groundUI = new GroundUI(this);
+		/*
+		// this.#groundUI = new GroundUI(this);
 		this.#storeUI = new StoreUI(this);
 		this.#mineralUI = new MineralUI(this);
 		this.#distributionCenterUI = new DistributionCenterUI(this);
@@ -81,7 +83,11 @@ export default class Game extends Phaser.Scene {
 		} else if (eventName === GameEvent.STAT_CURSOR_POSITION) {
 			this.#stats.setCursorPosition(payload);
 		} else if (eventName === GameEvent.INVENTORY_ADD) {
-			this.#statsUI.updateInventory(payload.symbol, payload.number);
+			this.#stats.updateInventory(payload.type, payload.number);
+		} else if (eventName === GameEvent.GRID_SELECTED) {
+			this.#stats.populateInformation({ position: payload, worldData: this.#world.getPosition(payload) });
+		} else if (eventName === GameEvent.STAT_CASH) {
+			this.#distributeCash(payload);
 		}
 		/*if (eventName === GameEvent.STAT_CURSOR_POSITION) {
 			this.#statsUI.setCursorPosition(payload);
@@ -110,25 +116,24 @@ export default class Game extends Phaser.Scene {
 	}
 
 	start() {
-		this.#stats.updateCash(this.#cash);
 		this.#statsUI.start(this.#stats);
 		this.#storeUI.start(this.#store);
-		this.#store.updateCash(this.#cash);
+		this.#worldUI.start(this.#world);
+		this.#distributeCash(Game.START_CASH);
 
-		this.#stats.setCursorPosition(new Vector2d(10, 10));
-		this.#stats.updateInventory(Extractor.AETHERITE, 10);
-		const worldData = new WorldData();
+		// this.#stats.setCursorPosition(new Vector2d(10, 10));
+		// this.#stats.updateInventory(Extractor.AETHERITE, 10);
+		// const worldData = new WorldData();
 		// worldData.setDeposit(this.createMineral(Mineral.AETHERITE));
-		worldData.addBuilding(new Extractor({ type: Extractor.AETHERITE}));
-		this.#stats.populateInformation({ position: new Vector2d(10, 10), worldData });
+		// worldData.addBuilding(new Extractor({ type: Extractor.AETHERITE}));
+		// this.#stats.populateInformation({ position: new Vector2d(10, 10), worldData });
 
-		/*this.#storeUI.start();
-		this.#storeUI.setCash(this.#statsUI.cash);*/
 	}
 
 	preload() {
 		this.#statsUI.preload();
 		this.#storeUI.preload();
+		this.#worldUI.preload(this);
 		/*this.#conveyorUI.preload(this);
 		this.#combinatorUI.preload(this);
 		this.#extractorUI.preload(this);
@@ -136,8 +141,12 @@ export default class Game extends Phaser.Scene {
 		this.#distributionCenterUI.preload(this);
 		this.#mineralUI.preload(this);
 		this.#alloyUI.preload(this);
-		this.#worldUI.preload(this);
 		this.#alloyUI.preload(this);*/
+	}
+
+	#distributeCash(cash) {
+		this.#stats.updateCash(cash);
+		this.#store.setAvailableCash(this.#stats.cash);
 	}
 
 	create() {
