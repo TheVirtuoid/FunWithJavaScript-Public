@@ -9,6 +9,9 @@ import Utilities from "../Utilities/Utilities.js";
 import ConveyorUI from "../Conveyor/ConveyorUI.js";
 import StoreSection from "./StoreSection/StoreSection.js";
 import StoreSectionUI from "./StoreSection/StoreSectionUI.js";
+import ExtractorUI from "../Extractor/ExtractorUI.js";
+import CombinatorUI from "../Combinator/CombinatorUI.js";
+import PurifierUI from "../Purifier/PurifierUI.js";
 
 export default class StoreUI {
 
@@ -18,6 +21,13 @@ export default class StoreUI {
 	#storeSectionUI;
 	#eventHandlerId;
 
+	#buildings = new Map([
+		[Conveyor.NAME, ConveyorUI],
+		[Extractor.NAME, ExtractorUI],
+		[Purifier.NAME, PurifierUI],
+		[Combinator.NAME, CombinatorUI]
+	]);
+
 	#stores = new Map();
 
 	constructor(scene) {
@@ -26,12 +36,22 @@ export default class StoreUI {
 		this.#eventHandlerId = window.crypto.randomUUID();
 	}
 
-	preload() {}
+	preload() {
+		this.#buildings.forEach((builderClass) => {
+			const builder = new builderClass(this.#scene);
+			builder.preload();
+		});
+	}
 
 	create() {
 		this.#dom = document.querySelector('#store');
 		Store.STORES.forEach(storeData => {
-			this.#storeSectionUI.set(storeData.name, new StoreSectionUI({ dom: this.#dom, name: storeData.name }));
+			this.#storeSectionUI.set(storeData.name, new StoreSectionUI({
+				dom: this.#dom,
+				name: storeData.name,
+				buildingClass: this.#buildings.get(storeData.name),
+				scene: this.#scene
+			}));
 		});
 	}
 

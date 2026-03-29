@@ -9,7 +9,7 @@ export default class StoreSectionUI {
 	#storeSection;
 
 	constructor(args = {}) {
-		const { dom, name } = args;
+		const { dom, name, buildingClass, scene } = args;
 		this.#dom = dom;
 		this.#name = name;
 		this.#inventoryListItem = new Map();

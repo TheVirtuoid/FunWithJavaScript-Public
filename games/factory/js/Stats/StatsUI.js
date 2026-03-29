@@ -41,21 +41,6 @@ export default class StatsUI {
 		this.#cashUI = new StatCashUI(document.getElementById('cash'));
 		this.#informationUI = new StatInformationUI(document.querySelector('.stats .stat.information'));
 		this.#inventoryUI = new StatInventoryUI(document.getElementById('inventory'));
-		/*
-		this.updateDom();
-		this.updateInformation();
-		document.getElementById('inventory').addEventListener('click', (event) => {
-			const button = event.target.closest('button');
-			if (button) {
-				const key = button.closest('li').dataset.item;
-				GameEvent.Emit(GameEvent.INVENTORY_REMOVE_ACTIVE);
-				if (this.#inventoryPlacement) this.#inventoryPlacement.ghost.destroy();
-				const ghost = this.#scene.add.image(0, 0, key);
-				ghost.setAlpha(0.5);
-				ghost.setDepth(100);
-				GameEvent.Emit(GameEvent.INVENTORY_SET_ACTIVE, { key, ghost });
-			}
-		});*/
 	}
 
 	start(stats) {

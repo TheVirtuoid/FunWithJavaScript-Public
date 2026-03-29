@@ -25,7 +25,7 @@ export default class Game extends Phaser.Scene {
 	static UNIT_SIZE = 64;
 	static WORLD_UNITS = 50;
 	static HALF_SIZE = Game.UNIT_SIZE / 2;
-	static START_CASH = 10000;
+	static START_CASH = 10000000;
 
 	#config;
 	#phaserGame;
@@ -88,6 +88,15 @@ export default class Game extends Phaser.Scene {
 			this.#stats.populateInformation({ position: payload, worldData: this.#world.getPosition(payload) });
 		} else if (eventName === GameEvent.STAT_CASH) {
 			this.#distributeCash(payload);
+		} else if (eventName === GameEvent.INVENTORY_REMOVE_ACTIVE) {
+			this.#worldUI.removeActiveInventory();
+		} else if (eventName === GameEvent.INVENTORY_SET_ACTIVE) {
+			const ghost = this.add.image(0, 0, payload.key);
+			ghost.setAlpha(0.5);
+			ghost.setDepth(100);
+			this.#worldUI.setActiveInventory({...payload, ghost } );
+		} else if (eventName === GameEvent.INVENTORY_REMOVE) {
+			this.#stats.updateInventory(payload.symbol, -payload.number);
 		}
 		/*if (eventName === GameEvent.STAT_CURSOR_POSITION) {
 			this.#statsUI.setCursorPosition(payload);
@@ -100,10 +109,6 @@ export default class Game extends Phaser.Scene {
 			this.#storeUI.setCash(this.#statsUI.cash);
 		} else if (eventName === GameEvent.INVENTORY_SET_ACTIVE) {
 			this.#worldUI.setActiveInventory(payload);
-		} else if (eventName === GameEvent.INVENTORY_REMOVE_ACTIVE) {
-			this.#worldUI.removeActiveInventory();
-		} else if (eventName === GameEvent.INVENTORY_REMOVE) {
-			this.#statsUI.updateInventory(payload.symbol, -payload.number);
 		} else if (eventName === GameEvent.ORE_CREATE) {
 			const extractor = additionalData[0]; // for documentation purposes
 			const ore = this.#mineralUI.createMineral(payload)

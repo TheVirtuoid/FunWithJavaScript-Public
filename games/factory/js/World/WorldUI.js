@@ -188,13 +188,13 @@ export default class WorldUI {
 		const position = new Vector2d(x, y);
 		if (this.#activePlacement) {
 			const symbol = [...WorldData.BUILDING_SYMBOLS].find(entry => entry[0] === this.#activePlacement.key)[1];
-			if (!this.hasBuilding(position)) {
+			if (!this.#world.hasBuilding(position)) {
 				const piece = this.#activePlacement.key;
 				const orientation = this.#activePlacement.orientation;
 				const image = this.place({ position, piece, orientation });
 				const building = this.#createBuilding(symbol, { type: symbol, position, orientation });
-				this.addBuilding({ position, image, building });
-				const gridData = this.getPosition(position);
+				this.#world.addBuilding({ position, image, building });
+				const gridData = this.#world.getPosition(position);
 				if (gridData.deposit) {
 					const deposit = gridData.deposit;
 					gridData.setDeposit(null);

@@ -1,8 +1,12 @@
+import GameEvent from "../../GameEvent/GameEvent.js";
+import WorldData from "../../WorldData/WorldData.js";
+
 export default class StatInventoryUI {
 	#dom;
 
 	constructor(dom) {
 		this.#dom = dom;
+		this.#dom.addEventListener('click', this.#processInventorySelect.bind(this));
 	}
 
 	update(statInventory) {
@@ -11,6 +15,7 @@ export default class StatInventoryUI {
 			if (existingDom) {
 				if (count === 0) {
 					existingDom.remove();
+					GameEvent.Emit(GameEvent.INVENTORY_REMOVE_ACTIVE);
 				} else {
 					existingDom.querySelector('span').textContent = count;
 				}
@@ -30,5 +35,15 @@ export default class StatInventoryUI {
 				this.#dom.appendChild(li);
 			}
 		});
+	}
+
+	#processInventorySelect(event) {
+		const button = event.target.closest('button');
+		if (button) {
+			const key = button.closest('li').dataset.item;
+			const type = WorldData.BUILDING_SYMBOLS.get(key);
+			GameEvent.Emit(GameEvent.INVENTORY_REMOVE_ACTIVE);
+			GameEvent.Emit(GameEvent.INVENTORY_SET_ACTIVE, { key, type });
+		}
 	}
 }
