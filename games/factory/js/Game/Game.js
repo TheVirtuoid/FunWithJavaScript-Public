@@ -26,6 +26,7 @@ export default class Game extends Phaser.Scene {
 	static WORLD_UNITS = 50;
 	static HALF_SIZE = Game.UNIT_SIZE / 2;
 	static START_CASH = 10000000;
+	static BASE_DELTA_TIMING = 100;
 
 	#config;
 	#phaserGame;
@@ -53,6 +54,8 @@ export default class Game extends Phaser.Scene {
 	#store;
 	#world;
 
+	#timer;
+
 	constructor() {
 		super({ key: 'factory' });
 		GameEvent.Setup(this);
@@ -75,6 +78,7 @@ export default class Game extends Phaser.Scene {
 		this.#alloyUI = new AlloyUI(this);
 		this.#transporter = new TransporterUI(this);
 		this.#worldUI = new WorldUI(this);*/
+		this.#timer = Game.BASE_DELTA_TIMING;
 	}
 
 	emit(eventName, payload, ...additionalData) {
@@ -97,6 +101,13 @@ export default class Game extends Phaser.Scene {
 			this.#worldUI.setActiveInventory({...payload, ghost } );
 		} else if (eventName === GameEvent.INVENTORY_REMOVE) {
 			this.#stats.updateInventory(payload.symbol, -payload.number);
+		} else if (eventName === GameEvent.ORE_CREATE) {
+			this.#worldUI.createOre({ extractor: additionalData[0], oreType: payload });
+			/*const extractor = additionalData[0]; // for documentation purposes
+			const ore = this.#mineralUI.createMineral(payload)
+			ore.setDirectionVector(extractor.directionVector);
+			this.#mineralUI.createOreImage(ore, extractor.position);
+			this.#transporter.add(ore, extractor);*/
 		}
 		/*if (eventName === GameEvent.STAT_CURSOR_POSITION) {
 			this.#statsUI.setCursorPosition(payload);
@@ -165,20 +176,11 @@ export default class Game extends Phaser.Scene {
 	}
 
 	update(time, delta) {
-		/*this.#worldUI.extractors.forEach(extractor => {
-			if (extractor.active) {
-				const moveOre = extractor.adjustSpeedDelta(delta);
-				if (moveOre) {
-					extractor.produceOre();
-				}
-			}
-		});
-		this.#transportTimer -= delta;
-		if (this.#transportTimer <= 0) {
-			this.#transportTimer = 1000;
-			this.#transporter.activateItems();
+		this.#timer -= delta;
+		if (this.#timer <= 0) {
+			this.#timer = Game.BASE_DELTA_TIMING;
+			this.#worldUI.update(time, Game.BASE_DELTA_TIMING);
 		}
-		this.#transporter.keepItemsInMotion();*/
 	}
 
 	createMineral(type) {
@@ -195,10 +197,10 @@ export default class Game extends Phaser.Scene {
 	}
 
 	getPosition(position) {
-		return this.#worldUI.getPosition(position);
+		return this.#world.getPosition(position);
 	}
 
 	getBuildingById(id) {
-		return this.#worldUI.getBuildingById(id);
+		return this.#world.getBuildingById(id);
 	}
 }

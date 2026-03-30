@@ -10,6 +10,9 @@ import Conveyor from "../Conveyor/Conveyor.js";
 import Utilities from "../Utilities/Utilities.js";
 import MineralUI from "../Mineral/MineralUI.js";
 import DistributionCenterUI from "../DistributionCenter/DistributionCenterUI.js";
+import Combinator from "../Combinator/Combinator.js";
+import Purifier from "../Purifier/Purifier.js";
+import TransporterUI from "../Transporter/TransporterUI.js";
 
 export default class WorldUI {
 
@@ -28,6 +31,7 @@ export default class WorldUI {
 
 	#mineralUI;
 	#distributionCenterUI;
+	#transporter;
 
 	constructor(scene) {
 		this.#scene = scene;
@@ -35,6 +39,7 @@ export default class WorldUI {
 		this.#heightPx = World.UNIT_SIZE * World.HEIGHT;
 		this.#widthPx = World.UNIT_SIZE * World.WIDTH;
 		this.#mineralUI = new MineralUI(this.#scene);
+		this.#transporter = new TransporterUI(this.#scene);
 		this.#distributionCenterUI = new DistributionCenterUI(this.#scene);
 	}
 
@@ -68,10 +73,35 @@ export default class WorldUI {
 			[Conveyor.CURVE_RIGHT, Conveyor],
 			[Conveyor.T_INTERSECTION_LEFT, Conveyor],
 			[Conveyor.T_INTERSECTION_RIGHT, Conveyor],
-			[Conveyor.X_INTERSECTION, Conveyor]
+			[Conveyor.X_INTERSECTION, Conveyor],
+			[Combinator.IGNISIUM, Combinator],
+			[Combinator.ETHERIUM, Combinator],
+			[Combinator.MAGNANIUM, Combinator],
+			[Combinator.SOLTARIUM, Combinator],
+			[Combinator.VOIDTISSIUM, Combinator],
+			[Combinator.PHOTONIUM, Combinator],
+			[Combinator.STARFORGE, Combinator],
+			[Purifier.AETHERITE, Purifier],
+			[Purifier.PYROTITE, Purifier],
+			[Purifier.LUMINITE, Purifier],
+			[Purifier.OBSIDIANITE, Purifier],
+			[Purifier.ZENITHITE, Purifier]
 		]);
 		this.#startZoom();
 		this.#startInputs();
+	}
+
+	update(time, delta) {
+		this.#world.buildings.forEach(building => {
+			if (building.active) {
+				if (Extractor.Has(building.type)) {
+					if (building.adjustSpeedDelta(Game.BASE_DELTA_TIMING)) {
+						building.produceOre();
+					}
+				}
+			}
+		});
+		this.#transporter.update(time, delta);
 	}
 
 	#startZoom() {
@@ -125,6 +155,14 @@ export default class WorldUI {
 
 	removeActiveInventory() {
 		this.#clearActiveInventory();
+	}
+
+	createOre(args = {}) {
+		const { extractor, oreType } = args;
+		const ore = this.#mineralUI.createMineral(oreType);
+		ore.setDirectionVector(extractor.directionVector);
+		this.#mineralUI.createOreImage(ore, extractor.position);
+		this.#transporter.add(ore, extractor);
 	}
 
 	#clearActiveInventory() {

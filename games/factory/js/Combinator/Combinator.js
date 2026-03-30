@@ -46,6 +46,16 @@ export default class Combinator extends Base {
 		[Combinator.STARFORGE.description, Combinator.STARFORGE]
 	]);
 
+	static ALLOY_TYPES = new Map([
+		[Combinator.IGNISIUM, Alloy.IGNISIUM],
+		[Combinator.PHOTONIUM, Alloy.PHOTONIUM],
+		[Combinator.VOIDTISSIUM, Alloy.VOIDTISSIUM],
+		[Combinator.SOLTARIUM, Alloy.SOLTARIUM],
+		[Combinator.MAGNANIUM, Alloy.MAGNANIUM],
+		[Combinator.ETHERIUM, Alloy.ETHERIUM],
+		[Combinator.STARFORGE, Alloy.STARFORGE]
+	]);
+
 	static #DATA = new Map([
 		[Combinator.IGNISIUM,
 			{ base: { speed: 2000, purity: .1, inventory: 40, cost: 30000, upgrade: { speed: 6000, purity: 6000 }, level: 1.5 } },
@@ -119,15 +129,21 @@ export default class Combinator extends Base {
 
 	#capacity;
 	#inventory;
+	#alloyType;
+
+	#speed;
+	#speedDelta;
 
 	constructor(args = {}) {
 		const { type } = args;
-		if (!Alloy.Has(type)) {
+		const alloyType = Combinator.ALLOY_TYPES.get(type);
+		if (!Alloy.Has(alloyType)) {
 			throw new Error('Invalid alloy type provided');
 		}
 		super(args);
 		this.#capacity = 100;
 		this.#inventory = new Map();
+		this.#alloyType = alloyType;
 	}
 
 	get capacity() {
@@ -136,6 +152,23 @@ export default class Combinator extends Base {
 
 	get inventorySize() {
 		return [...this.#inventory].reduce((accumulator, [mineral, count]) => accumulator + count, 0);
+	}
+
+	get speed() {
+		return this.#speed;
+	}
+
+	get speedDelta() {
+		return this.#speedDelta;
+	}
+
+	setSpeed(speed) {
+		this.#speed = speed;
+		this.#speedDelta = speed;
+	}
+
+	resetSpeedDelta() {
+		this.#speedDelta = this.#speed;
 	}
 
 	combine(minerals) {
@@ -152,11 +185,11 @@ export default class Combinator extends Base {
 			const count = this.#inventory.get(mineral) ?? 0;
 			this.#inventory.set(mineral, count + 1);
 		});
-		const alloyRecipe = Alloy.Ingredients(this.type);
+		const alloyRecipe = Alloy.Ingredients(this.#alloyType);
 		if ([...alloyRecipe].every(([mineral, count]) => this.#inventory.get(mineral) >= count)) {
 			[...alloyRecipe].forEach(([mineral, count]) => this.#inventory.set(mineral, this.#inventory.get(mineral) - count));
 			// TODO: Purity
-			return new Alloy({ type: this.type, purity: 0 });
+			return new Alloy({ type: this.#alloyType, purity: 0 });
 		} else {
 			return undefined;
 		}

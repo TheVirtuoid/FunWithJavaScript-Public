@@ -178,10 +178,7 @@ export default class Extractor extends Base {
 
 	setSpeed(speed) {
 		this.#speed = speed;
-	}
-
-	produceOre() {
-		GameEvent.Emit(GameEvent.ORE_CREATE, Extractor.MINERAL_TYPES.get(this.type), this);
+		this.#speedDelta = speed;
 	}
 
 	adjustSpeedDelta(delta) {
@@ -194,4 +191,7 @@ export default class Extractor extends Base {
 		}
 	}
 
+	produceOre() {
+		GameEvent.Emit(GameEvent.ORE_CREATE, Extractor.MINERAL_TYPES.get(this.type), this);
+	}
 }

@@ -91,8 +91,6 @@ export default class Purifier extends Base {
 		}
 	}
 
-	#image;
-
 	constructor(args = {}) {
 		super(args);
 	}
@@ -102,13 +100,5 @@ export default class Purifier extends Base {
 			throw new Error('Purifier.purify() requires a Mineral');
 		}
 		mineral.purify(this.level);
-	}
-
-	get image() {
-		return this.#image;
-	}
-
-	setImage(image) {
-		this.#image = image;
 	}
 }

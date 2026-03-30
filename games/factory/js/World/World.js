@@ -28,9 +28,12 @@ export default class World extends EventHandler {
 	#mineralPositions;
 	#map;
 	#idMap;
+
+
 	#extractors;
 	#purifiers;
 	#combinators;
+	#buildings;
 
 	#distributionCenter;
 
@@ -55,9 +58,11 @@ export default class World extends EventHandler {
 				this.#map.set((new Vector2d(x,y)).toString(), worldData);
 			}
 		}
-		this.#extractors = new Map();
+		/*this.#extractors = new Map();
 		this.#purifiers = new Map();
-		this.#combinators = new Map();
+		this.#combinators = new Map();*/
+		this.#buildings = new Map();
+
 		this.#distributionCenter = new DistributionCenter();
 		this.#initialize();
 	}
@@ -78,7 +83,7 @@ export default class World extends EventHandler {
 		return this.#id;
 	}
 
-	get extractors() {
+	/*get extractors() {
 		return new Map([...this.#extractors]);
 	}
 
@@ -88,6 +93,10 @@ export default class World extends EventHandler {
 
 	get combinators() {
 		return new Map([...this.#combinators]);
+	}*/
+
+	get buildings() {
+		return this.#buildings;
 	}
 
 	get distributionCenter() {
@@ -125,7 +134,11 @@ export default class World extends EventHandler {
 		if (this.hasBuilding(position)) {
 			return false;
 		}
-		if (Extractor.Has(building.type)) {
+		if (Extractor.Has(building.type) || Purifier.Has(building.type) || Combinator.Has(building.type)) {
+			building.setInactive();
+			this.#buildings.set(position.toString(), building);
+		}
+		/*if (Extractor.Has(building.type)) {
 			building.setInactive();
 			this.#extractors.set(position.toString(), building);
 		} else if (Purifier.Has(building.type)) {
@@ -134,7 +147,7 @@ export default class World extends EventHandler {
 		} else if (Combinator.Has(building.type)) {
 			building.setInactive();
 			this.#combinators.set(position.toString(), building);
-		}
+		}*/
 		building.setImage(image);
 		const worldData = this.getPosition(position);
 		worldData.addBuilding(building);
