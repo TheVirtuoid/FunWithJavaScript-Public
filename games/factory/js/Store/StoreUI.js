@@ -6,80 +6,78 @@ import Extractor from "../Extractor/Extractor.js";
 import WorldData from "../WorldData/WorldData.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 import Utilities from "../Utilities/Utilities.js";
+import ConveyorUI from "../Conveyor/ConveyorUI.js";
+import StoreSection from "./StoreSection/StoreSection.js";
+import StoreSectionUI from "./StoreSection/StoreSectionUI.js";
+import ExtractorUI from "../Extractor/ExtractorUI.js";
+import CombinatorUI from "../Combinator/CombinatorUI.js";
+import PurifierUI from "../Purifier/PurifierUI.js";
 
-export default class StoreUI extends Store {
+export default class StoreUI {
 
 	#scene;
-	#cash;
+	#store;
+	#dom;
+	#storeSectionUI;
+	#eventHandlerId;
+
+	#buildings = new Map([
+		[Conveyor.NAME, ConveyorUI],
+		[Extractor.NAME, ExtractorUI],
+		[Purifier.NAME, PurifierUI],
+		[Combinator.NAME, CombinatorUI]
+	]);
+
+	#stores = new Map();
 
 	constructor(scene) {
-		super();
 		this.#scene = scene;
-		this.reset();
-		document.getElementById('store').addEventListener('click', this.#purchase.bind(this));
+		this.#storeSectionUI = new Map();
+		this.#eventHandlerId = window.crypto.randomUUID();
 	}
 
-	setCash(cash) {
-		this.#cash = cash;
-		this.#disablePurchases();
-	}
-
-	start() {
-		super.start();
-		this.render();
-		this.#disablePurchases();
-	}
-
-	reset() {
-		super.reset();
-		this.render();
-	}
-
-	render() {
-		this.#renderSection('conveyors', Conveyor.DESCRIPTIONS);
-		this.#renderSection('extractors', Extractor.DESCRIPTIONS);
-		this.#renderSection('purifiers', Purifier.DESCRIPTIONS);
-		this.#renderSection('combinators', Combinator.DESCRIPTIONS);
-	}
-
-	#renderSection(section, database) {
-		const ul = document.querySelector(`#store .subsection.${section} ul`);
-		database.forEach((description, key) => {
-			const item = this.getInventory(description);
-			const li = ul.querySelector(`li[data-key="${key.description}"]`);
-			if (item && !li) {
-				const liElement = document.createElement('li');
-				liElement.dataset.key = key.description;
-				const img = document.createElement('img');
-				img.src = `img/${key.description}.png`;
-				img.alt = key.description;
-				liElement.appendChild(img);
-				const button = document.createElement('button');
-				button.classList.add('primary', 'small', 'purchase');
-				button.textContent = Utilities.FormatShortNumber(item.cost);
-				button.title = `Total cost: ${item.cost}`;
-				liElement.appendChild(button);
-				ul.appendChild(liElement);
-			} else if (!item && li) {
-				li.remove();
-			}
+	preload() {
+		this.#buildings.forEach((builderClass) => {
+			const builder = new builderClass(this.#scene);
+			builder.preload();
 		});
 	}
 
-	#disablePurchases() {
-		const buttons = document.querySelectorAll('#store .subsection button.purchase');
-		buttons.forEach(button => {
-			const description = button.closest('li').dataset.key;
-			const item = this.getInventory(description);
-			if (item.cost <= this.#cash) {
-				button.disabled = false;
-			} else {
-				button.disabled = true;
-			}
+	create() {
+		this.#dom = document.querySelector('#store');
+		Store.STORES.forEach(storeData => {
+			this.#storeSectionUI.set(storeData.name, new StoreSectionUI({
+				dom: this.#dom,
+				name: storeData.name,
+				buildingClass: this.#buildings.get(storeData.name),
+				scene: this.#scene
+			}));
 		});
 	}
 
-	#purchase(event) {
+	start(store) {
+		this.#store = store;
+		this.#storeSectionUI.forEach((storeSectionUI) => {
+			const storeSection = store.getStoreSection(storeSectionUI.name);
+			storeSectionUI.build(storeSectionUI.name, storeSection);
+		});
+		this.#store.setCallback(this.#eventHandlerId, this.#eventCallback.bind(this));
+	}
+
+	#eventCallback(event) {
+		if (event.type === GameEvent.STORE_UPDATE_CASH) {
+			this.#disablePurchases(event.data);
+		}
+	}
+
+
+	#disablePurchases(availableCash) {
+		this.#storeSectionUI.forEach((storeSectionUI) => {
+			storeSectionUI.setDisabled(availableCash);
+		});
+	}
+
+	/*#purchase(event) {
 		if (event.target.tagName === 'BUTTON') {
 			const description = event.target.closest('li').dataset.key;
 			const item = this.getInventory(description);
@@ -93,5 +91,5 @@ export default class StoreUI extends Store {
 				GameEvent.Emit(GameEvent.STAT_CASH, -amount);
 			}
 		}
-	}
+	}*/
 }

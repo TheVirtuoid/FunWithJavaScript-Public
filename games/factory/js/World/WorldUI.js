@@ -8,10 +8,14 @@ import WorldData from "../WorldData/WorldData.js";
 import Extractor from "../Extractor/Extractor.js";
 import Conveyor from "../Conveyor/Conveyor.js";
 import Utilities from "../Utilities/Utilities.js";
+import MineralUI from "../Mineral/MineralUI.js";
+import DistributionCenterUI from "../DistributionCenter/DistributionCenterUI.js";
+import Combinator from "../Combinator/Combinator.js";
+import Purifier from "../Purifier/Purifier.js";
+import TransporterUI from "../Transporter/TransporterUI.js";
 
-export default class WorldUI extends World {
+export default class WorldUI {
 
-	#scene;
 	#worldPx;
 	#zoomX;
 	#zoomY;
@@ -20,43 +24,44 @@ export default class WorldUI extends World {
 	#selectedGridPoint;
 	#buildingFactory = new Map();
 
+	#scene;
+	#world;
+	#widthPx;
+	#heightPx;
+
+	#mineralUI;
+	#distributionCenterUI;
+	#transporter;
+
 	constructor(scene) {
-		super();
 		this.#scene = scene;
-		this.#worldPx = Game.UNIT_SIZE * Game.WORLD_UNITS;
-		this.initialize(scene.getDistributionCenterPosition());
+		this.#worldPx = World.UNIT_SIZE * World.WIDTH;
+		this.#heightPx = World.UNIT_SIZE * World.HEIGHT;
+		this.#widthPx = World.UNIT_SIZE * World.WIDTH;
+		this.#mineralUI = new MineralUI(this.#scene);
+		this.#transporter = new TransporterUI(this.#scene);
+		this.#distributionCenterUI = new DistributionCenterUI(this.#scene);
 	}
 
-	create() {
-		this.#zoomX = this.#scene.cameras.main.width / this.#worldPx;
-		this.#zoomY = this.#scene.cameras.main.height / this.#worldPx;
-		this.#minZoom = Math.max(this.#zoomX, this.#zoomY);
-		this.#scene.add.tileSprite(0, 0, this.#worldPx, this.#worldPx, 'ground').setOrigin(0, 0);
-		Mineral.DESCRIPTIONS.forEach((mineral, key) => {
-			this.getMineralDeposits(key).forEach(position => {
-				const data = this.getPosition(position);
-				const mineralData = this.#scene.createMineral(key, 'deposit');
+	start(world) {
+		this.#world = world;
+		this.#scene.add.tileSprite(0, 0, this.#widthPx, this.#heightPx, 'ground').setOrigin(0, 0);
+		Mineral.TYPES.forEach((type) => {
+			this.#world.getMineralDeposits(type).forEach(position => {
+				const data = this.#world.getPosition(position);
+				const mineralData = this.#mineralUI.createMineral(type, 'deposit');
 				mineralData.setDepositImage(this.place({ position, piece: mineralData.depositTexture }));
 				data.setDeposit(mineralData);
-				this.setPosition(position, data);
+				this.#world.setPosition(position, data);
 			});
 		});
-		const distributionCenter = this.#scene.getDistributionCenter();
-		this.#scene.getDistributionCenterPosition().forEach(position => {
-			const data = this.getPosition(position);
+		const distributionCenter = this.#world.distributionCenter;
+		distributionCenter.buildingPosition.forEach(position => {
+			const data = this.#world.getPosition(position);
 			data.addBuilding(distributionCenter);
-			this.setPosition(position, data);
+			this.#world.setPosition(position, data);
 		});
-		this.#scene.cameras.main.setBounds(0, 0, this.#worldPx, this.#worldPx);
-		this.#scene.cameras.main.setZoom(this.#minZoom)
-		this.#scene.input.keyboard.on('keydown-ESC', this.#onEscape.bind(this));
-		this.#scene.input.keyboard.on('keydown-R', this.#onRotate.bind(this));
-		this.#scene.input.keyboard.on('keydown-DELETE', this.#onDelete.bind(this));
-		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
-		this.#scene.input.on('pointerdown', this.#onPointerDown.bind(this));
-		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
-		this.#scene.input.on('wheel', this.#onWheel.bind(this));
-
+		this.#distributionCenterUI.create(distributionCenter);
 		this.#buildingFactory = new Map([
 			[Extractor.AETHERITE, Extractor],
 			[Extractor.PYROTITE, Extractor],
@@ -68,12 +73,59 @@ export default class WorldUI extends World {
 			[Conveyor.CURVE_RIGHT, Conveyor],
 			[Conveyor.T_INTERSECTION_LEFT, Conveyor],
 			[Conveyor.T_INTERSECTION_RIGHT, Conveyor],
-			[Conveyor.X_INTERSECTION, Conveyor]
+			[Conveyor.X_INTERSECTION, Conveyor],
+			[Combinator.IGNISIUM, Combinator],
+			[Combinator.ETHERIUM, Combinator],
+			[Combinator.MAGNANIUM, Combinator],
+			[Combinator.SOLTARIUM, Combinator],
+			[Combinator.VOIDTISSIUM, Combinator],
+			[Combinator.PHOTONIUM, Combinator],
+			[Combinator.STARFORGE, Combinator],
+			[Purifier.AETHERITE, Purifier],
+			[Purifier.PYROTITE, Purifier],
+			[Purifier.LUMINITE, Purifier],
+			[Purifier.OBSIDIANITE, Purifier],
+			[Purifier.ZENITHITE, Purifier]
 		]);
+		this.#startZoom();
+		this.#startInputs();
+	}
+
+	update(time, delta) {
+		this.#world.buildings.forEach(building => {
+			if (building.active) {
+				if (Extractor.Has(building.type)) {
+					if (building.adjustSpeedDelta(Game.BASE_DELTA_TIMING)) {
+						building.produceOre();
+					}
+				}
+			}
+		});
+		this.#transporter.update(time, delta);
+	}
+
+	#startZoom() {
+		this.#zoomX = this.#scene.cameras.main.width / this.#worldPx;
+		this.#zoomY = this.#scene.cameras.main.height / this.#worldPx;
+		this.#minZoom = Math.max(this.#zoomX, this.#zoomY);
+		this.#scene.cameras.main.setBounds(0, 0, this.#worldPx, this.#worldPx);
+		this.#scene.cameras.main.setZoom(this.#minZoom)
+	}
+
+	#startInputs() {
+		this.#scene.input.keyboard.on('keydown-ESC', this.#onEscape.bind(this));
+		this.#scene.input.keyboard.on('keydown-R', this.#onRotate.bind(this));
+		this.#scene.input.keyboard.on('keydown-DELETE', this.#onDelete.bind(this));
+		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
+		this.#scene.input.on('pointerdown', this.#onPointerDown.bind(this));
+		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
+		this.#scene.input.on('wheel', this.#onWheel.bind(this));
 	}
 
 	preload() {
 		this.#scene.load.image('ground', 'img/ground.png');
+		this.#mineralUI.preload();
+		this.#distributionCenterUI.preload();
 	}
 
 	place (args = {}) {
@@ -103,6 +155,14 @@ export default class WorldUI extends World {
 
 	removeActiveInventory() {
 		this.#clearActiveInventory();
+	}
+
+	createOre(args = {}) {
+		const { extractor, oreType } = args;
+		const ore = this.#mineralUI.createMineral(oreType);
+		ore.setDirectionVector(extractor.directionVector);
+		this.#mineralUI.createOreImage(ore, extractor.position);
+		this.#transporter.add(ore, extractor);
 	}
 
 	#clearActiveInventory() {
@@ -166,13 +226,14 @@ export default class WorldUI extends World {
 		const position = new Vector2d(x, y);
 		if (this.#activePlacement) {
 			const symbol = [...WorldData.BUILDING_SYMBOLS].find(entry => entry[0] === this.#activePlacement.key)[1];
-			if (!this.hasBuilding(position)) {
+			if (!this.#world.hasBuilding(position)) {
 				const piece = this.#activePlacement.key;
 				const orientation = this.#activePlacement.orientation;
 				const image = this.place({ position, piece, orientation });
 				const building = this.#createBuilding(symbol, { type: symbol, position, orientation });
-				this.addBuilding({ position, image, building });
-				const gridData = this.getPosition(position);
+				console.log(building.type, building.purity);
+				this.#world.addBuilding({ position, image, building });
+				const gridData = this.#world.getPosition(position);
 				if (gridData.deposit) {
 					const deposit = gridData.deposit;
 					gridData.setDeposit(null);

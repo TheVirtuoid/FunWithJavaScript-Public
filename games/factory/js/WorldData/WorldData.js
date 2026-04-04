@@ -27,8 +27,42 @@ export default class WorldData {
 		...Extractor.SYMBOLS
 	]);
 
-	static GetBuildingSymbol(buildingName) {}
+	static UPGRADABLE_BUILDINGS = [
+		...Conveyor.TYPES,
+		...Combinator.TYPES,
+		...Extractor.TYPES,
+	];
 
+	static UPGRADABLE_BUILDING_DATA = new Map([
+		...Extractor.DATA,
+		...Purifier.DATA,
+		...Combinator.DATA
+	]);
+
+	static Base = (type) => {
+		return WorldData.UPGRADABLE_BUILDING_DATA.get(type)?.base;
+	}
+
+	static Pricing = (type) => {
+		const pricing = WorldData.UPGRADABLE_BUILDING_DATA.get(type);
+		if (pricing) {
+			return structuredClone(pricing);
+		}
+	}
+
+	static Level = (type, level) => {
+		const data = WorldData.UPGRADABLE_BUILDING_DATA.get(type);
+		if (data) {
+			const levelData = data[level];
+			if (levelData) {
+				return levelData;
+			}
+		}
+	}
+
+	// static GetBuildingSymbol(buildingName) {}
+
+/*
 	static GetDatabase() {
 		const conveyorStraight = 10;
 		const conveyorCurveLeft = 15;
@@ -65,6 +99,7 @@ export default class WorldData {
 		]);
 
 	}
+*/
 
 	#deposit;
 	#building;
@@ -91,9 +126,6 @@ export default class WorldData {
 	}
 
 	addBuilding(building) {
-		/*if (!WorldData.BUILDING_TYPES.includes(building)) {
-			throw new Error(`Invalid building type: ${building}`);
-		}*/
 		if (this.#building !== null) {
 			throw new Error('WorldData already has a building');
 		}

@@ -8,6 +8,8 @@ export default class GameEvent {
 	static STAT_CURSOR_POSITION = Symbol('ui-stat-cursor-position');
 	static STAT_CASH = Symbol('stat-cash');
 	static STAT_LEVEL = Symbol('stat-level');
+	static STAT_INVENTORY_UPDATE = Symbol('stat-inventory-update');
+	static STAT_INFORMATION_UPDATE = Symbol('stat-information-update');
 
 	static STAT_GET_CASH = Symbol('stat-get-cash');
 
@@ -21,6 +23,9 @@ export default class GameEvent {
 
 	static GRID_SELECTED = Symbol('grid-selected');
 
+
+	static STORE_UPDATE_CASH = Symbol('store-update-cash');
+
 	static TYPES = [
 		GameEvent.GAME_EVENT_INITIALIZED,
 		GameEvent.GAME_READY,
@@ -28,13 +33,17 @@ export default class GameEvent {
 		GameEvent.STAT_CASH,
 		GameEvent.STAT_GET_CASH,
 		GameEvent.STAT_LEVEL,
+		GameEvent.STAT_INVENTORY_UPDATE,
+		GameEvent.STAT_INFORMATION_UPDATE,
 		GameEvent.INVENTORY_ADD,
 		GameEvent.INVENTORY_REMOVE,
 		GameEvent.INVENTORY_SET_ACTIVE,
 		GameEvent.INVENTORY_REMOVE_ACTIVE,
 		GameEvent.ORE_CREATED,
 		GameEvent.ORE_CREATE,
-		GameEvent.GRID_SELECTED
+		GameEvent.GRID_SELECTED,
+
+		GameEvent.STORE_UPDATE_CASH
 	]
 
 	static Setup(gameObject) {

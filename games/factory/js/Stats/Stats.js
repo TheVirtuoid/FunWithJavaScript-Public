@@ -1,93 +1,61 @@
-import Vector2d from "../Vector/Vector2d/Vector2d.js";
-import Mineral from "../Mineral/Mineral.js";
-import WorldData from "../WorldData/WorldData.js";
+import StatCursorPosition from "./StatCursorPosition/StatCursorPosition.js";
+import EventHandler from "../Utilities/EventHandler.js";
+import GameEvent from "../GameEvent/GameEvent.js";
+import StatCash from "./StatCash/StatCash.js";
+import StatInformation from "./StatInformation/StatInformation.js";
+import StatInventory from "./StatInventory/StatInventory.js";
 
-export default class Stats {
-
-	static CASH_START = 200000;
-	static CURSOR_POSITION_START = new Vector2d(-1, -1);
+export default class Stats extends EventHandler{
 
 	#id;
-	#cash;
 	#inventory;
-	#level;
 	#cursorPosition;
-	#started;
+	#cash;
+	#information;
 
 	constructor() {
+		super();
 		this.#id = window.crypto.randomUUID();
-		this.#cash = -1;
-		this.#inventory = new Map();
-		this.#level = 0;
-		this.#cursorPosition = new Vector2d(-1, -1);
-		this.#started = false;
+		this.#cash = new StatCash({ cash: 0 });
+		this.#cursorPosition = new StatCursorPosition();
+		this.#information = new StatInformation();
+		this.#inventory = new StatInventory();
 	}
 
 	get id() {
 		return this.#id;
 	}
+
 	get cash() {
-		return this.#cash;
+		return this.#cash.cash;
 	}
-	get inventory() {
-		return new Map([...this.#inventory]);
-	}
-	get level() {
-		return this.#level;
-	}
+
 	get cursorPosition() {
-		return this.#cursorPosition;
-	}
-	get started() {
-		return this.#started;
+		return this.#cursorPosition.cursorPosition;
 	}
 
 	start() {
-		this.#cash = Stats.CASH_START;
-		this.#level = Stats.LEVEL_START;
 		this.#cursorPosition = Stats.CURSOR_POSITION_START;
 		this.#inventory.clear();
-		this.#started = true;
 	}
 
 	setCursorPosition(position) {
-		if (!(position instanceof Vector2d)) {
-			throw new Error('Position must be a Vector2d');
-		}
-		/*if (!this.started) {
-			throw new Error('Cannot set cursor position before game has started');
-		}*/
-		this.#cursorPosition = position;
+		this.#cursorPosition.setCursorPosition(position);
+		this.triggerAllCallbacks({ type: GameEvent.STAT_CURSOR_POSITION, data: position });
 	}
 
 	updateCash(amount) {
-		if (!Number.isInteger(amount)) {
-			throw new Error('Amount must be an integer');
-		}
-		if (!this.started) {
-			throw new Error('Cannot update cash before game has started');
-		}
-		this.#cash += amount;
+		this.#cash.setCash(this.#cash.cash + amount);
+		this.triggerAllCallbacks({ type: GameEvent.STAT_CASH, data: this.#cash.cash });
 	}
 
 	updateInventory(item, amount) {
-		if (!WorldData.BUILDING_TYPES.includes(item)) {
-			throw new Error('Invalid item provided');
-		}
-		if (!Number.isInteger(amount)) {
-			throw new Error('Amount must be an integer');
-		}
-		if (!this.started) {
-			throw new Error('Cannot update inventory before game has started');
-		}
-		const currentCount = this.#inventory.get(item) ?? 0;
-		this.#inventory.set(item, currentCount + amount);
+		this.#inventory.update(item, amount);
+		this.triggerAllCallbacks({ type: GameEvent.STAT_INVENTORY_UPDATE, data: this.#inventory });
 	}
 
-	incrementLevel() {
-		if (!this.started) {
-			throw new Error('Cannot increment level before game has started');
-		}
-		this.#level++;
+	populateInformation(data) {
+		this.#information.populate(data);
+		this.triggerAllCallbacks({ type: GameEvent.STAT_INFORMATION_UPDATE, data: this.#information });
 	}
 }

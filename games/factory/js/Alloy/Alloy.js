@@ -3,13 +3,13 @@ import Base from "../Base/Base.js";
 
 export default class Alloy extends Base {
 
-	static IGNISIUM = Symbol('Ignisium');
-	static PHOTONIUM = Symbol('Photonium');
-	static VOIDTISSIUM = Symbol('Voidtissium');
-	static SOLTARIUM = Symbol('Soltarium');
-	static MAGNANIUM = Symbol('Magnanium');
-	static ETHERIUM = Symbol('Etherium');
-	static STARFORGE = Symbol('Starforge');
+	static IGNISIUM = Symbol('ignisium');
+	static PHOTONIUM = Symbol('photonium');
+	static VOIDTISSIUM = Symbol('voidtissium');
+	static SOLTARIUM = Symbol('soltarium');
+	static MAGNANIUM = Symbol('magnanium');
+	static ETHERIUM = Symbol('etherium');
+	static STARFORGE = Symbol('starforge');
 
 	static TYPES = [
 		Alloy.IGNISIUM,

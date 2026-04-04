@@ -4,10 +4,12 @@ import Mineral from "../Mineral/Mineral.js";
 import Extractor from "../Extractor/Extractor.js";
 import Purifier from "../Purifier/Purifier.js";
 import Combinator from "../Combinator/Combinator.js";
+import DistributionCenter from "../DistributionCenter/DistributionCenter.js";
+import EventHandler from "../Utilities/EventHandler.js";
 
-export default class World {
-	static UNIT_WIDTH = 50;
-	static UNIT_HEIGHT = 50;
+export default class World extends EventHandler {
+	static WIDTH = 50;
+	static HEIGHT = 50;
 	static UNIT_SIZE = 64;
 	static UNIT_HALF_SIZE = World.UNIT_SIZE / 2;
 
@@ -20,21 +22,29 @@ export default class World {
 	]);
 
 	#unitSize;
-	#unitWidth;
-	#unitHeight;
+	#width;
+	#height;
 	#id;
 	#mineralPositions;
 	#map;
+	#idMap;
+
+
 	#extractors;
 	#purifiers;
 	#combinators;
+	#buildings;
+
+	#distributionCenter;
 
 	constructor() {
+		super();
 		this.#unitSize = World.UNIT_SIZE;
-		this.#unitWidth = World.UNIT_WIDTH;
-		this.#unitHeight = World.UNIT_HEIGHT;
+		this.#width = World.WIDTH;
+		this.#height = World.HEIGHT;
 		this.#id = window.crypto.randomUUID();
 		this.#map = new Map();
+		this.#idMap = new Map();
 		this.#mineralPositions = new Map([
 			[Mineral.AETHERITE, []],
 			[Mineral.PYROTITE, []],
@@ -42,41 +52,59 @@ export default class World {
 			[Mineral.OBSIDIANITE, []],
 			[Mineral.ZENITHITE, []]
 		]);
-		for (let x = 0; x < World.UNIT_WIDTH; x++) {
-			for (let y = 0; y < World.UNIT_HEIGHT; y++) {
+		for (let x = 0; x < World.WIDTH; x++) {
+			for (let y = 0; y < World.HEIGHT; y++) {
 				const worldData = new WorldData();
 				this.#map.set((new Vector2d(x,y)).toString(), worldData);
 			}
 		}
-		this.#extractors = new Map();
+		/*this.#extractors = new Map();
 		this.#purifiers = new Map();
-		this.#combinators = new Map();
+		this.#combinators = new Map();*/
+		this.#buildings = new Map();
+
+		this.#distributionCenter = new DistributionCenter();
+		this.#initialize();
 	}
 
 	get unitSize() {
 		return this.#unitSize;
 	}
-	get unitWidth() {
-		return this.#unitWidth;
+
+	get width() {
+		return this.#width;
 	}
-	get unitHeight() {
-		return this.#unitHeight;
+
+	get height() {
+		return this.#height;
 	}
+
 	get id() {
 		return this.#id;
 	}
-	get extractors() {
+
+	/*get extractors() {
 		return new Map([...this.#extractors]);
 	}
+
 	get purifiers() {
 		return new Map([...this.#purifiers]);
 	}
+
 	get combinators() {
 		return new Map([...this.#combinators]);
+	}*/
+
+	get buildings() {
+		return this.#buildings;
 	}
 
-	initialize(distributionCenterPositions) {
-		const takenPositions = distributionCenterPositions.map((position) => position.toString());
+	get distributionCenter() {
+		return this.#distributionCenter;
+	}
+
+	#initialize() {
+		const takenPositions = this.#distributionCenter.buildingPosition.map((position) => position.toString());
 		World.DISTRIBUTION.forEach((count, mineral) => {
 			for (let i = 0; i < count; i++) {
 				const position = this.#getRandomPosition(takenPositions);
@@ -106,7 +134,11 @@ export default class World {
 		if (this.hasBuilding(position)) {
 			return false;
 		}
-		if (Extractor.Has(building.type)) {
+		if (Extractor.Has(building.type) || Purifier.Has(building.type) || Combinator.Has(building.type)) {
+			building.setInactive();
+			this.#buildings.set(position.toString(), building);
+		}
+		/*if (Extractor.Has(building.type)) {
 			building.setInactive();
 			this.#extractors.set(position.toString(), building);
 		} else if (Purifier.Has(building.type)) {
@@ -115,7 +147,7 @@ export default class World {
 		} else if (Combinator.Has(building.type)) {
 			building.setInactive();
 			this.#combinators.set(position.toString(), building);
-		}
+		}*/
 		building.setImage(image);
 		const worldData = this.getPosition(position);
 		worldData.addBuilding(building);
@@ -123,6 +155,7 @@ export default class World {
 			building.setActive();
 		}
 		this.setPosition(position, worldData);
+		this.#idMap.set(building.id, building);
 		return true;
 	}
 
@@ -130,6 +163,10 @@ export default class World {
 		this.#validatePosition(position);
 		const worldData = this.getPosition(position);
 		return !!worldData.building;
+	}
+
+	getBuildingById(id) {
+		return this.#idMap.get(id);
 	}
 
 	removeBuilding(position) {
@@ -147,6 +184,7 @@ export default class World {
 		}
 		const removedBuilding = worldData.removeBuilding();
 		this.setPosition(position, worldData);
+		this.#idMap.delete(removedBuilding.id);
 		return removedBuilding;
 	}
 
@@ -166,11 +204,11 @@ export default class World {
 	}
 
 	#getRandomPosition(takenPositions) {
-		let x = Math.floor(World.UNIT_WIDTH / 2);
-		let y = Math.floor(World.UNIT_HEIGHT / 2);
+		let x = Math.floor(World.WIDTH / 2);
+		let y = Math.floor(World.HEIGHT / 2);
 		while (takenPositions.includes(new Vector2d(x, y).toString())) {
-			x = Math.floor(Math.random() * World.UNIT_WIDTH);
-			y = Math.floor(Math.random() * World.UNIT_HEIGHT);
+			x = Math.floor(Math.random() * World.WIDTH);
+			y = Math.floor(Math.random() * World.HEIGHT);
 		}
 		return new Vector2d(x, y);
 	}
@@ -182,7 +220,7 @@ export default class World {
 		if (position.x < 0 || position.y < 0) {
 			throw new Error('Position is an invalid position');
 		}
-		if (position.x >= World.UNIT_WIDTH || position.y >= World.UNIT_HEIGHT) {
+		if (position.x >= World.WIDTH || position.y >= World.HEIGHT) {
 			throw new Error('Position is an invalid position');
 		}
 	}

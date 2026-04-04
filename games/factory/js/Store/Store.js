@@ -2,38 +2,50 @@ import Extractor from "../Extractor/Extractor.js";
 import Conveyor from "../Conveyor/Conveyor.js";
 import Purifier from "../Purifier/Purifier.js";
 import Combinator from "../Combinator/Combinator.js";
+import StoreSection from "./StoreSection/StoreSection.js";
+import GameEvent from "../GameEvent/GameEvent.js";
+import EventHandler from "../Utilities/EventHandler.js";
 
-export default class Store {
+export default class Store extends EventHandler {
+
+	static STORES = [
+		{ name: Conveyor.NAME, buildClass: Conveyor },
+		{ name: Extractor.NAME, buildClass: Extractor },
+		{ name: Purifier.NAME, buildClass: Purifier },
+		{ name: Combinator.NAME, buildClass: Combinator }
+	];
+
 	#id;
-	#inventory;
+	#stores;
+	#availableCash;
 
 	constructor() {
+		super();
 		this.#id = window.crypto.randomUUID();
-		this.#inventory = new Map();
+		this.#stores = new Map();
+		Store.STORES.forEach(storeData => {
+			this.#addSection(storeData.name, storeData.buildClass);
+		})
 	}
 
 	get id() {
 		return this.#id;
 	}
 
-	getInventory(description) {
-		return this.#inventory.get(description);
+	getStoreSection(name) {
+		return this.#stores.get(name);
 	}
 
-	setInventory(description, data) {
-		this.#inventory.set(description, data);
+	setAvailableCash(cash) {
+		this.#availableCash = cash;
+		this.#stores.forEach((storeSection) => storeSection.setAvailableCash(cash));
+		this.triggerAllCallbacks({ type: GameEvent.STORE_UPDATE_CASH, data: this.#availableCash });
 	}
 
-	reset() {
-		this.#inventory.clear();
-	}
-
-	start() {
-		this.reset();
-		this.#addConveyors();
-		this.#addExtractors();
-		this.#addPurifiers();
-		this.#addCombinators();
+	#addSection(name, buildClass) {
+		const storeSection = new StoreSection(name);
+		storeSection.addInventory(buildClass);
+		this.#stores.set(name, storeSection);
 	}
 
 	purchaseBuilding(description) {
@@ -42,29 +54,5 @@ export default class Store {
 		item.cost = Math.round(cost * level);
 		this.setInventory(description, item);
 		return item.cost;
-	}
-
-	#addConveyors() {
-		Conveyor.TYPES.forEach((type) => {
-			this.#inventory.set(type.description, { ...Conveyor.Base(type) });
-		});
-	}
-
-	#addExtractors() {
-		Extractor.TYPES.forEach((type) => {
-			this.#inventory.set(type.description, { ...Extractor.Base(type) });
-		})
-	}
-
-	#addPurifiers() {
-		Purifier.TYPES.forEach((type) => {
-			this.#inventory.set(type.description, { ...Purifier.Base(type) });
-		})
-	}
-
-	#addCombinators() {
-		Combinator.TYPES.forEach((type) => {
-			this.#inventory.set(type.description, { ...Combinator.Base(type) });
-		})
 	}
 }
