@@ -231,6 +231,7 @@ export default class WorldUI {
 				const orientation = this.#activePlacement.orientation;
 				const image = this.place({ position, piece, orientation });
 				const building = this.#createBuilding(symbol, { type: symbol, position, orientation });
+				console.log(building.type, building.purity);
 				this.#world.addBuilding({ position, image, building });
 				const gridData = this.#world.getPosition(position);
 				if (gridData.deposit) {

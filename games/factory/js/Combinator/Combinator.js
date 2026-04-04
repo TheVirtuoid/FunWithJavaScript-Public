@@ -1,6 +1,7 @@
 import Alloy from "../Alloy/Alloy.js";
 import Mineral from "../Mineral/Mineral.js";
 import Base from "../Base/Base.js";
+import Vector2d from "../Vector/Vector2d/Vector2d.js";
 
 export default class Combinator extends Base {
 
@@ -56,71 +57,71 @@ export default class Combinator extends Base {
 		[Combinator.STARFORGE, Alloy.STARFORGE]
 	]);
 
-	static #DATA = new Map([
-		[Combinator.IGNISIUM,
-			{ base: { speed: 2000, purity: .1, inventory: 40, cost: 30000, upgrade: { speed: 6000, purity: 6000 }, level: 1.5 } },
-			{ 1: { speed: 1600, purity: .2, cost: 300000 } },
-			{ 2: { speed: 1200, purity: .4, cost: 1_500_000 } },
-			{ 3: { speed: 900, purity: .6, cost: 6_000_000 } },
-			{ 4: { speed: 700, purity: .8, cost: 18_000_000 } },
-			{ 5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
+	static DATA = new Map([
+		[Combinator.IGNISIUM, {
+			base: { speed: 2000, purity: .1, capacity: 40, cost: 30000, upgrade: { speed: 6000, purity: 6000 }, level: 1.5 },
+			1: { speed: 1600, purity: .2, cost: 300000 },
+			2: { speed: 1200, purity: .4, cost: 1_500_000 },
+			3: { speed: 900, purity: .6, cost: 6_000_000 },
+			4: { speed: 700, purity: .8, cost: 18_000_000 },
+			5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
 		],
-		[Combinator.PHOTONIUM,
-			{ base: { speed: 2000, purity: .1, inventory: 10, cost: 60_000, upgrade: { speed: 12000, purity: 12000 }, level: 1.5 } },
-			{ 1: { speed: 1600, purity: .2, cost: 600_000 } },
-			{ 2: { speed: 1200, purity: .4, cost: 3_000_000 } },
-			{ 3: { speed: 900, purity: .6, cost: 12_000_000 } },
-			{ 4: { speed: 700, purity: .8, cost: 36_000_000 } },
-			{ 5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
+		[Combinator.PHOTONIUM, {
+			base: { speed: 2000, purity: .1, capacity: 40, cost: 60_000, upgrade: { speed: 12000, purity: 12000 }, level: 1.5 },
+			1: { speed: 1600, purity: .2, cost: 600_000 },
+			2: { speed: 1200, purity: .4, cost: 3_000_000 },
+			3: { speed: 900, purity: .6, cost: 12_000_000 },
+			4: { speed: 700, purity: .8, cost: 36_000_000 },
+			5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
 		],
-		[Combinator.VOIDTISSIUM,
-			{ base: { speed: 2000, purity: .1, inventory: 10, cost: 130_000, upgrade: { speed: 26000, purity: 26000 }, level: 1.5 } },
-			{ 1: { speed: 1600, purity: .2, cost: 1_300_000 } },
-			{ 2: { speed: 1200, purity: .4, cost: 6_500_000 } },
-			{ 3: { speed: 900, purity: .6, cost: 26_000_000 } },
-			{ 4: { speed: 700, purity: .8, cost: 78_000_000 } },
-			{ 5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
+		[Combinator.VOIDTISSIUM, {
+			base: { speed: 2000, purity: .1, capacity: 40, cost: 130_000, upgrade: { speed: 26000, purity: 26000 }, level: 1.5 },
+			1: { speed: 1600, purity: .2, cost: 1_300_000 },
+			2: { speed: 1200, purity: .4, cost: 6_500_000 },
+			3: { speed: 900, purity: .6, cost: 26_000_000 },
+			4: { speed: 700, purity: .8, cost: 78_000_000 },
+			5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
 		],
-		[Combinator.SOLTARIUM,
-			{ base: { speed: 2000, purity: .1, inventory: 10, cost: 80_000, upgrade: { speed: 16000, purity: 16000 }, level: 1.5 } },
-			{ 1: { speed: 1600, purity: .2, cost: 800_000 } },
-			{ 2: { speed: 1200, purity: .4, cost: 4_000_000 } },
-			{ 3: { speed: 900, purity: .6, cost: 16_000_000 } },
-			{ 4: { speed: 700, purity: .8, cost: 48_000_000 } },
-			{ 5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
+		[Combinator.SOLTARIUM, {
+			base: { speed: 2000, purity: .1, capacity: 40, cost: 80_000, upgrade: { speed: 16000, purity: 16000 }, level: 1.5 },
+			1: { speed: 1600, purity: .2, cost: 800_000 },
+			2: { speed: 1200, purity: .4, cost: 4_000_000 },
+			3: { speed: 900, purity: .6, cost: 16_000_000 },
+			4: { speed: 700, purity: .8, cost: 48_000_000 },
+			5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
 		],
-		[Combinator.MAGNANIUM,
-			{ base: { speed: 2000, purity: .1, inventory: 10, cost: 150_000, upgrade: { speed: 30_000, purity: 30_000 }, level: 1.5 } },
-			{ 1: { speed: 1600, purity: .2, cost: 1_500_000 } },
-			{ 2: { speed: 1200, purity: .4, cost: 7_500_000 } },
-			{ 3: { speed: 900, purity: .6, cost: 30_000_000 } },
-			{ 4: { speed: 700, purity: .8, cost: 90_000_000 } },
-			{ 5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
+		[Combinator.MAGNANIUM, {
+			base: { speed: 2000, purity: .1, capacity: 40, cost: 150_000, upgrade: { speed: 30_000, purity: 30_000 }, level: 1.5 },
+			1: { speed: 1600, purity: .2, cost: 1_500_000 },
+			2: { speed: 1200, purity: .4, cost: 7_500_000 },
+			3: { speed: 900, purity: .6, cost: 30_000_000 },
+			4: { speed: 700, purity: .8, cost: 90_000_000 },
+			5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
 		],
-		[Combinator.ETHERIUM,
-			{ base: { speed: 2000, purity: .1, inventory: 10, cost: 305_000, upgrade: { speed: 61000, purity: 61000 }, level: 1.5 } },
-			{ 1: { speed: 1600, purity: .2, cost: 3_050_000 } },
-			{ 2: { speed: 1200, purity: .4, cost: 15_250_000 } },
-			{ 3: { speed: 900, purity: .6, cost: 61_000_000 } },
-			{ 4: { speed: 700, purity: .8, cost: 183_000_000 } },
-			{ 5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
+		[Combinator.ETHERIUM, {
+			base: { speed: 2000, purity: .1, capacity: 40, cost: 305_000, upgrade: { speed: 61000, purity: 61000 }, level: 1.5 },
+			1: { speed: 1600, purity: .2, cost: 3_050_000 },
+			2: { speed: 1200, purity: .4, cost: 15_250_000 },
+			3: { speed: 900, purity: .6, cost: 61_000_000 },
+			4: { speed: 700, purity: .8, cost: 183_000_000 },
+			5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
 		],
-		[Combinator.STARFORGE,
-			{ base: { speed: 2000, purity: .1, inventory: 10, cost: 660_000, upgrade: { speed: 130000, purity: 130000 }, level: 1.5 } },
-			{ 1: { speed: 1600, purity: .2, cost: 6_600_000 } },
-			{ 2: { speed: 1200, purity: .4, cost: 33_000_000 } },
-			{ 3: { speed: 900, purity: .6, cost: 132_000_000 } },
-			{ 4: { speed: 700, purity: .8, cost: 396_000_000 } },
-			{ 5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
+		[Combinator.STARFORGE, {
+			base: { speed: 2000, purity: .1, capacity: 40, cost: 660_000, upgrade: { speed: 130000, purity: 130000 }, level: 1.5 },
+			1: { speed: 1600, purity: .2, cost: 6_600_000 },
+			2: { speed: 1200, purity: .4, cost: 33_000_000 },
+			3: { speed: 900, purity: .6, cost: 132_000_000 },
+			4: { speed: 700, purity: .8, cost: 396_000_000 },
+			5: { speed: 400, purity: 1, cost: Number.POSITIVE_INFINITY } }
 		],
 	]);
 
 	static Base = (type) => {
-		return Combinator.#DATA.get(type)?.base;
+		return Combinator.DATA.get(type)?.base;
 	}
 
 	static Pricing = (type) => {
-		const pricing = Combinator.#DATA.get(type);
+		const pricing = Combinator.DATA.get(type);
 		if (pricing) {
 			return structuredClone(pricing);
 		}
@@ -131,19 +132,21 @@ export default class Combinator extends Base {
 	#inventory;
 	#alloyType;
 
-	#speed;
-	#speedDelta;
-
 	constructor(args = {}) {
 		const { type } = args;
 		const alloyType = Combinator.ALLOY_TYPES.get(type);
 		if (!Alloy.Has(alloyType)) {
 			throw new Error('Invalid alloy type provided');
 		}
+		args.directionVector = new Vector2d(0, 1).rotate(args.orientation ?? 0).round();
 		super(args);
-		this.#capacity = 100;
+		const { speed, cost, purity, capacity, upgrade } = Combinator.DATA.get(type).base;
+		this.#capacity = capacity;
 		this.#inventory = new Map();
 		this.#alloyType = alloyType;
+		this.setCost(cost);
+		this.setUpgrade(upgrade);
+		this.setPurity(purity);
 	}
 
 	get capacity() {
@@ -152,23 +155,6 @@ export default class Combinator extends Base {
 
 	get inventorySize() {
 		return [...this.#inventory].reduce((accumulator, [mineral, count]) => accumulator + count, 0);
-	}
-
-	get speed() {
-		return this.#speed;
-	}
-
-	get speedDelta() {
-		return this.#speedDelta;
-	}
-
-	setSpeed(speed) {
-		this.#speed = speed;
-		this.#speedDelta = speed;
-	}
-
-	resetSpeedDelta() {
-		this.#speedDelta = this.#speed;
 	}
 
 	combine(minerals) {

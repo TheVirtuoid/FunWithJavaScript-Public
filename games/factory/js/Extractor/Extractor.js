@@ -63,7 +63,7 @@ export default class Extractor extends Base {
 				cost: Cost to upgrade to next level. Infinity means at the highest level.
 	 */
 
-	static #DATA = new Map([
+	static DATA = new Map([
 		 [Extractor.AETHERITE, {
 			 base: { speed: 2000, purity: .1, cost: 50, upgrade: { speed: 100, purity: 100 }, level: 1.5 },
 			 1: { speed: 1600, purity: .18, cost: 500 },
@@ -91,7 +91,7 @@ export default class Extractor extends Base {
 			5: { speed: 1000, purity: .5, cost: Number.POSITIVE_INFINITY } }
 		],
 		[Extractor.OBSIDIANITE,
-			{ base: { speed: 3500, purity: .1, cost: 1250, upgrade: { speed: 2500, upgradePurity: 2500 }, level: 1.5 },
+			{ base: { speed: 3500, purity: .1, cost: 1250, upgrade: { speed: 2500, purity: 2500 }, level: 1.5 },
 			1: { speed: 2900, purity: .18, cost: 12500 },
 			2: { speed: 2500, purity: .26, cost: 62500 },
 			3: { speed: 2000, purity: .34, cost: 250000 },
@@ -109,18 +109,18 @@ export default class Extractor extends Base {
 	 ]);
 
 	static Base = (type) => {
-		return Extractor.#DATA.get(type)?.base;
+		return Extractor.DATA.get(type)?.base;
 	}
 
 	static Pricing = (type) => {
-		const pricing = Extractor.#DATA.get(type);
+		const pricing = Extractor.DATA.get(type);
 		if (pricing) {
 			return structuredClone(pricing);
 		}
 	}
 
 	static Level = (type, level) => {
-		const data = Extractor.#DATA.get(type);
+		const data = Extractor.DATA.get(type);
 		if (data) {
 			const levelData = data[level];
 			if (levelData) {
@@ -129,10 +129,6 @@ export default class Extractor extends Base {
 		}
 	}
 
-	#speed;
-	#cost;
-	#price;
-	#upgrade;
 	#mineralType;
 	#speedDelta;
 
@@ -146,26 +142,14 @@ export default class Extractor extends Base {
 		}
 		args.directionVector = new Vector2d(0, 1).rotate(args.orientation ?? 0).round();
 		super(args);
-		const { speed, cost, purity, price, upgrade } = Extractor.#DATA.get(type).base;
-		this.#speed = speed;
-		this.#speedDelta = speed;
-		this.#cost = cost;
-		this.#price = price;
-		this.#upgrade = upgrade;
+		const { speed, cost, purity, price, upgrade } = Extractor.DATA.get(type).base;
+		this.setSpeed(speed);
+		this.setSpeedDelta(speed);
+		this.setCost(cost);
+		this.setPrice(price);
+		this.setUpgrade(upgrade);
 		this.setPurity(purity);
 		this.#mineralType = Extractor.MINERAL_TYPES.get(type);
-	}
-
-	get speed() {
-		return this.#speed;
-	}
-
-	get upgrade() {
-		return this.#upgrade;
-	}
-
-	set upgrade(upgrade) {
-		this.#upgrade = upgrade;
 	}
 
 	get mineralType() {
@@ -176,15 +160,14 @@ export default class Extractor extends Base {
 		return this.#speedDelta;
 	}
 
-	setSpeed(speed) {
-		this.#speed = speed;
-		this.#speedDelta = speed;
+	setSpeedDelta(delta) {
+		this.#speedDelta = delta;
 	}
 
 	adjustSpeedDelta(delta) {
 		this.#speedDelta -= delta;
 		if (this.#speedDelta <= 0) {
-			this.#speedDelta = this.#speed;
+			this.#speedDelta = this.speed;
 			return true;
 		} else {
 			return false;

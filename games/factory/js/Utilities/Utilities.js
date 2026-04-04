@@ -33,7 +33,11 @@ export default class Utilities {
 		if (abs >= 1_000) {
 			return formatWithSuffix(abs, "k");
 		}
-		return String(value);
+		return Math.round(value);
+	}
+
+	static FormatZeroToOne(value, decimals = 2) {
+		return value.toFixed(decimals);
 	}
 
 	constructor() {

@@ -136,7 +136,6 @@ export default class Game extends Phaser.Scene {
 		this.#storeUI.start(this.#store);
 		this.#worldUI.start(this.#world);
 		this.#distributeCash(Game.START_CASH);
-
 		// this.#stats.setCursorPosition(new Vector2d(10, 10));
 		// this.#stats.updateInventory(Extractor.AETHERITE, 10);
 		// const worldData = new WorldData();
