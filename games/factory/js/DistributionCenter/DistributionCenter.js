@@ -1,6 +1,8 @@
 import Base from "../Base/Base.js";
 import World from "../World/World.js";
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
+import Mineral from "../Mineral/Mineral.js";
+import Alloy from "../Alloy/Alloy.js";
 
 export default class DistributionCenter extends Base {
 	static BUILDING = Symbol('distribution-center');
@@ -11,6 +13,25 @@ export default class DistributionCenter extends Base {
 
 	static Has(type) {
 		return DistributionCenter.TYPES.includes(type);
+	}
+
+	static ITEM_PRICES = new Map([
+		[Mineral.AETHERITE, 30],
+		[Mineral.PYROTITE, 40],
+		[Mineral.LUMINITE, 60],
+		[Mineral.OBSIDIANITE, 80],
+		[Mineral.ZENITHITE, 140],
+		[Alloy.IGNISIUM,250],
+		[Alloy.PHOTONIUM, 300],
+		[Alloy.VOIDTISSIUM, 400],
+		[Alloy.SOLTARIUM, 600],
+		[Alloy.MAGNANIUM, 900],
+		[Alloy.ETHERIUM, 1500],
+		[Alloy.STARFORGE, 5000]
+	]);
+
+	static Pricing(type) {
+		return DistributionCenter.ITEM_PRICES.get(type);
 	}
 
 	#id;

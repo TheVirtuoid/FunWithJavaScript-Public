@@ -159,7 +159,7 @@ export default class WorldUI {
 
 	createOre(args = {}) {
 		const { extractor, oreType } = args;
-		const ore = this.#mineralUI.createMineral(oreType);
+		const ore = this.#mineralUI.createMineral(oreType, extractor.purity);
 		ore.setDirectionVector(extractor.directionVector);
 		this.#mineralUI.createOreImage(ore, extractor.position);
 		this.#transporter.add(ore, extractor);
@@ -231,7 +231,6 @@ export default class WorldUI {
 				const orientation = this.#activePlacement.orientation;
 				const image = this.place({ position, piece, orientation });
 				const building = this.#createBuilding(symbol, { type: symbol, position, orientation });
-				console.log(building.type, building.purity);
 				this.#world.addBuilding({ position, image, building });
 				const gridData = this.#world.getPosition(position);
 				if (gridData.deposit) {

@@ -53,6 +53,7 @@ export default class StatsUI {
 			this.#cursorPositionUI.update(event.data);
 		} else if (event.type === GameEvent.STAT_CASH) {
 			this.#cashUI.update(event.data);
+			this.#informationUI.updateAvailability(this.#stats.cash);
 		} else if (event.type === GameEvent.STAT_INVENTORY_UPDATE) {
 			this.#inventoryUI.update(event.data);
 		} else if (event.type === GameEvent.STAT_INFORMATION_UPDATE) {

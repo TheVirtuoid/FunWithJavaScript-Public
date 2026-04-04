@@ -2,6 +2,7 @@ import DistributionCenter from "../../DistributionCenter/DistributionCenter.js";
 import Conveyor from "../../Conveyor/Conveyor.js";
 import Utilities from "../../Utilities/Utilities.js";
 import WorldData from "../../WorldData/WorldData.js";
+import GameEvent from "../../GameEvent/GameEvent.js";
 
 export default class StatInformationUI {
 	#dom;
@@ -50,6 +51,7 @@ export default class StatInformationUI {
 		const newPurity = building.purity + (building.purity * .1);
 		if (newPurity <= levelData.purity) {
 			building.setPurity(newPurity);
+			GameEvent.Emit(GameEvent.STAT_CASH, -building.upgrade.purity);
 			this.#renderPurity({ button, li, building, levelData, baseData });
 		}
 	}
@@ -76,6 +78,7 @@ export default class StatInformationUI {
 		const newSpeed = Math.floor(building.speed - (building.speed * .1));
 		if (newSpeed >= levelData.speed) {
 			building.setSpeed(newSpeed);
+			GameEvent.Emit(GameEvent.STAT_CASH, -building.upgrade.speed);
 			this.#renderSpeed({ button, li, building, levelData, baseData });
 		}
 	}
@@ -100,6 +103,8 @@ export default class StatInformationUI {
 	#upgradeLevel(args) {
 		const { button, li, building, levelData, baseData } = args;
 		if (building.level < 5) {
+			const oldCost = WorldData.Level(building.type, building.level).cost;
+			GameEvent.Emit(GameEvent.STAT_CASH, -oldCost);
 			building.incrementLevel();
 			this.#renderLevel({ button, li, building, levelData, baseData });
 		}
@@ -176,5 +181,20 @@ export default class StatInformationUI {
 		button.title = `Total cost: ${buttonValue}`;
 		li.appendChild(button);
 		return li;
+	}
+
+	updateAvailability(cashAvailable) {
+		if (this.#statInformation) {
+			const { building, deposit } = this.#statInformation;
+			if (building) {
+				let section = this.#getInformationSection('speed');
+				section.button.disabled = building.upgrade.speed > cashAvailable;
+				section = this.#getInformationSection('level');
+				const levelData = WorldData.Level(building.type, building.level);
+				section.button.disabled = levelData.cost > cashAvailable;
+				section = this.#getInformationSection('purity');
+				section.button.disabled = building.upgrade.purity > cashAvailable;
+			}
+		}
 	}
 }

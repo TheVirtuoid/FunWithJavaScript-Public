@@ -17,14 +17,16 @@ export default class Base {
 	#speed;
 	#cost;
 	#price;
+	#capacity;
 
 	constructor(args = {}) {
-		const { speed = Number.POSITIVE_INFINITY, cost = Number.POSITIVE_INFINITY, price = Number.POSITIVE_INFINITY, upgrade = {}, image, purity, type, position = new Vector2d(0, 0), orientation = 0, directionVector = Vector2d.Down(), startingDirectionVector = [], endingDirectionVector = [] } = args;
+		const { capacity = 0, speed = Number.POSITIVE_INFINITY, cost = Number.POSITIVE_INFINITY, price = Number.POSITIVE_INFINITY, upgrade = {}, image, purity, type, position = new Vector2d(0, 0), orientation = 0, directionVector = Vector2d.Down(), startingDirectionVector = [], endingDirectionVector = [] } = args;
 		this.#id = window.crypto.randomUUID();
 		this.#type = type;
 		this.#level = 1;
 		this.#active = true;
 		this.#image = this.setImage(image);
+		this.setCapacity(capacity);
 		this.setPurity(purity || 0);
 		this.setPosition(position);
 		this.setOrientation(orientation);
@@ -82,12 +84,19 @@ export default class Base {
 	get price() {
 		return this.#price;
 	}
+	get capacity() {
+		return this.#capacity;
+	}
 
 	setPosition(position) {
 		if (!(position instanceof Vector2d)) {
 			throw new Error('Position must be a Vector2d');
 		}
 		this.#position = position;
+	}
+
+	setCapacity(capacity) {
+		this.#capacity = capacity;
 	}
 
 	incrementLevel() {

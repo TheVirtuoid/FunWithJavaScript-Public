@@ -21,9 +21,10 @@ export default class MineralUI {
 		this.#scene = scene;
 	}
 
-	createMineral(type) {
+	createMineral(type, purity) {
 		const mineral = new Mineral({
 			type,
+			purity,
 			oreTexture: `ore-${type.description}`,
 			pureTexture: `pure-${type.description}`,
 			depositTexture: `deposit-${type.description}`

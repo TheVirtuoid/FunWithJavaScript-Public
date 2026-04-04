@@ -11,9 +11,6 @@ export default class StatCash {
 	}
 
 	setCash(cash) {
-		if (!Number.isInteger(cash)) {
-			throw new Error('Amount must be an integer');
-		}
-		this.#cash = cash;
+		this.#cash = Math.round(cash);
 	}
 }

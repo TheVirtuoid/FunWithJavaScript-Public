@@ -4,6 +4,7 @@ import Utilities from "../Utilities/Utilities.js";
 import DistributionCenter from "../DistributionCenter/DistributionCenter.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 import World from "../World/World.js";
+import Purifier from "../Purifier/Purifier.js";
 
 export default class TransporterUI {
 
@@ -82,7 +83,11 @@ export default class TransporterUI {
 				const nextWorldItem = this.#scene.getPosition(nextPosition);
 				if (!Conveyor.Has(nextWorldItem.building?.type)) {
 					if (DistributionCenter.Has(nextWorldItem.building?.type)) {
-						GameEvent.Emit(GameEvent.STAT_CASH, 10);
+						const { type, purity } = item;
+						const amount = DistributionCenter.Pricing(type) * purity;
+						GameEvent.Emit(GameEvent.STAT_CASH, amount);
+					} else if (Purifier.Has(nextWorldItem.building?.type)) {
+
 					}
 					item.oreImage.destroy();
 				} else {
