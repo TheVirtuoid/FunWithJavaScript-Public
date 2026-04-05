@@ -130,7 +130,6 @@ export default class Extractor extends Base {
 	}
 
 	#mineralType;
-	#speedDelta;
 
 	constructor(args = {}) {
 		const { type } = args;
@@ -141,6 +140,8 @@ export default class Extractor extends Base {
 			throw new Error(`Invalid extractor type: ${type}`);
 		}
 		args.directionVector = new Vector2d(0, 1).rotate(args.orientation ?? 0).round();
+		args.startingDirectionVector = [args.directionVector];
+		args.endingDirectionVector = [args.directionVector];
 		super(args);
 		const { speed, cost, purity, price, upgrade } = Extractor.DATA.get(type).base;
 		this.setSpeed(speed);
@@ -154,24 +155,6 @@ export default class Extractor extends Base {
 
 	get mineralType() {
 		return this.#mineralType;
-	}
-
-	get speedDelta() {
-		return this.#speedDelta;
-	}
-
-	setSpeedDelta(delta) {
-		this.#speedDelta = delta;
-	}
-
-	adjustSpeedDelta(delta) {
-		this.#speedDelta -= delta;
-		if (this.#speedDelta <= 0) {
-			this.#speedDelta = this.speed;
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	produceOre() {

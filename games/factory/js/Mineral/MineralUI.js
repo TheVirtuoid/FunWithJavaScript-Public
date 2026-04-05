@@ -15,6 +15,15 @@ export default class MineralUI {
 	static DEPOSIT_ALPHA = 0.5;
 	static DEPOSIT_RADIUS = 24;
 
+	static GetOreParentTexture(oreParent, mineral) {
+		if (oreParent === Mineral.ORE_PARENT_EXTRACTOR) {
+			return mineral.oreTexture;
+		} else if (oreParent === Mineral.ORE_PARENT_PURIFIER) {
+			return mineral.pureTexture;
+		}
+	}
+
+
 	#scene;
 
 	constructor(scene) {
@@ -32,9 +41,9 @@ export default class MineralUI {
 		return mineral;
 	}
 
-	createOreImage(mineral, position) {
+	createOreImage(mineral, position, oreParent = Mineral.ORE_PARENT_EXTRACTOR) {
 		const worldPosition = Utilities.GridToPosition(position);
-		mineral.setOreImage(this.#scene.add.image(worldPosition.x, worldPosition.y, mineral.oreTexture));
+		mineral.setOreImage(this.#scene.add.image(worldPosition.x, worldPosition.y, MineralUI.GetOreParentTexture(oreParent, mineral)));
 		mineral.oreImage.setDepth(10000);
 	}
 

@@ -8,6 +8,9 @@ export default class Mineral extends Base{
 	static OBSIDIANITE = Symbol('obsidianite');
 	static ZENITHITE = Symbol('zenithite');
 
+	static ORE_PARENT_EXTRACTOR = Symbol('ore_parent_extractor');
+	static ORE_PARENT_PURIFIER = Symbol('ore_parent_purifier');
+
 	static TYPES = [
 		Mineral.AETHERITE,
 		Mineral.PYROTITE,

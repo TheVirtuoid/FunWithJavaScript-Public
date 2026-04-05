@@ -38,6 +38,8 @@ export default class TransporterUI {
 			directionVector = [building.directionVector.clone()];
 		} else if (Conveyor.Has(building.type)) {
 			directionVector = building.startingDirectionVector;
+		} else if (Purifier.Has(building.type)) {
+			directionVector = building.startingDirectionVector;
 		}
 		this.#inactiveItems.set(item, { building, directionVector });
 	}
@@ -86,8 +88,10 @@ export default class TransporterUI {
 						const { type, purity } = item;
 						const amount = DistributionCenter.Pricing(type) * purity;
 						GameEvent.Emit(GameEvent.STAT_CASH, amount);
-					} else if (Purifier.Has(nextWorldItem.building?.type)) {
-
+					} else if (Purifier.Has(nextWorldItem.building?.type) && nextWorldItem.building.canAcceptOre(item)) {
+						const { building } = nextWorldItem;
+						const added = building.addOreToInventory(item);
+						console.log(added);
 					}
 					item.oreImage.destroy();
 				} else {

@@ -18,6 +18,7 @@ export default class Base {
 	#cost;
 	#price;
 	#capacity;
+	#speedDelta;
 
 	constructor(args = {}) {
 		const { capacity = 0, speed = Number.POSITIVE_INFINITY, cost = Number.POSITIVE_INFINITY, price = Number.POSITIVE_INFINITY, upgrade = {}, image, purity, type, position = new Vector2d(0, 0), orientation = 0, directionVector = Vector2d.Down(), startingDirectionVector = [], endingDirectionVector = [] } = args;
@@ -86,6 +87,13 @@ export default class Base {
 	}
 	get capacity() {
 		return this.#capacity;
+	}
+	get speedDelta() {
+		return this.#speedDelta;
+	}
+
+	setSpeedDelta(delta) {
+		this.#speedDelta = delta;
 	}
 
 	setPosition(position) {
@@ -157,6 +165,16 @@ export default class Base {
 
 	setEndingDirectionVector(endingDirectionVector) {
 		this.#endingDirectionVector = this.#setDirectionVector(endingDirectionVector);
+	}
+
+	adjustSpeedDelta(delta) {
+		this.#speedDelta -= delta;
+		if (this.#speedDelta <= 0) {
+			this.#speedDelta = this.speed;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	#setDirectionVector(directionVector) {

@@ -102,7 +102,7 @@ export default class Game extends Phaser.Scene {
 		} else if (eventName === GameEvent.INVENTORY_REMOVE) {
 			this.#stats.updateInventory(payload.symbol, -payload.number);
 		} else if (eventName === GameEvent.ORE_CREATE) {
-			this.#worldUI.createOre({ extractor: additionalData[0], oreType: payload });
+			this.#worldUI.createOre({ building: additionalData[0], oreType: payload });
 			/*const extractor = additionalData[0]; // for documentation purposes
 			const ore = this.#mineralUI.createMineral(payload)
 			ore.setDirectionVector(extractor.directionVector);

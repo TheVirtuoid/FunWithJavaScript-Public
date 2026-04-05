@@ -1,6 +1,7 @@
 import Mineral from "../Mineral/Mineral.js";
 import Base from "../Base/Base.js";
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
+import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class Purifier extends Base {
 
@@ -27,6 +28,14 @@ export default class Purifier extends Base {
 		[Purifier.OBSIDIANITE, Purifier.OBSIDIANITE.description],
 		[Purifier.ZENITHITE, Purifier.ZENITHITE.description]
 	])
+
+	static MINERAL_TYPES = new Map([
+		[Purifier.AETHERITE, Mineral.AETHERITE],
+		[Purifier.PYROTITE, Mineral.PYROTITE],
+		[Purifier.LUMINITE, Mineral.LUMINITE],
+		[Purifier.OBSIDIANITE, Mineral.OBSIDIANITE],
+		[Purifier.ZENITHITE, Mineral.ZENITHITE]
+	]);
 
 	static Has = (element) => Purifier.TYPES.includes(element);
 
@@ -102,6 +111,7 @@ export default class Purifier extends Base {
 		}
 	}
 
+	#inventory;
 
 	constructor(args = {}) {
 		const { type } = args;
@@ -112,19 +122,51 @@ export default class Purifier extends Base {
 			throw new Error(`Invalid purifier type: ${type}`);
 		}
 		args.directionVector = new Vector2d(0, 1).rotate(args.orientation ?? 0).round();
+		args.startingDirectionVector = [args.directionVector];
+		args.endingDirectionVector = [args.directionVector];
 		super(args);
-		const { speed, cost, purity, price, upgrade } = Purifier.DATA.get(type).base;
+		const { capacity, speed, cost, purity, price, upgrade } = Purifier.DATA.get(type).base;
 		this.setSpeed(speed);
 		this.setPrice(price);
 		this.setCost(cost);
 		this.setUpgrade(upgrade);
 		this.setPurity(purity);
+		this.setCapacity(capacity);
+		this.#inventory = [];
 	}
 
-	purify(mineral) {
+	hasMineral(mineralType) {
+		return Purifier.MINERAL_TYPES.get(this.type) === mineralType;
+	}
+
+	hasDirection(mineralDirection) {
+		return this.startingDirectionVector[0].equals(mineralDirection);
+	}
+
+	hasCapacity() {
+		return this.#inventory.length < this.capacity;
+	}
+
+	canAcceptOre(mineral) {
+		return this.hasMineral(mineral.type) && this.hasDirection(mineral.directionVector) && this.hasCapacity();
+	}
+
+	addOreToInventory(mineral) {
+		if (this.hasCapacity(mineral)) {
+			this.#inventory.push(mineral);
+			return true;
+		}
+		return false;
+	}
+
+	produceOre() {
+		GameEvent.Emit(GameEvent.ORE_CREATE, Purifier.MINERAL_TYPES.get(this.type), this);
+	}
+
+	/*purify(mineral) {
 		if (!(mineral instanceof Mineral)) {
 			throw new Error('Purifier.purify() requires a Mineral');
 		}
 		mineral.purify(this.level);
-	}
+	}*/
 }

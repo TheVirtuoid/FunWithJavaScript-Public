@@ -98,6 +98,10 @@ export default class WorldUI {
 					if (building.adjustSpeedDelta(Game.BASE_DELTA_TIMING)) {
 						building.produceOre();
 					}
+				} else if (Purifier.Has(building.type)) {
+					if (building.adjustSpeedDelta(Game.BASE_DELTA_TIMING)) {
+						building.produceOre();
+					}
 				}
 			}
 		});
@@ -158,11 +162,11 @@ export default class WorldUI {
 	}
 
 	createOre(args = {}) {
-		const { extractor, oreType } = args;
-		const ore = this.#mineralUI.createMineral(oreType, extractor.purity);
-		ore.setDirectionVector(extractor.directionVector);
-		this.#mineralUI.createOreImage(ore, extractor.position);
-		this.#transporter.add(ore, extractor);
+		const { building, oreType } = args;
+		const ore = this.#mineralUI.createMineral(oreType, building.purity);
+		ore.setDirectionVector(building.directionVector);
+		this.#mineralUI.createOreImage(ore, building.position, building instanceof Extractor ? Mineral.ORE_PARENT_EXTRACTOR : Mineral.ORE_PARENT_PURIFIER);
+		this.#transporter.add(ore, building);
 	}
 
 	#clearActiveInventory() {
@@ -231,6 +235,7 @@ export default class WorldUI {
 				const orientation = this.#activePlacement.orientation;
 				const image = this.place({ position, piece, orientation });
 				const building = this.#createBuilding(symbol, { type: symbol, position, orientation });
+				// console.log(building);
 				this.#world.addBuilding({ position, image, building });
 				const gridData = this.#world.getPosition(position);
 				if (gridData.deposit) {
