@@ -18,6 +18,10 @@ export default class StatInformationUI {
 		this.#statInformation = statInformation;
 	}
 
+	removeBuilding() {
+		this.clear();
+	}
+
 	#processUpgrade(event) {
 		const button = event.target.closest('button');
 		if (button) {
@@ -113,7 +117,7 @@ export default class StatInformationUI {
 	}
 
 	#renderLevel(args) {
-		const { button, li, building, levelData, baseData } = args;
+		const { button, li, building, baseData } = args;
 		if (building.level < 5) {
 			const newCost = WorldData.Level(building.type, building.level).cost;
 			button.textContent = Utilities.FormatShortNumber(newCost);
@@ -211,7 +215,7 @@ export default class StatInformationUI {
 
 	updateCombinatorInformation() {
 		if (this.#statInformation) {
-			const { building, deposit } = this.#statInformation;
+			const { building } = this.#statInformation;
 			if (building && Combinator.Has(building.type)) {
 				this.#dom.querySelector('span[data-id="inventoryFullPercentage"]').textContent = `Inventory: ${Utilities.FormatShortNumber(building.inventoryFullPercentage * 100)}%`;
 			}
@@ -220,7 +224,7 @@ export default class StatInformationUI {
 
 	updateAvailability(cashAvailable) {
 		if (this.#statInformation) {
-			const { building, deposit } = this.#statInformation;
+			const { building } = this.#statInformation;
 			if (building) {
 				let section = this.#getInformationSection('speed');
 				section.button.disabled = building.upgrade.speed > cashAvailable;

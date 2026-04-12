@@ -182,7 +182,7 @@ export default class WorldUI {
 	createAlloy(args = {}) {
 		const { building, alloyType, purity } = args;
 		const alloy = this.#alloyUI.createAlloy(alloyType, Math.min((purity ?? building.purity)), building.position);
-		alloy.setDirectionVector(building.directionVector);
+		alloy.setDirectionVector(building.endingDirectionVector[0]);
 		this.#transporter.add(alloy, building);
 	}
 
@@ -202,7 +202,7 @@ export default class WorldUI {
 
 	#onDelete() {
 		if (this.#selectedGridPoint) {
-			const removedBuilding = this.removeBuilding(new Vector2d(this.#selectedGridPoint.x, this.#selectedGridPoint.y));
+			const removedBuilding = this.#world.removeBuilding(new Vector2d(this.#selectedGridPoint.x, this.#selectedGridPoint.y));
 			removedBuilding.image.destroy();
 			this.#clearGridSelection();
 		}

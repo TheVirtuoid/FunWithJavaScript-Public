@@ -21,10 +21,6 @@ export default class StatInventory {
 		this.#inventory.set(item, (this.#inventory.get(item) ?? 0) + amount);
 	}
 
-	getItemInventory(item) {
-		return this.#inventory.get(item) ?? 0;
-	}
-
 	getInventory() {
 		return this.#inventory;
 	}

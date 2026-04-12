@@ -6,6 +6,7 @@ import Purifier from "../Purifier/Purifier.js";
 import Combinator from "../Combinator/Combinator.js";
 import DistributionCenter from "../DistributionCenter/DistributionCenter.js";
 import EventHandler from "../Utilities/EventHandler.js";
+import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class World extends EventHandler {
 	static WIDTH = 50;
@@ -29,10 +30,6 @@ export default class World extends EventHandler {
 	#map;
 	#idMap;
 
-
-	#extractors;
-	#purifiers;
-	#combinators;
 	#buildings;
 
 	#distributionCenter;
@@ -58,9 +55,6 @@ export default class World extends EventHandler {
 				this.#map.set((new Vector2d(x,y)).toString(), worldData);
 			}
 		}
-		/*this.#extractors = new Map();
-		this.#purifiers = new Map();
-		this.#combinators = new Map();*/
 		this.#buildings = new Map();
 
 		this.#distributionCenter = new DistributionCenter();
@@ -82,18 +76,6 @@ export default class World extends EventHandler {
 	get id() {
 		return this.#id;
 	}
-
-	/*get extractors() {
-		return new Map([...this.#extractors]);
-	}
-
-	get purifiers() {
-		return new Map([...this.#purifiers]);
-	}
-
-	get combinators() {
-		return new Map([...this.#combinators]);
-	}*/
 
 	get buildings() {
 		return this.#buildings;
@@ -135,24 +117,14 @@ export default class World extends EventHandler {
 			return false;
 		}
 		if (Extractor.Has(building.type) || Purifier.Has(building.type) || Combinator.Has(building.type)) {
-			building.setInactive();
+			building.setActive();
 			this.#buildings.set(position.toString(), building);
 		}
-		/*if (Extractor.Has(building.type)) {
-			building.setInactive();
-			this.#extractors.set(position.toString(), building);
-		} else if (Purifier.Has(building.type)) {
-			building.setInactive();
-			this.#purifiers.set(position.toString(), building);
-		} else if (Combinator.Has(building.type)) {
-			building.setInactive();
-			this.#combinators.set(position.toString(), building);
-		}*/
 		building.setImage(image);
 		const worldData = this.getPosition(position);
 		worldData.addBuilding(building);
-		if (worldData.deposit?.type === building.mineralType) {
-			building.setActive();
+		if (Extractor.Has(building.type) && worldData.deposit?.type !== building.mineralType) {
+			building.setInactive();
 		}
 		this.setPosition(position, worldData);
 		this.#idMap.set(building.id, building);
@@ -175,25 +147,11 @@ export default class World extends EventHandler {
 		if (!worldData.building) {
 			return false;
 		}
-		if (Extractor.Has(worldData.building.type)) {
-			this.#extractors.delete(position.toString());
-		} else if (Purifier.Has(worldData.building.type)) {
-			this.#purifiers.delete(position.toString());
-		} else if (Combinator.Has(worldData.building.type)) {
-			this.#combinators.delete(position.toString());
-		}
+		GameEvent.Emit(GameEvent.BUILDING_REMOVED);
 		const removedBuilding = worldData.removeBuilding();
 		this.setPosition(position, worldData);
 		this.#idMap.delete(removedBuilding.id);
 		return removedBuilding;
-	}
-
-	removeDeposit(position) {
-		this.#validatePosition(position);
-		const worldData = this.getPosition(position);
-		worldData.setDeposit(WorldData.DEPOSIT_NONE);
-		this.setPosition(position, worldData);
-		return true;
 	}
 
 	getMineralDeposits(mineral) {

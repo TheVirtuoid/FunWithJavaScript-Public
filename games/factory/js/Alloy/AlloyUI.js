@@ -1,5 +1,4 @@
 import Alloy from "./Alloy.js";
-import Mineral from "../Mineral/Mineral.js";
 import Utilities from "../Utilities/Utilities.js";
 
 export default class AlloyUI {

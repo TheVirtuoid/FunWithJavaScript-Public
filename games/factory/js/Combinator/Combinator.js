@@ -1,8 +1,6 @@
 import Alloy from "../Alloy/Alloy.js";
-import Mineral from "../Mineral/Mineral.js";
 import Base from "../Base/Base.js";
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
-import Purifier from "../Purifier/Purifier.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class Combinator extends Base {
@@ -26,16 +24,6 @@ export default class Combinator extends Base {
 		Combinator.ETHERIUM,
 		Combinator.STARFORGE
 	];
-
-	static DESCRIPTIONS = new Map([
-		[Combinator.IGNISIUM, Combinator.IGNISIUM.description],
-		[Combinator.PHOTONIUM, Combinator.PHOTONIUM.description],
-		[Combinator.VOIDTISSIUM, Combinator.VOIDTISSIUM.description],
-		[Combinator.SOLTARIUM, Combinator.SOLTARIUM.description],
-		[Combinator.MAGNANIUM, Combinator.MAGNANIUM.description],
-		[Combinator.ETHERIUM, Combinator.ETHERIUM.description],
-		[Combinator.STARFORGE, Combinator.STARFORGE.description]
-	])
 
 	static Has = (type) => Combinator.TYPES.includes(type);
 
@@ -146,7 +134,6 @@ export default class Combinator extends Base {
 		args.endingDirectionVector = [endingDirectionVector];
 		super(args);
 		const { price, speed, cost, purity, capacity, upgrade } = Combinator.DATA.get(type).base;
-		// this.#capacity = capacity;
 		this.#inventory = [];
 		this.#alloyType = alloyType;
 		this.#mineralsInAlloy = Alloy.Ingredients(this.#alloyType);

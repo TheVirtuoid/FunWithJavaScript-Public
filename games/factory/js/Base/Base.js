@@ -26,7 +26,7 @@ export default class Base {
 		this.#type = type;
 		this.#level = 1;
 		this.#active = true;
-		this.#image = this.setImage(image);
+		this.setImage(image);
 		this.setCapacity(capacity);
 		this.setPurity(purity || 0);
 		this.setPosition(position);

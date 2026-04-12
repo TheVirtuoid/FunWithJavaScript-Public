@@ -147,6 +147,6 @@ export default class Vector2d extends Vector {
 	}
 
 	round() {
-		return new Vector2d(Math.round(this.#x) + 0, Math.round(this.#y) + 0);
+		return new Vector2d(Math.round(this.#x), Math.round(this.#y));
 	}
 }

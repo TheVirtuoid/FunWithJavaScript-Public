@@ -21,14 +21,6 @@ export default class Extractor extends Base {
 		Extractor.ZENITHITE
 	];
 
-	static DESCRIPTIONS = new Map([
-		[Extractor.AETHERITE, Extractor.AETHERITE.description],
-		[Extractor.PYROTITE, Extractor.PYROTITE.description],
-		[Extractor.LUMINITE, Extractor.LUMINITE.description],
-		[Extractor.OBSIDIANITE, Extractor.OBSIDIANITE.description],
-		[Extractor.ZENITHITE, Extractor.ZENITHITE.description]
-	])
-
 	static MINERAL_TYPES = new Map([
 		[Extractor.AETHERITE, Mineral.AETHERITE],
 		[Extractor.PYROTITE, Mineral.PYROTITE],
@@ -60,7 +52,7 @@ export default class Extractor extends Base {
 			Each Level:
 				speed: Maximum speed that can be upgraded to on that level
 				purity: Maximum purity that can be upgraded to on that level
-				cost: Cost to upgrade to next level. Infinity means at the highest level.
+				cost: Cost to upgrade to the next level. Infinity means at the highest level.
 	 */
 
 	static DATA = new Map([

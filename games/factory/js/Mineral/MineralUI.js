@@ -31,14 +31,13 @@ export default class MineralUI {
 	}
 
 	createMineral(type, purity) {
-		const mineral = new Mineral({
+		return new Mineral({
 			type,
 			purity,
 			oreTexture: `ore-${type.description}`,
 			pureTexture: `pure-${type.description}`,
 			depositTexture: `deposit-${type.description}`
 		});
-		return mineral;
 	}
 
 	createOreImage(mineral, position, oreParent = Mineral.ORE_PARENT_EXTRACTOR) {

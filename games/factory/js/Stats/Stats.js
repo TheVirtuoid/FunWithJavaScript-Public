@@ -35,7 +35,6 @@ export default class Stats extends EventHandler{
 	}
 
 	start() {
-		this.#cursorPosition = Stats.CURSOR_POSITION_START;
 		this.#inventory.clear();
 	}
 

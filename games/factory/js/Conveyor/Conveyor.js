@@ -32,15 +32,6 @@ export default class Conveyor extends Base {
 		[Conveyor.X_INTERSECTION.description, Conveyor.X_INTERSECTION]
 	]);
 
-	static DESCRIPTIONS = new Map([
-		[Conveyor.STRAIGHT, Conveyor.STRAIGHT.description],
-		[Conveyor.CURVE_LEFT, Conveyor.CURVE_LEFT.description],
-		[Conveyor.CURVE_RIGHT, Conveyor.CURVE_RIGHT.description],
-		[Conveyor.T_INTERSECTION_LEFT, Conveyor.T_INTERSECTION_LEFT.description],
-		[Conveyor.T_INTERSECTION_RIGHT, Conveyor.T_INTERSECTION_RIGHT.description],
-		[Conveyor.X_INTERSECTION, Conveyor.X_INTERSECTION.description]
-	]);
-
 	static #DATA = new Map([
 		[Conveyor.STRAIGHT,
 			{ base: { cost: 5, level: 1.15 } }

@@ -47,12 +47,4 @@ export default class Store extends EventHandler {
 		storeSection.addInventory(buildClass);
 		this.#stores.set(name, storeSection);
 	}
-
-	purchaseBuilding(description) {
-		const item = this.getInventory(description);
-		const { cost, level } = item;
-		item.cost = Math.round(cost * level);
-		this.setInventory(description, item);
-		return item.cost;
-	}
 }

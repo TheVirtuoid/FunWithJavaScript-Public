@@ -3,11 +3,8 @@ import Conveyor from "../Conveyor/Conveyor.js";
 import Combinator from "../Combinator/Combinator.js";
 import Purifier from "../Purifier/Purifier.js";
 import Extractor from "../Extractor/Extractor.js";
-import WorldData from "../WorldData/WorldData.js";
 import GameEvent from "../GameEvent/GameEvent.js";
-import Utilities from "../Utilities/Utilities.js";
 import ConveyorUI from "../Conveyor/ConveyorUI.js";
-import StoreSection from "./StoreSection/StoreSection.js";
 import StoreSectionUI from "./StoreSection/StoreSectionUI.js";
 import ExtractorUI from "../Extractor/ExtractorUI.js";
 import CombinatorUI from "../Combinator/CombinatorUI.js";
@@ -27,8 +24,6 @@ export default class StoreUI {
 		[Purifier.NAME, PurifierUI],
 		[Combinator.NAME, CombinatorUI]
 	]);
-
-	#stores = new Map();
 
 	constructor(scene) {
 		this.#scene = scene;

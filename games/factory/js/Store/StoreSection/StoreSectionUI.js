@@ -1,5 +1,4 @@
 import Utilities from "../../Utilities/Utilities.js";
-import GameEvent from "../../GameEvent/GameEvent.js";
 
 export default class StoreSectionUI {
 	#dom;
@@ -9,7 +8,7 @@ export default class StoreSectionUI {
 	#storeSection;
 
 	constructor(args = {}) {
-		const { dom, name, buildingClass, scene } = args;
+		const { dom, name } = args;
 		this.#dom = dom;
 		this.#name = name;
 		this.#inventoryListItem = new Map();
@@ -56,7 +55,7 @@ export default class StoreSectionUI {
 
 	#processPurchase(event) {
 		if (event.target.tagName !== 'BUTTON') return;
-		const data = [...this.#inventoryListItem.entries()].find(([type, listItem]) => listItem === event.target.closest('li'));
+		const data = [...this.#inventoryListItem.entries()].find(([, listItem]) => listItem === event.target.closest('li'));
 		if (data.length) {
 			const [type] = data;
 			const { cost } = this.#storeSection.getInventoryItem(type);

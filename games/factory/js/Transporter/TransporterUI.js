@@ -84,7 +84,7 @@ export default class TransporterUI {
 			x: tweenInformation.end.x,
 			y: tweenInformation.end.y,
 			duration: tweenInformation.duration,
-			onComplete: (tween, targets, item, building) => {
+			onComplete: (tween, targets, item) => {
 				this.#activeItems.delete(item);
 				const nextPosition = cellData.building.position.add(tweenInformation.endingDirectionVector);
 				const nextWorldItem = this.#scene.getPosition(nextPosition);
@@ -95,7 +95,7 @@ export default class TransporterUI {
 						GameEvent.Emit(GameEvent.STAT_CASH, amount);
 					} else if ((Purifier.Has(nextWorldItem.building?.type) || Combinator.Has(nextWorldItem.building?.type)) && nextWorldItem.building.canAcceptOre(item)) {
 						const { building } = nextWorldItem;
-						const added = building.addOreToInventory(item);
+						building.addOreToInventory(item);
 					}
 					item.activeImage?.destroy();
 				} else {
@@ -110,9 +110,6 @@ export default class TransporterUI {
 		if (Extractor.Has(building.type) || Purifier.Has(building.type) || Combinator.Has(building.type)) {
 			const duration = 500;
 			const movement = World.UNIT_HALF_SIZE;
-			if (building.type === Combinator.IGNISIUM) {
-				console.log(item, building);
-			}
 			const startingDirectionVector = Combinator.Has(building.type) ? building.endingDirectionVector[0].round() : building.directionVector.round();
 			const start = Utilities.GridToPosition(building.position);
 			const end = {x: start.x + World.UNIT_HALF_SIZE * startingDirectionVector.x, y: start.y + World.UNIT_HALF_SIZE * startingDirectionVector.y };

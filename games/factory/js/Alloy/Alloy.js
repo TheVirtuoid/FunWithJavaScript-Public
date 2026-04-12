@@ -54,7 +54,7 @@ export default class Alloy extends Base {
 	}
 
 	constructor(args = {}) {
-		const { type, purity } = args;
+		const { type } = args;
 		if (!Alloy.Has(type)) {
 			throw new Error(`Invalid alloy type: ${type}`);
 		}

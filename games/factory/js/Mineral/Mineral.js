@@ -21,40 +21,7 @@ export default class Mineral extends Base{
 
 	static Has = (element) => Mineral.TYPES.includes(element);
 
-	static NAMES = new Map([
-		[Mineral.AETHERITE, `mineral-${ Mineral.AETHERITE.description }`],
-		[Mineral.PYROTITE, `mineral-${ Mineral.PYROTITE.description }`],
-		[Mineral.LUMINITE, `mineral-${ Mineral.LUMINITE.description }`],
-		[Mineral.OBSIDIANITE, `mineral-${ Mineral.OBSIDIANITE.description }`],
-		[Mineral.ZENITHITE, `mineral-${ Mineral.ZENITHITE.description }`],
-	]);
-
-	static SYMBOLS = new Map([
-		[`mineral-${ Mineral.AETHERITE.description }`, Mineral.AETHERITE],
-		[`mineral-${ Mineral.PYROTITE.description }`, Mineral.PYROTITE],
-		[`mineral-${ Mineral.LUMINITE.description }`, Mineral.LUMINITE],
-		[`mineral-${ Mineral.OBSIDIANITE.description }`, Mineral.OBSIDIANITE],
-		[`mineral-${ Mineral.ZENITHITE.description }`, Mineral.ZENITHITE],
-	]);
-
-	static PRICE_RAW = new Map([
-		[Mineral.AETHERITE, 1],
-		[Mineral.PYROTITE, 2],
-		[Mineral.LUMINITE, 4],
-		[Mineral.OBSIDIANITE, 8],
-		[Mineral.ZENITHITE, 16],
-	]);
-
-	static PRICE_PURIFIED = new Map([
-		[Mineral.AETHERITE, 4],
-		[Mineral.PYROTITE, 8],
-		[Mineral.LUMINITE, 16],
-		[Mineral.OBSIDIANITE, 32],
-		[Mineral.ZENITHITE, 64],
-	])
-
 	#oreImage;
-	#pureImage;
 	#depositImage;
 	#oreTexture;
 	#pureTexture;
@@ -73,16 +40,8 @@ export default class Mineral extends Base{
 		this.#depositTexture = depositTexture;
 	}
 
-	purify(level = 1) {
-		console.warn('Mineral.purify() is not currently implemented');
-	}
-
 	get oreImage() {
 		return this.#oreImage;
-	}
-
-	get pureImage() {
-		return this.#pureImage;
 	}
 
 	get depositImage() {
@@ -109,13 +68,8 @@ export default class Mineral extends Base{
 		this.#activeImage = activeImage;
 	}
 
-
 	setOreImage(oreImage) {
 		this.#oreImage = oreImage;
-	}
-
-	setPureImage(pureImage) {
-		this.#pureImage = pureImage;
 	}
 
 	setDepositImage(depositImage) {

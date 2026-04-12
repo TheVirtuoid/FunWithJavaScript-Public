@@ -1,4 +1,3 @@
-import EventHandler from "../../Utilities/EventHandler.js";
 import GameEvent from "../../GameEvent/GameEvent.js";
 
 export default class StoreSection {
