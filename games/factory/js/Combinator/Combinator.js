@@ -2,6 +2,8 @@ import Alloy from "../Alloy/Alloy.js";
 import Mineral from "../Mineral/Mineral.js";
 import Base from "../Base/Base.js";
 import Vector2d from "../Vector/Vector2d/Vector2d.js";
+import Purifier from "../Purifier/Purifier.js";
+import GameEvent from "../GameEvent/GameEvent.js";
 
 export default class Combinator extends Base {
 
@@ -35,7 +37,7 @@ export default class Combinator extends Base {
 		[Combinator.STARFORGE, Combinator.STARFORGE.description]
 	])
 
-	static Has = (element) => Combinator.TYPES.includes(element);
+	static Has = (type) => Combinator.TYPES.includes(type);
 
 	static SYMBOLS = new Map([
 		[Combinator.IGNISIUM.description, Combinator.IGNISIUM],
@@ -127,10 +129,9 @@ export default class Combinator extends Base {
 		}
 	}
 
-
-	#capacity;
 	#inventory;
 	#alloyType;
+	#mineralsInAlloy;
 
 	constructor(args = {}) {
 		const { type } = args;
@@ -138,46 +139,78 @@ export default class Combinator extends Base {
 		if (!Alloy.Has(alloyType)) {
 			throw new Error('Invalid alloy type provided');
 		}
-		args.directionVector = new Vector2d(0, 1).rotate(args.orientation ?? 0).round();
+		const startingDirectionVectorOne = new Vector2d(0, 1).rotate(args.orientation ?? 0).round();
+		const startingDirectionVectorTwo = new Vector2d(1, 0).rotate(args.orientation ?? 0).round();
+		const endingDirectionVector = startingDirectionVectorTwo.clone();
+		args.startingDirectionVector = [startingDirectionVectorOne, startingDirectionVectorTwo];
+		args.endingDirectionVector = [endingDirectionVector];
 		super(args);
-		const { speed, cost, purity, capacity, upgrade } = Combinator.DATA.get(type).base;
-		this.#capacity = capacity;
-		this.#inventory = new Map();
+		const { price, speed, cost, purity, capacity, upgrade } = Combinator.DATA.get(type).base;
+		// this.#capacity = capacity;
+		this.#inventory = [];
 		this.#alloyType = alloyType;
+		this.#mineralsInAlloy = Alloy.Ingredients(this.#alloyType);
+		this.setSpeed(speed);
+		this.setPrice(price);
 		this.setCost(cost);
 		this.setUpgrade(upgrade);
 		this.setPurity(purity);
+		this.setCapacity(capacity);
+		this.setSpeedDelta(speed);
 	}
 
-	get capacity() {
-		return this.#capacity;
+	get inventoryFullPercentage() {
+		return this.#inventory.length / this.capacity;
 	}
 
-	get inventorySize() {
-		return [...this.#inventory].reduce((accumulator, [mineral, count]) => accumulator + count, 0);
+	hasMineral(mineralType) {
+		const minerals = [...Alloy.Ingredients(this.#alloyType).keys()];
+		return minerals.includes(mineralType);
 	}
 
-	combine(minerals) {
-		if (!Array.isArray(minerals)) {
-			throw new Error('Combinator.combine() requires an array of minerals');
-		}
-		if (minerals.some(mineral => !Mineral.Has(mineral))) {
-			throw new Error('Invalid minerals provided');
-		}
-		if (this.inventorySize + minerals.length > this.capacity) {
-			throw new Error('Inventory full');
-		}
-		minerals.forEach(mineral => {
-			const count = this.#inventory.get(mineral) ?? 0;
-			this.#inventory.set(mineral, count + 1);
+	hasDirection(mineralDirection) {
+		return this.startingDirectionVector[0].equals(mineralDirection) || this.startingDirectionVector[1].equals(mineralDirection) ;
+	}
+
+	hasCapacity() {
+		return this.#inventory.length < this.capacity;
+	}
+
+	canAcceptOre(mineral) {
+		return this.hasMineral(mineral.type) && this.hasDirection(mineral.directionVector) && this.hasCapacity();
+	}
+
+	addOreToInventory(mineral) {
+		this.#inventory.push(mineral);
+		GameEvent.Emit(GameEvent.COMBINATOR_INVENTORY_CHANGE, this);
+	}
+
+	clearInventory() {
+		this.#inventory = [];
+	}
+
+
+	produceAlloy() {
+		let haveEnoughMinerals = 0;
+		this.#mineralsInAlloy.forEach((count, mineralType) => {
+			const inInventory = this.#inventory.filter(mineral => mineral.type === mineralType).length;
+			if (inInventory >= count) {
+				haveEnoughMinerals++;
+			}
 		});
-		const alloyRecipe = Alloy.Ingredients(this.#alloyType);
-		if ([...alloyRecipe].every(([mineral, count]) => this.#inventory.get(mineral) >= count)) {
-			[...alloyRecipe].forEach(([mineral, count]) => this.#inventory.set(mineral, this.#inventory.get(mineral) - count));
-			// TODO: Purity
-			return new Alloy({ type: this.#alloyType, purity: 0 });
-		} else {
-			return undefined;
+		if (haveEnoughMinerals === this.#mineralsInAlloy.size) {
+			const mineralsToRemove = new Map(this.#mineralsInAlloy);
+			const newInventory = [];
+			for (const mineral of this.#inventory) {
+				if (mineralsToRemove.get(mineral.type) > 0) {
+					mineralsToRemove.set(mineral.type, mineralsToRemove.get(mineral.type) - 1);
+				} else {
+					newInventory.push(mineral);
+				}
+			}
+			this.#inventory = newInventory;
+			GameEvent.Emit(GameEvent.ALLOY_CREATE, this.#alloyType, this, this.purity);
+			GameEvent.Emit(GameEvent.COMBINATOR_INVENTORY_CHANGE, this);
 		}
 	}
 }

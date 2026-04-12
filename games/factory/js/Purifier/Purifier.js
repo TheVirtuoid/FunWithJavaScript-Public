@@ -132,6 +132,7 @@ export default class Purifier extends Base {
 		this.setUpgrade(upgrade);
 		this.setPurity(purity);
 		this.setCapacity(capacity);
+		this.setSpeedDelta(speed);
 		this.#inventory = [];
 	}
 
@@ -160,7 +161,10 @@ export default class Purifier extends Base {
 	}
 
 	produceOre() {
-		GameEvent.Emit(GameEvent.ORE_CREATE, Purifier.MINERAL_TYPES.get(this.type), this);
+		if (this.#inventory.length) {
+			const item = this.#inventory.shift();
+			GameEvent.Emit(GameEvent.ORE_CREATE, Purifier.MINERAL_TYPES.get(this.type), this, item.purity + this.purity);
+		}
 	}
 
 	/*purify(mineral) {

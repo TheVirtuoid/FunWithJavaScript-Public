@@ -23,7 +23,8 @@ export default class GameEvent {
 
 	static GRID_SELECTED = Symbol('grid-selected');
 
-
+	static ALLOY_CREATE = Symbol('alloy-create');
+	static COMBINATOR_INVENTORY_CHANGE = Symbol('combinator-inventory-change');
 	static STORE_UPDATE_CASH = Symbol('store-update-cash');
 
 	static TYPES = [
@@ -41,7 +42,9 @@ export default class GameEvent {
 		GameEvent.INVENTORY_REMOVE_ACTIVE,
 		GameEvent.ORE_CREATED,
 		GameEvent.ORE_CREATE,
+		GameEvent.ALLOY_CREATE,
 		GameEvent.GRID_SELECTED,
+		GameEvent.COMBINATOR_INVENTORY_CHANGE,
 
 		GameEvent.STORE_UPDATE_CASH
 	]

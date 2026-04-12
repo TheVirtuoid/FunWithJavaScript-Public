@@ -5,6 +5,7 @@ import DistributionCenter from "../DistributionCenter/DistributionCenter.js";
 import GameEvent from "../GameEvent/GameEvent.js";
 import World from "../World/World.js";
 import Purifier from "../Purifier/Purifier.js";
+import Combinator from "../Combinator/Combinator.js";
 
 export default class TransporterUI {
 
@@ -36,9 +37,13 @@ export default class TransporterUI {
 		let directionVector;
 		if (Extractor.Has(building.type)) {
 			directionVector = [building.directionVector.clone()];
+			item.setActiveImage(item.oreImage);
 		} else if (Conveyor.Has(building.type)) {
 			directionVector = building.startingDirectionVector;
 		} else if (Purifier.Has(building.type)) {
+			directionVector = building.startingDirectionVector;
+			item.setActiveImage(item.oreImage);
+		} else if (Combinator.Has(building.type)) {
 			directionVector = building.startingDirectionVector;
 		}
 		this.#inactiveItems.set(item, { building, directionVector });
@@ -69,13 +74,13 @@ export default class TransporterUI {
 	#moveItem(item, cellData) {
 		const tweenInformation = this.#getTweenInformation(item, cellData.building);
 		if (!tweenInformation) {
-			item.oreImage.destroy();
+			item.activeImage.destroy();
 			return false;
 		}
-		item.oreImage.setPosition(tweenInformation.start.x, tweenInformation.start.y);
+		item.activeImage.setPosition(tweenInformation.start.x, tweenInformation.start.y);
 		this.#scene.tweens.add({
 			onCompleteParams: [item, cellData.building],
-			targets: item.oreImage,
+			targets: item.activeImage,
 			x: tweenInformation.end.x,
 			y: tweenInformation.end.y,
 			duration: tweenInformation.duration,
@@ -88,12 +93,11 @@ export default class TransporterUI {
 						const { type, purity } = item;
 						const amount = DistributionCenter.Pricing(type) * purity;
 						GameEvent.Emit(GameEvent.STAT_CASH, amount);
-					} else if (Purifier.Has(nextWorldItem.building?.type) && nextWorldItem.building.canAcceptOre(item)) {
+					} else if ((Purifier.Has(nextWorldItem.building?.type) || Combinator.Has(nextWorldItem.building?.type)) && nextWorldItem.building.canAcceptOre(item)) {
 						const { building } = nextWorldItem;
 						const added = building.addOreToInventory(item);
-						console.log(added);
 					}
-					item.oreImage.destroy();
+					item.activeImage?.destroy();
 				} else {
 					this.#inMotionItems.set(item, { building: nextWorldItem.building, directionVector: nextWorldItem.building.startingDirectionVector });
 				}
@@ -103,10 +107,13 @@ export default class TransporterUI {
 	}
 
 	#getTweenInformation(item, building) {
-		if (Extractor.Has(building.type)) {
+		if (Extractor.Has(building.type) || Purifier.Has(building.type) || Combinator.Has(building.type)) {
 			const duration = 500;
 			const movement = World.UNIT_HALF_SIZE;
-			const startingDirectionVector = building.directionVector.round();
+			if (building.type === Combinator.IGNISIUM) {
+				console.log(item, building);
+			}
+			const startingDirectionVector = Combinator.Has(building.type) ? building.endingDirectionVector[0].round() : building.directionVector.round();
 			const start = Utilities.GridToPosition(building.position);
 			const end = {x: start.x + World.UNIT_HALF_SIZE * startingDirectionVector.x, y: start.y + World.UNIT_HALF_SIZE * startingDirectionVector.y };
 			return { item, building, start, end, duration, movement, endingDirectionVector: startingDirectionVector };

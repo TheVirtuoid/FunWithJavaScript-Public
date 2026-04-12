@@ -102,13 +102,17 @@ export default class Game extends Phaser.Scene {
 		} else if (eventName === GameEvent.INVENTORY_REMOVE) {
 			this.#stats.updateInventory(payload.symbol, -payload.number);
 		} else if (eventName === GameEvent.ORE_CREATE) {
-			this.#worldUI.createOre({ building: additionalData[0], oreType: payload });
+			this.#worldUI.createOre({building: additionalData[0], oreType: payload, purity: additionalData[1]});
+		} else if (eventName === GameEvent.ALLOY_CREATE) {
+			this.#worldUI.createAlloy({building: additionalData[0], alloyType: payload, purity: additionalData[1]});
+		} else if (eventName === GameEvent.COMBINATOR_INVENTORY_CHANGE) {
+			this.#statsUI.updateCombinatorInformation(payload);
+		}
 			/*const extractor = additionalData[0]; // for documentation purposes
 			const ore = this.#mineralUI.createMineral(payload)
 			ore.setDirectionVector(extractor.directionVector);
 			this.#mineralUI.createOreImage(ore, extractor.position);
 			this.#transporter.add(ore, extractor);*/
-		}
 		/*if (eventName === GameEvent.STAT_CURSOR_POSITION) {
 			this.#statsUI.setCursorPosition(payload);
 		} else if (eventName === GameEvent.GAME_READY) {

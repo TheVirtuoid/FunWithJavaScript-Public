@@ -60,6 +60,7 @@ export default class Mineral extends Base{
 	#pureTexture;
 	#depositTexture;
 
+	#activeImage;
 
 	constructor(args = {}) {
 		const { type, oreTexture, pureTexture, depositTexture } = args;
@@ -98,6 +99,14 @@ export default class Mineral extends Base{
 
 	get depositTexture() {
 		return this.#depositTexture;
+	}
+
+	get activeImage() {
+		return this.#activeImage;
+	}
+
+	setActiveImage(activeImage) {
+		this.#activeImage = activeImage;
 	}
 
 

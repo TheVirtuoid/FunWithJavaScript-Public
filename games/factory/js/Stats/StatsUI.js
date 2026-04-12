@@ -48,6 +48,10 @@ export default class StatsUI {
 		this.#stats.setCallback(this.#eventHandlerId, this.#eventCallback.bind(this));
 	}
 
+	updateCombinatorInformation(combinator) {
+		this.#informationUI.updateCombinatorInformation(combinator);
+	}
+
 	#eventCallback(event) {
 		if (event.type === GameEvent.STAT_CURSOR_POSITION) {
 			this.#cursorPositionUI.update(event.data);

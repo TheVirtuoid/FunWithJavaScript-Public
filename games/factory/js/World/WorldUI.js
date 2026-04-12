@@ -13,6 +13,7 @@ import DistributionCenterUI from "../DistributionCenter/DistributionCenterUI.js"
 import Combinator from "../Combinator/Combinator.js";
 import Purifier from "../Purifier/Purifier.js";
 import TransporterUI from "../Transporter/TransporterUI.js";
+import AlloyUI from "../Alloy/AlloyUI.js";
 
 export default class WorldUI {
 
@@ -30,6 +31,7 @@ export default class WorldUI {
 	#heightPx;
 
 	#mineralUI;
+	#alloyUI;
 	#distributionCenterUI;
 	#transporter;
 
@@ -39,6 +41,7 @@ export default class WorldUI {
 		this.#heightPx = World.UNIT_SIZE * World.HEIGHT;
 		this.#widthPx = World.UNIT_SIZE * World.WIDTH;
 		this.#mineralUI = new MineralUI(this.#scene);
+		this.#alloyUI = new AlloyUI(this.#scene);
 		this.#transporter = new TransporterUI(this.#scene);
 		this.#distributionCenterUI = new DistributionCenterUI(this.#scene);
 	}
@@ -102,6 +105,10 @@ export default class WorldUI {
 					if (building.adjustSpeedDelta(Game.BASE_DELTA_TIMING)) {
 						building.produceOre();
 					}
+				} else if (Combinator.Has(building.type)) {
+					if (building.adjustSpeedDelta(Game.BASE_DELTA_TIMING)) {
+						building.produceAlloy();
+					}
 				}
 			}
 		});
@@ -129,6 +136,7 @@ export default class WorldUI {
 	preload() {
 		this.#scene.load.image('ground', 'img/ground.png');
 		this.#mineralUI.preload();
+		this.#alloyUI.preload();
 		this.#distributionCenterUI.preload();
 	}
 
@@ -162,11 +170,20 @@ export default class WorldUI {
 	}
 
 	createOre(args = {}) {
-		const { building, oreType } = args;
-		const ore = this.#mineralUI.createMineral(oreType, building.purity);
+		const { building, oreType, purity } = args;
+		// console.log(building, oreType, purity);
+		const ore = this.#mineralUI.createMineral(oreType, Math.min((purity ?? building.purity), 1));
+		// console.log(ore, building.directionVector);
 		ore.setDirectionVector(building.directionVector);
 		this.#mineralUI.createOreImage(ore, building.position, building instanceof Extractor ? Mineral.ORE_PARENT_EXTRACTOR : Mineral.ORE_PARENT_PURIFIER);
 		this.#transporter.add(ore, building);
+	}
+
+	createAlloy(args = {}) {
+		const { building, alloyType, purity } = args;
+		const alloy = this.#alloyUI.createAlloy(alloyType, Math.min((purity ?? building.purity)), building.position);
+		alloy.setDirectionVector(building.directionVector);
+		this.#transporter.add(alloy, building);
 	}
 
 	#clearActiveInventory() {

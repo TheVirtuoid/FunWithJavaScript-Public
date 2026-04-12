@@ -3,6 +3,7 @@ import Conveyor from "../../Conveyor/Conveyor.js";
 import Utilities from "../../Utilities/Utilities.js";
 import WorldData from "../../WorldData/WorldData.js";
 import GameEvent from "../../GameEvent/GameEvent.js";
+import Combinator from "../../Combinator/Combinator.js";
 
 export default class StatInformationUI {
 	#dom;
@@ -21,7 +22,6 @@ export default class StatInformationUI {
 		const button = event.target.closest('button');
 		if (button) {
 			const li = button.closest('li');
-			const id = li.dataset.id;
 			const building = this.#statInformation.building;
 			if (building) {
 				const baseData = WorldData.Base(building.type);
@@ -33,6 +33,8 @@ export default class StatInformationUI {
 					this.#upgradeLevel({ button, li, building, levelData, baseData });
 				} else if (upgradeType === 'purity') {
 					this.#upgradePurity({ button, li, building, levelData, baseData });
+				} else if (upgradeType === 'clearInventory') {
+					this.#clearCombinatorInventory();
 				}
 			}
 		}
@@ -151,6 +153,20 @@ export default class StatInformationUI {
 				ul.appendChild(this.#buildInformationItem({ text: 'Level', id: building.id, value: building.level, buttonValue: WorldData.Level(building.type, building.level).cost }));
 				ul.appendChild(this.#buildInformationItem({ text: 'Purity', id: building.id, value: building.purity, buttonValue: building.upgrade.purity }));
 				this.#dom.appendChild(ul);
+				if (Combinator.Has(building.type)) {
+					p = document.createElement('p');
+					let span = document.createElement('span');
+					span.dataset.id = 'inventoryFullPercentage';
+					const inventoryFullPercentage = Math.min(building.inventoryFullPercentage * 100, 100);
+					span.textContent = `Inventory: ${Utilities.FormatShortNumber(inventoryFullPercentage)}%`;
+					p.appendChild(span);
+					const button = document.createElement('button');
+					button.classList.add('tertiary', 'small', 'thin');
+					button.textContent = 'Clear Inventory';
+					button.dataset.type = 'clearInventory';
+					p.appendChild(button);
+					this.#dom.appendChild(p);
+				}
 				return;
 			}
 		}
@@ -167,6 +183,16 @@ export default class StatInformationUI {
 		this.#statInformation = null;
 	}
 
+	#clearCombinatorInventory() {
+		if (this.#statInformation) {
+			const { building } = this.#statInformation;
+			if (Combinator.Has(building.type)) {
+				building.clearInventory();
+				this.updateCombinatorInformation();
+			}
+		}
+	}
+
 	#buildInformationItem(item) {
 		const { text, value, id, buttonValue } = item;
 		const li = document.createElement('li');
@@ -181,6 +207,15 @@ export default class StatInformationUI {
 		button.title = `Total cost: ${buttonValue}`;
 		li.appendChild(button);
 		return li;
+	}
+
+	updateCombinatorInformation() {
+		if (this.#statInformation) {
+			const { building, deposit } = this.#statInformation;
+			if (building && Combinator.Has(building.type)) {
+				this.#dom.querySelector('span[data-id="inventoryFullPercentage"]').textContent = `Inventory: ${Utilities.FormatShortNumber(building.inventoryFullPercentage * 100)}%`;
+			}
+		}
 	}
 
 	updateAvailability(cashAvailable) {

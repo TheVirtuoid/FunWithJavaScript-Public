@@ -43,7 +43,7 @@ export default class Conveyor extends Base {
 
 	static #DATA = new Map([
 		[Conveyor.STRAIGHT,
-			{ base: { cost: 5, level: 1.1 } }
+			{ base: { cost: 5, level: 1.15 } }
 		],
 		[Conveyor.CURVE_LEFT,
 			{ base: { cost: 8, level: 1.2 } }

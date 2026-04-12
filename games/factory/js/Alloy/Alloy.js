@@ -41,6 +41,8 @@ export default class Alloy extends Base {
 		[Alloy.STARFORGE, (Mineral.PRICE_PURIFIED.get(Mineral.PYROTITE) * 12 + Mineral.PRICE_PURIFIED.get(Mineral.LUMINITE) * 7 + Mineral.PRICE_PURIFIED.get(Mineral.ZENITHITE * 1)) * 1.5],
 	]);*/
 
+	#activeImage;
+
 	static Has(element) {
 		return Alloy.TYPES.includes(element);
 	}
@@ -52,10 +54,18 @@ export default class Alloy extends Base {
 	}
 
 	constructor(args = {}) {
-		const { type } = args;
+		const { type, purity } = args;
 		if (!Alloy.Has(type)) {
 			throw new Error(`Invalid alloy type: ${type}`);
 		}
 		super(args);
+	}
+
+	get activeImage() {
+		return this.#activeImage;
+	}
+
+	setActiveImage(activeImage) {
+		this.#activeImage = activeImage;
 	}
 }

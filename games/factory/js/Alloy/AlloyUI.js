@@ -1,4 +1,6 @@
 import Alloy from "./Alloy.js";
+import Mineral from "../Mineral/Mineral.js";
+import Utilities from "../Utilities/Utilities.js";
 
 export default class AlloyUI {
 
@@ -8,9 +10,11 @@ export default class AlloyUI {
 		this.#scene = scene;
 	}
 
-	createAlloy(type) {
-		const alloy = new Alloy({ type });
-		alloy.setImage(`ingot-${type.description}`);
+	createAlloy(type, purity, position) {
+		const alloy = new Alloy({ type, purity });
+		const worldPosition = Utilities.GridToPosition(position);
+		alloy.setActiveImage(this.#scene.add.image(worldPosition.x, worldPosition.y, `ingot-${type.description}`));
+		alloy.activeImage.setDepth(10000);
 		return alloy;
 	}
 
