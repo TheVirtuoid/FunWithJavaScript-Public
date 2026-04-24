@@ -12,14 +12,13 @@ export default class Game extends Phaser.Scene {
 	static UNIT_SIZE = 64;
 	static WORLD_UNITS = 50;
 	static HALF_SIZE = Game.UNIT_SIZE / 2;
-	static START_CASH = 10000000;
+	static START_CASH = 5000000;
 	static BASE_DELTA_TIMING = 100;
 
 	#statsUI;
 	#storeUI;
 	#worldUI;
 
-	#mineralUI;
 	#stats;
 	#store;
 	#world;
@@ -124,10 +123,6 @@ export default class Game extends Phaser.Scene {
 			this.#timer = Game.BASE_DELTA_TIMING;
 			this.#worldUI.update(time, Game.BASE_DELTA_TIMING);
 		}
-	}
-
-	createMineral(type) {
-		return this.#mineralUI.createMineral(type);
 	}
 
 	getPosition(position) {
