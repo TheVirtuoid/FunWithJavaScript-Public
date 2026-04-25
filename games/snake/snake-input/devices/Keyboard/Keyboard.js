@@ -50,6 +50,10 @@ export default class Keyboard extends Device {
 		document.removeEventListener('keydown', this.#processKeystrokeBinding);
 	}
 
+	update() {
+		return;		// does nothing on purpose
+	}
+
 	#processKeystroke(event) {
 		const { code } = event;
 		const keyLayout = KeyboardLayout.Get(this.layout);

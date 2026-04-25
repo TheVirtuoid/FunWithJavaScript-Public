@@ -48,6 +48,10 @@ export default class Input {
 		}
 	}
 
+	update() {
+		this.#device.update();
+	}
+
 	#onChangeDirection(direction) {
 		GameEvent.Emit(GameEvent.INPUT_CHANGE_DIRECTION, { id: this.id, direction });
 	}

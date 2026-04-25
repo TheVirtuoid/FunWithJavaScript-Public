@@ -10,6 +10,9 @@ import PrizeType from "../Prize/PrizeType.js";
 import ActionButtons from "../../snake-ui/ActionButtons/ActionButtons.js";
 
 export default class Game {
+
+	static SNAKE_MOVEMENT_TIMING = 200;
+
 	#pitch;
 	#snake;
 	#id;
@@ -25,12 +28,15 @@ export default class Game {
 	#movementTimestamp;
 	#actionButtons;
 
+	#gameOver;
+
 	constructor(args = {}) {
 		const { id = window.crypto.randomUUID() } = args;
 		this.#id = id;
 		this.#prizes = new Set();
 		this.#paused = false;
-		this.#movementDelay = 200; // in milliseconds
+		this.#gameOver = false;
+		this.#movementDelay = Game.SNAKE_MOVEMENT_TIMING; // in milliseconds
 		GameEvent.Setup(this);
 	}
 
@@ -194,6 +200,7 @@ export default class Game {
 	}
 
 	restart() {
+		this.#gameOver = true;
 		clearInterval(this.#snakeMove);
 		this.#ui.clearSnake(this.#snake);
 		this.#clearPrizes();
@@ -253,6 +260,7 @@ export default class Game {
 
 	#onGameOver(data) {
 		this.#ui.setVisible(GameEvent.GAME_OVER);
+		this.#gameOver = true;
 		clearInterval(this.#snakeMove);
 		this.#actionButtons.enableButtons();
 		this.#actionButtons.showButtons();
@@ -296,13 +304,24 @@ export default class Game {
 		this.#prizes.add(prize);
 		this.#ui.drawPrize(prize);
 		this.#movementTimestamp = performance.now();
+		this.#gameOver = false;
+		requestAnimationFrame(this.#getSnakeInput.bind(this));
 		this.#snakeMove = setInterval(() => {
 			if (!this.#paused) {
 				this.moveSnake();
 				this.#ui.updateSnake(this.#snake);
 			}
-		}, 200);
+		}, this.#movementDelay);
 	}
+
+	#getSnakeInput() {
+		if (this.#gameOver) {
+			return;
+		}
+		this.#input.update();
+		requestAnimationFrame(this.#getSnakeInput.bind(this));
+	}
+
 
 	#generatePrize() {
 		if (!this.#pitch || !this.#snake) {

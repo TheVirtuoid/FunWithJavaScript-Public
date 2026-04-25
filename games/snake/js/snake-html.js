@@ -13,14 +13,24 @@ import Score from "../snake-base/Score/Score.js";
 import Messages from "../snake-base/Messages/Messages.js";
 import ActionButton from "../snake-ui/ActionButton/ActionButton.js";
 import ActionButtons from "../snake-ui/ActionButtons/ActionButtons.js";
+import Controller from "../snake-input/devices/Controller/Controller.js";
+import ControllerLayout from "../snake-input/devices/Controller/ControllerLayout/ControllerLayout.js";
 
 const inputTypes = new Map([
-	['kb-wasd', KeyboardLayout.LAYOUT_WASD ],
-	['kb-arrow', KeyboardLayout.LAYOUT_ARROW ]
+	['kb-wasd', KeyboardLayout.LAYOUT_WASD],
+	['kb-arrow', KeyboardLayout.LAYOUT_ARROW],
+	['game-controller', ControllerLayout.LAYOUT_GAMEPAD],
 ]);
 const { inputValue } = JSON.parse(localStorage.getItem('virtuoid-snake') || '{}');
 
-const deviceReference = Keyboard;
+let deviceReference;
+if (inputValue.startsWith('kb-')) {
+	deviceReference = Keyboard;
+} else if (inputValue === 'game-controller') {
+	deviceReference = Controller;
+}
+
+// const deviceReference = Keyboard;
 const vectorReference = Vector2d;
 const deviceData = { layout: inputTypes.get(inputValue) };
 const direction = Vector2d.Right();
