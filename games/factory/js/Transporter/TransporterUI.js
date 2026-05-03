@@ -78,32 +78,79 @@ export default class TransporterUI {
 			return false;
 		}
 		item.activeImage.setPosition(tweenInformation.start.x, tweenInformation.start.y);
-		this.#scene.tweens.add({
+		const tweenConfig = {
+			duration: tweenInformation.duration,
 			onCompleteParams: [item, cellData.building],
 			targets: item.activeImage,
-			x: tweenInformation.end.x,
-			y: tweenInformation.end.y,
-			duration: tweenInformation.duration,
 			onComplete: (tween, targets, item) => {
 				this.#activeItems.delete(item);
 				const nextPosition = cellData.building.position.add(tweenInformation.endingDirectionVector);
 				const nextWorldItem = this.#scene.getPosition(nextPosition);
 				if (!Conveyor.Has(nextWorldItem.building?.type)) {
 					if (DistributionCenter.Has(nextWorldItem.building?.type)) {
-						const { type, purity } = item;
+						const {type, purity} = item;
 						const amount = DistributionCenter.Pricing(type) * purity;
 						GameEvent.Emit(GameEvent.STAT_CASH, amount);
 					} else if ((Purifier.Has(nextWorldItem.building?.type) || Combinator.Has(nextWorldItem.building?.type)) && nextWorldItem.building.canAcceptOre(item)) {
-						const { building } = nextWorldItem;
+						const {building} = nextWorldItem;
 						building.addOreToInventory(item);
 					}
 					item.activeImage?.destroy();
 				} else {
-					this.#inMotionItems.set(item, { building: nextWorldItem.building, directionVector: nextWorldItem.building.startingDirectionVector });
+					this.#inMotionItems.set(item, {
+						building: nextWorldItem.building,
+						directionVector: nextWorldItem.building.startingDirectionVector
+					});
 				}
 			}
-		});
+		};
+		if (tweenInformation.isCurve) {
+			tweenConfig.x = tweenInformation.interpolationData.x;
+			tweenConfig.y = tweenInformation.interpolationData.y;
+			tweenConfig.interpolation = 'bezier';
+		} else {
+			tweenConfig.x = tweenInformation.end.x;
+			tweenConfig.y = tweenInformation.end.y;
+		}
+		this.#scene.tweens.add(tweenConfig);
 		return true;
+	}
+
+	#getTweenStartingEndingDirectionVector(item, building) {
+		const directionIndex = building.startingDirectionVector.findIndex(
+			directionVector => directionVector.round().equals(item.directionVector.round())
+		);
+		if (directionIndex === -1) {
+			return false;
+		}
+		const startingDirectionVector = building.startingDirectionVector[directionIndex];
+		const endingDirectionVector = building.endingDirectionVector.length === 1 ?
+			building.endingDirectionVector[0] :
+			building.endingDirectionVector[directionIndex];
+		return { startingDirectionVector, endingDirectionVector };
+	}
+
+	#processConveyorTweenInformation(item, building, directionVectors) {
+		const duration = 1000;
+		const movement = World.UNIT_SIZE;
+		const { startingDirectionVector, endingDirectionVector } = directionVectors;
+		const start = Utilities.GridToPosition(building.position);
+		const isCurve = !startingDirectionVector.equals(endingDirectionVector);
+		const oppositeDirectionVector = startingDirectionVector.opposite();
+		start.x += oppositeDirectionVector.x * World.UNIT_HALF_SIZE;
+		start.y += oppositeDirectionVector.y * World.UNIT_HALF_SIZE;
+		const end = Utilities.GridToPosition(building.position);
+		end.x += endingDirectionVector.x * World.UNIT_HALF_SIZE;
+		end.y += endingDirectionVector.y * World.UNIT_HALF_SIZE;
+		let interpolationData = {};
+		if (isCurve) {
+			const controlPoint = Utilities.GridToPosition(building.position);
+			interpolationData = {
+				x: [start.x, controlPoint.x, end.x],
+				y: [start.y, controlPoint.y, end.y]
+			};
+		}
+		return { item, building, start, end, duration, movement, endingDirectionVector, isCurve, interpolationData };
 	}
 
 	#getTweenInformation(item, building) {
@@ -115,78 +162,13 @@ export default class TransporterUI {
 			const end = {x: start.x + World.UNIT_HALF_SIZE * startingDirectionVector.x, y: start.y + World.UNIT_HALF_SIZE * startingDirectionVector.y };
 			return { item, building, start, end, duration, movement, endingDirectionVector: startingDirectionVector };
 		} else if (Conveyor.Has(building.type)) {
-			const duration = 1000;
-			const movement = World.UNIT_SIZE;
-			if (building.type === Conveyor.STRAIGHT) {
-				const startingDirectionVector = building.startingDirectionVector[0].round();
-				if (!item.directionVector.equals(startingDirectionVector)) {
-					return false;
-				}
-				const start = Utilities.GridToPosition(building.position);
-				const oppositeDirectionVector = startingDirectionVector.opposite();
-				start.x += oppositeDirectionVector.x * World.UNIT_HALF_SIZE;
-				start.y += oppositeDirectionVector.y * World.UNIT_HALF_SIZE;
-				const end = { x: start.x + World.UNIT_SIZE * startingDirectionVector.x, y: start.y + World.UNIT_SIZE * startingDirectionVector.y };
-				return { item, building, start, end, duration, movement, endingDirectionVector: startingDirectionVector };
+			const directionVectors = this.#getTweenStartingEndingDirectionVector(item, building);
+			if (!directionVectors) {
+				return;
 			}
-			if (building.type === Conveyor.CURVE_LEFT || building.type === Conveyor.CURVE_RIGHT) {
-				const startingDirectionVector = building.startingDirectionVector[0].round();
-				const endingDirectionVector = building.endingDirectionVector[0].round();
-				if (!item.directionVector.equals(startingDirectionVector)) {
-					return false;
-				}
-				const start = Utilities.GridToPosition(building.position);
-				const oppositeDirectionVector = startingDirectionVector.opposite();
-				start.x += oppositeDirectionVector.x * World.UNIT_HALF_SIZE;
-				start.y += oppositeDirectionVector.y * World.UNIT_HALF_SIZE;
-				const end = Utilities.GridToPosition(building.position);
-				end.x += endingDirectionVector.x * World.UNIT_HALF_SIZE;
-				end.y += endingDirectionVector.y * World.UNIT_HALF_SIZE;
-				item.setDirectionVector(endingDirectionVector);
-				return { item, building, start, end, duration, movement, endingDirectionVector };
-			}
-			if (building.type === Conveyor.T_INTERSECTION_RIGHT || building.type === Conveyor.T_INTERSECTION_LEFT) {
-				let startingDirectionVector;
-				if (item.directionVector.equals(building.startingDirectionVector[0].round())) {
-					startingDirectionVector = building.startingDirectionVector[0].round();
-				} else if (item.directionVector.equals(building.startingDirectionVector[1].round())) {
-					startingDirectionVector = building.startingDirectionVector[1].round();
-				} else {
-					return false;
-				}
-				const endingDirectionVector = building.endingDirectionVector[0].round();
-				const start = Utilities.GridToPosition(building.position);
-				const oppositeDirectionVector = startingDirectionVector.opposite();
-				start.x += oppositeDirectionVector.x * World.UNIT_HALF_SIZE;
-				start.y += oppositeDirectionVector.y * World.UNIT_HALF_SIZE;
-				const end = Utilities.GridToPosition(building.position);
-				end.x += endingDirectionVector.x * World.UNIT_HALF_SIZE;
-				end.y += endingDirectionVector.y * World.UNIT_HALF_SIZE;
-				item.setDirectionVector(endingDirectionVector);
-				return { item, building, start, end, duration, movement, endingDirectionVector };
-			}
-			if (building.type === Conveyor.X_INTERSECTION) {
-				let startingDirectionVector;
-				let endingDirectionVector;
-				if (item.directionVector.equals(building.startingDirectionVector[0].round())) {
-					startingDirectionVector = building.startingDirectionVector[0].round();
-					endingDirectionVector = building.endingDirectionVector[0].round();
-				} else if (item.directionVector.equals(building.startingDirectionVector[1].round())) {
-					startingDirectionVector = building.startingDirectionVector[1].round();
-					endingDirectionVector = building.endingDirectionVector[1].round();
-				} else {
-					return false;
-				}
-				const start = Utilities.GridToPosition(building.position);
-				const oppositeDirectionVector = startingDirectionVector.opposite();
-				start.x += oppositeDirectionVector.x * World.UNIT_HALF_SIZE;
-				start.y += oppositeDirectionVector.y * World.UNIT_HALF_SIZE;
-				const end = Utilities.GridToPosition(building.position);
-				end.x += endingDirectionVector.x * World.UNIT_HALF_SIZE;
-				end.y += endingDirectionVector.y * World.UNIT_HALF_SIZE;
-				item.setDirectionVector(endingDirectionVector);
-				return { item, building, start, end, duration, movement, endingDirectionVector };
-			}
+			const processedData = this.#processConveyorTweenInformation(item, building, directionVectors);
+			item.setDirectionVector(processedData.endingDirectionVector);
+			return processedData;
 		} else {
 			return false;
 		}
