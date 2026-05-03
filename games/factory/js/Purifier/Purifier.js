@@ -141,7 +141,7 @@ export default class Purifier extends Base {
 	}
 
 	hasDirection(mineralDirection) {
-		return this.startingDirectionVector[0].equals(mineralDirection);
+		return this.startingDirectionVector[0].round().equals(mineralDirection.round());
 	}
 
 	hasCapacity() {

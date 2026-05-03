@@ -156,7 +156,8 @@ export default class Combinator extends Base {
 	}
 
 	hasDirection(mineralDirection) {
-		return this.startingDirectionVector[0].equals(mineralDirection) || this.startingDirectionVector[1].equals(mineralDirection) ;
+		return this.startingDirectionVector[0].round().equals(mineralDirection.round()) ||
+			this.startingDirectionVector[1].round().equals(mineralDirection.round()) ;
 	}
 
 	hasCapacity() {

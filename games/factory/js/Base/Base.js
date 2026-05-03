@@ -128,7 +128,7 @@ export default class Base {
 	}
 
 	setUpgrade(upgrade) {
-		this.#upgrade = upgrade;
+		this.#upgrade = structuredClone(upgrade);
 	}
 
 	setPrice(price) {

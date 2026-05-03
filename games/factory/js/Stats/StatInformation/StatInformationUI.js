@@ -225,7 +225,7 @@ export default class StatInformationUI {
 	updateAvailability(cashAvailable) {
 		if (this.#statInformation) {
 			const { building } = this.#statInformation;
-			if (building) {
+			if (building && !Conveyor.Has(building.type)) {
 				let section = this.#getInformationSection('speed');
 				section.button.disabled = building.upgrade.speed > cashAvailable;
 				section = this.#getInformationSection('level');
