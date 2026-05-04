@@ -16,18 +16,18 @@ export default class DistributionCenter extends Base {
 	}
 
 	static ITEM_PRICES = new Map([
-		[Mineral.AETHERITE, 30],
-		[Mineral.PYROTITE, 40],
-		[Mineral.LUMINITE, 60],
-		[Mineral.OBSIDIANITE, 80],
-		[Mineral.ZENITHITE, 140],
-		[Alloy.IGNISIUM,250],
-		[Alloy.PHOTONIUM, 300],
-		[Alloy.VOIDTISSIUM, 400],
-		[Alloy.SOLTARIUM, 600],
-		[Alloy.MAGNANIUM, 900],
-		[Alloy.ETHERIUM, 1500],
-		[Alloy.STARFORGE, 5000]
+		[Mineral.AETHERITE, 150],
+		[Mineral.PYROTITE, 200],
+		[Mineral.LUMINITE, 300],
+		[Mineral.OBSIDIANITE, 400],
+		[Mineral.ZENITHITE, 700],
+		[Alloy.IGNISIUM, 1250],
+		[Alloy.PHOTONIUM, 1500],
+		[Alloy.VOIDTISSIUM, 2000],
+		[Alloy.SOLTARIUM, 3000],
+		[Alloy.MAGNANIUM, 4500],
+		[Alloy.ETHERIUM, 7500],
+		[Alloy.STARFORGE, 25000]
 	]);
 
 	static Pricing(type) {

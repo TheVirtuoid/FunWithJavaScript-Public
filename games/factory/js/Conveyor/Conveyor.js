@@ -34,22 +34,22 @@ export default class Conveyor extends Base {
 
 	static #DATA = new Map([
 		[Conveyor.STRAIGHT,
-			{ base: { cost: 5, level: 1.2 } }
+			{ base: { cost: 10, level: 1 } }
 		],
 		[Conveyor.CURVE_LEFT,
-			{ base: { cost: 8, level: 1.2 } }
+			{ base: { cost: 15, level: 1 } }
 		],
 		[Conveyor.CURVE_RIGHT,
-			{ base: { cost: 8, level: 1.2 } }
+			{ base: { cost: 15, level: 1 } }
 		],
 		[Conveyor.T_INTERSECTION_LEFT,
-			{ base: { cost: 13, level: 1.35 } }
+			{ base: { cost: 25, level: 1 } }
 		],
 		[Conveyor.T_INTERSECTION_RIGHT,
-			{ base: { cost: 13, level: 1.35 } }
+			{ base: { cost: 25, level: 1 } }
 		],
 		[Conveyor.X_INTERSECTION,
-			{ base: { cost: 20, level: 1.5 } }
+			{ base: { cost: 50, level: 1 } }
 		],
 	]);
 

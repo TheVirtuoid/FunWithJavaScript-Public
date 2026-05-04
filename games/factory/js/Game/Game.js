@@ -12,7 +12,7 @@ export default class Game extends Phaser.Scene {
 	static UNIT_SIZE = 64;
 	static WORLD_UNITS = 50;
 	static HALF_SIZE = Game.UNIT_SIZE / 2;
-	static START_CASH = 5000000;
+	static START_CASH = 500;
 	static BASE_DELTA_TIMING = 100;
 
 	#statsUI;
@@ -66,31 +66,6 @@ export default class Game extends Phaser.Scene {
 		} else if (eventName === GameEvent.BUILDING_REMOVED) {
 			this.#statsUI.removeBuilding();
 		}
-			/*const extractor = additionalData[0]; // for documentation purposes
-			const ore = this.#mineralUI.createMineral(payload)
-			ore.setDirectionVector(extractor.directionVector);
-			this.#mineralUI.createOreImage(ore, extractor.position);
-			this.#transporter.add(ore, extractor);*/
-		/*if (eventName === GameEvent.STAT_CURSOR_POSITION) {
-			this.#statsUI.setCursorPosition(payload);
-		} else if (eventName === GameEvent.GAME_READY) {
-			this.start();
-		} else if (eventName === GameEvent.INVENTORY_ADD) {
-			this.#statsUI.updateInventory(payload.symbol, payload.number);
-		} else if (eventName === GameEvent.STAT_CASH) {
-			this.#statsUI.updateCash(payload);
-			this.#storeUI.setCash(this.#statsUI.cash);
-		} else if (eventName === GameEvent.INVENTORY_SET_ACTIVE) {
-			this.#worldUI.setActiveInventory(payload);
-		} else if (eventName === GameEvent.ORE_CREATE) {
-			const extractor = additionalData[0]; // for documentation purposes
-			const ore = this.#mineralUI.createMineral(payload)
-			ore.setDirectionVector(extractor.directionVector);
-			this.#mineralUI.createOreImage(ore, extractor.position);
-			this.#transporter.add(ore, extractor);
-		} else if (eventName === GameEvent.GRID_SELECTED) {
-			this.#statsUI.updateInformation(payload, this.#worldUI.getPosition(payload));
-		}*/
 	}
 
 	start() {
