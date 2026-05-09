@@ -1,0 +1,22 @@
+# Ability
+
+An ability for a character or monster.
+
+## constructor
+`new Ability(args)`: constructs a new Ability
+- `args`: arguments to the ability. Properties are
+  - `type` (symbol): the type of ability. Required. Must be a valid ability type (discovered by `Ability.IsAbility()`)
+  - `value` (integer): The initial value of the ability. Required.
+  - `bonus` (integer): The ability score bonus. Optional, default to 0. 
+
+## Properties
+All properties are read-only.
+- `type` (symbol):
+- `value` (integer):
+- `bonus` (integer):
+
+## Methods
+- `setValue(value)`: sets a new value
+  - `value` (integer): The new value.
+- `setBonus(value)`: sets a new bonus
+  - `value` (integer): the new value
