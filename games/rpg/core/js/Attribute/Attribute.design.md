@@ -22,3 +22,6 @@ All properties are read-only.
     - `type` (symbol): the attribute to check
 - `GetAttribute(type)`: retrieves an attribute by type
     - `type` (symbol): the type of attribute to retrieve
+- `IsAttributeOfType(type, attributeType)`: determines if the given attribute type is a valid attribute type
+    - `type` (symbol): the attribute type to check
+    - `attributeType` (symbol): the attribute type to check against

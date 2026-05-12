@@ -140,13 +140,26 @@ describe('Attribute', () => {
 	// ─── IsAttribute() ─────────────────────────────────────────────────────────
 
 	describe('IsAttribute()', () => {
-		it('returns true for each valid attribute type', () => {
+		it('returns true for each character attribute type', () => {
 			expect(Attribute.IsAttribute(Attribute.LEVEL)).toBe(true);
 			expect(Attribute.IsAttribute(Attribute.EXPERIENCE)).toBe(true);
 			expect(Attribute.IsAttribute(Attribute.ARMOR_CLASS)).toBe(true);
 			expect(Attribute.IsAttribute(Attribute.HIT_POINTS)).toBe(true);
 			expect(Attribute.IsAttribute(Attribute.ATTACK_BONUS)).toBe(true);
 			expect(Attribute.IsAttribute(Attribute.MONEY)).toBe(true);
+		});
+
+		it('returns true for each saving throw attribute type', () => {
+			expect(Attribute.IsAttribute(Attribute.DEATH_POISON)).toBe(true);
+			expect(Attribute.IsAttribute(Attribute.WANDS)).toBe(true);
+			expect(Attribute.IsAttribute(Attribute.PARALYZE_STONE)).toBe(true);
+			expect(Attribute.IsAttribute(Attribute.DRAGON_BREATH)).toBe(true);
+			expect(Attribute.IsAttribute(Attribute.SPELLS)).toBe(true);
+		});
+
+		it('returns false for category symbols (CHARACTER, SAVING_THROW)', () => {
+			expect(Attribute.IsAttribute(Attribute.CHARACTER)).toBe(false);
+			expect(Attribute.IsAttribute(Attribute.SAVING_THROW)).toBe(false);
 		});
 
 		it('returns false for an unknown symbol', () => {
@@ -173,36 +186,72 @@ describe('Attribute', () => {
 			const data = Attribute.GetAttribute(Attribute.LEVEL);
 			expect(data.name).toBe('Level');
 			expect(data.abbreviation).toBe('lvl');
+			expect(data.attributeType).toBe(Attribute.CHARACTER);
 		});
 
 		it('returns the correct data for Attribute.EXPERIENCE', () => {
 			const data = Attribute.GetAttribute(Attribute.EXPERIENCE);
 			expect(data.name).toBe('Experience');
 			expect(data.abbreviation).toBe('xp');
+			expect(data.attributeType).toBe(Attribute.CHARACTER);
 		});
 
 		it('returns the correct data for Attribute.ARMOR_CLASS', () => {
 			const data = Attribute.GetAttribute(Attribute.ARMOR_CLASS);
 			expect(data.name).toBe('Armor class');
 			expect(data.abbreviation).toBe('ac');
+			expect(data.attributeType).toBe(Attribute.CHARACTER);
 		});
 
 		it('returns the correct data for Attribute.HIT_POINTS', () => {
 			const data = Attribute.GetAttribute(Attribute.HIT_POINTS);
 			expect(data.name).toBe('Hit points');
 			expect(data.abbreviation).toBe('hp');
+			expect(data.attributeType).toBe(Attribute.CHARACTER);
 		});
 
 		it('returns the correct data for Attribute.ATTACK_BONUS', () => {
 			const data = Attribute.GetAttribute(Attribute.ATTACK_BONUS);
 			expect(data.name).toBe('Attack bonus');
 			expect(data.abbreviation).toBe('atk');
+			expect(data.attributeType).toBe(Attribute.CHARACTER);
 		});
 
 		it('returns the correct data for Attribute.MONEY', () => {
 			const data = Attribute.GetAttribute(Attribute.MONEY);
 			expect(data.name).toBe('Money');
 			expect(data.abbreviation).toBe('gp');
+			expect(data.attributeType).toBe(Attribute.CHARACTER);
+		});
+
+		it('returns the correct data for Attribute.DEATH_POISON', () => {
+			const data = Attribute.GetAttribute(Attribute.DEATH_POISON);
+			expect(data.name).toBe('Death poison');
+			expect(data.attributeType).toBe(Attribute.SAVING_THROW);
+		});
+
+		it('returns the correct data for Attribute.WANDS', () => {
+			const data = Attribute.GetAttribute(Attribute.WANDS);
+			expect(data.name).toBe('Wands');
+			expect(data.attributeType).toBe(Attribute.SAVING_THROW);
+		});
+
+		it('returns the correct data for Attribute.PARALYZE_STONE', () => {
+			const data = Attribute.GetAttribute(Attribute.PARALYZE_STONE);
+			expect(data.name).toBe('Paralyze stone');
+			expect(data.attributeType).toBe(Attribute.SAVING_THROW);
+		});
+
+		it('returns the correct data for Attribute.DRAGON_BREATH', () => {
+			const data = Attribute.GetAttribute(Attribute.DRAGON_BREATH);
+			expect(data.name).toBe('Dragon breath');
+			expect(data.attributeType).toBe(Attribute.SAVING_THROW);
+		});
+
+		it('returns the correct data for Attribute.SPELLS', () => {
+			const data = Attribute.GetAttribute(Attribute.SPELLS);
+			expect(data.name).toBe('Spells');
+			expect(data.attributeType).toBe(Attribute.SAVING_THROW);
 		});
 
 		it('returns undefined for an unknown symbol', () => {
@@ -219,6 +268,59 @@ describe('Attribute', () => {
 
 		it('returns undefined for a string', () => {
 			expect(Attribute.GetAttribute('level')).toBeUndefined();
+		});
+	});
+
+	// ─── IsAttributeOfType() ───────────────────────────────────────────────────
+
+	describe('IsAttributeOfType()', () => {
+		it('returns true when a CHARACTER attribute is checked against CHARACTER', () => {
+			expect(Attribute.IsAttributeOfType(Attribute.LEVEL, Attribute.CHARACTER)).toBe(true);
+			expect(Attribute.IsAttributeOfType(Attribute.EXPERIENCE, Attribute.CHARACTER)).toBe(true);
+			expect(Attribute.IsAttributeOfType(Attribute.ARMOR_CLASS, Attribute.CHARACTER)).toBe(true);
+			expect(Attribute.IsAttributeOfType(Attribute.HIT_POINTS, Attribute.CHARACTER)).toBe(true);
+			expect(Attribute.IsAttributeOfType(Attribute.ATTACK_BONUS, Attribute.CHARACTER)).toBe(true);
+			expect(Attribute.IsAttributeOfType(Attribute.MONEY, Attribute.CHARACTER)).toBe(true);
+		});
+
+		it('returns true when a SAVING_THROW attribute is checked against SAVING_THROW', () => {
+			expect(Attribute.IsAttributeOfType(Attribute.DEATH_POISON, Attribute.SAVING_THROW)).toBe(true);
+			expect(Attribute.IsAttributeOfType(Attribute.WANDS, Attribute.SAVING_THROW)).toBe(true);
+			expect(Attribute.IsAttributeOfType(Attribute.PARALYZE_STONE, Attribute.SAVING_THROW)).toBe(true);
+			expect(Attribute.IsAttributeOfType(Attribute.DRAGON_BREATH, Attribute.SAVING_THROW)).toBe(true);
+			expect(Attribute.IsAttributeOfType(Attribute.SPELLS, Attribute.SAVING_THROW)).toBe(true);
+		});
+
+		it('returns false when a CHARACTER attribute is checked against SAVING_THROW', () => {
+			expect(Attribute.IsAttributeOfType(Attribute.LEVEL, Attribute.SAVING_THROW)).toBe(false);
+		});
+
+		it('returns false when a SAVING_THROW attribute is checked against CHARACTER', () => {
+			expect(Attribute.IsAttributeOfType(Attribute.DEATH_POISON, Attribute.CHARACTER)).toBe(false);
+		});
+
+		it('returns false for an unknown type symbol', () => {
+			expect(Attribute.IsAttributeOfType(Symbol('unknown'), Attribute.CHARACTER)).toBe(false);
+		});
+
+		it('returns false when type is null', () => {
+			expect(Attribute.IsAttributeOfType(null, Attribute.CHARACTER)).toBe(false);
+		});
+
+		it('returns false when type is undefined', () => {
+			expect(Attribute.IsAttributeOfType(undefined, Attribute.CHARACTER)).toBe(false);
+		});
+
+		it('returns false when attributeType is null', () => {
+			expect(Attribute.IsAttributeOfType(Attribute.LEVEL, null)).toBe(false);
+		});
+
+		it('returns false when attributeType is undefined', () => {
+			expect(Attribute.IsAttributeOfType(Attribute.LEVEL, undefined)).toBe(false);
+		});
+
+		it('returns false when attributeType is an unknown symbol', () => {
+			expect(Attribute.IsAttributeOfType(Attribute.LEVEL, Symbol('unknown'))).toBe(false);
 		});
 	});
 });
