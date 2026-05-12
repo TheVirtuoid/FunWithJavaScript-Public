@@ -8,4 +8,5 @@ All properties are read-only.
 - name(string): The name of the character. Required.
 - level(integer): The level of the character. Defaults to 1
 - experience(integer): The experience points of the character. Defaults to 0
-- attributes(map): The attributes of the character. See [Ability](Attributes.md)
+- abilities(map): The abilities of the character. See [Ability](Attributes.md)
+- race(Race)

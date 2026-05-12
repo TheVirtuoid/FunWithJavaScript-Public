@@ -8,9 +8,11 @@ import Combinator from "../../Combinator/Combinator.js";
 export default class StatInformationUI {
 	#dom;
 	#statInformation;
+	#availableCash;
 
 	constructor(dom) {
 		this.#dom = dom;
+		this.#availableCash = 0;
 		this.#dom.addEventListener('click', this.#processUpgrade.bind(this));
 	}
 
@@ -73,7 +75,7 @@ export default class StatInformationUI {
 			building.upgrade.purity *= baseData.level;
 			button.textContent = Utilities.FormatShortNumber(building.upgrade.purity);
 			button.title = `Total cost: ${building.upgrade.purity}`;
-			button.disabled = false;
+			button.disabled = building.upgrade.purity > this.#availableCash;
 		}
 		const span = li.querySelector('span');
 		span.textContent = `Purity: ${Utilities.FormatZeroToOne(building.purity)}`;
@@ -100,7 +102,7 @@ export default class StatInformationUI {
 			building.upgrade.speed *= baseData.level;
 			button.textContent = Utilities.FormatShortNumber(building.upgrade.speed);
 			button.title = `Total cost: ${building.upgrade.speed}`;
-			button.disabled = false;
+			button.disabled = building.upgrade.speed > this.#availableCash;
 		}
 		const span = li.querySelector('span');
 		span.textContent = `Speed: ${building.speed}`;
@@ -202,7 +204,7 @@ export default class StatInformationUI {
 		const li = document.createElement('li');
 		li.dataset.id = id;
 		const span = document.createElement('span');
-		span.textContent = `${text}: ${value}`;
+		span.textContent = `${text}: ${Utilities.FormatShortNumber(value)}`;
 		li.appendChild(span);
 		const button = document.createElement('button');
 		button.classList.add('tertiary', 'small', 'thin');
@@ -223,6 +225,7 @@ export default class StatInformationUI {
 	}
 
 	updateAvailability(cashAvailable) {
+		this.#availableCash = cashAvailable;
 		if (this.#statInformation) {
 			const { building } = this.#statInformation;
 			if (building && !Conveyor.Has(building.type)) {
