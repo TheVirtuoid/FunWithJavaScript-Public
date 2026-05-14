@@ -147,6 +147,9 @@ export default class StatInformationUI {
 		this.clear();
 		if (building) {
 			this.#statInformation = statInformation;
+			const levelData = WorldData.Level(building.type, building.level);
+			const buildingUpgradeSpeed = levelData.speed > building.speed - (building.speed * .1) ? Number.NEGATIVE_INFINITY : building.upgrade.speed;
+			const buildingUpgradePurity = levelData.purity > building.purity - (building.purity * .1) ? Number.NEGATIVE_INFINITY : building.upgrade.purity;
 			let p = document.createElement('p');
 			p.textContent = `${position.toString()} - ${building.type.description}`;
 			this.#dom.appendChild(p);
@@ -154,10 +157,10 @@ export default class StatInformationUI {
 				const ul = document.createElement('ul');
 				ul.classList.add('information-stats');
 				if (building.speed !== Number.POSITIVE_INFINITY) {
-					ul.appendChild(this.#buildInformationItem({ text: 'Speed', id: building.id, value: building.speed, buttonValue: building.upgrade.speed }));
+					ul.appendChild(this.#buildInformationItem({ text: 'Speed', id: building.id, value: building.speed, buttonValue: buildingUpgradeSpeed, format: 'number', level: building.level }));
 				}
-				ul.appendChild(this.#buildInformationItem({ text: 'Level', id: building.id, value: building.level, buttonValue: WorldData.Level(building.type, building.level).cost }));
-				ul.appendChild(this.#buildInformationItem({ text: 'Purity', id: building.id, value: building.purity, buttonValue: building.upgrade.purity }));
+				ul.appendChild(this.#buildInformationItem({ text: 'Level', id: building.id, value: building.level, buttonValue: WorldData.Level(building.type, building.level).cost, format: 'number', level: building.level }));
+				ul.appendChild(this.#buildInformationItem({ text: 'Purity', id: building.id, value: building.purity, buttonValue: buildingUpgradePurity, format: 'zeroToOne', level: building.level }));
 				this.#dom.appendChild(ul);
 				if (Combinator.Has(building.type)) {
 					p = document.createElement('p');
@@ -200,17 +203,30 @@ export default class StatInformationUI {
 	}
 
 	#buildInformationItem(item) {
-		const { text, value, id, buttonValue } = item;
+		const { text, value, id, buttonValue, format, level } = item;
 		const li = document.createElement('li');
 		li.dataset.id = id;
 		const span = document.createElement('span');
-		span.textContent = `${text}: ${Utilities.FormatShortNumber(value)}`;
+		let formattedNumber;
+		if (format === 'number') {
+			formattedNumber = Utilities.FormatShortNumber(value);
+		} else if (format === 'zeroToOne') {
+			formattedNumber = Utilities.FormatZeroToOne(value);
+		}
+		span.textContent = `${text}: ${formattedNumber}`;
 		li.appendChild(span);
 		const button = document.createElement('button');
 		button.classList.add('tertiary', 'small', 'thin');
 		button.dataset.type = text.toLowerCase();
-		button.textContent = Utilities.FormatShortNumber(buttonValue);
-		button.title = `Total cost: ${buttonValue}`;
+		if (buttonValue === Number.NEGATIVE_INFINITY) {
+			button.disabled = true;
+			button.textContent = 'MAX';
+			button.title = level === 5 ? 'You cannot upgrade anymore' : 'You must upgrade your Level first';
+		} else {
+			button.textContent = buttonValue === Number.NEGATIVE_INFINITY ? 'MAX' : Utilities.FormatShortNumber(buttonValue);
+			button.title = level === 5 ? 'You cannot upgrade anymore' : `Total cost: ${buttonValue}`;
+			button.disabled = buttonValue > this.#availableCash;
+		}
 		li.appendChild(button);
 		return li;
 	}
