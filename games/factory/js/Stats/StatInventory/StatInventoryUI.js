@@ -42,8 +42,9 @@ export default class StatInventoryUI {
 		if (button) {
 			const key = button.closest('li').dataset.item;
 			const type = WorldData.BUILDING_SYMBOLS.get(key);
+			const canFlip = WorldData.BUILDING_CAN_FLIP.get(type);
 			GameEvent.Emit(GameEvent.INVENTORY_REMOVE_ACTIVE);
-			GameEvent.Emit(GameEvent.INVENTORY_SET_ACTIVE, { key, type });
+			GameEvent.Emit(GameEvent.INVENTORY_SET_ACTIVE, { key, type, canFlip });
 		}
 	}
 }

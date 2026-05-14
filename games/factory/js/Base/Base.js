@@ -12,6 +12,7 @@ export default class Base {
 	#image;
 	#startingDirectionVector;
 	#endingDirectionVector;
+	#flip;
 
 	#upgrade;
 	#speed;
@@ -21,11 +22,12 @@ export default class Base {
 	#speedDelta;
 
 	constructor(args = {}) {
-		const { capacity = 0, speed = Number.POSITIVE_INFINITY, cost = Number.POSITIVE_INFINITY, price = Number.POSITIVE_INFINITY, upgrade = {}, image, purity, type, position = new Vector2d(0, 0), orientation = 0, directionVector = Vector2d.Down(), startingDirectionVector = [], endingDirectionVector = [] } = args;
+		const { capacity = 0, speed = Number.POSITIVE_INFINITY, cost = Number.POSITIVE_INFINITY, price = Number.POSITIVE_INFINITY, upgrade = {}, image, purity, type, position = new Vector2d(0, 0), orientation = 0, directionVector = Vector2d.Down(), startingDirectionVector = [], endingDirectionVector = [], flip = false } = args;
 		this.#id = window.crypto.randomUUID();
 		this.#type = type;
 		this.#level = 1;
 		this.#active = true;
+		this.setFlip(flip);
 		this.setImage(image);
 		this.setCapacity(capacity);
 		this.setPurity(purity || 0);
@@ -91,6 +93,9 @@ export default class Base {
 	get speedDelta() {
 		return this.#speedDelta;
 	}
+	get flip() {
+		return this.#flip;
+	}
 
 	setSpeedDelta(delta) {
 		this.#speedDelta = delta;
@@ -117,6 +122,10 @@ export default class Base {
 
 	setActive() {
 		this.#active = true;
+	}
+
+	setFlip(flip) {
+		this.#flip = flip;
 	}
 
 	setPurity(purity) {

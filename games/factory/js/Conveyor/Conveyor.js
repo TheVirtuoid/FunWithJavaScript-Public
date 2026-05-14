@@ -7,17 +7,17 @@ export default class Conveyor extends Base {
 
 	static STRAIGHT = Symbol('conveyor-straight');
 	static CURVE_LEFT = Symbol('conveyor-curve-left');
-	static CURVE_RIGHT = Symbol('conveyor-curve-right');
+	// static CURVE_RIGHT = Symbol('conveyor-curve-right');
 	static T_INTERSECTION_LEFT = Symbol('conveyor-t-intersection-left');
-	static T_INTERSECTION_RIGHT = Symbol('conveyor-t-intersection-right');
+	// static T_INTERSECTION_RIGHT = Symbol('conveyor-t-intersection-right');
 	static X_INTERSECTION = Symbol('conveyor-x-intersection');
 
 	static TYPES = [
 		Conveyor.STRAIGHT,
 		Conveyor.CURVE_LEFT,
-		Conveyor.CURVE_RIGHT,
+		// Conveyor.CURVE_RIGHT,
 		Conveyor.T_INTERSECTION_LEFT,
-		Conveyor.T_INTERSECTION_RIGHT,
+		// Conveyor.T_INTERSECTION_RIGHT,
 		Conveyor.X_INTERSECTION
 	];
 
@@ -26,11 +26,20 @@ export default class Conveyor extends Base {
 	static SYMBOLS = new Map([
 		[Conveyor.STRAIGHT.description, Conveyor.STRAIGHT],
 		[Conveyor.CURVE_LEFT.description, Conveyor.CURVE_LEFT],
-		[Conveyor.CURVE_RIGHT.description, Conveyor.CURVE_RIGHT],
+		// [Conveyor.CURVE_RIGHT.description, Conveyor.CURVE_RIGHT],
 		[Conveyor.T_INTERSECTION_LEFT.description, Conveyor.T_INTERSECTION_LEFT],
-		[Conveyor.T_INTERSECTION_RIGHT.description, Conveyor.T_INTERSECTION_RIGHT],
+		// [Conveyor.T_INTERSECTION_RIGHT.description, Conveyor.T_INTERSECTION_RIGHT],
 		[Conveyor.X_INTERSECTION.description, Conveyor.X_INTERSECTION]
 	]);
+
+	static CAN_FLIP = new Map([
+		[Conveyor.STRAIGHT, false],
+		[Conveyor.CURVE_LEFT, true],
+		// [Conveyor.CURVE_RIGHT, false],
+		[Conveyor.T_INTERSECTION_LEFT, true],
+		// [Conveyor.T_INTERSECTION_RIGHT, false],
+		[Conveyor.X_INTERSECTION, false]
+	])
 
 	static #DATA = new Map([
 		[Conveyor.STRAIGHT,
@@ -39,15 +48,15 @@ export default class Conveyor extends Base {
 		[Conveyor.CURVE_LEFT,
 			{ base: { cost: 15, level: 1 } }
 		],
-		[Conveyor.CURVE_RIGHT,
+		/*[Conveyor.CURVE_RIGHT,
 			{ base: { cost: 15, level: 1 } }
-		],
+		],*/
 		[Conveyor.T_INTERSECTION_LEFT,
 			{ base: { cost: 25, level: 1 } }
 		],
-		[Conveyor.T_INTERSECTION_RIGHT,
+		/*[Conveyor.T_INTERSECTION_RIGHT,
 			{ base: { cost: 25, level: 1 } }
-		],
+		],*/
 		[Conveyor.X_INTERSECTION,
 			{ base: { cost: 50, level: 1 } }
 		],
@@ -78,18 +87,22 @@ export default class Conveyor extends Base {
 		} else if (type === Conveyor.CURVE_LEFT) {
 			startingDirectionVector = [new Vector2d(0, 1).rotate(orientation)];
 			endingDirectionVector = [new Vector2d(-1, 0).rotate(orientation)];
-		} else if (type === Conveyor.CURVE_RIGHT) {
+		/*} else if (type === Conveyor.CURVE_RIGHT) {
 			startingDirectionVector = [new Vector2d(1, 0).rotate(orientation)];
-			endingDirectionVector = [new Vector2d(0, -1).rotate(orientation)];
+			endingDirectionVector = [new Vector2d(0, -1).rotate(orientation)];*/
 		} else if (type === Conveyor.T_INTERSECTION_LEFT) {
-			startingDirectionVector = [new Vector2d(-1, 0).rotate(orientation), new Vector2d(0, -1).rotate(orientation)];
+			startingDirectionVector = [new Vector2d(0, -1).rotate(orientation), new Vector2d(-1, 0).rotate(orientation)];
 			endingDirectionVector = [new Vector2d(-1, 0).rotate(orientation)];
-		} else if (type === Conveyor.T_INTERSECTION_RIGHT) {
+		/*} else if (type === Conveyor.T_INTERSECTION_RIGHT) {
 			startingDirectionVector = [new Vector2d(1, 0).rotate(orientation), new Vector2d(0, -1).rotate(orientation)];
-			endingDirectionVector = [new Vector2d(1, 0).rotate(orientation)];
+			endingDirectionVector = [new Vector2d(1, 0).rotate(orientation)];*/
 		} else if (type === Conveyor.X_INTERSECTION) {
 			startingDirectionVector = [new Vector2d(0, 1).rotate(orientation), new Vector2d(1, 0).rotate(orientation)];
 			endingDirectionVector = [new Vector2d(0, 1).rotate(orientation), new Vector2d(1, 0).rotate(orientation)];
+		}
+		// conveyor flips startingDirectionVector
+		if (Conveyor.CAN_FLIP.get(type) && args.flip) {
+			startingDirectionVector[0] = startingDirectionVector[0].opposite();
 		}
 		super({...args, startingDirectionVector, endingDirectionVector});
 	}

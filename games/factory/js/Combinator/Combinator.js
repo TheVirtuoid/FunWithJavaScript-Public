@@ -37,6 +37,16 @@ export default class Combinator extends Base {
 		[Combinator.STARFORGE.description, Combinator.STARFORGE]
 	]);
 
+	static CAN_FLIP = new Map([
+		[Combinator.IGNISIUM, true],
+		[Combinator.PHOTONIUM, true],
+		[Combinator.VOIDTISSIUM, true],
+		[Combinator.SOLTARIUM, true],
+		[Combinator.MAGNANIUM, true],
+		[Combinator.ETHERIUM, true],
+		[Combinator.STARFORGE, true]
+	])
+
 	static ALLOY_TYPES = new Map([
 		[Combinator.IGNISIUM, Alloy.IGNISIUM],
 		[Combinator.PHOTONIUM, Alloy.PHOTONIUM],
@@ -127,9 +137,13 @@ export default class Combinator extends Base {
 		if (!Alloy.Has(alloyType)) {
 			throw new Error('Invalid alloy type provided');
 		}
-		const startingDirectionVectorOne = new Vector2d(0, 1).rotate(args.orientation ?? 0).round();
+		let startingDirectionVectorOne = new Vector2d(0, 1).rotate(args.orientation ?? 0).round();
 		const startingDirectionVectorTwo = new Vector2d(1, 0).rotate(args.orientation ?? 0).round();
 		const endingDirectionVector = startingDirectionVectorTwo.clone();
+		// combinator flips startingDirectionVectorOne
+		if (Combinator.CAN_FLIP.get(type) && args.flip) {
+			startingDirectionVectorOne = startingDirectionVectorOne.opposite();
+		}
 		args.startingDirectionVector = [startingDirectionVectorOne, startingDirectionVectorTwo];
 		args.endingDirectionVector = [endingDirectionVector];
 		super(args);

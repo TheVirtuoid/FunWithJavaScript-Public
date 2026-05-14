@@ -73,9 +73,9 @@ export default class WorldUI {
 			[Extractor.ZENITHITE, Extractor],
 			[Conveyor.STRAIGHT, Conveyor],
 			[Conveyor.CURVE_LEFT, Conveyor],
-			[Conveyor.CURVE_RIGHT, Conveyor],
+			// [Conveyor.CURVE_RIGHT, Conveyor],
 			[Conveyor.T_INTERSECTION_LEFT, Conveyor],
-			[Conveyor.T_INTERSECTION_RIGHT, Conveyor],
+			// [Conveyor.T_INTERSECTION_RIGHT, Conveyor],
 			[Conveyor.X_INTERSECTION, Conveyor],
 			[Combinator.IGNISIUM, Combinator],
 			[Combinator.ETHERIUM, Combinator],
@@ -126,6 +126,7 @@ export default class WorldUI {
 	#startInputs() {
 		this.#scene.input.keyboard.on('keydown-ESC', this.#onEscape.bind(this));
 		this.#scene.input.keyboard.on('keydown-R', this.#onRotate.bind(this));
+		this.#scene.input.keyboard.on('keydown-F', this.#onFlip.bind(this));
 		this.#scene.input.keyboard.on('keydown-DELETE', this.#onDelete.bind(this));
 		this.#scene.input.on('pointermove', this.#onPointerMove.bind(this));
 		this.#scene.input.on('pointerdown', this.#onPointerDown.bind(this));
@@ -141,7 +142,7 @@ export default class WorldUI {
 	}
 
 	place (args = {}) {
-		const { position, piece, orientation = 0 } = args;
+		const { position, piece, orientation = 0, flip = false } = args;
 		const { x, y } = position;
 		const screenX = (x + 1) * Game.UNIT_SIZE - Game.HALF_SIZE;
 		const screenY = (y + 1) * Game.UNIT_SIZE - Game.HALF_SIZE;
@@ -157,12 +158,14 @@ export default class WorldUI {
 				image.rotation = 3 * Math.PI / 2;
 				break;
 		}
+		image.flipY = flip;
 		return image;
 	}
 
 	setActiveInventory(inventory) {
 		this.#activePlacement = inventory;
 		this.#activePlacement.orientation = 0;
+		this.#activePlacement.flip = false;
 	}
 
 	removeActiveInventory() {
@@ -208,6 +211,13 @@ export default class WorldUI {
 		}
 	}
 
+	#onFlip() {
+		if (this.#activePlacement && this.#activePlacement.canFlip) {
+			this.#activePlacement.ghost.flipY = !this.#activePlacement.ghost.flipY;
+			this.#activePlacement.flip = this.#activePlacement.ghost.flipY;
+		}
+	}
+
 	#onRotate() {
 		if (this.#activePlacement) {
 			this.#activePlacement.ghost.rotation += Math.PI / 2;
@@ -250,9 +260,9 @@ export default class WorldUI {
 			if (!this.#world.hasBuilding(position)) {
 				const piece = this.#activePlacement.key;
 				const orientation = this.#activePlacement.orientation;
-				const image = this.place({ position, piece, orientation });
-				const building = this.#createBuilding(symbol, { type: symbol, position, orientation });
-				// console.log(building);
+				const flip = this.#activePlacement.flip;
+				const image = this.place({ position, piece, orientation, flip });
+				const building = this.#createBuilding(symbol, { type: symbol, position, orientation, flip });
 				this.#world.addBuilding({ position, image, building });
 				const gridData = this.#world.getPosition(position);
 				if (gridData.deposit) {

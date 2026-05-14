@@ -39,6 +39,14 @@ export default class Extractor extends Base {
 		[Extractor.ZENITHITE.description, Extractor.ZENITHITE]
 	]);
 
+	static CAN_FLIP = new Map([
+		[Extractor.AETHERITE, false],
+		[Extractor.PYROTITE, false],
+		[Extractor.LUMINITE, false],
+		[Extractor.OBSIDIANITE, false],
+		[Extractor.ZENITHITE, false]
+	])
+
 	/*
 		Definition of the Data section, for each Mineral:
 			base - the base information

@@ -47,6 +47,14 @@ export default class Purifier extends Base {
 		[Purifier.ZENITHITE.description, Purifier.ZENITHITE]
 	]);
 
+	static CAN_FLIP = new Map([
+		[Purifier.AETHERITE, false],
+		[Purifier.PYROTITE, false],
+		[Purifier.LUMINITE, false],
+		[Purifier.OBSIDIANITE, false],
+		[Purifier.ZENITHITE, false]
+	])
+
 	static DATA = new Map([
 		[Purifier.AETHERITE, {
 			base: { speed: 2000, purity: .6, capacity: 10, cost: 500, upgrade: { speed: 1000, purity: 1000 }, level: 1.2 },

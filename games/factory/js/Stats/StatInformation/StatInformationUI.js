@@ -148,13 +148,13 @@ export default class StatInformationUI {
 		if (building) {
 			this.#statInformation = statInformation;
 			const levelData = WorldData.Level(building.type, building.level);
-			const buildingUpgradeSpeed = levelData.speed > building.speed - (building.speed * .1) ? Number.NEGATIVE_INFINITY : building.upgrade.speed;
-			const buildingUpgradePurity = levelData.purity > building.purity - (building.purity * .1) ? Number.NEGATIVE_INFINITY : building.upgrade.purity;
 			let p = document.createElement('p');
 			p.textContent = `${position.toString()} - ${building.type.description}`;
 			this.#dom.appendChild(p);
 			if (!DistributionCenter.Has(building.type) && !Conveyor.Has(building.type)) {
 				const ul = document.createElement('ul');
+				const buildingUpgradeSpeed = levelData.speed > building.speed - (building.speed * .1) ? Number.NEGATIVE_INFINITY : building.upgrade.speed;
+				const buildingUpgradePurity = levelData.purity > building.purity - (building.purity * .1) ? Number.NEGATIVE_INFINITY : building.upgrade.purity;
 				ul.classList.add('information-stats');
 				if (building.speed !== Number.POSITIVE_INFINITY) {
 					ul.appendChild(this.#buildInformationItem({ text: 'Speed', id: building.id, value: building.speed, buttonValue: buildingUpgradeSpeed, format: 'number', level: building.level }));

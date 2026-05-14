@@ -27,6 +27,13 @@ export default class WorldData {
 		...Extractor.SYMBOLS
 	]);
 
+	static BUILDING_CAN_FLIP = new Map([
+		...Conveyor.CAN_FLIP,
+		...Combinator.CAN_FLIP,
+		...Purifier.CAN_FLIP,
+		...Extractor.CAN_FLIP
+	]);
+
 	static UPGRADABLE_BUILDING_DATA = new Map([
 		...Extractor.DATA,
 		...Purifier.DATA,

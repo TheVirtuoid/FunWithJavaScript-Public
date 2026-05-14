@@ -12,7 +12,7 @@ export default class Game extends Phaser.Scene {
 	static UNIT_SIZE = 64;
 	static WORLD_UNITS = 50;
 	static HALF_SIZE = Game.UNIT_SIZE / 2;
-	static START_CASH = 500;
+	static START_CASH = 50000000;
 	static BASE_DELTA_TIMING = 100;
 
 	#statsUI;
