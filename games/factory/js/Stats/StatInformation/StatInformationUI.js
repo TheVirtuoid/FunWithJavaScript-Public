@@ -154,7 +154,8 @@ export default class StatInformationUI {
 			if (!DistributionCenter.Has(building.type) && !Conveyor.Has(building.type)) {
 				const ul = document.createElement('ul');
 				const buildingUpgradeSpeed = levelData.speed > building.speed - (building.speed * .1) ? Number.NEGATIVE_INFINITY : building.upgrade.speed;
-				const buildingUpgradePurity = levelData.purity > building.purity - (building.purity * .1) ? Number.NEGATIVE_INFINITY : building.upgrade.purity;
+				const buildingUpgradePurity = levelData.purity < building.purity - (building.purity * .1) ? Number.NEGATIVE_INFINITY : building.upgrade.purity;
+				console.log(buildingUpgradePurity, levelData.purity, building.purity, building.upgrade.purity);
 				ul.classList.add('information-stats');
 				if (building.speed !== Number.POSITIVE_INFINITY) {
 					ul.appendChild(this.#buildInformationItem({ text: 'Speed', id: building.id, value: building.speed, buttonValue: buildingUpgradeSpeed, format: 'number', level: building.level }));
@@ -225,7 +226,7 @@ export default class StatInformationUI {
 		} else {
 			button.textContent = buttonValue === Number.NEGATIVE_INFINITY ? 'MAX' : Utilities.FormatShortNumber(buttonValue);
 			button.title = level === 5 ? 'You cannot upgrade anymore' : `Total cost: ${buttonValue}`;
-			button.disabled = buttonValue > this.#availableCash;
+			button.disabled = buttonValue === Number.NEGATIVE_INFINITY ? true : buttonValue > this.#availableCash;
 		}
 		li.appendChild(button);
 		return li;
