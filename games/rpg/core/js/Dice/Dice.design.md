@@ -16,12 +16,9 @@ Allows for the rolling of dice.
     - Returns: integer number – the result of the dice roll.
     - throws error if the descriptor is invalid
 
-## Private Properties
-- #descriptor: string | null - the descriptor associated with this instance.
-
 ## Public Properties
 All public properties are read-only
-- descriptor: string | null – the descriptor associated with this instance.
+- descriptor: string – the descriptor associated with this instance.
 
 ## Methods
 - roll(descriptor)
@@ -52,7 +49,7 @@ where:
 ### Valid examples
 - `1d6`
 - `2d8`
-- `3d100`
+- `3D100`
 - `d6`
 
 ### Invalid examples

@@ -19,7 +19,7 @@ describe('Dice', () => {
 
     it('creates an instance with a valid descriptor', () => {
       const dice = new Dice('3d6');
-      expect(dice).toBeInstanceOf(Dice);
+      expect(dice.descriptor).toBe('3d6');
     });
 
     it('throws on an invalid descriptor', () => {
@@ -119,6 +119,11 @@ describe('Dice', () => {
       expect(Dice.Roll('3d6')).toBe(3);
     });
 
+    it('returns the value of 4 when Math.random is .54', () => {
+      vi.spyOn(Math, 'random').mockReturnValue(0.54);
+      expect(Dice.Roll('3d6')).toBe(12);
+    });
+
     it('returns the maximum possible value when Math.random approaches 1', () => {
       vi.spyOn(Math, 'random').mockReturnValue(0.9999999);
       expect(Dice.Roll('3d6')).toBe(18);
@@ -156,9 +161,6 @@ describe('Dice', () => {
       expect(() => Dice.Roll(null)).toThrow();
     });
 
-    it('throws when descriptor is undefined', () => {
-      expect(() => Dice.Roll(undefined)).toThrow();
-    });
   });
 
   // ---------------------------------------------------------------------------

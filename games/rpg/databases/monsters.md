@@ -1,33 +1,17 @@
-## Monster Descriptions
+### Ant, Giant
 
-::: {}
-### Ant, Giant (and Huge, Large)
-
-+-----------------+-----------------+-----------------+-----------------+
-|                 | Giant           | Huge            | Large           |
-+-----------------+-----------------+-----------------+-----------------+
-| Armor Class:    | 17              | 15              | 13              |
-+-----------------+-----------------+-----------------+-----------------+
-| Hit Dice:       | 4               | 2               | 1               |
-+-----------------+-----------------+-----------------+-----------------+
-| No. of Attacks: | -- 1 bite --                                        |
-+-----------------+-----------------+-----------------+-----------------+
-| Damage:         | 2d6 bite        | 1d10 bite       | 1d6 bite        |
-+-----------------+-----------------+-----------------+-----------------+
-| Movement:       | 60' (10')     | 50'            | 40'            |
-+-----------------+-----------------+-----------------+-----------------+
-| No. Appearing:  | 2d6,            | 3d6,            | 4d6,            |
-|                 |                 |                 |                 |
-|                 | Lair 4d6        | Lair 4d8        | Lair 4d10       |
-+-----------------+-----------------+-----------------+-----------------+
-| Save As:        | Fighter: 4      | Fighter: 2      | Fighter: 1      |
-+-----------------+-----------------+-----------------+-----------------+
-| Morale:         | -- 7 on first sighting, 12 after engaged --         |
-+-----------------+-----------------------------------------------------+
-| Treasure Type:  | -- U or special --                                  |
-+-----------------+-----------------+-----------------+-----------------+
-| XP:             | 240             | 75              | 25              |
-+-----------------+-----------------+-----------------+-----------------+
+  ----------------- -------------------------------
+Armor Class:      17
+Hit Dice:         4
+No. of Attacks:   1 bite
+Damage:           2d6
+Movement:         60' (10')
+No. Appearing:    2d6, Lair 4d6
+Save As:          Fighter: 4
+Morale:           7 on first signting, 12 after engages)
+Treasure Type:    U or special
+XP:               240
+  ----------------- -------------------------------
 
 Giant ants are fantastically enlarged versions of the more common
 variety of ants. Normal workers are 5 to 6 feet long; queens are larger,
@@ -41,11 +25,60 @@ Giant ants may occasionally mine shiny metals such as gold or silver;
 one in three (1-2 on 1d6) giant ant lairs will contain 1d100 x 1d100 gp
 value in relatively pure nuggets.
 
-Large and huge ants are similar to giant ants in all
-ways except for size; large ants are 1 to 2 feet long, while huge ants
-are 3 to 4 feet in length. Though smaller, their colonies have more
-members, and so their lair treasures are of similar size to those found
-in the lairs of giant ants.
+### Ant, Huge
+
+  ----------------- -------------------------------
+Armor Class:      15
+Hit Dice:         2
+No. of Attacks:   1 bite
+Damage:           1d10
+Movement:         50'
+No. Appearing:    3d6, Lair 4d8
+Save As:          Fighter: 2
+Morale:           7 on first signting, 12 after engages)
+Treasure Type:    U or special
+XP:               75
+  ----------------- -------------------------------
+
+Huge ants are enlarged versions of the more common
+variety of ants. Normal workers are 3 to 4 feet long; queens are larger,
+growing up to 8 feet in length. Huge ants may be red or black; there is
+no statistical difference between them. Though relatively shy when first
+encountered, once combat begins they will fight to the death. They are
+known to collect shiny things, and so will sometimes have a small amount
+of treasure in their lair.
+
+Huge ants may occasionally mine shiny metals such as gold or silver;
+one in three (1-2 on 1d6) giant ant lairs will contain 1d100 x 1d100 gp
+value in relatively pure nuggets.
+
+### Ant, Large
+
+  ----------------- -------------------------------
+Armor Class:      13
+Hit Dice:         1
+No. of Attacks:   1 bite
+Damage:           1d6
+Movement:         50'
+No. Appearing:    4d6, Lair 4d10
+Save As:          Fighter: 1
+Morale:           7 on first signting, 12 after engages)
+Treasure Type:    U or special
+XP:               25
+  ----------------- -------------------------------
+
+Large ants are enlarged versions of the more common
+variety of ants. Normal workers are 1 to 2 feet long; queens are larger,
+growing up to 4 feet in length. Large ants may be red or black; there is
+no statistical difference between them. Though relatively shy when first
+encountered, once combat begins they will fight to the death. They are
+known to collect shiny things, and so will sometimes have a small amount
+of treasure in their lair.
+
+Large ants may occasionally mine shiny metals such as gold or silver;
+one in three (1-2 on 1d6) giant ant lairs will contain 1d100 x 1d100 gp
+value in relatively pure nuggets.
+
 
 ### Antelope (Herd Animals)
 
@@ -232,9 +265,9 @@ has subsided is to touch the corpse, an obviously bad idea.
 +-----------------+---------------+----------------------+
 | No. Appearing:  | 1d100,        | 1d10,                |
 |                 |               |                      |
-|                 | Wild 1d100,   | Wild 1d10,           |
+|                 | Wild 1d100,   | Wild 1d10,           |
 |                 |               |                      |
-|                 | Lair 1d100    | Lair 1d10            |
+|                 | Lair 1d100    | Lair 1d10            |
 +-----------------+---------------+----------------------+
 | Save As:        | Normal Man    | Fighter: 2           |
 +-----------------+---------------+----------------------+
@@ -858,7 +891,7 @@ defend her young.
   ----------------- --------------------------------------------------------------------------
 Armor Class:      16
 Hit Dice:         9\*\* (+8)
-No. of Attacks:   2 claws, 1 lion bite, 1 goat horns, 1 dragon bite or breath
+No. of Attacks:   2 claws, 1 lion bite, 1 goat horns, 1 dragon bite or breath
 Damage:           1d4 claw, 2d4 bite (lion or dragon), 1d8 horns (goat), 3d4 dragon breath
 Movement:         40' (10') Fly 60' (15')
 No. Appearing:    1d2, Wild 1d4, Lair 1d4
@@ -5565,7 +5598,7 @@ as the black rhino does.
 | Damage:         | 1d6 claw, 2d6  | 1d8 claw, 2d10 | 3d6 claw, 6d6  |
 |                 | bite           | bite           | bite           |
 +-----------------+----------------+----------------+----------------+
-| Movement:       | 20' Fly 160' (10')                            |
+| Movement:       | 20' Fly 160' (10')                            |
 +-----------------+----------------+----------------+----------------+
 | No. Appearing:  | Wild 1d12      | Wild 1d8       | Wild 1         |
 +-----------------+----------------+----------------+----------------+
