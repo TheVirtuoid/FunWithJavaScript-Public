@@ -133,11 +133,110 @@ and weighing up to 400 pounds.
 
 ### Assassin Vine
 
-See **Strangle Vine** on page .
+  ----------------- --------------------------
+Armor Class:      15
+Hit Dice:         6
+No. of Attacks:   1 entangle
+Damage:           1d8 + 1d8/round entangle
+Movement:         5'
+No. Appearing:    1d4+1
+Save As:          Fighter: 6
+Morale:           12
+Treasure Type:    U
+XP:               500
+  ----------------- --------------------------
+
+An assassin vine is a strange
+animated plant found in temperate and tropical forests, particularly in
+areas with poor-quality soil. They fertilize their soil by entangling,
+constricting, and killing living creatures, then depositing the bodies
+in loose soil around the plant's base.
+
+Because it can lie very still indeed, an assissin vine surprises on a
+roll of 1-4 on 1d6. A successful hit inflicts 1d8 points of damage, and
+the victim becomes entangled, suffering an additional 1d8 points of
+damage thereafter. A victim may attempt to escape by rolling a saving
+throw vs. Death Ray with Strength bonus added; this is a full action, so
+the victim may not attempt this and also perform an attack. The plant
+will continue to crush its victim until one or the other is dead or the
+victim manages to escape.
+
+Assassin vines are actually mobile, able to uproot themselves and move
+slowly from place to place; one generally only does so to seek new
+hunting grounds. They have no visual organs but can sense foes within 30
+feet by sound and vibration.
+
+Each plant consists of a single long vine of up to 20 feet in length,
+with many smaller vines 5 feet or so in length packed closely, two vines
+per foot or thereabouts. The smaller vines are covered in leaves, and in
+the fall they bear clusters of reddish-purple berries which are tough
+and bitter but not poisonous.
+
+There is a similar plant found in underground environments which has
+leaves the color of iron with pale shiny metallic veins. They grow near
+geothermal vents or springs, and the rotting flesh that surrounds them
+often supports mushrooms of various sizes and types. This fungal growth
+conceals the assassin vine, allowing it to surprise on 1-5 on 1d6 as
+does the above-ground variety of the plant.
+
 
 ### Aurochs
 
-See **Cattle (including Aurochs and Bison)** on page .
++-----------------+---------------+---------------+---------------+
+|                 | Cattle        | Aurochs       | Bison         |
++-----------------+---------------+---------------+---------------+
+| Armor Class:    | 14            | 16            | 16            |
++-----------------+---------------+---------------+---------------+
+| Hit Dice:       | 2+2           | 3             | 4             |
++-----------------+---------------+---------------+---------------+
+| No. of Attacks: | -- 1 horn/head butt or 1 trample --           |
++-----------------+---------------+---------------+---------------+
+| Damage:         | 1d4 butt      | 1d6 butt      | 2d4 butt      |
+|                 |               |               |               |
+|                 | 2d4 trample   | 2d4 trample   | 2d6 trample   |
++-----------------+---------------+---------------+---------------+
+| Movement:       | -- 50' (10') --                              |
++-----------------+---------------+---------------+---------------+
+| No. Appearing:  | Special       | Wild 10d12    |               |
++-----------------+---------------+---------------+---------------+
+| Save As:        | Fighter: 3    | Fighter: 3    | Fighter: 4    |
++-----------------+---------------+---------------+---------------+
+| Morale:         | 5 (8)         | 7 (9)         | 7 (9)         |
++-----------------+---------------+---------------+---------------+
+| Treasure Type:  | None          | None          | None          |
++-----------------+---------------+---------------+---------------+
+| XP:             | 75            | 145           | 240           |
++-----------------+---------------+---------------+---------------+
+
+Cattle are large mammals with cloven hooves and horned heads. Cattle are
+raised mostly for their meat (beef), leather, and milk. Cattle eat grass
+and are fairly gentle unless spooked, in which case they will stampede
+(run in a group). Anyone caught in the path of the stampede will suffer
+at least one trampling attack, as determined by the GM. Male cattle are
+called bulls, females are cows, and young are calves (calf is singular).
+If attacked, cattle will charge, generally using their horns to attack.
+Bulls are larger (+1 hit die), less easily frightened (use the second
+listed morale figure), and are quite aggressive in defense of the herd.
+A bull will likely attack if he sees quick movements from creatures he
+might be able to reach with a charge. Meanwhile, if unable to flee cows
+will usually assume a roughly circular formation with their heads
+outward, while calves will be kept in the center, though if the
+opponents are small enough they may instead charge en masse, trampling
+all creatures in their path.
+
+A typical small farm with cattle will have a bull, 5d4 cows, and 2d10
+calves (but not more than the number of cows).
+
+Aurochs are wild cattle; they are shaggy and rough-looking. Bison are
+the largest species of wild bovines. All types of bovines tend to behave
+in the same general way, as described above.
+
+An **ox** is typically a castrated bull used as a draft animal; females
+may be used, rarely, but males are preferred due to their greater size
+and strength. Oxen are usually paired as a team to pull a fully-loaded
+wagon (or the equivalent of 3,000 lb). Oxen require less food and water,
+being able to eat rough grass better than draft horses, which makes them
+valuable to merchants with large caravans going over semi-arid prairie.
 
 ### Barkling
 
@@ -521,7 +620,61 @@ behind.
 
 ### Bison
 
-See **Cattle (including Aurochs and Bison)** on page .
++-----------------+---------------+---------------+---------------+
+|                 | Cattle        | Aurochs       | Bison         |
++-----------------+---------------+---------------+---------------+
+| Armor Class:    | 14            | 16            | 16            |
++-----------------+---------------+---------------+---------------+
+| Hit Dice:       | 2+2           | 3             | 4             |
++-----------------+---------------+---------------+---------------+
+| No. of Attacks: | -- 1 horn/head butt or 1 trample --           |
++-----------------+---------------+---------------+---------------+
+| Damage:         | 1d4 butt      | 1d6 butt      | 2d4 butt      |
+|                 |               |               |               |
+|                 | 2d4 trample   | 2d4 trample   | 2d6 trample   |
++-----------------+---------------+---------------+---------------+
+| Movement:       | -- 50' (10') --                              |
++-----------------+---------------+---------------+---------------+
+| No. Appearing:  | Special       | Wild 10d12    |               |
++-----------------+---------------+---------------+---------------+
+| Save As:        | Fighter: 3    | Fighter: 3    | Fighter: 4    |
++-----------------+---------------+---------------+---------------+
+| Morale:         | 5 (8)         | 7 (9)         | 7 (9)         |
++-----------------+---------------+---------------+---------------+
+| Treasure Type:  | None          | None          | None          |
++-----------------+---------------+---------------+---------------+
+| XP:             | 75            | 145           | 240           |
++-----------------+---------------+---------------+---------------+
+
+Cattle are large mammals with cloven hooves and horned heads. Cattle are
+raised mostly for their meat (beef), leather, and milk. Cattle eat grass
+and are fairly gentle unless spooked, in which case they will stampede
+(run in a group). Anyone caught in the path of the stampede will suffer
+at least one trampling attack, as determined by the GM. Male cattle are
+called bulls, females are cows, and young are calves (calf is singular).
+If attacked, cattle will charge, generally using their horns to attack.
+Bulls are larger (+1 hit die), less easily frightened (use the second
+listed morale figure), and are quite aggressive in defense of the herd.
+A bull will likely attack if he sees quick movements from creatures he
+might be able to reach with a charge. Meanwhile, if unable to flee cows
+will usually assume a roughly circular formation with their heads
+outward, while calves will be kept in the center, though if the
+opponents are small enough they may instead charge en masse, trampling
+all creatures in their path.
+
+A typical small farm with cattle will have a bull, 5d4 cows, and 2d10
+calves (but not more than the number of cows).
+
+Aurochs are wild cattle; they are shaggy and rough-looking. Bison are
+the largest species of wild bovines. All types of bovines tend to behave
+in the same general way, as described above.
+
+An **ox** is typically a castrated bull used as a draft animal; females
+may be used, rarely, but males are preferred due to their greater size
+and strength. Oxen are usually paired as a team to pull a fully-loaded
+wagon (or the equivalent of 3,000 lb). Oxen require less food and water,
+being able to eat rough grass better than draft horses, which makes them
+valuable to merchants with large caravans going over semi-arid prairie.
 
 ### Black Pudding
 
@@ -1077,20 +1230,38 @@ included). It is an avid predator and a skilled pack-hunter; its warm
 blood, aerodynamic build and vicious maw allow it to feed on larger but
 more primitive dinosaurs.
 
-### Dinosaur, Pterodactyl (and Pteranodon)
+### Dinosaur, Pterodactyl
 
-// i removed the dashes for now, as there were three of them.
-                    Pterodactyl       Pteranodon
-Armor Class:      12                13
-Hit Dice:         1                 5
-No. of Attacks:   1 bite            1 bite
-Damage:           1d4 bite          2d6 bite
-Movement:         Fly 60' (10')   Fly 60' (15')
-No. Appearing:    Wild 2d4          Wild 1d4
-Save As:          Fighter: 1        Fighter: 5
-Morale:           7                 8
-Treasure Type:    None              None
-XP:               25                360
+---------- ----------
+Armor Class:      12           
+Hit Dice:         1            
+No. of Attacks:   1 bite       
+Damage:           1d4 bite     
+Movement:         Fly 60' (10')
+No. Appearing:    Wild 2d4          
+Save As:          Fighter: 1        
+Morale:           7                 
+Treasure Type:    None              
+XP:               25                
+---------- ----------
+
+
+Pterodactyls are prehistoric winged reptilian creatures, having a
+wingspan of around 25 to 30 inches. Though they eat mostly fish, they
+may attack smaller characters or scavenge unguarded packs.
+
+### Dinosaur, Pteranodon
+
+Armor Class:      13
+Hit Dice:                          5
+No. of Attacks:               1 bite
+Damage:                     2d6 bite
+Movement:            Fly 60' (15')
+No. Appearing:    Wild 1d4
+Save As:                  Fighter: 5
+Morale:                            8
+Treasure Type:    None
+XP:                               360
 
 Pterodactyls are prehistoric winged reptilian creatures, having a
 wingspan of around 25 to 30 inches. Though they eat mostly fish, they

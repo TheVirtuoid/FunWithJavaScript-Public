@@ -5,7 +5,40 @@ import Ability from './Ability.js';
 const VALID_TYPE = Ability.STRENGTH;
 const VALID_VALUE = 10;
 
-describe('Attribute', () => {
+const ABILITY_TYPES = [
+	{
+		type: Ability.STRENGTH,
+		name: 'Strength',
+		abbreviation: 'STR',
+	},
+	{
+		type: Ability.DEXTERITY,
+		name: 'Dexterity',
+		abbreviation: 'DEX',
+	},
+	{
+		type: Ability.CONSTITUTION,
+		name: 'Constitution',
+		abbreviation: 'CON',
+	},
+	{
+		type: Ability.INTELLIGENCE,
+		name: 'Intelligence',
+		abbreviation: 'INT',
+	},
+	{
+		type: Ability.WISDOM,
+		name: 'Wisdom',
+		abbreviation: 'WIS',
+	},
+	{
+		type: Ability.CHARISMA,
+		name: 'Charisma',
+		abbreviation: 'CHA',
+	},
+];
+
+describe('Ability', () => {
 
 	// ─── constructor ───────────────────────────────────────────────────────────
 
@@ -217,10 +250,24 @@ describe('Attribute', () => {
 		});
 	});
 
-	/** Testing static IsAbility */
+	// ─── Static Public Properties ──────────────────────────────────────────────
+
+	describe('static ability type properties', () => {
+		it.each(ABILITY_TYPES)('$name is a Symbol', ({ type }) => {
+			expect(typeof type).toBe('symbol');
+		});
+
+		it('defines unique symbols for each ability type', () => {
+			const uniqueTypes = new Set(ABILITY_TYPES.map(({ type }) => type));
+			expect(uniqueTypes.size).toBe(ABILITY_TYPES.length);
+		});
+	});
+
+	// ─── Static Public Methods ─────────────────────────────────────────────────
+
 	describe('IsAbility()', () => {
-		it('returns true for valid ability objects', () => {
-			expect(Ability.IsAbility(VALID_TYPE)).toBe(true);
+		it.each(ABILITY_TYPES)('returns true for $name', ({ type }) => {
+			expect(Ability.IsAbility(type)).toBe(true);
 		});
 
 		it('returns false for invalid ability objects', () => {
@@ -232,11 +279,9 @@ describe('Attribute', () => {
 	});
 
 		describe('GetAbility', () => {
-			it('should return the correct data for a valid ability', () => {
-				const ability = Ability.GetAbility(VALID_TYPE);
-				expect(ability.name).toBe('Strength');
-				expect(ability.abbreviation).toBe('STR');
-
+			it.each(ABILITY_TYPES)('returns the correct data for $name', ({ type, name, abbreviation }) => {
+				const ability = Ability.GetAbility(type);
+				expect(ability).toEqual({ name, abbreviation });
 			});
 
 			it('should return undefined for an invalid ability', () => {

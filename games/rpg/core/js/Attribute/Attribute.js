@@ -1,4 +1,4 @@
-import {UpdateAttractorBlock} from "@babylonjs/core";
+import attributeData from './attributes.json' with { type: 'json' };
 
 export default class Attribute {
 
@@ -7,7 +7,7 @@ export default class Attribute {
 	static ARMOR_CLASS = Symbol('armor-class');
 	static HIT_POINTS = Symbol('hit-points');
 	static ATTACK_BONUS = Symbol('attack-bonus');
-	static MONEY = Symbol('money');
+	static GOLD_PIECES = Symbol('gold-pieces');
 
 	static DEATH_POISON = Symbol('death-poison');
 	static WANDS = Symbol('wands');
@@ -15,22 +15,35 @@ export default class Attribute {
 	static DRAGON_BREATH = Symbol('dragon-breath');
 	static SPELLS = Symbol('spells');
 
-	static CHARACTER = Symbol('character');
-	static SAVING_THROW = Symbol('saving-throw');
+	static ATTRIBUTE_CATEGORY_CHARACTER = Symbol('attribute-category-character');
+	static ATTRIBUTE_CATEGORY_SAVING_THROW = Symbol('attribute-category-saving-throw');
+	static ATTRIBUTE_CATEGORY_MONEY = Symbol('attribute-category-money');
 
-	static #DATA = new Map([
-		[Attribute.LEVEL, { name: 'Level', abbreviation: 'lvl', attributeType: Attribute.CHARACTER }],
-		[Attribute.EXPERIENCE, { name: 'Experience', abbreviation: 'xp', attributeType: Attribute.CHARACTER }],
-		[Attribute.ARMOR_CLASS, { name: 'Armor class', abbreviation: 'ac', attributeType: Attribute.CHARACTER }],
-		[Attribute.HIT_POINTS, { name: 'Hit points', abbreviation: 'hp', attributeType: Attribute.CHARACTER }],
-		[Attribute.ATTACK_BONUS, { name: 'Attack bonus', abbreviation: 'atk', attributeType: Attribute.CHARACTER }],
-		[Attribute.MONEY, { name: 'Money', abbreviation: 'gp', attributeType: Attribute.CHARACTER }],
-		[Attribute.DEATH_POISON, { name: 'Death poison', abbreviation: '', attributeType: Attribute.SAVING_THROW }],
-		[Attribute.WANDS, { name: 'Wands', abbreviation: '', attributeType: Attribute.SAVING_THROW }],
-		[Attribute.PARALYZE_STONE, { name: 'Paralyze stone', abbreviation: '', attributeType: Attribute.SAVING_THROW }],
-		[Attribute.DRAGON_BREATH, { name: 'Dragon breath', abbreviation: '', attributeType: Attribute.SAVING_THROW }],
-		[Attribute.SPELLS, { name: 'Spells', abbreviation: '', attributeType: Attribute.SAVING_THROW }]
+	static SYMBOLS = new Map([
+		[Attribute.LEVEL.description, Attribute.LEVEL],
+		[Attribute.EXPERIENCE.description, Attribute.EXPERIENCE],
+		[Attribute.ARMOR_CLASS.description, Attribute.ARMOR_CLASS],
+		[Attribute.HIT_POINTS.description, Attribute.HIT_POINTS],
+		[Attribute.ATTACK_BONUS.description, Attribute.ATTACK_BONUS],
+		[Attribute.GOLD_PIECES.description, Attribute.GOLD_PIECES],
+		[Attribute.DEATH_POISON.description, Attribute.DEATH_POISON],
+		[Attribute.WANDS.description, Attribute.WANDS],
+		[Attribute.PARALYZE_STONE.description, Attribute.PARALYZE_STONE],
+		[Attribute.DRAGON_BREATH.description, Attribute.DRAGON_BREATH],
+		[Attribute.SPELLS.description, Attribute.SPELLS],
+		[Attribute.ATTRIBUTE_CATEGORY_CHARACTER.description, Attribute.ATTRIBUTE_CATEGORY_CHARACTER],
+		[Attribute.ATTRIBUTE_CATEGORY_SAVING_THROW.description, Attribute.ATTRIBUTE_CATEGORY_SAVING_THROW],
+		[Attribute.ATTRIBUTE_CATEGORY_MONEY.description, Attribute.ATTRIBUTE_CATEGORY_MONEY],
 	]);
+
+	static #DATA = new Map(attributeData.map(({ type, name, category, abbreviation, description }) =>
+		[Attribute.SYMBOLS.get(type), {
+			type: Attribute.SYMBOLS.get(type),
+			name,
+			abbreviation,
+			description,
+			category: Attribute.SYMBOLS.get(category)
+		}]));
 
 	static #LIST = [...Attribute.#DATA.keys()];
 
@@ -43,13 +56,9 @@ export default class Attribute {
 		return data ? { ... data } : data;
 	}
 
-	static IsAttributeOfType(type, attributeType) {
-		const data = Attribute.GetAttribute(type);
-		return data?.attributeType === attributeType;
-	}
-
 	#type;
 	#value;
+	#attributeData;
 
 	constructor(args = {}) {
 		const { type, value } = args;
@@ -58,6 +67,7 @@ export default class Attribute {
 		}
 		this.setValue(value);
 		this.#type = type;
+		this.#attributeData = Attribute.GetAttribute(type);
 	}
 
 	get type() {
@@ -66,6 +76,22 @@ export default class Attribute {
 
 	get value() {
 		return this.#value;
+	}
+
+	get category() {
+		return this.#attributeData.category;
+	}
+
+	get name() {
+		return this.#attributeData.name;
+	}
+
+	get abbreviation() {
+		return this.#attributeData.abbreviation;
+	}
+
+	get description() {
+		return this.#attributeData.description;
 	}
 
 	setValue(newValue) {

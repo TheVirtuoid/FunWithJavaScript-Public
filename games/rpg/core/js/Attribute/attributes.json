@@ -1,0 +1,79 @@
+[
+  {
+    "type": "level",
+    "name": "Level",
+    "abbreviation": "lvl",
+    "category": "attribute-category-character",
+    "description": "The character level"
+  },
+  {
+    "type": "experience",
+    "name": "Experience",
+    "abbreviation": "xp",
+    "category": "attribute-category-character",
+    "description": "The character experience"
+  },
+  {
+    "type": "armor-class",
+    "name": "Armor class",
+    "abbreviation": "ac",
+    "category": "attribute-category-character",
+    "description": "The character armor class"
+  },
+  {
+    "type": "hit-points",
+    "name": "Hit points",
+    "abbreviation": "hp",
+    "category": "attribute-category-character",
+    "description": "The character hit points"
+  },
+  {
+    "type": "attack-bonus",
+    "name": "Attack bonus",
+    "abbreviation": "atk",
+    "category": "attribute-category-character",
+    "description": "The character attack bonus"
+  },
+  {
+    "type": "gold-pieces",
+    "name": "Gold Pieces",
+    "abbreviation": "gp",
+    "category": "attribute-category-money",
+    "description": "Gold pieces processed by the character"
+  },
+  {
+    "type": "death-poison",
+    "name": "Death poison",
+    "abbreviation": "",
+    "category": "attribute-category-saving-throw",
+    "description": "Saving throw against death or poison"
+  },
+  {
+    "type": "wands",
+    "name": "Wands",
+    "abbreviation": "",
+    "category": "attribute-category-saving-throw",
+    "description": "Saving throw against wands"
+  },
+  {
+    "type": "paralyze-stone",
+    "name": "Paralyze stone",
+    "abbreviation": "",
+    "category": "attribute-category-saving-throw",
+    "description": "Saving throw against paralysis or petrification"
+  },
+  {
+    "type": "dragon-breath",
+    "name": "Dragon breath",
+    "abbreviation": "",
+    "category": "attribute-category-saving-throw",
+    "description": "Saving throw against dragon breath"
+  },
+  {
+    "type": "spells",
+    "name": "Spells",
+    "abbreviation": "",
+    "category": "attribute-category-saving-throw",
+    "description": "Saving throw against spells"
+  }
+]

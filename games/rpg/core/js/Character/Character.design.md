@@ -12,12 +12,12 @@ A player and non-player character in the game.
 
 ## Properties
 All properties are read-only.
-- id(uuid)
-- name(string)
-- abilities(Map<Ability>): The abilities of the character.
-- attributes(Map<Attribute>): The attributes of the character.
-- race(Race): The race of the character
-- characterClass(CharacterClass): the class of the character
+- `id` (uuid)
+- `name` (string)
+- `abilities` (Map<Ability>): The abilities of the character.
+- `attributes` (Map<Attribute>): The attributes of the character.
+- `race` (Race): The race of the character
+- `characterClass` (CharacterClass): the class of the character
 
  ## Methods
 - `setName(name)` - changes the name of the character
