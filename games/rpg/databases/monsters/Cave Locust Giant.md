@@ -1,57 +1,50 @@
-### Cattle (including Aurochs and Bison)
+### Cave Locust, Giant
 
-+-----------------+---------------+---------------+---------------+
-|                 | Cattle        | Aurochs       | Bison         |
-+-----------------+---------------+---------------+---------------+
-| Armor Class:    | 14            | 16            | 16            |
-+-----------------+---------------+---------------+---------------+
-| Hit Dice:       | 2+2           | 3             | 4             |
-+-----------------+---------------+---------------+---------------+
-| No. of Attacks: | -- 1 horn/head butt or 1 trample --           |
-+-----------------+---------------+---------------+---------------+
-| Damage:         | 1d4 butt      | 1d6 butt      | 2d4 butt      |
-|                 |               |               |               |
-|                 | 2d4 trample   | 2d4 trample   | 2d6 trample   |
-+-----------------+---------------+---------------+---------------+
-| Movement:       | -- 50' (10') --                              |
-+-----------------+---------------+---------------+---------------+
-| No. Appearing:  | Special       | Wild 10d12    |               |
-+-----------------+---------------+---------------+---------------+
-| Save As:        | Fighter: 3    | Fighter: 3    | Fighter: 4    |
-+-----------------+---------------+---------------+---------------+
-| Morale:         | 5 (8)         | 7 (9)         | 7 (9)         |
-+-----------------+---------------+---------------+---------------+
-| Treasure Type:  | None          | None          | None          |
-+-----------------+---------------+---------------+---------------+
-| XP:             | 75            | 145           | 240           |
-+-----------------+---------------+---------------+---------------+
+  ----------------- ------------------------------------
+Armor Class:      16
+Hit Dice:         2\*\*
+No. of Attacks:   1 bite or 1 bump or 1 spit
+Damage:           1d2 bite, 1d4\* bump, special spit
+Movement:         20' Fly 60' (15')
+No. Appearing:    2d10, Wild 1d10
+Save As:          Fighter: 2
+Morale:           5
+Treasure Type:    None
+XP:               125
+  ----------------- ------------------------------------
 
-Cattle are large mammals with cloven hooves and horned heads. Cattle are
-raised mostly for their meat (beef), leather, and milk. Cattle eat grass
-and are fairly gentle unless spooked, in which case they will stampede
-(run in a group). Anyone caught in the path of the stampede will suffer
-at least one trampling attack, as determined by the GM. Male cattle are
-called bulls, females are cows, and young are calves (calf is singular).
-If attacked, cattle will charge, generally using their horns to attack.
-Bulls are larger (+1 hit die), less easily frightened (use the second
-listed morale figure), and are quite aggressive in defense of the herd.
-A bull will likely attack if he sees quick movements from creatures he
-might be able to reach with a charge. Meanwhile, if unable to flee cows
-will usually assume a roughly circular formation with their heads
-outward, while calves will be kept in the center, though if the
-opponents are small enough they may instead charge en masse, trampling
-all creatures in their path.
+Giant cave locusts are pale, cricket-like creatures that live
+underground. An average giant cave locust is 2 to 4 feet long. They are
+eyeless, depending on their sound-sensitive antennae,
+vibration-sensitive feet and a variety of touch-sensitive \"hairs\" on
+their legs to sense the environment around them.
 
-A typical small farm with cattle will have a bull, 5d4 cows, and 2d10
-calves (but not more than the number of cows).
+These creatures eat subterranean fungus (including shriekers) as well as
+carrion; they are not predators, but if disturbed they will attack,
+shrieking loudly, biting, jumping wildly around, or spitting nasty goo.
 
-Aurochs are wild cattle; they are shaggy and rough-looking. Bison are
-the largest species of wild bovines. All types of bovines tend to behave
-in the same general way, as described above.
+All giant cave locusts in a group will shriek when disturbed, attracting
+wandering monsters. The GM should roll a wandering monster check each
+round that one or more cave locusts are attacking; if wandering monsters
+are indicated, they will arrive in 1d4 rounds.
 
-An **ox** is typically a castrated bull used as a draft animal; females
-may be used, rarely, but males are preferred due to their greater size
-and strength. Oxen are usually paired as a team to pull a fully-loaded
-wagon (or the equivalent of 3,000 lb). Oxen require less food and water,
-being able to eat rough grass better than draft horses, which makes them
-valuable to merchants with large caravans going over semi-arid prairie.
+Any giant cave locust that is engaged (adjacent to an opponent) will
+attempt to bite, doing 1d2 damage on a successful hit. This does not
+interrupt the monster's shrieking.
+
+A giant cave locust can leap up to 60' horizontally, or up to 30' up.
+If one of these creatures is not engaged at the beginning of the round,
+it will leap toward one of the opponent creatures; roll a normal attack
+roll, and if the attack hits, the target creature takes 1d4 points of
+non-lethal damage from the impact.
+
+Finally, a giant cave locust can spray a greenish-brown goo (its
+digestive juices) up to 10' away. Each giant cave locust can perform
+this attack just once per encounter. This spit attack will usually be
+reserved until they fail a morale check, in which case all remaining
+giant cave locusts will spit at their nearest opponent, and then all
+will attempt to flee in the next round. To spit on an opponent, the
+giant cave locust rolls an attack against Armor Class 11 (plus Dexterity
+and magical bonuses, but no normal armor value applies). If the attack
+hits, the target must save vs. Poison or be unable to do anything for
+3d6 rounds due to the horrible smell.

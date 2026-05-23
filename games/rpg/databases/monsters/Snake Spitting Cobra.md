@@ -1,25 +1,25 @@
-### Snake, Sea
+### Snake, Spitting Cobra
 
-  ----------------- ----------------
-Armor Class:      14
-Hit Dice:         3\*
-No. of Attacks:   1 bite
-Damage:           1 + poison
-Movement:         10' Swim 30'
-No. Appearing:    Wild 1d8
-Save As:          Fighter: 3
+  ----------------- -----------------------------------
+Armor Class:      13
+Hit Dice:         1\*
+No. of Attacks:   1 bite or 1 spit
+Damage:           1d4 + poison bite, blindness spit
+Movement:         30'
+No. Appearing:    1d6, Wild 1d6, Lair 1d6
+Save As:          Fighter: 1
 Morale:           7
 Treasure Type:    None
-XP:               175
-  ----------------- ----------------
+XP:               37
+  ----------------- -----------------------------------
 
-Sea snakes are relatively small; the largest varieties rarely exceed 6'
-in length. They have relatively small heads, and are very stealthy in
-the water. Their bite does so little damage that the creature bitten has
-only a 50% chance to notice the attack, but their poison is terribly
-strong, such that any creature bitten must save vs. Poison at a penalty
-of -4 or die.
-
-Fortunately, sea snakes rarely attack; only if molested (grabbed,
-stepped on, etc.) will they do so. They are very clumsy when out of the
-water.
+Spitting cobras average about 7' in length at
+adulthood. They use their spreading hood to warn other creatures not to
+bother them, and generally refrain from attacking if possible to allow
+larger creatures time to retreat. Failure to retreat from the spitting
+cobra will likely result in the cobra spitting venom; the cobra can
+project its venom up to 5', and any living creature hit must roll a
+save vs. Poison or be blinded permanently (though the **cure blindness**
+spell can heal this injury). If the cobra cannot deter a creature by
+spitting, it will attack using its bite. In this case, those hit must
+save vs. Poison or die.

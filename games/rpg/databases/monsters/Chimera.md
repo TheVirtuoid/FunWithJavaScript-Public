@@ -1,20 +1,25 @@
-### Cheetah
+### Chimera
 
-  ----------------- --------------------
-Armor Class:      14
-Hit Dice:         2
-No. of Attacks:   2 claws, 1 bite
-Damage:           1d4 claw, 2d4 bite
-Movement:         100'
-No. Appearing:    Wild 1d3, Lair 1d3
-Save As:          Fighter: 2
-Morale:           7
-Treasure Type:    None
-XP:               75
-  ----------------- --------------------
+  ----------------- --------------------------------------------------------------------------
+Armor Class:      16
+Hit Dice:         9\*\* (+8)
+No. of Attacks:   2 claws, 1 lion bite, 1 goat horns, 1 dragon bite or breath
+Damage:           1d4 claw, 2d4 bite (lion or dragon), 1d8 horns (goat), 3d4 dragon breath
+Movement:         40' (10') Fly 60' (15')
+No. Appearing:    1d2, Wild 1d4, Lair 1d4
+Save As:          Fighter: 9
+Morale:           9
+Treasure Type:    F
+XP:               1,225
+  ----------------- --------------------------------------------------------------------------
 
-A Cheetah is one of the fastest land animals; a large (about 100 pounds)
-cat capable of reaching up to 75 miles per hour when running. It hunts
-alone or in small groups (usually composed of siblings). It will rarely
-attack humans unless compelled to do so, but a female will ferociously
-defend her young.
+Chimeras are strange creatures having a lion's body with the heads of a
+lion, a goat, and a dragon, and the wings of a dragon. The dragon head
+of a chimera could be any common dragon except cloud (i.e. desert,
+forest, ice, mountain, plains, or sea), and has the same type of breath
+weapon as that sort of dragon. Regardless of type, the dragon's head
+breathes a 50' long cone with a 10' wide end which inflicts 3d6 points
+of damage; victims may save vs. Dragon Breath for one-half damage.
+
+Chimeras are cruel and voracious. They can speak Dragon but seldom
+bother to do so, except when toadying to more powerful creatures.

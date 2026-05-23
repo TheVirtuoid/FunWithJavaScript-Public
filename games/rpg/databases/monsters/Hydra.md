@@ -1,42 +1,42 @@
-### Hobgoblin
+### Hydra
 
-  ----------------- -------------------------
-Armor Class:      14 (11)
-Hit Dice:         1
-No. of Attacks:   1 weapon
-Damage:           1d8 or by weapon
-Movement:         30' Unarmored 40'
-No. Appearing:    1d6, Wild 2d4, Lair 4d8
-Save As:          Fighter: 1
-Morale:           8
-Treasure Type:    Q, R each; D, K in lair
-XP:               25
-  ----------------- -------------------------
+  ----------------- ------------------------------------------------------------------------------------------------
+Armor Class:      16 to 23
+Hit Dice:         5 to 12 (+10)
+No. of Attacks:   5 to 12 bites
+Damage:           1d10 per bite
+Movement:         40' (10')
+No. Appearing:    1, Wild 1, Lair 1
+Save As:          Fighter: 5 to 12
+Morale:           9
+Treasure Type:    B
+XP:               5 HD 360, 6 HD 500, 7 HD 670, 8 HD 875, 9 HD 1,075, 10 HD 1,300, 11 HD 1,575, 12 HD 1,875
+  ----------------- ------------------------------------------------------------------------------------------------
 
-Hobgoblins are, basically, man-sized goblins. They are
-better organized than their smaller kin, and are also better adapted to
-life in the sun. Their skin tone ranges from a greenish tan to a grayish
-brown, and their hair and eyes are usually dark. Most wear toughened
-hides and carry wooden shields for armor. As with most goblinoids, they
-have Darkvision with a 30' range.
+Hydras are reptilian creatures with multiple heads. They are
+bad-tempered and territorial, but not particularly cunning.
 
-Tribes of hobgoblins prefer to live in walled villages, or preferably in
-castles, and are quite willing to overrun villages or castles built by
-other races rather than build their own. Some tribes do choose to live
-underground. Hobgoblins have a well-known hatred of elves, and will
-attack them whenever they think they can win.
+The Armor Class and Hit Dice of a hydra are keyed to the number of
+heads; specifically, a hydra has a number of Hit Dice exactly equal to
+the number of heads, and an Armor Class equal to the number of heads
+plus 11. Note that these statistics do not change if an individual loses
+heads, as described below.
 
-One out of every six hobgoblins will be a warrior of 3 Hit Dice (145
-XP). Regular hobgoblins gain a +1 bonus to their morale if they are led
-by a warrior. In hobgoblin lairs, one out of every twelve will be a
-chieftain of 5 Hit Dice (360 XP) in chainmail with an Armor Class of 15
-(11) and a movement of 20', having a +1 bonus to damage due to
-strength. In lairs of 30 or more there will be a hobgoblin king of 7 Hit
-Dice (670 XP), with a shield for an Armor Class of 16 (11) having a +2
-bonus to damage. In the lair, hobgoblins never fail a morale check as
-long as the king is alive. In addition, a lair has a chance equal to 1-2
-on 1d6 of a shaman being present (or 1-3 on 1d6 if a hobgoblin king is
-present), and 1 on 1d6 of a witch or warlock. A shaman is equivalent to
-a hobgoblin warrior statistically, but has Clerical abilities at level
-1d6+1. A witch or warlock is equivalent to a regular hobgoblin, but has
-Magic-User abilities of level 1d6.
+A hydra may be slain by damage in the normal fashion; however, most who
+fight them choose to strike at their heads. If a character using a melee
+weapon chooses to strike at a particular head (i.e. states such intent
+to the GM) and succeeds in doing 8 points of damage, that head is
+disabled (severed or severely damaged) and will not be able to attack
+anymore. Such damage also applies to the monster's total hit points, of
+course.
+
+Some hydras live in the ocean; use the given movement as a swimming rate
+rather than walking in this case. A very few hydras can breathe fire;
+those that have this ability can emit a flame 10' wide and 20' long
+one time per head per day. This attack will be used about one time in
+three (1-2 on 1d6) if it is available; roll for each head which is
+attacking. Each such attack does 3d6 damage, with a save vs. Dragon
+Breath reducing the amount by half. Note that the XP value of a
+fire-breathing hydra should be higher; treat them as if they have a
+single asterisk (i.e. add the special ability bonus to the base XP for
+the monster).

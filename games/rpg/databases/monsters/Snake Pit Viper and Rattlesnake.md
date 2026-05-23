@@ -1,23 +1,32 @@
-### Skeleton
+### Snake, Pit Viper (and Rattlesnake)
 
-  ----------------- -------------------------
-Armor Class:      13 (special, see below)
-Hit Dice:         1
-No. of Attacks:   1 weapon
-Damage:           1d6 or by weapon
-Movement:         40'
-No. Appearing:    3d6, Wild 3d10
-Save As:          Fighter: 1
-Morale:           12
-Treasure Type:    None
-XP:               25
-  ----------------- -------------------------
+// i removed the dashes for now, as there were three of them.
+                    Normal                    Giant
+Armor Class:      14                        15
+Hit Dice:         1\*                       2\*
+No. of Attacks:   1 bite                    1 bite
+Damage:           1d4 + poison              1d8 + poison
+Movement:         30'                      40'
+No. Appearing:    1d4, Wild 1d4, Lair 1d4   1d2, Wild 1d2, Lair 1d2
+Save As:          Fighter: 1                Fighter: 2
+Morale:           7                         8
+Treasure Type:    None                      None
+XP:               37                        100
 
-Skeletons are mindless **undead** created by an evil
-Magic-User or Cleric, generally to guard a tomb or treasure hoard, or to
-act as guards for their creator. They take only .5 damage from edged
-weapons, and only a single point from arrows, bolts or sling stones
-(plus any magical bonus). As with all undead, they can be **Turned** by
-a Cleric, and are immune to **sleep, charm** or **hold** magic. As they
-are mindless, no form of **mind reading** is of any use against them.
-Skeletons never fail morale, and thus always fight until destroyed.
+Pit vipers are highly venomous snakes. There are many varieties ranging
+in size from 2' to 12' at adulthood; the statistics above are for an
+\"average\" variety which reaches about 9' in length. Giant-sized pit
+vipers are much bigger, and range from 14' to 20' in length at
+adulthood.
+
+Those bitten by a pit viper must save vs. Poison or die.
+
+Pit vipers are named for the thermally sensitive \"pits\" between their
+eyes and nostrils. These are used to detect birds, mammals, and lizards,
+the natural prey of these snakes. Even though lizards are cold-blooded,
+pit vipers can still sense them because their temperature is often
+slightly higher or lower than their surroundings.
+
+Rattlesnakes are a variety of pit viper; in addition to the details
+given above, a rattlesnake has a rattle (from which it gets its name) at
+the end of its tail. The rattle is used to warn away larger creatures.

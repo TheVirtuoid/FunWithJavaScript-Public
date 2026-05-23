@@ -1,56 +1,43 @@
-### Basilisk
+### Bat
 
-+-----------------+-------------------------+-------------------------+
-|                 | Common                  | Greater\*               |
-+-----------------+-------------------------+-------------------------+
-| Armor Class:    | 16                      | 17                      |
-+-----------------+-------------------------+-------------------------+
-| Hit Dice:       | 6\*\*                   | 8\*\*\*                 |
-+-----------------+-------------------------+-------------------------+
-| No. of Attacks: | 1 bite, 1 gaze          | 1 bite, 1 gaze          |
-+-----------------+-------------------------+-------------------------+
-| Damage:         | 1d10 bite,              | 1d12 + poison bite,     |
-|                 | petrification gaze      | petrification gaze      |
-+-----------------+-------------------------+-------------------------+
-| Movement:       | -- 20' (10') --                                 |
-+-----------------+-------------------------+-------------------------+
-| No. Appearing:  | 1d6, Wild 1d6,          | 1                       |
-|                 |                         |                         |
-|                 | Lair 1d6                |                         |
-+-----------------+-------------------------+-------------------------+
-| Save As:        | Fighter: 6              | Fighter: 8              |
-+-----------------+-------------------------+-------------------------+
-| Morale:         | 9                       | 10                      |
-+-----------------+-------------------------+-------------------------+
-| Treasure Type:  | F                       | F, K                    |
-+-----------------+-------------------------+-------------------------+
-| XP:             | 610                     | 1,085                   |
-+-----------------+-------------------------+-------------------------+
++-----------------+---------------+----------------------+
+|                 | Bat           | Giant Bat            |
++-----------------+---------------+----------------------+
+| Armor Class:    | 14            | 14                   |
++-----------------+---------------+----------------------+
+| Hit Dice:       | 1 Hit Point   | 2                    |
++-----------------+---------------+----------------------+
+| No. of Attacks: | 1 special     | 1 bite               |
++-----------------+---------------+----------------------+
+| Damage:         | Confusion     | 1d4                  |
++-----------------+---------------+----------------------+
+| Movement:       | 30' Fly 40' | 10' Fly 60' (10') |
++-----------------+---------------+----------------------+
+| No. Appearing:  | 1d100,        | 1d10,                |
+|                 |               |                      |
+|                 | Wild 1d100,   | Wild 1d10,           |
+|                 |               |                      |
+|                 | Lair 1d100    | Lair 1d10            |
++-----------------+---------------+----------------------+
+| Save As:        | Normal Man    | Fighter: 2           |
++-----------------+---------------+----------------------+
+| Morale:         | 6             | 8                    |
++-----------------+---------------+----------------------+
+| Treasure Type:  | None          | None                 |
++-----------------+---------------+----------------------+
+| XP:             | 10            | 75                   |
++-----------------+---------------+----------------------+
 
-A basilisk is a giant six-legged lizard-like monster that petrifies
-living creatures with its gaze. A basilisk has dark brown, green, or
-black skin on its back and a pale yellow or white belly. Adults reach a
-body length of 5 to 7 feet with a tail of roughly equal length, and a
-weight of 250 to 400 pounds. There is no particular difference in size
-between males and females.
+Bats have a natural sonar that allows them to operate in total darkness;
+for game purposes, treat this ability as equivalent to Darkvision.
 
-Any living creature meeting the gaze of a basilisk must save vs. Petrify
-or be turned to stone instantly. In general, any creature surprised by
-the basilisk will meet its gaze. Those who attempt to fight the monster
-while averting their eyes suffer penalties of -4 to attack and -2 to AC.
-It is possible to use a mirror to fight the monster, in which case the
-penalties are -2 to attack and no penalty to AC. If a basilisk sees its
-own reflection in a mirror it must save vs. Petrify or be turned to
-stone; a petrified basilisk loses its power to petrify. Basilisks
-instinctively avoid mirrors or other reflective surfaces, even drinking
-with their eyes closed, but if an attacker can manage to surprise the
-monster with a mirror it may see its reflection.
+A group of normal-sized bats has no effective attack (at least in terms
+of inflicting damage), but can confuse those in the area, flying around
+apparently randomly. For every ten bats in the area, one creature can be
+confused; such a creature will suffer a penalty of -2 on all attack and
+saving throw rolls while the bats remain in the area.
 
-The greater basilisk appears identical to the common
-variety, save that it is larger, having a body length of about 8 feet
-with a 7 to 9 foot long tail and weighing between 400 and 750 pounds.
-The skin of the greater basilisk is toxic to the touch, such that any
-living creature bitten by one or who touches one with bare skin must
-save vs. Poison or die. This effect persists even after the monster is
-dead, typically for about 2d20 hours; the only way to tell if the effect
-has subsided is to touch the corpse, an obviously bad idea.
+A giant bat has a wingspan of 15 feet and weighs about
+200 pounds. They have the same sensory abilities as normal-sized bats,
+but being much larger, they are able to attack adventurers; many are
+carnivorous, making such attacks likely.

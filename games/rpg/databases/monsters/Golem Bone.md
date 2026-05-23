@@ -1,25 +1,22 @@
-### Golem, Amber
+### Golem, Bone
 
-  ----------------- ---------------------
-Armor Class:      21 (m)
-Hit Dice:         10\* (+9)
-No. of Attacks:   2 claws, 1 bite
-Damage:           2d6 claw, 2d10 bite
-Movement:         60'
+  ----------------- -------------------------
+Armor Class:      19 (m)
+Hit Dice:         8\*
+No. of Attacks:   4 weapons
+Damage:           1d6 or by weapon (each)
+Movement:         40' (10')
 No. Appearing:    1
-Save As:          Fighter: 5
+Save As:          Fighter: 4
 Morale:           12
 Treasure Type:    None
-XP:               1,390
-  ----------------- ---------------------
+XP:               945
+  ----------------- -------------------------
 
-Amber golems are generally built to resemble lions or other great cats.
-They are able to detect invisible creatures or objects within 60', and
-can track with 95% accuracy through any terrain type.
+Bone golems are huge four-armed monsters created from the skeletons of
+at least two dead humanoids. Though made of bone, they are not undead
+and cannot be turned.
 
-A magical attack that deals electricity damage heals 1
-point of damage for every 3 full points of damage the attack would
-otherwise deal. For example, an amber golem hit by a **lightning bolt**
-for 20 points of damage is instead healed up to 6 points. If the amount
-of healing would cause the golem to exceed its full normal hit points,
-the excess is ignored.
+Instead of four one-handed weapons, a bone golem can
+be armed with two two-handed weapons, giving 2 attacks per round and a
+damage figure of 1d10 or by weapon (each).

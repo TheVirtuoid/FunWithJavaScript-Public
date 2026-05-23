@@ -1,25 +1,28 @@
-### Falcon
+### Fish, Giant Barracuda
 
-  ----------------- ---------------------
-Armor Class:      11
-Hit Dice:         .5 (1d4 hit points)
-No. of Attacks:   2 talons, 1 beak
-Damage:           1d4 talon, 1d4 beak
-Movement:         10' Fly 160'(10')
-No. Appearing:    1, Wild 1d4
-Save As:          Fighter: 1
-Morale:           8
-Treasure Type:    None
-XP:               10
-  ----------------- ---------------------
+// i removed the dashes for now, as there were three of them.
 
-Falcons are birds with wingspans of 16 to 20 inches;
-they stand about 1.5 to 2 feet tall and weigh about 3 pounds. These are
-the most popular of the hunting birds used by royalty. Falcons can only
-carry prey up to 1 pound. They will hunt snakes, small rodents, and even
-other birds such as wild ducks. Falcons appear in a variety of colors,
-typically ranging from dark gray on top to white with dark stripes on
-the bottom; kestrels, a variety of falcon, have reddish brown to dark
-brown feathers with dark stripes. A falcon typically attacks prey by
-diving, striking first with the talons before making the kill with its
-sharp beak.
+
+                    Huge         Giant
+Armor Class:      16           15
+Hit Dice:         5            9 (+8)
+No. of Attacks:   1 bite       1 bite
+Damage:           2d6 bite     2d8+1 bite
+Movement:         Swim 60'    Swim 60' (10')
+No. Appearing:    Wild 2d4     Wild 1
+Save As:          Fighter: 5   Fighter: 9
+Morale:           8            10
+Treasure Type:    None         None
+XP:               360          1,075
+
+Barracuda are predatory fish found in salt water. Huge barracudas are
+about 12' long, while giant specimens can exceed 20'. They have
+elongated bodies, pointed heads and prominent jaws. Their bodies are
+covered with smooth scales, typically blue, gray or silver in color.
+They have extremely keen eyesight and are surprised only on a 1 on 1d6.
+Due to the quickness of their attack, barracuda are capable of
+surprising on 1-3 on 1d6 and gain a +2 bonus to Initiative.
+
+Giant barracuda always appear singly and are 50% likely to break off the
+attack after 1d4 rounds if they haven't killed their prey. Both kinds
+are attracted to shiny objects.

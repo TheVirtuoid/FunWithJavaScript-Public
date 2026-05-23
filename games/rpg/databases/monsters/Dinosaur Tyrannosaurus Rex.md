@@ -1,30 +1,27 @@
-### Dinosaur, Triceratops
+### Dinosaur, Tyrannosaurus Rex
 
-  ----------------- -------------------------------------
-Armor Class:      19
-Hit Dice:         11 (+9)
-No. of Attacks:   1 gore or 1 trample
-Damage:           3d6 gore or 3d6 trample (see below)
-Movement:         30' (15')
+  ----------------- -------------
+Armor Class:      23
+Hit Dice:         18 (+12)
+No. of Attacks:   1 bite
+Damage:           6d6 bite
+Movement:         40' (10')
 No. Appearing:    Wild 1d4
-Save As:          Fighter: 7
-Morale:           8
+Save As:          Fighter: 18
+Morale:           11
 Treasure Type:    None
-XP:               1,575
-  ----------------- -------------------------------------
+XP:               4,000
+  ----------------- -------------
 
-A triceratops is a three-horned herbivorous dinosaur. They are
-aggressive toward interlopers, attacking anyone who might appear to be a
-threat. Individuals are quite large, weighing 11,000 to 20,000 pounds
-and ranging from 26 to 30 feet in length.
+The tyrannosaurus rex is a bipedal carnivorous dinosaur with a massive
+skull balanced by a long, heavy tail. Relative to its large and powerful
+hind limbs, its forelimbs are short but unusually powerful for their
+size, with two clawed digits. Despite this, they are not used to attack,
+as the tyrannosaur's powerful bite is its preferred weapon.
 
-When facing opponents of smaller size, a triceratops
-will usually attempt to trample them, reserving the gore attack for
-larger opponents. Up to two adjacent man-sized or up to four smaller
-opponents may be trampled simultaneously; the triceratops rolls a single
-attack roll which is compared to the Armor Class of each of the
-potential victims, and then rolls a separate damage roll for each one
-successfully hit. The gore attack may only be used against a single
-man-sized or larger creature, but may be used in the same round as the
-trample if the creature being gored is larger than man sized. Also note
-that a charging bonus may be applied to the gore attack.
+Individuals can grow to lengths of over 40 feet and can weigh up to
+20,000 pounds, though most are a bit smaller than this, averaging around
+35 feet in length and 17,000 pounds in weight.
+
+The statistics above can also be used to represent
+other large bipedal carnosaurs, such as the allosaurus.

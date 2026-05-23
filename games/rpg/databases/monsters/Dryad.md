@@ -1,52 +1,35 @@
-### Dragon Turtle
+### Dryad
 
-  ----------------- ----------------------------------------
-Armor Class:      22
-Hit Dice:         30\*\* (AB +15)
-No. of Attacks:   2 claws, 1 bite or breath
-Damage:           2d8 claw, 10d6 bite or 30d8 breath
-Movement:         10' (10') Swim 30' (15')
-No. Appearing:    Wild 1
-Save As:          Fighter: 20 at +5
-Morale:           10
-Treasure Type:    H (calculated at one-quarter hit dice)
-XP:               13,650
-  ----------------- ----------------------------------------
+  ----------------- ------------------------
+Armor Class:      15
+Hit Dice:         2\*
+No. of Attacks:   1 dagger or 1 fist
+Damage:           1d4 dagger or 1d4 fist
+Movement:         40'
+No. Appearing:    Lair 1d6
+Save As:          Magic-User: 4
+Morale:           6
+Treasure Type:    D
+XP:               100
+  ----------------- ------------------------
 
-Dragon turtles are so large, up to 200 feet long, that they are
-occasionally mistaken for rocky outcroppings or even small islands.
-Though they are not true dragons, they do advance through the same sort
-of age categories as the true dragons do; however, each age category
-changes the dragon turtle's Hit Dice by 5.
+Dryads are female nature spirits; each is mystically
+bound to a single, enormous oak tree and must never stray more than 300
+yards from it. Any who do become ill and die within 4d6 hours. A dryad's
+oak does not radiate magic. A dryad lives as long as her tree, and dies
+when the tree dies; likewise, if the dryad is killed, her tree dies
+also.
 
-Due to their massive size, dragon turtles are immune to
-virtually all poisons.
+A dryad resembles an elf woman, with skin like fine polished wood or
+smooth bark and hair like leaves; the hair color of a dryad usually
+changes with the seasons, being brown in the winter, pale green in the
+spring, darker green in the summer, and yellow, orange, or red in the
+fall.
 
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Dragon Turtle Age Table                                                                            |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Age Category   | 1         | 2         | 3         | 4         | 5         | 6         | 7         |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Hit Dice       | 15        | 20        | 25        | 30        | 35        | 40        | 45        |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Attack Bonus   | +11       | +13       | +14       | +15       | +16       | +16       | +16       |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Breath Weapon  | Steam (Cloud)                                                                     |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Length         | \-        | 50'      | 75'      | 100'     | 125'     | 150'     | 175'     |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Width          | \-        | 25'      | 50'      | 75'      | 100'     | 125'     | 150'     |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Chance/Talking | 0%        | 15%       | 20%       | 30%       | 45%       | 55%       | 65%       |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Spells by      |           |           |           |           |           |           |           |
-| Level          |           |           |           |           |           |           |           |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Level 1        | \-        | \-        | 1         | 2         | 2         | 3         | 3         |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Level 2        | \-        | \-        | \-        | 1         | 2         | 2         | 3         |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Claw           | 1d6       | 2d4       | 2d6       | 2d8       | 2d10      | 2d12      | 3d10      |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Bite           | 4d6       | 6d6       | 8d6       | 10d6      | 12d6      | 14d6      | 16d6      |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+Though they are usually content to live alone, dryads are often friends
+with creatures such as treant or other nature spirits who might live
+nearby. Once per day a dryad can cast a charm similar to the spell
+**charm person**, and one may choose to use this ability to compel an
+interesting human or elf to remain with her as a companion for a period
+of up to a year. The companion can be taken into and brought out of the
+dryad's tree so long as the charm is still in effect.

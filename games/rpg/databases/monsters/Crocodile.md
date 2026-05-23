@@ -1,24 +1,37 @@
-### Crab, Giant
+### Crocodile
 
-  ----------------- -------------------------
-Armor Class:      18
-Hit Dice:         3
-No. of Attacks:   2 pincers
-Damage:           2d6 pincer
-Movement:         20' Swim 20'
-No. Appearing:    1d2, Wild 1d6, Lair 1d6
-Save As:          Fighter: 3
-Morale:           7
-Treasure Type:    None
-XP:               145
-  ----------------- -------------------------
++-----------------+------------+------------+-------------+
+|                 | Normal     | Large      | Giant       |
++-----------------+------------+------------+-------------+
+| Armor Class:    | 15         | 17         | 19          |
++-----------------+------------+------------+-------------+
+| Hit Dice:       | 2          | 6          | 15 (+11)    |
++-----------------+------------+------------+-------------+
+| No. of Attacks: | 1 bite     | 1 bite     | 1 bite      |
++-----------------+------------+------------+-------------+
+| Damage:         | 1d8 bite   | 2d8 bite   | 3d8 bite    |
++-----------------+------------+------------+-------------+
+| Movement:       | 30' (10') Swim 30' (10')          |
++-----------------+------------+------------+-------------+
+| No. Appearing:  | Wild 1d8   | Wild 1d4   | Wild 1d3    |
++-----------------+------------+------------+-------------+
+| Save As:        | Fighter: 2 | Fighter: 6 | Fighter: 15 |
++-----------------+------------+------------+-------------+
+| Morale:         | 7          | 8          | 9           |
++-----------------+------------+------------+-------------+
+| Treasure Type:  | None       | None       | None        |
++-----------------+------------+------------+-------------+
+| XP:             | 75         | 500        | 2,850       |
++-----------------+------------+------------+-------------+
 
-Giant crabs naturally resemble the ordinary variety, but are much
-larger, averaging 5' in diameter (not counting their legs). These
-creatures are often found in water-filled caves, particularly those
-connected to a river, lake or sea, and are tolerant of both fresh and
-salt water. Also, they are able to live in stagnant water, though they
-prefer a better environment.
+Crocodiles are large semiaquatic reptiles that live throughout the
+tropics. They are ambush predators, waiting for fish or land animals to
+come close, then rushing out to attack. When in their natural element,
+they surprise on 1-4 on 1d6.
 
-Giant crabs carry their eyes on armored stalks, which means that no
-bonus is awarded for attacking them from behind.
+**Large Crocodiles:** These huge creatures are from 12-20 feet long.
+Large crocodiles fight and behave like their smaller cousins.
+
+**Giant Crocodiles:** These gigantic creatures usually live in salt
+water and are generally more than 20 feet long. Giant crocodiles fight
+and behave like their smaller cousins.

@@ -1,35 +1,27 @@
-### Dryad
+### Eagle
 
-  ----------------- ------------------------
-Armor Class:      15
-Hit Dice:         2\*
-No. of Attacks:   1 dagger or 1 fist
-Damage:           1d4 dagger or 1d4 fist
-Movement:         40'
-No. Appearing:    Lair 1d6
-Save As:          Magic-User: 4
-Morale:           6
-Treasure Type:    D
-XP:               100
-  ----------------- ------------------------
+  ----------------- ---------------------
+Armor Class:      13
+Hit Dice:         2
+No. of Attacks:   2 talons, 1 beak
+Damage:           1d6 talon, 1d4 beak
+Movement:         10' Fly 160' (10')
+No. Appearing:    1, Wild 1d4
+Save As:          Fighter: 2
+Morale:           8
+Treasure Type:    None
+XP:               145
+  ----------------- ---------------------
 
-Dryads are female nature spirits; each is mystically
-bound to a single, enormous oak tree and must never stray more than 300
-yards from it. Any who do become ill and die within 4d6 hours. A dryad's
-oak does not radiate magic. A dryad lives as long as her tree, and dies
-when the tree dies; likewise, if the dryad is killed, her tree dies
-also.
-
-A dryad resembles an elf woman, with skin like fine polished wood or
-smooth bark and hair like leaves; the hair color of a dryad usually
-changes with the seasons, being brown in the winter, pale green in the
-spring, darker green in the summer, and yellow, orange, or red in the
-fall.
-
-Though they are usually content to live alone, dryads are often friends
-with creatures such as treant or other nature spirits who might live
-nearby. Once per day a dryad can cast a charm similar to the spell
-**charm person**, and one may choose to use this ability to compel an
-interesting human or elf to remain with her as a companion for a period
-of up to a year. The companion can be taken into and brought out of the
-dryad's tree so long as the charm is still in effect.
+Eagles are large birds with wingspans 6.5 to 7.5 feet in
+width. They stand about 2.5 to 3 feet tall and weigh about 13 lbs. These
+birds have heavy talons and large beaks with a sharp hooked end. Eagles
+are known to carry prey up to 15 lbs. An eagle will also kill and start
+to eat animals that are 5 times the eagle's size, up to 80 lbs.
+Fish-eating eagles are usually the largest varieties, while other types
+hunt small animals such as rodents or snakes. Coloring is dependent on
+the species of eagle, and should be chosen by the GM; various brown,
+gray, black, or white markings are most common, though solid darker
+colors are sometimes seen. The beaks may range from bright yellowish
+orange to black. Eagles will dive at a prey and attack with both sets of
+talons, then attack with the beak.

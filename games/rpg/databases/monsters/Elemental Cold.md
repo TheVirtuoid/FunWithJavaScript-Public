@@ -1,36 +1,37 @@
-### Elemental, Air
+### Elemental, Cold
 
-+-----------------+---------------+---------------+---------------+
-|                 | Staff         | Device        | Spell         |
-+-----------------+---------------+---------------+---------------+
-| Armor Class:    | 18 (m)        | 20 (m)        | 22 (m)        |
-+-----------------+---------------+---------------+---------------+
-| Hit Dice:       | 8\*           | 12\* (+10)    | 16\* (+12)    |
-+-----------------+---------------+---------------+---------------+
-| No. of Attacks: | -- 1 strike or knock down, see below --       |
-+-----------------+---------------+---------------+---------------+
-| Damage:         | 1d12          | 2d8           | 3d6           |
-+-----------------+---------------+---------------+---------------+
-| Movement:       | -- Fly 120' --                               |
-+-----------------+-----------------------------------------------+
-| No. Appearing:  | -- special --                                 |
-+-----------------+---------------+---------------+---------------+
-| Save As:        | Fighter: 8    | Fighter: 12   | Fighter: 16   |
-+-----------------+---------------+---------------+---------------+
-| Morale:         | -- 10 --                                      |
-+-----------------+-----------------------------------------------+
-| Treasure Type:  | -- None --                                    |
-+-----------------+---------------+---------------+---------------+
-| XP:             | 945           | 1,975         | 3,385         |
-+-----------------+---------------+---------------+---------------+
++-----------------+------------+-------------+-------------+
+|                 | Staff      | Device      | Spell       |
++-----------------+------------+-------------+-------------+
+| Armor Class:    | 18 (m)     | 20 (m)      | 22 (m)      |
++-----------------+------------+-------------+-------------+
+| Hit Dice:       | 8\*        | 12\* (+10)  | 16\* (+12)  |
++-----------------+------------+-------------+-------------+
+| No. of Attacks: | 1          | 1           | 1           |
++-----------------+------------+-------------+-------------+
+| Damage:         | 1d12       | 2d8         | 3d6         |
++-----------------+------------+-------------+-------------+
+| Movement:       | -- 40' --                             |
++-----------------+----------------------------------------+
+| No. Appearing:  | -- special --                          |
++-----------------+------------+-------------+-------------+
+| Save As:        | Fighter: 8 | Fighter: 12 | Fighter: 16 |
++-----------------+------------+-------------+-------------+
+| Morale:         | -- 10 --                               |
++-----------------+----------------------------------------+
+| Treasure Type:  | -- None --                             |
++-----------------+------------+-------------+-------------+
+| XP:             | 945        | 1,975       | 3,385       |
++-----------------+------------+-------------+-------------+
 
-Air elementals resemble \"dust devils\", that is,
-small whirlwinds, but they are much more powerful. Air elementals take
-double damage when attacked by earth-based attacks (including by earth
-elementals). An air elemental may choose either to attack a single
-opponent, thus receiving one attack per round at the listed damage, or
-may choose to knock all opponents in a 5' radius to the ground; if the
-latter attack is used, all creatures of 2 hit dice or less must save vs.
-Death Ray or fall prone. Creatures of 3 or more levels or hit dice are
-not so affected. Air elementals do an additional 1d8 points of damage
-against creatures or vehicles which are airborne.
+A cold elemental resembles a crude, headless ice
+statue with long sharp icicles in place of hands. A cold elemental
+suffers double damage from fire attacks, including the attacks of fire
+elementals. It deals an additional 1d8 points of damage against
+creatures that are hot or flaming in nature, as well as creatures made
+of liquids or jelly. A cold elemental's body is so bitterly cold that
+creatures within 5 feet take 1d6 points of damage automatically, unless
+they are immune to the effects of cold. Any liquids the cold elemental
+touches immediately freeze solid. A cold elemental cannot enter places
+where the temperature is above 50 degrees Fahrenheit, and if forced to
+do so will suffer 1d6 points of damage each round.

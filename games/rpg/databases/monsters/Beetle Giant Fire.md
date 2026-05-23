@@ -1,29 +1,25 @@
-### Beetle, Giant Bombardier
+### Beetle, Giant Fire
 
-  ----------------- --------------------------------------
+  ----------------- -------------------------
 Armor Class:      16
-Hit Dice:         2\*
-No. of Attacks:   1 bite, 1 spray (special, see below)
-Damage:           1d6 bite, 2d6 spray
+Hit Dice:         1+2
+No. of Attacks:   1 bite
+Damage:           2d4 bite
 Movement:         40'
 No. Appearing:    1d8, Wild 2d6, Lair 2d6
-Save As:          Fighter: 2
-Morale:           8
+Save As:          Fighter: 1
+Morale:           7
 Treasure Type:    None
-XP:               100
-  ----------------- --------------------------------------
+XP:               25
+  ----------------- -------------------------
 
-Giant bombardier beetles have red head and thorax sections and black
-abdomens. They are 3 to 4 feet long. In combat, a giant bombardier
-beetle bites opponents in front of it, and sprays a cone of very hot and
-noxious gases from a nozzle in the rearmost tip of the abdomen. This
-toxic blast causes 2d6 points of damage to all within a cone 10' long
-and 10' wide at the far end (a save vs. Death Ray for half damage is
-allowed). A giant bombardier beetle can use this spray attack up to five
-times per day, but no more than once per three rounds. Faced with
-enemies attacking from one direction, a giant bombardier beetle may
-choose to turn away and use the spray attack rather than biting.
+Giant fire beetles are huge, being 18 to 30 inches long, and have shiny
+black carapaces. Each has a pair of glowing red organs located just
+below their eyes which illuminate a radius of 10 feet around the
+creature. These glands continue to glow for 1d6 days after one is
+killed, and may be removed and used for illumination by any adventurers
+not too squeamish to do so.
 
-Giant bombardier beetles, like most beetles, have about the same visual
-acuity in all directions, and thus suffer no penalty to Armor Class when
-attacked from behind.
+They are normally timid but will fight if cornered. Like most beetles,
+they have more or less the same visual acuity in all directions, and
+thus those who attack them from behind receive no bonus to do so.

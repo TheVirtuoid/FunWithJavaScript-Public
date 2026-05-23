@@ -1,36 +1,33 @@
-### Bugbear
+### Caecilia, Giant
 
-  ----------------- ----------------------------
-Armor Class:      15 (13)
-Hit Dice:         3+1
-No. of Attacks:   1 weapon
-Damage:           1d8+1 or by weapon +1
-Movement:         30' Unarmored 40'
-No. Appearing:    2d4, Wild 5d4, Lair 5d4
+  ----------------- --------------------------------------
+Armor Class:      14
+Hit Dice:         6\*
+No. of Attacks:   1 bite + swallow on natural 19 or 20
+Damage:           1d8 bite + 1d8/round if swallowed
+Movement:         20' (10')
+No. Appearing:    1d3, Lair 1d3
 Save As:          Fighter: 3
 Morale:           9
-Treasure Type:    Q, R each; B, L, M in lair
-XP:               145
-  ----------------- ----------------------------
+Treasure Type:    B
+XP:               555
+  ----------------- --------------------------------------
 
-Bugbears look like huge, hairy goblins, standing about
-6 feet tall. Their eyes are usually a darkish brown color and they move
-very quietly. They are wild and cruel, and bully smaller humanoids
-whenever possible.
+Caecilia are carnivorous, legless amphibians; they strongly resemble
+earthworms, but they have bony skeletons and sharp teeth. Caecilia live
+entirely underground. The giant variety can grow up to 30' long and
+frequently are found in caverns or dungeons. They are nearly blind, but
+caecilia are very sensitive to sound and vibrations, and are able to
+find their prey regardless of light or the absence thereof.
 
-Bugbear attacks are coordinated, and their tactics are sound if not
-brilliant. They are able to move in nearly complete silence, surprising
-opponents on 1-3 on 1d6. In order to remain silent, they must wear only
-leather or hide armor, as indicated in the Armor Class scores above.
-Bugbears receive a +1 bonus on damage due to their great Strength. As
-with most goblinoid monsters, they have Darkvision with a 30' range.
+A giant caecilia can swallow a single small humanoid (such as a goblin
+or halfling) whole. On a natural attack roll of 19 or 20, such a victim
+has been swallowed (assuming that roll does actually hit the victim). A
+swallowed victim suffers 1d8 damage per round, and may only attack from
+the inside with a small cutting or stabbing weapon such as a dagger.
+While the inside of the caecilia is easier for the victim to hit,
+fighting while swallowed is more difficult, so no modifiers to the
+attack roll are applied.
 
-One out of every eight bugbears will be a hardened warrior of 4+4 Hit
-Dice (240 XP), with a +2 bonus to damage. In lairs of 16 or more
-bugbears, there will be a chieftain of 6+6 Hit Dice (500 XP), with a +3
-bonus to damage. Bugbears gain a +1 bonus to their morale if they are
-led by a hardened warrior or chieftain. In the lair, bugbears never fail
-a morale check as long as the chieftain is alive. In addition, there is
-a 2 in 6 chance that a shaman will be present in a lair. A shaman is
-equal to an ordinary bugbear statistically, but possesses 1d4+1 levels
-of Clerical abilities.
+Once a caecilia has swallowed an opponent, it will generally attempt to
+disengage from combat, going to its lair to rest and digest its meal.

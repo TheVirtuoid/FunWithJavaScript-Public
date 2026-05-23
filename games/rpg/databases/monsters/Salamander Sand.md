@@ -1,31 +1,36 @@
-### Salamander, Lightning
+### Salamander, Sand
 
-  ----------------- -------------------------------
-Armor Class:      20 (m)
-Hit Dice:         10\* (+9)
-No. of Attacks:   2 bites + lightning
-Damage:           2d4 bite, 1d8/round lightning
-Movement:         40'
-No. Appearing:    1d4, Wild 2d4, Lair 2d4
-Save As:          Fighter: 10
+  ----------------- -----------------------------------
+Armor Class:      18 (m)
+Hit Dice:         7\* (+4)
+No. of Attacks:   1 bite, 1 transform stone to sand
+Damage:           1d6 bite, save or trapped in sand
+Movement:         20'
+No. Appearing:    1d3, Wild 2d4, Lair 1d6
+Save As:          Fighter: 7
 Morale:           8
-Treasure Type:    E
-XP:               1,390
-  ----------------- -------------------------------
+Treasure Type:    L
+XP:               735
+  ----------------- -----------------------------------
 
-Lightning Salamanders come from the Elemental Plane of Air. A lightning
-salamander resembles a giant snake more than 12 feet long with two
-dragon-like heads (on short but flexible necks). Its scales are all the
-colors of lightning: white, blue, purple, and yellow. A lightning
-salamander constantly emits little bolts of lightning; all creatures
-within 20 feet of the salamander that are not lightning-resistant suffer
-1d8 points of damage per round. A lightning salamander is immune to
-damage from any type of electrical or lightning attack. It is
-intelligent and can speak the language of the Plane of Air, and many
-will also know Elvish, Common, and/or Dragon.
+Sand salamanders come from the Elemental Plane of
+Earth. A sand salamander resembles a giant sea turtle with six flippers
+and a serpentine neck and head, with scales of varying shades of gray or
+brown.
 
-Despite having two heads a lightning salamander has
-only one mind; either head may speak or both may, but it is very rare to
-meet a lightning salamander who can speak different words with each head
-at the same time (although those who can are known to sing duets with
-themselves, which may give away one's location to those listening).
+The sand salamander's most feared attack is its bite, for any living
+creature bitten by one must save vs. Petrify or be turned to stone. In
+addition to attacking, a sand salamander can temporarily transform any
+stone within a 20 foot radius into sand. Characters in the affected area
+must save vs. Paralysis each round in order to move through the sand,
+and if the save is successful, the character is still reduced to half
+their normal movement. Whenever the sand salamander moves out of range,
+the sand \"congeals\" back into stone, and any character in the affected
+area must save vs. Paralysis or become trapped. Extraction of a trapped
+person may take quite a long time, chipping and hammering at the stone
+to break it apart.
+
+A sand salamander is immune to piercing attacks (such as spears or
+arrows) and suffers half damage from cutting attacks. It is intelligent
+and can speak the language of the Plane of Earth; many may also know
+Elvish, Common, or Dragon.

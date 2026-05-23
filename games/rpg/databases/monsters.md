@@ -1079,7 +1079,7 @@ more primitive dinosaurs.
 
 ### Dinosaur, Pterodactyl (and Pteranodon)
 
-  ----------------- ----------------- -----------------
+// i removed the dashes for now, as there were three of them.
                     Pterodactyl       Pteranodon
 Armor Class:      12                13
 Hit Dice:         1                 5
@@ -1091,7 +1091,6 @@ Save As:          Fighter: 1        Fighter: 5
 Morale:           7                 8
 Treasure Type:    None              None
 XP:               25                360
-  ----------------- ----------------- -----------------
 
 Pterodactyls are prehistoric winged reptilian creatures, having a
 wingspan of around 25 to 30 inches. Though they eat mostly fish, they
@@ -1228,7 +1227,8 @@ half damage from magical attacks based on either cold or wind.
 
 ### Dog
 
-  ----------------- ------------ ---------------
+// i removed the dashes for now, as there were three of them.
+
                     Normal       Riding
 Armor Class:      14           14
 Hit Dice:         1+1          2
@@ -1240,7 +1240,6 @@ Save As:          Fighter: 1   Fighter: 2
 Morale:           9            9
 Treasure Type:    None         None
 XP:               25           75
-  ----------------- ------------ ---------------
 
 Normal dogs include most medium and large breeds, including wild dogs.
 After biting an opponent, a dog can hold on, doing 1d4 damage
@@ -2165,12 +2164,10 @@ These three types of elementals are quite reasonably called **staff**,
 **device**, and **conjured** elementals. The hit dice of an elemental
 depends on the type, as follows:
 
-  ---------- ----------
 Type       Hit Dice
 Staff      8
 Device     12
 Conjured   16
-  ---------- ----------
 
 The summoner of an elemental must concentrate on it to control it, and
 may take no other action, including attacking, being attacked, or
@@ -2563,7 +2560,8 @@ sharp beak.
 
 ### Fish, Giant Barracuda
 
-  ----------------- ------------ ------------------
+// i removed the dashes for now, as there were three of them.
+
                     Huge         Giant
 Armor Class:      16           15
 Hit Dice:         5            9 (+8)
@@ -2575,7 +2573,6 @@ Save As:          Fighter: 5   Fighter: 9
 Morale:           8            10
 Treasure Type:    None         None
 XP:               360          1,075
-  ----------------- ------------ ------------------
 
 Barracuda are predatory fish found in salt water. Huge barracudas are
 about 12' long, while giant specimens can exceed 20'. They have
@@ -3722,7 +3719,8 @@ harpies have ceased singing.
 
 ### Hawk
 
-  ----------------- -------------------- --------------------
+// i removed the dashes for now, as there were three of them.
+
                     Normal               Giant
 Armor Class:      12                   14
 Hit Dice:         .5 (1d4 hit points)   4
@@ -3734,7 +3732,6 @@ Save As:          Fighter: 1           Fighter: 4
 Morale:           7                    8
 Treasure Type:    None                 None
 XP:               10                   240
-  ----------------- -------------------- --------------------
 
 Normal hawks (or falcons) are raptors, predatory birds that typically
 subsist on small snakes and other vermin. Most have wingspans of less
@@ -3908,7 +3905,8 @@ the monster).
 
 ### Hyena (and Hyenodon)
 
-  ----------------- ------------ -------------------
+// i removed the dashes for now, as there were three of them.
+
                     Hyena        Hyenodon
 Armor Class:      13           13
 Hit Dice:         2+1          3+1
@@ -3920,7 +3918,6 @@ Save As:          Fighter: 2   Fighter: 3
 Morale:           8            8
 Treasure Type:    None         None
 XP:               75           145
-  ----------------- ------------ -------------------
 
 Hyenas are doglike carnivores who exhibit some of the behaviors of
 canines but are not related. They not only hunt but also scavenge and
@@ -5246,7 +5243,7 @@ statistically, but has Clerical abilities at level 1d4+1.
 
 ### Ostrich (and Emu)
 
-  ----------------- ------------ ------------
+// i removed the dashes for now, as there were three of them.
                     Ostrich      Emu
 Armor Class:      14           14
 Hit Dice:         3            2
@@ -5258,7 +5255,6 @@ Save As:          Fighter: 3   Fighter: 2
 Morale:           8            8
 Treasure Type:    None         None
 XP:               145          75
-  ----------------- ------------ ------------
 
 These birds are sometimes raised (or hunted) as food. In addition, the
 large, decorative quills of ostriches are in demand in some social
@@ -6139,7 +6135,7 @@ Skeletons never fail morale, and thus always fight until destroyed.
 
 ### Snake, Pit Viper (and Rattlesnake)
 
-  ----------------- ------------------------- -------------------------
+// i removed the dashes for now, as there were three of them.
                     Normal                    Giant
 Armor Class:      14                        15
 Hit Dice:         1\*                       2\*
@@ -6151,7 +6147,6 @@ Save As:          Fighter: 1                Fighter: 2
 Morale:           7                         8
 Treasure Type:    None                      None
 XP:               37                        100
-  ----------------- ------------------------- -------------------------
 
 Pit vipers are highly venomous snakes. There are many varieties ranging
 in size from 2' to 12' at adulthood; the statistics above are for an
@@ -6811,7 +6806,7 @@ features with the adults.
 
 ### Turtle or Tortoise
 
-  ----------------- -------------------- -----------------
+// i removed the dashes for now, as there were three of them.
                     Box Turtle           Snapping Turtle
 Armor Class:      15                   16
 Hit Dice:         .5 (1d4 hit points)   1
@@ -6823,7 +6818,6 @@ Save As:          Normal Man           Fighter: 1
 Morale:           5                    6
 Treasure Type:    None                 None
 XP:               10                   25
-  ----------------- -------------------- -----------------
 
 Turtles and tortoises are reptiles with a hard shell into which the
 animal can pull its head and legs if threatened. Turtles will be found
@@ -7047,25 +7041,15 @@ as described above to complete its destruction.
 
   ----------------- -------------------------------
 Armor Class:      13
-
 Hit Dice:         1 to 4
-
 No. of Attacks:   1 spray
-
 Damage:           Stun
-
 Movement:         Swim 30'
-
 No. Appearing:    Wild 1d4
-
 Save As:          Fighter: 1 to 4 (as Hit Dice)
-
 Morale:           10
-
 Treasure Type:    None
-
-XP:               1 HD 25, 2 HD 75\
-3 HD 145, 4 HD 240
+XP:               1 HD 25, 2 HD 75\3 HD 145, 4 HD 240
   ----------------- -------------------------------
 
 Giant water termites vary from 1' to 5' in length. They attack using a
@@ -7086,7 +7070,7 @@ variety 3-4 hit dice, and those found in swamps range from 2-3 hit dice.
 
 ### Weasel, Normal and Giant (or Ferret)
 
-  ----------------- -------------------------- -------------------------
+// i removed the dashes for now, as there were three of them.
                     Normal                     Giant
 Armor Class:      14                         17
 Hit Dice:         1d2 hit points             5
@@ -7098,7 +7082,6 @@ Save As:          Fighter: 1                 Fighter: 5
 Morale:           7                          8
 Treasure Type:    None                       V
 XP:               10                         360
-  ----------------- -------------------------- -------------------------
 
 Normal weasels (or ferrets, see below) are small mammals with long
 bodies, short legs, and pointed, toothy snouts. They are predatory
@@ -7302,24 +7285,14 @@ nature, they cannot be harmed by non-magical weapons.
 
   ----------------- ------------------------------------------
 Armor Class:      18
-
 Hit Dice:         7\*
-
 No. of Attacks:   1 bite, 1 stinger or 2 talons, 1 stinger
-
-Damage:           2d8 bite, 1d6 + poison sting,\
-1d10 talon
-
+Damage:           2d8 bite, 1d6 + poison sting,\1d10 talon
 Movement:         30' (10') Fly 80' (15')
-
 No. Appearing:    Wild 1d6, Lair 1d6
-
 Save As:          Fighter: 7
-
 Morale:           9
-
 Treasure Type:    E
-
 XP:               735
   ----------------- ------------------------------------------
 

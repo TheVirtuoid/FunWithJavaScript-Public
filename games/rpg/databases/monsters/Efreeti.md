@@ -1,31 +1,47 @@
-### Eagle, Giant
+### Efreeti
 
-  ----------------- ----------------------------
-Armor Class:      15
-Hit Dice:         4
-No. of Attacks:   2 claws, 1 bite
-Damage:           1d6 claw, 1d8 bite
-Movement:         10' fly 90'
-No. Appearing:    2d6
-Save As:          Fighter: 4
-Morale:           7 (12 if defending a nest)
+  ----------------- ------------------------------
+Armor Class:      21 (m)
+Hit Dice:         10\* (+9)
+No. of Attacks:   1 huge weapon or magic
+Damage:           2d8 huge weapon or see below
+Movement:         30' Fly 80' (10')
+No. Appearing:    1
+Save As:          Fighter: 15
+Morale:           12 (9)
 Treasure Type:    None
-XP:               240
-  ----------------- ----------------------------
+XP:               1,390
+  ----------------- ------------------------------
 
-An average giant eagle has a wingspan of 15 to 20 feet and stands 8 to
-12 feet tall. They are intelligent creatures, and many speak Common or
-another language common in their home territory.
+Efreet (singular efreeti) are a race of manlike creatures believed to be
+from the Elemental Plane of Fire. They are large beings, 11 to 12 feet
+in height and weighing around 2,000 pounds, though their weight is
+generally immaterial due to their ability to fly by magical means.
 
-Individual giant eagles are rarely encountered alone, as they prefer to
-live in loose communities. However, when they hunt they do so in a
-solitary fashion, with each eagle choosing a single creature as prey. As
-they can communicate with each other, it is extremely rare for two of
-them to make the mistake of attacking the same prey; in fact, it is not
-uncommon for one to attack alone to scatter a group of prey so they can
-each more easily choose a victim.
+Note that the 12 morale reflects an efreeti's absolute control over its
+own fear, but does not indicate that the creature will throw its life
+away easily. Use the \"9\" figure to determine whether an outmatched
+efreeti decides to leave a combat.
 
-Giant eagles mate for life. If a nest with eggs or hatchlings is
-threatened, both parents will fight without checking morale, and other
-giant eagles in their community may come to their defense but will still
-seek to scatter any opponents so as to attack them one on one.
+Efreet have a number of magical powers, which can be used at will (that
+is, without needing magic words or gestures): become **invisible**, with
+unlimited uses per day; assume **gaseous form**, as the potion, up to
+one hour per day; **create illusions**, as the spell **phantasmal
+force** but including sound as well as visual elements, three times per
+day; **create flame**, with unlimited uses; and create a **wall of
+fire** (as the spell), once per day. Create flame allows the efreet to
+cause a flame to appear in its hand or otherwise on its person at will;
+it behaves as desired by the efreet, becoming as large as a torch flame
+or as small as a candle, and ignites flammable material just as any
+ordinary flame does. The flame can be thrown as a weapon with a range of
+up to 60', causing 1d8 points of damage on a successful hit. The efreet
+can create another flame, and throw it as well if desired, once per
+round.
+
+Efreet may assume the form of a column of fire at will, with no limit as
+to the number of times per day this power may be used; an efreeti in
+flame-form fights as if it were a fire elemental.
+
+Due to their highly magical nature, efreet cannot be
+harmed by non-magical weapons. They are immune to normal fire, and
+suffer only half damage from magical fire attacks.

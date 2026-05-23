@@ -1,30 +1,34 @@
-### Jelly, Gray (Gray Ooze)
+### Jelly, Green (Green Slime)
 
-  ----------------- -------------
-Armor Class:      12
-Hit Dice:         3\*
-No. of Attacks:   1 pseudopod
-Damage:           2d8
+  ----------------- -------------------------------
+Armor Class:      12 (only hit by fire or cold)
+Hit Dice:         2\*\*
+No. of Attacks:   1 touch
+Damage:           Transform to green jelly
 Movement:         1'
 No. Appearing:    1
-Save As:          Fighter: 3
+Save As:          Fighter: 2
 Morale:           12
 Treasure Type:    None
-XP:               175
-  ----------------- -------------
+XP:               125
+  ----------------- -------------------------------
 
-Gray jellies are amorphous creatures that live only to eat. They inhabit
-underground areas, scouring caverns, ruins, and dungeons in search of
-organic matter, living or dead. Average individuals will be up to 10
-feet in diameter, about 6 inches thick (high), and weigh up to 2,500
-pounds.
+Green jelly devours flesh and organic materials on
+contact and is even capable of dissolving metal given enough time.
+Bright green, wet, and sticky, it clings to walls, floors, and ceilings
+in patches, reproducing as it consumes organic matter. It drops from
+walls and ceilings when it detects movement (and possible food) below.
+Green jelly cannot grow in sunlight; even the indirect sunlight of a
+dense forest will stunt it and prevent it from spreading, and direct
+sunlight will kill it outright within a turn.
 
-The acid secretions of the gray jelly can dissolve
-most organic matter and most metals; stone and glass are not affected,
-however. After a successful hit, the jelly will stick to the creature
-attacked, dealing 2d8 damage per round automatically. Normal
-(non-magical) armor or clothing dissolves and becomes useless
-immediately. Any non-magical weapon made of metal or wood which hits a
-gray jelly will be similarly destroyed. Magical weapons, armor, and
-clothing are allowed a saving throw (use the wearer's save vs. Death
-Ray, adding any magical \"plus\" value to the roll if applicable).
+On the first round of contact, the jelly can be scraped off a creature
+(most likely destroying the scraping device), but after that it must be
+frozen, burned, or cut away (dealing the same damage to both the victim
+and the jelly). A **cure disease** spell will destroy a patch of green
+jelly. It does not harm stone or enchanted metal, but can dissolve
+normal metal or enchanted wood in a turn and normal wood in 2d4 rounds.
+
+If not destroyed or scraped off within 6+1d4 rounds, the victim will be
+completely transformed into more green jelly; such a character or
+creature cannot be retrieved by any magic short of a **wish**.

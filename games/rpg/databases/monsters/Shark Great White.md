@@ -1,20 +1,21 @@
-### Shark, Bull
+### Shark, Great White
 
   ----------------- ------------------
-Armor Class:      13
-Hit Dice:         2
+Armor Class:      19
+Hit Dice:         8
 No. of Attacks:   1 bite
-Damage:           2d4
+Damage:           2d10
 Movement:         Swim 60' (10')
-No. Appearing:    Wild 3d6
-Save As:          Fighter: 2
-Morale:           7
+No. Appearing:    Wild 1d4
+Save As:          Fighter: 8
+Morale:           8
 Treasure Type:    None
-XP:               75
+XP:               875
   ----------------- ------------------
 
-Bull sharks are so named because of their stocky, broad build. Male bull
-sharks can grow up to 7' long and weigh around 200 pounds, while
-females have been known to be up to 12' long, weighing up to 500
-pounds. Bull sharks are able to tolerate fresh water, and often travel
-up rivers in search of prey.
+Great white sharks range from 12' to 15' in length on the average,
+though specimens ranging up to 30' in length have been reported. They
+are apex predators. Great white sharks have the ability to sense the
+electromagnetic fields of living creatures, allowing them to find prey
+even when light or water clarity are poor, and are able to smell blood
+at great distances.

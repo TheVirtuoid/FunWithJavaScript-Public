@@ -1,40 +1,36 @@
-### Giant, Storm
+### Gnoll
 
-  ----------------- ------------------------------------
-Armor Class:      19 (13)
-Hit Dice:         15\*\* (+11)
-No. of Attacks:   1 giant weapon or 1 lightning bolt
-Damage:           8d6 giant weapon or 15d6 lightning
-Movement:         30' Unarmored 50' (10')
-No. Appearing:    1, Wild 1d3, Lair 1d3
-Save As:          Fighter: 15
-Morale:           10
-Treasure Type:    E + 1d20x1,000 gp
-XP:               3,100
-  ----------------- ------------------------------------
+  ----------------- -------------------------
+Armor Class:      15 (13)
+Hit Dice:         2
+No. of Attacks:   1 weapon
+Damage:           2d4 or by weapon +1
+Movement:         30' Unarmored 40'
+No. Appearing:    1d6, Wild 3d6, Lair 3d6
+Save As:          Fighter: 2
+Morale:           8
+Treasure Type:    Q, S each; D, K in lair
+XP:               75
+  ----------------- -------------------------
 
-Storm giants are nearly the largest of the giants,
-with adult males standing 21 feet tall and weighing around 12,000
-pounds; adult females average 20 feet and typically weigh around 11,000
-pounds. Most storm giants have pale skin and dark hair, but some
-individuals have skin of a lavender color, and some have pale white or
-silver hair. Their eyes range from bright blue to deep gray in color.
+Gnolls are large fur-covered humanoids, averaging 7.5 feet in height and
+weighing about 300 pounds. They are best recognized by their heads,
+which resemble those of hyenas (or perhaps wolves) but with shorter
+muzzles than either.
 
-They prefer to dress in light clothing, such as tunics, sandals, and so
-on, but in battle they wear finely-crafted plate mail armor of bright
-metal and wield weapons of the same sort. Their equipment usually
-appears to be silver but those of the highest class or rank wear armor
-and bear arms of a bright and shining golden color.
+Gnolls are nocturnal and have Darkvision with a 30'
+range. They are cruel carnivores, preferring intelligent creatures for
+food because they scream more. They show little discipline when fighting
+unless they have a strong leader.
 
-Unlike most other giants, storm giants have been known to befriend
-humans, elves, or dwarves.
-
-Storm giants have the ability to throw **lightning bolts** as if they
-were spears (which work just as the spell does, and can be used once per
-five rounds; a save vs. Spells reduces damage to half). They prefer to
-attack first with lightning before moving on to other attack forms. Not
-surprisingly, storm giants are resistant to all forms of lightning or
-electrical attack, suffering only half damage normal when so attacked.
-
-Also note that 10% of storm giants have the abilities of a Magic-User of
-level 2 to 12 (2d6).
+One out of every six gnolls will be a hardened warrior of 4 Hit Dice
+(240 XP) having a +1 bonus to damage due to strength. Gnolls gain a +1
+bonus to their morale if they are led by such a warrior. In lairs of 12
+or greater, there will be a pack leader of 6 Hit Dice (500 XP) having a
++2 bonus to damage. In the lair, gnolls never fail a morale check as
+long as the pack leader is alive. In addition, a lair has a chance equal
+to 1-2 on 1d6 of a shaman being present, and 1 on 1d6 of a witch or
+warlock. A shaman is equivalent to a hardened warrior statistically, and
+in addition has Clerical abilities at level 1d4+1. A witch or warlock is
+equivalent to a regular gnoll, and has Magic-User abilities of level
+1d4.

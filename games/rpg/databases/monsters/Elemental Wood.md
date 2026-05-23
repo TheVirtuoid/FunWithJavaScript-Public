@@ -1,9 +1,9 @@
-### Elemental, Water
+### Elemental, Wood
 
 +-----------------+------------+-------------+-------------+
 |                 | Staff      | Device      | Spell       |
 +-----------------+------------+-------------+-------------+
-| Armor Class:    | 18 (m)     | 20 (m)      | 22 (m)      |
+| Armor Class:    | 17 (m)     | 19 (m)      | 21 (m)      |
 +-----------------+------------+-------------+-------------+
 | Hit Dice:       | 8\*        | 12\* (+10)  | 16\* (+12)  |
 +-----------------+------------+-------------+-------------+
@@ -11,7 +11,7 @@
 +-----------------+------------+-------------+-------------+
 | Damage:         | 1d12       | 2d8         | 3d6         |
 +-----------------+------------+-------------+-------------+
-| Movement:       | -- 20' (15') Swim 60' --            |
+| Movement:       | -- 40' --                             |
 +-----------------+----------------------------------------+
 | No. Appearing:  | -- special --                          |
 +-----------------+------------+-------------+-------------+
@@ -24,9 +24,9 @@
 | XP:             | 945        | 1,975       | 3,385       |
 +-----------------+------------+-------------+-------------+
 
-Water elementals resemble roiling waves of water,
-which seem to fall upon any creature they attack, only to reform the
-next round. They take double damage when attacked with air or wind
-attacks (including air elementals). A water elemental cannot move more
-than 60' from a body of water. They do an extra 1d8 points of damage
-against creatures, vehicles, or structures which are in the water.
+Wood elementals appears to be large, leafless trees.
+They deal 1d8 points of extra damage to creatures in contact with any
+woody materials, living or dead (including weapons or shields made
+mainly of wood). On the other hand, they suffer double damage from fire
+or lightning attacks of any kind, including the attacks of fire or
+lightning elementals.

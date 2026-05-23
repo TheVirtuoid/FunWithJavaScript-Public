@@ -1,17 +1,19 @@
-### Living Statue, Stone
+### Lizard, Giant Draco
 
-  ----------------- ----------------
-Armor Class:      16
-Hit Dice:         5\*
-No. of Attacks:   2 lava sprays
-Damage:           2d6 lava spray
-Movement:         20'
-No. Appearing:    1d3
-Save As:          Fighter: 5
-Morale:           12
+  ----------------- -------------------------------------
+Armor Class:      15
+Hit Dice:         4+2
+No. of Attacks:   1 bite
+Damage:           1d10
+Movement:         40' Fly 70' (20', and see below)
+No. Appearing:    1d4, Wild 1d8
+Save As:          Fighter: 3
+Morale:           7
 Treasure Type:    None
-XP:               405
-  ----------------- ----------------
+XP:               240
+  ----------------- -------------------------------------
 
-A stone living statue attacks by spraying molten rock from its
-fingertips. The range of the spray is 5'.
+Giant draco lizards are able to extend their ribs and connected skin to
+form a sort of wing, allowing them to glide for short distances (no more
+than three rounds, and ascending is impossible). An average giant draco
+lizard is 8' long, including its nearly 3' long tail.

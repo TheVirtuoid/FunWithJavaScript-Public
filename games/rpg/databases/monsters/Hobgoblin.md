@@ -1,33 +1,42 @@
-### Hippogriff
+### Hobgoblin
 
-  ----------------- ------------------------------
-Armor Class:      15
-Hit Dice:         3
-No. of Attacks:   2 claws, 1 bite
-Damage:           1d6 claw, 1d10 bite
-Movement:         60' (10') Fly 120' (10')
-No. Appearing:    Wild 2d8
-Save As:          Fighter: 3
+  ----------------- -------------------------
+Armor Class:      14 (11)
+Hit Dice:         1
+No. of Attacks:   1 weapon
+Damage:           1d8 or by weapon
+Movement:         30' Unarmored 40'
+No. Appearing:    1d6, Wild 2d4, Lair 4d8
+Save As:          Fighter: 1
 Morale:           8
-Treasure Type:    None
-XP:               145
-  ----------------- ------------------------------
+Treasure Type:    Q, R each; D, K in lair
+XP:               25
+  ----------------- -------------------------
 
-Hippogriffs resemble large flying horses with the forefront of a bird of
-prey; they have wingspans of around 20 feet and an overall body length
-up to 9 feet, and weigh 900 to 1,200 pounds. They are found in a variety
-of colors and patterns, including white, black, tan, brown, and reddish
-brown with markings such as blazes, stripes, stars, \"bald\" faces, and
-so on.
+Hobgoblins are, basically, man-sized goblins. They are
+better organized than their smaller kin, and are also better adapted to
+life in the sun. Their skin tone ranges from a greenish tan to a grayish
+brown, and their hair and eyes are usually dark. Most wear toughened
+hides and carry wooden shields for armor. As with most goblinoids, they
+have Darkvision with a 30' range.
 
-A hippogriff avoids the territories and civilizations of other
-creatures, dwelling in extreme altitudes. **Griffons** sometimes prey
-upon them, and hippogriffs will generally attack griffons on sight if
-they have a numerical advantage.
+Tribes of hobgoblins prefer to live in walled villages, or preferably in
+castles, and are quite willing to overrun villages or castles built by
+other races rather than build their own. Some tribes do choose to live
+underground. Hobgoblins have a well-known hatred of elves, and will
+attack them whenever they think they can win.
 
-Hippogriffs are omnivorous, entering combat only as defense, save for
-those times a griffon is met. They are prized as flying mounts since,
-unlike griffons, they are relatively safe around horses; note that it is
-still necessary to raise one in captivity in order to use it as a mount.
-A light load for a hippogriff is up to 400 pounds; a heavy load, up to
-900 pounds.
+One out of every six hobgoblins will be a warrior of 3 Hit Dice (145
+XP). Regular hobgoblins gain a +1 bonus to their morale if they are led
+by a warrior. In hobgoblin lairs, one out of every twelve will be a
+chieftain of 5 Hit Dice (360 XP) in chainmail with an Armor Class of 15
+(11) and a movement of 20', having a +1 bonus to damage due to
+strength. In lairs of 30 or more there will be a hobgoblin king of 7 Hit
+Dice (670 XP), with a shield for an Armor Class of 16 (11) having a +2
+bonus to damage. In the lair, hobgoblins never fail a morale check as
+long as the king is alive. In addition, a lair has a chance equal to 1-2
+on 1d6 of a shaman being present (or 1-3 on 1d6 if a hobgoblin king is
+present), and 1 on 1d6 of a witch or warlock. A shaman is equivalent to
+a hobgoblin warrior statistically, but has Clerical abilities at level
+1d6+1. A witch or warlock is equivalent to a regular hobgoblin, but has
+Magic-User abilities of level 1d6.

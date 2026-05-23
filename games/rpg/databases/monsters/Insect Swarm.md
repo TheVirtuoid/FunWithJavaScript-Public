@@ -1,31 +1,37 @@
-### Hyena (and Hyenodon)
+### Insect Swarm
 
-  ----------------- ------------ -------------------
-                    Hyena        Hyenodon
-Armor Class:      13           13
-Hit Dice:         2+1          3+1
-No. of Attacks:   1 bite       1 bite
-Damage:           1d6 bite     1d8 bite
-Movement:         60'         40'
-No. Appearing:    1d8          1d6 Wild/Lair 1d8
-Save As:          Fighter: 2   Fighter: 3
-Morale:           8            8
-Treasure Type:    None         None
-XP:               75           145
-  ----------------- ------------ -------------------
+  ----------------- --------------------------------------------------------
+Armor Class:      Immune to normal weapons, including most magical types
+Hit Dice:         2\* to 4\*
+No. of Attacks:   1 swarm
+Damage:           1d3 (double against no armor)
+Movement:         10' Fly 20'
+No. Appearing:    1 swarm, Wild 1d3 swarms
+Save As:          N/A
+Morale:           11
+Treasure Type:    None
+XP:               2 HD 100, 3 HD 175, 4 HD 280
+  ----------------- --------------------------------------------------------
 
-Hyenas are doglike carnivores who exhibit some of the behaviors of
-canines but are not related. They not only hunt but also scavenge and
-steal meals. A hungry hyena will chew on anything that is even remotely
-tainted by blood, meat or other food traces. They will mostly be found
-in the same savanna-like environments where lions and zebras may be
-found. They can live in clans of up to a hundred individuals, though
-smaller groups are more common. They are among the favorite pets of
-gnolls, who may take them into regions where they are not normally
-found.
+An insect swarm is not a single creature; rather, it is a large group of
+ordinary flying or crawling insects moving as a unit. In general, a
+swarm fills a volume equal to three 10' cubes, though it is possible
+for a swarm to become more compact in order to move through a small
+doorway or narrow corridor. If the swarm consists of crawling insects,
+it covers three 10' squares and the flying movement above is ignored.
 
-**Hyenodon** refers to ancient four-legged predators whose name means
-\"hyena tooth.\" While they are not technically hyenas, the statistics
-given may be used for the giant prehistoric hyena varieties as well;
-likewise, some varieties of hyenodon were smaller, and the statistics
-for standard hyenas may be used for them.
+Any living creature within the volume or area of the swarm suffers 1d3
+points of damage each round. Damage rolls are doubled if the victim is
+unarmored (for creatures which do not wear armor, any creature having
+less than AC 15 is considered unarmored).
+
+Damage is reduced to a single point per round for three rounds if the
+character manages to exit the swarm. It is possible to \"ward off\" the
+insects by swinging a weapon, shield, or other similar-sized object
+around, and in this case damage is likewise reduced to 1 point per
+round. If a lit torch is used in this way, the swarm takes 1d4 points of
+damage per round. Weapons, even magic weapons, do not harm an insect
+swarm. An entire swarm can be affected by a **sleep** spell. Smoke can
+be used to drive a swarm away (if the swarm moves away from any victims
+due to smoke, the damage stops immediately). Finally, a victim who dives
+into water will take damage for only one more round.

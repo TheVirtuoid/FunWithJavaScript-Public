@@ -1,93 +1,53 @@
-### Troll (and Trollwife)
+### Trollkin
 
-+-----------------+-------------------------+------------------------+
-|                 | Troll                   | Trollwife              |
-+-----------------+-------------------------+------------------------+
-| Armor Class:    | 16                      | 17                     |
-+-----------------+-------------------------+------------------------+
-| Hit Dice:       | 6\*                     | 7\*                    |
-+-----------------+-------------------------+------------------------+
-| No. of Attacks: | -- 2 claws, 1 bite --                            |
-+-----------------+-------------------------+------------------------+
-| Damage:         | 1d6 claw,               | 1d8 claw,              |
-|                 |                         |                        |
-|                 | 1d10 bite               | 2d6 bite               |
-+-----------------+-------------------------+------------------------+
-| Movement:       | 40'                    | 40'                   |
-+-----------------+-------------------------+------------------------+
-| No. Appearing:  | 1d8, Wild 1d8, Lair 1d8 | 1 (special, see below) |
-+-----------------+-------------------------+------------------------+
-| Save As:        | Fighter: 6              | Fighter: 7             |
-+-----------------+-------------------------+------------------------+
-| Morale:         | 10 (8)                  | 10 (8), see below      |
-+-----------------+-------------------------+------------------------+
-| Treasure Type:  | D                       | D                      |
-+-----------------+-------------------------+------------------------+
-| XP:             | 555                     | 735                    |
-+-----------------+-------------------------+------------------------+
++-----------------+-------------+-------------+-------------+
+|                 | Infant      | Juvenile    | Adolescent  |
++-----------------+-------------+-------------+-------------+
+| Armor Class:    | 14          | 15          | 16          |
++-----------------+-------------+-------------+-------------+
+| Hit Dice:       | 1\*-2\*     | 3\*-4\*     | 5\*-6\*     |
++-----------------+-------------+-------------+-------------+
+| No. of Attacks: | -- 2 claws, 1 bite --                   |
++-----------------+-------------+-------------+-------------+
+| Damage:         | 1d4 claw,   | 1d4 claw,   | 1d6 claw,   |
+|                 |             |             |             |
+|                 | 1d4 bite    | 1d6 bite    | 1d6 bite    |
++-----------------+-------------+-------------+-------------+
+| Movement:       | 30'        | 50'        | 40'        |
++-----------------+-------------+-------------+-------------+
+| No. Appearing:  | -- special, see below --                |
++-----------------+-------------+-------------+-------------+
+| Save As:        | Fighter:1-2 | Fighter:3-4 | Fighter:5-6 |
++-----------------+-------------+-------------+-------------+
+| Morale:         | -- 9 (7) --                             |
++-----------------+-----------------------------------------+
+| Treasure Type:  | -- None --                              |
++-----------------+-------------+-------------+-------------+
+| XP:             | 1 HD 37,\   | 3 HD 175,\  | 5 HD 405,\  |
+|                 | 2 HD 100    | 4 HD 280    | 6 HD 555    |
++-----------------+-------------+-------------+-------------+
 
-Trolls are huge, rangy humanoids with lumpy skin that is a dull grayish
-green in color. They stand up to 9 feet tall despite having a rather
-hunched posture, and may weigh as much as 600 pounds. Their skin is
-rubbery and slightly damp to the touch, and they have long sharp black
-claws and long sharp white teeth. Trolls have a disconcerting tendency
-to smile toothily most of the time, as if their brutal lives are the
-most entertaining thing imaginable.
+Trollkin are young trolls. They have all the powers and weaknesses of
+trolls, and look exactly like smaller than normal adult trolls. Even an
+infant has the same ability to **regenerate** as an adult troll.
 
-Trolls have the power of regeneration; they heal 1 hit point of damage
-each round after being injured. A troll reduced to 0 hit points is not
-dead, but only disabled for 2d6 rounds, at which point it will regain 1
-hit point. Note that the troll may \"play dead\" until it has
-regenerated further. Damage from fire and acid cannot be regenerated,
-and must heal at the normal rate; a troll can only be killed by this
-sort of damage. The lower morale rating (in parentheses) is used when
-the troll faces attackers armed with fire or acid.
+When you encounter trollkin, you can rest assured that there is a
+trollwife nearby (unless, of course, you've already slain her). They
+are as bloodthirsty as their parents; as such, determining the number
+appearing is done in a particularly unusual fashion:
 
-The regenerative power of trolls is so great that limbs or other body
-parts (even a head!) can be reattached if severed simply by pressing the
-severed ends back together for a moment. Trolls in a group will
-generally help dismembered fellows to reassemble themselves, but only if
-it's convenient. If the severed part is not restored, a new one will
-grow in its place in 1d4 turns. Note that a troll with a new head will
-not remember its former life, nor will it yet know how to speak; it will
-behave as would any confused and hostile animal.
+Roll 1d6 for the number of individuals, and 2d6 for the number of hit
+dice. Divide the number of hit dice by the number of individuals to
+arrive at the hit dice of each individual. Note that a trollkin won't
+be encountered having more than 6 hit dice, so if only one individual is
+indicated by the 1d6 roll but the 2d6 roll totals more than 6, you must
+increase the number of individuals. The referee should feel free to
+round the number of hit dice up or down as they see fit, or to allocate
+them in an approximately equal fashion if desired. Trollkin broods are
+rolled in this way owing to the fact that bigger or tougher individuals
+are likely to kill and eat the weaker ones, generally when their mother
+is out hunting.
 
-Trolls speak a primitive language, and are often fluent in Goblin,
-Hobgoblin, Orc, Ogre, or Giant depending on which of these species live
-nearest them. A few (20% or so) speak Common.
-
-Trolls are hateful creatures, reveling in combat and
-bloodshed. Though trolls could easily use a variety of weapons, they
-much prefer the sensation of flesh being rent by their teeth and claws.
-
-A **trollwife** is a female troll; despite the name, there is no
-requirement that she be married (nor, in fact, do trolls normally engage
-in formal marriages). A typical adult trollwife stands 11 feet tall and
-weighs 700 pounds. They have no outward appearance of femininity, at
-least according to the standards of humans, elves, or even orcs; rather,
-a trollwife simply looks like an extraordinarily large troll. Like a
-normal male troll, a trollwife has lumpy skin that is a dull grayish
-green in color.
-
-Trollwives have all the abilities and weaknesses of the males of the
-species; in particular, they **regenerate** exactly as do the males.
-
-When encountered, a trollwife may be alone, cohabitating with a male
-(her \"husband\"), or raising a brood of trollkin. Roll 1d10; on a
-result of 1, she is living alone; on a roll of 2-3, she is raising her
-young; on 4 or higher, she is living with a male. If one has a mate or
-offspring, there is a 1-3 on 1d10 chance she is encountered alone, 4-7
-that her mate or young are encountered in her absence, or 8-10 that all
-are present.
-
-Add 1 to the trollwife's morale score if she is with her mate, or 2 if
-she has young present. This means that, unless threatened with fire or
-acid, a trollwife will fight without checking morale while her offspring
-are present. If a trollwife's mate or offspring are slain in her
-absence, she will track the killers unerringly, and upon finding them
-will attack with the same morale bonus.
-
-Trollwives are solitary with respect to other adult trollwives, for they
-hate each other with a fierce passion. If forced together they will put
-aside their enmity until all non-troll enemies are dead (at which point
-they may well fight over who will eat the choicest of the remains).
+Refer to the entry for trolls for details regarding regeneration, morale
+checks, and so on; except as noted above, trollkins share all these
+features with the adults.

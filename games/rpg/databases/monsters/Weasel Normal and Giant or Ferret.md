@@ -1,40 +1,32 @@
-### Water Termite, Giant
+### Weasel, Normal and Giant (or Ferret)
 
-  ----------------- -------------------------------
-Armor Class:      13
+// i removed the dashes for now, as there were three of them.
+                    Normal                     Giant
+Armor Class:      14                         17
+Hit Dice:         1d2 hit points             5
+No. of Attacks:   1 bite + hold              1 bite + hold
+Damage:           1d4 + 1d4/round            2d4 + 2d4/round
+Movement:         40'                        50'
+No. Appearing:    1d6, Wild 1d8, Lair 1d8    1d4, Wild 1d6, Lair 1d6
+Save As:          Fighter: 1                 Fighter: 5
+Morale:           7                          8
+Treasure Type:    None                       V
+XP:               10                         360
 
-Hit Dice:         1 to 4
+Normal weasels (or ferrets, see below) are small mammals with long
+bodies, short legs, and pointed, toothy snouts. They are predatory
+animals, hunting those creatures smaller than themselves. They are
+cunning, crafty hunters, and gain surprise on 1-3 on 1d6. Once one bites
+prey (i.e. a living creature smaller than itself), it hangs on, rending
+with its teeth each round until the victim or the weasel is dead. Should
+one fail a morale check it will release its victim and flee.
 
-No. of Attacks:   1 spray
+There are many varieties of normal-sized weasel, including several which
+are called ferrets; in some territories, the giant weasel is thus called
+a giant ferret. The only distinction is that those which are tamed are
+always called ferrets, though not all giant ferrets are tame. Various
+humanoid races as well as some fairy creatures are known to tame giant
+ferrets for use as guards or war-animals.
 
-Damage:           Stun
-
-Movement:         Swim 30'
-
-No. Appearing:    Wild 1d4
-
-Save As:          Fighter: 1 to 4 (as Hit Dice)
-
-Morale:           10
-
-Treasure Type:    None
-
-XP:               1 HD 25, 2 HD 75\
-3 HD 145, 4 HD 240
-  ----------------- -------------------------------
-
-Giant water termites vary from 1' to 5' in length. They attack using a
-noxious spray with a range of 5' which stuns the target for a full turn
-on a hit; a save vs. Poison is allowed to avoid the effect. A stunned
-character can neither move nor take action for the remainder of the
-current round and all of the next one.
-
-However, the primary concern regarding these monsters is the damage they
-can do to boats and ships. Each creature can do 2d4 points of damage to
-a ship's hull per round (no roll required) for a number of rounds equal
-to 1d4 plus the creature's hit dice total; after this time, the monster
-is full. They eat noisily.
-
-These creatures are found in fresh and salt water as well as in swamps.
-The freshwater variety tend to be smaller, 1-2 hit dice, the saltwater
-variety 3-4 hit dice, and those found in swamps range from 2-3 hit dice.
+Giant weasels resemble their more normally sized cousins, and other than
+their greater size they behave in exactly the same fashion.

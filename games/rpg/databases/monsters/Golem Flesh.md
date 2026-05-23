@@ -1,26 +1,29 @@
-### Golem, Clay
+### Golem, Flesh
 
-  ----------------- -------------
-Armor Class:      22 (m)
-Hit Dice:         11\*\* (+9)
-No. of Attacks:   1 fist
-Damage:           3d10 fist
-Movement:         20'
+  ----------------- ------------
+Armor Class:      20 (m)
+Hit Dice:         9\*\* (+8)
+No. of Attacks:   2 fists
+Damage:           2d8 fist
+Movement:         30'
 No. Appearing:    1
-Save As:          Fighter: 6
+Save As:          Fighter: 5
 Morale:           12
 Treasure Type:    None
-XP:               1,765
-  ----------------- -------------
+XP:               1,225
+  ----------------- ------------
 
-Clay golems are made of clay, naturally, and thus may be any natural
-clay color; generally, one will be grayish in color, but common clay
-containing iron oxide may be used which results in a red, brown, or even
-orange clay golem. They are usually unclad, but some golem-makers choose
-to put a leather belt, girdle, or apron on their creation. A clay golem
-weighs about 600 pounds.
+Flesh golems are horrible creations made of body parts from deceased
+humanoids (including all character races as well as humanoid monsters),
+crudely stitched together and animated by magic. A flesh golem is 8 feet
+tall and weighs about 450 pounds.
 
-Wounds inflicted by a clay golem do not heal normally;
-worse, magical healing cures only 1 point per die rolled (but add all
-bonuses normally). Thus, a **cure light wounds** spell heals just 2
-points.
+A magical attack that deals cold or fire damage
+**slows** a flesh golem (as the reverse of the **haste** spell) for 2d6
+rounds, with no saving throw. Attacks using lightning or electricity
+heal 1 point of damage per every 3 points the attack would normally
+inflict, rounded down; further, such an attack breaks any ongoing
+**slow** effect on the golem. As usual, healing will not increase the
+monster above its normal hit points. For example, a flesh golem hit by a
+**lightning bolt** which should deal 14 points of damage instead
+receives up to 4 points of healing.

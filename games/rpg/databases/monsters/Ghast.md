@@ -1,3 +1,3 @@
-### Gelatinous Cube
+### Ghast
 
-See **Jelly, Glass** on page .
+See **Ghoul (and Ghast)** on page .

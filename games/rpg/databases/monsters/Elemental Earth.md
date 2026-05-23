@@ -1,4 +1,4 @@
-### Elemental, Cold
+### Elemental, Earth
 
 +-----------------+------------+-------------+-------------+
 |                 | Staff      | Device      | Spell       |
@@ -11,7 +11,7 @@
 +-----------------+------------+-------------+-------------+
 | Damage:         | 1d12       | 2d8         | 3d6         |
 +-----------------+------------+-------------+-------------+
-| Movement:       | -- 40' --                             |
+| Movement:       | -- 20' (10') --                      |
 +-----------------+----------------------------------------+
 | No. Appearing:  | -- special --                          |
 +-----------------+------------+-------------+-------------+
@@ -24,14 +24,9 @@
 | XP:             | 945        | 1,975       | 3,385       |
 +-----------------+------------+-------------+-------------+
 
-A cold elemental resembles a crude, headless ice
-statue with long sharp icicles in place of hands. A cold elemental
-suffers double damage from fire attacks, including the attacks of fire
-elementals. It deals an additional 1d8 points of damage against
-creatures that are hot or flaming in nature, as well as creatures made
-of liquids or jelly. A cold elemental's body is so bitterly cold that
-creatures within 5 feet take 1d6 points of damage automatically, unless
-they are immune to the effects of cold. Any liquids the cold elemental
-touches immediately freeze solid. A cold elemental cannot enter places
-where the temperature is above 50 degrees Fahrenheit, and if forced to
-do so will suffer 1d6 points of damage each round.
+Earth elementals resemble crude, sometimes headless
+humanoid statues, with clublike hands and feet. They cannot cross a body
+of water wider than their own height. Earth elementals take double
+damage when attacked by fire (including fire elementals). They do an
+additional 1d8 points of damage against creatures, vehicles, or
+structures which rest on the ground.

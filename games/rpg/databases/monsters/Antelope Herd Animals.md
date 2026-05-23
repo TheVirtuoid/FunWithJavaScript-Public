@@ -1,27 +1,29 @@
-### Ant, Large
+### Antelope (Herd Animals)
 
   ----------------- -------------------------------
 Armor Class:      13
-Hit Dice:         1
-No. of Attacks:   1 bite
-Damage:           1d6
-Movement:         50'
-No. Appearing:    4d6, Lair 4d10
-Save As:          Fighter: 1
-Morale:           7 on first signting, 12 after engages)
-Treasure Type:    U or special
-XP:               25
+Hit Dice:         1 to 4
+No. of Attacks:   1 butt
+Damage:           1d4 or 1d6 or 1d8 (see below)
+Movement:         80' (10')
+No. Appearing:    Wild 3d10
+Save As:          Fighter: 1 to 4 (as Hit Dice)
+Morale:           5 (7)
+Treasure Type:    None
+XP:               25 - 240
   ----------------- -------------------------------
 
-Large ants are enlarged versions of the more common
-variety of ants. Normal workers are 1 to 2 feet long; queens are larger,
-growing up to 4 feet in length. Large ants may be red or black; there is
-no statistical difference between them. Though relatively shy when first
-encountered, once combat begins they will fight to the death. They are
-known to collect shiny things, and so will sometimes have a small amount
-of treasure in their lair.
+The statistics above represent the swifter sorts of wild herd animals,
+including deer (1 hit die, usually), antelope (2 hit dice), elk (3 hit
+dice), and moose (4 hit dice). They are skittish and will flee if
+provoked, but males are more aggressive in the presence of females (use
+the parenthesized morale in this case).
 
-Large ants may occasionally mine shiny metals such as gold or silver;
-one in three (1-2 on 1d6) giant ant lairs will contain 1d100 x 1d100 gp
-value in relatively pure nuggets.
+Cattle, aurochs, and bison are not included in this category but rather
+can be found on page .
 
+Generally, 1 hit die herd animals inflict 1d4 points of damage on a hit,
+2 and 3 hit die animals inflict 1d6, and 4 hit die animals inflict 1d8.
+The GM should feel free to vary from these figures as he or she sees
+fit; there are many types of herd animals in the world, and some are
+better armed than others.

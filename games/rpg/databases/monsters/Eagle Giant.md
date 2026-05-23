@@ -1,27 +1,31 @@
-### Eagle
+### Eagle, Giant
 
-  ----------------- ---------------------
-Armor Class:      13
-Hit Dice:         2
-No. of Attacks:   2 talons, 1 beak
-Damage:           1d6 talon, 1d4 beak
-Movement:         10' Fly 160' (10')
-No. Appearing:    1, Wild 1d4
-Save As:          Fighter: 2
-Morale:           8
+  ----------------- ----------------------------
+Armor Class:      15
+Hit Dice:         4
+No. of Attacks:   2 claws, 1 bite
+Damage:           1d6 claw, 1d8 bite
+Movement:         10' fly 90'
+No. Appearing:    2d6
+Save As:          Fighter: 4
+Morale:           7 (12 if defending a nest)
 Treasure Type:    None
-XP:               145
-  ----------------- ---------------------
+XP:               240
+  ----------------- ----------------------------
 
-Eagles are large birds with wingspans 6.5 to 7.5 feet in
-width. They stand about 2.5 to 3 feet tall and weigh about 13 lbs. These
-birds have heavy talons and large beaks with a sharp hooked end. Eagles
-are known to carry prey up to 15 lbs. An eagle will also kill and start
-to eat animals that are 5 times the eagle's size, up to 80 lbs.
-Fish-eating eagles are usually the largest varieties, while other types
-hunt small animals such as rodents or snakes. Coloring is dependent on
-the species of eagle, and should be chosen by the GM; various brown,
-gray, black, or white markings are most common, though solid darker
-colors are sometimes seen. The beaks may range from bright yellowish
-orange to black. Eagles will dive at a prey and attack with both sets of
-talons, then attack with the beak.
+An average giant eagle has a wingspan of 15 to 20 feet and stands 8 to
+12 feet tall. They are intelligent creatures, and many speak Common or
+another language common in their home territory.
+
+Individual giant eagles are rarely encountered alone, as they prefer to
+live in loose communities. However, when they hunt they do so in a
+solitary fashion, with each eagle choosing a single creature as prey. As
+they can communicate with each other, it is extremely rare for two of
+them to make the mistake of attacking the same prey; in fact, it is not
+uncommon for one to attack alone to scatter a group of prey so they can
+each more easily choose a victim.
+
+Giant eagles mate for life. If a nest with eggs or hatchlings is
+threatened, both parents will fight without checking morale, and other
+giant eagles in their community may come to their defense but will still
+seek to scatter any opponents so as to attack them one on one.

@@ -1,23 +1,31 @@
-### Yellow Mold
+### Zombie
 
-  ----------------- ---------------------
-Armor Class:      Can always be hit
-Hit Dice:         2\*
-No. of Attacks:   Spore cloud (1/day)
-Damage:           Choking, see below
-Movement:         0
-No. Appearing:    1d8
-Save As:          Normal Man
-Morale:           N/A
+  ----------------- ------------------------
+Armor Class:      12 (see below)
+Hit Dice:         2
+No. of Attacks:   1 bludgeon or 1 weapon
+Damage:           1d8 or by weapon
+Movement:         20'
+No. Appearing:    2d4, Wild 4d6
+Save As:          Fighter: 2
+Morale:           12
 Treasure Type:    None
-XP:               100
-  ----------------- ---------------------
+XP:               75
+  ----------------- ------------------------
 
-If disturbed, a patch of this mold will discharge a
-cloud of toxic spores. Each patch covers from 10 to 25 square feet;
-several patches may grow adjacent to each other, and will appear to be a
-single patch in this case. Each patch can emit a cloud of spores once
-per day. All within 10 feet of the mold will be affected by the spores
-and must save vs. Death Ray or take 1d8 points of damage per round for 6
-rounds. Brief exposure to sunlight makes a patch of yellow mold dormant,
-while longer exposures kills it.
+Zombies are the **undead** corpses of humanoid creatures. They are
+deathly slow, but they move silently, are very strong and must be
+literally hacked to pieces to \"kill\" them. They take only half damage
+from blunt weapons, and only a single point from arrows, bolts or sling
+stones (plus any magical bonus). A zombie never has Initiative and
+always acts last in any given round.
+
+As zombies are strong and do not feel pain, they can bludgeon enemies
+with both fists for 1d8 points of damage. However, their creators often
+arm them, either for greater damage (as with a greatsword or polearm) or
+simply for effect.
+
+Like all undead, they may be Turned by Clerics and are
+immune to **sleep**, **charm**, ****and **hold** magics. As they are
+mindless, no form of **mind reading** is of any use against them.
+Zombies never fail morale checks, and thus always fight until destroyed.

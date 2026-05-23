@@ -1,21 +1,25 @@
-### Snake, Python
+### Snake, Sea
 
-  ----------------- ---------------------------------
+  ----------------- ----------------
 Armor Class:      14
-Hit Dice:         5\*
-No. of Attacks:   1 bite, 1 constrict (see below)
-Damage:           1d4 bite, 2d4 constrict
-Movement:         30'
-No. Appearing:    1d3, Wild 1d3, Lair 1d3
-Save As:          Fighter: 5
-Morale:           8
+Hit Dice:         3\*
+No. of Attacks:   1 bite
+Damage:           1 + poison
+Movement:         10' Swim 30'
+No. Appearing:    Wild 1d8
+Save As:          Fighter: 3
+Morale:           7
 Treasure Type:    None
-XP:               405
-  ----------------- ---------------------------------
+XP:               175
+  ----------------- ----------------
 
-After a successful bite attack, a python will wrap itself around the
-victim (in the same round), constricting for 2d4 points of damage plus
-an additional 2d4 per round thereafter. The hold may be broken on a roll
-of 1 on 1d6 (add the victim's Strength bonus to the range, so a
-Strength of 16 would result in a range of 1-3 on 1d6); breaking the hold
-takes a full round.
+Sea snakes are relatively small; the largest varieties rarely exceed 6'
+in length. They have relatively small heads, and are very stealthy in
+the water. Their bite does so little damage that the creature bitten has
+only a 50% chance to notice the attack, but their poison is terribly
+strong, such that any creature bitten must save vs. Poison at a penalty
+of -4 or die.
+
+Fortunately, sea snakes rarely attack; only if molested (grabbed,
+stepped on, etc.) will they do so. They are very clumsy when out of the
+water.

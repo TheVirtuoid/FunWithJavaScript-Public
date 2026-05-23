@@ -1,25 +1,50 @@
-### Sprite
+### Squid, Giant
 
-  ----------------- ----------------------------------
-Armor Class:      15
-Hit Dice:         .5 (1d4 hit points) \*
-No. of Attacks:   1 dagger or 1 spell
-Damage:           1d4 dagger or by spell
-Movement:         20' Fly 60'
-No. Appearing:    3d6, Wild 3d6, Lair 5d8
-Save As:          Magic-User: 4 (with Elf bonuses)
-Morale:           7
-Treasure Type:    S
-XP:               13
-  ----------------- ----------------------------------
++-----------------+---------------+---------------+
+|                 | Male          | Female        |
++-----------------+---------------+---------------+
+| Armor Class:    | 16            | 17            |
++-----------------+---------------+---------------+
+| Hit Dice:       | 6             | 7             |
++-----------------+---------------+---------------+
+| No. of Attacks: | -- 8 tentacles, 1 bite --     |
++-----------------+---------------+---------------+
+| Damage:         | 1d4 tentacle, | 1d4 tentacle, |
+|                 |               |               |
+|                 | 1d10 bite     | 1d12 bite     |
++-----------------+---------------+---------------+
+| Movement:       | -- Swim 40' --               |
++-----------------+-------------------------------+
+| No. Appearing:  | -- Wild 1d4 (see below) --    |
++-----------------+---------------+---------------+
+| Save As:        | Fighter: 6    | Fighter: 7    |
++-----------------+---------------+---------------+
+| Morale:         | 8             | 8             |
++-----------------+---------------+---------------+
+| Treasure Type:  | None          | None          |
++-----------------+---------------+---------------+
+| XP:             | 500           | 670           |
++-----------------+---------------+---------------+
 
-Sprites are reclusive fey creatures which resemble tiny elves just a
-foot tall with dragonfly-like wings. Though they may act as tricksters
-on occasion, they hate all forms of evil and ugliness, fighting all such
-foes with their tiny weapons and their magical abilities. Sprites are
-clever but they are not deep thinkers, and sometimes can be fooled into
-helping an evil creature or harming a good one due to their natural
-belief that evil is ugly and ugly is evil.
+The giant squid dwells in the deep ocean. One can grow
+to a tremendous size, to a maximum of around 40 feet for females and 33
+feet for males. The mantle of the giant squid is about 6.5 feet long
+(more for females, less for males). Their tentacles are studded with
+barbs and sharp-edged suckers.
 
-Five sprites acting together can cast **remove
-curse**, or its reversed form **bestow curse**, once per day.
+Members of any group of these creatures encountered are equally likely
+to be male or female. The GM may roll for this or may assign them as
+they see fit.
+
+In order to bite a creature, the giant squid must hit with at least two
+tentacles first. Further, any time a giant squid hits with at least one
+tentacle per each 75 pounds of weight of its prey, it has grabbed it;
+unless the victim can find a way to resist (using whatever method the
+player might think of and whatever rolls the GM may choose), they will
+be pulled into the water and thus be in danger of drowning. Don't
+forget to account for the weight of armor worn!
+
+If a giant squid fails a morale check, it will squirt out a cloud of
+black \"ink\" 30' in diameter and then jet away at twice normal speed
+for 3d8 rounds. If a group fails a morale check they will move away in
+random directions in hopes that at least one will escape any pursuit.

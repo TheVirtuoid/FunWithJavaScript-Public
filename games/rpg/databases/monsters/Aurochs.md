@@ -1,3 +1,3 @@
-### Assassin Vine
+### Aurochs
 
-See **Strangle Vine** on page .
+See **Cattle (including Aurochs and Bison)** on page .

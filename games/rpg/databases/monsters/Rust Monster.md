@@ -1,30 +1,41 @@
-### Rot Grub
+### Rust Monster
 
-  ----------------- --------------------
-Armor Class:      11
-Hit Dice:         1 hp
-No. of Attacks:   1 bite
-Damage:           Special, see below
-Movement:         5'
-No. Appearing:    5d4
-Save As:          Fighter: 1
-Morale:           12
+  ----------------- -----------------
+Armor Class:      18
+Hit Dice:         5\*
+No. of Attacks:   1 touch
+Damage:           Rust, see below
+Movement:         40'
+No. Appearing:    1d4
+Save As:          Fighter: 5
+Morale:           7
 Treasure Type:    None
-XP:               10
-  ----------------- --------------------
+XP:               405
+  ----------------- -----------------
 
-Rot grubs are 1-inch long vermin found in carrion,
-dung, and other such garbage and organic material. Their skin color is
-white or brown. When a living creature contacts an area (dung heap,
-offal, etc) infested with rot grubs, the grubs will attack if they can
-come in contact with the victim's skin. A rot grub secretes an
-anesthetic when it bites and will burrow into the flesh. A burrowing
-grub can be noticed if the victim makes a successful save vs. Death Ray
-with Wisdom bonus applied in order to notice a strange rippling beneath
-their skin. Otherwise, the victim does not notice the grubs. During the
-first two rounds, a burrowing rot grub can be killed by applying fire to
-the infested skin or by cutting open the infested skin with any slashing
-weapon. Either method deals 1d8 points of damage to the victim, but
-kills the grubs. After the second round, only **cure disease** can kill
-the grubs before they burrow to the victim's heart and devour it in 1d3
-turns.
+A rust monster (sometimes known as a *corroder* or
+*corrosion beast*) is a strange monster built like a huge turtle, with
+an insectoid head sporting large feather-like antennae and a thick tail
+with a hammer-like protrusion at the tip which seems to serve no purpose
+whatsoever.
+
+The touch of any part of a rust monster's body oxidizes metal objects
+instantly, turning them to rust, verdigris, or other oxides as
+appropriate. One attacks with its antennae, brushing them over metal
+items. Non-magical metal attacked by a rust monster, or that touches the
+monster (such as a sword used to attack it), is instantly ruined. A hit
+with a non-magical metal weapon inflicts half damage before the weapon
+is destroyed. Magic weapons or armor permanently lose one \"plus\" each
+time they make contact with the monster.
+
+The metal oxides created by this monster are its food; a substantial
+amount of metal dropped in its path may cause it to cease pursuit of
+metal-armored characters. Use a morale check to determine this. Metals
+that do not normally oxidize, such as gold, are of no interest to a rust
+monster and will be ignored. While rust monsters will consume oxides of
+silver or copper, they have a strong preference for ferrous metals (iron
+or steel), preferring them over any other metal.
+
+Whether the rust monster is in any way related to the rarer ironbane (as
+found on page [115](#Ironbane* Entry)) is unknown, but both monsters
+seem to have the exact same power.

@@ -1,31 +1,25 @@
-### Griffon
+### Hangman Tree
 
-  ----------------- ------------------------------
-Armor Class:      18
-Hit Dice:         7
-No. of Attacks:   2 claws, 1 bite
-Damage:           1d4 claw, 2d8 bite
-Movement:         40' (10') Fly 120' (10')
-No. Appearing:    Wild 2d8, Lair 2d8
-Save As:          Fighter: 7
-Morale:           8
-Treasure Type:    E
-XP:               670
-  ----------------- ------------------------------
+  ----------------- -----------------------------------
+Armor Class:      16
+Hit Dice:         5
+No. of Attacks:   4 limbs
+Damage:           1d6 limb +1d6/round strangle each
+Movement:         0
+No. Appearing:    Wild 1
+Save As:          Fighter: 4
+Morale:           12
+Treasure Type:    None
+XP:               360
+  ----------------- -----------------------------------
 
-Griffons are large carnivorous creatures resembling
-lions with the head, foreclaws and wings of eagles. Average adults (male
-or female) have a wingspan of around 22 feet and weigh around 500
-pounds.
+Hangman trees are horrible, semi-animate creatures that fertilize
+themselves with dead bodies. A hangman tree has four animated limbs that
+can wrap around the necks of living creatures that pass beneath,
+strangling for 1d6 points of damage per round. These limbs are arranged
+evenly around the tree in most cases, and generally no more than one
+limb can attack any single creature at a time.
 
-Griffons nest on high mountaintops, soaring down to feed on horses, the
-beast's preferred prey. Indeed, a griffon will attack a horse over
-anything else. They hunt and travel in flocks, diving low when attacking
-to swipe with their claws. They are not above retreating and then
-returning when they may be unexpected.
-
-Griffons can be trained as mounts if raised in captivity, but even in
-this case they may try to attack horses if any come within about 120'.
-Roll a morale check in this case; if the check is failed, the griffon
-will try to attack immediately. A light load for a griffon is up to 400
-pounds; a heavy load, up to 900 pounds.
+The roots of this tree are also animated; they do not
+attack, but they do pull dead bodies below the surface of the ground for
+\"digestion.\"

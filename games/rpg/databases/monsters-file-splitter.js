@@ -3,18 +3,19 @@ import { readFileSync, writeFileSync } from 'fs';
 const monsterData = readFileSync('./monsters.md', 'utf8');
 let monsterLines = [];
 let count = 0;
+let monsterFilename = '';
 monsterData.split('\r\n').forEach(line => {
 	if (line.startsWith('###')) {
-		const filename =
+		if (count > 0) {
+			writeFileSync(`./monsters/${monsterFilename}.md`, monsterLines.join('\r\n'));
+		}
+		monsterFilename =
 			line.substring(3)
 				.trim()
 				.replaceAll(',', '')
 				.replaceAll('(', '')
 				.replaceAll(')', '');
-		console.log(filename);
-		if (count > 0) {
-			writeFileSync(`./monsters/${filename}.md`, monsterLines.join('\r\n'));
-		}
+		console.log(monsterFilename);
 		count++;
 		monsterLines = [line];
 	} else {

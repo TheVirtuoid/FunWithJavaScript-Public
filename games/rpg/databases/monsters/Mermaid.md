@@ -1,45 +1,59 @@
-### Medusa
+### Mermaid
 
-  ----------------- -------------------------------------
+  ----------------- -----------------------------
 Armor Class:      12
-Hit Dice:         4\*\*
-No. of Attacks:   1 snakebite, gaze
-Damage:           1d6+poison bite, petrification gaze
-Movement:         30'
-No. Appearing:    1d3, Wild 1d4, Lair 1d4
-Save As:          Fighter: 4
+Hit Dice:         1\*
+No. of Attacks:   1 weapon
+Damage:           1d6 or by weapon
+Movement:         Swim 40'
+No. Appearing:    Wild 1d2 or 3d6 (see below)
+Save As:          Fighter: 1
 Morale:           8
-Treasure Type:    F
-XP:               320
-  ----------------- -------------------------------------
+Treasure Type:    A
+XP:               37
+  ----------------- -----------------------------
 
-A medusa appears to be a human female with vipers growing from her head
-instead of hair. The gaze of a medusa will petrify any creature who
-meets it unless a save vs. Petrify is made. In general, any creature
-surprised by the medusa will meet its gaze. Those who attempt to fight
-the monster while averting their eyes suffer penalties of -4 on attack
-rolls and -2 to AC. It is safe to view a medusa's reflection in a
-mirror or other reflective surface; anyone using a mirror to fight a
-medusa suffers a penalty of -2 to attack and no penalty to AC. If a
-medusa sees its own reflection, it must save vs. Petrify itself; a
-petrified medusa is no longer able to petrify others, but the face of a
-medusa continues to possess the power to petrify even after death
-otherwise. Medusae instinctively avoid mirrors or other reflective
-surfaces, even drinking with their eyes closed, but if an attacker can
-manage to surprise the monster with a mirror she may see her reflection.
+Mermaids have the upper bodies of women and the lower bodies of
+dolphins. Also called \"sirens,\" mermaids often attempt to lure sailors
+or other men found near the sea. They accomplish this by means of their
+enchanting songs.
 
-Further, the snakes growing from her head are poisonous (save vs. Poison
-or die in one turn). They attack as a group, not individually, once per
-round for 1d6 points of damage (plus the poison).
+A mermaid's song will attract any man within 100 yards, but generally
+has no effect on women. Men within the area of effect must save vs.
+Spells to resist, or else they will move toward the mermaid with amorous
+intent as directly as possible. If two mermaids are singing, apply a
+penalty of -4 to the save; more than two gives no extra benefit.
+Affected men will submit to anything the mermaid desires. When she tires
+of him, he might be freed or slain, depending on the mermaid's
+temperament.
 
-These creatures are well aware that, from the neck down anyway, they are
-quite visually pleasing to most humanoid males; they will thus often
-seek to show off their bodies in clinging clothes while wearing veils,
-hoods, scarves, and so on to hide their true nature. In this way they
-hope to get closer to potential victims and more easily surprise them.
+Contrary to popular belief, mermaids are not fish (nor even half fish)
+and do not breathe water. They can hold their breath for up to an hour
+of light activity, or two turns (20 minutes) of strenuous action.
+However, being out of water more than two turns (20 minutes) causes the
+mermaid 1d4 points of damage per turn.
 
-Medusae are shy and reclusive, owing no doubt to the
-fact that, once the lair of one is found, any humans living nearby will
-not rest until she is slain. They are hateful creatures, however, and
-will seek to destroy as many humans as they can without being
-discovered.
+Mermaids can hear as well as dolphins, and can produce sounds ranging
+from the lowest frequency a normal human woman can produce up to the
+highest frequency of a dolphin. This means that mermaids can learn to
+communicate with dolphins and whales; at least 35% of mermaids will know
+the language of one or the other, and 10% can communicate with any such
+creature.
+
+Three-quarters of mermaid births are female. Of the quarter which are
+male, most have legs rather than tails. Such will either be slain or put
+ashore to be adopted by humans, depending on the temperament of the
+mother. Mermen (those born with tails) are raised to be subservient to
+the females. A small mermaid community (3d6 including the male) will
+often form around such a merman and his mother, who becomes their
+leader. Such a group is called a pod.
+
+A mermaid with a child will not generally be encountered, as they remain
+in the deeper parts of the ocean and avoid the attention of men. Pods of
+mermaids do likewise, and in fact any pod includes 2d4-2 children or
+juveniles (over and above the number rolled for Number Appearing).
+Adventurers generally meet mermaids only in groups of one or two.
+
+Mermaids arm themselves with spears or daggers. They
+hunt fish and harvest kelp for food. Mermaids sometimes possess more
+than 1 hit die, and about 3% have some Clerical abilities.

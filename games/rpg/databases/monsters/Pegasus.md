@@ -1,21 +1,25 @@
-### Parrot (or Cockatoo)
+### Pegasus
 
-  ----------------- -----------------------
-Armor Class:      11
-Hit Dice:         .5 (1d4 hit points)
-No. of Attacks:   1 talon or 1 beak
-Damage:           1d4 talon or 1d4 beak
-Movement:         10' Fly 100' (10')
-No. Appearing:    Wild 1d4
-Save As:          Normal Man
-Morale:           6
+  ----------------- ------------------------------
+Armor Class:      15
+Hit Dice:         4
+No. of Attacks:   2 hooves
+Damage:           1d6 hoof
+Movement:         80' (10') Fly 160' (10')
+No. Appearing:    Wild 1d12
+Save As:          Fighter: 2
+Morale:           8
 Treasure Type:    None
-XP:               10
-  ----------------- -----------------------
+XP:               240
+  ----------------- ------------------------------
 
-These are decorative birds about the size of a falcon, known for their
-ability to learn to mimic speech and other sounds. Parrots usually have
-green or blue feathers with multi-colored tail feathers. Cockatoos are
-white with crested heads. While these birds can learn to imitate human
-speech when raised in captivity, most cannot actually carry on a
-conversation.
+The pegasus is the winged horse of legend. They are
+prized as aerial steeds as they are the swiftest of fliers, but they are
+shy creatures who live in the highest mountains, making them rare indeed
+in captivity.
+
+An average female pegasus stands 5 feet high at the shoulder, weighs
+1,200 pounds, and has a wingspan of 20 feet; males are somewhat larger,
+averaging 6 feet in height and weighing 1,400 pounds, with a wingspan of
+22 feet. A light load for a pegasus is up to 400 pounds; a heavy load,
+up to 900 pounds.

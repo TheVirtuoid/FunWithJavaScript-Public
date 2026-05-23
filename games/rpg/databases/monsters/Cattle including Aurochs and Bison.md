@@ -1,33 +1,57 @@
-### Caecilia, Giant
+### Cattle (including Aurochs and Bison)
 
-  ----------------- --------------------------------------
-Armor Class:      14
-Hit Dice:         6\*
-No. of Attacks:   1 bite + swallow on natural 19 or 20
-Damage:           1d8 bite + 1d8/round if swallowed
-Movement:         20' (10')
-No. Appearing:    1d3, Lair 1d3
-Save As:          Fighter: 3
-Morale:           9
-Treasure Type:    B
-XP:               555
-  ----------------- --------------------------------------
++-----------------+---------------+---------------+---------------+
+|                 | Cattle        | Aurochs       | Bison         |
++-----------------+---------------+---------------+---------------+
+| Armor Class:    | 14            | 16            | 16            |
++-----------------+---------------+---------------+---------------+
+| Hit Dice:       | 2+2           | 3             | 4             |
++-----------------+---------------+---------------+---------------+
+| No. of Attacks: | -- 1 horn/head butt or 1 trample --           |
++-----------------+---------------+---------------+---------------+
+| Damage:         | 1d4 butt      | 1d6 butt      | 2d4 butt      |
+|                 |               |               |               |
+|                 | 2d4 trample   | 2d4 trample   | 2d6 trample   |
++-----------------+---------------+---------------+---------------+
+| Movement:       | -- 50' (10') --                              |
++-----------------+---------------+---------------+---------------+
+| No. Appearing:  | Special       | Wild 10d12    |               |
++-----------------+---------------+---------------+---------------+
+| Save As:        | Fighter: 3    | Fighter: 3    | Fighter: 4    |
++-----------------+---------------+---------------+---------------+
+| Morale:         | 5 (8)         | 7 (9)         | 7 (9)         |
++-----------------+---------------+---------------+---------------+
+| Treasure Type:  | None          | None          | None          |
++-----------------+---------------+---------------+---------------+
+| XP:             | 75            | 145           | 240           |
++-----------------+---------------+---------------+---------------+
 
-Caecilia are carnivorous, legless amphibians; they strongly resemble
-earthworms, but they have bony skeletons and sharp teeth. Caecilia live
-entirely underground. The giant variety can grow up to 30' long and
-frequently are found in caverns or dungeons. They are nearly blind, but
-caecilia are very sensitive to sound and vibrations, and are able to
-find their prey regardless of light or the absence thereof.
+Cattle are large mammals with cloven hooves and horned heads. Cattle are
+raised mostly for their meat (beef), leather, and milk. Cattle eat grass
+and are fairly gentle unless spooked, in which case they will stampede
+(run in a group). Anyone caught in the path of the stampede will suffer
+at least one trampling attack, as determined by the GM. Male cattle are
+called bulls, females are cows, and young are calves (calf is singular).
+If attacked, cattle will charge, generally using their horns to attack.
+Bulls are larger (+1 hit die), less easily frightened (use the second
+listed morale figure), and are quite aggressive in defense of the herd.
+A bull will likely attack if he sees quick movements from creatures he
+might be able to reach with a charge. Meanwhile, if unable to flee cows
+will usually assume a roughly circular formation with their heads
+outward, while calves will be kept in the center, though if the
+opponents are small enough they may instead charge en masse, trampling
+all creatures in their path.
 
-A giant caecilia can swallow a single small humanoid (such as a goblin
-or halfling) whole. On a natural attack roll of 19 or 20, such a victim
-has been swallowed (assuming that roll does actually hit the victim). A
-swallowed victim suffers 1d8 damage per round, and may only attack from
-the inside with a small cutting or stabbing weapon such as a dagger.
-While the inside of the caecilia is easier for the victim to hit,
-fighting while swallowed is more difficult, so no modifiers to the
-attack roll are applied.
+A typical small farm with cattle will have a bull, 5d4 cows, and 2d10
+calves (but not more than the number of cows).
 
-Once a caecilia has swallowed an opponent, it will generally attempt to
-disengage from combat, going to its lair to rest and digest its meal.
+Aurochs are wild cattle; they are shaggy and rough-looking. Bison are
+the largest species of wild bovines. All types of bovines tend to behave
+in the same general way, as described above.
+
+An **ox** is typically a castrated bull used as a draft animal; females
+may be used, rarely, but males are preferred due to their greater size
+and strength. Oxen are usually paired as a team to pull a fully-loaded
+wagon (or the equivalent of 3,000 lb). Oxen require less food and water,
+being able to eat rough grass better than draft horses, which makes them
+valuable to merchants with large caravans going over semi-arid prairie.

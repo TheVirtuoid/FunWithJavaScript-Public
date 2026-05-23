@@ -1,31 +1,26 @@
-### Giant, Frost
+### Giant, Hill
 
-  ----------------- ---------------------------------
-Armor Class:      17 (13)
-Hit Dice:         10+1\* (+9)
-No. of Attacks:   1 giant weapon or 1 thrown rock
-Damage:           4d6 giant weapon or 3d6 rock
-Movement:         20' Unarmored 40' (10')
-No. Appearing:    1d2, Wild 1d4, Lair 1d4
-Save As:          Fighter: 10
-Morale:           9
-Treasure Type:    E + 1d10x1,000 gp
-XP:               1,390
-  ----------------- ---------------------------------
+  ----------------- -------------------------
+Armor Class:      15 (13)
+Hit Dice:         8
+No. of Attacks:   1 giant weapon (club)
+Damage:           2d8 giant weapon
+Movement:         30' Unarmored 40'
+No. Appearing:    1d4, Wild 2d4, Lair 2d4
+Save As:          Fighter: 8
+Morale:           8
+Treasure Type:    E + 1d8x1,000 gp
+XP:               875
+  ----------------- -------------------------
 
-Frost giants have pale, almost white skin, blonde or pale blue hair, and
-bright blue eyes. Average males stand 15 feet tall and weigh around
-2,800 pounds, while females average 14 feet tall and 2,500 pounds.
+The smallest of giants, adult hill giants stand between 10 and 12 feet
+in height and weigh about 1,100 pounds. They have medium brown skin,
+though they are often so dirty as to hide their true skin color; their
+hair is dark, lank, and greasy, and their eyes are dark as well. They
+wear crude clothing made of leather; the lack of livestock or game of
+great enough size often results in whole pelts being stitched together.
 
-Frost giants are, first and foremost, cunning. They
-dislike the smaller races as much as any giant, but rather than
-attacking outright they will try to use their advantages to convince
-those weaker than them to submit. If faced with a stronger force, frost
-giants will parley or withdraw if possible, attacking only if victory
-seems assured.
-
-In combat frost giants prefer brightly-polished steel chainmail worn
-over their customary clothing of leather and fur (the first AC given
-above), and weapons of the same material. A frost giant can throw large
-stones up to 200' for 3d6 points of damage. Frost giants are immune to
-all ice or cold-based attacks.
+Whether attacking with a weapon or fist, hill giants
+deal 2d8 damage. Hill giants are brutish and aggressive. They are
+sometimes found leading groups of ogres or bugbears. Hill giants often
+keep **dire wolves** as pets.

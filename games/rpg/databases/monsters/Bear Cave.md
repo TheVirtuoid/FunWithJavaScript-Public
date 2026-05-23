@@ -1,18 +1,19 @@
-### Bear, Black
+### Bear, Cave
 
   ----------------- -----------------------------
-Armor Class:      14
-Hit Dice:         4
+Armor Class:      15
+Hit Dice:         7
 No. of Attacks:   2 claws, 1 bite + hug
-Damage:           1d4 claw, 1d6 bite, 2d6 hug
+Damage:           1d8 claw, 2d6 bite, 2d8 hug
 Movement:         40'
-No. Appearing:    1d4, Wild 1d4, Lair 1d4
-Save As:          Fighter: 4
-Morale:           7
+No. Appearing:    1d2, Wild 1d2, Lair 1d2
+Save As:          Fighter: 7
+Morale:           9
 Treasure Type:    None
-XP:               240
+XP:               670
   ----------------- -----------------------------
 
-Black bears are omnivorous, and despite their formidable size and
-strength are not particularly aggressive, though a female will fight
-fiercely if her cubs are threatened.
+These monstrous bears are even larger than brown bears, with one
+weighing up to 1,800 pounds and when on all four feet are up to six feet
+high at the shoulder. They are ferocious killers, attacking almost
+anything of equal or smaller size.

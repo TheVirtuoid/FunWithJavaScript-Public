@@ -1,40 +1,30 @@
-### Jelly, Glass (Gelatinous Cube)
+### Jelly, Gray (Gray Ooze)
 
-  ----------------- -----------------
+  ----------------- -------------
 Armor Class:      12
-Hit Dice:         4\*
-No. of Attacks:   1
-Damage:           2d4 + paralysis
-Movement:         20'
+Hit Dice:         3\*
+No. of Attacks:   1 pseudopod
+Damage:           2d8
+Movement:         1'
 No. Appearing:    1
-Save As:          Fighter: 2
+Save As:          Fighter: 3
 Morale:           12
-Treasure Type:    V
-XP:               280
-  ----------------- -----------------
+Treasure Type:    None
+XP:               175
+  ----------------- -------------
 
-The glass jelly's natural habitat is dungeon
-corridors and caves, where it functions almost as a janitor, consuming
-carrion and other waste. Whatever the jelly finds indigestible will
-remain floating inside its body for a time before being ejected. Glass
-jellies are huge, averaging 1,000 cubic feet and weighing as much as
-20,000 pounds. The body of a glass jelly is more viscous than that of
-other jellies, and it tends to take on the shape of its surroundings
-such that one in a dungeon with 10' wide corridors might have a shape
-similar to that of a cube, while one living in round sewer drains under
-a city would have a cylindrical or half-cylindrical shape.
+Gray jellies are amorphous creatures that live only to eat. They inhabit
+underground areas, scouring caverns, ruins, and dungeons in search of
+organic matter, living or dead. Average individuals will be up to 10
+feet in diameter, about 6 inches thick (high), and weigh up to 2,500
+pounds.
 
-If a glass jelly encounters a narrow place (a doorway, for example) it
-will need 2d4 rounds to push through the constriction and will have
-assumed a new shape after doing so; such a new shape will persist for
-twice as long as it took to pass the constriction before the monster
-begins to flow into a shape that fills the available space again.
-
-Glass jellies move quietly, making a faint sucking or slurping sound if
-anyone thinks to listen. Combined with their transparency, they are able
-to surprise prey on a roll of 1-3 on 1d6. Worse, any living creature hit
-by a glass jelly must save vs. Paralysis or be paralyzed for 2d4 turns
-in addition to suffering damage from its acid secretions.
-
-Any treasure indicated will be visible inside the creature, which must
-be slain if the treasure is to be recovered.
+The acid secretions of the gray jelly can dissolve
+most organic matter and most metals; stone and glass are not affected,
+however. After a successful hit, the jelly will stick to the creature
+attacked, dealing 2d8 damage per round automatically. Normal
+(non-magical) armor or clothing dissolves and becomes useless
+immediately. Any non-magical weapon made of metal or wood which hits a
+gray jelly will be similarly destroyed. Magical weapons, armor, and
+clothing are allowed a saving throw (use the wearer's save vs. Death
+Ray, adding any magical \"plus\" value to the roll if applicable).

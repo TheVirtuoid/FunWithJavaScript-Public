@@ -1,32 +1,29 @@
-### Bee, Giant
+### Beetle, Giant Bombardier
 
-  ----------------- -------------------------------
-Armor Class:      13
-Hit Dice:         .5\* (1d4 hit points)
-No. of Attacks:   1 sting
-Damage:           1d4 + poison sting
-Movement:         10' Fly 50'
-No. Appearing:    1d6, Wild 1d6, Lair 5d6
-Save As:          Fighter: 1
-Morale:           9 (12 if queen is threatened)
-Treasure Type:    Special
-XP:               13
-  ----------------- -------------------------------
+  ----------------- --------------------------------------
+Armor Class:      16
+Hit Dice:         2\*
+No. of Attacks:   1 bite, 1 spray (special, see below)
+Damage:           1d6 bite, 2d6 spray
+Movement:         40'
+No. Appearing:    1d8, Wild 2d6, Lair 2d6
+Save As:          Fighter: 2
+Morale:           8
+Treasure Type:    None
+XP:               100
+  ----------------- --------------------------------------
 
-Giant bees live in hives, generally in underground areas. In each such
-hive will be a queen who has 2 hit dice and inflicts only a bite doing
-1d8 points of damage. She is immobile, and if she is threatened all bees
-in the hive will fight without checking morale. The queen is worth 75 XP
-if defeated.
+Giant bombardier beetles have red head and thorax sections and black
+abdomens. They are 3 to 4 feet long. In combat, a giant bombardier
+beetle bites opponents in front of it, and sprays a cone of very hot and
+noxious gases from a nozzle in the rearmost tip of the abdomen. This
+toxic blast causes 2d6 points of damage to all within a cone 10' long
+and 10' wide at the far end (a save vs. Death Ray for half damage is
+allowed). A giant bombardier beetle can use this spray attack up to five
+times per day, but no more than once per three rounds. Faced with
+enemies attacking from one direction, a giant bombardier beetle may
+choose to turn away and use the spray attack rather than biting.
 
-Those stung by a giant bee must save vs. Poison or die. A giant bee that
-successfully stings another creature pulls away, leaving its stinger in
-the creature; the bee then dies.
-
-Each giant bee hive will contain honeycomb filled with
-honey, which is entirely safe to eat and is worth 10 GP per gallon if
-carefully removed. Generally 2d10+10 gallons of honey will be present in
-any given hive. There is also a 15% chance that one of the cells in the
-honeycomb will contain special honey which acts as 1d6+1 **Potions of
-Healing** if consumed. This honey can be discovered by chance, or
-through the use of **detect magic**.
+Giant bombardier beetles, like most beetles, have about the same visual
+acuity in all directions, and thus suffer no penalty to Armor Class when
+attacked from behind.

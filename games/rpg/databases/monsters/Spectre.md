@@ -1,25 +1,29 @@
-### Snake, Spitting Cobra
+### Spectre
 
-  ----------------- -----------------------------------
-Armor Class:      13
-Hit Dice:         1\*
-No. of Attacks:   1 bite or 1 spit
-Damage:           1d4 + poison bite, blindness spit
-Movement:         30'
-No. Appearing:    1d6, Wild 1d6, Lair 1d6
-Save As:          Fighter: 1
-Morale:           7
-Treasure Type:    None
-XP:               37
-  ----------------- -----------------------------------
+  ----------------- -----------------------------
+Armor Class:      17 (m)
+Hit Dice:         6\*\*
+No. of Attacks:   1 touch
+Damage:           Energy drain 2 levels/touch
+Movement:         Fly 100'
+No. Appearing:    1d4, Lair 1d8
+Save As:          Fighter: 6
+Morale:           11
+Treasure Type:    E
+XP:               610
+  ----------------- -----------------------------
 
-Spitting cobras average about 7' in length at
-adulthood. They use their spreading hood to warn other creatures not to
-bother them, and generally refrain from attacking if possible to allow
-larger creatures time to retreat. Failure to retreat from the spitting
-cobra will likely result in the cobra spitting venom; the cobra can
-project its venom up to 5', and any living creature hit must roll a
-save vs. Poison or be blinded permanently (though the **cure blindness**
-spell can heal this injury). If the cobra cannot deter a creature by
-spitting, it will attack using its bite. In this case, those hit must
-save vs. Poison or die.
+Spectres are incorporeal **undead** monsters. On any successful hit
+against a living creature, a spectre drains two life energy levels in
+addition to doing normal damage. Any character slain by a spectre will
+arise at the next sunset (but not sooner than 6 hours after death) as a
+spectre under the control of its killer.
+
+A spectre will normally resemble the living creature it used to be. Most
+spectres are formed from humanoid creatures, but some may have other
+forms and sizes; statistically, most such creatures will be as given
+above, but of course the GM may create special types.
+
+Like all **undead**, they may be Turned by Clerics and
+are immune to **sleep**, **charm**, ****and **hold** magics. Due to
+their incorporeal nature, they cannot be harmed by non-magical weapons.

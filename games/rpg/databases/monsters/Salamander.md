@@ -1,22 +1,10 @@
-### Sabre-Tooth Cat
+### Salamander
 
-  ----------------- --------------------
-Armor Class:      14
-Hit Dice:         8
-No. of Attacks:   2 claws, 1 bite
-Damage:           1d6 claw, 2d8 bite
-Movement:         50'
-No. Appearing:    Wild 1d4, Lair 1d4
-Save As:          Fighter: 8
-Morale:           10
-Treasure Type:    None
-XP:               875
-  ----------------- --------------------
+Salamanders are large, lizard-like creatures from the elemental planes.
+They are sometimes found on the material plane; they can arrive through
+naturally-occurring dimensional rifts, or they may be summoned by
+high-level Magic-Users. Due to their highly magical nature, they cannot
+be harmed by non-magical weapons.
 
-The sabre-tooth cat, or *smilodon*, is a prehistoric
-great cat with very large canine teeth. They are more robustly built
-than other great cats, with particularly well-developed forelimbs and
-exceptionally long upper canine teeth. Sabre-tooth cats are ambush
-predators, surprising on 1‑4 on 1d6 in their natural environment
-(forests and tall-grass prairies), where they prey primarily upon large
-herbivores.
+Flame, frost, and lightning salamanders hate each other, and each type
+will attack the others on sight in preference to any other nearby foe.

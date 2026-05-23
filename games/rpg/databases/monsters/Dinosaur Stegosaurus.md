@@ -1,23 +1,21 @@
-### Dinosaur, Pterodactyl (and Pteranodon)
+### Dinosaur, Stegosaurus
 
-  ----------------- ----------------- -----------------
-                    Pterodactyl       Pteranodon
-Armor Class:      12                13
-Hit Dice:         1                 5
-No. of Attacks:   1 bite            1 bite
-Damage:           1d4 bite          2d6 bite
-Movement:         Fly 60' (10')   Fly 60' (15')
-No. Appearing:    Wild 2d4          Wild 1d4
-Save As:          Fighter: 1        Fighter: 5
-Morale:           7                 8
-Treasure Type:    None              None
-XP:               25                360
-  ----------------- ----------------- -----------------
+  ----------------- -----------------------------------------
+Armor Class:      17
+Hit Dice:         11 (+9)
+No. of Attacks:   1 bite, 1 tail or 1 trample (see below)
+Damage:           1d6 bite, 2d8 tail, 2d8 trample
+Movement:         20' (15')
+No. Appearing:    Wild 1d4
+Save As:          Fighter: 6
+Morale:           7
+Treasure Type:    None
+XP:               1,575
+  ----------------- -----------------------------------------
 
-Pterodactyls are prehistoric winged reptilian creatures, having a
-wingspan of around 25 to 30 inches. Though they eat mostly fish, they
-may attack smaller characters or scavenge unguarded packs.
-
-Pteranodons are essentially giant-sized pterodactyls,
-having wingspans of 25 feet or more. They are predators, and may attack
-adventuring parties.
+Although fearsome-looking, the stegosaurus is actually a peaceable
+creature and will only fight in self-defense, either biting, trampling,
+or using its spiked tail, depending on where the opponent is standing in
+relation to the dinosaur. A stegosaurus can't use its tail and bite
+attacks against the same creature in the same round, and cannot use
+either bite or tail on any round where it tramples.

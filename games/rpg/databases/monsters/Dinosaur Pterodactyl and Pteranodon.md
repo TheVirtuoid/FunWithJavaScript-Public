@@ -1,21 +1,22 @@
-### Dinosaur, Deinonychus
+### Dinosaur, Pterodactyl (and Pteranodon)
 
-  ----------------- -------------------------
-Armor Class:      15
-Hit Dice:         3
-No. of Attacks:   1 bite
-Damage:           1d8
-Movement:         50'
-No. Appearing:    1d3, Wild 2d3, Lair 2d6
-Save As:          Fighter: 3
-Morale:           8
-Treasure Type:    None
-XP:               145
-  ----------------- -------------------------
+// I removed the dashes for now, as there were three of them.
+                    Pterodactyl       Pteranodon
+Armor Class:      12                13
+Hit Dice:         1                 5
+No. of Attacks:   1 bite            1 bite
+Damage:           1d4 bite          2d6 bite
+Movement:         Fly 60' (10')   Fly 60' (15')
+No. Appearing:    Wild 2d4          Wild 1d4
+Save As:          Fighter: 1        Fighter: 5
+Morale:           7                 8
+Treasure Type:    None              None
+XP:               25                360
 
-The Deinonychus (sometimes mistakenly called a
-\"Velociraptor\") is a medium-sized feathered dinosaur weighing
-approximately 150 pounds and reaching about 11 feet of length (tail
-included). It is an avid predator and a skilled pack-hunter; its warm
-blood, aerodynamic build and vicious maw allow it to feed on larger but
-more primitive dinosaurs.
+Pterodactyls are prehistoric winged reptilian creatures, having a
+wingspan of around 25 to 30 inches. Though they eat mostly fish, they
+may attack smaller characters or scavenge unguarded packs.
+
+Pteranodons are essentially giant-sized pterodactyls,
+having wingspans of 25 feet or more. They are predators, and may attack
+adventuring parties.

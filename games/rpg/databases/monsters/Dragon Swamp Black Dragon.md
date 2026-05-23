@@ -1,67 +1,59 @@
-### Dragon, Sea (Gray Dragon)
+### Dragon, Swamp (Black Dragon)
 
-  ----------------- ---------------------------------------
-Armor Class:      19
-Hit Dice:         8\*\*
-No. of Attacks:   2 claws, 1 bite or breath
-Damage:           1d6 claw, 3d8 bite or breath
-Movement:         10' Fly 60' (20') Swim 60' (15')
+  ----------------- -----------------------------------------
+Armor Class:      18
+Hit Dice:         7\*\*
+No. of Attacks:   2 claws, 1 bite or breath, 1 tail
+Damage:           1d6 claw, 2d10 bite or breath, 1d6 tail
+Movement:         30' Fly 80' (15')
 No. Appearing:    1, Wild 1, Lair 1d4
-Save As:          Fighter: 8 (as Hit Dice)
+Save As:          Fighter: 7 (as Hit Dice)
 Morale:           8
 Treasure Type:    H
-XP:               1,015
-  ----------------- ---------------------------------------
+XP:               800
+  ----------------- -----------------------------------------
 
-Young sea dragons are light bluish-gray in color (similar to dolphins),
-darkening to a deep slate color in older individuals. Their skin is
-smooth and sleek, and their bodies are more compact than most dragons,
-though their long neck gives them the same flexibility.
+Swamp dragons have green skin so dark as to appear to be black,
+especially in uncertain light or while wet. They often choose to hide
+underwater, leaving only part of the head above the waterline, and leap
+up suddenly when prey comes within 100' (surprising on a roll of 1-4 on
+1d6 in this case).
 
-Though they live in the water and are somewhat adapted to it, sea
-dragons still must breathe air, similar to dolphins or whales. A sea
-dragon may hold its breath up to three turns while swimming or
-performing other moderate activity.
+Though swamp dragons are more cruel than ice dragons, they are still
+motivated mostly by the urge to live, breed and collect valuable items.
 
-These dragons have much the same physical structure as other dragons,
-but their feet are webbed and their tails are short, flat and broad;
-these adaptations help the sea dragon swim efficiently, but severely
-limit their ability to walk on dry land. Unlike other dragons, sea
-dragons do not have a tail attack. The breath weapon of a sea dragon is
-a cloud of steam; they are immune to damage from non-magical steam
-(including the breath weapon of another sea dragon), and suffer only
-half damage from magical steam attacks.
+Swamp dragons are immune to all forms of acid. A swamp dragon may hold
+its breath up to three turns while lying in wait underwater.
 
-Sea dragons are neutral in outlook, in much the same way as ice dragons.
-They often maintain lairs in air-filled undersea caverns.
+Swamp Dragon Age Table
 
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Sea Dragon Age Table                                                                 |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Age Category   | 1       | 2       | 3       | 4       | 5       | 6       | 7       |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Hit Dice       | 5       | 6       | 7       | 8       | 9       | 10      | 11      |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Attack Bonus   | +5      | +6      | +7      | +8      | +8      | +9      | +9      |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Breath Weapon  | Steam (Cloud)                                                       |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Length         | \-      | 70'    | 80'    | 90'    | 95'    | 100'   | 100'   |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Width          | \-      | 25'    | 30'    | 40'    | 45'    | 50'    | 55'    |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Chance/Talking | 0%      | 15%     | 20%     | 30%     | 45%     | 55%     | 65%     |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Spells by      |         |         |         |         |         |         |         |
-| Level          |         |         |         |         |         |         |         |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Level 1        | \-      | 1       | 2       | 3       | 3       | 4       | 4       |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Level 2        | \-      | \-      | 1       | 2       | 3       | 3       | 4       |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Level 3        | \-      | \-      | \-      | \-      | \-      | 1       | 2       |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Claw           | 1d4     | 1d6     | 1d6     | 1d6     | 1d6     | 1d8     | 1d10    |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
-| Bite           | 2d4     | 3d4     | 3d6     | 3d8     | 3d8     | 3d8     | 3d10    |
-+----------------+---------+---------+---------+---------+---------+---------+---------+
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Age Category   | 1      | 2      | 3      | 4      | 5      | 6      | 7      |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Hit Dice       | 4      | 5      | 6      | 7      | 8      | 9      | 10     |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Attack Bonus   | +4     | +5     | +6     | +7     | +8     | +8     | +9     |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Breath Weapon  | Acid (Line)                                                  |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Length         | \-     | 70'   | 80'   | 90'   | 95'   | 100'  | 100'  |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Width          | \-     | \-     | \-     | \-     | \-     | 40'   | 45'   |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Chance/Talking | 0%     | 15%    | 20%    | 25%    | 35%    | 50%    | 60%    |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Spells by      |        |        |        |        |        |        |        |
+| Level          |        |        |        |        |        |        |        |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Level 1        | \-     | 1      | 2      | 4      | 4      | 4      | 4      |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Level 2        | \-     | \-     | \-     | \-     | 1      | 2      | 3      |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Level 3        | \-     | \-     | \-     | \-     | \-     | 1      | 2      |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Claw           | 1d4    | 1d4    | 1d6    | 1d6    | 1d6    | 1d8    | 1d8    |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Bite           | 2d4    | 2d6    | 2d8    | 2d10   | 2d10   | 2d10   | 2d12   |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Tail           | 1d4    | 1d4    | 1d4    | 1d6    | 1d6    | 1d8    | 1d8    |
++----------------+--------+--------+--------+--------+--------+--------+--------+

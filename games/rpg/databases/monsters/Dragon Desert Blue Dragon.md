@@ -1,79 +1,70 @@
-### Dragon, Cloud
+### Dragon, Desert (Blue Dragon)
 
   ----------------- ----------------------------------------
-Armor Class:      22
-Hit Dice:         11\*\* (+9)
+Armor Class:      20
+Hit Dice:         9\*\* (+8)
 No. of Attacks:   2 claws, 1 bite or breath, 1 tail
-Damage:           2d4 claw, 6d6 bite or breath, 2d4 tail
-Movement:         30' Fly 80' (20')
+Damage:           1d8 claw, 3d8 bite or breath, 1d8 tail
+Movement:         30' Fly 80' (15')
 No. Appearing:    1, Wild 1, Lair 1d4
-Save As:          Fighter: 11 (as Hit Dice)
-Morale:           10
+Save As:          Fighter: 9 (as Hit Dice)
+Morale:           9
 Treasure Type:    H
-XP:               1,765
+XP:               1,225
   ----------------- ----------------------------------------
 
-Cloud dragons have the most varied appearance of all
-the true dragons. In an indoor environment or when underground a cloud
-dragon appears to be a bright metallic color, while outdoors their
-coloration is brighter and less metallic, and may take on a reddish or
-bluish cast reminiscent of a sunrise or sunset. Hatchlings have a
-coppery skin tone, brightening to silver at the second age category,
-then to gold at the fourth before fading to a platinum tone by age
-category 6. While most true dragons become duller in color and sheen as
-they age, cloud dragons do not.
+Desert dragons have rough, gritty-feeling hide which is a dark steel
+blue color with a smoother, streaky brown underbelly. Their bodies are
+wiry and serpentine.
 
-Cloud dragons are not cruel and do not seek to kill for pleasure. Many
-tales are told of cloud dragons offering assistance to adventurers,
-though they are every bit as avaricious as any dragon; adventurers in
-need of gold need not bother asking for a loan.
+They hunt by day in the heat of the sun, sometimes flying high overhead
+looking for prey, or sometimes choosing to bury themselves in the sand
+and lie in wait with only eyes and nostrils exposed. One will wait in
+this fashion until victims come within 100 feet, then spring out and
+attack (surprising on a roll of 1-4 on 1d6 in this case).
 
-Another way in which cloud dragons differ from other types is that they
-do not have fixed breath weapons. Upon reaching the second age category,
-a cloud dragon acquires the breath weapon of a randomly-chosen (or GM
-assigned) dragon type; upon reaching the fourth age category, they
-acquire a second breath weapon type. Cloud dragons possess the same
-immunities as the dragons whose breath weapons they reproduce.
+A desert dragon will usually choose to lair in an underground cavern, or
+perhaps in a ruined castle or desert outpost. They are evil monsters,
+though not so fierce as mountain dragons. They particularly enjoy
+tricking intelligent prey into entering their lairs or passing by their
+hiding places to be ambushed and killed; usually one member of a party
+attacked by a desert dragon will be left alive for a while, and the
+dragon will play with that person as a cat plays with a mouse.
 
-All cloud dragons have the power to assume the form of any type of
-humanoid (as described in the spell **charm person**) at will in a
-manner otherwise equivalent to the spell **polymorph self**.
+Desert dragons are immune to normal lightning, and suffer only half
+damage from magical lightning.
 
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Cloud Dragon Age Table                                                                      |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Age Category   | 1        | 2        | 3        | 4        | 5        | 6        | 7        |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Hit Dice       | 8        | 9        | 10       | 11       | 12       | 13       | 14       |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Attack Bonus   | +8       | +8       | +9       | +9       | +10      | +11      | +11      |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Breath Weapon  | Special (see above)                                                        |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Length         | \-       | 70'     | 80'     | 90'     | 95'     | 100'    | 110'    |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Width          | \-       | 30'     | 35'     | 45'     | 50'     | 55'     | 60'     |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Chance/Talking | 0%       | 35%      | 70%      | 85%      | 90%      | 95%      | 95%      |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Spells by      |          |          |          |          |          |          |          |
-| Level          |          |          |          |          |          |          |          |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Level 1        | \-       | 1        | 2        | 3        | 4        | 5        | 6        |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Level 2        | \-       | \-       | 1        | 2        | 3        | 4        | 5        |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Level 3        | \-       | \-       | \-       | 1        | 2        | 3        | 4        |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Level 4        | \-       | \-       | \-       | \-       | 1        | 2        | 3        |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Level 5        | \-       | \-       | \-       | \-       | \-       | 1        | 2        |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Level 6        | \-       | \-       | \-       | \-       | \-       | \-       | 1        |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Claw           | 1d6      | 1d6      | 1d6      | 2d4      | 2d4      | 2d6      | 2d8      |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Bite           | 3d6      | 4d6      | 5d6      | 6d6      | 6d6      | 7d6      | 7d6      |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
-| Tail           | 1d4      | 1d6      | 1d6      | 2d4      | 2d6      | 2d6      | 2d8      |
-+----------------+----------+----------+----------+----------+----------+----------+----------+
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Desert Dragon Age Table                                                                            |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Age Category   | 1         | 2         | 3         | 4         | 5         | 6         | 7         |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Hit Dice       | 6         | 7         | 8         | 9         | 10        | 11        | 12        |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Attack Bonus   | +6        | +7        | +8        | +8        | +9        | +9        | +10       |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Breath Weapon  | Lightning (Line)                                                                  |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Length         | \-        | 80'      | 90'      | 100'     | 100'     | 110'     | 120'     |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Width          | \-        | \-        | \-        | \-        | \-        | 55'      | 60'      |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Chance/Talking | 0%        | 15%       | 20%       | 40%       | 50%       | 60%       | 70%       |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Spells by      |           |           |           |           |           |           |           |
+| Level          |           |           |           |           |           |           |           |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Level 1        | \-        | 1         | 2         | 4         | 4         | 4         | 5         |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Level 2        | \-        | \-        | 1         | 2         | 3         | 4         | 4         |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Level 3        | \-        | \-        | \-        | \-        | 1         | 2         | 2         |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Level 4        | \-        | \-        | \-        | \-        | \-        | \-        | 1         |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Claw           | 1d4       | 1d4       | 1d6       | 1d8       | 1d8       | 1d8       | 1d10      |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Bite           | 2d6       | 3d6       | 3d8       | 3d8       | 3d8       | 3d8       | 3d10      |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Tail           | 1d4       | 1d6       | 1d6       | 1d8       | 1d8       | 1d8       | 1d8       |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+

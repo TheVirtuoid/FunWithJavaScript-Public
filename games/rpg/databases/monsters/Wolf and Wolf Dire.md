@@ -1,35 +1,40 @@
-### Wight
+### Wolf (and Wolf, Dire)
 
-  ----------------- -------------------------
-Armor Class:      15 (s)
-Hit Dice:         3\*
-No. of Attacks:   1 touch
-Damage:           Energy drain (1 level)
-Movement:         30'
-No. Appearing:    1d6, Wild 1d8, Lair 1d8
-Save As:          Fighter: 3
-Morale:           12
-Treasure Type:    B
-XP:               175
-  ----------------- -------------------------
++-----------------+------------+------------+
+|                 | Normal     | Dire       |
++-----------------+------------+------------+
+| Armor Class:    | 13         | 14         |
++-----------------+------------+------------+
+| Hit Dice:       | 2          | 4          |
++-----------------+------------+------------+
+| No. of Attacks: | 1 bite     | 1 bite     |
++-----------------+------------+------------+
+| Damage:         | 1d6        | 2d4        |
++-----------------+------------+------------+
+| Movement:       | 60'       | 50'       |
++-----------------+------------+------------+
+| No. Appearing:  | 2d6,       | 1d4,       |
+|                 |            |            |
+|                 | Wild 3d6,  | Wild 2d4,  |
+|                 |            |            |
+|                 | Lair 3d6   | Lair 2d4   |
++-----------------+------------+------------+
+| Save As:        | Fighter: 2 | Fighter: 4 |
++-----------------+------------+------------+
+| Morale:         | 8          | 9          |
++-----------------+------------+------------+
+| Treasure Type:  | None       | None       |
++-----------------+------------+------------+
+| XP:             | 75         | 240        |
++-----------------+------------+------------+
 
-Wights are **undead** monsters who have been twisted and deformed by
-their transformation. Their eyes are entirely black, and their bodies
-radiate a coldness that living creatures can feel from several feet
-away.
+The wolf is a large canine found in a broad range of habitats. They
+travel in packs consisting of a mated pair accompanied by their
+offspring. Wolves are also territorial, and fights over territory are
+among the principal causes of wolf mortality. The wolf is mainly a
+carnivore and feeds on large wild hoofed mammals as well as smaller
+animals, livestock, and carrion.
 
-If a wight touches or is touched by a living creature, that creature
-suffers one level of **energy drain** (as described in the **Encounter**
-section). No saving throw is allowed. Striking a wight with a weapon
-does not count as \"touching\" it, but punching or kicking one does.
-
-Any humanoid slain by a wight becomes a wight by the next sunset (but
-not less than 12 hours later). They are slaves to the wight who created
-them until and unless that wight is destroyed. Wights remember almost
-nothing from their previous life, though a few very close friends or
-loved ones might be recalled (and hated, and possibly hunted by the
-monster).
-
-Like all undead, wights may be Turned by Clerics and are immune to
-**sleep**, **charm**, ****and **hold** magics. Wights are harmed only by
-silver or magical weapons, and take only half damage from burning oil.
+Dire wolves are huge relatives of the ordinary wolves,
+being as large as horses. They live and hunt in packs, and are sometimes
+tamed by smaller humanoids as battle steeds or by larger ones as pets.

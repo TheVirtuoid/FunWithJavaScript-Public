@@ -1,70 +1,63 @@
-### Dragon, Desert (Blue Dragon)
+### Dragon, Forest (Green Dragon)
 
   ----------------- ----------------------------------------
-Armor Class:      20
-Hit Dice:         9\*\* (+8)
+Armor Class:      19
+Hit Dice:         8\*\*
 No. of Attacks:   2 claws, 1 bite or breath, 1 tail
-Damage:           1d8 claw, 3d8 bite or breath, 1d8 tail
+Damage:           1d6 claw, 3d8 bite or breath, 1d6 tail
 Movement:         30' Fly 80' (15')
 No. Appearing:    1, Wild 1, Lair 1d4
-Save As:          Fighter: 9 (as Hit Dice)
-Morale:           9
+Save As:          Fighter: 8 (as Hit Dice)
+Morale:           8
 Treasure Type:    H
-XP:               1,225
+XP:               1,015
   ----------------- ----------------------------------------
 
-Desert dragons have rough, gritty-feeling hide which is a dark steel
-blue color with a smoother, streaky brown underbelly. Their bodies are
-wiry and serpentine.
+Forest dragons are bright leaf green in color, with a tan underbelly.
+They have long sinuous bodies and move with catlike grace. They are
+cruel monsters, but they are renowned for their curiosity. They
+especially like to question adventurers to learn more about their
+society and abilities, what is going on in the countryside, and if there
+is treasure nearby. Adventurers may be allowed to live so long as they
+remain interesting... but woe to them when the dragon becomes bored.
 
-They hunt by day in the heat of the sun, sometimes flying high overhead
-looking for prey, or sometimes choosing to bury themselves in the sand
-and lie in wait with only eyes and nostrils exposed. One will wait in
-this fashion until victims come within 100 feet, then spring out and
-attack (surprising on a roll of 1-4 on 1d6 in this case).
-
-A desert dragon will usually choose to lair in an underground cavern, or
-perhaps in a ruined castle or desert outpost. They are evil monsters,
-though not so fierce as mountain dragons. They particularly enjoy
-tricking intelligent prey into entering their lairs or passing by their
-hiding places to be ambushed and killed; usually one member of a party
-attacked by a desert dragon will be left alive for a while, and the
-dragon will play with that person as a cat plays with a mouse.
-
-Desert dragons are immune to normal lightning, and suffer only half
-damage from magical lightning.
+Forest dragons are immune to all poisons. Note that, despite their
+breath weapon being described as \"poison gas,\" damage done by it is
+exactly the same as with other dragons. More specifically, those in the
+area of effect do not have to \"save or die\" as with ordinary poison,
+but rather save vs. Dragon Breath for half damage.
 
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Desert Dragon Age Table                                                                            |
+| Forest Dragon Age Table                                                                            |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 | Age Category   | 1         | 2         | 3         | 4         | 5         | 6         | 7         |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Hit Dice       | 6         | 7         | 8         | 9         | 10        | 11        | 12        |
+| Hit Dice       | 5         | 6         | 7         | 8         | 9         | 10        | 11        |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Attack Bonus   | +6        | +7        | +8        | +8        | +9        | +9        | +10       |
+| Attack Bonus   | +5        | +6        | +7        | +8        | +8        | +9        | +9        |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Breath Weapon  | Lightning (Line)                                                                  |
+| Breath Weapon  | Poison Gas (Cloud)                                                                |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Length         | \-        | 80'      | 90'      | 100'     | 100'     | 110'     | 120'     |
+| Length         | \-        | 70'      | 80'      | 90'      | 95'      | 100'     | 100'     |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Width          | \-        | \-        | \-        | \-        | \-        | 55'      | 60'      |
+| Width          | \-        | 25'      | 30'      | 40'      | 45'      | 50'      | 55'      |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Chance/Talking | 0%        | 15%       | 20%       | 40%       | 50%       | 60%       | 70%       |
+| Chance/Talking | 0%        | 15%       | 20%       | 30%       | 45%       | 55%       | 65%       |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 | Spells by      |           |           |           |           |           |           |           |
 | Level          |           |           |           |           |           |           |           |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Level 1        | \-        | 1         | 2         | 4         | 4         | 4         | 5         |
+| Level 1        | \-        | 1         | 2         | 3         | 3         | 4         | 4         |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Level 2        | \-        | \-        | 1         | 2         | 3         | 4         | 4         |
+| Level 2        | \-        | \-        | 1         | 2         | 3         | 3         | 4         |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Level 3        | \-        | \-        | \-        | \-        | 1         | 2         | 2         |
+| Level 3        | \-        | \-        | \-        | \-        | 1         | 2         | 3         |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 | Level 4        | \-        | \-        | \-        | \-        | \-        | \-        | 1         |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Claw           | 1d4       | 1d4       | 1d6       | 1d8       | 1d8       | 1d8       | 1d10      |
+| Claw           | 1d4       | 1d6       | 1d6       | 1d6       | 1d6       | 1d8       | 1d10      |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Bite           | 2d6       | 3d6       | 3d8       | 3d8       | 3d8       | 3d8       | 3d10      |
+| Bite           | 2d4       | 3d4       | 3d6       | 3d8       | 3d8       | 3d8       | 3d10      |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Tail           | 1d4       | 1d6       | 1d6       | 1d8       | 1d8       | 1d8       | 1d8       |
+| Tail           | 1d4       | 1d4       | 1d6       | 1d6       | 1d6       | 1d8       | 1d8       |
 +----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+

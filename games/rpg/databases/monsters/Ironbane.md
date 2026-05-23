@@ -1,31 +1,40 @@
-### Invisible Stalker
+### Ironbane
 
-  ----------------- -------------
-Armor Class:      19
-Hit Dice:         8\*
-No. of Attacks:   1
-Damage:           4d4
-Movement:         40'
-No. Appearing:    1 (special)
-Save As:          Fighter: 8
-Morale:           12
+  ----------------- -----------------
+Armor Class:      15
+Hit Dice:         3\*
+No. of Attacks:   1 touch
+Damage:           Rust, see below
+Movement:         50'
+No. Appearing:    1d4
+Save As:          Fighter: 4
+Morale:           8
 Treasure Type:    None
-XP:               945
-  ----------------- -------------
+XP:               175
+  ----------------- -----------------
 
-Invisible stalkers are monsters from another plane of
-existence who may be summoned to slay the enemies of a wizard or to
-perform some other simple task. They are naturally invisible, and remain
-so even after attacking.
+An ironbane resembles a large armadillo in its overall
+body plan, but has an anteater-like snout with a long flicking tongue,
+and long, strangely hare-like back legs which allow it to hop from place
+to place. When attacking or pursuing, the ironbane stands up on its hind
+legs, but when resting or moving slowly it folds them and walks on all
+four feet.
 
-A summoned invisible stalker does whatever the summoner commands, even
-if the task takes days or weeks to perform. The creature is compelled to
-complete the task regardless of time required. Invisible stalkers don't
-like tasks that take too long or are too complicated, and if assigned an
-unwanted task will try to find a loophole or otherwise subvert the
-summoner's command.
+Like the more common rust monster (as found on page ),
+the touch of any part of an ironbane's body transforms metal objects
+into rust (or verdigris, or other oxides as appropriate). Non-magical
+metal attacked by an ironbane, or that touches the monster (such as a
+sword used to attack it), is instantly ruined. A non-magical metal
+weapon used to attack the monster does half damage before being
+destroyed. Magic weapons or armor lose one \"plus\" each time they make
+contact with the ironbane; this loss is permanent.
 
-An invisible stalker's form is amorphous, such that a **detect
-invisible** spell shows only an undulating blob-shaped outline. Don't
-forget to apply the standard penalty of -4 on the attack die when an
-invisible stalker is attacked by a creature which is unable to see it.
+The metal oxides created by this monster are its food; thus, a
+substantial amount of metal dropped in its path may cause it to cease
+pursuit of metal-armored characters. Use a morale check to determine
+this.
+
+Metals that do not normally oxidize, such as gold, are of no interest to
+an ironbane and will be ignored. Silver and copper on the other hand are
+candy for this creature and one will pursue the tastiest-smelling
+adventurer in any party.

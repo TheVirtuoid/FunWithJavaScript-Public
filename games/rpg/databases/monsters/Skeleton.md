@@ -1,29 +1,23 @@
-### Shrieker (Wailing Morel)
+### Skeleton
 
-  ----------------- ------------------------------
-Armor Class:      13
-Hit Dice:         3
-No. of Attacks:   None, but summons encounters
-Damage:           None
-Movement:         5'
-No. Appearing:    1d8
+  ----------------- -------------------------
+Armor Class:      13 (special, see below)
+Hit Dice:         1
+No. of Attacks:   1 weapon
+Damage:           1d6 or by weapon
+Movement:         40'
+No. Appearing:    3d6, Wild 3d10
 Save As:          Fighter: 1
 Morale:           12
 Treasure Type:    None
-XP:               145
-  ----------------- ------------------------------
+XP:               25
+  ----------------- -------------------------
 
-A shrieker, sometimes called a wailing morel, ****is a large (3' to 5'
-tall and about the same size across), semi-mobile fungus that wails
-loudly as a defense mechanism when approached or threatened. Shriekers
-are found in underground areas such as caverns and dungeons. They are
-found in a variety of pale colors, most commonly white, gray, lavender,
-or red.
-
-This monster does not attack directly; rather, its shrieking tends to
-attract the attention of other monsters in the nearby area. Movement or
-light within 10 feet, or causing any damage to one, will cause one to
-wail for 1d4 rounds.
-
-In game terms, the GM should generally roll a
-wandering monster check each round that this monster wails.
+Skeletons are mindless **undead** created by an evil
+Magic-User or Cleric, generally to guard a tomb or treasure hoard, or to
+act as guards for their creator. They take only .5 damage from edged
+weapons, and only a single point from arrows, bolts or sling stones
+(plus any magical bonus). As with all undead, they can be **Turned** by
+a Cleric, and are immune to **sleep, charm** or **hold** magic. As they
+are mindless, no form of **mind reading** is of any use against them.
+Skeletons never fail morale, and thus always fight until destroyed.

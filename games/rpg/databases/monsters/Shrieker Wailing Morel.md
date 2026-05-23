@@ -1,39 +1,29 @@
-### Shrew, Giant
+### Shrieker (Wailing Morel)
 
-+-----------------+-----------------+-------------------+
-|                 | Common          | Venomous          |
-+-----------------+-----------------+-------------------+
-| Armor Class:    | 16              | 16                |
-+-----------------+-----------------+-------------------+
-| Hit Dice:       | 1               | 1\*               |
-+-----------------+-----------------+-------------------+
-| No. of Attacks: | 2 bites         | 2 bites           |
-+-----------------+-----------------+-------------------+
-| Damage:         | 1d6 bite        | 1d6 bite + poison |
-+-----------------+-----------------+-------------------+
-| Movement:       | 60'            | 60'              |
-+-----------------+-----------------+-------------------+
-| No. Appearing:  | -- 1d4, Wild 1d8, Lair 1d8 --       |
-+-----------------+-----------------+-------------------+
-| Save As:        | Fighter: 2      | Fighter: 2        |
-+-----------------+-----------------+-------------------+
-| Morale:         | 10              | 10                |
-+-----------------+-----------------+-------------------+
-| Treasure Type:  | None            | None              |
-+-----------------+-----------------+-------------------+
-| XP:             | 25              | 37                |
-+-----------------+-----------------+-------------------+
+  ----------------- ------------------------------
+Armor Class:      13
+Hit Dice:         3
+No. of Attacks:   None, but summons encounters
+Damage:           None
+Movement:         5'
+No. Appearing:    1d8
+Save As:          Fighter: 1
+Morale:           12
+Treasure Type:    None
+XP:               145
+  ----------------- ------------------------------
 
-Giant shrews resemble giant rats, but are larger, being up to 6' long,
-and darker in color. They have a very fast metabolic rate and must eat
-almost constantly. Giant shrews are omnivorous, and aggressively defend
-their nests and the immediate territory around them.
+A shrieker, sometimes called a wailing morel, ****is a large (3' to 5'
+tall and about the same size across), semi-mobile fungus that wails
+loudly as a defense mechanism when approached or threatened. Shriekers
+are found in underground areas such as caverns and dungeons. They are
+found in a variety of pale colors, most commonly white, gray, lavender,
+or red.
 
-Giant shrews move so swiftly that they are able to bite twice per round,
-and they may attack two different adjacent opponents in this way.
+This monster does not attack directly; rather, its shrieking tends to
+attract the attention of other monsters in the nearby area. Movement or
+light within 10 feet, or causing any damage to one, will cause one to
+wail for 1d4 rounds.
 
-A few giant shrew species (generally no more than 5%
-of those encountered) are venomous. The bite of such a giant shrew will
-kill the victim unless a save vs. Poison is made. A victim bitten twice
-in a round need only save once for that round, but of course will have
-to save again in subsequent rounds if bitten again.
+In game terms, the GM should generally roll a
+wandering monster check each round that this monster wails.

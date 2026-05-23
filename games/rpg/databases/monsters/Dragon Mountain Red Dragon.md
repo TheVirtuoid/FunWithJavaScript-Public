@@ -1,67 +1,71 @@
-### Dragon, Ice (White Dragon)
+### Dragon, Mountain (Red Dragon)
 
   ----------------- ----------------------------------------
-Armor Class:      17
-Hit Dice:         6\*\*
+Armor Class:      21
+Hit Dice:         10\*\* (+9)
 No. of Attacks:   2 claws, 1 bite or breath, 1 tail
-Damage:           1d4 claw, 2d8 bite or breath, 1d4 tail
-Movement:         30' Fly 80' (10')
+Damage:           1d8 claw, 4d8 bite or breath, 1d8 tail
+Movement:         30' Fly 80' (20')
 No. Appearing:    1, Wild 1, Lair 1d4
-Save As:          Fighter: 6 (as Hit Dice)
+Save As:          Fighter: 10 (as Hit Dice)
 Morale:           8
 Treasure Type:    H
-XP:               610
+XP:               1,480
   ----------------- ----------------------------------------
 
-Ice dragons have pale blue-white skin, ranging from sky blue for a
-hatchling to the stark pure white of an ancient individual. They are the
-same color all over, having no contrasting underbelly color.
+Mountain dragons are red in color, ranging from the brilliant blood red
+of a hatchling to the dull terracotta color of an ancient individual.
+These dragons are powerfully built, with heavy-jawed heads and thick
+muscular bodies, yet their necks are still long enough to give them the
+legendary flexibility of a true dragon.
 
-They prefer to live in cold regions, whether in the highest mountains or
-in the cold northern lands. They are the least intelligent of dragons,
-though this does not mean that they are stupid by any stretch of the
-imagination. They are motivated completely by a drive to live, to
-reproduce, and (of course) to accumulate treasure; they kill to live,
-not for pleasure.
+They are cruel monsters, actively seeking to hunt, torment, kill and
+consume intelligent creatures. They are often said to prefer women and
+elves, but in truth a mountain dragon will attack almost any creature
+less powerful than itself.
 
-In a fashion similar to swamp and desert dragons, an ice dragon will
-sometimes choose to bury itself in snow and wait, with only its eyes and
-nostrils exposed, in a place where prey is likely to pass by. The ice
-dragon will then burst out when likely prey approaches within 100',
-surprising on a roll of 1-4 on 1d6.
+They are intelligent and self-assured, but also impatient and
+overconfident. One will often plan strategies in advance and then choose
+one at random when facing unknown opponents, without regard to whether
+or not the strategy is likely to work. The sheer power of a mountain
+dragon is often the only reason one is still alive.
 
-Ice dragons are immune to normal cold, and take only half damage from
-magical cold or ice.
+Mountain dragons are immune to normal fire, and suffer only half damage
+from magical fire.
 
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Ice Dragon Age Table                                                          |
+| Mountain Dragon Age Table                                                     |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
 | Age Category   | 1      | 2      | 3      | 4      | 5      | 6      | 7      |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Hit Dice       | 3      | 4      | 5      | 6      | 7      | 8      | 9      |
+| Hit Dice       | 7      | 8      | 9      | 10     | 11     | 12     | 13     |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Attack Bonus   | +3     | +4     | +5     | +6     | +7     | +8     | +8     |
+| Attack Bonus   | +7     | +8     | +8     | +9     | +9     | +10    | +11    |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Breath Weapon  | Cold (Cone)                                                  |
+| Breath Weapon  | Fire (Cone)                                                  |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Length         | \-     | 60'   | 70'   | 80'   | 85'   | 90'   | 95'   |
+| Length         | \-     | 70'   | 80'   | 90'   | 95'   | 100'  | 110'  |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Width          | \-     | 25'   | 30'   | 30'   | 35'   | 40'   | 45'   |
+| Width          | \-     | 30'   | 35'   | 45'   | 50'   | 55'   | 60'   |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Chance/Talking | 0%     | 10%    | 15%    | 20%    | 30%    | 40%    | 50%    |
+| Chance/Talking | 0%     | 15%    | 30%    | 50%    | 60%    | 70%    | 85%    |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
 | Spells by      |        |        |        |        |        |        |        |
 | Level          |        |        |        |        |        |        |        |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Level 1        | \-     | 1      | 2      | 3      | 3      | 3      | 3      |
+| Level 1        | \-     | 1      | 2      | 3      | 4      | 5      | 5      |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Level 2        | \-     | \-     | \-     | \-     | 1      | 2      | 3      |
+| Level 2        | \-     | \-     | 1      | 2      | 3      | 4      | 5      |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Level 3        | \-     | \-     | \-     | \-     | \-     | \-     | 1      |
+| Level 3        | \-     | \-     | \-     | 1      | 2      | 2      | 3      |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Claw           | 1d4    | 1d4    | 1d4    | 1d4    | 1d4    | 1d6    | 1d8    |
+| Level 4        | \-     | \-     | \-     | \-     | 1      | 2      | 2      |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Bite           | 2d4    | 2d6    | 2d6    | 2d8    | 2d8    | 2d10   | 2d10   |
+| Level 5        | \-     | \-     | \-     | \-     | \-     | 1      | 2      |
 +----------------+--------+--------+--------+--------+--------+--------+--------+
-| Tail           | 1d4    | 1d4    | 1d4    | 1d4    | 1d4    | 1d6    | 1d6    |
+| Claw           | 1d4    | 1d6    | 1d8    | 1d8    | 1d8    | 1d10   | 1d10   |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Bite           | 2d6    | 3d6    | 4d6    | 4d8    | 5d8    | 5d8    | 6d8    |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Tail           | 1d4    | 1d6    | 1d6    | 1d8    | 1d8    | 1d8    | 1d10   |
 +----------------+--------+--------+--------+--------+--------+--------+--------+

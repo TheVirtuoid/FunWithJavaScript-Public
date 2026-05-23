@@ -1,21 +1,25 @@
-### Lycanthrope, Weretiger
+### Lycanthrope, Werewolf
 
-  ----------------- -------------------------
-Armor Class:      17 (s)
-Hit Dice:         5\*
-No. of Attacks:   2 claws, 1 bite
-Damage:           1d6 claw, 2d6 bite
-Movement:         50' Human Form 40'
-No. Appearing:    1d4, Wild 1d4, Lair 1d4
-Save As:          Fighter: 5
-Morale:           9
+  ----------------- --------------------------------------
+Armor Class:      15 (s)
+Hit Dice:         4\*
+No. of Attacks:   1 bite (or 1 weapon, as given below)
+Damage:           2d4 bite, 1d6 or by weapon
+Movement:         60' Human Form 40'
+No. Appearing:    1d6, Wild 2d6, Lair 2d6
+Save As:          Fighter: 4
+Morale:           8
 Treasure Type:    C
-XP:               405
-  ----------------- -------------------------
+XP:               280
+  ----------------- --------------------------------------
 
-Weretigers are humans that can transform into tigers. In human form,
-they are generally tall, trim, and very agile. They tend to live and
-hunt close to human settlements, and are excellent trackers (5 in 6
-chance to track prey in either form). Weretigers will typically only
-attack if provoked. They are capricious and arbitrary to deal with
-unless whatever offer is made to them is very attractive to them.
+Werewolves may be found anywhere humans are found. They are ferocious
+predators, equally willing to eat animal or human flesh. Unlike most
+lycanthropes, werewolves have no distinguishing features in human form,
+making them very hard indeed to identify.
+
+Though they usually have only the usual human and
+animal forms, there are rumors of some who are also able to assume a
+wolfman form. In this form they may choose to either bite or use a
+weapon, and may change back and forth each round. As with the animal
+form, the wolfman form is hit only by silver or magical weapons.

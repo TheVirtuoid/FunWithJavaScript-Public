@@ -1,63 +1,67 @@
-### Dragon, Forest (Green Dragon)
+### Dragon, Ice (White Dragon)
 
   ----------------- ----------------------------------------
-Armor Class:      19
-Hit Dice:         8\*\*
+Armor Class:      17
+Hit Dice:         6\*\*
 No. of Attacks:   2 claws, 1 bite or breath, 1 tail
-Damage:           1d6 claw, 3d8 bite or breath, 1d6 tail
-Movement:         30' Fly 80' (15')
+Damage:           1d4 claw, 2d8 bite or breath, 1d4 tail
+Movement:         30' Fly 80' (10')
 No. Appearing:    1, Wild 1, Lair 1d4
-Save As:          Fighter: 8 (as Hit Dice)
+Save As:          Fighter: 6 (as Hit Dice)
 Morale:           8
 Treasure Type:    H
-XP:               1,015
+XP:               610
   ----------------- ----------------------------------------
 
-Forest dragons are bright leaf green in color, with a tan underbelly.
-They have long sinuous bodies and move with catlike grace. They are
-cruel monsters, but they are renowned for their curiosity. They
-especially like to question adventurers to learn more about their
-society and abilities, what is going on in the countryside, and if there
-is treasure nearby. Adventurers may be allowed to live so long as they
-remain interesting... but woe to them when the dragon becomes bored.
+Ice dragons have pale blue-white skin, ranging from sky blue for a
+hatchling to the stark pure white of an ancient individual. They are the
+same color all over, having no contrasting underbelly color.
 
-Forest dragons are immune to all poisons. Note that, despite their
-breath weapon being described as \"poison gas,\" damage done by it is
-exactly the same as with other dragons. More specifically, those in the
-area of effect do not have to \"save or die\" as with ordinary poison,
-but rather save vs. Dragon Breath for half damage.
+They prefer to live in cold regions, whether in the highest mountains or
+in the cold northern lands. They are the least intelligent of dragons,
+though this does not mean that they are stupid by any stretch of the
+imagination. They are motivated completely by a drive to live, to
+reproduce, and (of course) to accumulate treasure; they kill to live,
+not for pleasure.
 
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Forest Dragon Age Table                                                                            |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Age Category   | 1         | 2         | 3         | 4         | 5         | 6         | 7         |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Hit Dice       | 5         | 6         | 7         | 8         | 9         | 10        | 11        |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Attack Bonus   | +5        | +6        | +7        | +8        | +8        | +9        | +9        |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Breath Weapon  | Poison Gas (Cloud)                                                                |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Length         | \-        | 70'      | 80'      | 90'      | 95'      | 100'     | 100'     |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Width          | \-        | 25'      | 30'      | 40'      | 45'      | 50'      | 55'      |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Chance/Talking | 0%        | 15%       | 20%       | 30%       | 45%       | 55%       | 65%       |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Spells by      |           |           |           |           |           |           |           |
-| Level          |           |           |           |           |           |           |           |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Level 1        | \-        | 1         | 2         | 3         | 3         | 4         | 4         |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Level 2        | \-        | \-        | 1         | 2         | 3         | 3         | 4         |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Level 3        | \-        | \-        | \-        | \-        | 1         | 2         | 3         |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Level 4        | \-        | \-        | \-        | \-        | \-        | \-        | 1         |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Claw           | 1d4       | 1d6       | 1d6       | 1d6       | 1d6       | 1d8       | 1d10      |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Bite           | 2d4       | 3d4       | 3d6       | 3d8       | 3d8       | 3d8       | 3d10      |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
-| Tail           | 1d4       | 1d4       | 1d6       | 1d6       | 1d6       | 1d8       | 1d8       |
-+----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+In a fashion similar to swamp and desert dragons, an ice dragon will
+sometimes choose to bury itself in snow and wait, with only its eyes and
+nostrils exposed, in a place where prey is likely to pass by. The ice
+dragon will then burst out when likely prey approaches within 100',
+surprising on a roll of 1-4 on 1d6.
+
+Ice dragons are immune to normal cold, and take only half damage from
+magical cold or ice.
+
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Ice Dragon Age Table                                                          |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Age Category   | 1      | 2      | 3      | 4      | 5      | 6      | 7      |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Hit Dice       | 3      | 4      | 5      | 6      | 7      | 8      | 9      |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Attack Bonus   | +3     | +4     | +5     | +6     | +7     | +8     | +8     |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Breath Weapon  | Cold (Cone)                                                  |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Length         | \-     | 60'   | 70'   | 80'   | 85'   | 90'   | 95'   |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Width          | \-     | 25'   | 30'   | 30'   | 35'   | 40'   | 45'   |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Chance/Talking | 0%     | 10%    | 15%    | 20%    | 30%    | 40%    | 50%    |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Spells by      |        |        |        |        |        |        |        |
+| Level          |        |        |        |        |        |        |        |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Level 1        | \-     | 1      | 2      | 3      | 3      | 3      | 3      |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Level 2        | \-     | \-     | \-     | \-     | 1      | 2      | 3      |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Level 3        | \-     | \-     | \-     | \-     | \-     | \-     | 1      |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Claw           | 1d4    | 1d4    | 1d4    | 1d4    | 1d4    | 1d6    | 1d8    |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Bite           | 2d4    | 2d6    | 2d6    | 2d8    | 2d8    | 2d10   | 2d10   |
++----------------+--------+--------+--------+--------+--------+--------+--------+
+| Tail           | 1d4    | 1d4    | 1d4    | 1d4    | 1d4    | 1d6    | 1d6    |
++----------------+--------+--------+--------+--------+--------+--------+--------+

@@ -1,51 +1,53 @@
-### Purple Worm
+### Rat
 
-+-----------------+-------------------------+-------------------------+
-| Armor Class:    | 16                      | 17                      |
-+-----------------+-------------------------+-------------------------+
-| Hit Dice:       | 11\* (+9) to            | 16\* (+12) to           |
-|                 |                         |                         |
-|                 | 15\* (+11)              | 20\* (+13)              |
-+-----------------+-------------------------+-------------------------+
-| No. of Attacks: | -- 1 bite, 1 sting --                             |
-+-----------------+-------------------------+-------------------------+
-| Damage:         | 2d8 bite, 1d8+poison    | 3d8 bite, 1d10+poison   |
-|                 | sting                   | sting                   |
-+-----------------+-------------------------+-------------------------+
-| Movement:       | -- 20' (15') Burrow 20' (15') --              |
-+-----------------+---------------------------------------------------+
-| No. Appearing:  | -- 1d2, Wild 1d4 --                               |
-+-----------------+---------------------------------------------------+
-| Save As:        | -- Fighter: 6 to 10 (.5 of Hit Dice) --            |
-+-----------------+-------------------------+-------------------------+
-| Morale:         | 10                      | 10                      |
-+-----------------+-------------------------+-------------------------+
-| Treasure Type:  | None                    | None                    |
-+-----------------+-------------------------+-------------------------+
-| XP:             | 11 HD 1,670,            | 16 HD 3,385,            |
-|                 |                         |                         |
-|                 | 12 HD 1,975,            | 17 HD 3,745,            |
-|                 |                         |                         |
-|                 | 13 HD 2,285,            | 18 HD 4,160,            |
-|                 |                         |                         |
-|                 | 14 HD 2,615,            | 19 HD 4,675,            |
-|                 |                         |                         |
-|                 | 15 HD 2,975             | 20 HD 5,450             |
-+-----------------+-------------------------+-------------------------+
++-----------------+-----------------+--------------------+
+|                 | Normal          | Giant              |
++-----------------+-----------------+--------------------+
+| Armor Class:    | 11              | 13                 |
++-----------------+-----------------+--------------------+
+| Hit Dice:       | 1 Hit Point     | .5 (1d4 hit points) |
++-----------------+-----------------+--------------------+
+| No. of Attacks: | 1 bite per pack | 1 bite             |
++-----------------+-----------------+--------------------+
+| Damage:         | 1d6 + disease   | 1d4 + disease      |
++-----------------+-----------------+--------------------+
+| Movement:       | 20' Swim 10'  | 40' Swim 20'     |
++-----------------+-----------------+--------------------+
+| No. Appearing:  | 5d10,           | 3d6,               |
+|                 |                 |                    |
+|                 | Wild 5d10,      | Wild 3d10,         |
+|                 |                 |                    |
+|                 | Lair 5d10       | Lair 3d10          |
++-----------------+-----------------+--------------------+
+| Save As:        | Normal Man      | Fighter: 1         |
++-----------------+-----------------+--------------------+
+| Morale:         | 5               | 8                  |
++-----------------+-----------------+--------------------+
+| Treasure Type:  | None            | C                  |
++-----------------+-----------------+--------------------+
+| XP:             | 360\*           | 10                 |
++-----------------+-----------------+--------------------+
 
-Purple worms are gigantic subterranean monsters; they
-are rarely found above ground. Adult purple worms range from 5-9 feet in
-diameter and 50-100 feet long, with an average weight of about 40,000
-pounds.
+Rats are omnivorous pests found in all climates where humans live.
 
-The creature's tail ends in a narrow point tipped with a poisonous
-stinger; those injured by it must save vs. Poison or die. Note that the
-purple worm's movement is less than the monster's length, so that, if
-attacking from out of a tunnel, it might not be able to use the stinger
-for several rounds.
+Normal rats attack as a swarm; each point of damage done to the swarm
+reduces their numbers by one animal.
 
-Any time a purple worm successfully bites a man-sized or smaller
-opponent with a natural roll of 19 or 20, the opponent has been
-swallowed and will suffer 3d6 damage per round afterward due to being
-digested. A character who has been swallowed can only effectively attack
-with small cutting or stabbing weapons such as dagger or shortsword.
+Giant rats are scavengers, but will attack to defend their nests and
+territories. A giant rat can grow to be up to 4 feet long and weigh over
+50 pounds. A single giant rat, or a small group of up to four, will
+generally be shy, but larger packs attack fearlessly, biting and chewing
+with their sharp incisors.
+
+Any rat bite has a 5% chance of causing a disease. A
+character who suffers one or more rat bites where the die roll indicates
+disease will sicken in 3d6 hours. The infected character will lose one
+point of Constitution per hour; after losing each point, the character
+is allowed a save vs. Death Ray (adjusted by the current Constitution
+bonus or penalty) to break the fever and end the disease. Any character
+reduced to zero Constitution is dead. See **Constitution Point Losses**
+in the **Encounter** section for details on regaining lost Constitution.
+
+\* Note: The XP award for normal rats is for driving away or killing an
+entire pack of normal size. If the adventurers are forced to flee, the
+GM should award 3 XP per rat slain.

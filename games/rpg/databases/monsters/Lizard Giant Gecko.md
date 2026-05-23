@@ -1,19 +1,20 @@
-### Lizard, Giant Draco
+### Lizard, Giant Gecko
 
-  ----------------- -------------------------------------
+  ----------------- ----------------
 Armor Class:      15
-Hit Dice:         4+2
+Hit Dice:         3+1
 No. of Attacks:   1 bite
-Damage:           1d10
-Movement:         40' Fly 70' (20', and see below)
-No. Appearing:    1d4, Wild 1d8
-Save As:          Fighter: 3
+Damage:           1d8
+Movement:         40' (special)
+No. Appearing:    1d6, Wild 1d10
+Save As:          Fighter: 2
 Morale:           7
 Treasure Type:    None
-XP:               240
-  ----------------- -------------------------------------
+XP:               145
+  ----------------- ----------------
 
-Giant draco lizards are able to extend their ribs and connected skin to
-form a sort of wing, allowing them to glide for short distances (no more
-than three rounds, and ascending is impossible). An average giant draco
-lizard is 8' long, including its nearly 3' long tail.
+Giant gecko lizards range from 4' to 6' in length, and are generally
+green in color, though grey or white versions can be found underground.
+They can climb walls and even walk across ceilings at full movement rate
+due to their specialized toe pads. They are carnivores, typically
+attacking weaker prey from above.

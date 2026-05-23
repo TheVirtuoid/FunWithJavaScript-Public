@@ -1,29 +1,28 @@
-### Spectre
+### Spider, Giant Black Widow
 
-  ----------------- -----------------------------
-Armor Class:      17 (m)
-Hit Dice:         6\*\*
-No. of Attacks:   1 touch
-Damage:           Energy drain 2 levels/touch
-Movement:         Fly 100'
-No. Appearing:    1d4, Lair 1d8
-Save As:          Fighter: 6
-Morale:           11
-Treasure Type:    E
-XP:               610
-  ----------------- -----------------------------
+  ----------------- -------------------------
+Armor Class:      14
+Hit Dice:         3\*
+No. of Attacks:   1 bite
+Damage:           2d6 + poison
+Movement:         20' Web 40'
+No. Appearing:    1d3, Wild 1d3, Lair 1d3
+Save As:          Fighter: 3
+Morale:           8
+Treasure Type:    None
+XP:               175
+  ----------------- -------------------------
 
-Spectres are incorporeal **undead** monsters. On any successful hit
-against a living creature, a spectre drains two life energy levels in
-addition to doing normal damage. Any character slain by a spectre will
-arise at the next sunset (but not sooner than 6 hours after death) as a
-spectre under the control of its killer.
+The giant black widow spider is a much enlarged version of the ordinary
+black widow; a full-grown male has a leg-span of 2 feet, while an adult
+female will be 3' or more across. Despite the size difference, both
+genders are statistically equal. Both genders are marked with an orange
+\"hourglass\" on the abdomen.
 
-A spectre will normally resemble the living creature it used to be. Most
-spectres are formed from humanoid creatures, but some may have other
-forms and sizes; statistically, most such creatures will be as given
-above, but of course the GM may create special types.
-
-Like all **undead**, they may be Turned by Clerics and
-are immune to **sleep**, **charm**, ****and **hold** magics. Due to
-their incorporeal nature, they cannot be harmed by non-magical weapons.
+The venom of the giant black widow is strong, such that those bitten
+must save vs. Poison at a penalty of -2 or die. Giant black widow
+spiders spin strong, sticky, nearly invisible webs, usually across
+passageways or cave entrances, or sometimes between trees in the
+wilderness; those who stumble into these webs become stuck, and must
+roll to escape just as if opening a door. Any character stuck in such a
+web cannot effectively cast spells or use a weapon.

@@ -1,27 +1,20 @@
-### Centipede, Giant
+### Cheetah
 
-  ----------------- -------------------------
-Armor Class:      11
-Hit Dice:         .5\* (1d4 hit points)
-No. of Attacks:   1 bite
-Damage:           poison bite
-Movement:         40'
-No. Appearing:    2d4, Wild 2d4, Lair 2d4
-Save As:          Normal Man
-Morale:           7 (see below)
+  ----------------- --------------------
+Armor Class:      14
+Hit Dice:         2
+No. of Attacks:   2 claws, 1 bite
+Damage:           1d4 claw, 2d4 bite
+Movement:         100'
+No. Appearing:    Wild 1d3, Lair 1d3
+Save As:          Fighter: 2
+Morale:           7
 Treasure Type:    None
-XP:               13
-  ----------------- -------------------------
+XP:               75
+  ----------------- --------------------
 
-Giant centipedes are larger versions of the normal sort, being 2 to 3
-feet long. Centipedes are fast-moving, predatory, venomous arthropods,
-having long segmented bodies with exoskeletons. They prefer to live in
-underground areas, shadowy forested areas, and other places out of
-direct sunlight; however, there are desert-dwelling varieties that hide
-under the sand waiting for prey to wander by.
-
-These creatures are aggressive and always hungry,
-attacking any living creature and only checking morale if injured. Giant
-centipedes attack with a poisonous bite, and those bitten must save vs.
-Poison or die; however, the poison is somewhat weak and thus grants a
-bonus of +2 on the saving throw.
+A Cheetah is one of the fastest land animals; a large (about 100 pounds)
+cat capable of reaching up to 75 miles per hour when running. It hunts
+alone or in small groups (usually composed of siblings). It will rarely
+attack humans unless compelled to do so, but a female will ferociously
+defend her young.

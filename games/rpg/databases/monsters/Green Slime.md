@@ -1,3 +1,3 @@
-### Gray Ooze
+### Green Slime
 
-See **Jelly, Gray** on page .
+See **Jelly, Green** on page .

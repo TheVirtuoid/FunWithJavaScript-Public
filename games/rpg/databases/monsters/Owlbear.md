@@ -1,23 +1,27 @@
-### Owl
+### Owlbear
 
-  ----------------- ---------------------
+  ----------------- -----------------------------
 Armor Class:      15
-Hit Dice:         1
-No. of Attacks:   2 talons, 1 beak
-Damage:           1d4 talon, 1d4 beak
-Movement:         10' Fly 160' (10')
-No. Appearing:    1, Wild 1d4
-Save As:          Fighter: 1
-Morale:           8
-Treasure Type:    None
-XP:               25
-  ----------------- ---------------------
+Hit Dice:         5
+No. of Attacks:   2 claws, 1 bite + 1 hug
+Damage:           1d8 claw, 1d8 bite, 2d8 hug
+Movement:         40'
+No. Appearing:    1d4, Wild 1d4, Lair 1d4
+Save As:          Fighter: 5
+Morale:           9
+Treasure Type:    C
+XP:               360
+  ----------------- -----------------------------
 
-Owls are birds of prey with large eyes and the ability to fly without
-making a sound. They are nocturnal, and have superior Darkvision of
-120' range. An owl will stand about 6 to 18 inches tall with a wingspan
-of 20 inches. An owl's vision is very sharp and comparable to that of a
-falcon. It can also hear very well, even to the point that a rodent
-creeping through grass will draw attention. The owl will fly over a
-field and listen and watch for movement and then dive for a kill with
-its talons.
+Owlbear are among the most feared of the nocturnal forest dwelling
+monsters, and for good reason for they are always hungry and always
+aggressive. They appear to be bears with owlish faces, including a
+large, sharp beak. They fight much as do bears, and as with normal bears
+an owlbear must hit with both claws in order to do the listed \"hug\"
+damage.
+
+These monsters are known to hunt by day when particularly hungry, but
+they prefer to live nocturnally. They have superior Darkvision with a
+range of 120 feet, without the usual penalties for being in full
+sunlight. They are also very quiet, surprising on 1-4 on 1d6 in their
+native territory.

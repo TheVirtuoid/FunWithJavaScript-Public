@@ -1,25 +1,35 @@
-### Whale, Sperm
+### Wight
 
-  ----------------- -----------------------------
-Armor Class:      22
-Hit Dice:         36\* (+16)
-No. of Attacks:   1 bite or 1 sound blast
-Damage:           3d20 bite, stun sound blast
-Movement:         Swim 60' (20')
-No. Appearing:    Wild 1d3
-Save As:          Fighter: 8
-Morale:           7
-Treasure Type:    None
-XP:               17,850
-  ----------------- -----------------------------
+  ----------------- -------------------------
+Armor Class:      15 (s)
+Hit Dice:         3\*
+No. of Attacks:   1 touch
+Damage:           Energy drain (1 level)
+Movement:         30'
+No. Appearing:    1d6, Wild 1d8, Lair 1d8
+Save As:          Fighter: 3
+Morale:           12
+Treasure Type:    B
+XP:               175
+  ----------------- -------------------------
 
-Sperm whales are huge creatures, with males averaging 52 feet long at
-adulthood while females typically reach a length of around 36 feet. They
-are predators, hunting primarily giant squid. Sperm whales can emit an
-invisible focused beam of sound 5' wide up to a 50' range underwater.
-This blast of sound disorients target creatures, leaving them
-effectively stunned for 1d4 rounds. A stunned character can neither move
-nor take action for the indicated duration. No attack roll is required,
-but a save vs. Death Ray is allowed to resist. A sperm whale can emit as
-many such blasts of sound as it desires, once per round, instead of
-biting.
+Wights are **undead** monsters who have been twisted and deformed by
+their transformation. Their eyes are entirely black, and their bodies
+radiate a coldness that living creatures can feel from several feet
+away.
+
+If a wight touches or is touched by a living creature, that creature
+suffers one level of **energy drain** (as described in the **Encounter**
+section). No saving throw is allowed. Striking a wight with a weapon
+does not count as \"touching\" it, but punching or kicking one does.
+
+Any humanoid slain by a wight becomes a wight by the next sunset (but
+not less than 12 hours later). They are slaves to the wight who created
+them until and unless that wight is destroyed. Wights remember almost
+nothing from their previous life, though a few very close friends or
+loved ones might be recalled (and hated, and possibly hunted by the
+monster).
+
+Like all undead, wights may be Turned by Clerics and are immune to
+**sleep**, **charm**, ****and **hold** magics. Wights are harmed only by
+silver or magical weapons, and take only half damage from burning oil.

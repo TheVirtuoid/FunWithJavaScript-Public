@@ -1,50 +1,35 @@
-### Squid, Giant
+### Stirge
 
-+-----------------+---------------+---------------+
-|                 | Male          | Female        |
-+-----------------+---------------+---------------+
-| Armor Class:    | 16            | 17            |
-+-----------------+---------------+---------------+
-| Hit Dice:       | 6             | 7             |
-+-----------------+---------------+---------------+
-| No. of Attacks: | -- 8 tentacles, 1 bite --     |
-+-----------------+---------------+---------------+
-| Damage:         | 1d4 tentacle, | 1d4 tentacle, |
-|                 |               |               |
-|                 | 1d10 bite     | 1d12 bite     |
-+-----------------+---------------+---------------+
-| Movement:       | -- Swim 40' --               |
-+-----------------+-------------------------------+
-| No. Appearing:  | -- Wild 1d4 (see below) --    |
-+-----------------+---------------+---------------+
-| Save As:        | Fighter: 6    | Fighter: 7    |
-+-----------------+---------------+---------------+
-| Morale:         | 8             | 8             |
-+-----------------+---------------+---------------+
-| Treasure Type:  | None          | None          |
-+-----------------+---------------+---------------+
-| XP:             | 500           | 670           |
-+-----------------+---------------+---------------+
+  ----------------- ---------------------------------
+Armor Class:      13
+Hit Dice:         1\*
+No. of Attacks:   1 bite
+Damage:           1d4 bite, 1d4/round blood drain
+Movement:         10' Fly 60'
+No. Appearing:    1d10, Wild 3d12, Lair 3d12
+Save As:          Fighter: 1
+Morale:           9
+Treasure Type:    D
+XP:               37
+  ----------------- ---------------------------------
 
-The giant squid dwells in the deep ocean. One can grow
-to a tremendous size, to a maximum of around 40 feet for females and 33
-feet for males. The mantle of the giant squid is about 6.5 feet long
-(more for females, less for males). Their tentacles are studded with
-barbs and sharp-edged suckers.
+Stirges are weird winged creatures that some say may
+have invaded from some other plane of existence. They are relatively
+small, just about 1 foot long with a wingspan of about 2 feet and an
+average weight of 1 pound. They vaguely resemble hairless bats with a
+rubbery tubular proboscis and no back legs (so that their body simply
+comes to a blunt point at the rear).
 
-Members of any group of these creatures encountered are equally likely
-to be male or female. The GM may roll for this or may assign them as
-they see fit.
+If a stirge hits a living creature, it grabs on with hooked claws on its
+wing joints and quickly embeds its proboscis in the victim's body. The
+proboscis has rows of tiny serrated teeth on the inside, and literally
+turns itself inside out as it carves a way into the victim's body. This
+causes 1d4 points of damage, and the stirge then proceeds to suck the
+victim's blood, inflicting an additional 1d4 points of damage each
+round.
 
-In order to bite a creature, the giant squid must hit with at least two
-tentacles first. Further, any time a giant squid hits with at least one
-tentacle per each 75 pounds of weight of its prey, it has grabbed it;
-unless the victim can find a way to resist (using whatever method the
-player might think of and whatever rolls the GM may choose), they will
-be pulled into the water and thus be in danger of drowning. Don't
-forget to account for the weight of armor worn!
-
-If a giant squid fails a morale check, it will squirt out a cloud of
-black \"ink\" 30' in diameter and then jet away at twice normal speed
-for 3d8 rounds. If a group fails a morale check they will move away in
-random directions in hopes that at least one will escape any pursuit.
+Once attached, the creature can only be removed by killing it. The
+victim cannot use weapons larger than a dagger or hand axe to attack the
+creature, and cannot attack it at all if attacked from behind. Others
+may attack the creature with a bonus of +2 on the die roll, but any
+attack that misses hits the victim instead.

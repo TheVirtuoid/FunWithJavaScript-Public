@@ -1,50 +1,27 @@
-### Cave Locust, Giant
+### Centaur
 
-  ----------------- ------------------------------------
-Armor Class:      16
-Hit Dice:         2\*\*
-No. of Attacks:   1 bite or 1 bump or 1 spit
-Damage:           1d2 bite, 1d4\* bump, special spit
-Movement:         20' Fly 60' (15')
-No. Appearing:    2d10, Wild 1d10
-Save As:          Fighter: 2
-Morale:           5
-Treasure Type:    None
-XP:               125
-  ----------------- ------------------------------------
+  ----------------- ----------------------------
+Armor Class:      15 (13)
+Hit Dice:         4
+No. of Attacks:   2 hooves, 1 weapon
+Damage:           1d6 hoof, 1d6 or by weapon
+Movement:         50' Unarmored 60' (10')
+No. Appearing:    Wild 2d10
+Save As:          Fighter: 4
+Morale:           8
+Treasure Type:    A
+XP:               240
+  ----------------- ----------------------------
 
-Giant cave locusts are pale, cricket-like creatures that live
-underground. An average giant cave locust is 2 to 4 feet long. They are
-eyeless, depending on their sound-sensitive antennae,
-vibration-sensitive feet and a variety of touch-sensitive \"hairs\" on
-their legs to sense the environment around them.
+Centaurs appear to be half man, half horse, having the torso, arms and
+head of a man in the position a horse's head would otherwise occupy.
+The horse part of a centaur is as large and powerful as a warhorse;
+males average 7 feet in height and weigh about a ton (2,000 pounds),
+while females are just a bit shorter and very close to the same weight.
+Centaurs may charge with a spear or lance just as a man on horseback,
+with the same bonuses. They typically wear leather armor when prepared
+for combat.
 
-These creatures eat subterranean fungus (including shriekers) as well as
-carrion; they are not predators, but if disturbed they will attack,
-shrieking loudly, biting, jumping wildly around, or spitting nasty goo.
-
-All giant cave locusts in a group will shriek when disturbed, attracting
-wandering monsters. The GM should roll a wandering monster check each
-round that one or more cave locusts are attacking; if wandering monsters
-are indicated, they will arrive in 1d4 rounds.
-
-Any giant cave locust that is engaged (adjacent to an opponent) will
-attempt to bite, doing 1d2 damage on a successful hit. This does not
-interrupt the monster's shrieking.
-
-A giant cave locust can leap up to 60' horizontally, or up to 30' up.
-If one of these creatures is not engaged at the beginning of the round,
-it will leap toward one of the opponent creatures; roll a normal attack
-roll, and if the attack hits, the target creature takes 1d4 points of
-non-lethal damage from the impact.
-
-Finally, a giant cave locust can spray a greenish-brown goo (its
-digestive juices) up to 10' away. Each giant cave locust can perform
-this attack just once per encounter. This spit attack will usually be
-reserved until they fail a morale check, in which case all remaining
-giant cave locusts will spit at their nearest opponent, and then all
-will attempt to flee in the next round. To spit on an opponent, the
-giant cave locust rolls an attack against Armor Class 11 (plus Dexterity
-and magical bonuses, but no normal armor value applies). If the attack
-hits, the target must save vs. Poison or be unable to do anything for
-3d6 rounds due to the horrible smell.
+Centaurs are generally haughty and aloof, but very
+honorable. Most would rather die than allow any sort of humanoid to ride
+on their backs.

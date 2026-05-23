@@ -1,61 +1,81 @@
-### Ghost
+### Ghoul (and Ghast)
 
-  ----------------- -----------------------------------
-Armor Class:      20 (m)
-Hit Dice:         10\* (+9)
-No. of Attacks:   1 touch or possession + fear
-Damage:           1d8 + special touch and see below
-Movement:         30'
-No. Appearing:    1
-Save As:          Fighter: 10
-Morale:           10
-Treasure Type:    E, N, O
-XP:               1,390
-  ----------------- -----------------------------------
++-----------------+-------------------------+-------------------------+
+|                 | Ghoul                   | Ghast                   |
++-----------------+-------------------------+-------------------------+
+| Armor Class:    | 14                      | 15                      |
++-----------------+-------------------------+-------------------------+
+| Hit Dice:       | 2\*                     | 2\*\*                   |
++-----------------+-------------------------+-------------------------+
+| No. of Attacks: | -- 2 claws, 1 bite --                             |
++-----------------+-------------------------+-------------------------+
+| Damage:         | 1d4 claw, 1d4 bite, all | 1d4 claw, 1d4 bite, +   |
+|                 | plus paralysis          | paralysis + stench      |
++-----------------+-------------------------+-------------------------+
+| Movement:       | 30'                    | 30'                    |
++-----------------+-------------------------+-------------------------+
+| No. Appearing:  | 1d6, Wild 2d8, Lair 2d8 | 1d4, Wild 1d8, Lair 1d8 |
++-----------------+-------------------------+-------------------------+
+| Save As:        | Fighter: 2              | Fighter: 2              |
++-----------------+-------------------------+-------------------------+
+| Morale:         | 9                       | 9                       |
++-----------------+-------------------------+-------------------------+
+| Treasure Type:  | B                       | B                       |
++-----------------+-------------------------+-------------------------+
+| XP:             | 100                     | 125                     |
++-----------------+-------------------------+-------------------------+
 
-A ghost is the soul or spirit of a deceased sentient creature that has
-for some reason remained on the material plane. They usually appear as
-they did in life, but sometimes the appearance of a ghost is altered by
-its original personality; for instance, the ghost of an angry person
-might have a threatening or even demonic visage. Ghosts are **undead**,
-and as such are immune to **sleep**, **charm**, and **hold** magic.
+**Ghouls** are **undead** monsters which eat the flesh
+of dead humanoids to survive. They are vile, disgusting carrion-eaters,
+but are more than willing to kill for food. Those slain by ghouls will
+generally be stored until they begin to rot before the ghouls will
+actually eat them.
 
-Seeing a ghost is so terrible that any living creature who does so must
-save vs. Spells or flee for 2d6 rounds. Anyone who successfully makes
-this save may not be so affected by that ghost again.
+Living creatures hit by a ghoul's bite or claw attack must save vs.
+Paralysis or be paralyzed for 2d8 turns. Elves are immune to this
+paralysis. Ghouls try to attack with surprise whenever possible,
+striking from behind tombstones or bursting from shallow graves; when
+they attack in this way, they are able to surprise opponents on 1-3 on
+1d6. Like all undead, they may be Turned by Clerics and are immune to
+**sleep**, **charm**, and **hold** magics.
 
-A ghost that hits a living target with its touch attack does 1d8 points
-of damage, and at the same time regenerates the same number of hit
-points. In addition, the victim loses 1 Constitution point. Elves and
-dwarves (and other long-lived creatures such as dragons) are allowed a
-saving throw vs. Death Ray to resist this effect, which must be rolled
-on each hit. Characters who lose Constitution appear to have aged. If a
-ghost is fighting a living creature which does not have a Constitution
-score, the GM should assign whatever score they see fit.
+Humanoids bitten by ghouls may be infected with ghoul fever. Each time a
+humanoid is bitten, there is a 5% chance of the infection being passed.
+The afflicted humanoid is allowed to save vs. Death Ray; if the save is
+failed, the humanoid dies within a day.
 
-Like most incorporeal creatures, ghosts may normally be hit only by
-magical weapons. However, if a ghost makes use of its touch attack, it
-becomes vulnerable to non-magical weapons until the beginning of the
-next round of combat.
+An afflicted humanoid who dies of ghoul fever rises as a ghoul at the
+next midnight. A humanoid who becomes a ghoul in this way retains none
+of the knowledge or abilities they possessed in life. The newly-risen
+ghoul is not under the control of any other ghouls, but hungers for the
+flesh of the dead and behaves like any other ghoul in all respects.
 
-Lost Constitution can be regained at a rate of one point per casting of
-**restoration**; nothing else (except a **wish**) can restore
-Constitution lost to a ghost. If a character's Constitution falls to 0,
-they die permanently and cannot be **raised** (but still may be
-**reincarnated**).
+**Ghasts** look and fight almost exactly like ghouls, but they are
+smarter and just a bit more powerful. Refer to the previous paragraphs
+for information about their claw attacks and other abilities.
 
-Once per turn, a ghost can use **telekinesis** (as the spell) as if it
-were a 10^th^ level Magic-User.
+The stink of death and corruption surrounding these creatures is
+overwhelming. Living creatures within 10 feet must succeed on a save vs.
+Poison or be sickened for 2d6 rounds (-2 to attack rolls). A creature
+that successfully saves cannot be affected again by the same ghast's
+stench for 24 hours. A **neutralize poison** spell removes the effect
+from a sickened creature.
 
-Instead of attacking, a ghost may attempt to possess a
-living creature. This ability is similar to a **magic jar** spell (as if
-cast by a 10th level Magic-User), except that it does not require a
-receptacle. To use this ability, the ghost must be able to move into the
-target (so it is possible to avoid this attack by outrunning the ghost).
-The target can resist the attack with a successful save vs. Spells. A
-creature that successfully saves is immune to being possessed by that
-ghost for 24 hours. If the save fails, the ghost enters the target's
-body and controls it; control may be maintained until the ghost chooses
-to leave the victim's body, or until it is driven out by means of a
-**remove curse** or **dispel evil** spell. While it is possessing a
-living creature, a ghost may not use any of its special abilities.
+They may be Turned by Clerics using the same column as the ghoul, but as
+they are superior to ghouls, in a mixed group of ghasts and ghouls the
+GM should apply Turning effects to the ordinary ghouls first.
+
+Humanoids bitten by ghasts may be infected with ghast fever. Each time a
+humanoid is bitten, there is a 10% chance of the infection being passed.
+The afflicted humanoid is allowed to save vs. Death Ray; if the save is
+failed, the humanoid dies within a day.
+
+An afflicted humanoid who dies of ghast fever rises as a ghast at the
+next midnight, in a similar fashion to the ghoul. However, a humanoid
+who becomes a ghast in this way retains all of the knowledge and
+abilities they possessed in life, unless those abilities are directly
+incompatible with the creature's new form (as decided by the GM). For
+such ghasts, the GM should also adjust XP values to include any such
+abilities. The newly-risen ghast is not under the control of any other
+ghasts, but hungers for the flesh of the living and behaves like any
+other ghast in all respects.

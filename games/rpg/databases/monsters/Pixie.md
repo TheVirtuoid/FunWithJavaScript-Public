@@ -1,25 +1,32 @@
-### Pegasus
+### Pixie
 
-  ----------------- ------------------------------
-Armor Class:      15
-Hit Dice:         4
-No. of Attacks:   2 hooves
-Damage:           1d6 hoof
-Movement:         80' (10') Fly 160' (10')
-No. Appearing:    Wild 1d12
-Save As:          Fighter: 2
-Morale:           8
-Treasure Type:    None
-XP:               240
-  ----------------- ------------------------------
+  ----------------- -------------------------------
+Armor Class:      17
+Hit Dice:         1\*
+No. of Attacks:   1 dagger
+Damage:           1d4
+Movement:         30' Fly 60'
+No. Appearing:    2d4, Wild 10d4, Lair 10d4
+Save As:          Fighter: 1 (with Elf bonuses)
+Morale:           7
+Treasure Type:    R, S
+XP:               37
+  ----------------- -------------------------------
 
-The pegasus is the winged horse of legend. They are
-prized as aerial steeds as they are the swiftest of fliers, but they are
-shy creatures who live in the highest mountains, making them rare indeed
-in captivity.
+Pixies are winged fairies often found in forested areas. Like sprites,
+pixies love beauty. They dress in bright colors and favor clothing with
+flourishes like feathered caps, curly-tipped shoes, scarves, and so on.
+They are quite small, just 2.5 feet in height and weighing no more than
+30 pounds. Pixies can only fly for 3 turns maximum before requiring rest
+of at least one turn, during which time the pixie may walk at normal
+speed but may not fly.
 
-An average female pegasus stands 5 feet high at the shoulder, weighs
-1,200 pounds, and has a wingspan of 20 feet; males are somewhat larger,
-averaging 6 feet in height and weighing 1,400 pounds, with a wingspan of
-22 feet. A light load for a pegasus is up to 400 pounds; a heavy load,
-up to 900 pounds.
+A pixie can become **invisible** at will, as many
+times per day as it wishes, and can attack while remaining invisible.
+Anyone attacking an invisible pixie does so with an attack penalty of -4
+unless the attacker can somehow detect invisible creatures. Pixies may
+ambush their foes while invisible; if they do so, they surprise on 1-5
+on 1d6.
+
+Pixies are whimsical, enjoying nothing so much as a good joke or prank,
+especially at the expense of a \"big person.\"

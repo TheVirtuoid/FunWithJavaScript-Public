@@ -1,27 +1,22 @@
-### Lizard, Giant Horned Chameleon
+### Lizard, Giant Tuatara
 
-  ----------------- -------------------------
-Armor Class:      18
-Hit Dice:         5
-No. of Attacks:   1 tongue or 1 bite
-Damage:           tongue grab or 2d6 bite
+  ----------------- --------------------
+Armor Class:      16
+Hit Dice:         6
+No. of Attacks:   2 claws, 1 bite
+Damage:           1d4 claw, 2d6 bite
 Movement:         40' (10')
-No. Appearing:    1d3, Wild 1d6
-Save As:          Fighter: 4
-Morale:           7
+No. Appearing:    1d2, Wild 1d4
+Save As:          Fighter: 5
+Morale:           6
 Treasure Type:    None
-XP:               360
-  ----------------- -------------------------
+XP:               500
+  ----------------- --------------------
 
-Giant horned chameleons average 8' to 10' in length. They are
-typically green, but can change color to blend into their surroundings,
-allowing them to surprise prey on 1-4 on 1d6. Giant horned chameleon
-have very long tongues, able to spring out up to 20' forward; the
-sticky muscular ball on the end grabs on to the chameleon's prey, and
-the chameleon then drags the prey to its mouth, doing bite damage
-automatically on the following round (and all subsequent rounds, until
-the chameleon is killed or fails a morale check, or until the prey is
-dead).
-
-The horns of the giant horned chameleon are used only in mating rituals,
-not in combat.
+Giant tuataras are large, being 10 to 12 feet long, and heavily built.
+They are predators with a powerful shearing bite. Giant tuataras are
+more resistant to cold than most lizards, and are thus sometimes found
+hunting deep underground. They are also known to hibernate in cold
+weather. Sages argue as to whether or not they are actually members of
+the lizard family, but the giant tuatara does not care about such
+things.

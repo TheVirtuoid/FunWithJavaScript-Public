@@ -1,19 +1,19 @@
-### Fish, Giant Piranha
+### Fly, Giant
 
-  ----------------- ------------
-Armor Class:      15
-Hit Dice:         4
+  ----------------- ---------------
+Armor Class:      14
+Hit Dice:         2
 No. of Attacks:   1 bite
 Damage:           1d8
-Movement:         Swim 50'
-No. Appearing:    Wild 2d4
-Save As:          Fighter: 4
-Morale:           7 (11)
+Movement:         30' Fly 60'
+No. Appearing:    1d6, Wild 2d6
+Save As:          Fighter: 2
+Morale:           8
 Treasure Type:    None
-XP:               240
-  ----------------- ------------
+XP:               75
+  ----------------- ---------------
 
-Giant piranha average 5' in length at adulthood, and
-are aggressive carnivores. They are able to sense blood in the water
-just as sharks do, and once they smell or taste blood in the water,
-their morale rises to the parenthesized figure.
+Giant flies look much like ordinary houseflies, but
+are about 3' long. Some are banded yellow and black, and are thus
+mistaken for giant bees. Giant flies are predators; after killing prey,
+they will sometimes lay eggs in the remains.

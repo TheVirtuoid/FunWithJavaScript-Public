@@ -1,25 +1,22 @@
-### Leech, Giant
+### Leopard (Panther)
 
-  ----------------- ---------------------------
-Armor Class:      17
-Hit Dice:         6
-No. of Attacks:   1 bite + hold
-Damage:           1d6 bite + 1d6/round hold
-Movement:         30'
-No. Appearing:    Wild 1d4
-Save As:          Fighter: 6
-Morale:           10
+  ----------------- --------------------
+Armor Class:      16
+Hit Dice:         4
+No. of Attacks:   2 claws, 1 bite
+Damage:           1d4 claw, 2d4 bite
+Movement:         60' (10')
+No. Appearing:    1, Wild 1d4
+Save As:          Fighter: 4
+Morale:           8
 Treasure Type:    None
-XP:               500
-  ----------------- ---------------------------
+XP:               240
+  ----------------- --------------------
 
-Giant leeches are slimy, segmented wormlike creatures
-which live in water. Salt or fresh, clean or stagnant, there are giant
-leech varieties for all wet environments. However, only a true leech
-expert can tell the various types apart. An average giant leech will be
-4 to 6 feet long.
-
-Once a giant leech hits in combat, it attaches to the victim and sucks
-blood, causing an additional 1d6 points of damage each round until the
-victim or the leech is dead. There is no way to remove the leech other
-than to kill it.
+Leopards are large cats that are 7 to 8 feet long including tail, and
+weigh about 175 lb. These cats have four black spots that form a large
+circle (rosette). The center of the circle and around the rosette spots
+range from yellow tan to white on the underside. An all-black leopard is
+called a **panther**. The tail has a white tip. They don't like to swim
+as much as jaguars, preferring instead to climb trees. A leopard will
+drag prey into a tree.

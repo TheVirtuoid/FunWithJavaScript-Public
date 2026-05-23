@@ -1,38 +1,33 @@
-### Hellhound
+### Hippogriff
 
-  ----------------- -------------------------------------------------------
-Armor Class:      14 to 18
-Hit Dice:         3\*\* to 7\*\*
-No. of Attacks:   1 bite or 1 breath
-Damage:           1d6 bite, 1d6 per Hit Die breath
-Movement:         40'
-No. Appearing:    2d4, Wild 2d4, Lair 2d4
-Save As:          Fighter: 3 to 7 (same as Hit Dice)
-Morale:           9
-Treasure Type:    C
-XP:               3 HD 205, 4 HD 320, 5 HD 450, 6 HD 610, 7 HD 800
-  ----------------- -------------------------------------------------------
+  ----------------- ------------------------------
+Armor Class:      15
+Hit Dice:         3
+No. of Attacks:   2 claws, 1 bite
+Damage:           1d6 claw, 1d10 bite
+Movement:         60' (10') Fly 120' (10')
+No. Appearing:    Wild 2d8
+Save As:          Fighter: 3
+Morale:           8
+Treasure Type:    None
+XP:               145
+  ----------------- ------------------------------
 
-Hellhounds are large canine creatures sheathed in hellish flame; they
-range in size from 3 to 5 feet at the shoulder (3 feet for a 3 hit die
-monster, plus .5 foot for each additional hit die) with a weight ranging
-from 100 to 200 pounds (100 pounds at 3 hit dice plus 25 pounds per
-additional hit die). These monsters are native to another plane where
-they hunt in packs; sometimes powerful wizards or evil priests summon
-them for use as watchdogs. In addition to biting, each hellhound may
-breathe fire a number of times per day equal to its hit dice. In combat,
-one-third of the time (1-2 on 1d6) a hellhound will choose to breathe
-fire; otherwise it will attempt to bite. Roll each round to determine
-which attack form will be used.
+Hippogriffs resemble large flying horses with the forefront of a bird of
+prey; they have wingspans of around 20 feet and an overall body length
+up to 9 feet, and weigh 900 to 1,200 pounds. They are found in a variety
+of colors and patterns, including white, black, tan, brown, and reddish
+brown with markings such as blazes, stripes, stars, \"bald\" faces, and
+so on.
 
-A hellhound's breath weapon is a cone of flame 10'
-wide at the far end which is 10' long for those with 3 or 4 hit dice,
-20' long for those with 5 or 6 hit dice, and 30' long for the largest
-hellhounds. This breath weapon does 1d6 points of damage per each hit
-die of the hellhound to all within the area of effect; a successful
-saving throw vs. Dragon Breath reduces damage to half normal.
+A hippogriff avoids the territories and civilizations of other
+creatures, dwelling in extreme altitudes. **Griffons** sometimes prey
+upon them, and hippogriffs will generally attack griffons on sight if
+they have a numerical advantage.
 
-Note that hellhounds vary with regard to the number of hit dice each
-has. If generating a group randomly, roll 1d6+1 for the hit dice of
-each, reading a total of 2 as 3. A hellhound has an Armor Class equal to
-11 plus its hit dice.
+Hippogriffs are omnivorous, entering combat only as defense, save for
+those times a griffon is met. They are prized as flying mounts since,
+unlike griffons, they are relatively safe around horses; note that it is
+still necessary to raise one in captivity in order to use it as a mount.
+A light load for a hippogriff is up to 400 pounds; a heavy load, up to
+900 pounds.

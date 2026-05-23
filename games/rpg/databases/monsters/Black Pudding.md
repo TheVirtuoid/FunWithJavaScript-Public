@@ -1,3 +1,3 @@
-### Bison
+### Black Pudding
 
-See **Cattle (including Aurochs and Bison)** on page .
+See **Jelly, Black** on page .

@@ -1,27 +1,27 @@
-### Centaur
+### Centipede, Giant
 
-  ----------------- ----------------------------
-Armor Class:      15 (13)
-Hit Dice:         4
-No. of Attacks:   2 hooves, 1 weapon
-Damage:           1d6 hoof, 1d6 or by weapon
-Movement:         50' Unarmored 60' (10')
-No. Appearing:    Wild 2d10
-Save As:          Fighter: 4
-Morale:           8
-Treasure Type:    A
-XP:               240
-  ----------------- ----------------------------
+  ----------------- -------------------------
+Armor Class:      11
+Hit Dice:         .5\* (1d4 hit points)
+No. of Attacks:   1 bite
+Damage:           poison bite
+Movement:         40'
+No. Appearing:    2d4, Wild 2d4, Lair 2d4
+Save As:          Normal Man
+Morale:           7 (see below)
+Treasure Type:    None
+XP:               13
+  ----------------- -------------------------
 
-Centaurs appear to be half man, half horse, having the torso, arms and
-head of a man in the position a horse's head would otherwise occupy.
-The horse part of a centaur is as large and powerful as a warhorse;
-males average 7 feet in height and weigh about a ton (2,000 pounds),
-while females are just a bit shorter and very close to the same weight.
-Centaurs may charge with a spear or lance just as a man on horseback,
-with the same bonuses. They typically wear leather armor when prepared
-for combat.
+Giant centipedes are larger versions of the normal sort, being 2 to 3
+feet long. Centipedes are fast-moving, predatory, venomous arthropods,
+having long segmented bodies with exoskeletons. They prefer to live in
+underground areas, shadowy forested areas, and other places out of
+direct sunlight; however, there are desert-dwelling varieties that hide
+under the sand waiting for prey to wander by.
 
-Centaurs are generally haughty and aloof, but very
-honorable. Most would rather die than allow any sort of humanoid to ride
-on their backs.
+These creatures are aggressive and always hungry,
+attacking any living creature and only checking morale if injured. Giant
+centipedes attack with a poisonous bite, and those bitten must save vs.
+Poison or die; however, the poison is somewhat weak and thus grants a
+bonus of +2 on the saving throw.

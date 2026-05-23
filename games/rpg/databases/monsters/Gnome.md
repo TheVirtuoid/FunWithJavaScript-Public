@@ -1,36 +1,60 @@
-### Gnoll
+### Gnome
 
-  ----------------- -------------------------
-Armor Class:      15 (13)
-Hit Dice:         2
+  ----------------- ---------------------------------
+Armor Class:      15 (11)
+Hit Dice:         1
 No. of Attacks:   1 weapon
-Damage:           2d4 or by weapon +1
-Movement:         30' Unarmored 40'
-No. Appearing:    1d6, Wild 3d6, Lair 3d6
-Save As:          Fighter: 2
+Damage:           1d6 or by weapon
+Movement:         20' Unarmored 40'
+No. Appearing:    1d8, Wild 5d8, Lair 5d8
+Save As:          Fighter: 1 (with Dwarf bonuses)
 Morale:           8
-Treasure Type:    Q, S each; D, K in lair
-XP:               75
-  ----------------- -------------------------
+Treasure Type:    D
+XP:               25
+  ----------------- ---------------------------------
 
-Gnolls are large fur-covered humanoids, averaging 7.5 feet in height and
-weighing about 300 pounds. They are best recognized by their heads,
-which resemble those of hyenas (or perhaps wolves) but with shorter
-muzzles than either.
+Gnomes are humanoids distantly related to dwarves; they have a similar
+appearance, but are smaller (averaging 3 to 3.5 feet tall and weighing 40
+to 45 pounds) and less stocky. Their ears are pointed, not in as
+pronounced a fashion as elves but certainly noticeable, and their noses
+likewise are pointed a bit more than those of most other kinds of
+humanoids. Their preferred habitat is the forest, preferably in a hilly
+temperate region.
 
-Gnolls are nocturnal and have Darkvision with a 30'
-range. They are cruel carnivores, preferring intelligent creatures for
-food because they scream more. They show little discipline when fighting
-unless they have a strong leader.
+They have Darkvision with a 30' range. When attacked in melee by
+creatures larger than man-sized, gnomes gain a +1 bonus to their Armor
+Class. Outdoors in their preferred forest terrain they are able to hide
+very effectively; so long as they remain still there is only a 20%
+chance they will be detected. If one or more gnomes who are successfully
+hiding attack from ambush, they surprise their foes on 1-4 on 1d6.
 
-One out of every six gnolls will be a hardened warrior of 4 Hit Dice
-(240 XP) having a +1 bonus to damage due to strength. Gnolls gain a +1
-bonus to their morale if they are led by such a warrior. In lairs of 12
-or greater, there will be a pack leader of 6 Hit Dice (500 XP) having a
-+2 bonus to damage. In the lair, gnolls never fail a morale check as
-long as the pack leader is alive. In addition, a lair has a chance equal
-to 1-2 on 1d6 of a shaman being present, and 1 on 1d6 of a witch or
-warlock. A shaman is equivalent to a hardened warrior statistically, and
-in addition has Clerical abilities at level 1d4+1. A witch or warlock is
-equivalent to a regular gnoll, and has Magic-User abilities of level
-1d4.
+Gnomes have their own language, and many also know the language of the
+dwarves. Some gnomes make their living as traders, often acting as
+go-betweens for dwarves and humans, and those gnomes naturally tend to
+learn Common. Those who are engaged in defending their forest
+settlements from humanoid incursions often choose to learn Goblin or
+Orc.
+
+Gnomes encountered in the wilderness (who are not traders or merchants)
+are likely to be unfriendly, but not hostile. They tolerate dwarves but
+dislike most other humanoid races. When forced to interact with other
+races, a gnome will generally be recalcitrant, unless offered a
+significant amount of treasure.
+
+The statistics given above are for warriors. In a
+settlement or lair, for every warrior there will be an average of three
+civilians having 1-1 Hit Dice and Armor Class 11; such gnomes have
+Morale of 7. One out of every eight gnome warriors will be a sergeant
+having 3 Hit Dice (145 XP). Gnomes gain a +1 bonus to their morale if
+they are led by a sergeant. Both warriors and sergeants commonly wear
+chainmail. In gnomish communities, one out of every sixteen warriors
+will be a captain of 5 Hit Dice (360 XP) with an Armor Class of 16 (11),
+adding a shield. In addition, in communities of 35 or greater, there
+will be a king of 7 Hit Dice (670 XP), with an Armor Class of 18 (11),
+in plate mail and carrying a shield, having a +1 bonus damage due to
+strength. In their community, gnomes never fail a morale check as long
+as the king is alive. There is a chance equal to 1-4 on 1d6 that a
+community will have a Cleric of level 1d6+1, and 1-2 on 1d6 of a
+Magic-User of level 1d6. Gnomish Clerics use 1d6 hit dice and
+Magic-Users use 1d4 hit dice, and in all other ways behave as if they
+were normal characters.

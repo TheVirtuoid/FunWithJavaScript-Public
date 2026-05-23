@@ -1,48 +1,54 @@
-### Goblin
+### Golem
 
-  ----------------- --------------------------
-Armor Class:      14 (11)
-Hit Dice:         1-1
-No. of Attacks:   1 weapon
-Damage:           1d6 or by weapon
-Movement:         20' Unarmored 30'
-No. Appearing:    2d4,Wild 6d10, Lair 6d10
-Save As:          Fighter: 1
-Morale:           7 or see below
-Treasure Type:    R each; C in lair
-XP:               10
-  ----------------- --------------------------
+Golems are a kind of construct, a creature created from non-living
+matter and animated by application of magic. The powers required to
+animate a golem are prodigious, and involve summoning, capturing, and
+binding an elemental spirit to the constructed body. This process also
+binds the golem to the will of its creator.
 
-Goblins are small, reputedly wicked humanoids. They
-are cunning and vicious, and very sneaky. Adult goblins are 3 to 3.5 feet
-tall and weigh 40 to 45 pounds, with very little difference between
-males and females. Their skin color ranges from gray to green, and their
-eyes are usually bright and crafty-looking, varying in color from red to
-yellow.
+They are mindless, and thus immune to magics affecting the mind such as
+**sleep**, **charm**, **hold**, and any form of **mind reading** or
+telepathy. They must be given explicit, detailed instructions verbally,
+and the controller must be within 60 feet of the golem to do so. If not
+actively being commanded, a golem will follow the last instructions
+given to it until the controller returns. If such a golem is attacked,
+it will fight in its own defense but will usually not pursue the
+attackers if they flee. The controller can order the golem to follow the
+commands of another, but can always resume control if desired (i.e. the
+controller's commands always take precedence).
 
-All goblins have Darkvision with a 30' range.
+Employing a golem in combat is tricky, for once one attacks an opponent
+there is a cumulative 1% chance each round (so 1% the first round, 2%
+the second, 3% the third, and so on) that the golem will stop following
+commands and become berserk. Once this happens the golem will attack any
+creature in range, choosing targets randomly when there are more than
+one. If all targets are killed or driven away the golem will move on,
+looking for more creatures to kill and breaking down any barrier that
+stands in its way if it is at all possible.
 
-The statistics given above are for a standard Goblin in leather armor
-with a shield; they have a natural Movement rate of 30' and a natural
-Armor Class of 11.
+The berserk chance for a golem that is still under control is reset to
+0% only when the golem is inactive, neither attacking nor being
+attacked, for one full round.
 
-Some goblins ride **dire wolves** into combat, and
-large groups of goblins will often employ them to track and attack their
-foes.
+The creator of the golem (but not any other person who might have been
+delegated control) may try to calm the golem, speaking firmly to it to
+convince it to stop. The creator needs to succeed at a saving throw vs.
+Spells to do this, after spending a round talking to the golem. If this
+roll fails the golem turns its attention to the creator and pursues them
+with single-minded hatred.
 
-One out of every eight goblins will be a warrior of 3-3 Hit Dice (145
-XP). Goblins gain a +1 bonus to their morale if they are led by a
-warrior. In a lair or other settlement, one out of every fifteen will be
-a chieftain of 5-5 Hit Dice (360 XP) in chainmail with an Armor Class of
-15 (11) and movement of 10' that gains a +1 bonus to damage due to
-strength. In lairs or settlements of 30 or more goblins, there will be a
-goblin king of 7-7 Hit Dice (670 XP), with an Armor Class of 16 (11),
-wearing chainmail and carrying a shield, with a movement of 10', and
-having a +1 bonus to damage. Goblins have a +2 bonus to morale while
-their king is present (this is not cumulative with the bonus given by a
-warrior leader).
+If a berserk golem is unable to attack anyone for 5 rounds it resumes
+its inactive state, and the controller can again give it commands. If it
+begins to pursue its creator, though, it will never stop no matter how
+long it takes, and must normally be trapped or destroyed to stop it. It
+has no special way to find the creator, however, and will become
+inactive if it loses sight of the creator for a minimum of 1 day. If the
+golem is successfully calmed, it can be given commands again on the very
+next round of combat.
 
-In addition, a lair has a chance equal to 1 on 1d6 of a shaman being
-present (or 1-2 on 1d6 if a goblin king is present). A shaman is
-equivalent to a regular goblin statistically, but has Clerical abilities
-at level 1d4+1.
+As their bodies are made of non-living matter, golems can only be hit by
+magical weapons. Conversely, they are less resistant to various effects
+due to the fact that they are not living creatures; in general, golems
+save as if they were Fighters of .5 their hit dice in levels. For
+example, a Bone Golem has 8 hit dice, but saves as a Fighter of 4^th^
+level.

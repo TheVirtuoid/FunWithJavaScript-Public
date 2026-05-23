@@ -1,32 +1,25 @@
-### Tentacle Worm
+### Tiger
 
-  ----------------- ---------------
-Armor Class:      13
-Hit Dice:         3\*
-No. of Attacks:   6 tentacles
-Damage:           paralysis
-Movement:         40'
-No. Appearing:    1d3, Lair 1d3
-Save As:          Fighter: 3
+  ----------------- --------------------
+Armor Class:      14
+Hit Dice:         6
+No. of Attacks:   2 claws, 1 bite
+Damage:           1d6 claw, 2d6 bite
+Movement:         50'
+No. Appearing:    Wild 1d3, Lair 1d3
+Save As:          Fighter: 6
 Morale:           9
-Treasure Type:    B
-XP:               175
-  ----------------- ---------------
+Treasure Type:    None
+XP:               500
+  ----------------- --------------------
 
-Tentacle worms appear to be giant worms of some sort, averaging 6 to 8
-feet long. Their heads are pasty white or grey, but their bodies vary
-from livid pink or purple to deep green in color. Their tentacles splay
-out from around the creature's \"neck.\" Some sages believe they are
-the larval form of some other monster, but this has never been proven.
+The tiger is among the largest great cat species, with male specimens
+averaging 10 feet in length (including about 2.5 feet of tail) and
+weighing over 400 pounds. Females are smaller, averaging about 8 feet
+long and an average of about 275 pounds. Tigers are most recognizable
+for their dark vertical stripes on orange fur with a white underside.
 
-A tentacle worm can attack as many as three adjacent opponents. Those
-hit must save vs. Paralysis or be paralyzed 2d4 turns. No matter how
-many of a tentacle worm's attacks hit an opponent in a given round,
-only one saving throw is required in each such round.
-
-If all opponents of a tentacle worm are paralyzed, it
-will begin to feed upon the victims, doing 1 point of damage every 1d8
-rounds until the victim is dead; if other paralyzed victims are still
-alive, the worm is 50% likely to move on immediately to another
-still-living victim. Otherwise, it continues to eat the corpse of the
-slain victim for 1d4 turns.
+Tigers are apex predators and prefer prey such as deer and wild boar.
+They are territorial and generally solitary but social predators,
+requiring large contiguous areas of habitat to support their
+requirements for prey.

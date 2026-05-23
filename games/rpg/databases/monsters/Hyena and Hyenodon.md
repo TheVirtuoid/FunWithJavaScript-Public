@@ -1,42 +1,30 @@
-### Hydra
+### Hyena (and Hyenodon)
 
-  ----------------- ------------------------------------------------------------------------------------------------
-Armor Class:      16 to 23
-Hit Dice:         5 to 12 (+10)
-No. of Attacks:   5 to 12 bites
-Damage:           1d10 per bite
-Movement:         40' (10')
-No. Appearing:    1, Wild 1, Lair 1
-Save As:          Fighter: 5 to 12
-Morale:           9
-Treasure Type:    B
-XP:               5 HD 360, 6 HD 500, 7 HD 670, 8 HD 875, 9 HD 1,075, 10 HD 1,300, 11 HD 1,575, 12 HD 1,875
-  ----------------- ------------------------------------------------------------------------------------------------
+// i removed the dashes for now, as there were three of them.
+                    Hyena        Hyenodon
+Armor Class:      13           13
+Hit Dice:         2+1          3+1
+No. of Attacks:   1 bite       1 bite
+Damage:           1d6 bite     1d8 bite
+Movement:         60'         40'
+No. Appearing:    1d8          1d6 Wild/Lair 1d8
+Save As:          Fighter: 2   Fighter: 3
+Morale:           8            8
+Treasure Type:    None         None
+XP:               75           145
 
-Hydras are reptilian creatures with multiple heads. They are
-bad-tempered and territorial, but not particularly cunning.
+Hyenas are doglike carnivores who exhibit some of the behaviors of
+canines but are not related. They not only hunt but also scavenge and
+steal meals. A hungry hyena will chew on anything that is even remotely
+tainted by blood, meat or other food traces. They will mostly be found
+in the same savanna-like environments where lions and zebras may be
+found. They can live in clans of up to a hundred individuals, though
+smaller groups are more common. They are among the favorite pets of
+gnolls, who may take them into regions where they are not normally
+found.
 
-The Armor Class and Hit Dice of a hydra are keyed to the number of
-heads; specifically, a hydra has a number of Hit Dice exactly equal to
-the number of heads, and an Armor Class equal to the number of heads
-plus 11. Note that these statistics do not change if an individual loses
-heads, as described below.
-
-A hydra may be slain by damage in the normal fashion; however, most who
-fight them choose to strike at their heads. If a character using a melee
-weapon chooses to strike at a particular head (i.e. states such intent
-to the GM) and succeeds in doing 8 points of damage, that head is
-disabled (severed or severely damaged) and will not be able to attack
-anymore. Such damage also applies to the monster's total hit points, of
-course.
-
-Some hydras live in the ocean; use the given movement as a swimming rate
-rather than walking in this case. A very few hydras can breathe fire;
-those that have this ability can emit a flame 10' wide and 20' long
-one time per head per day. This attack will be used about one time in
-three (1-2 on 1d6) if it is available; roll for each head which is
-attacking. Each such attack does 3d6 damage, with a save vs. Dragon
-Breath reducing the amount by half. Note that the XP value of a
-fire-breathing hydra should be higher; treat them as if they have a
-single asterisk (i.e. add the special ability bonus to the base XP for
-the monster).
+**Hyenodon** refers to ancient four-legged predators whose name means
+\"hyena tooth.\" While they are not technically hyenas, the statistics
+given may be used for the giant prehistoric hyena varieties as well;
+likewise, some varieties of hyenodon were smaller, and the statistics
+for standard hyenas may be used for them.

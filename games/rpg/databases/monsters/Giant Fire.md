@@ -1,24 +1,30 @@
-### Giant, Cyclops
+### Giant, Fire
 
   ----------------- ---------------------------------
-Armor Class:      15 (13)
-Hit Dice:         13\* (+10)
-No. of Attacks:   1 giant club or 1 rock (thrown)
-Damage:           3d10 giant club or 3d6 rock
-Movement:         20' Unarmored 30'
-No. Appearing:    1, Wild 1d4, Lair 1d4
-Save As:          Fighter: 13
+Armor Class:      17 (13)
+Hit Dice:         11+2\* (+9)
+No. of Attacks:   1 giant weapon or 1 thrown rock
+Damage:           5d6 giant weapon or 3d6 rock
+Movement:         20' Unarmored 40' (10')
+No. Appearing:    1d2, Wild 1d3, Lair 1d3
+Save As:          Fighter: 11
 Morale:           9
-Treasure Type:    E + 1d8x1,000 gp
-XP:               2,285
+Treasure Type:    E + 1d10x1,000 gp
+XP:               1,670
   ----------------- ---------------------------------
 
-A cyclops is a one-eyed giant. Huge and brutish, they most resemble hill
-giants, and even dress in the same \"style,\" layers of crudely prepared
-hides with the fur left on, unwashed and unrepaired. They are reclusive
-and unfriendly to almost all of the smaller races.
+Despite their great size, fire giants have a Dwarf-like appearance,
+being barrel-chested with thick arms and legs; average males stand 14
+feet tall and weigh around 3,200 pounds, while females average 13 feet
+tall and around 3,000 pounds. Their skin is ruddy, their hair is black,
+and their eyes are a very dark red that is almost black (and looks that
+color in poor lighting).
 
-A cyclops can throw a large rock up to 200' for 3d6
-points of damage, but they aim poorly and thus suffer an attack penalty
-of -2. Once per year, a cyclops can cast the spell **bestow curse** (the
-reverse of the spell **remove curse**).
+Fire giants are unfriendly to almost all other humanoid races, though
+they sometimes subjugate those living nearby to act as their servants.
+
+In combat they favor heavy plate steel armor (the
+first AC given above) made of steel blackened by quenching in oil. They
+arm themselves with massive weapons made of the same material. A fire
+giant can throw large stones up to 200' for 3d6 points of damage. Fire
+giants are immune to all fire-based attacks.

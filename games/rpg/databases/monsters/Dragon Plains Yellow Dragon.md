@@ -1,71 +1,66 @@
-### Dragon, Mountain (Red Dragon)
+### Dragon, Plains (Yellow Dragon)
 
-  ----------------- ----------------------------------------
-Armor Class:      21
-Hit Dice:         10\*\* (+9)
+  ----------------- ------------------------------------
+Armor Class:      16
+Hit Dice:         5\*\*
 No. of Attacks:   2 claws, 1 bite or breath, 1 tail
-Damage:           1d8 claw, 4d8 bite or breath, 1d8 tail
-Movement:         30' Fly 80' (20')
-No. Appearing:    1, Wild 1, Lair 1d4
-Save As:          Fighter: 10 (as Hit Dice)
+Damage:           1d6 claw, 2d10 or breath, 1d8 tail
+Movement:         50' Fly 80' (10')
+No. Appearing:    1, Wild 1, Lair 1d6
+Save As:          Fighter: 5 (as Hit Dice)
 Morale:           8
 Treasure Type:    H
-XP:               1,480
-  ----------------- ----------------------------------------
+XP:               450
+  ----------------- ------------------------------------
 
-Mountain dragons are red in color, ranging from the brilliant blood red
-of a hatchling to the dull terracotta color of an ancient individual.
-These dragons are powerfully built, with heavy-jawed heads and thick
-muscular bodies, yet their necks are still long enough to give them the
-legendary flexibility of a true dragon.
+Plains dragons are the smallest of the true dragons. They have yellow
+skin dappled with light green patches, spots, or sometimes thin stripes.
+The color dulls and darkens with age until it reaches an almost uniform
+tan color at the oldest age category. They have long sinuous bodies and
+unusually long legs, giving them the fastest land movement rate of any
+dragon, but they are also accomplished fliers, as fast and maneuverable
+as any dragon.
 
-They are cruel monsters, actively seeking to hunt, torment, kill and
-consume intelligent creatures. They are often said to prefer women and
-elves, but in truth a mountain dragon will attack almost any creature
-less powerful than itself.
+Plains dragons may hunt on the wing, attacking suddenly from above and
+surprising on 1-3 on 1d6; or, they may lie in wait in tall grass or a
+copse of trees, using their coloration as camouflage. As one ages and
+its colors dull, this ability improves; when lying in wait, they gain
+surprise on 1-3 on 1d6 at age categories 2 and 3, on 1-4 in age
+categories 4 through 6, and on 1-5 at age category 7.
 
-They are intelligent and self-assured, but also impatient and
-overconfident. One will often plan strategies in advance and then choose
-one at random when facing unknown opponents, without regard to whether
-or not the strategy is likely to work. The sheer power of a mountain
-dragon is often the only reason one is still alive.
+The breath weapon of the plains dragon is a scorching, shimmering cone
+of heat, barely visible to the naked eye; at night, however, a glow like
+steel being forged can be seen streaming from the dragon's open mouth.
 
-Mountain dragons are immune to normal fire, and suffer only half damage
-from magical fire.
-
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Mountain Dragon Age Table                                                     |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Age Category   | 1      | 2      | 3      | 4      | 5      | 6      | 7      |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Hit Dice       | 7      | 8      | 9      | 10     | 11     | 12     | 13     |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Attack Bonus   | +7     | +8     | +8     | +9     | +9     | +10    | +11    |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Breath Weapon  | Fire (Cone)                                                  |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Length         | \-     | 70'   | 80'   | 90'   | 95'   | 100'  | 110'  |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Width          | \-     | 30'   | 35'   | 45'   | 50'   | 55'   | 60'   |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Chance/Talking | 0%     | 15%    | 30%    | 50%    | 60%    | 70%    | 85%    |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Spells by      |        |        |        |        |        |        |        |
-| Level          |        |        |        |        |        |        |        |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Level 1        | \-     | 1      | 2      | 3      | 4      | 5      | 5      |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Level 2        | \-     | \-     | 1      | 2      | 3      | 4      | 5      |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Level 3        | \-     | \-     | \-     | 1      | 2      | 2      | 3      |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Level 4        | \-     | \-     | \-     | \-     | 1      | 2      | 2      |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Level 5        | \-     | \-     | \-     | \-     | \-     | 1      | 2      |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Claw           | 1d4    | 1d6    | 1d8    | 1d8    | 1d8    | 1d10   | 1d10   |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Bite           | 2d6    | 3d6    | 4d6    | 4d8    | 5d8    | 5d8    | 6d8    |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
-| Tail           | 1d4    | 1d6    | 1d6    | 1d8    | 1d8    | 1d8    | 1d10   |
-+----------------+--------+--------+--------+--------+--------+--------+--------+
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Plains Dragon Age Table                                                                            |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Age Category   | 1         | 2         | 3         | 4         | 5         | 6         | 7         |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Hit Dice       | 2         | 3         | 4         | 5         | 6         | 7         | 8         |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Attack Bonus   | +2        | +3        | +4        | +5        | +6        | +7        | +8        |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Breath Weapon  | Heat (Cone)                                                                       |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Length         | \-        | 50'      | 60'      | 70'      | 80'      | 85'      | 90'      |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Width          | \-        | 25'      | 30'      | 30'      | 35'      | 40'      | 45'      |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Chance/Talking | 0%        | 10%       | 15%       | 20%       | 30%       | 40%       | 50%       |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Spells by      |           |           |           |           |           |           |           |
+| Level          |           |           |           |           |           |           |           |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Level 1        | \-        | 1         | 2         | 3         | 3         | 3         | 3         |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Level 2        | \-        | \-        | \-        | \-        | 1         | 2         | 3         |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Level 3        | \-        | \-        | \-        | \-        | \-        | \-        | 1         |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Claw           | 1d4       | 1d4       | 1d6       | 1d6       | 1d6       | 1d8       | 1d8       |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Bite           | 2d4       | 2d6       | 2d8       | 2d10      | 2d10      | 2d10      | 2d12      |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+| Tail           | 1d4       | 1d6       | 1d6       | 1d8       | 1d8       | 1d8       | 1d10      |
++----------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+

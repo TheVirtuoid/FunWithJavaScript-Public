@@ -1,25 +1,23 @@
-### Tiger
+### Titanothere
 
-  ----------------- --------------------
-Armor Class:      14
-Hit Dice:         6
-No. of Attacks:   2 claws, 1 bite
-Damage:           1d6 claw, 2d6 bite
-Movement:         50'
-No. Appearing:    Wild 1d3, Lair 1d3
-Save As:          Fighter: 6
-Morale:           9
+  ----------------- -----------------------
+Armor Class:      15
+Hit Dice:         12 (+10)
+No. of Attacks:   1 butt or 1 trample
+Damage:           2d6 butt, 3d8 trample
+Movement:         40' (10')
+No. Appearing:    Wild 1d6
+Save As:          Fighter: 8
+Morale:           7
 Treasure Type:    None
-XP:               500
-  ----------------- --------------------
+XP:               1,875
+  ----------------- -----------------------
 
-The tiger is among the largest great cat species, with male specimens
-averaging 10 feet in length (including about 2.5 feet of tail) and
-weighing over 400 pounds. Females are smaller, averaging about 8 feet
-long and an average of about 275 pounds. Tigers are most recognizable
-for their dark vertical stripes on orange fur with a white underside.
-
-Tigers are apex predators and prefer prey such as deer and wild boar.
-They are territorial and generally solitary but social predators,
-requiring large contiguous areas of habitat to support their
-requirements for prey.
+A titanothere is a huge prehistoric animal that resembles the
+rhinoceros; adults average 10' tall and 13' long. They have large,
+forked horns rather than the pointed horns of rhinos. Like rhinos, they
+are herd animals, and males aggressively defend the herd; females only
+enter combat if all males are defeated or the attackers are very
+numerous. If a single titanothere is encountered, it will be a rogue
+male; they are bad tempered and prone to attacking smaller creatures
+that enter their territory.

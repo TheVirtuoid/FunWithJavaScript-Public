@@ -1,47 +1,32 @@
-### Strangle Vine
+### Tentacle Worm
 
-  ----------------- --------------------------
-Armor Class:      15
-Hit Dice:         6
-No. of Attacks:   1 entangle
-Damage:           1d8 + 1d8/round entangle
-Movement:         5'
-No. Appearing:    1d4+1
-Save As:          Fighter: 6
-Morale:           12
-Treasure Type:    U
-XP:               500
-  ----------------- --------------------------
+  ----------------- ---------------
+Armor Class:      13
+Hit Dice:         3\*
+No. of Attacks:   6 tentacles
+Damage:           paralysis
+Movement:         40'
+No. Appearing:    1d3, Lair 1d3
+Save As:          Fighter: 3
+Morale:           9
+Treasure Type:    B
+XP:               175
+  ----------------- ---------------
 
-A strangle vine (sometimes called an assassin vine) is a strange
-animated plant found in temperate and tropical forests, particularly in
-areas with poor-quality soil. They fertilize their soil by entangling,
-constricting, and killing living creatures, then depositing the bodies
-in loose soil around the plant's base.
+Tentacle worms appear to be giant worms of some sort, averaging 6 to 8
+feet long. Their heads are pasty white or grey, but their bodies vary
+from livid pink or purple to deep green in color. Their tentacles splay
+out from around the creature's \"neck.\" Some sages believe they are
+the larval form of some other monster, but this has never been proven.
 
-Because it can lie very still indeed, a strangle vine surprises on a
-roll of 1-4 on 1d6. A successful hit inflicts 1d8 points of damage, and
-the victim becomes entangled, suffering an additional 1d8 points of
-damage thereafter. A victim may attempt to escape by rolling a saving
-throw vs. Death Ray with Strength bonus added; this is a full action, so
-the victim may not attempt this and also perform an attack. The plant
-will continue to crush its victim until one or the other is dead or the
-victim manages to escape.
+A tentacle worm can attack as many as three adjacent opponents. Those
+hit must save vs. Paralysis or be paralyzed 2d4 turns. No matter how
+many of a tentacle worm's attacks hit an opponent in a given round,
+only one saving throw is required in each such round.
 
-Strangle vines are actually mobile, able to uproot themselves and move
-slowly from place to place; one generally only does so to seek new
-hunting grounds. They have no visual organs but can sense foes within 30
-feet by sound and vibration.
-
-Each plant consists of a single long vine of up to 20 feet in length,
-with many smaller vines 5 feet or so in length packed closely, two vines
-per foot or thereabouts. The smaller vines are covered in leaves, and in
-the fall they bear clusters of reddish-purple berries which are tough
-and bitter but not poisonous.
-
-There is a similar plant found in underground environments which has
-leaves the color of iron with pale shiny metallic veins. They grow near
-geothermal vents or springs, and the rotting flesh that surrounds them
-often supports mushrooms of various sizes and types. This fungal growth
-conceals the strangle vine, allowing it to surprise on 1-5 on 1d6 as
-does the above-ground variety of the plant.
+If all opponents of a tentacle worm are paralyzed, it
+will begin to feed upon the victims, doing 1 point of damage every 1d8
+rounds until the victim is dead; if other paralyzed victims are still
+alive, the worm is 50% likely to move on immediately to another
+still-living victim. Otherwise, it continues to eat the corpse of the
+slain victim for 1d4 turns.

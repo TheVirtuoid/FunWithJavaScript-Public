@@ -1,35 +1,27 @@
-### Harpy
+### Hawk
 
-  ----------------- -----------------------------------------
-Armor Class:      13
-Hit Dice:         2\*
-No. of Attacks:   2 claws, 1 weapon or **charm**
-Damage:           1d4 claw, 1d6 or by weapon or **charm**
-Movement:         20' Fly 50' (10')
-No. Appearing:    1d6, Wild 2d4, Lair 2d4
-Save As:          Fighter: 2
-Morale:           7
-Treasure Type:    C
-XP:               100
-  ----------------- -----------------------------------------
+// i removed the dashes for now, as there were three of them.
 
-A harpy looks like a giant vulture bearing the torso and face of a human
-female. They are able to attack with their claws as well as with a
-normal weapon, but they are most feared for the power of their song by
-which they are able to charm living creatures, and, having charmed them,
-tear them to pieces at their leisure.
+                    Normal               Giant
+Armor Class:      12                   14
+Hit Dice:         .5 (1d4 hit points)   4
+No. of Attacks:   1 claw or bite       1 claw or bite
+Damage:           1d2 claw or bite     1d6 claw or bite
+Movement:         Fly 160'            Fly 150' (10')
+No. Appearing:    Wild 1d6, Lair 1d6   Wild 1d3, Lair 1d3
+Save As:          Fighter: 1           Fighter: 4
+Morale:           7                    8
+Treasure Type:    None                 None
+XP:               10                   240
 
-All living creatures within a 300' range of one or
-more singing harpies must make a save vs. Spells or become **charmed**.
-The same harpy's song cannot affect a creature that successfully saves
-again for 24 hours. This charm is very powerful, such that a victim will
-approach the harpy or harpies without fear with a dazed expression on
-its face. If the victim is led toward some danger, such as a ravine,
-fire, or the like, a second saving throw is allowed immediately;
-however, if this save fails the victim will proceed directly into
-danger.
 
-Once in reach of a harpy, a charmed victim will surrender completely,
-even allowing the harpy to attack and kill it without putting up any
-sort of resistance. The charm effect lasts one full round after all
-harpies have ceased singing.
+Normal hawks (or falcons) are raptors, predatory birds that typically
+subsist on small snakes and other vermin. Most have wingspans of less
+than 5 feet and a body length of no more than 2 feet.
+
+Giant hawks are 4 to 6 feet long, with wingspans of 12 feet or more;
+they can carry off creatures of Halfling size or smaller.
+
+All hawks will shy away from combat with any creature of equal or
+greater size, unless forced or cornered or their eggs or offspring are
+threatened.
