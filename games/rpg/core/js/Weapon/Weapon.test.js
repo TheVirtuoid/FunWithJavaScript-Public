@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import Weapon from './Weapon';
 import Item from './../Item/Item';
+import Size from "../../static/Size/Size.js";
 
 describe('Weapon', () => {
 	let weapon;
@@ -11,7 +12,7 @@ describe('Weapon', () => {
 			price: 15,
 			priceUnit: 'gp',
 			weight: 3,
-			size: 'Medium',
+			size: Size.MEDIUM,
 			damage: '1d8',
 			range: undefined,
 			category: ['Melee', 'Blade']
@@ -30,7 +31,7 @@ describe('Weapon', () => {
 			expect(weapon.price).toBe(15);
 			expect(weapon.priceUnit).toBe('gp');
 			expect(weapon.weight).toBe(3);
-			expect(weapon.size).toBe('Medium');
+			expect(weapon.size).toBe(Size.MEDIUM);
 			expect(weapon.damage).toBe('1d8');
 			expect(weapon.range).toBeUndefined();
 			expect(weapon.category).toEqual(['Melee', 'Blade']);
@@ -42,7 +43,7 @@ describe('Weapon', () => {
 				price: 50,
 				priceUnit: 'gp',
 				weight: 2,
-				size: 'Large',
+				size: 'lg',
 				damage: '1d8',
 				range: [[150, 0], [600, -2]],
 				category: ['Melee', 'Blade']
@@ -56,7 +57,7 @@ describe('Weapon', () => {
 				price: 2,
 				priceUnit: 'gp',
 				weight: 1,
-				size: 'Small',
+				size: 'sm',
 				damage: '1d4',
 				category: ['Melee', 'Blade']
 			});
@@ -70,7 +71,7 @@ describe('Weapon', () => {
 					price: 15,
 					priceUnit: 'gp',
 					weight: 3,
-					size: 'Medium',
+					size: 'md',
 					damage: '1d8',
 					category: 'Melee'
 				});
@@ -84,7 +85,7 @@ describe('Weapon', () => {
 					price: 15,
 					priceUnit: 'gp',
 					weight: 3,
-					size: 'Medium',
+					size: 'md',
 					damage: '1d8',
 					category: ['Melee', 123]
 				});
@@ -112,7 +113,7 @@ describe('Weapon', () => {
 					price: 15,
 					priceUnit: 'gp',
 					weight: 3,
-					size: 'Medium',
+					size: 'md',
 					damage: 123,
 					category: ['Melee', 'Blade']
 				});
@@ -126,7 +127,7 @@ describe('Weapon', () => {
 					price: 50,
 					priceUnit: 'gp',
 					weight: 2,
-					size: 'Large',
+					size: 'lg',
 					damage: '1d8',
 					range: '150',
 					category: ['Melee', 'Blade']
@@ -138,7 +139,7 @@ describe('Weapon', () => {
 	describe('Properties (read-only)', () => {
 		it('should be read-only for size', () => {
 			expect(() => {
-				weapon.size = 'Large';
+				weapon.size = 'lg';
 			}).toThrow();
 		});
 
@@ -191,7 +192,7 @@ describe('Weapon', () => {
 			expect(weaponObject.price).toBe(15);
 			expect(weaponObject.priceUnit).toBe('gp');
 			expect(weaponObject.weight).toBe(3);
-			expect(weaponObject.size).toBe('Medium');
+			expect(weaponObject.size).toBe(Size.GetSize(Size.MEDIUM).abbr);
 			expect(weaponObject.damage).toBe('1d8');
 			expect(weaponObject.range).toBeUndefined();
 			expect(weaponObject.category).toEqual(['Melee', 'Blade']);
@@ -203,7 +204,7 @@ describe('Weapon', () => {
 				price: 50,
 				priceUnit: 'gp',
 				weight: 2,
-				size: 'Large',
+				size: 'lg',
 				damage: '1d8',
 				range: [[150, 0], [600, -2]],
 				category: ['Melee', 'Blade']
@@ -214,9 +215,9 @@ describe('Weapon', () => {
 
 		it('should return a copy, not a reference to the original', () => {
 			const weaponObject = weapon.toObject();
-			weaponObject.size = 'Large';
+			weaponObject.size = Size.LARGE;
 			weaponObject.damage = '2d6';
-			expect(weapon.size).toBe('Medium');
+			expect(weapon.size).toBe(Size.MEDIUM);
 			expect(weapon.damage).toBe('1d8');
 		});
 

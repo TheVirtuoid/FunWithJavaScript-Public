@@ -6,7 +6,7 @@ This class extends the `Item` class.
 
 ## Database
 Each database entry will contain the fields from `Item` plus the following:
-- `size` (string): The size of the weapon
+- `size` (string): The size of the weapon. Abbreviation from the static Size class
 - `damage` (string): The dice notation damage for the weapon
 - `range` (Array<[number, number]>): The range of the weapon. Specifies distance, bonus for each entry
     - If range is not specified, defaults to undefined. This is not a range weapon.
@@ -14,7 +14,7 @@ Each database entry will contain the fields from `Item` plus the following:
 
 ## Properties
 All additional properties are read-only
-- `size` (string): The size of the weapon
+- `size` (Symbol): The size of the weapon. Based upon static Size class
 - `damage` (string): The dice notation damage for the weapon
 - `range` (Array<[number, number]>): The range of the weapon. Specifies distance, bonus for each entry
     - If range is not specified, defaults to undefined. This is not a range weapon.

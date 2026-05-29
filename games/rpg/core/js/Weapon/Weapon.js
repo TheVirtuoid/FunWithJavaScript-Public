@@ -1,4 +1,5 @@
 import Item from "../Item/Item.js";
+import Size from "../../static/Size/Size.js";
 
 export default class Weapon extends Item {
 	#damage;
@@ -11,8 +12,9 @@ export default class Weapon extends Item {
 		if (typeof damage !== 'string') {
 			throw new Error('Damage must be a string');
 		}
-		if (typeof size !== 'string') {
-			throw new Error('Size must be a string');
+		const sizeSymbol = Size.GetSymbol(size);
+		if (!sizeSymbol) {
+			throw new Error('Size must be a member of Size');
 		}
 		if (range) {
 			if (!Array.isArray(range)) {
@@ -41,7 +43,7 @@ export default class Weapon extends Item {
 		super(args);
 		this.#damage = damage;
 		this.#range = range;
-		this.#size = size;
+		this.#size = sizeSymbol;
 		this.#category = category;
 	}
 
@@ -60,10 +62,10 @@ export default class Weapon extends Item {
 
 	toObject() {
 		const weaponObject = super.toObject();
-		weaponObject.damage = this.#damage;
-		weaponObject.range = structuredClone(this.#range);
-		weaponObject.size = this.#size;
-		weaponObject.category = structuredClone(this.#category);
+		weaponObject.damage = this.damage;
+		weaponObject.range = structuredClone(this.range);
+		weaponObject.size = Size.GetSize(this.size).abbr;
+		weaponObject.category = structuredClone(this.category);
 		return weaponObject;
 	}
 }

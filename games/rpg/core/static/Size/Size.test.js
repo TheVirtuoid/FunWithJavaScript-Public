@@ -98,4 +98,24 @@ describe('Size', () => {
 			expect(Size.IsSize(Size.LARGE)).toBe(true);
 		});
 	});
+
+	describe('GetSymbol()', () => {
+		it('should return valid for valid abbreviation', () => {
+			expect(Size.GetSymbol('sm')).toBe(Size.SMALL);
+		});
+
+		it('should return the valid symbol for a valid symbol', () => {
+			expect(Size.GetSymbol(Size.SMALL)).toBe(Size.SMALL);
+		});
+
+		it('should return undefined for invalid abbreviation', () => {
+			expect(Size.GetSymbol('invalid')).toBeUndefined();
+		});
+
+		it('should return undefined', () => {
+			expect(Size.GetSymbol(Symbol('invalid'))).toBeUndefined();
+		});
+	});
+
+
 });

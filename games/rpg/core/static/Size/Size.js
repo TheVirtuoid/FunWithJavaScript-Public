@@ -21,10 +21,17 @@ export default class Size {
 		return structuredClone(Size.#DATA.get(sizeSymbol));
 	}
 
+	static GetSymbol(sizeType) {
+		const sizeSymbol = typeof sizeType === 'string' ? Size.#getSymbolByAbbreviation(sizeType) : sizeType;
+		return Size.IsSize(sizeSymbol) ? sizeSymbol : undefined;
+	}
+
 	static #getSymbolByAbbreviation(abbr) {
 		const dataEntry = [...Size.#DATA.entries()].find(([key, value]) => value.abbr === abbr);
 		return dataEntry ? dataEntry[0] : dataEntry;
 	}
+
+
 
 
 	constructor() {
