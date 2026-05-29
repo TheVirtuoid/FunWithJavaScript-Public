@@ -19,10 +19,6 @@ describe('Race', () => {
 			type: [Size.MEDIUM, Size.LARGE]
 		},
 		{
-			restrictionType: Race.Restrictions.COMBINATION_CLASSES,
-			type: [Symbol('fighter:magic-user')]
-		},
-		{
 			restrictionType: Race.Restrictions.HIT_POINTS,
 			type: '1d6'
 		}

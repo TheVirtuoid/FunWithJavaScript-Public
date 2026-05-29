@@ -9,7 +9,6 @@ export default class Race {
 		ABILITY: Symbol('restrictions-ability'),
 		WEAPON_SIZE: Symbol('restrictions-weapon-size'),
 		CHARACTER_CLASS: Symbol('restrictions-character-class'),
-		COMBINATION_CLASSES: Symbol('restrictions-combination-classes'),
 		HIT_POINTS: Symbol('restrictions-hit-points')
 	}
 
