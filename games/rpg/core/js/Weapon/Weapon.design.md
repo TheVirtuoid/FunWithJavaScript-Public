@@ -11,6 +11,7 @@ Each database entry will contain the fields from `Item` plus the following:
 - `range` (Array<[number, number]>): The range of the weapon. Specifies distance, bonus for each entry
     - If range is not specified, defaults to undefined. This is not a range weapon.
 - `category` (Array<string>): the category of the weapon
+- `sharp` (boolean): If a weapon is sharp or not. Defaults to true
 
 ## Properties
 All additional properties are read-only
@@ -19,6 +20,7 @@ All additional properties are read-only
 - `range` (Array<[number, number]>): The range of the weapon. Specifies distance, bonus for each entry
     - If range is not specified, defaults to undefined. This is not a range weapon.
 - `category` (Array<string>): the category of the weapon
+- `sharp` (boolean): If a weapon is sharp or not
 
 ## Methods
 - `toObject()` - extends the `Iten.toObject()` method to include the new properties.

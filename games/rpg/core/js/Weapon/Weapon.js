@@ -6,9 +6,10 @@ export default class Weapon extends Item {
 	#range;
 	#size;
 	#category;
+	#sharp;
 
 	constructor(args = {}) {
-		const { damage, range, size, category } = args;
+		const { damage, range, size, category, sharp = true } = args;
 		if (typeof damage !== 'string') {
 			throw new Error('Damage must be a string');
 		}
@@ -39,12 +40,16 @@ export default class Weapon extends Item {
 			if (typeof entry !== 'string') {
 				throw new Error('Category entries must be strings');
 			}
-		})
+		});
+		if (typeof sharp !== 'boolean') {
+			throw new Error('Sharp must be a boolean');
+		}
 		super(args);
 		this.#damage = damage;
 		this.#range = range;
 		this.#size = sizeSymbol;
 		this.#category = category;
+		this.#sharp = sharp;
 	}
 
 	get damage() {
@@ -59,6 +64,9 @@ export default class Weapon extends Item {
 	get category() {
 		return [...this.#category];
 	}
+	get sharp() {
+		return this.#sharp;
+	}
 
 	toObject() {
 		const weaponObject = super.toObject();
@@ -66,6 +74,7 @@ export default class Weapon extends Item {
 		weaponObject.range = structuredClone(this.range);
 		weaponObject.size = Size.GetSize(this.size).abbr;
 		weaponObject.category = structuredClone(this.category);
+		weaponObject.sharp = this.sharp;
 		return weaponObject;
 	}
 }
