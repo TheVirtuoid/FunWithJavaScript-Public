@@ -1,16 +1,24 @@
+import Dice from "../Dice/Dice.js";
+
 export default class Equation {
 
 	static Solve(equation) {
+		if (typeof equation !== 'string') {
+			throw new Error('Invalid equation. Expected a string.');
+		}
 		const tokens = Equation.#tokenize(equation);
-		const finalValue = Equation.#parseTokens(tokens);
-		return finalValue;
+		if (equation === '2d+1') {
+			console.log(tokens);
+		}
+		return Equation.#parseTokens(tokens);
 	}
 
 	static #OPERATOR = Symbol('operator');
 	static #NUMBER = Symbol('number');
 	static #GROUPING = Symbol('grouping');
+	static #DICE = Symbol('dice');
 
-	static #tokenize(equation) {
+	/*static #tokenize(equation) {
 		const tokens = [];
 		let characters = [...equation.trim()];
 		while (characters.length) {
@@ -21,7 +29,7 @@ export default class Equation {
 			}
 		}
 		return tokens;
-	}
+	}*/
 
 	static #parseTokens(tokens) {
 		let operators = [];
@@ -55,6 +63,9 @@ export default class Equation {
 				}
 			} else if (type === Equation.#NUMBER) {
 				operands.push(value);
+			} else if (type === Equation.#DICE) {
+				const diceValue = Dice.Roll(value);
+				operands.push(diceValue);
 			}
 		});
 		({ operands, operators } = Equation.#reduceTokenStack({ operands, operators }));
@@ -70,10 +81,6 @@ export default class Equation {
 	static #reduceTokenStack({ operands: stackOperands, operators: stackOperators }, precedence = 0) {
 		const operands = structuredClone(stackOperands);
 		const operators = structuredClone(stackOperators);
-		/*console.log('---------------------------------reduceTokenStack-------------------------');
-		console.log('stackOperators', stackOperators);
-		console.log('stackOperands', stackOperands);
-		console.log('precedence', precedence);*/
 		while (operators.length && operators[operators.length - 1].precedence >= precedence) {
 			if (precedence === -1 && operators[operators.length - 1].precedence === 0) {
 				operators.pop();
@@ -107,7 +114,7 @@ export default class Equation {
 		return { operands, operators };
 	}
 
-	static #tokenNext(incomingCharacters) {
+	/*static #tokenNext(incomingCharacters) {
 		const legalOperators = [
 			{ operator: '(', precedence: 0 },
 			{ operator: ')', precedence: -1 },
@@ -153,8 +160,63 @@ export default class Equation {
 			return { newCharacters: characters, token: { type: Equation.#NUMBER, value: token } };
 		}
 		return { newCharacters: characters, token: null };
-	}
+	}*/
+
 	constructor() {
 		throw new Error('Cannot instantiate an Equation object. Only the static method "Solve()" is available.');
+	}
+
+	static #tokenize(equation) {
+		const tokens = [];
+		const tokenPattern = /(\d+d\d+|d\d+|\d+\.\d+|\d+|[-+*/^()])/gi;
+		let match;
+		let lastIndex = 0;
+
+		while ((match = tokenPattern.exec(equation)) !== null) {
+			// Check if there are unmatched characters (like a lone 'd')
+			if (match.index > lastIndex) {
+				const unmatched = equation.substring(lastIndex, match.index).trim();
+				if (unmatched) {
+					throw new Error(`Invalid token: "${unmatched}". Did you mean a dice expression like "2d6" or "d6"?`);
+				}
+			}
+
+			const token = match[1];
+			tokens.push(Equation.#classifyToken(token));
+			lastIndex = tokenPattern.lastIndex;
+		}
+
+		// Check for unmatched characters at the end
+		if (lastIndex < equation.trim().length) {
+			const unmatched = equation.substring(lastIndex).trim();
+			if (unmatched) {
+				throw new Error(`Invalid token: "${unmatched}". Did you mean a dice expression like "2d6" or "d6"?`);
+			}
+		}
+
+		return tokens;
+	}
+
+	static #classifyToken(token) {
+		if (/^\d+d\d+$|^d\d+$/i.test(token)) {
+			const [count, sides] = token.toLowerCase().split('d');
+			return {
+				type: Equation.#DICE,
+				value: { count: count ? parseInt(count) : 1, sides: parseInt(sides) }
+			};
+		} else if (/^[-+*/^()]$/.test(token)) {
+			const operators = {
+				'(': { operator: '(', precedence: 0 },
+				')': { operator: ')', precedence: -1 },
+				'+': { operator: '+', precedence: 1 },
+				'-': { operator: '-', precedence: 1 },
+				'*': { operator: '*', precedence: 2 },
+				'/': { operator: '/', precedence: 2 },
+				'^': { operator: '^', precedence: 3 },
+			};
+			return { type: Equation.#OPERATOR, value: operators[token] };
+		} else {
+			return { type: Equation.#NUMBER, value: parseFloat(token) };
+		}
 	}
 }

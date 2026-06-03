@@ -17,12 +17,6 @@ describe('Equation', () => {
 	// Static Methods
 	// ---------------------------------------------------------------------------
 
-	describe.skip('tester', () => {
-		it('should solve with nested parentheses', () => {
-			expect(Equation.Solve('((1+1)*2)')).toEqual(4);
-		});
-
-	});
 	describe('Static Methods', () => {
 		describe('Solve', () => {
 			it('should solve the simple equation', () => {
@@ -54,15 +48,17 @@ describe('Equation', () => {
 			it.skip('should solve for parenthesis with implied multiplication', () => {
 				expect(Equation.Solve('3(1+2)')).toEqual(9);
 			});
-			it.skip('should solve for a die roll', () => {
+			it('should solve for a die roll', () => {
 				vi.spyOn(Dice, 'Roll').mockReturnValue(3);
-				expect(Equation.Solve('3d6+1')).toEqual(10);
-				expect(Equation.Solve('1+3d6')).toEqual(10);
+				expect(Equation.Solve('3d6+1')).toEqual(4);
+				expect(Equation.Solve('1+3d6')).toEqual(4);
+				expect(Equation.Solve('1+d6')).toEqual(4);
+				expect(Equation.Solve('d6+1')).toEqual(4);
 			});
 		});
 
 		describe('Valid complex equations', () => {
-			it.skip('should solve for a more complicated example', () => {
+			it('should solve for a more complicated example', () => {
 				vi.spyOn(Dice, 'Roll').mockReturnValue(7);
 				expect(Equation.Solve('3+(6*(4-3)*2d6/6)')).toEqual(10);
 			});
@@ -75,17 +71,12 @@ describe('Equation', () => {
 				expect(Equation.Solve('-3+1')).toEqual(-2);
 			});
 
-			it.skip('should solve for a die roll', () => {
-				vi.spyOn(Dice, 'Roll').mockReturnValue(7);
-				expect(Equation.Solve('2d6+1')).toEqual(8);
-			});
-
 			it.skip('should solve for a die roll with implied multiplication', () => {
 				vi.spyOn(Dice, 'Roll').mockReturnValue(7);
 				expect(Equation.Solve('3(2d6+1)')).toEqual(24);
 			});
 
-			it.skip('should solve for a leading die roll with a plus', () => {
+			it('should solve for a leading die roll with a plus', () => {
 				vi.spyOn(Dice, 'Roll').mockReturnValue(7);
 				expect(Equation.Solve('+2d6')).toEqual(7);
 			});
@@ -98,7 +89,7 @@ describe('Equation', () => {
 				expect(Equation.Solve(' 1 + 2 ')).toEqual(3);
 			});
 
-			it.skip('should solve with multiple die rolls', () => {
+			it('should solve with multiple die rolls', () => {
 				const rollSpy = vi.spyOn(Dice, 'Roll');
 				rollSpy.mockReturnValueOnce(7).mockReturnValueOnce(3);
 				expect(Equation.Solve('2d6 + 1d4')).toEqual(10);
@@ -118,6 +109,13 @@ describe('Equation', () => {
 				expect(Equation.Solve('10 / (2 + 3)')).toEqual(2);
 				expect(Equation.Solve('2 + 3 ^ 2')).toEqual(11);
 			});
+
+			it('should turn a die roll negative', () => {
+				const rollSpy = vi.spyOn(Dice, 'Roll');
+				vi.spyOn(Dice, 'Roll').mockReturnValue(7);
+				expect(Equation.Solve('-2d6')).toEqual(-7);
+			});
+
 		});
 
 		describe('Invalid equations', () => {
@@ -157,10 +155,7 @@ describe('Equation', () => {
 			it('should throw if exponentiation on the end', () => {
 				expect(() => Equation.Solve('4+1^')).toThrow();
 			});
-			it.skip('should throw if trying for a negative die roll', () => {
-				expect(() => Equation.Solve('-2d6')).toThrow();
-			});
-			it.skip('should throw if the die roll is missing arguments', () => {
+			it('should throw if the die roll is missing arguments', () => {
 				expect(() => Equation.Solve('2d+1')).toThrow();
 			});
 			it('should throw if the operand is not numeric', () => {
@@ -178,7 +173,7 @@ describe('Equation', () => {
 				expect(() => Equation.Solve('1..2')).toThrow();
 			});
 
-			it.skip('should throw on spaces inside a die roll descriptor', () => {
+			it('should throw on spaces inside a die roll descriptor', () => {
 				expect(() => Equation.Solve('2 d 6')).toThrow();
 			});
 
