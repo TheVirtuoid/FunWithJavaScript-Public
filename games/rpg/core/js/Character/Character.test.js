@@ -7,8 +7,23 @@ import CharacterClass from '../CharacterClass/CharacterClass.js';
 
 const VALID_ID = '123e4567-e89b-12d3-a456-426614174000';
 const VALID_NAME = 'Aragorn';
-const VALID_RACE = Race.HUMAN;
-const VALID_CLASS = CharacterClass.FIGHTER;
+const VALID_RACE = new Race({
+	name: 'Human',
+	description: 'A versatile and adaptable race',
+	weight: 180,
+	height: 70,
+	age: 100,
+	classes: [],
+	restrictions: [],
+	specialAbilities: [],
+	savingThrows: []
+});
+const VALID_CLASS = new CharacterClass({
+	name: 'Fighter',
+	description: 'A brave warrior',
+	levelData: [],
+	restrictions: []
+});
 
 const makeCharacter = (overrides = {}) => new Character({
 	name: VALID_NAME,
@@ -68,8 +83,8 @@ describe('Character', () => {
 				expect(() => makeCharacter({ race: undefined })).toThrow();
 			});
 
-			it('throws when race is not a valid race symbol', () => {
-				expect(() => makeCharacter({ race: Symbol('unknown') })).toThrow();
+			it('throws when race is not a Race instance', () => {
+				expect(() => makeCharacter({ race: { name: 'Fake' } })).toThrow();
 			});
 
 			it('throws when race is a string', () => {
@@ -86,8 +101,8 @@ describe('Character', () => {
 				expect(() => makeCharacter({ characterClass: undefined })).toThrow();
 			});
 
-			it('throws when characterClass is not a valid class symbol', () => {
-				expect(() => makeCharacter({ characterClass: Symbol('unknown') })).toThrow();
+			it('throws when characterClass is not a CharacterClass instance', () => {
+				expect(() => makeCharacter({ characterClass: { name: 'Fake' } })).toThrow();
 			});
 
 			it('throws when characterClass is a string', () => {
@@ -111,20 +126,12 @@ describe('Character', () => {
 			expect(makeCharacter().name).toBe(VALID_NAME);
 		});
 
-		it('race returns a Race instance', () => {
-			expect(makeCharacter().race).toBeInstanceOf(Race);
+		it('race returns the Race instance passed to the constructor', () => {
+			expect(makeCharacter().race).toBe(VALID_RACE);
 		});
 
-		it('race.type matches the symbol passed to the constructor', () => {
-			expect(makeCharacter().race.type).toBe(VALID_RACE);
-		});
-
-		it('characterClass returns a CharacterClass instance', () => {
-			expect(makeCharacter().characterClass).toBeInstanceOf(CharacterClass);
-		});
-
-		it('characterClass.type matches the symbol passed to the constructor', () => {
-			expect(makeCharacter().characterClass.type).toBe(VALID_CLASS);
+		it('characterClass returns the CharacterClass instance passed to the constructor', () => {
+			expect(makeCharacter().characterClass).toBe(VALID_CLASS);
 		});
 
 		describe('read-only', () => {
@@ -140,12 +147,12 @@ describe('Character', () => {
 
 			it('race cannot be reassigned', () => {
 				const char = makeCharacter();
-				expect(() => { char.race = Race.HUMAN; }).toThrow();
+				expect(() => { char.race = VALID_RACE; }).toThrow();
 			});
 
 			it('characterClass cannot be reassigned', () => {
 				const char = makeCharacter();
-				expect(() => { char.characterClass = CharacterClass.FIGHTER; }).toThrow();
+				expect(() => { char.characterClass = VALID_CLASS; }).toThrow();
 			});
 
 		});
@@ -184,8 +191,8 @@ describe('Character', () => {
 			const char = makeCharacter();
 			char.setName('Legolas');
 			expect(char.id).toBe(VALID_ID);
-			expect(char.race.type).toBe(VALID_RACE);
-			expect(char.characterClass.type).toBe(VALID_CLASS);
+			expect(char.race).toBe(VALID_RACE);
+			expect(char.characterClass).toBe(VALID_CLASS);
 		});
 	});
 
@@ -194,12 +201,22 @@ describe('Character', () => {
 	describe('setRace()', () => {
 		it('updates the race property', () => {
 			const char = makeCharacter();
-			char.setRace(Race.HUMAN);
-			expect(char.race).toBeInstanceOf(Race);
-			expect(char.race.type).toBe(Race.HUMAN);
+			const newRace = new Race({
+				name: 'Elf',
+				description: 'A long-lived and graceful race',
+				weight: 130,
+				height: 72,
+				age: 500,
+				classes: [],
+				restrictions: [],
+				specialAbilities: [],
+				savingThrows: []
+			});
+			char.setRace(newRace);
+			expect(char.race).toBe(newRace);
 		});
 
-		it('throws when given an invalid race symbol', () => {
+		it('throws when given something that is not a Race instance', () => {
 			const char = makeCharacter();
 			expect(() => char.setRace(Symbol('unknown'))).toThrow();
 		});
@@ -225,12 +242,17 @@ describe('Character', () => {
 	describe('setCharacterClass()', () => {
 		it('updates the characterClass property', () => {
 			const char = makeCharacter();
-			char.setCharacterClass(CharacterClass.FIGHTER);
-			expect(char.characterClass).toBeInstanceOf(CharacterClass);
-			expect(char.characterClass.type).toBe(CharacterClass.FIGHTER);
+			const newClass = new CharacterClass({
+				name: 'Magic-User',
+				description: 'A scholar of the arcane',
+				levelData: [],
+				restrictions: []
+			});
+			char.setCharacterClass(newClass);
+			expect(char.characterClass).toBe(newClass);
 		});
 
-		it('throws when given an invalid class symbol', () => {
+		it('throws when given something that is not a CharacterClass instance', () => {
 			const char = makeCharacter();
 			expect(() => char.setCharacterClass(Symbol('unknown'))).toThrow();
 		});

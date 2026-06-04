@@ -27,3 +27,6 @@ This defines the class for creating a new player character.
 - When creating a new character, the raceType, classType, and the name must be provided
 
 ## constructor
+
+## Properties
+All properties are read-only. Extra properties

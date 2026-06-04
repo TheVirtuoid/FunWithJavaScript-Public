@@ -1,17 +1,18 @@
-### Bat
+### Bat Giant
 
   ----------------- -------------------------------
 Armor Class:      14
-Hit Dice:         1 hit point
-No. of Attacks:   1 special
-Damage:           Confusion
-Movement:         30' Fly 40'
-No. Appearing:    1d100, Wild 1d100, Lair 1d100
-Save As:          Normal Man
-Morale:           6
+Hit Dice:         2
+No. of Attacks:   1 bite
+Damage:           1d4
+Movement:         10' Fly 60' (10')
+No. Appearing:    1d10, Wild 1d10, Lair 1d10
+Save As:          Fighter: 2
+Morale:           8
 Treasure Type:    None
-XP:               10
+XP:               75
   ----------------- -------------------------------
+
 
 Bats have a natural sonar that allows them to operate in total darkness;
 for game purposes, treat this ability as equivalent to Darkvision.

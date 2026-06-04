@@ -1,4 +1,4 @@
-### Bear, Grizzly (or Brown)
+### Bear, Brown
 
   ----------------- -----------------------------
 Armor Class:      14
@@ -16,3 +16,10 @@ XP:               360
 Brown bears are huge, carnivorous, and aggressive. An adult male weighs
 400 to 800 pounds and four feet high at the shoulder; females are
 slightly smaller, but just as bloodthirsty.
+
+Bears attack by rending opponents with their claws,
+dragging them in and biting them. A successful hit with both paws
+indicates a hug attack for additional damage (as given for each specific
+bear type). All bears are very tough to kill, and are able to move and
+attack for one round after losing all hit points.
+

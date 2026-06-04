@@ -1,4 +1,4 @@
-### Blink Dog (Flicker Beast)
+### Blink Dog
 
   ----------------- -------------------------
 Armor Class:      15

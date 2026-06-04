@@ -1,7 +1,6 @@
 import crypto from 'crypto';
 import Attribute from "../Attribute/Attribute.js";
 import Ability from "../Ability/Ability.js";
-import CharacterClass from "../CharacterClass/CharacterClass.js";
 
 export default class Race {
 

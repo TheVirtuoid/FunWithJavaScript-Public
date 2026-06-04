@@ -45,18 +45,18 @@ export default class Character {
 		this.#name = name;
 	}
 
-	setRace(raceType) {
-		if (!Race.IsRace(raceType)) {
-			throw new Error('Invalid race type');
+	setRace(race) {
+		if (!(race instanceof Race)) {
+			throw new Error('Invalid race');
 		}
-		this.#race = new Race({ type: raceType });
+		this.#race = race;
 	}
 
-	setCharacterClass(characterClassType) {
-		if (!CharacterClass.IsCharacterClass(characterClassType)) {
-			throw new Error('Invalid character class type');
+	setCharacterClass(characterClass) {
+		if (!(characterClass instanceof CharacterClass)) {
+			throw new Error('Invalid character class');
 		}
-		this.#characterClass = new CharacterClass({ type: characterClassType});
+		this.#characterClass = characterClass;
 	}
 
 	addAbility(ability) {

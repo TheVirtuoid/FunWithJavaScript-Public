@@ -1,13 +1,13 @@
-### Antelope (Herd Animals)
+### Antelope
 
   ----------------- -------------------------------
 Armor Class:      13
-Hit Dice:         1 to 4
+Hit Dice:         2
 No. of Attacks:   1 butt
-Damage:           1d4 or 1d6 or 1d8 (see below)
+Damage:           1d6
 Movement:         80' (10')
 No. Appearing:    Wild 3d10
-Save As:          Fighter: 1 to 4 (as Hit Dice)
+Save As:          Fighter: 2
 Morale:           5 (7)
 Treasure Type:    None
 XP:               25 - 240

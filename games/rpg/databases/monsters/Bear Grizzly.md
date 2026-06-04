@@ -1,22 +1,21 @@
-### Bear, Cave
+### Bear Grizzly
 
   ----------------- -----------------------------
-Armor Class:      15
-Hit Dice:         7
+Armor Class:      14
+Hit Dice:         5
 No. of Attacks:   2 claws, 1 bite + hug
-Damage:           1d8 claw, 2d6 bite, 2d8 hug
+Damage:           1d4 claw, 1d8 bite, 2d8 hug
 Movement:         40'
-No. Appearing:    1d2, Wild 1d2, Lair 1d2
-Save As:          Fighter: 7
-Morale:           9
+No. Appearing:    1, Wild 1d4, Lair 1d4
+Save As:          Fighter: 5
+Morale:           8
 Treasure Type:    None
-XP:               670
+XP:               360
   ----------------- -----------------------------
 
-These monstrous bears are even larger than brown bears, with one
-weighing up to 1,800 pounds and when on all four feet are up to six feet
-high at the shoulder. They are ferocious killers, attacking almost
-anything of equal or smaller size.
+Brown bears are huge, carnivorous, and aggressive. An adult male weighs
+400 to 800 pounds and four feet high at the shoulder; females are
+slightly smaller, but just as bloodthirsty.
 
 Bears attack by rending opponents with their claws,
 dragging them in and biting them. A successful hit with both paws

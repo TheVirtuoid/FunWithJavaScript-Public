@@ -1,12 +1,14 @@
 import quit from "./commands/quit.js";
 import roll from "./commands/roll.js";
+import calc from "./commands/calc.js";
 
 export default class ExecutePrompt {
 
 	static JUMPTABLE = new Map([
 		['exit', { cmd: quit }],
 		['quit', { cmd: quit }],
-		['roll', { cmd: roll }]
+		['roll', { cmd: roll }],
+		['calc', { cmd: calc }],
 	]);
 
 	static COMMANDS = [...ExecutePrompt.JUMPTABLE.keys()];

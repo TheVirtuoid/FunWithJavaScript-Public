@@ -7,9 +7,6 @@ export default class Equation {
 			throw new Error('Invalid equation. Expected a string.');
 		}
 		const tokens = Equation.#tokenize(equation);
-		if (equation === '2d+1') {
-			console.log(tokens);
-		}
 		return Equation.#parseTokens(tokens);
 	}
 
@@ -64,7 +61,7 @@ export default class Equation {
 			} else if (type === Equation.#NUMBER) {
 				operands.push(value);
 			} else if (type === Equation.#DICE) {
-				const diceValue = Dice.Roll(value);
+				const diceValue = Dice.Roll(`${value.count}d${value.sides}`);
 				operands.push(diceValue);
 			}
 		});
