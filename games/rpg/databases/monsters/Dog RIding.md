@@ -1,18 +1,17 @@
-### Dog
+### Dog Riding
 
-// i removed the dashes for now, as there were three of them.
-
-                    Normal       Riding
-Armor Class:      14           14
-Hit Dice:         1+1          2
-No. of Attacks:   1 bite       1 bite
-Damage:           1d4 + hold   1d4+1 + hold
-Movement:         50'         50'
-No. Appearing:    Wild 3d4     domestic only
-Save As:          Fighter: 1   Fighter: 2
-Morale:           9            9
-Treasure Type:    None         None
-XP:               25           75
+  ----------------- -------------------------
+Armor Class:      14
+Hit Dice:         2
+No. of Attacks:   1 bite
+Damage:           1d4+1 + hold
+Movement:         50'
+No. Appearing:    domestic only
+Save As:          Fighter: 2
+Morale:           9
+Treasure Type:    None
+XP:               75
+  ----------------- -------------------------
 
 Normal dogs include most medium and large breeds, including wild dogs.
 After biting an opponent, a dog can hold on, doing 1d4 damage

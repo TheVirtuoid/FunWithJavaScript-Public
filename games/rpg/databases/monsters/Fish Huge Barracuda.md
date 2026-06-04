@@ -1,17 +1,18 @@
-### Fish, Giant Barracuda
+### Fish, Huge Barracuda
 
-  ----------------- ------------------
-Armor Class:      15
-Hit Dice:         9 (+8)
+  ----------------- ---------------
+Armor Class:      16
+Hit Dice:         5
 No. of Attacks:   1 bite
-Damage:           2d8+1 bite
-Movement:         Swim 60' (10')
-No. Appearing:    Wild 1
-Save As:          Fighter: 9
-Morale:           10
+Damage:           2d6 bite
+Movement:         Swim 60'
+No. Appearing:    Wild 2d4
+Save As:          Fighter: 5
+Morale:           8
 Treasure Type:    None
-XP:               1075
-  ----------------- ------------------
+XP:               360
+  ----------------- ---------------
+
 
 Barracuda are predatory fish found in salt water. Huge barracudas are
 about 12' long, while giant specimens can exceed 20'. They have

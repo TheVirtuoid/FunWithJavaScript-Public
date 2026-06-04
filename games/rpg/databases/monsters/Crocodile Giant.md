@@ -1,17 +1,18 @@
-### Crocodile Normal
+### Crocodile
 
   ----------------- -------------------------
-Armor Class:      15
-Hit Dice:         2
+Armor Class:      19
+Hit Dice:         15 (+11)
 No. of Attacks:   1 bite
-Damage:           1d8 bite
+Damage:           3d8 bite
 Movement:         30' (10') Swim 30' (10')
-No. Appearing:    Wild 1d8
-Save As:          Fighter: 2
-Morale:           7
+No. Appearing:    Wild 1d3
+Save As:          Fighter: 15
+Morale:           9
 Treasure Type:    None
-XP:               75
+XP:               2850
   ----------------- -------------------------
+
 
 Crocodiles are large semiaquatic reptiles that live throughout the
 tropics. They are ambush predators, waiting for fish or land animals to

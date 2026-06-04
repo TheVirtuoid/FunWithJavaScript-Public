@@ -1,16 +1,16 @@
-### Crocodile Normal
+### Crocodile Large
 
   ----------------- -------------------------
-Armor Class:      15
-Hit Dice:         2
+Armor Class:      17
+Hit Dice:         6
 No. of Attacks:   1 bite
-Damage:           1d8 bite
+Damage:           2d8 bite
 Movement:         30' (10') Swim 30' (10')
-No. Appearing:    Wild 1d8
-Save As:          Fighter: 2
-Morale:           7
+No. Appearing:    Wild 1d4
+Save As:          Fighter: 6
+Morale:           8
 Treasure Type:    None
-XP:               75
+XP:               500
   ----------------- -------------------------
 
 Crocodiles are large semiaquatic reptiles that live throughout the

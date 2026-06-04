@@ -10,7 +10,7 @@ No. Appearing:    1
 Save As:          Fighter: 15
 Morale:           12 (9)
 Treasure Type:    None
-XP:               1,390
+XP:               1390
   ----------------- ------------------------------
 
 Efreet (singular efreeti) are a race of manlike creatures believed to be
