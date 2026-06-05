@@ -1,0 +1,8 @@
+[
+  { "name": "Strength", "abbreviation": "STR", "description": "Physical power and endurance"},
+  { "name": "Dexterity", "abbreviation": "DEX", "description": "The measure of agility, reflexes, and balance." },
+  { "name": "Intelligence", "abbreviation": "INT", "description": "The ability to learn and recall information." },
+  { "name": "Wisdom", "abbreviation": "WIS", "description": "The ability to see, hear, and smell." },
+  { "name": "Charisma", "abbreviation": "CHA", "description": "The ability to control emotions and influence others." },
+  { "name": "Constitution", "abbreviation": "CON", "description": "The measure of health and stamina."}
+]

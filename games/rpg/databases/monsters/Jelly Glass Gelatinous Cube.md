@@ -1,4 +1,4 @@
-### Jelly, Glass (Gelatinous Cube)
+### Jelly, Glass
 
   ----------------- -----------------
 Armor Class:      12

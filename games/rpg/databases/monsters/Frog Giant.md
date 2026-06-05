@@ -1,4 +1,4 @@
-### Frog, Giant (and Toad, Giant)
+### Frog, Giant
 
   ----------------- ---------------------------
 Armor Class:      13
