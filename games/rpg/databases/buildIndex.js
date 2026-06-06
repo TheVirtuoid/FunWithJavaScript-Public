@@ -37,14 +37,17 @@ files.forEach((filename) => buildIndex(filename, indexById, indexByName));
 const idIndex = [...indexById.entries()].map(([key, value]) => {
 	return { id: key, ...value };
 });
+idIndex.unshift({ key: 'id' });
 const nameIndex = [...indexByName.entries()].map(([key, value]) => {
 	return { name: key, ...value };
 });
+nameIndex.unshift({ key: 'name' });
 
 writeFileSync('./jsonl/id.idx', JSON.stringify(idIndex));
 writeFileSync('./jsonl/name.idx', JSON.stringify(nameIndex));
-console.log(indexById);
-console.log(indexByName);
+//console.log(indexById);
+//console.log(indexByName);
+console.log(idIndex);
 
 const strength = indexByName.get('Sack, Small');
 const fileHandle = await open('./jsonl/equipment.jsonl');
