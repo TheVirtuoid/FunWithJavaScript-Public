@@ -8,7 +8,19 @@ const processPrompt = new ProcessPrompt();
 const executePrompt = new ExecutePrompt();
 const printText = new PrintText();
 
+printText.printLine('\n\n\n');
 printText.printLine('Welcome to the Virtuoid RPG!\n');
+printText.printLine('     /----------------\\');
+printText.printLine('    /  VIRTUOID ARENA  \\');
+printText.printLine('/--/                    \\--\\');
+printText.printLine('|      O            O      |');
+printText.printLine('|     /|\\  /    \\  /|\\     |');
+printText.printLine('|    / | \\/      \\/ | \\    |');
+printText.printLine('|      |            |      |');
+printText.printLine('|     / \\          / \\     |');
+printText.printLine('|    /   \\        /   \\    |');
+printText.printLine('\\--------------------------/')
+printText.printLine('\n');
 
 let sayGoodbye = false;
 while (!sayGoodbye) {
@@ -18,7 +30,8 @@ while (!sayGoodbye) {
 		printText.printLine(`? ${error}`);
 	}
 	if (result) {
-		printText.printLine(result);
+		const output = typeof result === 'object' ? JSON.stringify(result, null, 2) : result;
+		printText.printLine(output);
 	}
 	sayGoodbye = exit;
 }

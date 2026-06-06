@@ -1,6 +1,7 @@
 import quit from "./commands/quit.js";
 import roll from "./commands/roll.js";
 import calc from "./commands/calc.js";
+import dbGet from "./commands/dbget.js";
 
 export default class ExecutePrompt {
 
@@ -9,6 +10,7 @@ export default class ExecutePrompt {
 		['quit', { cmd: quit }],
 		['roll', { cmd: roll }],
 		['calc', { cmd: calc }],
+		['dbget', { cmd: dbGet }]
 	]);
 
 	static COMMANDS = [...ExecutePrompt.JUMPTABLE.keys()];

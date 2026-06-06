@@ -63,7 +63,7 @@ export default class Database {
 		let fileHandle = this.#databaseHandles.get(filename);
 		try {
 			if (!fileHandle) {
-				this.#databaseHandles.set(filename, openSync(`${this.#path}/${filename}`, 'utf8'));
+				this.#databaseHandles.set(filename, openSync(`${this.#path}/${filename}.jsonl`));
 				fileHandle = this.#databaseHandles.get(filename);
 			}
 		} catch (err) {
