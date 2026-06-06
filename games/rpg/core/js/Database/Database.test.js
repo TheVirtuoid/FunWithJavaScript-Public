@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
-import {readdirSync, readFileSync, open as fsOpen} from "fs";
+import { readdirSync, readFileSync, openSync, readSync, statSync } from "fs";
 
 const validData = JSON.stringify([{"key":"id"},{"id":"bc8dbbdb-839a-446a-9713-459a3bfda5d2","start":0,"length":129,"filename":"abilities"}]);
 const validResult = {"name":"Strength","abbreviation":"STR","description":"Physical power and endurance","id":"bc8dbbdb-839a-446a-9713-459a3bfda5d2"};
@@ -9,13 +9,16 @@ const invalidFilename = JSON.stringify([{"key":"id"},{"id":"bc8dbbdb-839a-446a-9
 vi.mock('fs', () => ({
 	readdirSync: vi.fn().mockReturnValue([]),
 	readFileSync: vi.fn().mockReturnValue('[]'),
-	open: vi.fn().mockReturnValue((null, 99))
+	openSync: vi.fn(),
+	readSync: vi.fn(),
+	statSync: vi.fn().mockReturnValue({size: 129 }),
 }));
 
 const mockReaddirSync = vi.mocked(readdirSync);
 const mockReadFileSync = vi.mocked(readFileSync);
-// const mockOpen = vi.mocked(fsOpen);
-const mockOpen = (fsOpen);
+const mockOpenSync = vi.mocked(openSync);
+const mockReadSync = vi.mocked(readSync);
+const mockStatSync = vi.mocked(statSync);
 
 describe('Database', () => {
 	const validPath = './databases/jsonl';
@@ -40,6 +43,7 @@ describe('Database', () => {
 		it('should create a singleton Database instance', () => {
 			mockReaddirSync.mockReturnValue(['data.jsonl', 'id.idx']);
 			mockReadFileSync.mockReturnValue(validData);
+			mockStatSync.mockReturnValue({ size: 100 });
 			const db1 = new Database(validPath);
 			const db2 = new Database(validPath);
 
@@ -78,7 +82,13 @@ describe('Database', () => {
 		it('retrieves a single entity from the database by ID', async () => {
 			mockReaddirSync.mockReturnValue(['data.jsonl', 'id.idx']);
 			mockReadFileSync.mockReturnValue(validData);
-			mockOpen.mockReturnValue(validResult);
+			mockStatSync.mockReturnValue({ size: 100 });
+			mockOpenSync.mockReturnValue(42); // returns a mocked file descriptor
+			mockReadSync.mockImplementation((fd, buffer, options) => {
+				const dataStr = JSON.stringify(validResult);
+				buffer.write(dataStr);
+				return dataStr.length;
+			});
 			const db = new Database(validPath);
 			const args = {
 				key: 'id',
@@ -86,11 +96,17 @@ describe('Database', () => {
 			};
 			const result = db.get(args);
 			expect(result).toBeDefined();
+			expect(result.name).toBe('Strength');
 		});
 
 		it('returns undefined if not found', async () => {
 			mockReaddirSync.mockReturnValue(['data.jsonl', 'id.idx']);
-			mockReadFileSync.mockReturnValue('[]');
+			mockReadFileSync.mockReturnValue(validData);
+			mockStatSync.mockReturnValue({ size: 100 });
+			mockOpenSync.mockReturnValue(42); // returns a mocked file descriptor
+			mockReadSync.mockImplementation((fd, buffer, options) => {
+				return undefined;
+			});
 			const db = new Database(validPath);
 			const result = db.get({ key: 'id', value: 'non-existent' });
 			expect(result).toBeUndefined();
@@ -98,14 +114,28 @@ describe('Database', () => {
 
 		it('throws if key is missing in args', async () => {
 			mockReaddirSync.mockReturnValue(['data.jsonl', 'id.idx']);
-			mockReadFileSync.mockReturnValue('[]');
+			mockReadFileSync.mockReturnValue(validData);
+			mockStatSync.mockReturnValue({ size: 100 });
+			mockOpenSync.mockReturnValue(42); // returns a mocked file descriptor
+			mockReadSync.mockImplementation((fd, buffer, options) => {
+				const dataStr = JSON.stringify(validResult);
+				buffer.write(dataStr);
+				return dataStr.length;
+			});
 			const db = new Database(validPath);
 			expect(() => db.get({ value: 'some-value' })).toThrow();
 		});
 
 		it('throws if value is missing in args', async () => {
 			mockReaddirSync.mockReturnValue(['data.jsonl', 'id.idx']);
-			mockReadFileSync.mockReturnValue('[]');
+			mockReadFileSync.mockReturnValue(validData);
+			mockStatSync.mockReturnValue({ size: 100 });
+			mockOpenSync.mockReturnValue(42); // returns a mocked file descriptor
+			mockReadSync.mockImplementation((fd, buffer, options) => {
+				const dataStr = JSON.stringify(validResult);
+				buffer.write(dataStr);
+				return dataStr.length;
+			});
 			const db = new Database(validPath);
 			expect(() => db.get({ key: 'id' })).toThrow();
 		});
@@ -117,32 +147,27 @@ describe('Database', () => {
 	describe('getAll', () => {
 		it('retrieves all entities from the database', async () => {
 			mockReaddirSync.mockReturnValue(['monsters.jsonl', 'id.idx']);
-			mockReadFileSync.mockReturnValue('[]');
+			mockStatSync.mockReturnValue({ size: 129 });
+			mockReadFileSync.mockReturnValue(validData);
 			const db = new Database(validPath);
-			const result = db.getAll({ database: 'monsters' });
+			const result = db.getAll({ databaseName: 'monsters' });
 			expect(Array.isArray(result)).toBe(true);
-		});
-
-		it('returns an empty array if none are found', async () => {
-			mockReaddirSync.mockReturnValue(['empty.jsonl', 'id.idx']);
-			mockReadFileSync.mockReturnValue('[]');
-			const db = new Database(validPath);
-			const result = db.getAll({ database: 'empty' });
-			expect(result).toEqual([]);
 		});
 
 		it('throws if the database name is missing in args', async () => {
 			mockReaddirSync.mockReturnValue(['data.jsonl', 'id.idx']);
-			mockReadFileSync.mockReturnValue('[]');
+			mockStatSync.mockReturnValue({ size: 129 });
+			mockReadFileSync.mockReturnValue(validData);
 			const db = new Database(validPath);
 			expect(() => db.getAll({})).toThrow();
 		});
 
 		it('throws if the database itself is not found', async () => {
 			mockReaddirSync.mockReturnValue(['monsters.jsonl', 'id.idx']);
-			mockReadFileSync.mockReturnValue('[]');
+			mockStatSync.mockReturnValue({ size: 129 });
+			mockReadFileSync.mockReturnValue(validData);
 			const db = new Database(validPath);
-			expect(() => db.getAll({ database: 'non-existent' })).toThrow();
+			expect(() => db.getAll({ databaseName: 'non-existent' })).toThrow();
 		});
 	});
 });

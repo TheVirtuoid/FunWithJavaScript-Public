@@ -1,13 +1,14 @@
-import { readdirSync, readFileSync, open } from 'fs';
+import { readdirSync, readFileSync, openSync, readSync, statSync } from 'fs';
 
 let instance;
 
 export default class Database {
 
-	#databases;
+	#legalDatabases;
+	#databaseLength;
 	#indexes;
 	#path;
-	#fileHandles;
+	#databaseHandles;
 
 	constructor(path) {
 		if (instance) {
@@ -20,7 +21,7 @@ export default class Database {
 		try {
 			const files = readdirSync(path);
 			this.#processDirectoryFiles(files);
-			this.#fileHandles = new Map();
+			this.#databaseHandles = new Map();
 			instance = this;
 		} catch (error) {
 			throw new Error(`Failed to read database directory at ${path}: ${error.message}`);
@@ -32,30 +33,61 @@ export default class Database {
 		if (!this.#indexes.has(key)) {
 			throw new Error(`Index ${key} not found in database`);
 		}
+		if (!value) {
+			throw new Error('Value must be provided in args');
+		}
 		const indexDatabase = this.#indexes.get(key);
 		const indexValue = indexDatabase.get(value);
 		if (!indexValue) {
 			return undefined;
 		}
-		let fileHandle = this.#fileHandles.get(indexValue.filename);
-		if (!fileHandle) {
-			open(`${this.#path}/${indexValue.filename}`, 'utf8', this.#retrieveFile.bind(this));
-		}
-		/*const database = JSON.parse(fileHandle);
-		return database[indexValue.index];*/
+		const { id, start, length, filename } = indexValue;
+		return JSON.parse(this.#openAndRead({ filename, start, length }));
 	}
 
-	#retrieveFile(err, data) {
-		console.log('retrieved file:');
+	getAll(args = {}) {
+		const { databaseName } = args;
+		if (typeof databaseName !== 'string') {
+			throw new Error('Database name must be provided in args and be a string');
+		}
+		if (!this.#legalDatabases.includes(databaseName)) {
+			throw new Error(`Database ${databaseName} does not exist`);
+		}
+		const length = this.#databaseLength.get(databaseName);
+		const allData = this.#openAndRead({ filename: databaseName, start: 0, length });
+		return JSON.parse(`[${allData}]`);
+	}
+
+	#openAndRead(args) {
+		const { filename, start, length } = args;
+		let fileHandle = this.#databaseHandles.get(filename);
+		try {
+			if (!fileHandle) {
+				this.#databaseHandles.set(filename, openSync(`${this.#path}/${filename}`, 'utf8'));
+				fileHandle = this.#databaseHandles.get(filename);
+			}
+		} catch (err) {
+			throw new Error(`Failed to open file ${filename}: ${err.message}`);
+		}
+		const buffer = Buffer.alloc(length);
+		const bytesRead = readSync(fileHandle, buffer, { offset: 0, length, position: start });
+		if (bytesRead !== length) {
+			throw new Error(`Failed to read file ${filename}: expected ${length} bytes, got ${bytesRead}`);
+		}
+		return buffer.toString();
+
 	}
 
 	#processDirectoryFiles(files) {
-		this.#databases = new Map();
+		this.#databaseLength = new Map();
+		this.#legalDatabases = [];
 		this.#indexes = new Map();
 		for (const filename of files) {
 			if (filename.endsWith('.jsonl')) {
 				const databaseName = filename.replace('.jsonl', '');
-				this.#databases.set(databaseName, null);
+				this.#legalDatabases.push(databaseName);
+				const stats = statSync(`${this.#path}/${filename}`);
+				this.#databaseLength.set(databaseName, stats.size);
 			} else if (filename.endsWith('.idx')) {
 				const indexName = filename.replace('.idx', '');
 				const indexText = readFileSync(`${this.#path}/${filename}`, 'utf8');
@@ -68,7 +100,7 @@ export default class Database {
 				this.#indexes.set(indexName, indexMap);
 			}
 		}
-		if (this.#databases.size === 0) {
+		if (this.#legalDatabases.length === 0) {
 			throw new Error('No JSONL files found in the database directory');
 		}
 		if (this.#indexes.size === 0) {

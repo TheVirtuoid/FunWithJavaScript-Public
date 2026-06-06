@@ -28,7 +28,7 @@ All properties are read-only.
     
 2. `getAll(args)` - Retrieves all entities from the database.
     - `args` (object): The arguments to pass, which contain:
-        - `database` (string): The name of the database. Required.
+        - `databaseName` (string): The name of the database. Required.
     - Returns the array of records from the database, or an empty array if none are found, or if database is not ready.
     - If the database itself is not found, then it will throw an error.
 
