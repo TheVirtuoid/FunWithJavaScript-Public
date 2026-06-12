@@ -1,77 +1,62 @@
-import attributeData from './attributes.json' with { type: 'json' };
+import Database from "../Database/Database.js";
+import { databasePath } from "./../../../config.json" with { type: 'json' };
+
+const database = new Database(databasePath);
+const attributeCollection = database.getAll({ databaseName: 'attributes' });
+const attributes = new Map(attributeCollection.map((attribute) => [attribute.id, attribute]));
+const categories = new Map();
+attributeCollection.forEach((attribute) => {
+	if (!categories.has(attribute.category)) {
+		categories.set(attribute.category, []);
+	};
+	const attributeList = categories.get(attribute.category);
+	attributeList.push(attribute);
+	categories.set(attribute.category, attributeList);
+});
 
 export default class Attribute {
 
-	static LEVEL = Symbol('level');
-	static EXPERIENCE = Symbol('experience');
-	static ARMOR_CLASS = Symbol('armor-class');
-	static HIT_POINTS = Symbol('hit-points');
-	static ATTACK_BONUS = Symbol('attack-bonus');
-	static GOLD_PIECES = Symbol('gold-pieces');
-
-	static DEATH_POISON = Symbol('death-poison');
-	static WANDS = Symbol('wands');
-	static PARALYZE_STONE = Symbol('paralyze-stone');
-	static DRAGON_BREATH = Symbol('dragon-breath');
-	static SPELLS = Symbol('spells');
-
-	static ATTRIBUTE_CATEGORY_CHARACTER = Symbol('attribute-category-character');
-	static ATTRIBUTE_CATEGORY_SAVING_THROW = Symbol('attribute-category-saving-throw');
-	static ATTRIBUTE_CATEGORY_MONEY = Symbol('attribute-category-money');
-
-	static SYMBOLS = new Map([
-		[Attribute.LEVEL.description, Attribute.LEVEL],
-		[Attribute.EXPERIENCE.description, Attribute.EXPERIENCE],
-		[Attribute.ARMOR_CLASS.description, Attribute.ARMOR_CLASS],
-		[Attribute.HIT_POINTS.description, Attribute.HIT_POINTS],
-		[Attribute.ATTACK_BONUS.description, Attribute.ATTACK_BONUS],
-		[Attribute.GOLD_PIECES.description, Attribute.GOLD_PIECES],
-		[Attribute.DEATH_POISON.description, Attribute.DEATH_POISON],
-		[Attribute.WANDS.description, Attribute.WANDS],
-		[Attribute.PARALYZE_STONE.description, Attribute.PARALYZE_STONE],
-		[Attribute.DRAGON_BREATH.description, Attribute.DRAGON_BREATH],
-		[Attribute.SPELLS.description, Attribute.SPELLS],
-		[Attribute.ATTRIBUTE_CATEGORY_CHARACTER.description, Attribute.ATTRIBUTE_CATEGORY_CHARACTER],
-		[Attribute.ATTRIBUTE_CATEGORY_SAVING_THROW.description, Attribute.ATTRIBUTE_CATEGORY_SAVING_THROW],
-		[Attribute.ATTRIBUTE_CATEGORY_MONEY.description, Attribute.ATTRIBUTE_CATEGORY_MONEY],
-	]);
-
-	static #DATA = new Map(attributeData.map(({ type, name, category, abbreviation, description }) =>
-		[Attribute.SYMBOLS.get(type), {
-			type: Attribute.SYMBOLS.get(type),
-			name,
-			abbreviation,
-			description,
-			category: Attribute.SYMBOLS.get(category)
-		}]));
-
-	static #LIST = [...Attribute.#DATA.keys()];
-
-	static IsAttribute(attributeType) {
-		return Attribute.#LIST.includes(attributeType);
+	static IsAttribute(id) {
+		if (typeof id !== 'string') {
+			throw new Error(`id must be a string`);
+		}
+		return attributes.has(id);
 	}
 
-	static GetAttribute(type) {
-		const data = Attribute.#DATA.get(type);
-		return data ? { ... data } : data;
+	static GetAttribute(id) {
+		if (typeof id !== 'string') {
+			throw new Error(`id must be a string`);
+		}
+		return attributes.get(id);
 	}
 
-	#type;
+	static GetCategoryData(categoryName) {
+		if (typeof categoryName !== 'string') {
+			throw new Error(`categoryName must be a string`);
+		}
+		return categories.get(categoryName) || [];
+	}
+
+	#id;
 	#value;
 	#attributeData;
 
 	constructor(args = {}) {
-		const { type, value } = args;
-		if (!Attribute.IsAttribute(type)) {
-			throw new Error(`Invalid attribute type: ${type}`);
+		const { id, value } = args;
+		if (!Attribute.IsAttribute(id)) {
+			throw new Error(`Invalid attribute type: ${id}`);
 		}
 		this.setValue(value);
-		this.#type = type;
-		this.#attributeData = Attribute.GetAttribute(type);
+		this.#id = id;
+		this.#attributeData = Attribute.GetAttribute(id);
+	}
+
+	get id() {
+		return this.#id;
 	}
 
 	get type() {
-		return this.#type;
+		return this.#attributeData.type;
 	}
 
 	get value() {
