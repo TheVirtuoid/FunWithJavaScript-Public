@@ -4,12 +4,46 @@ import Ability from "../Ability/Ability.js";
 
 export default class Race {
 
-	static Restrictions = {
-		ABILITY: Symbol('restrictions-ability'),
-		WEAPON_SIZE: Symbol('restrictions-weapon-size'),
-		CHARACTER_CLASS: Symbol('restrictions-character-class'),
-		HIT_POINTS: Symbol('restrictions-hit-points')
-	}
+	static Restrictions = Object.freeze({
+		ABILITY: 'ability',
+		WEAPON_SIZE: 'weapon-size',
+		CHARACTER_CLASS: 'character-class',
+		HIT_POINTS: 'hit-points'
+	});
+
+	static #restrictionValidators = {
+		[Race.Restrictions.ABILITY]: ({ id, min, max }) => {
+			if (typeof id !== 'string' || !Ability.IsAbility(id)) {
+				throw new Error('Race restrictions for ABILITY must have id set to a valid Ability id');
+			}
+			if (min !== undefined && (typeof min !== 'number' || min < 3)) {
+				throw new Error('Race restrictions for ABILITY must have a minimum value of at least 3');
+			}
+			if (max !== undefined && (typeof max !== 'number' || max > 18)) {
+				throw new Error('Race restrictions for ABILITY must have a maximum value of at most 18');
+			}
+		},
+		[Race.Restrictions.WEAPON_SIZE]: ({ type }) => {
+			// TODO: validate against WeaponSize lookup when it exists
+			if (!Array.isArray(type)) {
+				throw new Error('Race restrictions for WEAPON_SIZE must be an array of weapon sizes');
+			}
+		},
+		[Race.Restrictions.CHARACTER_CLASS]: ({ type }) => {
+			// TODO: validate against CharacterClass lookup when it exists
+			if (typeof type !== 'string') {
+				throw new Error('Race restrictions for CHARACTER_CLASS must have a string type');
+			}
+		},
+		[Race.Restrictions.HIT_POINTS]: ({ min, max }) => {
+			if (min !== undefined && typeof min !== 'number') {
+				throw new Error('Race restrictions for HIT_POINTS min must be a number');
+			}
+			if (max !== undefined && typeof max !== 'number') {
+				throw new Error('Race restrictions for HIT_POINTS max must be a number');
+			}
+		}
+	};
 
 	#id;
 	#name;
@@ -88,14 +122,12 @@ export default class Race {
 
 	toObject() {
 		const classes = this.classes.map((entry) => entry.description);
-		const restrictions = this.restrictions.map((entry) => {
-			return {
-				restrictionType: entry.restrictionType.description,
-					type: typeof entry.type === 'symbol' ? entry.type.description : entry.type,
-					min: entry.min,
-					max: entry.max
-			}
-		});
+		const restrictions = this.restrictions.map((entry) => ({
+			restrictionType: entry.restrictionType,
+			type: entry.type,
+			min: entry.min,
+			max: entry.max
+		}));
 		const specialAbilities = this.specialAbilities.map((entry) => entry.description);
 		const savingThrows = this.savingThrows.map((entry) => {
 			return {
@@ -121,23 +153,16 @@ export default class Race {
 		if (!Array.isArray(restrictions)) {
 			throw new Error('Race restrictions must be an array');
 		}
-		const validRestrictions = Object.values(Race.Restrictions);
+		const validators = Race.#restrictionValidators;
 		restrictions.forEach((entry) => {
-			if (!validRestrictions.includes(entry.restrictionType)) {
-				throw new Error('Race restrictions must be a member of Race.Restrictions');
+			if (!entry || typeof entry !== 'object') {
+				throw new Error('Each restriction must be an object');
 			}
-			const { restrictionType, type, min, max } = entry;
-			if (restrictionType === Race.Restrictions.ABILITY) {
-				if (!type || !Ability.IsAbility(type)) {
-					throw new Error('Race restrictions for ABILITY must have type set to an Ability');
-				}
-				if (min !== undefined && (typeof min !== 'number' || min < 3)) {
-					throw new Error('Race restrictions for ABILITY must have a minimum value of 3');
-				}
-				if (max !== undefined && (typeof max !== 'number' || max > 18)) {
-					throw new Error('Race restrictions for ABILITY must have a maximum value of 18');
-				}
+			const validator = validators[entry.restrictionType];
+			if (!validator) {
+				throw new Error(`Unknown restrictionType: ${entry.restrictionType}`);
 			}
+			validator(entry);
 		});
 	}
 
@@ -162,7 +187,7 @@ export default class Race {
 		savingThrows.forEach((entry) => {
 			const { attribute, bonus } = entry;
 			const savingThrow = Attribute.GetAttribute(attribute);
-			if (!savingThrow || savingThrow.category !== Attribute.ATTRIBUTE_CATEGORY_SAVING_THROW) {
+			if (!savingThrow || savingThrow.category !== 'attribute-category-saving-throw') {
 				throw new Error('Race savingThrows must be Attribute types with category "saving-throw"');
 			}
 			if (typeof bonus !== 'number') {

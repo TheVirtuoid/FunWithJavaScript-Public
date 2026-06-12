@@ -10,7 +10,7 @@ describe('Race', () => {
 	const baseRestrictions = [
 		{
 			restrictionType: Race.Restrictions.ABILITY,
-			type: Ability.STRENGTH,
+			id: 'dd67458c-d4fe-483c-b518-d57cc3f14ddc',
 			min: 3,
 			max: 18
 		},
@@ -26,7 +26,7 @@ describe('Race', () => {
 	const baseSpecialAbilities = [];
 	const baseSavingThrows = [
 		{
-			attribute: Attribute.DRAGON_BREATH,
+			attribute: '94b98920-6b9e-47a6-b59d-f83fa9ac3d0b',
 			bonus: -1
 		}
 	];
@@ -263,8 +263,8 @@ describe('Race', () => {
 			const classes = baseClasses.map((entry) => entry.description);
 			const restrictions = baseRestrictions.map((entry) => {
 				return {
-					restrictionType: entry.restrictionType.description,
-					type: typeof entry.type === 'symbol' ? entry.type.description : entry.type,
+					restrictionType: entry.restrictionType,
+					type: entry.type,
 					min: entry.min,
 					max: entry.max
 				}
