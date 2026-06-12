@@ -1,41 +1,31 @@
+import Database from "../Database/Database.js";
+import { databasePath } from "./../../../config.json" with { type: 'json' };
+
+const database = new Database(databasePath);
+const abilitiesCollection = database.getAll({ databaseName: 'abilities' });
+const abilities = new Map(abilitiesCollection.map((ability) => [ability.id, ability]));
+const idList = [...abilities.keys()];
+
 export default class Ability {
 
-	static STRENGTH = Symbol( 'strength');
-	static DEXTERITY = Symbol( 'dexterity');
-	static INTELLIGENCE = Symbol( 'intelligence');
-	static WISDOM = Symbol( 'wisdom');
-	static CHARISMA = Symbol( 'charisma');
-	static CONSTITUTION = Symbol( 'constitution');
-
-	static IsAbility(ability) {
-		return Ability.#LIST.includes(ability);
+	static IsAbility(abilityId) {
+		return idList.includes(abilityId);
 	}
 
-	static GetAbility(ability) {
-		return Ability.#DATA.get(ability);
+	static GetAbility(abilityId) {
+		return abilities.get(abilityId);
 	}
 
-	static #DATA = new Map([
-		[Ability.STRENGTH, { name: 'Strength', abbreviation: 'STR' }],
-		[Ability.DEXTERITY, { name: 'Dexterity', abbreviation: 'DEX' }],
-		[Ability.INTELLIGENCE, { name: 'Intelligence', abbreviation: 'INT' }],
-		[Ability.WISDOM, { name: 'Wisdom', abbreviation: 'WIS' }],
-		[Ability.CHARISMA, { name: 'Charisma', abbreviation: 'CHA' }],
-		[Ability.CONSTITUTION, { name: 'Constitution', abbreviation: 'CON' }],
-	])
-
-	static #LIST = [...Ability.#DATA.keys()];
-
-	#type;
+	#id;
 	#value;
 	#bonus;
 
 	constructor(args = {}) {
-		const { type, value, bonus = 0 } = args;
-		if (!Ability.IsAbility(type)) {
-			throw new Error('Invalid ability type');
+		const { id, value, bonus = 0 } = args;
+		if (!Ability.IsAbility(id)) {
+			throw new Error('Invalid ability id');
 		}
-		this.#type = type;
+		this.#id = id;
 		this.setBonus(bonus);
 		this.setValue(value);
 	}
@@ -44,8 +34,8 @@ export default class Ability {
 		return this.#bonus;
 	}
 
-	get type() {
-		return this.#type;
+	get id() {
+		return this.#id;
 	}
 
 	get value() {

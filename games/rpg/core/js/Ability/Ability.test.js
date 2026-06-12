@@ -2,41 +2,8 @@ import { describe, it, expect } from 'vitest';
 import Ability from './Ability.js';
 
 // A known-valid ability type for use across tests
-const VALID_TYPE = Ability.STRENGTH;
+const VALID_ID = 'dd67458c-d4fe-483c-b518-d57cc3f14ddc';
 const VALID_VALUE = 10;
-
-const ABILITY_TYPES = [
-	{
-		type: Ability.STRENGTH,
-		name: 'Strength',
-		abbreviation: 'STR',
-	},
-	{
-		type: Ability.DEXTERITY,
-		name: 'Dexterity',
-		abbreviation: 'DEX',
-	},
-	{
-		type: Ability.CONSTITUTION,
-		name: 'Constitution',
-		abbreviation: 'CON',
-	},
-	{
-		type: Ability.INTELLIGENCE,
-		name: 'Intelligence',
-		abbreviation: 'INT',
-	},
-	{
-		type: Ability.WISDOM,
-		name: 'Wisdom',
-		abbreviation: 'WIS',
-	},
-	{
-		type: Ability.CHARISMA,
-		name: 'Charisma',
-		abbreviation: 'CHA',
-	},
-];
 
 describe('Ability', () => {
 
@@ -46,67 +13,60 @@ describe('Ability', () => {
 
 		describe('valid construction', () => {
 			it('constructs with type, value, and bonus', () => {
-				const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE, bonus: 2 });
+				const ability = new Ability({ id: VALID_ID, value: VALID_VALUE, bonus: 2 });
 				expect(ability).toBeInstanceOf(Ability);
 			});
 
 			it('constructs with type and value only (bonus defaults to 0)', () => {
-				const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+				const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 				expect(ability).toBeInstanceOf(Ability);
 			});
 		});
 
 		describe('type argument', () => {
-			it('throws when type is missing', () => {
+			it('throws when id is missing', () => {
 				expect(() => new Ability({ value: VALID_VALUE })).toThrow();
 			});
 
-			it('throws when type is not a valid ability symbol', () => {
-				expect(() => new Ability({ type: Symbol('unknown'), value: VALID_VALUE })).toThrow();
+			it('throws when id is not a valid id', () => {
+				expect(() => new Ability({ id: 'bad', value: VALID_VALUE })).toThrow();
 			});
 
-			it('throws when type is a string', () => {
-				expect(() => new Ability({ type: 'strength', value: VALID_VALUE })).toThrow();
+			it('throws when id is not a string', () => {
+				expect(() => new Ability({ id: 1234, value: VALID_VALUE })).toThrow();
 			});
 
-			it('throws when type is null', () => {
-				expect(() => new Ability({ type: null, value: VALID_VALUE })).toThrow();
-			});
-
-			it('throws when type is undefined', () => {
-				expect(() => new Ability({ type: undefined, value: VALID_VALUE })).toThrow();
-			});
 		});
 
 		describe('value argument', () => {
 			it('throws when value is missing', () => {
-				expect(() => new Ability({ type: VALID_TYPE })).toThrow();
+				expect(() => new Ability({ id: VALID_ID })).toThrow();
 			});
 
 			it('throws when value is a float', () => {
-				expect(() => new Ability({ type: VALID_TYPE, value: 1.5 })).toThrow();
+				expect(() => new Ability({ id: VALID_ID, value: 1.5 })).toThrow();
 			});
 
 			it('throws when value is a string', () => {
-				expect(() => new Ability({ type: VALID_TYPE, value: '10' })).toThrow();
+				expect(() => new Ability({ id: VALID_ID, value: '10' })).toThrow();
 			});
 
 			it('throws when value is null', () => {
-				expect(() => new Ability({ type: VALID_TYPE, value: null })).toThrow();
+				expect(() => new Ability({ id: VALID_ID, value: null })).toThrow();
 			});
 		});
 
 		describe('bonus argument', () => {
 			it('throws when bonus is a float', () => {
-				expect(() => new Ability({ type: VALID_TYPE, value: VALID_VALUE, bonus: 1.5 })).toThrow();
+				expect(() => new Ability({ id: VALID_ID, value: VALID_VALUE, bonus: 1.5 })).toThrow();
 			});
 
 			it('throws when bonus is a string', () => {
-				expect(() => new Ability({ type: VALID_TYPE, value: VALID_VALUE, bonus: '2' })).toThrow();
+				expect(() => new Ability({ id: VALID_ID, value: VALID_VALUE, bonus: '2' })).toThrow();
 			});
 
 			it('throws when bonus is null', () => {
-				expect(() => new Ability({ type: VALID_TYPE, value: VALID_VALUE, bonus: null })).toThrow();
+				expect(() => new Ability({ id: VALID_ID, value: VALID_VALUE, bonus: null })).toThrow();
 			});
 		});
 	});
@@ -114,39 +74,39 @@ describe('Ability', () => {
 	// ─── Properties ────────────────────────────────────────────────────────────
 
 	describe('properties', () => {
-		it('type returns the symbol passed to the constructor', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
-			expect(ability.type).toBe(VALID_TYPE);
+		it('id returns the string passed to the constructor', () => {
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
+			expect(ability.id).toBe(VALID_ID);
 		});
 
 		it('value returns the integer passed to the constructor', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			expect(ability.value).toBe(VALID_VALUE);
 		});
 
 		it('bonus returns the integer passed to the constructor', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE, bonus: 3 });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE, bonus: 3 });
 			expect(ability.bonus).toBe(3);
 		});
 
 		it('bonus defaults to 0 when not provided', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			expect(ability.bonus).toBe(0);
 		});
 
 		describe('read-only', () => {
-			it('type cannot be reassigned', () => {
-				const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
-				expect(() => { ability.type = Ability.DEXTERITY; }).toThrow();
+			it('id cannot be reassigned', () => {
+				const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
+				expect(() => { ability.id = 'another string'; }).toThrow();
 			});
 
 			it('value cannot be reassigned', () => {
-				const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+				const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 				expect(() => { ability.value = 99; }).toThrow();
 			});
 
 			it('bonus cannot be reassigned', () => {
-				const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE, bonus: 2 });
+				const ability = new Ability({ id: VALID_ID, value: VALID_VALUE, bonus: 2 });
 				expect(() => { ability.bonus = 99; }).toThrow();
 			});
 		});
@@ -156,47 +116,47 @@ describe('Ability', () => {
 
 	describe('setValue()', () => {
 		it('updates the value property', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			ability.setValue(20);
 			expect(ability.value).toBe(20);
 		});
 
 		it('accepts negative integers', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			ability.setValue(-5);
 			expect(ability.value).toBe(-5);
 		});
 
 		it('accepts zero', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			ability.setValue(0);
 			expect(ability.value).toBe(0);
 		});
 
 		it('throws when given a float', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			expect(() => ability.setValue(1.5)).toThrow();
 		});
 
 		it('throws when given a string', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			expect(() => ability.setValue('10')).toThrow();
 		});
 
 		it('throws when given null', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			expect(() => ability.setValue(null)).toThrow();
 		});
 
 		it('throws when given undefined', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			expect(() => ability.setValue(undefined)).toThrow();
 		});
 
-		it('does not affect type or bonus', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE, bonus: 3 });
+		it('does not affect id or bonus', () => {
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE, bonus: 3 });
 			ability.setValue(20);
-			expect(ability.type).toBe(VALID_TYPE);
+			expect(ability.id).toBe(VALID_ID);
 			expect(ability.bonus).toBe(3);
 		});
 	});
@@ -205,69 +165,56 @@ describe('Ability', () => {
 
 	describe('setBonus()', () => {
 		it('updates the bonus property', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			ability.setBonus(5);
 			expect(ability.bonus).toBe(5);
 		});
 
 		it('accepts negative integers', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			ability.setBonus(-3);
 			expect(ability.bonus).toBe(-3);
 		});
 
 		it('accepts zero', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			ability.setBonus(0);
 			expect(ability.bonus).toBe(0);
 		});
 
 		it('throws when given a float', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			expect(() => ability.setBonus(1.5)).toThrow();
 		});
 
 		it('throws when given a string', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			expect(() => ability.setBonus('2')).toThrow();
 		});
 
 		it('throws when given null', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			expect(() => ability.setBonus(null)).toThrow();
 		});
 
 		it('throws when given undefined', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE });
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE });
 			expect(() => ability.setBonus(undefined)).toThrow();
 		});
 
-		it('does not affect type or value', () => {
-			const ability = new Ability({ type: VALID_TYPE, value: VALID_VALUE, bonus: 1 });
+		it('does not affect id or value', () => {
+			const ability = new Ability({ id: VALID_ID, value: VALID_VALUE, bonus: 1 });
 			ability.setBonus(5);
-			expect(ability.type).toBe(VALID_TYPE);
+			expect(ability.id).toBe(VALID_ID);
 			expect(ability.value).toBe(VALID_VALUE);
-		});
-	});
-
-	// ─── Static Public Properties ──────────────────────────────────────────────
-
-	describe('static ability type properties', () => {
-		it.each(ABILITY_TYPES)('$name is a Symbol', ({ type }) => {
-			expect(typeof type).toBe('symbol');
-		});
-
-		it('defines unique symbols for each ability type', () => {
-			const uniqueTypes = new Set(ABILITY_TYPES.map(({ type }) => type));
-			expect(uniqueTypes.size).toBe(ABILITY_TYPES.length);
 		});
 	});
 
 	// ─── Static Public Methods ─────────────────────────────────────────────────
 
 	describe('IsAbility()', () => {
-		it.each(ABILITY_TYPES)('returns true for $name', ({ type }) => {
-			expect(Ability.IsAbility(type)).toBe(true);
+		it('returns true for a valid id', () => {
+			expect(Ability.IsAbility(VALID_ID)).toBe(true);
 		});
 
 		it('returns false for invalid ability objects', () => {
@@ -279,9 +226,9 @@ describe('Ability', () => {
 	});
 
 		describe('GetAbility', () => {
-			it.each(ABILITY_TYPES)('returns the correct data for $name', ({ type, name, abbreviation }) => {
-				const ability = Ability.GetAbility(type);
-				expect(ability).toEqual({ name, abbreviation });
+			it('should return the correct data', () => {
+				const ability = Ability.GetAbility(VALID_ID);
+				expect(ability.id).toEqual(VALID_ID);
 			});
 
 			it('should return undefined for an invalid ability', () => {

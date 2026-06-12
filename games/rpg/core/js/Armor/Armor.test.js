@@ -2,6 +2,8 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import Armor from './Armor';
 import Item from './../Item/Item';
 
+const VALID_ARMOR_ID = 'f1017403-509a-4161-9067-8094574d556a';
+
 describe('Armor', () => {
 	let armor;
 
@@ -161,6 +163,36 @@ describe('Armor', () => {
 			armor.setPrice(50);
 			const armorObject = armor.toObject();
 			expect(armorObject.price).toBe(50);
+		});
+	});
+
+	describe('static methods', () => {
+		describe('isArmor()', () => {
+			it('should return true if the item is armor', () => {
+				expect(Armor.IsArmor(VALID_ARMOR_ID)).toBe(true);
+			});
+
+			it('should return false if the item is armor', () => {
+				expect(Armor.IsArmor('bad')).toBe(false);
+			});
+
+			it('should throw if id is not a string', () => {
+				expect(() => Armor.IsArmor(123)).toThrow();
+			});
+		});
+
+		describe('getArmor()', () => {
+			it('should return data if the item is armor', () => {
+				expect(Armor.GetArmor(VALID_ARMOR_ID)).toBeDefined();
+			});
+
+			it('should return undefined if the item is armor', () => {
+				expect(Armor.GetArmor('bad')).toBeUndefined();
+			});
+
+			it('should throw if id is not a string', () => {
+				expect(() => Armor.GetArmor(123)).toThrow();
+			});
 		});
 	});
 });

@@ -8,7 +8,8 @@ const files = [
 	'attributes',
 	'characterClass',
 	'equipment',
-	'race'
+	'race',
+	'weapon'
 ];
 const indexById = new Map();
 const indexByName = new Map();

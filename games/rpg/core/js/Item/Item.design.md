@@ -22,3 +22,6 @@ All properties are read-only.
 - `toObject()` (object): creates a copy of the record, passed back as an object.
 - `setPrice(number)`: sets the price
 - `setPriceUnit(string)`: sets the price unit
+
+## Static Methods
+- `GetItems(className)` Array(object): returns an array from items of the specified class name. Empty array if none are found.

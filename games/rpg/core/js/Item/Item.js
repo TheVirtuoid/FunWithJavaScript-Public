@@ -1,4 +1,15 @@
 import crypto from 'crypto';
+import Database from "../Database/Database.js";
+import { databasePath } from "./../../../config.json" with { type: 'json' };
+
+const legalClasses = ['armor', 'equipment', 'weapon'];
+
+const database = new Database(databasePath);
+const itemCollection = new Map();
+legalClasses.forEach((collectionName) => {
+	const collection = database.getAll({ databaseName: collectionName });
+	itemCollection.set(collectionName, collection.map((data) => [data.id, data]));
+});
 
 export default class Item {
 
@@ -7,6 +18,13 @@ export default class Item {
 	#price;
 	#priceUnit;
 	#weight;
+
+	static GetItems(collection) {
+		if (typeof collection !== 'string') {
+			throw new Error('Item collection must be a string');
+		}
+		return itemCollection.get(collection) || [];
+	}
 
 	constructor(args = {}) {
 		const { name, price = 0, priceUnit = 'gp', weight = 0 } = args;

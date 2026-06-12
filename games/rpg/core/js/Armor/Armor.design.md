@@ -17,3 +17,7 @@ All additional properties are read-only
 
 ## Methods
 - `toObject()` - extends the `Iten.toObject()` method to include the new properties.
+
+## Static Methods
+- `isArmor(id)` - returns true if the item is armor. Throws if id is not a string
+- `getArmor(id)` - return the armor data. Returns undefined if not found. Throws if id is not a string.

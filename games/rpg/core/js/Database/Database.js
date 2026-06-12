@@ -55,7 +55,7 @@ export default class Database {
 		}
 		const length = this.#databaseLength.get(databaseName);
 		const allData = this.#openAndRead({ filename: databaseName, start: 0, length });
-		return JSON.parse(`[${allData}]`);
+		return JSON.parse(`[${allData.split('\r\n').join(',')}]`);
 	}
 
 	#openAndRead(args) {

@@ -12,14 +12,14 @@ printText.printLine('\n\n\n');
 printText.printLine('Welcome to the Virtuoid RPG!\n');
 printText.printLine('     /----------------\\');
 printText.printLine('    /  VIRTUOID ARENA  \\');
-printText.printLine('/--/                    \\--\\');
+printText.printLine('|--/                    \\--|');
 printText.printLine('|      O            O      |');
 printText.printLine('|     /|\\  /    \\  /|\\     |');
 printText.printLine('|    / | \\/      \\/ | \\    |');
 printText.printLine('|      |            |      |');
 printText.printLine('|     / \\          / \\     |');
 printText.printLine('|    /   \\        /   \\    |');
-printText.printLine('\\--------------------------/')
+printText.printLine('|--------------------------|')
 printText.printLine('\n');
 
 let sayGoodbye = false;
@@ -35,4 +35,18 @@ while (!sayGoodbye) {
 	}
 	sayGoodbye = exit;
 }
+printText.printLine('\n');
+printText.printLine('           /------------------\\');
+printText.printLine('          /       R.I.P.       \\');
+printText.printLine('          |                    |');
+printText.printLine('          |                    |');
+printText.printLine('          |                    |');
+printText.printLine('          |                    |');
+printText.printLine('          |                    |');
+printText.printLine('          |                    |');
+printText.printLine('          |         _          |');
+printText.printLine('          |        \\*/         |');
+printText.printLine('          |         |          |');
+printText.printLine('------------------------------------------');
+printText.printLine('\n');
 process.exit(0);

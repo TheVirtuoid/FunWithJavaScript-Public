@@ -211,4 +211,22 @@ describe('Item', () => {
 			expect(itemObject.price).toBe(100);
 		});
 	});
+
+	describe('static method GetItems()', () => {
+		it('should return array of items if class is valid', () => {
+			const items = Item.GetItems('equipment');
+			expect(Array.isArray(items)).toBe(true);
+			expect(items.length).toBeGreaterThan(0);
+		});
+
+		it('should return empty array if class is invalid', () => {
+			const items = Item.GetItems('abilities');
+			expect(Array.isArray(items)).toBe(true);
+			expect(items.length).toEqual(0);
+		});
+
+		it('should throw error if not a string', () => {
+			expect(() => Item.GetItems(true)).toThrow();
+		});
+	});
 });
