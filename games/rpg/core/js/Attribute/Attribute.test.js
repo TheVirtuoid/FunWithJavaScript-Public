@@ -1,13 +1,17 @@
 import { describe, it, expect } from 'vitest';
 import Attribute from './Attribute.js';
+import {readFileSync} from "fs";
+
+const database = readFileSync('./databases/jsonl/attributes.jsonl', 'utf-8');
+const data = JSON.parse(`[${database.split('\r\n').join(',')}]`);
 
 // A known-valid attribute type for use across tests
-const VALID_ID = 'd0959ecf-4ea3-45c1-a882-594327a10f8d';
+const VALID_ID = data[0]['id'];
 const VALID_VALUE = 10;
-const VALID_NAME = 'Level';
-const VALID_TYPE = 'level';
-const VALID_ABBREVIATION = 'lvl';
-const VALID_CATEGORY = 'attribute-category-character';
+const VALID_NAME = data[0]['name'];
+const VALID_TYPE = data[0]['type'];
+const VALID_ABBREVIATION = data[0]['abbreviation'];
+const VALID_CATEGORY = data[0]['category'];
 
 describe('Attribute', () => {
 

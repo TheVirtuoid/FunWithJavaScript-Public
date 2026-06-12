@@ -1,8 +1,13 @@
+import { readFileSync } from "fs";
 import { describe, it, expect, beforeEach } from 'vitest';
 import Armor from './Armor';
 import Item from './../Item/Item';
 
-const VALID_ARMOR_ID = 'f1017403-509a-4161-9067-8094574d556a';
+const armorDatabase = readFileSync('./databases/jsonl/armor.jsonl', 'utf-8');
+const armorData = JSON.parse(`[${armorDatabase.split('\r\n').join(',')}]`);
+
+const VALID_ARMOR_ID = armorData[0]['id'];
+const VALID_ARMOR_CATEGORY = armorData[0]['category'][0];
 
 describe('Armor', () => {
 	let armor;
@@ -192,6 +197,20 @@ describe('Armor', () => {
 
 			it('should throw if id is not a string', () => {
 				expect(() => Armor.GetArmor(123)).toThrow();
+			});
+		});
+
+		describe('isArmorCategory()', () => {
+			it('should return true if the category is armor', () => {
+				expect(Armor.IsArmorCategory(VALID_ARMOR_CATEGORY)).toBe(true);
+			});
+
+			it('should return false if the item is armor', () => {
+				expect(Armor.IsArmorCategory('bad')).toBe(false);
+			});
+
+			it('should throw if id is not a string', () => {
+				expect(() => Armor.IsArmorCategory(123)).toThrow();
 			});
 		});
 	});

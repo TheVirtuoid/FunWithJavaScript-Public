@@ -1,46 +1,46 @@
-{"name":"Backpack (Standard or Halfling)","price":4,"weight":0.1,"id":"6bcb5ff2-7eec-4367-84ff-4474ed9a0cfa"}
-{"name":"Belt, Pouch","price":1,"weight":0.1,"id":"5c550bfd-f00d-436e-b746-0c2e98f714cf"}
-{"name":"Bit, and bridle","price":15,"priceUnit":"sp","weight":3,"id":"72a524eb-afa5-4e9e-bdde-0996851f6a02"}
-{"name":"Candles, 12","price":1,"weight":0.1,"id":"9c96d3d4-9115-4f0f-bc6d-f78102ee2322"}
-{"name":"Chalk, small bag of pieces","price":2,"weight":0.1,"id":"30bbb5d1-fa33-4c0d-a7a7-d53fbefb1663"}
-{"name":"Cloak","price":2,"weight":1,"id":"c02d4458-b8cc-42be-b4b4-4cd11e78c900"}
-{"name":"Clothing, common outfit","price":4,"weight":1,"id":"a2c94f30-106e-400f-bd52-2cac59c041d5"}
-{"name":"Glass, bottle or vial","price":1,"weight":0.1,"id":"8ca8972b-cdcb-4b9a-9313-1ddcbf912c8b"}
-{"name":"Grappling, Hook","price":2,"weight":4,"id":"8f41f02b-0746-42a5-a262-a6fa5b723e5a"}
-{"name":"Holy, Symbol","price":25,"weight":0.1,"id":"bd36fe8a-67d9-44a6-bcab-871a3e5d24a5"}
-{"name":"Holy, Water, per vial","price":10,"weight":0.1,"id":"6b5815cf-a85e-475a-a56d-eb3e928eed0a"}
-{"name":"Horseshoes, & shoeing","price":1,"weight":10,"id":"df8fe2ed-585a-4134-82a8-e6269509abe6"}
-{"name":"Ink, per jar","price":8,"weight":0.5,"id":"600e85d3-ea88-4005-885f-f4b9204129f8"}
-{"name":"Iron, Spikes, 12","price":1,"weight":1,"id":"f25c5a70-d2cb-4050-a18f-a41c653aac88"}
-{"name":"Ladder, 10 ft.","price":1,"weight":20,"id":"93b61c1b-fd3f-4007-bfa7-8c0bf76824fb"}
-{"name":"Lantern","price":5,"weight":2,"id":"1285341f-395b-4ef0-bdd3-d4b7ca8aa067"}
-{"name":"Lantern, Bullseye","price":14,"weight":3,"id":"8306e26c-02ac-4fba-8bc0-8a7b7acb8432"}
-{"name":"Lantern, Hooded","price":8,"weight":2,"id":"eb26fdd8-3093-4d32-badf-5b480b3b6deb"}
-{"name":"Manacles, (without padlock)","price":6,"weight":4,"id":"b9fb535f-ff1d-4040-9022-a17a605b79ed"}
-{"name":"Map, or scroll case","price":1,"weight":0.5,"id":"434acef1-5f0f-4bcb-8092-1e54793685ff"}
-{"name":"Mirror, small metal","price":7,"weight":0.1,"id":"6b267524-f32b-4861-8c34-dc08f38c4155"}
-{"name":"Oil, (per flask)","price":1,"weight":1,"id":"de98642c-029b-40c7-9062-1676f786419d"}
-{"name":"Padlock, (with 2 keys)","price":12,"weight":1,"id":"5571339f-96f0-408e-8d40-afe124570684"}
-{"name":"Paper, (per sheet)","price":1,"weight":0,"id":"b5d0b2ce-60ff-4bb1-9601-8053669d2fbc"}
-{"name":"Pole, 10' wooden","price":1,"weight":10,"id":"d3f031e3-5040-42ab-bc16-9bdd6ec9bb01"}
-{"name":"Quill","price":1,"priceUnit":"sp","weight":0,"id":"63344515-fad3-4864-ba1e-ae53b2cd1d01"}
-{"name":"Quill, Knife","price":1,"weight":0.1,"id":"bf179b7e-3bd4-49a6-95f4-2588cd20dc8e"}
-{"name":"Quiver, or Bolt case","price":1,"weight":1,"id":"59b3f806-8eb1-4720-a74d-2ddd0b707c7f"}
-{"name":"Rations, Dry, one week","price":10,"weight":14,"id":"41eefbd6-d425-47bd-8bd3-73979fa8c4d1"}
-{"name":"Rope, Hemp (per 50 ft.)","price":1,"weight":5,"id":"c8ce3891-7890-48fc-9a67-80e6fe7f3c13"}
-{"name":"Rope, Silk (per 50 ft.)","price":10,"weight":2,"id":"4806e380-8f05-4f20-aa90-e7bfbe6a2ce9"}
-{"name":"Sack, Large","price":1,"weight":0.1,"id":"874d8833-5726-4fda-8b68-c0edb20234ca"}
-{"name":"Sack, Small","price":5,"priceUnit":"sp","weight":0.1,"id":"ec9dcef4-5cdb-4e4b-894f-eb0f581c94cd"}
-{"name":"Saddle, Pack","price":5,"weight":15,"id":"7d06d991-3294-48f6-a4d3-ecfc68856435"}
-{"name":"Saddle, Riding","price":10,"weight":35,"id":"a561fc23-c8f2-426e-938f-0b590eb62392"}
-{"name":"Saddlebags, pair","price":4,"weight":7,"id":"ee2f421c-1737-4a78-9706-87f94f512647"}
-{"name":"Spellbook, (128 pages)","price":25,"weight":1,"id":"2587d11e-d2be-4324-8906-5fa518b26847"}
-{"name":"Tent, Large (ten men)","price":25,"weight":20,"id":"01b8597e-c89f-4e18-88cf-542755809ec8"}
-{"name":"Tent, Small (one man)","price":5,"weight":10,"id":"71b0e0dc-1221-481e-9abd-50046b8d8710"}
-{"name":"Thieves picks and tools","price":25,"weight":1,"id":"50cfaa86-ab98-4c07-a8f0-80236b138835"}
-{"name":"Tinderbox, flint and steel","price":3,"weight":1,"id":"a749b10d-3f96-48b5-b00c-acf1d6c3a9bf"}
-{"name":"Torches 6","price":1,"weight":1,"id":"5a4f27dc-9466-4d7d-b7cc-e68efca2b44a"}
-{"name":"Whetstone","price":1,"weight":1,"id":"7f67f418-0550-4f36-97f5-a215551769d3"}
-{"name":"Whistle","price":1,"weight":0,"id":"f6393970-58dd-4b2d-8cb1-ce7dbb8f957a"}
-{"name":"Wineskin/Waterskin","price":1,"weight":2,"id":"dd3bbcf3-c47d-4da9-8d08-056776aaf962"}
-{"name":"Winter, blanket","price":1,"weight":3,"id":"36ff105d-0b96-4e7c-a492-34d121719591"}
+{"name":"Backpack (Standard or Halfling)","price":4,"weight":0.1,"id":"b853a456-7e80-4841-b1d7-ac85cafb296c"}
+{"name":"Belt, Pouch","price":1,"weight":0.1,"id":"d84dd3d1-6eae-450d-952d-4f1da0b80f2f"}
+{"name":"Bit, and bridle","price":15,"priceUnit":"sp","weight":3,"id":"e6e0d768-3223-4fc9-a5f6-440bc78d87c1"}
+{"name":"Candles, 12","price":1,"weight":0.1,"id":"c89f9179-6085-49da-bb7b-cdd91a11126a"}
+{"name":"Chalk, small bag of pieces","price":2,"weight":0.1,"id":"e8b3b51f-da20-46a2-9655-777d6922e38e"}
+{"name":"Cloak","price":2,"weight":1,"id":"1b9f9c16-0d55-4c3d-aa6e-cc9679c1f455"}
+{"name":"Clothing, common outfit","price":4,"weight":1,"id":"3c2a5410-4cbc-4aa0-9020-45d562f8a5ce"}
+{"name":"Glass, bottle or vial","price":1,"weight":0.1,"id":"a22c0484-bc18-4fd9-a87e-ce86a1e4f26d"}
+{"name":"Grappling, Hook","price":2,"weight":4,"id":"8c917c36-a068-4bc7-b554-a5e8ab29a1e6"}
+{"name":"Holy, Symbol","price":25,"weight":0.1,"id":"797cf49b-97f3-45c0-959f-f5b966525843"}
+{"name":"Holy, Water, per vial","price":10,"weight":0.1,"id":"343f4ec7-cc0b-4eaf-bef4-c42e786cb28e"}
+{"name":"Horseshoes, & shoeing","price":1,"weight":10,"id":"1fb7b675-2bd5-472e-9983-a988def19fa8"}
+{"name":"Ink, per jar","price":8,"weight":0.5,"id":"f5572147-4a0a-4729-8cac-c447855d070e"}
+{"name":"Iron, Spikes, 12","price":1,"weight":1,"id":"34ad87f0-b6bb-4213-9981-142d2f0dad6a"}
+{"name":"Ladder, 10 ft.","price":1,"weight":20,"id":"f89d09e9-2fa0-417a-87bd-5e19bd6ea5fc"}
+{"name":"Lantern","price":5,"weight":2,"id":"fd3c7e47-d199-4331-ba18-5a0032bfe825"}
+{"name":"Lantern, Bullseye","price":14,"weight":3,"id":"f666d6dc-3a1a-47b6-b16c-1b16ab830fc8"}
+{"name":"Lantern, Hooded","price":8,"weight":2,"id":"a16b7460-61a4-4082-813d-d7f38ca3b4d0"}
+{"name":"Manacles, (without padlock)","price":6,"weight":4,"id":"4260a706-3501-4291-81bd-b9413e4b5792"}
+{"name":"Map, or scroll case","price":1,"weight":0.5,"id":"a467419f-550c-4f83-b759-57bf9faa910b"}
+{"name":"Mirror, small metal","price":7,"weight":0.1,"id":"8e2d327b-5ff5-416b-ad51-d2a3c9bc41d2"}
+{"name":"Oil, (per flask)","price":1,"weight":1,"id":"64714d00-80e4-4c20-ad11-2dfa7bf287d1"}
+{"name":"Padlock, (with 2 keys)","price":12,"weight":1,"id":"25d788cd-2505-4728-a480-811a60d98e2e"}
+{"name":"Paper, (per sheet)","price":1,"weight":0,"id":"fe67cefe-0b72-48f6-8286-b2f2fd7f43ab"}
+{"name":"Pole, 10' wooden","price":1,"weight":10,"id":"e64d8490-2035-4585-96dc-ed9bdaf5014f"}
+{"name":"Quill","price":1,"priceUnit":"sp","weight":0,"id":"f3a903cf-54ec-4f24-ac83-ea40990d9a18"}
+{"name":"Quill, Knife","price":1,"weight":0.1,"id":"a0ad8c1d-a0b4-4f96-91ac-93968f40433b"}
+{"name":"Quiver, or Bolt case","price":1,"weight":1,"id":"ac09f1a1-17d7-4d7a-8a9f-c9a1b2d1b198"}
+{"name":"Rations, Dry, one week","price":10,"weight":14,"id":"d8d4d2c6-52c9-4930-8c13-1afcc7991210"}
+{"name":"Rope, Hemp (per 50 ft.)","price":1,"weight":5,"id":"6519703f-51cb-49b6-b617-ffa085f10998"}
+{"name":"Rope, Silk (per 50 ft.)","price":10,"weight":2,"id":"fe1edc5d-99ed-48fe-b8e4-1d16942a8d60"}
+{"name":"Sack, Large","price":1,"weight":0.1,"id":"d72f43be-2efb-49b3-916d-1ff4d371f757"}
+{"name":"Sack, Small","price":5,"priceUnit":"sp","weight":0.1,"id":"544e177b-e2b9-42b3-8d82-9597f2fa4323"}
+{"name":"Saddle, Pack","price":5,"weight":15,"id":"6fef5e76-9fbc-4009-84b0-a94fdd194862"}
+{"name":"Saddle, Riding","price":10,"weight":35,"id":"34c4cf22-9bed-4b50-80e1-bec4dbb04bc2"}
+{"name":"Saddlebags, pair","price":4,"weight":7,"id":"62fcb75e-94e2-49a0-b93c-b27d9c7493b6"}
+{"name":"Spellbook, (128 pages)","price":25,"weight":1,"id":"caf20020-8f4a-494e-9b8c-3adb2e382dee"}
+{"name":"Tent, Large (ten men)","price":25,"weight":20,"id":"6f5d99df-a1da-4aa5-bd73-3248cdf29080"}
+{"name":"Tent, Small (one man)","price":5,"weight":10,"id":"0a701195-c171-477d-a83d-53daf4ec045f"}
+{"name":"Thieves picks and tools","price":25,"weight":1,"id":"673ee8b6-b594-429c-978b-dd2f7d901541"}
+{"name":"Tinderbox, flint and steel","price":3,"weight":1,"id":"cc6f2ba5-7131-4568-a565-a4a595bcbfd9"}
+{"name":"Torches 6","price":1,"weight":1,"id":"8519812d-b8b0-4677-9d30-b29d8a64a257"}
+{"name":"Whetstone","price":1,"weight":1,"id":"a9d0a0cb-a2bc-4ce0-b2ec-2d68ac2795dd"}
+{"name":"Whistle","price":1,"weight":0,"id":"c3c376cf-0b01-41b9-aff4-cb10ab4722a5"}
+{"name":"Wineskin/Waterskin","price":1,"weight":2,"id":"431d79f5-58b8-4a63-8523-9784523a3391"}
+{"name":"Winter, blanket","price":1,"weight":3,"id":"380f2218-8db8-43c9-9eb9-a28bcfebd48d"}

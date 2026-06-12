@@ -5,6 +5,7 @@ export default class Armor extends Item {
 	#category;
 
 	static #data = new Map(Item.GetItems('armor'));
+	static #categories = new Set([...Armor.#data.values()].flatMap((data) => data.category));
 
 	static IsArmor(id) {
 		if (typeof id !== 'string') {
@@ -18,6 +19,13 @@ export default class Armor extends Item {
 			throw new Error('id must be a string');
 		}
 		return this.#data.get(id);
+	}
+
+	static IsArmorCategory(category) {
+		if (typeof category !== 'string') {
+			throw new Error('category must be a string');
+		}
+		return Armor.#categories.has(category);
 	}
 
 	constructor(args = {}) {

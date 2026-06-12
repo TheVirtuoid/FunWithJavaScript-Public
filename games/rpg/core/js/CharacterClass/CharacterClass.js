@@ -4,18 +4,53 @@ import { validateUUID } from '../Utilities/utilities.js';
 
 export default class CharacterClass {
 
-	static RESTRICTION_MINIMUM_ABILITY = Symbol('restriction-minimum-ability');
+	static Restriction = Object.freeze({
+		MINIMUM_ABILITY: 'minimum-ability',
+		WEAPON_SHARPNESS: 'weapon-sharpness',
+		ARMOR_TYPE: 'armor-type',
+		WEAPON_TYPE: 'weapon-type'
+	});
+
+	static #restrictionValidators = {
+		[CharacterClass.Restriction.MINIMUM_ABILITY]: ({ id, value }) => {
+			if (!Ability.IsAbility(id)) {
+				throw new Error('CharacterClass: restriction object has incorrect type for Restriction.MINIMUM_ABILITY');
+			}
+			if (typeof value !== 'number') {
+				throw new Error('CharacterClass: restriction object has incorrect value for Restriction.MINIMUM_ABILITY');
+			}
+		},
+		[CharacterClass.Restriction.WEAPON_SHARPNESS]: ({ type }) => {
+			// TODO: No validation for this at this time.
+		},
+		[CharacterClass.Restriction.ARMOR_TYPE]: ({ type }) => {
+			if (!validateUUID(type)) {
+				throw new Error('CharacterClass: restriction object has incorrect type for RESTRICTION_ARMOR_TYPE');
+			}
+			// TODO: If there is a database available later, check against that.
+		},
+		[CharacterClass.Restriction.WEAPON_TYPE]: ({ min, max }) => {
+			if (min !== undefined && typeof min !== 'number') {
+				throw new Error('Race restrictions for HIT_POINTS min must be a number');
+			}
+			if (max !== undefined && typeof max !== 'number') {
+				throw new Error('Race restrictions for HIT_POINTS max must be a number');
+			}
+		}
+	};
+
+	/*static RESTRICTION_MINIMUM_ABILITY = Symbol('restriction-minimum-ability');
 	static RESTRICTION_WEAPON_SHARPNESS = Symbol('restriction-weapon-sharpness');
 	static RESTRICTION_ARMOR_TYPE = Symbol('restriction-armor-type');
-	static RESTRICTION_WEAPON_TYPE = Symbol('restriction-weapon-type');
+	static RESTRICTION_WEAPON_TYPE = Symbol('restriction-weapon-type');*/
 
-	static RESTRICTION_SYMBOLS = [
+	/*static RESTRICTION_SYMBOLS = [
 		CharacterClass.RESTRICTION_MINIMUM_ABILITY,
 		CharacterClass.RESTRICTION_WEAPON_SHARPNESS,
 		CharacterClass.RESTRICTION_ARMOR_TYPE,
 		CharacterClass.RESTRICTION_WEAPON_TYPE
 	];
-
+*/
 	#id;
 	#name;
 	#description;

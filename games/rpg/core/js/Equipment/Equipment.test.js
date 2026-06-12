@@ -1,8 +1,12 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import Equipment from './Equipment';
 import Item from "../Item/Item.js";
+import {readFileSync} from "fs";
 
-const VALID_EQUIPMENT_ID = '6bcb5ff2-7eec-4367-84ff-4474ed9a0cfa';
+const database = readFileSync('./databases/jsonl/equipment.jsonl', 'utf-8');
+const data = JSON.parse(`[${database.split('\r\n').join(',')}]`);
+
+const VALID_EQUIPMENT_ID = data[0]['id'];
 
 describe('Equipment', () => {
 	describe('constructor', () => {

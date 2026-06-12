@@ -3,6 +3,13 @@ import Race from './Race';
 import Ability from "../Ability/Ability.js";
 import Size from "../../static/Size/Size.js";
 import Attribute from "../Attribute/Attribute.js";
+import {readFileSync} from "fs";
+
+const abilityDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
+const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
+
+const attributeDatabase = readFileSync('./databases/jsonl/attributes.jsonl', 'utf-8');
+const attributeData = JSON.parse(`[${attributeDatabase.split('\r\n').join(',')}]`);
 
 describe('Race', () => {
 	let raceData;
@@ -10,7 +17,7 @@ describe('Race', () => {
 	const baseRestrictions = [
 		{
 			restrictionType: Race.Restrictions.ABILITY,
-			id: 'dd67458c-d4fe-483c-b518-d57cc3f14ddc',
+			id: abilityData[0]['id'],
 			min: 3,
 			max: 18
 		},
@@ -26,7 +33,7 @@ describe('Race', () => {
 	const baseSpecialAbilities = [];
 	const baseSavingThrows = [
 		{
-			attribute: '94b98920-6b9e-47a6-b59d-f83fa9ac3d0b',
+			attribute: attributeData.find((attribute) => attribute.category === 'attribute-category-saving-throw')['id'],
 			bonus: -1
 		}
 	];

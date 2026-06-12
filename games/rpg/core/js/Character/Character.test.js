@@ -6,7 +6,7 @@ import Race from '../Race/Race.js';
 import CharacterClass from '../CharacterClass/CharacterClass.js';
 
 const VALID_ID = '123e4567-e89b-12d3-a456-426614174000';
-const VALID_NAME = 'Aragorn';
+const VALID_NAME = 'Cronkinkle The Chaotic';
 const VALID_RACE = new Race({
 	name: 'Human',
 	description: 'A versatile and adaptable race',

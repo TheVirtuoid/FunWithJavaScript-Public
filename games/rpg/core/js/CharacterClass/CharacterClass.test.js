@@ -8,8 +8,8 @@ describe('CharacterClass', () => {
 	const VALID_LEVEL_DATA = [];
 	const VALID_RESTRICTIONS = [
 		{
-			restrictionType: CharacterClass.RESTRICTION_MINIMUM_ABILITY,
-			type: Ability.STRENGTH,
+			restrictionType: CharacterClass.Restriction.MINIMUM_ABILITY,
+			id: 'dd67458c-d4fe-483c-b518-d57cc3f14ddc',
 			value: 9
 		}
 	];
@@ -146,7 +146,7 @@ describe('CharacterClass', () => {
 		it('throws if restrictionType is RESTRICTION_MINIMUM_ABILITY and type is invalid', () => {
 			const invalidRestrictions = [{
 				restrictionType: CharacterClass.RESTRICTION_MINIMUM_ABILITY,
-				type: 'bad',
+				id: 'bad',
 				value: 1
 			}];
 			expect(() => new CharacterClass({ ...validArgs, restrictions: invalidRestrictions })).toThrow();
@@ -155,7 +155,7 @@ describe('CharacterClass', () => {
 		it('throws if restrictionType is RESTRICTION_MINIMUM_ABILITY and value is invalid', () => {
 			const invalidRestrictions = [{
 				restrictionType: CharacterClass.RESTRICTION_MINIMUM_ABILITY,
-				type: Ability.STRENGTH,
+				id: 'dd67458c-d4fe-483c-b518-d57cc3f14ddc',
 				value: 'bad'
 			}];
 			expect(() => new CharacterClass({ ...validArgs, restrictions: invalidRestrictions })).toThrow();
@@ -164,7 +164,7 @@ describe('CharacterClass', () => {
 		it('throws if restrictionType is RESTRICTION_ARMOR_TYPE and the type is invalid', () => {
 			const invalidRestrictions = [{
 				restrictionType: CharacterClass.RESTRICTION_ARMOR_TYPE,
-				type: 'bad'
+				id: 'bad'
 			}];
 			expect(() => new CharacterClass({ ...validArgs, restrictions: invalidRestrictions })).toThrow();
 		});
@@ -172,7 +172,7 @@ describe('CharacterClass', () => {
 		it('throws if restrictionType is RESTRICTION_WEAPON_TYPE and the type is invalid', () => {
 			const invalidRestrictions = [{
 				restrictionType: CharacterClass.RESTRICTION_WEAPON_TYPE,
-				type: 'bad'
+				id: 'bad'
 			}];
 			expect(() => new CharacterClass({ ...validArgs, restrictions: invalidRestrictions })).toThrow();
 		});

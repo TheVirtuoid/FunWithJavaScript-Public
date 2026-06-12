@@ -2,11 +2,16 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import Weapon from './Weapon';
 import Item from './../Item/Item';
 import Size from "../../static/Size/Size.js";
+import {readFileSync} from "fs";
 
 describe('Weapon', () => {
 	let weapon;
 
-	const VALID_WEAPON_ID = '9379cfbc-3145-4eef-a424-08282ade13af';
+	const database = readFileSync('./databases/jsonl/weapon.jsonl', 'utf-8');
+	const data = JSON.parse(`[${database.split('\r\n').join(',')}]`);
+
+	const VALID_EQUIPMENT_ID = data[0]['id'];
+	const VALID_WEAPON_ID = data[0]['id'];
 
 	beforeEach(() => {
 		weapon = new Weapon({

@@ -1,8 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import Ability from './Ability.js';
+import {readFileSync} from "fs";
 
-// A known-valid ability type for use across tests
-const VALID_ID = 'dd67458c-d4fe-483c-b518-d57cc3f14ddc';
+const abilityDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
+const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
+
+const VALID_ID = abilityData[0]['id'];
 const VALID_VALUE = 10;
 
 describe('Ability', () => {
