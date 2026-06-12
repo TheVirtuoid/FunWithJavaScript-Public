@@ -13,6 +13,7 @@ export default class CharacterClass {
 
 	static #restrictionValidators = {
 		[CharacterClass.Restriction.MINIMUM_ABILITY]: ({ id, value }) => {
+			console.log(id, value);
 			if (!Ability.IsAbility(id)) {
 				throw new Error('CharacterClass: restriction object has incorrect type for Restriction.MINIMUM_ABILITY');
 			}
@@ -105,30 +106,18 @@ export default class CharacterClass {
 
 	#validateRestrictions(restrictions) {
 		if (!Array.isArray(restrictions)) {
-			throw new Error('CharacterClass: restrictions must be an array');
+			throw new Error('Race restrictions must be an array');
 		}
-		restrictions.forEach(item => {
-			if (!CharacterClass.RESTRICTION_SYMBOLS.includes(item.restrictionType)) {
-				throw new Error('CharacterClass: restriction object has incorrect restrictionType');
+		const validators = CharacterClass.#restrictionValidators;
+		restrictions.forEach((entry) => {
+			if (!entry || typeof entry !== 'object') {
+				throw new Error('Each restriction must be an object');
 			}
-			if (item.restrictionType === CharacterClass.RESTRICTION_MINIMUM_ABILITY) {
-				if (!Ability.IsAbility(item.type)) {
-					throw new Error('CharacterClass: restriction object has incorrect type for RESTRICTION_MINIMUM_ABILITY');
-				}
-				if (typeof item.value !== 'number') {
-					throw new Error('CharacterClass: restriction object has incorrect value for RESTRICTION_MINIMUM_ABILITY');
-				}
-			} else if (item.restrictionType === CharacterClass.RESTRICTION_ARMOR_TYPE) {
-				if (!validateUUID(item.type)) {
-					throw new Error('CharacterClass: restriction object has incorrect type for RESTRICTION_ARMOR_TYPE');
-				}
-				// TODO: If there is a database available later, check against that.
-			} else if (item.restrictionType === CharacterClass.RESTRICTION_WEAPON_TYPE) {
-				if (!validateUUID(item.type)) {
-					throw new Error('CharacterClass: restriction object has incorrect type for RESTRICTION_WEAPON_TYPE');
-				}
-				// TODO: If there is a database available later, check against that.
+			const validator = validators[entry.restrictionType];
+			if (!validator) {
+				throw new Error(`Unknown restrictionType: ${entry.restrictionType}`);
 			}
+			validator(entry);
 		});
 	}
 }

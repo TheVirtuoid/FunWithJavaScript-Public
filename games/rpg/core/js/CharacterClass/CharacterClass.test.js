@@ -1,23 +1,25 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import CharacterClass from './CharacterClass.js';
-import Ability from "../Ability/Ability.js";
+import {readFileSync} from "fs";
+
+const abilityDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
+const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
+
+const characterDatabase = readFileSync('./databases/jsonl/characterClass.jsonl', 'utf-8');
+const characterData = JSON.parse(`[${characterDatabase.split('\r\n').join(',')}]`);
 
 describe('CharacterClass', () => {
-	const VALID_NAME = 'Fighter';
-	const VALID_DESCRIPTION = 'A brave warrior';
-	const VALID_LEVEL_DATA = [];
-	const VALID_RESTRICTIONS = [
-		{
-			restrictionType: CharacterClass.Restriction.MINIMUM_ABILITY,
-			id: 'dd67458c-d4fe-483c-b518-d57cc3f14ddc',
-			value: 9
-		}
-	];
+	const VALID_NAME = characterData[0]['name'];
+	const VALID_DESCRIPTION = characterData[0]['description'];
+	const VALID_LEVEL_DATA = characterData[0]['levelData'];
+	const VALID_RESTRICTIONS = characterData[0]['restrictions'];
+	const VALID_ID = characterData[0]['id'];
 
 	let validArgs;
 
 	beforeEach(() => {
 		validArgs = {
+			id: VALID_ID,
 			name: VALID_NAME,
 			description: VALID_DESCRIPTION,
 			levelData: VALID_LEVEL_DATA,

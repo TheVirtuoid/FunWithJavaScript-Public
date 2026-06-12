@@ -1,6 +1,6 @@
-{"type":"strength","name":"Strength","abbreviation":"STR","description":"Physical power and endurance","id":"84efbeb6-d532-4805-8311-e5645149a011"}
-{"type":"dexterity","name":"Dexterity","abbreviation":"DEX","description":"The measure of agility, reflexes, and balance.","id":"b3e74d5f-05bd-49f9-8c65-d31e96eff564"}
-{"type":"intelligence","name":"Intelligence","abbreviation":"INT","description":"The ability to learn and recall information.","id":"e715498a-d53b-4e62-a39d-6a9f8b1a15af"}
-{"type":"wisdom","name":"Wisdom","abbreviation":"WIS","description":"The ability to see, hear, and smell.","id":"876198ee-6bf5-474e-9cb3-d7fc2dadb2a7"}
-{"type":"charisma","name":"Charisma","abbreviation":"CHA","description":"The ability to control emotions and influence others.","id":"d808a39e-1cf5-47b7-8371-82b0834c402b"}
-{"type":"constitution","name":"Constitution","abbreviation":"CON","description":"The measure of health and stamina.","id":"47f00931-b274-4f82-a416-fcebfba54d66"}
+{"type":"strength","name":"Strength","abbreviation":"STR","description":"Physical power and endurance","id":"3a7b1f99-7f60-4ff6-930f-1e12203d26cb"}
+{"type":"dexterity","name":"Dexterity","abbreviation":"DEX","description":"The measure of agility, reflexes, and balance.","id":"b3f36c8d-d1a9-4caa-88a1-8f39df73e7ee"}
+{"type":"intelligence","name":"Intelligence","abbreviation":"INT","description":"The ability to learn and recall information.","id":"e199375f-55c2-423b-846b-cffb0d2bf46f"}
+{"type":"wisdom","name":"Wisdom","abbreviation":"WIS","description":"The ability to see, hear, and smell.","id":"7c8a2cb4-d35a-4921-893b-bc6394e6d9ad"}
+{"type":"charisma","name":"Charisma","abbreviation":"CHA","description":"The ability to control emotions and influence others.","id":"2bb858e9-750d-4ec8-a777-9f0a3f9c1863"}
+{"type":"constitution","name":"Constitution","abbreviation":"CON","description":"The measure of health and stamina.","id":"18448619-d5b4-4f2e-9cd4-1ba876db9273"}
