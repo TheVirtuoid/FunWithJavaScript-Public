@@ -24,3 +24,7 @@ All additional properties are read-only
 
 ## Methods
 - `toObject()` - extends the `Iten.toObject()` method to include the new properties.
+
+## Static Methods
+- `IsWeapon(id)` - returns true if the item is weapon. Throws if id is not a string
+- `GetWeapon(id)` - return the weapon data. Returns undefined if not found. Throws if id is not a string.

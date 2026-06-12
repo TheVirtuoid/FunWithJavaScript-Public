@@ -6,6 +6,8 @@ import Size from "../../static/Size/Size.js";
 describe('Weapon', () => {
 	let weapon;
 
+	const VALID_WEAPON_ID = '9379cfbc-3145-4eef-a424-08282ade13af';
+
 	beforeEach(() => {
 		weapon = new Weapon({
 			name: 'Longsword',
@@ -264,6 +266,36 @@ describe('Weapon', () => {
 			weapon.setPrice(100);
 			const weaponObject = weapon.toObject();
 			expect(weaponObject.price).toBe(100);
+		});
+	});
+
+	describe('static methods', () => {
+		describe('IsWeapon()', () => {
+			it('should return true if the item is armor', () => {
+				expect(Weapon.IsWeapon(VALID_WEAPON_ID)).toBe(true);
+			});
+
+			it('should return false if the item is armor', () => {
+				expect(Weapon.IsWeapon('bad')).toBe(false);
+			});
+
+			it('should throw if id is not a string', () => {
+				expect(() => Weapon.IsWeapon(123)).toThrow();
+			});
+		});
+
+		describe('GetWeapon()', () => {
+			it('should return data if the item is armor', () => {
+				expect(Weapon.GetWeapon(VALID_WEAPON_ID)).toBeDefined();
+			});
+
+			it('should return undefined if the item is armor', () => {
+				expect(Weapon.GetWeapon('bad')).toBeUndefined();
+			});
+
+			it('should throw if id is not a string', () => {
+				expect(() => Weapon.GetWeapon(123)).toThrow();
+			});
 		});
 	});
 

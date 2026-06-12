@@ -8,6 +8,22 @@ export default class Weapon extends Item {
 	#category;
 	#sharp;
 
+	static #data = new Map(Item.GetItems('weapon'));
+
+	static IsWeapon(id) {
+		if (typeof id !== 'string') {
+			throw new Error('id must be a string');
+		}
+		return this.#data.has(id);
+	}
+
+	static GetWeapon(id) {
+		if (typeof id !== 'string') {
+			throw new Error('id must be a string');
+		}
+		return this.#data.get(id);
+	}
+
 	constructor(args = {}) {
 		const { damage, range, size, category, sharp = true } = args;
 		if (typeof damage !== 'string') {

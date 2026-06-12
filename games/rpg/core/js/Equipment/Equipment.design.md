@@ -12,3 +12,7 @@ There are no additional properties.
 
 ## Methods
 There are no additional methods.
+
+## Static Methods
+- `isEquipment(id)` - returns true if the item is equipment. Throws if id is not a string
+- `getEquipment(id)` - return the equipment data. Returns undefined if not found. Throws if id is not a string.
