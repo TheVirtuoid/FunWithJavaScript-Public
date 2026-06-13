@@ -9,6 +9,7 @@ export default class Weapon extends Item {
 	#sharp;
 
 	static #data = new Map(Item.GetItems('weapon'));
+	static #dataByType = new Map([...Weapon.#data.values()].map((item) => [item.type, item]));
 
 	static IsWeapon(id) {
 		if (typeof id !== 'string') {
@@ -22,6 +23,13 @@ export default class Weapon extends Item {
 			throw new Error('id must be a string');
 		}
 		return this.#data.get(id);
+	}
+
+	static GetWeaponByType(type) {
+		if (typeof type !== 'string') {
+			throw new Error('type must be a string');
+		}
+		return this.#dataByType.get(type);
 	}
 
 	constructor(args = {}) {

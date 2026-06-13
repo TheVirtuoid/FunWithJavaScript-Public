@@ -8,6 +8,7 @@ const armorData = JSON.parse(`[${armorDatabase.split('\r\n').join(',')}]`);
 
 const VALID_ARMOR_ID = armorData[0]['id'];
 const VALID_ARMOR_CATEGORY = armorData[0]['category'][0];
+const VALID_ARMOR_TYPE = armorData[0]['type'];
 
 describe('Armor', () => {
 	let armor;
@@ -211,6 +212,20 @@ describe('Armor', () => {
 
 			it('should throw if id is not a string', () => {
 				expect(() => Armor.IsArmorCategory(123)).toThrow();
+			});
+		});
+
+		describe('GetArmorByType()', () => {
+			it('should return data if the item is armor', () => {
+				expect(Armor.GetArmorByType(VALID_ARMOR_TYPE)).toBeDefined();
+			});
+
+			it('should return undefined if the item is armor', () => {
+				expect(Armor.GetArmorByType('bad')).toBeUndefined();
+			});
+
+			it('should throw if id is not a string', () => {
+				expect(() => Armor.GetArmorByType(123)).toThrow();
 			});
 		});
 	});

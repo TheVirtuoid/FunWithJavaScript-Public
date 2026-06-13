@@ -6,6 +6,7 @@ const abilityDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8
 const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
 
 const VALID_ID = abilityData[0]['id'];
+const VALID_TYPE = abilityData[0]['type'];
 const VALID_VALUE = 10;
 
 describe('Ability', () => {
@@ -228,17 +229,32 @@ describe('Ability', () => {
 		});
 	});
 
-		describe('GetAbility', () => {
-			it('should return the correct data', () => {
-				const ability = Ability.GetAbility(VALID_ID);
-				expect(ability.id).toEqual(VALID_ID);
-			});
-
-			it('should return undefined for an invalid ability', () => {
-				expect(Ability.GetAbility(Symbol('bad'))).toBeUndefined();
-				expect(Ability.GetAbility(null)).toBeUndefined();
-				expect(Ability.GetAbility(undefined)).toBeUndefined();
-				expect(Ability.GetAbility('ability')).toBeUndefined();
-			});
+	describe('GetAbility', () => {
+		it('should return the correct data', () => {
+			const ability = Ability.GetAbility(VALID_ID);
+			expect(ability.id).toEqual(VALID_ID);
 		});
+
+		it('should return undefined for an invalid ability', () => {
+			expect(Ability.GetAbility(Symbol('bad'))).toBeUndefined();
+			expect(Ability.GetAbility(null)).toBeUndefined();
+			expect(Ability.GetAbility(undefined)).toBeUndefined();
+			expect(Ability.GetAbility('ability')).toBeUndefined();
+		});
+	});
+
+	describe('GetAbilityByName', () => {
+		it('should return the correct data', () => {
+			const ability = Ability.GetAbilityByType(VALID_TYPE);
+			expect(ability.type).toEqual(VALID_TYPE);
+		});
+
+		it('should return undefined for an invalid ability', () => {
+			expect(Ability.GetAbilityByType(Symbol('bad'))).toBeUndefined();
+			expect(Ability.GetAbilityByType(null)).toBeUndefined();
+			expect(Ability.GetAbilityByType(undefined)).toBeUndefined();
+			expect(Ability.GetAbilityByType('ability')).toBeUndefined();
+		});
+
+	});
 });

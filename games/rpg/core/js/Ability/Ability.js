@@ -4,6 +4,7 @@ import { databasePath } from "./../../../config.json" with { type: 'json' };
 const database = new Database(databasePath);
 const abilitiesCollection = database.getAll({ databaseName: 'abilities' });
 const abilities = new Map(abilitiesCollection.map((ability) => [ability.id, ability]));
+const abilitiesByType = new Map(abilitiesCollection.map((ability) => [ability.type, ability]));
 const idList = [...abilities.keys()];
 
 export default class Ability {
@@ -14,6 +15,10 @@ export default class Ability {
 
 	static GetAbility(abilityId) {
 		return abilities.get(abilityId);
+	}
+
+	static GetAbilityByType(type) {
+		return abilitiesByType.get(type);
 	}
 
 	#id;

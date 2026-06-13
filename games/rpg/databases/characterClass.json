@@ -405,7 +405,7 @@
         "restrictionType": "weapon-type",
         "type": [
           "dagger",
-          "walking staff",
+          "walking-staff",
           "cudgel"
         ]
       }
@@ -705,7 +705,7 @@
       {
         "restrictionType": "armor-type",
         "type": [
-          "Leather Armor"
+          "leather"
         ]
       }
     ],

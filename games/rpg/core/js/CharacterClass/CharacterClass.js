@@ -1,6 +1,8 @@
 import crypto from 'crypto';
 import Ability from '../Ability/Ability.js';
 import { validateUUID } from '../Utilities/utilities.js';
+import Armor from "../Armor/Armor.js";
+import Weapon from "../Weapon/Weapon.js";
 
 export default class CharacterClass {
 
@@ -12,9 +14,8 @@ export default class CharacterClass {
 	});
 
 	static #restrictionValidators = {
-		[CharacterClass.Restriction.MINIMUM_ABILITY]: ({ id, value }) => {
-			console.log(id, value);
-			if (!Ability.IsAbility(id)) {
+		[CharacterClass.Restriction.MINIMUM_ABILITY]: ({ value, type }) => {
+			if (!Ability.GetAbilityByType(type)) {
 				throw new Error('CharacterClass: restriction object has incorrect type for Restriction.MINIMUM_ABILITY');
 			}
 			if (typeof value !== 'number') {
@@ -25,18 +26,24 @@ export default class CharacterClass {
 			// TODO: No validation for this at this time.
 		},
 		[CharacterClass.Restriction.ARMOR_TYPE]: ({ type }) => {
-			if (!validateUUID(type)) {
-				throw new Error('CharacterClass: restriction object has incorrect type for RESTRICTION_ARMOR_TYPE');
+			if (!Array.isArray(type)) {
+				throw new Error('CharacterClass: restriction object ARMOR_TYPE must be an array');
 			}
-			// TODO: If there is a database available later, check against that.
+			type.forEach((armorType) => {
+				if (!Armor.GetArmorByType(armorType)) {
+					throw new Error('CharacterClass: restriction object has incorrect type for ARMOR_TYPE');
+				}
+			});
 		},
-		[CharacterClass.Restriction.WEAPON_TYPE]: ({ min, max }) => {
-			if (min !== undefined && typeof min !== 'number') {
-				throw new Error('Race restrictions for HIT_POINTS min must be a number');
+		[CharacterClass.Restriction.WEAPON_TYPE]: ({ type }) => {
+			if (!Array.isArray(type)) {
+				throw new Error('CharacterClass: restriction object WEAPON_TYPE must be an array');
 			}
-			if (max !== undefined && typeof max !== 'number') {
-				throw new Error('Race restrictions for HIT_POINTS max must be a number');
-			}
+			type.forEach((armorType) => {
+				if (!Weapon.GetWeaponByType(armorType)) {
+					throw new Error('CharacterClass: restriction object has incorrect type for WEAPON_TYPE');
+				}
+			});
 		}
 	};
 
@@ -59,7 +66,7 @@ export default class CharacterClass {
 	#restrictions;
 
 	constructor(args = {}) {
-		const { name, description, levelData, restrictions } = args;
+		const { id, name, description, levelData, restrictions } = args;
 
 		if (typeof name !== 'string') {
 			throw new Error('CharacterClass: name must be a string');

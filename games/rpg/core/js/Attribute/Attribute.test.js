@@ -222,7 +222,23 @@ describe('Attribute', () => {
 			expect(Array.isArray(badCategory)).toBe(true);
 			expect(badCategory.length).toEqual(0);
 		});
-
 	});
+
+	describe('GetAttributeByType()', () => {
+		it('throws if type is not a string', () => {
+			expect(() => Attribute.GetAttributeByType(null)).toThrow();
+		});
+
+		it('should return data for valid type', () => {
+			expect(Attribute.GetAttributeByType(VALID_TYPE)).toBeDefined();
+		});
+
+		it('should return undefined for invalid type', () => {
+			expect(Attribute.GetAttributeByType('bad')).toBeUndefined();
+		});
+	});
+
+
+
 
 });

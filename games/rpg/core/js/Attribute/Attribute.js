@@ -4,6 +4,7 @@ import { databasePath } from "./../../../config.json" with { type: 'json' };
 const database = new Database(databasePath);
 const attributeCollection = database.getAll({ databaseName: 'attributes' });
 const attributes = new Map(attributeCollection.map((attribute) => [attribute.id, attribute]));
+const attributesByType = new Map(attributeCollection.map((attribute) => [attribute.type, attribute]));
 const categories = new Map();
 attributeCollection.forEach((attribute) => {
 	if (!categories.has(attribute.category)) {
@@ -35,6 +36,13 @@ export default class Attribute {
 			throw new Error(`categoryName must be a string`);
 		}
 		return categories.get(categoryName) || [];
+	}
+
+	static GetAttributeByType(type) {
+		if (typeof type !== 'string') {
+			throw new Error(`id must be a string`);
+		}
+		return attributesByType.get(type);
 	}
 
 	#id;

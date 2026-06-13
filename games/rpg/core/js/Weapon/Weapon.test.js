@@ -10,8 +10,8 @@ describe('Weapon', () => {
 	const database = readFileSync('./databases/jsonl/weapon.jsonl', 'utf-8');
 	const data = JSON.parse(`[${database.split('\r\n').join(',')}]`);
 
-	const VALID_EQUIPMENT_ID = data[0]['id'];
 	const VALID_WEAPON_ID = data[0]['id'];
+	const VALID_WEAPON_TYPE = data[0]['type'];
 
 	beforeEach(() => {
 		weapon = new Weapon({
@@ -276,11 +276,11 @@ describe('Weapon', () => {
 
 	describe('static methods', () => {
 		describe('IsWeapon()', () => {
-			it('should return true if the item is armor', () => {
+			it('should return true if the item is weapon', () => {
 				expect(Weapon.IsWeapon(VALID_WEAPON_ID)).toBe(true);
 			});
 
-			it('should return false if the item is armor', () => {
+			it('should return false if the item is weapon', () => {
 				expect(Weapon.IsWeapon('bad')).toBe(false);
 			});
 
@@ -290,11 +290,11 @@ describe('Weapon', () => {
 		});
 
 		describe('GetWeapon()', () => {
-			it('should return data if the item is armor', () => {
+			it('should return data if the item is weapon', () => {
 				expect(Weapon.GetWeapon(VALID_WEAPON_ID)).toBeDefined();
 			});
 
-			it('should return undefined if the item is armor', () => {
+			it('should return undefined if the item is weapon', () => {
 				expect(Weapon.GetWeapon('bad')).toBeUndefined();
 			});
 
@@ -304,5 +304,17 @@ describe('Weapon', () => {
 		});
 	});
 
+	describe('GetWeaponByType()', () => {
+		it('should return data if the item is weapon', () => {
+			expect(Weapon.GetWeaponByType(VALID_WEAPON_TYPE)).toBeDefined();
+		});
 
+		it('should return undefined if the item is weapon', () => {
+			expect(Weapon.GetWeaponByType('bad')).toBeUndefined();
+		});
+
+		it('should throw if id is not a string', () => {
+			expect(() => Weapon.GetWeaponByType(123)).toThrow();
+		});
+	});
 });

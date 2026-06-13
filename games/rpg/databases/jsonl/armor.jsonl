@@ -1,5 +1,5 @@
-{"name":"No Armor","category":["armor"],"price":0,"weight":0,"armorClass":11,"id":"96073491-2ccd-493e-9ad3-39cca60f1eff"}
-{"name":"Leather Armor","category":["armor"],"price":20,"weight":15,"armorClass":13,"id":"44997d41-1421-425e-a1ec-318ffcd07d55"}
-{"name":"Chain Mail","category":["armor"],"price":60,"weight":40,"armorClass":15,"id":"93a75f0e-a490-4a49-af39-a14226b3dd77"}
-{"name":"Plate Mail","category":["armor"],"price":300,"weight":50,"armorClass":17,"id":"a0db9757-58de-4f1e-b8df-69f9a696433a"}
-{"name":"Shield","price":7,"category":["shield"],"weight":5,"armorClass":1,"id":"02772d8d-ca65-4824-9dd7-e3ab317ae886"}
+{"type":"none","name":"No Armor","category":["armor"],"price":0,"weight":0,"armorClass":11,"id":"d1133fc1-adec-40a2-8c9f-a7122a8d4757"}
+{"type":"leather","name":"Leather Armor","category":["armor"],"price":20,"weight":15,"armorClass":13,"id":"c88f6fac-5ee2-444e-98db-54346117513a"}
+{"type":"chain-mail","name":"Chain Mail","category":["armor"],"price":60,"weight":40,"armorClass":15,"id":"24a8820e-4b09-49da-9ea5-67216e18aae4"}
+{"type":"plate-mail","name":"Plate Mail","category":["armor"],"price":300,"weight":50,"armorClass":17,"id":"6103364a-ebbf-44d8-8827-b234bb253a92"}
+{"type":"shield","name":"Shield","price":7,"category":["shield"],"weight":5,"armorClass":1,"id":"622e94b9-ed32-4f47-872d-b0c55c2dd220"}
