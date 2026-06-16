@@ -242,6 +242,7 @@ describe('Dice', () => {
     describe('invalid descriptors', () => {
       it.each([
         ['1d'],         // missing sides
+        ['-1d6'],       // negative number of sides
         ['1d1'],        // sides < 2
         ['1d-1'],       // negative sides
         ['1d1.5'],      // decimal sides
@@ -249,6 +250,7 @@ describe('Dice', () => {
         [''],           // empty string
         ['abc'],        // no d-separator
         ['d'],          // only separator
+        ['0d6'],        // zero sides
       ])('%s throws', (descriptor) => {
         expect(() => Dice.Roll(descriptor)).toThrow();
       });

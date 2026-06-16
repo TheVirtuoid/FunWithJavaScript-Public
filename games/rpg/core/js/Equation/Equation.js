@@ -12,7 +12,6 @@ export default class Equation {
 
 	static #OPERATOR = Symbol('operator');
 	static #NUMBER = Symbol('number');
-	static #GROUPING = Symbol('grouping');
 	static #DICE = Symbol('dice');
 
 	/*static #tokenize(equation) {
@@ -31,7 +30,6 @@ export default class Equation {
 	static #parseTokens(tokens) {
 		let operators = [];
 		let operands = [];
-		// console.log(tokens);
 		tokens.forEach((token) => {
 			const { type, value } = token;
 			if (type === Equation.#OPERATOR) {
@@ -66,7 +64,7 @@ export default class Equation {
 			}
 		});
 		({ operands, operators } = Equation.#reduceTokenStack({ operands, operators }));
-		if (operators.length > 1) {
+		if (operators.length > 0) {
 			throw new Error('Invalid equation. Extra operators found.');
 		}
 		if (operands.length !== 1) {

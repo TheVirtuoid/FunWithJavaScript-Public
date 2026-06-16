@@ -1,6 +1,6 @@
 # Equation
 
-An equation parser using Hungarian Notation
+An equation parser
 
 ## constructor
 - An error will be thrown upon any attempt to instantiate
@@ -18,7 +18,7 @@ There are no static properties
 - `Solve(equation)` - solves an equation
   - arguments
     - `equation(string)` - a string representation of the equation
-  - throws an error if the equation is malformed
+  - it throws an error if the equation is malformed
 
 ## Rules
 - operators supported: `+`, `-`, `/`, `*`, `^`

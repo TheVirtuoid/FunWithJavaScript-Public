@@ -111,7 +111,6 @@ describe('Equation', () => {
 			});
 
 			it('should turn a die roll negative', () => {
-				const rollSpy = vi.spyOn(Dice, 'Roll');
 				vi.spyOn(Dice, 'Roll').mockReturnValue(7);
 				expect(Equation.Solve('-2d6')).toEqual(-7);
 			});

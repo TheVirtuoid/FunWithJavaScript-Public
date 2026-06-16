@@ -44,6 +44,9 @@ export default class Dice {
 		if (numberOfSides < 2) {
 			throw new Error('Dice: Number of sides must be greater than 1');
 		}
+		if (numberOfDice < 1) {
+			throw new Error('Dice: Number of dice must be greater than 0');
+		}
 		return { numberOfDice, numberOfSides };
 	}
 

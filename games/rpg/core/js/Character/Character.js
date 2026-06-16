@@ -13,9 +13,9 @@ export default class Character {
 	#attributes;
 
 	constructor(args = {}) {
-		const { name, race: raceType, characterClass: characterClassType } = args;
-		this.setRace(raceType);
-		this.setCharacterClass(characterClassType);
+		const { name, race: raceId, characterClass: characterClassId } = args;
+		this.#setRace(raceId);
+		this.#setCharacterClass(characterClassId);
 		this.setName(name);
 		this.#id = window.crypto.randomUUID();
 		this.#abilities = new Map();
@@ -45,14 +45,15 @@ export default class Character {
 		this.#name = name;
 	}
 
-	setRace(race) {
+	#setRace(id) {
+		if (!Race.IsRace(id))
 		if (!(race instanceof Race)) {
 			throw new Error('Invalid race');
 		}
 		this.#race = race;
 	}
 
-	setCharacterClass(characterClass) {
+	#setCharacterClass(characterClass) {
 		if (!(characterClass instanceof CharacterClass)) {
 			throw new Error('Invalid character class');
 		}
@@ -63,42 +64,42 @@ export default class Character {
 		if (!(ability instanceof Ability)) {
 			throw new Error('Invalid ability');
 		}
-		this.#abilities.set(ability.type, ability);
+		this.#abilities.set(ability.id, ability);
 	}
 
-	getAbility(abilityType) {
-		if (!Ability.IsAbility(abilityType)) {
+	getAbility(abilityId) {
+		if (!Ability.IsAbility(abilityId)) {
+			throw new Error('Invalid ability id');
+		}
+		return this.#abilities.get(abilityId);
+	}
+
+	removeAbility(abilityId) {
+		if (!Ability.IsAbility(abilityId)) {
 			throw new Error('Invalid ability type');
 		}
-		return this.#abilities.get(abilityType);
+		this.#abilities.delete(abilityId);
 	}
 
-	removeAbility(abilityType) {
-		if (!Ability.IsAbility(abilityType)) {
-			throw new Error('Invalid ability type');
-		}
-		this.#abilities.delete(abilityType);
-	}
-
-	addAttribute(attribute) {
+	/*addAttribute(attribute) {
 		if (!(attribute instanceof Attribute)) {
 			throw new Error('Invalid attribute');
 		}
 		this.#attributes.set(attribute.type, attribute);
-	}
+	}*/
 
-	getAttribute(attributeType) {
+	/*getAttribute(attributeType) {
 		if (!Attribute.IsAttribute(attributeType)) {
 			throw new Error('Invalid attribute type');
 		}
 		return this.#attributes.get(attributeType);
-	}
+	}*/
 
-	removeAttribute(attributeType) {
+	/*removeAttribute(attributeType) {
 		if (!Attribute.IsAttribute(attributeType)) {
 			throw new Error('Invalid attribute type');
 		}
 		this.#attributes.delete(attributeType);
-	}
+	}*/
 
 }

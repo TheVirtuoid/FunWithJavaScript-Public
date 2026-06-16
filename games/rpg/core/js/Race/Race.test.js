@@ -11,6 +11,9 @@ const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
 const attributeDatabase = readFileSync('./databases/jsonl/attributes.jsonl', 'utf-8');
 const attributeData = JSON.parse(`[${attributeDatabase.split('\r\n').join(',')}]`);
 
+const raceDatabase = readFileSync('./databases/jsonl/race.jsonl', 'utf-8');
+const raceData = JSON.parse(`[${raceDatabase.split('\r\n').join(',')}]`);
+
 describe('Race', () => {
 	let raceData;
 	const baseClasses = [Symbol('fighter'), Symbol('magic-user'), Symbol('thief')];
