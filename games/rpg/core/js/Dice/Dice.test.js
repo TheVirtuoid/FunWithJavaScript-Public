@@ -250,7 +250,7 @@ describe('Dice', () => {
         [''],           // empty string
         ['abc'],        // no d-separator
         ['d'],          // only separator
-        ['0d6'],        // zero sides
+        ['0d6'],        // zero dice
       ])('%s throws', (descriptor) => {
         expect(() => Dice.Roll(descriptor)).toThrow();
       });
