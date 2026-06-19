@@ -1,42 +1,42 @@
-{"name":"Hand Axe","type":"hand-axe","category":["axe"],"range":[[10,1],[20,0],[30,-2]],"price":4,"size":"S","weight":5,"damage":"1d6","id":"b51dd166-15b5-45f5-8196-87b5b595e5a3"}
-{"name":"Battle Axe","type":"battle-axe","category":["axe"],"price":7,"size":"M","weight":7,"damage":"1d8","id":"759aa33b-e370-4c5c-8bfc-d891f0983d01"}
-{"name":"Great Axe","type":"great-axe","category":["axe"],"price":14,"size":"L","weight":15,"damage":"1d10","id":"493c2516-50aa-4c96-a828-8efbade31f3b"}
-{"name":"Shortbow","type":"shortbow","price":25,"category":["bow"],"range":[[50,1],[100,0],[150,-2]],"size":"M","weight":2,"id":"652be0b0-9fa9-4e61-8bad-65008c9c14b1"}
-{"name":"Shortbow Arrow","type":"shortbow-arrow","price":1,"priceUnit":"sp","category":["bow","arrow"],"weight":0.1,"damage":"1d6","id":"a7570ef5-8fa2-43f3-b246-bff85d81df62"}
-{"name":"Silver Shortbow Arrow","type":"silver-shortbow-arrow","price":2,"category":["bow","arrow"],"weight":0.1,"damage":"1d6","id":"e8f2109e-065b-4019-aa78-e899d4d46a15"}
-{"name":"Longbow","type":"longbow","price":60,"category":["bow"],"range":[[70,1],[140,0],[210,-2]],"size":"L","weight":3,"id":"33a2b866-185e-4a6f-9308-696b8538817f"}
-{"name":"Longbow Arrow","type":"longbow-arrow","price":2,"priceUnit":"sp","category":["bow","arrow"],"weight":0.1,"damage":"1d8","id":"9941dd60-e2c6-4cbc-8442-c1ef8ba7c2ca"}
-{"name":"Silver Longbow Arrow","type":"silver-longbow-arrow","price":4,"category":["bow","arrow"],"weight":0.1,"damage":"1d8","id":"39747d42-8198-42ff-b0b5-8c1379d5d395"}
-{"name":"Light Crossbow","type":"light-crossbow","price":30,"category":["bow"],"range":[[60,1],[120,0],[180,-2]],"size":"M","weight":7,"id":"9e4d6dfb-0748-49d8-8773-b5c608b3e6b8"}
-{"name":"Light Quarrel","type":"light-quarrel","price":2,"priceUnit":"sp","category":["bow","arrow"],"weight":0.1,"damage":"1d6","id":"1125325f-4af9-4ad3-a5c3-334dd530e51a"}
-{"name":"Silver Light Quarrel","type":"silver-light-quarrel","price":5,"category":["bow","arrow"],"weight":0.1,"damage":"1d6","id":"a833436c-350d-4c0d-8ed8-e26ac8a9bd93"}
-{"name":"Heavy Crossbow","type":"heavy-crossbow","price":50,"category":["bow"],"range":[[80,1],[160,0],[240,-2]],"size":"L","weight":14,"id":"7220b02a-1b58-447e-80ab-f7ee8890794b"}
-{"name":"Heavy Quarrel","type":"heavy-quarrel","price":4,"priceUnit":"sp","category":["bow","arrow"],"weight":0.1,"damage":"1d8","id":"7c7bb406-4f5e-4f82-a091-387ba8c06de1"}
-{"name":"Silver Heavy Quarrel","type":"silver-heavy-quarrel","price":10,"category":["bow","arrow"],"weight":0.1,"damage":"1d8","id":"3365a985-06b3-40d7-ab49-3e5a4bcfa95f"}
-{"name":"Dagger","type":"dagger","price":2,"category":["dagger"],"range":[[10,1],[20,0],[30,-2]],"size":"S","weight":1,"damage":"1d4","id":"a19351a0-86cf-40a0-82e7-40798802cd74"}
-{"name":"Silver Dagger","type":"silver-dagger","price":25,"category":["dagger"],"range":[[10,1],[20,0],[30,-2]],"size":"S","weight":1,"damage":"1d4","id":"6e8c3645-98f5-40a0-8eaa-f8381deba1d4"}
-{"name":"Shortsword","type":"shortsword","price":6,"category":["sword"],"size":"S","weight":3,"damage":"1d6","id":"8639c1a4-02ce-43b7-9171-bdda41ae5a12"}
-{"name":"Longsword","type":"longsword","price":10,"category":["sword"],"size":"M","weight":4,"damage":"1d8","id":"79011f7f-f1cf-4c18-822a-46425ae7857e"}
-{"name":"Scimitar","type":"scimitar","price":10,"category":["sword"],"size":"M","weight":4,"damage":"1d8","id":"bf278219-0ff8-4038-95ac-ab93e41e47ab"}
-{"name":"Two-Handed Sword","type":"two-handed-sword","price":18,"category":["sword"],"size":"L","weight":10,"damage":"1d10","id":"f65d7e86-3430-492f-ae42-52d884922a74"}
-{"name":"Warhammer","type":"warhammer","price":4,"category":["hammer-mace"],"range":[[10,1],[20,0],[30,-2]],"size":"S","weight":6,"sharp:":false,"damage":"1d6","id":"0bfc34fc-336c-4ffe-9160-1fcbe6bb2b6a"}
-{"name":"Mace","type":"mace","price":6,"category":["hammer-mace"],"size":"M","weight":10,"sharp:":false,"damage":"1d8","id":"312ca9a0-262d-4788-9b4a-04b3fe6000d8"}
-{"name":"Maul","type":"maul","price":10,"category":["hammer-mace"],"size":"L","weight":16,"sharp:":false,"damage":"1d10","id":"fbb631d8-c310-4892-b87a-ea2cba7ff9ef"}
-{"name":"Club","type":"club","price":2,"priceUnit":"sp","category":["weapon-other"],"size":"M","weight":1,"sharp:":false,"damage":"1d4","id":"38c4b509-79c7-4a56-8835-287fe7ffa16f"}
-{"name":"Cudgel","type":"cudgel","price":2,"priceUnit":"sp","category":["weapon-other"],"size":"M","weight":1,"damage":"1d4","id":"a975d018-f491-4719-b358-1dd71efdb06c"}
-{"name":"Walking Staff","type":"walking-staff","price":2,"priceUnit":"sp","category":["weapon-other"],"size":"M","sharp:":false,"weight":1,"damage":"1d4","id":"c49551c5-8009-42c5-911d-1a5360064c05"}
-{"name":"Quarterstaff","type":"quarterstaff","price":2,"category":["weapon-other"],"size":"L","sharp:":false,"weight":4,"damage":"1d6","id":"a2337843-27f4-41ee-a917-59dff844ba15"}
-{"name":"Pole Arm","type":"pole-arm","price":9,"category":["weapon-other"],"size":"L","weight":15,"damage":"1d10","id":"8591450c-f9f4-4fd2-b3a1-2624d8dbe4f1"}
-{"name":"Sling","type":"sling","price":1,"category":["weapon-other","sling"],"range":[[30,1],[60,0],[90,-2]],"size":"S","sharp:":false,"weight":0.1,"id":"af6b46fa-5d09-41a7-88cc-15ac3c1b1060"}
-{"name":"Bullet","type":"bullet","price":1,"priceUnit":"sp","category":["weapon-other","sling_projectile"],"weight":0.1,"damage":"1d4","id":"3eb93908-a0fd-40d5-9e1f-3739f3afe671"}
-{"name":"Stone","type":"stone","price":0,"category":["weapon-other","sling_projectile"],"weight":0.1,"damage":"1d3","id":"58cca973-c89b-4612-bf00-7a0d3ddd01b3"}
-{"name":"Throwing Spear","type":"throwing-spear","price":5,"category":["weapon-other","spear-thrown"],"range":[[10,1],[20,0],[30,-2]],"size":"M","weight":5,"damage":"1d6","id":"36035e02-af2d-432e-aaa6-b983ea99ed85"}
-{"name":"Melee Spear (one-handed)","type":"melee-spear-one-handed","price":5,"category":["weapon-other","spear-melee"],"size":"M","weight":5,"damage":"1d6","id":"4add739f-1ad3-4158-9638-3b63f7d2b550"}
-{"name":"Melee Spear (two-handed)","type":"melee-spear-two-handed","price":5,"category":["weapon-other","spear-melee"],"size":"M","weight":5,"damage":"1d8","id":"fc547bc8-bc06-4854-9c4c-297893dbc30e"}
-{"name":"Oil","type":"oil","price":0,"category":["weapon-other","liquid"],"size":"*","weight":0,"damage":"1d2","id":"f82c7868-0e8c-42ce-bd78-a66bf642d83c"}
-{"name":"Holy Water","type":"holy-water","price":0,"category":["weapon-other","liquid"],"size":"*","weight":0,"damage":"1d2","id":"733691e1-e7a9-43e7-b4d6-92c77fedabbb"}
-{"name":"No Armor","type":"no-armor","price":0,"category":["armor"],"weight":0,"armorClass":11,"id":"f1d69faa-152a-4693-9d99-84657e4a9ec6"}
-{"name":"Leather Armor","type":"leather","price":20,"category":["armor"],"weight":15,"armorClass":13,"id":"f2341774-3080-4a07-869d-f5c750b90250"}
-{"name":"Chain Mail","type":"chain-mail","price":60,"category":["armor"],"weight":40,"armorClass":15,"id":"3c15dbca-4ccf-4341-840a-fe8291fd8703"}
-{"name":"Plate Mail","type":"plate-mail","price":300,"category":["armor"],"weight":50,"armorClass":17,"id":"352b03db-c636-4861-a0fe-eafa9343b1a1"}
-{"name":"Shield","type":"shedld","price":7,"category":["armor","shield"],"weight":5,"armorClass":1,"id":"0936559f-6aa4-4d98-a5cb-f1dc948b7585"}
+{"name":"Hand Axe","type":"hand-axe","category":["axe"],"range":[[10,1],[20,0],[30,-2]],"price":4,"size":"S","weight":5,"damage":"1d6","id":"31635e7c-68c6-4a83-bb22-75e4e57300e1"}
+{"name":"Battle Axe","type":"battle-axe","category":["axe"],"price":7,"size":"M","weight":7,"damage":"1d8","id":"b1e9921c-c483-4140-bc48-87cd5758f262"}
+{"name":"Great Axe","type":"great-axe","category":["axe"],"price":14,"size":"L","weight":15,"damage":"1d10","id":"cbf14089-7616-4913-85ca-ddba30caa323"}
+{"name":"Shortbow","type":"shortbow","price":25,"category":["bow"],"range":[[50,1],[100,0],[150,-2]],"size":"M","weight":2,"id":"7218d384-4d72-44e2-97ff-26bfdda75b26"}
+{"name":"Shortbow Arrow","type":"shortbow-arrow","price":1,"priceUnit":"sp","category":["bow","arrow"],"weight":0.1,"damage":"1d6","id":"e5cb5add-7b28-4351-ae49-aafac9f70d28"}
+{"name":"Silver Shortbow Arrow","type":"silver-shortbow-arrow","price":2,"category":["bow","arrow"],"weight":0.1,"damage":"1d6","id":"7bb74b86-4fce-4835-b4b7-0578beb49a9d"}
+{"name":"Longbow","type":"longbow","price":60,"category":["bow"],"range":[[70,1],[140,0],[210,-2]],"size":"L","weight":3,"id":"9cf33aaa-02fd-45a4-9758-781763f6aaca"}
+{"name":"Longbow Arrow","type":"longbow-arrow","price":2,"priceUnit":"sp","category":["bow","arrow"],"weight":0.1,"damage":"1d8","id":"6e617101-b79b-43f2-91e6-7c263c2800de"}
+{"name":"Silver Longbow Arrow","type":"silver-longbow-arrow","price":4,"category":["bow","arrow"],"weight":0.1,"damage":"1d8","id":"c886a10e-3df1-4aa5-96c2-e9c296dbd35b"}
+{"name":"Light Crossbow","type":"light-crossbow","price":30,"category":["bow"],"range":[[60,1],[120,0],[180,-2]],"size":"M","weight":7,"id":"0ab740f6-b6cd-4db4-a407-c4bfc12e0c2d"}
+{"name":"Light Quarrel","type":"light-quarrel","price":2,"priceUnit":"sp","category":["bow","arrow"],"weight":0.1,"damage":"1d6","id":"b8a2ea58-5cc9-434f-a6ab-4053e5fccba5"}
+{"name":"Silver Light Quarrel","type":"silver-light-quarrel","price":5,"category":["bow","arrow"],"weight":0.1,"damage":"1d6","id":"19cd0eb0-6bc2-4625-8675-b990697e6885"}
+{"name":"Heavy Crossbow","type":"heavy-crossbow","price":50,"category":["bow"],"range":[[80,1],[160,0],[240,-2]],"size":"L","weight":14,"id":"9cd66ae1-0af4-4fda-ab6c-7074bef5e676"}
+{"name":"Heavy Quarrel","type":"heavy-quarrel","price":4,"priceUnit":"sp","category":["bow","arrow"],"weight":0.1,"damage":"1d8","id":"4a6b51a8-9d67-4174-9b82-fd3cba392478"}
+{"name":"Silver Heavy Quarrel","type":"silver-heavy-quarrel","price":10,"category":["bow","arrow"],"weight":0.1,"damage":"1d8","id":"5aa37d46-f97a-4cb9-8de6-e97e7d1bc092"}
+{"name":"Dagger","type":"dagger","price":2,"category":["dagger"],"range":[[10,1],[20,0],[30,-2]],"size":"S","weight":1,"damage":"1d4","id":"e3272fb1-9fdc-4e87-bd61-563f9e56a402"}
+{"name":"Silver Dagger","type":"silver-dagger","price":25,"category":["dagger"],"range":[[10,1],[20,0],[30,-2]],"size":"S","weight":1,"damage":"1d4","id":"a55d6d68-dfad-4b3d-a5ff-01093147ea2e"}
+{"name":"Shortsword","type":"shortsword","price":6,"category":["sword"],"size":"S","weight":3,"damage":"1d6","id":"c992aa3b-bed8-4ccb-a2a3-c3934c25108e"}
+{"name":"Longsword","type":"longsword","price":10,"category":["sword"],"size":"M","weight":4,"damage":"1d8","id":"3038b411-b8d6-494b-aa3b-1f007a2b81ac"}
+{"name":"Scimitar","type":"scimitar","price":10,"category":["sword"],"size":"M","weight":4,"damage":"1d8","id":"034f8d45-7b8c-4b72-9487-aa1bea9a9453"}
+{"name":"Two-Handed Sword","type":"two-handed-sword","price":18,"category":["sword"],"size":"L","weight":10,"damage":"1d10","id":"96d2d11b-2660-4155-9df2-4ae172a49ae3"}
+{"name":"Warhammer","type":"warhammer","price":4,"category":["hammer-mace"],"range":[[10,1],[20,0],[30,-2]],"size":"S","weight":6,"sharp:":false,"damage":"1d6","id":"546679a3-c28c-44fb-986d-b40d6c651851"}
+{"name":"Mace","type":"mace","price":6,"category":["hammer-mace"],"size":"M","weight":10,"sharp:":false,"damage":"1d8","id":"74fdb8c5-0715-4eb6-a556-95746bac1572"}
+{"name":"Maul","type":"maul","price":10,"category":["hammer-mace"],"size":"L","weight":16,"sharp:":false,"damage":"1d10","id":"ccffe9e5-130c-4f32-854e-28110a42e8b6"}
+{"name":"Club","type":"club","price":2,"priceUnit":"sp","category":["weapon-other"],"size":"M","weight":1,"sharp:":false,"damage":"1d4","id":"bf1ea2d6-e9f3-43de-a0d3-75bea8d001e6"}
+{"name":"Cudgel","type":"cudgel","price":2,"priceUnit":"sp","category":["weapon-other"],"size":"M","weight":1,"damage":"1d4","id":"e12460c2-0de5-4eeb-80d3-a142f6cebce3"}
+{"name":"Walking Staff","type":"walking-staff","price":2,"priceUnit":"sp","category":["weapon-other"],"size":"M","sharp:":false,"weight":1,"damage":"1d4","id":"ee7c1ba1-ca6e-412a-8d5f-9ea374080751"}
+{"name":"Quarterstaff","type":"quarterstaff","price":2,"category":["weapon-other"],"size":"L","sharp:":false,"weight":4,"damage":"1d6","id":"5bf2a32d-a866-496e-93da-b87ddd27863d"}
+{"name":"Pole Arm","type":"pole-arm","price":9,"category":["weapon-other"],"size":"L","weight":15,"damage":"1d10","id":"f66d8137-e023-4f72-b37f-73d72cbb65ec"}
+{"name":"Sling","type":"sling","price":1,"category":["weapon-other","sling"],"range":[[30,1],[60,0],[90,-2]],"size":"S","sharp:":false,"weight":0.1,"id":"594e5246-fd31-40e3-a24e-0430adc38554"}
+{"name":"Bullet","type":"bullet","price":1,"priceUnit":"sp","category":["weapon-other","sling_projectile"],"weight":0.1,"damage":"1d4","id":"6f8c2856-cc26-42d0-b2b7-59b86e407b9e"}
+{"name":"Stone","type":"stone","price":0,"category":["weapon-other","sling_projectile"],"weight":0.1,"damage":"1d3","id":"d8725e8f-e8c4-4e0f-a3df-7411dd6f18c7"}
+{"name":"Throwing Spear","type":"throwing-spear","price":5,"category":["weapon-other","spear-thrown"],"range":[[10,1],[20,0],[30,-2]],"size":"M","weight":5,"damage":"1d6","id":"e23e9479-6199-4940-b7cc-69f6a3e747b5"}
+{"name":"Melee Spear (one-handed)","type":"melee-spear-one-handed","price":5,"category":["weapon-other","spear-melee"],"size":"M","weight":5,"damage":"1d6","id":"b644c6e4-9fb2-4108-915f-db6f5bc2e2bb"}
+{"name":"Melee Spear (two-handed)","type":"melee-spear-two-handed","price":5,"category":["weapon-other","spear-melee"],"size":"M","weight":5,"damage":"1d8","id":"58f76286-c45e-4b74-8d71-fb33a7d7786a"}
+{"name":"Oil","type":"oil","price":0,"category":["weapon-other","liquid"],"size":"*","weight":0,"damage":"1d2","id":"961f9bb4-f3d6-47d5-a5cb-7fbace028309"}
+{"name":"Holy Water","type":"holy-water","price":0,"category":["weapon-other","liquid"],"size":"*","weight":0,"damage":"1d2","id":"96b6a321-48cf-44b5-94c2-f5f7d9578986"}
+{"name":"No Armor","type":"no-armor","price":0,"category":["armor"],"weight":0,"armorClass":11,"id":"d7efdde9-ab29-4a88-8daa-275ae0e7780f"}
+{"name":"Leather Armor","type":"leather","price":20,"category":["armor"],"weight":15,"armorClass":13,"id":"96e89d88-0c2e-4237-b48d-3bae9f1943e1"}
+{"name":"Chain Mail","type":"chain-mail","price":60,"category":["armor"],"weight":40,"armorClass":15,"id":"866a81cd-cde0-44c2-99d1-07e42b8c6cdb"}
+{"name":"Plate Mail","type":"plate-mail","price":300,"category":["armor"],"weight":50,"armorClass":17,"id":"9a9bf64c-f7ec-4223-a513-bb96aeae320f"}
+{"name":"Shield","type":"shedld","price":7,"category":["armor","shield"],"weight":5,"armorClass":1,"id":"a3a706fd-9e7f-4ebf-bc70-fb44770aee4e"}

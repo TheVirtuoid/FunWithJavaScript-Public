@@ -7,10 +7,8 @@ const characterClassesCollection = database.getAll({ databaseName: 'characterCla
 
 
 import Race from "../../../core/js/Race/Race.js";
- import CharacterClass from "../../../core/js/CharacterClass/CharacterClass.js";
+import CharacterClass from "../../../core/js/CharacterClass/CharacterClass.js";
 import PlayerCharacter from "../../../core/js/PlayerCharacter/PlayerCharacter.js";
-
-console.log(killer);
 
 const generateCharacter = (args) => {
 	const nameArgs = args.find((arg) => arg[0] === '--name');
@@ -28,7 +26,7 @@ const generateCharacter = (args) => {
 		return { exit: false, result: false, error: `"--race" value is not a valid Race.` };
 	}
 
-	 const characterClassId = CharacterClass.GetCharacterClassId(characterClassName);
+ const characterClassId = CharacterClass.GetCharacterClassId(characterClassName);
 	if (!characterClassId) {
 		return { exit: false, result: false, error: `"--class" value is not a valid CharacterClass.` };
 	}

@@ -36,6 +36,7 @@ const VALID_EQUIPMENT_NAME = equipmentData[0]['name'];
 const VALID_RACE_ID = raceDataRaw[0]['id'];
 const VALID_RACE_NAME = raceDataRaw[0]['name'];
 const VALID_CHARACTER_CLASS_ID = characterClassData[0]['id'];
+const VALID_CHARACTER_CLASS_ID_2 = characterClassData[1]['id'];
 const VALID_CHARACTER_CLASS_NAME = characterClassData[0]['name'];
 const VALID_CHARACTER_CLASS_NAME_2 = characterClassData[1]['name'];
 
@@ -64,8 +65,8 @@ function makeEquipment() {
 function makeCharacter(overrides = {}) {
 	return new Character({
 		name: 'Aldric',
-		race: VALID_RACE_NAME,
-		characterClass: VALID_CHARACTER_CLASS_NAME,
+		race: VALID_RACE_ID,
+		characterClass: VALID_CHARACTER_CLASS_ID,
 		...overrides
 	});
 }
@@ -239,7 +240,7 @@ describe('Character', () => {
 
 		describe('setCharacterClass()', () => {
 			it('updates the characterClass property', () => {
-				character.setCharacterClass(VALID_CHARACTER_CLASS_NAME_2);
+				character.setCharacterClass(VALID_CHARACTER_CLASS_ID_2);
 				expect(character.characterClass).toBeInstanceOf(CharacterClassData);
 				expect(character.characterClass.name).toBe(VALID_CHARACTER_CLASS_NAME_2);
 			});

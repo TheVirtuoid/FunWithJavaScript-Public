@@ -63,12 +63,18 @@ export default class Character {
 		this.#name = name;
 	}
 
-	#setRace(name) {
-		this.#raceData = new RaceData(Race.GetRaceData(Race.GetRaceId(name)));
+	#setRace(id) {
+		if (!Race.IsRace(id)) {
+			throw new Error('Invalid race id');
+		}
+		this.#raceData = new RaceData(Race.GetRaceData(id));
 	}
 
-	setCharacterClass(name) {
-		this.#characterClassData = new CharacterClassData(CharacterClass.GetCharacterClassData(CharacterClass.GetCharacterClassId(name)));
+	setCharacterClass(id) {
+		if (!CharacterClass.IsCharacterClass(id)) {
+			throw new Error('Invalid character class id');
+		}
+		this.#characterClassData = new CharacterClassData(CharacterClass.GetCharacterClassData(id));
 	}
 
 	addAbility(ability)	{

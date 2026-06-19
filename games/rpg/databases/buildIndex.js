@@ -4,6 +4,7 @@ import crypto from 'crypto';
 
 const files = [
 	'abilities',
+	'ability-bonus-adjustment',
 	'armor',
 	'attributes',
 	'characterClass',
@@ -19,8 +20,16 @@ const buildIndex = (filename, indexById, indexByName) => {
 	const itemData = JSON.parse(database);
 	let jsonl = [];
 	let start = 0;
-	itemData.forEach((item) => {
-		item.id = crypto.randomUUID();
+	itemData.forEach((item, index) => {
+		if (typeof item !== 'object') {
+			item = { id: '', data: item, name: '' };
+			if (filename === 'ability-bonus-adjustment') {
+				item.id = `aba${index}`;
+				item.name = `aba${index}`;
+			}
+		} else {
+			item.id = crypto.randomUUID();
+		}
 		const lineData = JSON.stringify(item);
 		const length = lineData.length;
 		indexById.set(item.id, { start, length, filename });
