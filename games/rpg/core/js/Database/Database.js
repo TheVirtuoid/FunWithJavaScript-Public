@@ -1,4 +1,9 @@
 import { readdirSync, readFileSync, openSync, readSync, statSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 let instance;
 
@@ -17,14 +22,15 @@ export default class Database {
 		if (typeof path !== 'string') {
 			throw new TypeError('Database path must be a string');
 		}
-		this.#path = path;
+		const resolvedPath = resolve(__dirname, './../../..', path); // this is so we can use relative paths
+		this.#path = resolvedPath;
 		try {
-			const files = readdirSync(path);
+			const files = readdirSync(this.#path);
 			this.#processDirectoryFiles(files);
 			this.#databaseHandles = new Map();
 			instance = this;
 		} catch (error) {
-			throw new Error(`Failed to read database directory at ${path}: ${error.message}`);
+			throw new Error(`Failed to read database directory at ${this.#path}: ${error.message}`);
 		}
 	}
 
