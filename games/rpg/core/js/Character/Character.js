@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import Race from "../Race/Race.js";
 import CharacterClass from "../CharacterClass/CharacterClass.js";
+import RaceData from "../RaceData/RaceData.js";
 
 export default class Character {
 
@@ -25,6 +26,10 @@ export default class Character {
 		return this.#name;
 	}
 
+	get race() {
+		return this.#raceData;
+	}
+
 	setName(name) {
 		if (typeof name !== 'string' || name.trim() === '') {
 			throw new Error('Name must be a string');
@@ -33,7 +38,7 @@ export default class Character {
 	}
 
 	#setRace(name) {
-		this.#raceData = Race.GetRaceData(Race.GetRaceId(name));
+		this.#raceData = new RaceData(Race.GetRaceData(Race.GetRaceId(name)));
 	}
 
 	#setCharacterClass(name) {

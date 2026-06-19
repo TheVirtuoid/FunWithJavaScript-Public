@@ -6,6 +6,7 @@ import Attribute from '../Attribute/Attribute.js';
 import Equipment from '../Equipment/Equipment.js';
 import Race from '../Race/Race.js';
 import CharacterClass from '../CharacterClass/CharacterClass.js';
+import RaceData from "../RaceData/RaceData.js";
 
 const abilityDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
 const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
@@ -143,8 +144,8 @@ describe('Character', () => {
 			expect(character.name).toBe('Aldric');
 		});
 
-		it('race contains race data', () => {
-			expect(character.race).toBeInstanceOf(Race);
+		it('race contains RaceData', () => {
+			expect(character.race).toBeInstanceOf(RaceData);
 		});
 
 		it('characterClass is an instance of CharacterClass', () => {
