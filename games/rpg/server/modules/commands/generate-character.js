@@ -32,6 +32,7 @@ const generateCharacter = (args) => {
 	}
 
 	const playerCharacter = new PlayerCharacter({ name, race: raceId, characterClass: characterClassId } );
+	console.log(JSON.stringify(playerCharacter.abilities));
 
 	return { exit: false, result: playerCharacter };
 }

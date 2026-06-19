@@ -45,11 +45,11 @@ export default class Character {
 	}
 
 	get abilities() {
-		return [...this.#abilities.entries()].map(([id, ability]) => ({ name: Ability.GetAbility(id).name, ability }));
+		return [...this.#abilities.entries()].map(([id, ability]) => ({ id, ability }));
 	}
 
 	get attributes() {
-		return [...this.#attributes.entries()].map(([id, attribute]) => ({name: Attribute.GetAttribute(id).name, attribute }));
+		return [...this.#attributes.entries()].map(([id, attribute]) => ({id, attribute }));
 	}
 
 	get inventory() {
