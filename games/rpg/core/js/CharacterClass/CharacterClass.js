@@ -4,7 +4,8 @@ import { validateUUID } from '../Utilities/utilities.js';
 import Armor from "../Armor/Armor.js";
 import Weapon from "../Weapon/Weapon.js";
 import Database from "../Database/Database.js";
-import { databasePath } from "./../../../config.json" with { type: 'json' };
+import config from "./../../../config.json" with { type: 'json' };
+const databasePath = config.databasePath;
 
 const database = new Database(databasePath);
 const characterClassCollection = database.getAll({ databaseName: 'characterClass' });
@@ -12,6 +13,7 @@ const characterClasses = new Map(characterClassCollection.map((characterClass) =
 const characterClassesByName = new Map(characterClassCollection.map((characterClass) => [characterClass.name, characterClass]));
 const idList = [...characterClasses.keys()];
 const nameList = [...characterClassesByName.keys()];
+
 
 export default class CharacterClass {
 

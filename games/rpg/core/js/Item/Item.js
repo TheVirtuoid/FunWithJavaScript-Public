@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import Database from "../Database/Database.js";
-import { databasePath } from "./../../../config.json" with { type: 'json' };
+import config from "./../../../config.json" with { type: 'json' };
+const databasePath = config.databasePath;
 
 const legalClasses = ['armor', 'equipment', 'weapon'];
 
