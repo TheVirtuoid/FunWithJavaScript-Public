@@ -7,6 +7,7 @@ import Equipment from '../Equipment/Equipment.js';
 import Race from '../Race/Race.js';
 import CharacterClass from '../CharacterClass/CharacterClass.js';
 import RaceData from "../RaceData/RaceData.js";
+import CharacterClassData from "../CharacterClassData/CharacterClassData.js";
 
 const abilityDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
 const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
@@ -27,11 +28,16 @@ const VALID_ABILITY_ID = abilityData[0]['id'];
 const VALID_ABILITY_ID_2 = abilityData[1]['id'];
 const VALID_ATTRIBUTE_ID = attributeData[0]['id'];
 const VALID_ATTRIBUTE_ID_2 = attributeData[1]['id'];
+
 const VALID_EQUIPMENT_ID = equipmentData[0]['id'];
+const VALID_EQUIPMENT_ID_2 = equipmentData[1]['id'];
+const VALID_EQUIPMENT_NAME = equipmentData[0]['name'];
+
 const VALID_RACE_ID = raceDataRaw[0]['id'];
 const VALID_RACE_NAME = raceDataRaw[0]['name'];
 const VALID_CHARACTER_CLASS_ID = characterClassData[0]['id'];
 const VALID_CHARACTER_CLASS_NAME = characterClassData[0]['name'];
+const VALID_CHARACTER_CLASS_NAME_2 = characterClassData[1]['name'];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -52,7 +58,7 @@ function makeAttribute2() {
 }
 
 function makeEquipment() {
-	return new Equipment({ name: 'Torch' });
+	return new Equipment({ id: VALID_EQUIPMENT_ID, name: VALID_EQUIPMENT_NAME });
 }
 
 function makeCharacter(overrides = {}) {
@@ -149,19 +155,19 @@ describe('Character', () => {
 		});
 
 		it('characterClass is an instance of CharacterClass', () => {
-			expect(character.characterClass).toBeInstanceOf(CharacterClass);
+			expect(character.characterClass).toBeInstanceOf(CharacterClassData);
 		});
 
-		it('abilities is a Map', () => {
-			expect(character.abilities).toBeInstanceOf(Map);
+		it('abilities is an Array', () => {
+			expect(character.abilities).toBeInstanceOf(Array);
 		});
 
-		it('attributes is a Map', () => {
-			expect(character.attributes).toBeInstanceOf(Map);
+		it('attributes is an Array', () => {
+			expect(character.attributes).toBeInstanceOf(Array);
 		});
 
-		it('inventory is a Map', () => {
-			expect(character.inventory).toBeInstanceOf(Map);
+		it('inventory is an Array', () => {
+			expect(character.inventory).toBeInstanceOf(Array);
 		});
 
 		describe('read-only', () => {
@@ -195,7 +201,7 @@ describe('Character', () => {
 		});
 	});
 
-	describe.skip('methods', () => {
+	describe('methods', () => {
 		describe('setName()', () => {
 			it('updates the name property', () => {
 				character.setName('Berin');
@@ -226,15 +232,16 @@ describe('Character', () => {
 				const originalId = character.id;
 				character.setName('Toruk');
 				expect(character.id).toBe(originalId);
-				expect(character.race).toBeInstanceOf(Race);
-				expect(character.characterClass).toBeInstanceOf(CharacterClass);
+				expect(character.race).toBeInstanceOf(RaceData);
+				expect(character.characterClass).toBeInstanceOf(CharacterClassData);
 			});
 		});
 
 		describe('setCharacterClass()', () => {
 			it('updates the characterClass property', () => {
-				character.setCharacterClass(VALID_CHARACTER_CLASS_ID);
-				expect(character.characterClass).toBeInstanceOf(CharacterClass);
+				character.setCharacterClass(VALID_CHARACTER_CLASS_NAME_2);
+				expect(character.characterClass).toBeInstanceOf(CharacterClassData);
+				expect(character.characterClass.name).toBe(VALID_CHARACTER_CLASS_NAME_2);
 			});
 
 			it('throws when given an invalid characterClassType', () => {
@@ -258,7 +265,8 @@ describe('Character', () => {
 			it('adds an ability to the character', () => {
 				const ability = makeAbility();
 				character.addAbility(ability);
-				expect(character.abilities.size).toBe(1);
+				expect(character.abilities.length).toBe(1);
+				expect(character.abilities[0].ability.value).toBe(ability.value);
 			});
 
 			it('throws when ability is not an instance of Ability', () => {
@@ -272,13 +280,13 @@ describe('Character', () => {
 			it('throws when adding a duplicate ability', () => {
 				const ability = makeAbility();
 				character.addAbility(ability);
-				expect(() => character.addAbility(makeAbility())).toThrow();
+				expect(() => character.addAbility(ability)).toThrow();
 			});
 
 			it('allows adding multiple distinct abilities', () => {
 				character.addAbility(makeAbility());
 				character.addAbility(makeAbility2());
-				expect(character.abilities.size).toBe(2);
+				expect(character.abilities.length).toBe(2);
 			});
 		});
 
@@ -288,16 +296,12 @@ describe('Character', () => {
 				character.addAbility(ability);
 				const removed = character.removeAbility(VALID_ABILITY_ID);
 				expect(removed).toBeInstanceOf(Ability);
-				expect(character.abilities.size).toBe(0);
+				expect(character.abilities.length).toBe(0);
 			});
 
 			it('returns undefined when the ability was not found', () => {
 				const result = character.removeAbility(VALID_ABILITY_ID);
 				expect(result).toBeUndefined();
-			});
-
-			it('throws when given an invalid abilityType', () => {
-				expect(() => character.removeAbility('not-an-ability')).toThrow();
 			});
 
 			it('throws when given a non-string', () => {
@@ -321,8 +325,8 @@ describe('Character', () => {
 				expect(character.getAbility(VALID_ABILITY_ID)).toBeUndefined();
 			});
 
-			it('throws when given an invalid abilityType', () => {
-				expect(() => character.getAbility('not-an-ability')).toThrow();
+			it('throws when given an invalid ability', () => {
+				expect(() => character.getAbility(123)).toThrow();
 			});
 
 			it('throws when given null', () => {
@@ -334,7 +338,7 @@ describe('Character', () => {
 			it('adds an attribute to the character', () => {
 				const attribute = makeAttribute();
 				character.addAttribute(attribute);
-				expect(character.attributes.size).toBe(1);
+				expect(character.attributes.length).toBe(1);
 			});
 
 			it('throws when attribute is not an instance of Attribute', () => {
@@ -353,7 +357,7 @@ describe('Character', () => {
 			it('allows adding multiple distinct attributes', () => {
 				character.addAttribute(makeAttribute());
 				character.addAttribute(makeAttribute2());
-				expect(character.attributes.size).toBe(2);
+				expect(character.attributes.length).toBe(2);
 			});
 		});
 
@@ -363,7 +367,7 @@ describe('Character', () => {
 				character.addAttribute(attribute);
 				const removed = character.removeAttribute(VALID_ATTRIBUTE_ID);
 				expect(removed).toBeInstanceOf(Attribute);
-				expect(character.attributes.size).toBe(0);
+				expect(character.attributes.length).toBe(0);
 			});
 
 			it('returns undefined when the attribute was not found', () => {
@@ -371,8 +375,8 @@ describe('Character', () => {
 				expect(result).toBeUndefined();
 			});
 
-			it('throws when given an invalid attributeType', () => {
-				expect(() => character.removeAttribute('not-an-attribute')).toThrow();
+			it('throws when given an invalid attribute id', () => {
+				expect(() => character.removeAttribute(123)).toThrow();
 			});
 
 			it('throws when given null', () => {
@@ -392,8 +396,8 @@ describe('Character', () => {
 				expect(character.getAttribute(VALID_ATTRIBUTE_ID)).toBeUndefined();
 			});
 
-			it('throws when given an invalid attributeType', () => {
-				expect(() => character.getAttribute('not-an-attribute')).toThrow();
+			it('throws when given an invalid attribute id', () => {
+				expect(() => character.getAttribute(123)).toThrow();
 			});
 
 			it('throws when given null', () => {
@@ -403,69 +407,59 @@ describe('Character', () => {
 
 		describe('addInventory()', () => {
 			it('adds equipment to the inventory', () => {
-				const equipment = makeEquipment();
-				character.addInventory({ equipment, quantity: 2 });
-				expect(character.inventory.size).toBe(1);
+				character.addInventory({ id: VALID_EQUIPMENT_ID, quantity: 2 });
+				expect(character.inventory.length).toBe(1);
 			});
 
-			it('throws when equipment is not an instance of Equipment', () => {
-				expect(() => character.addInventory({ equipment: { name: 'Fake' }, quantity: 1 })).toThrow();
-			});
-
-			it('throws when equipment is null', () => {
-				expect(() => character.addInventory({ equipment: null, quantity: 1 })).toThrow();
+			it('throws when id is null', () => {
+				expect(() => character.addInventory({ id: null, quantity: 1 })).toThrow();
 			});
 
 			it('throws when quantity is not an integer', () => {
-				const equipment = makeEquipment();
-				expect(() => character.addInventory({ equipment, quantity: 1.5 })).toThrow();
+				expect(() => character.addInventory({ id: VALID_EQUIPMENT_ID, quantity: 1.5 })).toThrow();
 			});
 
 			it('throws when quantity is a string', () => {
-				const equipment = makeEquipment();
-				expect(() => character.addInventory({ equipment, quantity: '2' })).toThrow();
+				expect(() => character.addInventory({ id: VALID_EQUIPMENT_ID, quantity: '2' })).toThrow();
 			});
 
 			it('throws when quantity is null', () => {
-				const equipment = makeEquipment();
-				expect(() => character.addInventory({ equipment, quantity: null })).toThrow();
+				expect(() => character.addInventory({ id: VALID_EQUIPMENT_ID, quantity: null })).toThrow();
 			});
 
 			it('accepts positive quantity', () => {
-				const equipment = makeEquipment();
-				character.addInventory({ equipment, quantity: 5 });
-				expect(character.getInventory(VALID_EQUIPMENT_ID)).toBe(5);
+				character.addInventory({ id: VALID_EQUIPMENT_ID, quantity: 5 });
+				expect(character.getInventory(VALID_EQUIPMENT_ID).quantity).toBe(5);
 			});
 
 			it('accepts negative quantity', () => {
-				const equipment = makeEquipment();
-				character.addInventory({ equipment, quantity: -3 });
-				expect(character.getInventory(VALID_EQUIPMENT_ID)).toBe(-3);
+				character.addInventory({ id: VALID_EQUIPMENT_ID, quantity: -3 });
+				expect(character.getInventory(VALID_EQUIPMENT_ID).quantity).toBe(-3);
 			});
 
 			it('accepts zero as a quantity', () => {
-				const equipment = makeEquipment();
-				character.addInventory({ equipment, quantity: 0 });
-				expect(character.getInventory(VALID_EQUIPMENT_ID)).toBe(0);
+				character.addInventory({ id: VALID_EQUIPMENT_ID, quantity: 0 });
+				expect(character.getInventory(VALID_EQUIPMENT_ID).quantity).toBe(0);
 			});
+
+			it('adjusts the quantity when adding more', () => {
+				character.addInventory({ id: VALID_EQUIPMENT_ID, quantity: 5 });
+				character.addInventory({ id: VALID_EQUIPMENT_ID, quantity: 3 });
+				expect(character.getInventory(VALID_EQUIPMENT_ID).quantity).toBe(8);
+			})
 		});
 
 		describe('removeInventory()', () => {
 			it('removes equipment and returns the inventory object', () => {
-				const equipment = makeEquipment();
-				character.addInventory({ equipment, quantity: 1 });
+				character.addInventory({ id: VALID_EQUIPMENT_ID, quantity: 1 });
 				const removed = character.removeInventory(VALID_EQUIPMENT_ID);
 				expect(removed).toBeDefined();
-				expect(character.inventory.size).toBe(0);
+				expect(character.inventory.length).toBe(0);
 			});
 
 			it('returns undefined when equipment was not in inventory', () => {
 				const result = character.removeInventory(VALID_EQUIPMENT_ID);
 				expect(result).toBeUndefined();
-			});
-
-			it('throws when given an invalid equipmentType', () => {
-				expect(() => character.removeInventory('not-equipment')).toThrow();
 			});
 
 			it('throws when given null', () => {
@@ -479,17 +473,12 @@ describe('Character', () => {
 
 		describe('getInventory()', () => {
 			it('returns the quantity when equipment is found', () => {
-				const equipment = makeEquipment();
-				character.addInventory({ equipment, quantity: 3 });
-				expect(character.getInventory(VALID_EQUIPMENT_ID)).toBe(3);
+				character.addInventory({ id: VALID_EQUIPMENT_ID, quantity: 3 });
+				expect(character.getInventory(VALID_EQUIPMENT_ID).quantity).toBe(3);
 			});
 
 			it('returns 0 when equipment is not in inventory', () => {
-				expect(character.getInventory(VALID_EQUIPMENT_ID)).toBe(0);
-			});
-
-			it('throws when given an invalid equipmentType', () => {
-				expect(() => character.getInventory('not-equipment')).toThrow();
+				expect(character.getInventory(VALID_EQUIPMENT_ID).quantity).toBe(0);
 			});
 
 			it('throws when given null', () => {
