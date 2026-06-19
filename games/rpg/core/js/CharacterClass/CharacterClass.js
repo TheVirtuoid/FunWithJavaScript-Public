@@ -3,17 +3,62 @@ import Ability from '../Ability/Ability.js';
 import { validateUUID } from '../Utilities/utilities.js';
 import Armor from "../Armor/Armor.js";
 import Weapon from "../Weapon/Weapon.js";
+import Database from "../Database/Database.js";
+import { databasePath } from "./../../../config.json" with { type: 'json' };
+
+const database = new Database(databasePath);
+const characterClassCollection = database.getAll({ databaseName: 'characterClass' });
+const characterClasses = new Map(characterClassCollection.map((characterClass) => [characterClass.id, characterClass]));
+const characterClassesByName = new Map(characterClassCollection.map((characterClass) => [characterClass.name, characterClass]));
+const idList = [...characterClasses.keys()];
+const nameList = [...characterClassesByName.keys()];
 
 export default class CharacterClass {
 
-	static Restriction = Object.freeze({
+	static IsCharacterClass(id) {
+		if (typeof id !== 'string') {
+			throw new Error('CharacterClass: id must be a string');
+		}
+		if (id === '') {
+			throw new Error('CharacterClass: id must not be empty');
+		}
+		return idList.includes(id);
+	}
+
+	static IsCharacterClassByName(name) {
+		if (typeof name !== 'string') {
+			throw new Error('CharacterClass: name must be a string');
+		}
+		if (name === '') {
+			throw new Error('CharacterClass: name must not be empty');
+		}
+		return nameList.includes(name);
+	}
+
+	static GetCharacterClassId(name) {
+		if (this.IsCharacterClassByName(name)) {
+			return characterClassesByName.get(name).id;
+		}
+	}
+
+	static GetCharacterClassData(id) {
+		if (this.IsCharacterClass(id)) {
+			return characterClasses.get(id);
+		}
+	}
+
+	constructor() {
+		throw new Error('CharacterClass: cannot instantiate CharacterClass as it is a Static class');
+	}
+
+	/*static Restriction = Object.freeze({
 		MINIMUM_ABILITY: 'minimum-ability',
 		WEAPON_SHARPNESS: 'weapon-sharpness',
 		ARMOR_TYPE: 'armor-type',
 		WEAPON_TYPE: 'weapon-type'
-	});
+	});*/
 
-	static #restrictionValidators = {
+	/*static #restrictionValidators = {
 		[CharacterClass.Restriction.MINIMUM_ABILITY]: ({ value, type }) => {
 			if (!Ability.GetAbilityByType(type)) {
 				throw new Error('CharacterClass: restriction object has incorrect type for Restriction.MINIMUM_ABILITY');
@@ -45,7 +90,7 @@ export default class CharacterClass {
 				}
 			});
 		}
-	};
+	};*/
 
 	/*static RESTRICTION_MINIMUM_ABILITY = Symbol('restriction-minimum-ability');
 	static RESTRICTION_WEAPON_SHARPNESS = Symbol('restriction-weapon-sharpness');
@@ -59,13 +104,13 @@ export default class CharacterClass {
 		CharacterClass.RESTRICTION_WEAPON_TYPE
 	];
 */
-	#id;
+	/*#id;
 	#name;
 	#description;
 	#levelData;
-	#restrictions;
+	#restrictions;*/
 
-	constructor(args = {}) {
+	/*constructor(args = {}) {
 		const { id, name, description, levelData, restrictions } = args;
 
 		if (typeof name !== 'string') {
@@ -82,36 +127,36 @@ export default class CharacterClass {
 		this.#description = description;
 		this.#levelData = levelData;
 		this.#restrictions = restrictions;
-	}
+	}*/
 
-	get id() {
+	/*get id() {
 		return this.#id;
-	}
+	}*/
 
-	get name() {
+	/*get name() {
 		return this.#name;
-	}
+	}*/
 
-	get description() {
+	/*get description() {
 		return this.#description;
-	}
+	}*/
 
-	get levelData() {
+	/*get levelData() {
 		return [...this.#levelData];
-	}
+	}*/
 
-	get restrictions() {
+	/*get restrictions() {
 		return [...this.#restrictions];
-	}
+	}*/
 
-	#validateLevelData(levelData) {
+	/*#validateLevelData(levelData) {
 		if (!Array.isArray(levelData)) {
 			throw new Error('CharacterClass: levelData must be an array');
 		}
 		// how level data is constructed at this point is up to the classes
-	}
+	}*/
 
-	#validateRestrictions(restrictions) {
+	/*#validateRestrictions(restrictions) {
 		if (!Array.isArray(restrictions)) {
 			throw new Error('Race restrictions must be an array');
 		}
@@ -126,5 +171,5 @@ export default class CharacterClass {
 			}
 			validator(entry);
 		});
-	}
+	}*/
 }

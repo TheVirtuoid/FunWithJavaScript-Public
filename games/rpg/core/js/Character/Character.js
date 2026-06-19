@@ -1,25 +1,20 @@
+import crypto from 'crypto';
 import Race from "../Race/Race.js";
 import CharacterClass from "../CharacterClass/CharacterClass.js";
-import Ability from "../Ability/Ability.js";
-import Attribute from "../Attribute/Attribute.js";
 
 export default class Character {
 
 	#id;
 	#name;
-	#race;
-	#characterClass;
-	#abilities;
-	#attributes;
+	#raceData;
+	#characterClassData;
 
 	constructor(args = {}) {
-		const { name, race: raceId, characterClass: characterClassId } = args;
-		this.#setRace(raceId);
-		this.#setCharacterClass(characterClassId);
+		const { name, race, characterClass  } = args;
 		this.setName(name);
-		this.#id = window.crypto.randomUUID();
-		this.#abilities = new Map();
-		this.#attributes = new Map();
+		this.#setRace(race);
+		this.#setCharacterClass(characterClass);
+		this.#id = crypto.randomUUID();
 	}
 
 	get id() {
@@ -30,14 +25,6 @@ export default class Character {
 		return this.#name;
 	}
 
-	get race() {
-		return this.#race;
-	}
-
-	get characterClass() {
-		return this.#characterClass;
-	}
-
 	setName(name) {
 		if (typeof name !== 'string' || name.trim() === '') {
 			throw new Error('Name must be a string');
@@ -45,61 +32,13 @@ export default class Character {
 		this.#name = name;
 	}
 
-	#setRace(id) {
-		if (!Race.IsRace(id))
-		if (!(race instanceof Race)) {
-			throw new Error('Invalid race');
-		}
-		this.#race = race;
+	#setRace(name) {
+		this.#raceData = Race.GetRaceData(Race.GetRaceId(name));
 	}
 
-	#setCharacterClass(characterClass) {
-		if (!(characterClass instanceof CharacterClass)) {
-			throw new Error('Invalid character class');
-		}
-		this.#characterClass = characterClass;
+	#setCharacterClass(name) {
+		this.#characterClassData = CharacterClass.GetCharacterClassData(CharacterClass.GetCharacterClassId(name));
 	}
 
-	addAbility(ability) {
-		if (!(ability instanceof Ability)) {
-			throw new Error('Invalid ability');
-		}
-		this.#abilities.set(ability.id, ability);
-	}
-
-	getAbility(abilityId) {
-		if (!Ability.IsAbility(abilityId)) {
-			throw new Error('Invalid ability id');
-		}
-		return this.#abilities.get(abilityId);
-	}
-
-	removeAbility(abilityId) {
-		if (!Ability.IsAbility(abilityId)) {
-			throw new Error('Invalid ability type');
-		}
-		this.#abilities.delete(abilityId);
-	}
-
-	/*addAttribute(attribute) {
-		if (!(attribute instanceof Attribute)) {
-			throw new Error('Invalid attribute');
-		}
-		this.#attributes.set(attribute.type, attribute);
-	}*/
-
-	/*getAttribute(attributeType) {
-		if (!Attribute.IsAttribute(attributeType)) {
-			throw new Error('Invalid attribute type');
-		}
-		return this.#attributes.get(attributeType);
-	}*/
-
-	/*removeAttribute(attributeType) {
-		if (!Attribute.IsAttribute(attributeType)) {
-			throw new Error('Invalid attribute type');
-		}
-		this.#attributes.delete(attributeType);
-	}*/
 
 }

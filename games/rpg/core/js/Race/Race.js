@@ -1,17 +1,25 @@
 import crypto from 'crypto';
 import Attribute from "../Attribute/Attribute.js";
 import Ability from "../Ability/Ability.js";
+import Database from "../Database/Database.js";
+import { databasePath } from "./../../../config.json" with { type: 'json' };
 
+const database = new Database(databasePath);
+const raceCollection = database.getAll({ databaseName: 'race' });
+const races = new Map(raceCollection.map((race) => [race.id, race]));
+const racesByName = new Map(raceCollection.map((race) => [race.name, race]));
+const idList = [...races.keys()];
+const nameList = [...racesByName.keys()];
 export default class Race {
 
-	static Restrictions = Object.freeze({
+	/*static Restrictions = Object.freeze({
 		ABILITY: 'ability',
 		WEAPON_SIZE: 'weapon-size',
 		CHARACTER_CLASS: 'character-class',
 		HIT_POINTS: 'hit-points'
-	});
+	});*/
 
-	static #restrictionValidators = {
+	/*static #restrictionValidators = {
 		[Race.Restrictions.ABILITY]: ({ id, min, max }) => {
 			if (typeof id !== 'string' || !Ability.IsAbility(id)) {
 				throw new Error('Race restrictions for ABILITY must have id set to a valid Ability id');
@@ -43,9 +51,45 @@ export default class Race {
 				throw new Error('Race restrictions for HIT_POINTS max must be a number');
 			}
 		}
-	};
+	};*/
 
-	#id;
+	static IsRace(id) {
+		if (typeof id !== 'string') {
+			throw new Error('Race id must be a string');
+		}
+		if (id === '') {
+			throw new Error('Race id must not be an empty string');
+		}
+		return idList.includes(id);
+	}
+
+	static IsRaceByName(name) {
+		if (typeof name !== 'string') {
+			throw new Error('Race name must be a string');
+		}
+		if (name === '') {
+			throw new Error('Race name must not be an empty string');
+		}
+		return nameList.includes(name);
+	}
+
+	static GetRaceId(name) {
+		if (typeof name !== 'string') {
+			throw new Error('Race name must be a string');
+		}
+		if (name === '') {
+			throw new Error('Race name must not be an empty string');
+		}
+		return racesByName.get(name)?.id;
+	}
+
+	static GetRaceData(id) {
+		if (Race.IsRace(id)) {
+			return races.get(id);
+		}
+	}
+
+	/*#id;
 	#name;
 	#description;
 	#weight;
@@ -54,10 +98,11 @@ export default class Race {
 	#classes;
 	#restrictions;
 	#specialAbilities;
-	#savingThrows;
+	#savingThrows;*/
 
 	constructor(args = {}) {
-		const { name, description, weight, height, age, classes, restrictions, specialAbilities, savingThrows } = args;
+		throw new Error('Race is a static class and cannot be instantiated');
+		/*const { name, description, weight, height, age, classes = [], restrictions = [], specialAbilities = [], savingThrows = [] } = args;
 		if (typeof name !== 'string') {
 			throw new Error('Race name must be a string');
 		}
@@ -86,10 +131,10 @@ export default class Race {
 		this.#classes = classes;
 		this.#restrictions = restrictions;
 		this.#specialAbilities = specialAbilities;
-		this.#savingThrows = savingThrows;
+		this.#savingThrows = savingThrows;*/
 	}
 
-	get id() {
+	/*get id() {
 		return this.#id;
 	}
 	get name() {
@@ -118,9 +163,9 @@ export default class Race {
 	}
 	get savingThrows() {
 		return [...this.#savingThrows];
-	}
+	}*/
 
-	toObject() {
+	/*toObject() {
 		const classes = this.classes.map((entry) => entry.description);
 		const restrictions = this.restrictions.map((entry) => ({
 			restrictionType: entry.restrictionType,
@@ -147,9 +192,9 @@ export default class Race {
 			specialAbilities: specialAbilities,
 			savingThrows: savingThrows
 		}
-	}
+	}*/
 
-	#validateRestrictions(restrictions) {
+	/*#validateRestrictions(restrictions) {
 		if (!Array.isArray(restrictions)) {
 			throw new Error('Race restrictions must be an array');
 		}
@@ -164,23 +209,23 @@ export default class Race {
 			}
 			validator(entry);
 		});
-	}
+	}*/
 
-	#validateClasses(classes) {
+	/*#validateClasses(classes) {
 		if (!Array.isArray(classes)) {
 			throw new Error('Race classes must be an array');
 		}
 		// TODO: Fix when you get classes done
-	}
+	}*/
 
-	#validateSpecialAbilities(specialAbilities) {
+	/*#validateSpecialAbilities(specialAbilities) {
 		if (!Array.isArray(specialAbilities)) {
 			throw new Error('Race specialAbilities must be an array');
 		}
 		// TODO: Fix when you figure out special abilities
-	}
+	}*/
 
-	#validateSavingThrows(savingThrows) {
+	/*#validateSavingThrows(savingThrows) {
 		if (!Array.isArray(savingThrows)) {
 			throw new Error('Race savingThrows must be an array');
 		}
@@ -194,6 +239,6 @@ export default class Race {
 				throw new Error('Race savingThrows must have a bonus number');
 			}
 		})
-	}
+	}*/
 
 }

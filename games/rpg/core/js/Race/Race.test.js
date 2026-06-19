@@ -1,20 +1,96 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import Race from './Race';
-import Ability from "../Ability/Ability.js";
-import Size from "../../static/Size/Size.js";
-import Attribute from "../Attribute/Attribute.js";
 import {readFileSync} from "fs";
-
-const abilityDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
-const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
-
-const attributeDatabase = readFileSync('./databases/jsonl/attributes.jsonl', 'utf-8');
-const attributeData = JSON.parse(`[${attributeDatabase.split('\r\n').join(',')}]`);
 
 const raceDatabase = readFileSync('./databases/jsonl/race.jsonl', 'utf-8');
 const raceData = JSON.parse(`[${raceDatabase.split('\r\n').join(',')}]`);
 
+const VALID_RACE_ID = raceData[0]['id'];
+const VALID_RACE_NAME = raceData[0]['name'];
+
 describe('Race', () => {
+	describe('constructor', () => {
+		it('should throw since race is a Static class', () => {
+			expect(() => new Race()).toThrow();
+		});
+	});
+
+	describe('Static Methods', () => {
+		describe('IsRace(id)', () => {
+			it('should throw if id is not a string', () => {
+				expect(() => {Race.IsRace(123)}).toThrow();
+			});
+			it('should throws if id is an empty string', () => {
+				expect(() => {Race.IsRace('')}).toThrow();
+			});
+			it('should return true if id is a valid Race', () => {
+				expect(Race.IsRace(VALID_RACE_ID)).toBe(true);
+			});
+			it('should return false if id is not a valid Race', () => {
+				expect(Race.IsRace('invalid')).toBe(false);
+			});
+		});
+
+		describe('IsRaceByName(name)', () => {
+			it('should throw if name is not a string', () => {
+				expect(() => {Race.IsRaceByName(123)}).toThrow();
+			});
+			it('should throws if name is an empty string', () => {
+				expect(() => {Race.IsRaceByName('')}).toThrow();
+			});
+			it('should return true if name is a valid Race', () => {
+				expect(Race.IsRaceByName(VALID_RACE_NAME)).toBe(true);
+			});
+			it('should return false if name is not a valid Race', () => {
+				expect(Race.IsRaceByName('invalid')).toBe(false);
+			});
+		});
+	});
+
+	describe('GetRaceId(name)', () => {
+		it('should throw error if name is not a string', () => {
+			expect(() => {Race.GetRaceId(123)}).toThrow();
+		});
+		it('should throw error if name is an empty string', () => {
+			expect(() => {Race.GetRaceId('')}).toThrow();
+		});
+		it('should return undefined if not found', () => {
+			expect(Race.GetRaceId('invalid')).toBeUndefined();
+		});
+		it('should return an id', () => {
+			expect(Race.GetRaceId(VALID_RACE_NAME)).toBe(VALID_RACE_ID);
+		});
+	});
+
+	describe('GetRaceData(id)', () => {
+		it('should throw if id is not a string', () => {
+			expect(() => {Race.GetRaceData(123)}).toThrow();
+		});
+		it('should throws if id is an empty string', () => {
+			expect(() => {Race.GetRaceData('')}).toThrow();
+		});
+		it('should return data if id is a valid Race', () => {
+			const raceData = Race.GetRaceData(VALID_RACE_ID);
+			expect(raceData).toHaveProperty('id');
+			expect(raceData).toHaveProperty('name');
+			expect(raceData).toHaveProperty('description');
+			expect(raceData).toHaveProperty('weight');
+			expect(raceData).toHaveProperty('height');
+			expect(raceData).toHaveProperty('age');
+			expect(raceData).toHaveProperty('classes');
+			expect(raceData).toHaveProperty('restrictions');
+			expect(raceData).toHaveProperty('specialAbilities');
+			expect(raceData).toHaveProperty('savingThrows');
+		});
+		it('should return undefined if id is not a valid Race', () => {
+			expect(Race.GetRaceData('invalid')).toBeUndefined();
+		});
+
+	})
+});
+
+/*
+describe.skip('Race', () => {
 	let raceData;
 	const baseClasses = [Symbol('fighter'), Symbol('magic-user'), Symbol('thief')];
 	const baseRestrictions = [
@@ -299,4 +375,36 @@ describe('Race', () => {
 			expect(obj.savingThrows).toEqual(savingThrows);
 		});
 	});
-});
+
+	describe('Static Methods', () => {
+		describe('IsRace(id)', () => {
+			it('should throw if id is not a string', () => {
+				expect(() => {Race.IsRace(123)}).toThrow();
+			});
+			it('should throws if id is an empty string', () => {
+				expect(() => {Race.IsRace('')}).toThrow();
+			});
+			it('should return true if id is a valid Race', () => {
+				expect(Race.IsRace(VALID_RACE_ID)).toBe(true);
+			});
+			it('should return false if id is not a valid Race', () => {
+				expect(Race.IsRace('invalid')).toBe(false);
+			});
+		});
+
+		describe('IsRaceByName(name)', () => {
+			it('should throw if name is not a string', () => {
+				expect(() => {Race.IsRaceByName(123)}).toThrow();
+			});
+			it('should throws if name is an empty string', () => {
+				expect(() => {Race.IsRaceByName('')}).toThrow();
+			});
+			it('should return true if name is a valid Race', () => {
+				expect(Race.IsRaceByName(VALID_RACE_NAME)).toBe(true);
+			});
+			it('should return false if name is not a valid Race', () => {
+				expect(Race.IsRaceByName('invalid')).toBe(false);
+			});
+		});
+	});
+});*/

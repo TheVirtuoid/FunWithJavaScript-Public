@@ -41,6 +41,11 @@ All properties are ready-only. All properties report copies of themselves when q
 ## Methods
 - `toObject()`: Creates a new object for later serialization 
 
+## Static Methods
+- `IsRace(id)`: returns true if `id` is a valid Race
+- `IsRaceByName(name)`: returns true if `name` is a valid Race
+
+
 ## Restrictions
 There will be a static database of restrictions that can be applied to a race.
 - `ABILITY` (Symbol='ability'): A restrction on an Ability

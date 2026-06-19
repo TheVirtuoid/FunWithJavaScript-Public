@@ -2,12 +2,90 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import CharacterClass from './CharacterClass.js';
 import {readFileSync} from "fs";
 
-const abilityDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
-const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
+const characterClassDatabase = readFileSync('./databases/jsonl/characterClass.jsonl', 'utf-8');
+const characterCLassData = JSON.parse(`[${characterClassDatabase.split('\r\n').join(',')}]`);
 
-const characterDatabase = readFileSync('./databases/jsonl/characterClass.jsonl', 'utf-8');
-const characterData = JSON.parse(`[${characterDatabase.split('\r\n').join(',')}]`);
+const VALID_CHARACTER_CLASS_ID = characterCLassData[0].id;
+const VALID_CHARACTER_CLASS_NAME = characterCLassData[0].name;
 
+describe('CharacterClass', () => {
+	describe('constructor', () => {
+		it('should throw since characterClass is a Static class', () => {
+			expect(() => new CharacterClass()).toThrow();
+		});
+	});
+
+	describe('Static Methods', () => {
+		describe('IsCharacterClass(id)', () => {
+			it('should throw if id is not a string', () => {
+				expect(() => {CharacterClass.IsCharacterClass(123)}).toThrow();
+			});
+			it('should throws if id is an empty string', () => {
+				expect(() => {CharacterClass.IsCharacterClass('')}).toThrow();
+			});
+			it('should return true if id is a valid Race', () => {
+				expect(CharacterClass.IsCharacterClass(VALID_CHARACTER_CLASS_ID)).toBe(true);
+			});
+			it('should return false if id is not a valid Race', () => {
+				expect(CharacterClass.IsCharacterClass('invalid')).toBe(false);
+			});
+		});
+
+		describe('IsCharacterClassByName(name)', () => {
+			it('should throw if name is not a string', () => {
+				expect(() => {CharacterClass.IsCharacterClassByName(123)}).toThrow();
+			});
+			it('should throws if name is an empty string', () => {
+				expect(() => {CharacterClass.IsCharacterClassByName('')}).toThrow();
+			});
+			it('should return true if name is a valid CharacterClass', () => {
+				expect(CharacterClass.IsCharacterClassByName(VALID_CHARACTER_CLASS_NAME)).toBe(true);
+			});
+			it('should return false if name is not a valid CharacterClass', () => {
+				expect(CharacterClass.IsCharacterClassByName('invalid')).toBe(false);
+			});
+		});
+	});
+
+	describe('GetCharacterClassId(name)', () => {
+		it('should throw error if name is not a string', () => {
+			expect(() => {CharacterClass.GetCharacterClassId(123)}).toThrow();
+		});
+		it('should throw error if name is an empty string', () => {
+			expect(() => {CharacterClass.GetCharacterClassId('')}).toThrow();
+		});
+		it('should return undefined if not found', () => {
+			expect(CharacterClass.GetCharacterClassId('invalid')).toBeUndefined();
+		});
+		it('should return an id', () => {
+			expect(CharacterClass.GetCharacterClassId(VALID_CHARACTER_CLASS_NAME)).toBe(VALID_CHARACTER_CLASS_ID);
+		});
+	});
+
+	describe('GetCharacterClassData(id)', () => {
+		it('should throw if id is not a string', () => {
+			expect(() => {CharacterClass.GetCharacterClassData(123)}).toThrow();
+		});
+		it('should throws if id is an empty string', () => {
+			expect(() => {CharacterClass.GetCharacterClassData('')}).toThrow();
+		});
+		it('should return data if id is a valid CharacterClass', () => {
+			const characterClassData = CharacterClass.GetCharacterClassData(VALID_CHARACTER_CLASS_ID);
+			expect(characterClassData).toHaveProperty('id');
+			expect(characterClassData).toHaveProperty('name');
+			expect(characterClassData).toHaveProperty('description');
+			expect(characterClassData).toHaveProperty('restrictions');
+			expect(characterClassData).toHaveProperty('levelData');
+		});
+		it('should return undefined if id is not a valid Race', () => {
+			expect(CharacterClass.GetCharacterClassData('invalid')).toBeUndefined();
+		});
+
+	})
+});
+
+
+/*
 describe('CharacterClass', () => {
 	const VALID_NAME = characterData[0]['name'];
 	const VALID_DESCRIPTION = characterData[0]['description'];
@@ -164,3 +242,4 @@ describe('CharacterClass', () => {
 
 	});
 });
+*/
