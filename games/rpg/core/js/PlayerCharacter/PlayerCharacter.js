@@ -15,7 +15,7 @@ const abaData = database.getAll({ databaseName: 'ability-bonus-adjustment' });
 const abas = new Map(abaData.map((aba) => [aba.id, aba]));
 
 const abilityList = [
-	'STR', 'DEX', 'INT', 'WIS', 'CON', 'CHA'
+	'str', 'dex', 'int', 'wis', 'con', 'cha'
 ];
 
 export default class PlayerCharacter extends Character {

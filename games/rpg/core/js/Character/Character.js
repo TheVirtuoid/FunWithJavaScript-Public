@@ -64,17 +64,25 @@ export default class Character {
 	}
 
 	#setRace(id) {
-		if (!Race.IsRace(id)) {
-			throw new Error('Invalid race id');
+		if (id === null) {
+			this.#raceData = null;
+		} else {
+			if (!Race.IsRace(id) && id !== null) {
+				throw new Error('Invalid race id');
+			}
+			this.#raceData = new RaceData(Race.GetRaceData(id));
 		}
-		this.#raceData = new RaceData(Race.GetRaceData(id));
 	}
 
 	setCharacterClass(id) {
-		if (!CharacterClass.IsCharacterClass(id)) {
-			throw new Error('Invalid character class id');
+		if (id === null) {
+			this.#characterClassData = null;
+		} else {
+			if (!CharacterClass.IsCharacterClass(id)) {
+				throw new Error('Invalid character class id');
+			}
+			this.#characterClassData = new CharacterClassData(CharacterClass.GetCharacterClassData(id));
 		}
-		this.#characterClassData = new CharacterClassData(CharacterClass.GetCharacterClassData(id));
 	}
 
 	addAbility(ability)	{

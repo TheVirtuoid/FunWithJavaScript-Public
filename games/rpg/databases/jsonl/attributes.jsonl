@@ -1,11 +1,11 @@
-{"type":"level","name":"Level","abbreviation":"lvl","category":"attribute-category-character","description":"The character level","id":"720e0906-285e-458e-a690-5845de632ad2"}
-{"type":"experience","name":"Experience","abbreviation":"xp","category":"attribute-category-character","description":"The character experience","id":"5a1b117f-80ca-4822-8271-a5b3c320c7de"}
-{"type":"armor-class","name":"Armor class","abbreviation":"ac","category":"attribute-category-character","description":"The character armor class","id":"c3b4a9c1-a5e7-4d56-bac1-75aba34096d2"}
-{"type":"hit-points","name":"Hit points","abbreviation":"hp","category":"attribute-category-character","description":"The character hit points","id":"59e94552-4d9d-4290-a61d-94c8ab1343b9"}
-{"type":"attack-bonus","name":"Attack bonus","abbreviation":"atk","category":"attribute-category-character","description":"The character attack bonus","id":"d3c4736e-8a09-44e2-b9cb-ce56d6bebbd5"}
-{"type":"gold-pieces","name":"Gold Pieces","abbreviation":"gp","category":"attribute-category-money","description":"Gold pieces processed by the character","id":"e43143e9-45a1-4385-b6dd-7d1a3ed4d704"}
-{"type":"death-poison","name":"Death poison","abbreviation":"","category":"attribute-category-saving-throw","description":"Saving throw against death or poison","id":"8d1073e1-5bec-4670-863c-f35762e57ac6"}
-{"type":"wands","name":"Wands","abbreviation":"","category":"attribute-category-saving-throw","description":"Saving throw against wands","id":"28bceb36-e959-4a17-bcfc-69b9798ef3f8"}
-{"type":"paralyze-stone","name":"Paralyze stone","abbreviation":"","category":"attribute-category-saving-throw","description":"Saving throw against paralysis or petrification","id":"5c1c9655-f2e8-49fd-83a3-567484424c46"}
-{"type":"dragon-breath","name":"Dragon breath","abbreviation":"","category":"attribute-category-saving-throw","description":"Saving throw against dragon breath","id":"3f96bf11-ea32-4be3-b7b8-6da3d6aec76c"}
-{"type":"spells","name":"Spells","abbreviation":"","category":"attribute-category-saving-throw","description":"Saving throw against spells","id":"004cae9f-8b5f-484b-b3bc-69a4b2cac632"}
+{"type":"level","name":"Level","abbreviation":"lvl","category":"attribute-category-character","description":"The character level","id":"af8593d2-3169-4887-89df-1ba0d5fadb2e"}
+{"type":"experience","name":"Experience","abbreviation":"xp","category":"attribute-category-character","description":"The character experience","id":"afedec80-0c6b-44c0-becd-24caf093ff16"}
+{"type":"armor-class","name":"Armor class","abbreviation":"ac","category":"attribute-category-character","description":"The character armor class","id":"a66b1dae-0eb8-43d8-804a-8ba0c9d41492"}
+{"type":"hit-points","name":"Hit points","abbreviation":"hp","category":"attribute-category-character","description":"The character hit points","id":"1d8b1fc0-0331-4257-adfd-4337faafd7b9"}
+{"type":"attack-bonus","name":"Attack bonus","abbreviation":"atk","category":"attribute-category-character","description":"The character attack bonus","id":"e593d1f3-f8a1-419d-a55c-8bf3e5942b8f"}
+{"type":"gold-pieces","name":"Gold Pieces","abbreviation":"gp","category":"attribute-category-money","description":"Gold pieces processed by the character","id":"b2e887ec-2be5-40c4-be07-845aa54fe2b6"}
+{"type":"death-poison","name":"Death poison","abbreviation":"","category":"attribute-category-saving-throw","description":"Saving throw against death or poison","id":"0c90c569-a13c-49f5-a6f7-5c8880e663d9"}
+{"type":"wands","name":"Wands","abbreviation":"","category":"attribute-category-saving-throw","description":"Saving throw against wands","id":"7d7f76a8-40c8-44b0-b644-d58478a74078"}
+{"type":"paralyze-stone","name":"Paralyze stone","abbreviation":"","category":"attribute-category-saving-throw","description":"Saving throw against paralysis or petrification","id":"2177c0ab-f583-457e-9386-10e7668e5923"}
+{"type":"dragon-breath","name":"Dragon breath","abbreviation":"","category":"attribute-category-saving-throw","description":"Saving throw against dragon breath","id":"1a00e487-cee8-4d86-8b02-2ea92fb7b302"}
+{"type":"spells","name":"Spells","abbreviation":"","category":"attribute-category-saving-throw","description":"Saving throw against spells","id":"295aae23-1f20-4668-818a-76a4a19bfa98"}

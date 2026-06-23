@@ -7,6 +7,8 @@ Throws error when constructing. This is a static class.
 
 ## static methods
 
-- `isValidRestriction(restriction)`: Returns true if the restriction is valid, false otherwise.
-- `getRestrictionData(restriction)`: Returns the restriction data for the given restriction.
-- `getRestrictionDescription(restriction)`: Returns the description for the given restriction.
+- `isRestricted(args)`: Returns true if there is a restriction, false otherwise
+    - arguments
+      - `restrictionType`: The type of restriction
+      - `restrictionData`: The data for the restriction
+    - Returns: true if there is a restriction, false otherwise. Will throw if `restrictionType` is invalid.

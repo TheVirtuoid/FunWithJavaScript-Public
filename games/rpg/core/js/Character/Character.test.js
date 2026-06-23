@@ -110,6 +110,11 @@ describe('Character', () => {
 		});
 
 		describe('race argument', () => {
+			it('accepts a null argument', () => {
+				const character = makeCharacter({ race: null });
+				expect(character.race).toBeNull();
+			});
+
 			it('throws when race is missing', () => {
 				expect(() => makeCharacter({ race: undefined })).toThrow();
 			});
@@ -124,6 +129,10 @@ describe('Character', () => {
 		});
 
 		describe('characterClass argument', () => {
+			it('can accept null', () => {
+				const character = makeCharacter({ characterClass: null });
+				expect(character.characterClass).toBeNull();
+			});
 			it('throws when characterClass is missing', () => {
 				expect(() => makeCharacter({ characterClass: undefined })).toThrow();
 			});
@@ -253,8 +262,9 @@ describe('Character', () => {
 				expect(() => character.setCharacterClass(123)).toThrow();
 			});
 
-			it('throws when given null', () => {
-				expect(() => character.setCharacterClass(null)).toThrow();
+			it('does not throw when given null', () => {
+				character.setCharacterClass(null);
+				expect(character.characterClass).toBe(null);
 			});
 
 			it('throws when given undefined', () => {

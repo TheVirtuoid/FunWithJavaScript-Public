@@ -33,7 +33,7 @@ describe('PlayerCharacter', () => {
 	});
 
 	describe('Abilities', () => {
-		const abilityList = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'];
+		const abilityList = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 
 		it.each(abilityList)(`should have a number of %s`, (abbreviation) => {
 			const playerCharacter = new PlayerCharacter({ name: VALID_NAME, race: VALID_RACE_ID, characterClass: VALID_CHARACTER_CLASS_ID });

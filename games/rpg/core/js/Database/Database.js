@@ -7,6 +7,7 @@ const __dirname = dirname(__filename);
 
 let instance;
 
+
 export default class Database {
 
 	#legalDatabases;
