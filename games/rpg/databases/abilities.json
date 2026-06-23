@@ -1,8 +1,8 @@
 [
-  { "type": "strength", "name": "Strength", "abbreviation": "STR", "description": "Physical power and endurance"},
-  { "type": "dexterity", "name": "Dexterity", "abbreviation": "DEX", "description": "The measure of agility, reflexes, and balance." },
-  { "type": "intelligence", "name": "Intelligence", "abbreviation": "INT", "description": "The ability to learn and recall information." },
-  { "type": "wisdom", "name": "Wisdom", "abbreviation": "WIS", "description": "The ability to see, hear, and smell." },
-  { "type": "charisma", "name": "Charisma", "abbreviation": "CHA", "description": "The ability to control emotions and influence others." },
-  { "type": "constitution", "name": "Constitution", "abbreviation": "CON", "description": "The measure of health and stamina."}
+  { "type": "strength", "name": "Strength", "abbreviation": "str", "description": "Physical power and endurance"},
+  { "type": "dexterity", "name": "Dexterity", "abbreviation": "dex", "description": "The measure of agility, reflexes, and balance." },
+  { "type": "intelligence", "name": "Intelligence", "abbreviation": "int", "description": "The ability to learn and recall information." },
+  { "type": "wisdom", "name": "Wisdom", "abbreviation": "wis", "description": "The ability to see, hear, and smell." },
+  { "type": "charisma", "name": "Charisma", "abbreviation": "cha", "description": "The ability to control emotions and influence others." },
+  { "type": "constitution", "name": "Constitution", "abbreviation": "con", "description": "The measure of health and stamina."}
 ]

@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RestrictionData Schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "number"
+    },
+    "height": {
+      "type": "number"
+    },
+    "age": {
+      "type": "number"
+    },
+    "classes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "restrictions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "specialAbilities": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "savingThrows": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "id": {
+      "type": "string"
+    }
+  }
+}

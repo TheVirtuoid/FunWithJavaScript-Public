@@ -1,0 +1,27 @@
+[
+  {
+    "type": "copper-piece",
+    "name": "Copper Piece",
+    "abbreviation": "cp"
+  },
+  {
+    "type": "silver-piece",
+    "name": "Silver Piece",
+    "abbreviation": "sp"
+  },
+  {
+    "type": "electrum-piece",
+    "name": "Electrum Piece",
+    "abbreviation": "ep"
+  },
+  {
+    "type": "gold-piece",
+    "name": "Gold Piece",
+    "abbreviation": "gp"
+  },
+  {
+    "type": "platinum-piece",
+    "name": "Platinum Piece",
+    "abbreviation": "pp"
+  }
+]

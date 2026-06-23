@@ -81,6 +81,7 @@ describe('Race', () => {
 			expect(raceData).toHaveProperty('restrictions');
 			expect(raceData).toHaveProperty('specialAbilities');
 			expect(raceData).toHaveProperty('savingThrows');
+			console.log(raceData.restrictions);
 		});
 		it('should return undefined if id is not a valid Race', () => {
 			expect(Race.GetRaceData('invalid')).toBeUndefined();

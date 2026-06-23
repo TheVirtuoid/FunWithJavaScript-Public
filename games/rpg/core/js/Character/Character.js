@@ -53,7 +53,7 @@ export default class Character {
 	}
 
 	get inventory() {
-		return [...this.#inventory.entries()].map(([id, item]) => ({ name: item.name, item }));
+		return [...this.#inventory.entries()].map(([id, item]) => ({ id, item }));
 	}
 
 	setName(name) {

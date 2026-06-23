@@ -12,18 +12,18 @@
     ],
     "restrictions": [
       {
-        "restrictionType": "restriction-ability",
-        "type": "con",
+        "type": "ability",
+        "value": "con",
         "min": 9
       },
       {
-        "restrictionType": "restriction-ability",
-        "type": "cha",
+        "type": "ability",
+        "value": "cha",
         "max": 17
       },
       {
-        "restrictionType": "weapon-size",
-        "type": ["lg"]
+        "type": "weapon-size",
+        "value": ["S", "M"]
       }
     ],
     "specialAbilities": [],
@@ -65,18 +65,18 @@
     ],
     "restrictions": [
       {
-        "restrictionType": "restriction-ability",
-        "type": "int",
+        "type": "ability",
+        "value": "int",
         "min": 9
       },
       {
-        "restrictionType": "restriction-ability",
-        "type": "con",
+        "type": "ability",
+        "value": "con",
         "max": 17
       },
       {
-        "restrictionType": "hit-points",
-        "type": "1d6"
+        "type": "hit-points",
+        "value": "1d6"
       }
     ],
     "specialAbilities": [],
@@ -108,22 +108,22 @@
     ],
     "restrictions": [
       {
-        "restrictionType": "restriction-ability",
-        "type": "dex",
+        "type": "ability",
+        "value": "dex",
         "min": 9
       },
       {
-        "restrictionType": "restriction-ability",
-        "type": "str",
+        "type": "ability",
+        "value": "str",
         "max": 17
       },
       {
-        "restrictionType": "hit-points",
-        "type": "1d6"
+        "type": "hit-points",
+        "value": "1d6"
       },
       {
-        "restrictionType": "weapon-size",
-        "type": ["lg"]
+        "type": "weapon-size",
+        "value": ["S", "M"]
       }
     ],
     "specialAbilities": [],

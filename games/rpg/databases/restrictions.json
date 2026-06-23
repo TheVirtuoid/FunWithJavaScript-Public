@@ -1,0 +1,8 @@
+[
+  { "type": "ability", "name": "ability" },
+  { "type": "armor-type", "name": "armor-type" },
+  { "type": "weapon-type", "name": "weapon-type" },
+  { "type": "weapon-sharp", "name": "weapon-sharp" },
+  { "type": "weapon-size", "name": "weapon-size" },
+  { "type": "hit-points", "name": "hit-points" }
+]
