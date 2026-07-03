@@ -8,7 +8,7 @@ const databasePath = config.databasePath;
 const database = new Database(databasePath);
 const raceCollection = database.getAll({ databaseName: 'race' });
 const races = new Map(raceCollection.map((race) => [race.id, race]));
-const racesByName = new Map(raceCollection.map((race) => [race.name, race]));
+const racesByName = new Map(raceCollection.map((race) => [race.name.toLowerCase(), race]));
 const idList = [...races.keys()];
 const nameList = [...racesByName.keys()];
 export default class Race {
@@ -71,7 +71,7 @@ export default class Race {
 		if (name === '') {
 			throw new Error('Race name must not be an empty string');
 		}
-		return nameList.includes(name);
+		return nameList.includes(name.toLowerCase());
 	}
 
 	static GetRaceId(name) {
@@ -81,7 +81,7 @@ export default class Race {
 		if (name === '') {
 			throw new Error('Race name must not be an empty string');
 		}
-		return racesByName.get(name)?.id;
+		return racesByName.get(name.toLowerCase())?.id;
 	}
 
 	static GetRaceData(id) {

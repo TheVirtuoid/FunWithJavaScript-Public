@@ -9,6 +9,15 @@ export default class Dice {
 		return Dice.#rollTheDice(numberOfDice, numberOfSides);
 	}
 
+	static ValidExpression(expression) {
+		try {
+			Dice.#parseDescriptor(expression);
+			return true;
+		} catch (error) {
+			return false;
+		}
+	}
+
 	static #rollTheDice(numberOfDice, numberOfSides) {
 		let sum = 0;
 		for (let i = 0; i < numberOfDice; i++) {

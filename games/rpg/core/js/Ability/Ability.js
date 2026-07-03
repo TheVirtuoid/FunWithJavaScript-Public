@@ -24,6 +24,7 @@ export default class Ability {
 	#id;
 	#value;
 	#bonus;
+	#data;
 
 	constructor(args = {}) {
 		const { id, value, bonus = 0 } = args;
@@ -31,6 +32,7 @@ export default class Ability {
 			throw new Error('Invalid ability id');
 		}
 		this.#id = id;
+		this.#data = Ability.GetAbility(id);
 		this.setBonus(bonus);
 		this.setValue(value);
 	}
@@ -45,6 +47,22 @@ export default class Ability {
 
 	get value() {
 		return this.#value;
+	}
+
+	get type() {
+		return this.#data.type;
+	}
+
+	get name() {
+		return this.#data.name;
+	}
+
+	get abbreviation() {
+		return this.#data.abbreviation;
+	}
+
+	get description() {
+		return this.#data.description;
 	}
 
 	setBonus(bonus) {
@@ -65,9 +83,13 @@ export default class Ability {
 
 	toObject() {
 		return {
-			id: this.#id,
-			value: this.#value,
-			bonus: this.#bonus
+			id: this.id,
+			value: this.value,
+			bonus: this.bonus,
+			type: this.type,
+			name: this.name,
+			abbreviation: this.abbreviation,
+			description: this.description,
 		}
 	}
 

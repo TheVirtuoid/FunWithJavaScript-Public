@@ -10,7 +10,7 @@ const databasePath = config.databasePath;
 const database = new Database(databasePath);
 const characterClassCollection = database.getAll({ databaseName: 'characterClass' });
 const characterClasses = new Map(characterClassCollection.map((characterClass) => [characterClass.id, characterClass]));
-const characterClassesByName = new Map(characterClassCollection.map((characterClass) => [characterClass.name, characterClass]));
+const characterClassesByName = new Map(characterClassCollection.map((characterClass) => [characterClass.name.toLowerCase(), characterClass]));
 const idList = [...characterClasses.keys()];
 const nameList = [...characterClassesByName.keys()];
 
@@ -34,12 +34,12 @@ export default class CharacterClass {
 		if (name === '') {
 			throw new Error('CharacterClass: name must not be empty');
 		}
-		return nameList.includes(name);
+		return nameList.includes(name.toLowerCase());
 	}
 
 	static GetCharacterClassId(name) {
 		if (this.IsCharacterClassByName(name)) {
-			return characterClassesByName.get(name).id;
+			return characterClassesByName.get(name.toLowerCase()).id;
 		}
 	}
 

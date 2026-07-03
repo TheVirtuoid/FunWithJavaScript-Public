@@ -34,6 +34,18 @@ export default class Restriction {
 		return isRestricted;
 	}
 
+	static CheckAHitPointRestrictions(args = {}) {
+		const { race } = args;
+		let hitDie = null;
+		race.restrictions.forEach((restriction) => {
+			const restrictionData = database.get({ key: 'id', value: restriction.type });
+			if (restrictionData.name === 'hit-points') {
+				hitDie = restriction.value;
+			}
+		});
+		return hitDie;
+	}
+
 	static IsRestricted = (args = {}) => {
 		const { type } = args;
 		const restriction = database.get({ key: 'id', value: type });

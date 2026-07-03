@@ -1,5 +1,6 @@
 import Database from "../Database/Database.js";
 import config from "./../../../config.json" with { type: 'json' };
+import Dice from "../Dice/Dice.js";
 const databasePath = config.databasePath;
 
 const database = new Database(databasePath);
@@ -89,10 +90,25 @@ export default class Attribute {
 	}
 
 	setValue(newValue) {
-		if (!Number.isInteger(newValue)) throw new Error(
-			`Attribute value must be an integer: ${newValue}`
+		if (!Number.isInteger(newValue) && !Dice.ValidExpression(newValue)) throw new Error(
+			`Attribute value must be an integer or Dice expression: ${newValue}`
 		);
 		this.#value = newValue;
+	}
+
+	toObject() {
+		return {
+			id: this.id,
+			value: this.value,
+			category: this.category,
+			name: this.name,
+			abbreviation: this.abbreviation,
+			description: this.description
+		}
+	}
+
+	toString() {
+		return JSON.stringify(this.toObject());
 	}
 
 }
