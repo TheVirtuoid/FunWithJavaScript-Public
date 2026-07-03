@@ -25,7 +25,7 @@ printText.printLine('\n');
 let sayGoodbye = false;
 while (!sayGoodbye) {
 	const commandLine = processPrompt.parse(await commandPrompt.get());
-	const { exit, error, result } = executePrompt.go(commandLine);
+	const { exit, error, result } = await executePrompt.go(commandLine);
 	if (error) {
 		printText.printLine(`? ${error}`);
 	}

@@ -30,6 +30,5 @@ export default class PlayerCharacter extends Character {
 
 	constructor(args) {
 		super(args);
-		PlayerCharacter.RollAbilities().forEach((ability) => this.addAbility(ability));
 	}
 }

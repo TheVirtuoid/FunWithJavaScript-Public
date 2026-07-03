@@ -11,6 +11,7 @@ const characterClassData = JSON.parse(`[${characterClassDatabase.split('\r\n').j
 const abilitiesDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
 const abilitiesData = JSON.parse(`[${abilitiesDatabase.split('\r\n').join(',')}]`);
 const abilitiesByAbbreviation = new Map(abilitiesData.map((ability) => [ability.abbreviation, ability]));
+// const abilitiesById = new Map(abilitiesData.map((ability) => [ability.id, ability]));
 
 const VALID_NAME = 'Alfred';
 const VALID_RACE_ID = raceData[0]['id'];
@@ -32,7 +33,7 @@ describe('PlayerCharacter', () => {
 		});
 	});
 
-	describe('Abilities', () => {
+	describe.skip('Abilities', () => {
 		const abilityList = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 
 		it.each(abilityList)(`should have a number of %s`, (abbreviation) => {
@@ -43,6 +44,28 @@ describe('PlayerCharacter', () => {
 			expect(ability.value).toBeLessThanOrEqual(18);
 			expect(ability.bonus).toBeGreaterThanOrEqual(-2);
 			expect(ability.bonus).toBeLessThanOrEqual(2);
+		});
+	});
+
+	describe('Static Methods', () => {
+		describe('RollAbilities()', () => {
+			it('should return an array of 6 numbers and have the correct properties', () => {
+				const abilityRoll = PlayerCharacter.RollAbilities();
+				expect(abilityRoll).toHaveLength(abilitiesData.length);
+				expect(abilityRoll[0]).toHaveProperty('id');
+				expect(abilityRoll[0]).toHaveProperty('value');
+				expect(abilityRoll[0]).toHaveProperty('bonus');
+			});
+
+			it('should have numbers between 3 and 18, bonus between -3 and 3', () => {
+				const abilityRoll = PlayerCharacter.RollAbilities();
+				abilityRoll.forEach((roll) => {
+					expect(roll.value).toBeLessThanOrEqual(18);
+					expect(roll.value).toBeGreaterThanOrEqual(3);
+					expect(roll.bonus).toBeLessThanOrEqual(3);
+					expect(roll.bonus).toBeGreaterThanOrEqual(-3);
+				});
+			});
 		});
 	});
 

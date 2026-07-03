@@ -62,4 +62,16 @@ export default class Ability {
 			throw new Error('Value must be an integer');
 		}
 	}
+
+	toObject() {
+		return {
+			id: this.#id,
+			value: this.#value,
+			bonus: this.#bonus
+		}
+	}
+
+	toString() {
+		return JSON.stringify(this.toObject());
+	}
 }

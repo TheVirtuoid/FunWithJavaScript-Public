@@ -1,4 +1,4 @@
-import config from "../../../config.json";
+import config from "../../../config.json" with { type: "json" };
 import Database from "../Database/Database.js";
 import Dice from "../Dice/Dice.js";
 
@@ -13,6 +13,26 @@ const idList = [...abilities.keys()];
 */
 
 export default class Restriction {
+
+	static CheckAbilityRestrictions(args = {}) {
+		const { restrictions, abilities } = args;
+		const abilitiesMap = new Map(abilities.map((ability) => [ability.id, ability]));
+		let isRestricted = false;
+		restrictions.forEach((restriction) => {
+			const restrictionData = database.get({ key: 'id', value: restriction.type });
+			if (restrictionData.name === 'ability') {
+				const ability = abilitiesMap.get(restriction.value);
+				if (ability) {
+					if (restriction.min && ability.value < restriction.min) {
+						isRestricted = true;
+					} else if (restriction.max && ability.value > restriction.max) {
+						isRestricted = true;
+					}
+				}
+			}
+		});
+		return isRestricted;
+	}
 
 	static IsRestricted = (args = {}) => {
 		const { type } = args;
