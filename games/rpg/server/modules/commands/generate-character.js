@@ -14,6 +14,7 @@ import CharacterClass from "../../../core/js/CharacterClass/CharacterClass.js";
 import Armor from "../../../core/js/Armor/Armor.js";
 import Dice from "../../../core/js/Dice/Dice.js";
 import Ability from "../../../core/js/Ability/Ability.js";
+import Equation from "../../../core/js/Equation/Equation.js";
 
 const prompt = new CommandPrompt();
 
@@ -57,32 +58,42 @@ const rollAbilities = async () => {
 
 const selectRace = async (abilities) => {
 	const races = [];
+	const raceNames = [];
+	let index = 1;
 	raceCollection.forEach((race) => {
 		if (!Restriction.CheckAbilityRestrictions({ restrictions: race.restrictions, abilities })) {
-			races.push(race.name.toLowerCase());
+			races.push(`(${index}) ${race.name.toLowerCase()}`);
+			raceNames.push(race.name.toLowerCase());
+			index++;
 		}
 	});
-	let answer = '';
-	while (!races.includes(answer)) {
+	let answer = 0;
+	while (answer < 1 || answer > raceNames.length) {
 		answer = await prompt.get(`Choose one of these races: ${races.join(', ')}: `);
-		answer = answer.toLowerCase();
+		answer = parseInt(answer);
+		answer = isNaN(answer) ? 0 : answer;
 	}
-	return answer;
+	return raceNames[answer - 1];
 }
 
 const selectCharacterClass = async (abilities) => {
 	const characterClasses = [];
+	const characterClassesNames = [];
+	let index = 1;
 	characterClassCollection.forEach((characterClass) => {
 		if (!Restriction.CheckAbilityRestrictions({ restrictions: characterClass.restrictions, abilities })) {
-			characterClasses.push(characterClass.name.toLowerCase());
+			characterClasses.push(`(${index}) ${characterClass.name.toLowerCase()}`);
+			characterClassesNames.push(characterClass.name.toLowerCase());
+			index++;
 		}
 	});
-	let answer = '';
-	while (!characterClasses.includes(answer)) {
+	let answer = 0;
+	while (answer < 1 || answer > characterClassesNames.length) {
 		answer = await prompt.get(`Choose one of these character classes: ${characterClasses.join(', ')}: `);
-		answer = answer.toLowerCase();
+		answer = parseInt(answer);
+		answer = isNaN(answer) ? 0 : answer;
 	}
-	return answer;
+	return characterClassesNames[answer - 1];
 }
 
 const width = 35;
@@ -125,7 +136,12 @@ const printDoubleLine = (text1, text2 = 'middle', position = 'middle') => {
 	} else {
 		console.log(`${single.vertical}${text1}${' '.repeat(width - text1.length)}${single.vertical}${text2}${' '.repeat(width - text2.length)}${single.vertical}`);
 	}
+}
 
+const getSavingThrows = (race) => {
+	const savingThrows = [];
+	const savingThrowData = attributeCollection.filter((attribute) => attribute.category === 'attribute-category-saving-throw');
+	console.log(savingThrowData);
 }
 
 const generateCharacter = async (args) => {
@@ -148,39 +164,40 @@ const generateCharacter = async (args) => {
 	// set the attributes
 	const attributes = [];
 	attributeCollection.forEach((attribute) => {
-		switch(attribute.type) {
-			case 'level':
-				attributes.push(new Attribute({ id: attribute.id, value: 1 }));
-				break;
-			case 'experience':
-				attributes.push(new Attribute({ id: attribute.id, value: 0 }));
-				break;
-			case 'armor-class':
-				const armor = Armor.GetArmorByType('none');
-				attributes.push(new Attribute({ id: attribute.id, value: armor.armorClass }));
-				break;
-			case 'hit-points':
-				const hitDie = Restriction.CheckAHitPointRestrictions({ race: raceData }) ?? characterClassData.levelData[0].hitPoints;
-				let value = Dice.Roll(hitDie);
-				const constitutionBonus = abilities.find((ability) => ability.type === 'constitution').bonus;
-				attributes.push(new Attribute({ id: attribute.id, value: Math.max(1, value + constitutionBonus) }));
-				break;
-			case 'attack-bonus':
-				attributes.push(new Attribute({ id: attribute.id, value: 0 }));
-				break;
+		if (attribute.category === 'attribute-category-saving-throw') {
+			const savingThrow = characterClassData.levelData[0].otherAbilities.savingThrows.find((savingThrow) => savingThrow.type === attribute.type).value;
+			const savingThrowBonus = Math.max(raceData.savingThrows.find((savingThrow) => savingThrow.attribute === attribute.type)?.bonus ?? 0, 1);
+			attributes.push(new Attribute({ id: attribute.id, value: savingThrow - savingThrowBonus}));
+		} else if (attribute.category === 'attribute-category-money') {
+			switch (attribute.type) {
+				case 'gold-pieces':
+					attributes.push(new Attribute({ id: attribute.id, value: Equation.Solve('3d6*10') }));
+					break;
+			}
+		} else if (attribute.category === 'attribute-category-character') {
+			switch(attribute.type) {
+				case 'level':
+					attributes.push(new Attribute({ id: attribute.id, value: 1 }));
+					break;
+				case 'experience':
+					attributes.push(new Attribute({ id: attribute.id, value: 0 }));
+					break;
+				case 'armor-class':
+					const armor = Armor.GetArmorByType('none');
+					attributes.push(new Attribute({ id: attribute.id, value: armor.armorClass }));
+					break;
+				case 'hit-points':
+					const hitDie = Restriction.CheckAHitPointRestrictions({ race: raceData }) ?? characterClassData.levelData[0].hitPoints;
+					let value = Dice.Roll(hitDie);
+					const constitutionBonus = abilities.find((ability) => ability.type === 'constitution').bonus;
+					attributes.push(new Attribute({ id: attribute.id, value: Math.max(1, value + constitutionBonus) }));
+					break;
+				case 'attack-bonus':
+					attributes.push(new Attribute({ id: attribute.id, value: characterClassData.levelData[0].otherAbilities.attackBonus }));
+					break;
+			}
 		}
 	})
-
-	// set experience points
-	/*const experienceData = attributeCollection.find((attribute) => attribute.type === 'experience');
-	const experience = new Attribute({ id: experienceData.id, value: 0 });
-
-	// set armor class
-	const armorClassData = attributeCollection.find((attribute) => attribute.type === 'armor-class');
-	const armorClassType =
-	const armorClass = new Attribute({ id: armorClassData.id, value: 0 });*/
-
-	// set hit points
 
 	console.log('\n\n\n');
 	printLine('-', 'top');
@@ -189,22 +206,33 @@ const generateCharacter = async (args) => {
 	printLine(` Class: ${characterClassData.name}`);
 	printDoubleLine('-', 'middle', 'top');
 	printDoubleLine(' ABILITIES', ' ATTRIBUTES');
-	for (let i = 0; i < Math.max(abilities.length, attributes.length); i++) {
+
+	let displayAttributes = attributes.filter((attribute) => attribute.category === 'attribute-category-character');
+	displayAttributes.push(null);
+	displayAttributes.push(...attributes.filter((attribute) => attribute.category === 'attribute-category-money'));
+
+	for (let i = 0; i < Math.max(abilities.length, displayAttributes.length); i++) {
 		const ability = abilities[i];
-		const attribute = attributes[i];
+		const attribute = displayAttributes[i];
 		const abilityData = ability ? database.get({ key: 'id', value: ability.id }) : null;
 		const attributeData = attribute ? database.get({ key: 'id', value: attribute.id }) : null;
 		const text1 = ability ? `   ${abilityData.abbreviation.toUpperCase()}: ${ability.value} ${ability.bonus !== 0 ? '('+ability.bonus+')' : ''}` : ' ';
 		const text2 = attribute ? `   ${attributeData.name}: ${attribute.value}` : ' ';
 		printDoubleLine(text1, text2);
 	}
-	/*abilities.forEach((ability) => {
-		const abilityData = database.get({ key: 'id', value: ability.id });
-		printLine(`   ${abilityData.abbreviation.toUpperCase()}: ${ability.value} ${ability.bonus !== 0 ? '('+ability.bonus+')' : ''}`);
-	});*/
-	printDoubleLine('-', 'bottom', 'bottom');
+	printDoubleLine(' ', ' ');
+	printDoubleLine(' ', ' SAVING THROWS');
+	displayAttributes = attributes.filter((attribute) => attribute.category === 'attribute-category-saving-throw');
+	displayAttributes.forEach((attribute) => {
+		const attributeData = database.get({ key: 'id', value: attribute.id });
+		printDoubleLine(' ', `  ${attributeData.name}: ${attribute.value}`);
+	});
 
-	return { exit: false, result: abilities };
+
+	printDoubleLine('-', 'bottom', 'bottom');
+	console.log('\n\n\n');
+
+	return { exit: false, result: abilities, hide: true };
 }
 
 export default generateCharacter;

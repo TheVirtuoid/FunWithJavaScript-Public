@@ -25,11 +25,11 @@ printText.printLine('\n');
 let sayGoodbye = false;
 while (!sayGoodbye) {
 	const commandLine = processPrompt.parse(await commandPrompt.get());
-	const { exit, error, result } = await executePrompt.go(commandLine);
+	const { exit, error, result, hide = false } = await executePrompt.go(commandLine);
 	if (error) {
 		printText.printLine(`? ${error}`);
 	}
-	if (result) {
+	if (result && !hide) {
 		const output = typeof result === 'object' ? JSON.stringify(result, null, 2) : result;
 		printText.printLine(output);
 	}

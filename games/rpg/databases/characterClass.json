@@ -19,6 +19,14 @@
         "experiencePoints": 0,
         "hitPoints": "1d6",
         "otherAbilities": {
+          "attackBonus": 1,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 12 },
+            { "type": "paralyze-stone", "value": 14 },
+            { "type": "dragon-breath", "value": 16 },
+            { "type": "spells", "value": 15 }
+          ],
           "spells": [
             0,
             0,
@@ -33,6 +41,14 @@
         "experiencePoints": 1500,
         "hitPoints": "2d6",
         "otherAbilities": {
+          "attackBonus": 1,
+          "savingThrows": [
+            { "type": "death-poison", "value": 10 },
+            { "type": "wands", "value": 11 },
+            { "type": "paralyze-stone", "value": 13 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 14 }
+          ],
           "spells": [
             1,
             0,
@@ -47,6 +63,14 @@
         "experiencePoints": 3000,
         "hitPoints": "3d6",
         "otherAbilities": {
+          "attackBonus": 2,
+          "savingThrows": [
+            { "type": "death-poison", "value": 10 },
+            { "type": "wands", "value": 11 },
+            { "type": "paralyze-stone", "value": 13 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 14 }
+          ],
           "spells": [
             2,
             0,
@@ -61,6 +85,14 @@
         "experiencePoints": 6000,
         "hitPoints": "4d6",
         "otherAbilities": {
+          "attackBonus": 2,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 13 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 14 }
+          ],
           "spells": [
             2,
             1,
@@ -75,6 +107,14 @@
         "experiencePoints": 12000,
         "hitPoints": "5d6",
         "otherAbilities": {
+          "attackBonus": 3,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 13 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 14 }
+          ],
           "spells": [
             2,
             2,
@@ -89,6 +129,14 @@
         "experiencePoints": 24000,
         "hitPoints": "6d6",
         "otherAbilities": {
+          "attackBonus": 3,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 13 }
+          ],
           "spells": [
             2,
             2,
@@ -103,6 +151,14 @@
         "experiencePoints": 48000,
         "hitPoints": "7d6",
         "otherAbilities": {
+          "attackBonus": 4,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 13 }
+          ],
           "spells": [
             3,
             2,
@@ -117,6 +173,14 @@
         "experiencePoints": 90000,
         "hitPoints": "8d6",
         "otherAbilities": {
+          "attackBonus": 4,
+          "savingThrows": [
+            { "type": "death-poison", "value": 8 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 13 }
+          ],
           "spells": [
             3,
             2,
@@ -131,6 +195,14 @@
         "experiencePoints": 180000,
         "hitPoints": "9d6",
         "otherAbilities": {
+          "attackBonus": 5,
+          "savingThrows": [
+            { "type": "death-poison", "value": 8 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 13 }
+          ],
           "spells": [
             3,
             3,
@@ -145,6 +217,14 @@
         "experiencePoints": 270000,
         "hitPoints": "9d6+1",
         "otherAbilities": {
+          "attackBonus": 5,
+          "savingThrows": [
+            { "type": "death-poison", "value": 8 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 11 },
+            { "type": "dragon-breath", "value": 13 },
+            { "type": "spells", "value": 12 }
+          ],
           "spells": [
             3,
             3,
@@ -159,6 +239,14 @@
         "experiencePoints": 360000,
         "hitPoints": "9d6+2",
         "otherAbilities": {
+          "attackBonus": 5,
+          "savingThrows": [
+            { "type": "death-poison", "value": 8 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 11 },
+            { "type": "dragon-breath", "value": 13 },
+            { "type": "spells", "value": 12 }
+          ],
           "spells": [
             4,
             3,
@@ -173,6 +261,14 @@
         "experiencePoints": 450000,
         "hitPoints": "9d6+3",
         "otherAbilities": {
+          "attackBonus": 6,
+          "savingThrows": [
+            { "type": "death-poison", "value": 7 },
+            { "type": "wands", "value": 8 },
+            { "type": "paralyze-stone", "value": 11 },
+            { "type": "dragon-breath", "value": 13 },
+            { "type": "spells", "value": 12 }
+          ],
           "spells": [
             4,
             4,
@@ -187,6 +283,14 @@
         "experiencePoints": 540000,
         "hitPoints": "9d6+4",
         "otherAbilities": {
+          "attackBonus": 6,
+          "savingThrows": [
+            { "type": "death-poison", "value": 7 },
+            { "type": "wands", "value": 8 },
+            { "type": "paralyze-stone", "value": 11 },
+            { "type": "dragon-breath", "value": 13 },
+            { "type": "spells", "value": 12 }
+          ],
           "spells": [
             4,
             4,
@@ -201,6 +305,14 @@
         "experiencePoints": 630000,
         "hitPoints": "9d6+5",
         "otherAbilities": {
+          "attackBonus": 6,
+          "savingThrows": [
+            { "type": "death-poison", "value": 7 },
+            { "type": "wands", "value": 8 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 11 }
+          ],
           "spells": [
             4,
             4,
@@ -215,6 +327,14 @@
         "experiencePoints": 720000,
         "hitPoints": "9d6+6",
         "otherAbilities": {
+          "attackBonus": 7,
+          "savingThrows": [
+            { "type": "death-poison", "value": 7 },
+            { "type": "wands", "value": 8 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 11 }
+          ],
           "spells": [
             4,
             4,
@@ -229,6 +349,14 @@
         "experiencePoints": 810000,
         "hitPoints": "9d6+7",
         "otherAbilities": {
+          "attackBonus": 7,
+          "savingThrows": [
+            { "type": "death-poison", "value": 6 },
+            { "type": "wands", "value": 7 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 11 }
+          ],
           "spells": [
             5,
             4,
@@ -243,6 +371,14 @@
         "experiencePoints": 900000,
         "hitPoints": "9d6+8",
         "otherAbilities": {
+          "attackBonus": 7,
+          "savingThrows": [
+            { "type": "death-poison", "value": 6 },
+            { "type": "wands", "value": 7 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 11 }
+          ],
           "spells": [
             5,
             5,
@@ -257,6 +393,14 @@
         "experiencePoints": 990000,
         "hitPoints": "9d6+9",
         "otherAbilities": {
+          "attackBonus": 8,
+          "savingThrows": [
+            { "type": "death-poison", "value": 6 },
+            { "type": "wands", "value": 7 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 11 },
+            { "type": "spells", "value": 10 }
+          ],
           "spells": [
             5,
             5,
@@ -271,6 +415,14 @@
         "experiencePoints": 1080000,
         "hitPoints": "9d6+10",
         "otherAbilities": {
+          "attackBonus": 8,
+          "savingThrows": [
+            { "type": "death-poison", "value": 6 },
+            { "type": "wands", "value": 7 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 11 },
+            { "type": "spells", "value": 10 }
+          ],
           "spells": [
             6,
             5,
@@ -285,6 +437,14 @@
         "experiencePoints": 1170000,
         "hitPoints": "9d6+11",
         "otherAbilities": {
+          "attackBonus": 8,
+          "savingThrows": [
+            { "type": "death-poison", "value": 5 },
+            { "type": "wands", "value": 6 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 11 },
+            { "type": "spells", "value": 10 }
+          ],
           "spells": [
             6,
             5,
@@ -311,83 +471,283 @@
     "levelData": [
       {
         "experiencePoints": 0,
-        "hitPoints": "1d8"
+        "hitPoints": "1d8",
+        "otherAbilities": {
+          "attackBonus": 1,
+          "savingThrows": [
+            { "type": "death-poison", "value": 12 },
+            { "type": "wands", "value": 13 },
+            { "type": "paralyze-stone", "value": 14 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 17 }
+          ]
+        }
       },
       {
         "experiencePoints": 2000,
-        "hitPoints": "2d8"
+        "hitPoints": "2d8",
+        "otherAbilities": {
+          "attackBonus": 2,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 12 },
+            { "type": "paralyze-stone", "value": 14 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 17 }
+          ]
+        }
       },
       {
         "experiencePoints": 4000,
-        "hitPoints": "3d8"
+        "hitPoints": "3d8",
+        "otherAbilities": {
+          "attackBonus": 2,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 12 },
+            { "type": "paralyze-stone", "value": 14 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 17 }
+          ]
+        }
       },
       {
         "experiencePoints": 8000,
-        "hitPoints": "4d6"
+        "hitPoints": "4d6",
+        "otherAbilities": {
+          "attackBonus": 3,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 11 },
+            { "type": "paralyze-stone", "value": 13 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 15 }
+          ]
+        }
       },
       {
         "experiencePoints": 16000,
-        "hitPoints": "5d8"
+        "hitPoints": "5d8",
+        "otherAbilities": {
+          "attackBonus": 4,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 11 },
+            { "type": "paralyze-stone", "value": 13 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 15 }
+          ]
+        }
       },
       {
         "experiencePoints": 32000,
-        "hitPoints": "6d8"
+        "hitPoints": "6d8",
+        "otherAbilities": {
+          "attackBonus": 4,
+          "savingThrows": [
+            { "type": "death-poison", "value": 10 },
+            { "type": "wands", "value": 11 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 15 }
+          ]
+        }
       },
       {
         "experiencePoints": 64000,
-        "hitPoints": "7d8"
+        "hitPoints": "7d8",
+        "otherAbilities": {
+          "attackBonus": 5,
+          "savingThrows": [
+            { "type": "death-poison", "value": 10 },
+            { "type": "wands", "value": 11 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 15 }
+          ]
+        }
       },
       {
         "experiencePoints": 120000,
-        "hitPoints": "8d8"
+        "hitPoints": "8d8",
+        "otherAbilities": {
+          "attackBonus": 6,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 13 },
+            { "type": "spells", "value": 14 }
+          ]
+        }
       },
       {
         "experiencePoints": 240000,
-        "hitPoints": "9d8"
+        "hitPoints": "9d8",
+        "otherAbilities": {
+          "attackBonus": 6,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 13 },
+            { "type": "spells", "value": 14 }
+          ]
+        }
       },
       {
         "experiencePoints": 360000,
-        "hitPoints": "9d8+2"
+        "hitPoints": "9d8+2",
+        "otherAbilities": {
+          "attackBonus": 6,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 11 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 13 }
+          ]
+        }
       },
       {
         "experiencePoints": 480000,
-        "hitPoints": "9d8+4"
+        "hitPoints": "9d8+4",
+        "otherAbilities": {
+          "attackBonus": 7,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 11 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 13 }
+          ]
+        }
       },
       {
         "experiencePoints": 600000,
-        "hitPoints": "9d8+6"
+        "hitPoints": "9d8+6",
+        "otherAbilities": {
+          "attackBonus": 7,
+          "savingThrows": [
+            { "type": "death-poison", "value": 8 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 13 }
+          ]
+        }
       },
       {
         "experiencePoints": 720000,
-        "hitPoints": "9d8+8"
+        "hitPoints": "9d8+8",
+        "otherAbilities": {
+          "attackBonus": 8,
+          "savingThrows": [
+            { "type": "death-poison", "value": 8 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 13 }
+          ]
+        }
       },
       {
         "experiencePoints": 840000,
-        "hitPoints": "9d8+10"
+        "hitPoints": "9d8+10",
+        "otherAbilities": {
+          "attackBonus": 8,
+          "savingThrows": [
+            { "type": "death-poison", "value": 7 },
+            { "type": "wands", "value": 8 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 11 },
+            { "type": "spells", "value": 12 }
+          ]
+        }
       },
       {
         "experiencePoints": 960000,
-        "hitPoints": "9d8+12"
+        "hitPoints": "9d8+12",
+        "otherAbilities": {
+          "attackBonus": 8,
+          "savingThrows": [
+            { "type": "death-poison", "value": 7 },
+            { "type": "wands", "value": 8 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 11 },
+            { "type": "spells", "value": 12 }
+          ]
+        }
       },
       {
         "experiencePoints": 1080000,
-        "hitPoints": "9d8+14"
+        "hitPoints": "9d8+14",
+        "otherAbilities": {
+          "attackBonus": 9,
+          "savingThrows": [
+            { "type": "death-poison", "value": 7 },
+            { "type": "wands", "value": 7 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 10 },
+            { "type": "spells", "value": 11 }
+          ]
+        }
       },
       {
         "experiencePoints": 1200000,
-        "hitPoints": "9d8+16"
+        "hitPoints": "9d8+16",
+        "otherAbilities": {
+          "attackBonus": 9,
+          "savingThrows": [
+            { "type": "death-poison", "value": 7 },
+            { "type": "wands", "value": 7 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 10 },
+            { "type": "spells", "value": 11 }
+          ]
+        }
       },
       {
         "experiencePoints": 1320000,
-        "hitPoints": "9d8+18"
+        "hitPoints": "9d8+18",
+        "otherAbilities": {
+          "attackBonus": 10,
+          "savingThrows": [
+            { "type": "death-poison", "value": 6 },
+            { "type": "wands", "value": 7 },
+            { "type": "paralyze-stone", "value": 8 },
+            { "type": "dragon-breath", "value": 10 },
+            { "type": "spells", "value": 11 }
+          ]
+        }
       },
       {
         "experiencePoints": 1440000,
-        "hitPoints": "9d8+20"
+        "hitPoints": "9d8+20",
+        "otherAbilities": {
+          "attackBonus": 10,
+          "savingThrows": [
+            { "type": "death-poison", "value": 6 },
+            { "type": "wands", "value": 7 },
+            { "type": "paralyze-stone", "value": 8 },
+            { "type": "dragon-breath", "value": 10 },
+            { "type": "spells", "value": 11 }
+          ]
+        }
       },
       {
         "experiencePoints": 1560000,
-        "hitPoints": "9d8+22"
+        "hitPoints": "9d8+22",
+        "otherAbilities": {
+          "attackBonus": 10,
+          "savingThrows": [
+            { "type": "death-poison", "value": 5 },
+            { "type": "wands", "value": 6 },
+            { "type": "paralyze-stone", "value": 8 },
+            { "type": "dragon-breath", "value": 9 },
+            { "type": "spells", "value": 10 }
+          ]
+        }
       }
     ]
   },
@@ -419,6 +779,14 @@
         "experiencePoints": 0,
         "hitPoints": "1d4",
         "otherAbilities": {
+          "attackBonus": 1,
+          "savingThrows": [
+            { "type": "death-poison", "value": 13 },
+            { "type": "wands", "value": 14 },
+            { "type": "paralyze-stone", "value": 13 },
+            { "type": "dragon-breath", "value": 16 },
+            { "type": "spells", "value": 15 }
+          ],
           "spells": [
             1,
             0,
@@ -433,6 +801,14 @@
         "experiencePoints": 2500,
         "hitPoints": "2d4",
         "otherAbilities": {
+          "attackBonus": 1,
+          "savingThrows": [
+            { "type": "death-poison", "value": 13 },
+            { "type": "wands", "value": 14 },
+            { "type": "paralyze-stone", "value": 13 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 14 }
+          ],
           "spells": [
             2,
             0,
@@ -447,6 +823,14 @@
         "experiencePoints": 5000,
         "hitPoints": "3d4",
         "otherAbilities": {
+          "attackBonus": 1,
+          "savingThrows": [
+            { "type": "death-poison", "value": 13 },
+            { "type": "wands", "value": 14 },
+            { "type": "paralyze-stone", "value": 13 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 14 }
+          ],
           "spells": [
             2,
             1,
@@ -461,6 +845,14 @@
         "experiencePoints": 10000,
         "hitPoints": "4d4",
         "otherAbilities": {
+          "attackBonus": 2,
+          "savingThrows": [
+            { "type": "death-poison", "value": 12 },
+            { "type": "wands", "value": 13 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 13 }
+          ],
           "spells": [
             2,
             2,
@@ -475,6 +867,14 @@
         "experiencePoints": 20000,
         "hitPoints": "5d4",
         "otherAbilities": {
+          "attackBonus": 2,
+          "savingThrows": [
+            { "type": "death-poison", "value": 12 },
+            { "type": "wands", "value": 13 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 13 }
+          ],
           "spells": [
             2,
             2,
@@ -489,6 +889,14 @@
         "experiencePoints": 40000,
         "hitPoints": "6d4",
         "otherAbilities": {
+          "attackBonus": 3,
+          "savingThrows": [
+            { "type": "death-poison", "value": 12 },
+            { "type": "wands", "value": 12 },
+            { "type": "paralyze-stone", "value": 11 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 13 }
+          ],
           "spells": [
             3,
             2,
@@ -503,6 +911,14 @@
         "experiencePoints": 80000,
         "hitPoints": "7d4",
         "otherAbilities": {
+          "attackBonus": 3,
+          "savingThrows": [
+            { "type": "death-poison", "value": 12 },
+            { "type": "wands", "value": 12 },
+            { "type": "paralyze-stone", "value": 11 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 13 }
+          ],
           "spells": [
             3,
             2,
@@ -517,6 +933,14 @@
         "experiencePoints": 150000,
         "hitPoints": "8d4",
         "otherAbilities": {
+          "attackBonus": 3,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 11 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 12 }
+          ],
           "spells": [
             3,
             3,
@@ -531,6 +955,14 @@
         "experiencePoints": 300000,
         "hitPoints": "9d4",
         "otherAbilities": {
+          "attackBonus": 4,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 11 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 12 }
+          ],
           "spells": [
             3,
             3,
@@ -545,6 +977,14 @@
         "experiencePoints": 450000,
         "hitPoints": "9d4+1",
         "otherAbilities": {
+          "attackBonus": 4,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 13 },
+            { "type": "spells", "value": 11 }
+          ],
           "spells": [
             4,
             3,
@@ -559,6 +999,14 @@
         "experiencePoints": 600000,
         "hitPoints": "9d4+2",
         "otherAbilities": {
+          "attackBonus": 4,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 13 },
+            { "type": "spells", "value": 11 }
+          ],
           "spells": [
             4,
             4,
@@ -573,6 +1021,14 @@
         "experiencePoints": 750000,
         "hitPoints": "9d4+3",
         "otherAbilities": {
+          "attackBonus": 4,
+          "savingThrows": [
+            { "type": "death-poison", "value": 10 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 13 },
+            { "type": "spells", "value": 11 }
+          ],
           "spells": [
             4,
             4,
@@ -587,6 +1043,14 @@
         "experiencePoints": 900000,
         "hitPoints": "9d4+4",
         "otherAbilities": {
+          "attackBonus": 5,
+          "savingThrows": [
+            { "type": "death-poison", "value": 10 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 13 },
+            { "type": "spells", "value": 11 }
+          ],
           "spells": [
             4,
             4,
@@ -601,6 +1065,14 @@
         "experiencePoints": 1050000,
         "hitPoints": "9d4+5",
         "otherAbilities": {
+          "attackBonus": 5,
+          "savingThrows": [
+            { "type": "death-poison", "value": 10 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 8 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 10 }
+          ],
           "spells": [
             4,
             4,
@@ -615,6 +1087,14 @@
         "experiencePoints": 1200000,
         "hitPoints": "9d4+6",
         "otherAbilities": {
+          "attackBonus": 5,
+          "savingThrows": [
+            { "type": "death-poison", "value": 10 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 8 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 10 }
+          ],
           "spells": [
             5,
             4,
@@ -629,6 +1109,14 @@
         "experiencePoints": 1350000,
         "hitPoints": "9d4+7",
         "otherAbilities": {
+          "attackBonus": 6,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 8 },
+            { "type": "paralyze-stone", "value": 7 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 9 }
+          ],
           "spells": [
             5,
             5,
@@ -643,6 +1131,14 @@
         "experiencePoints": 1500000,
         "hitPoints": "9d4+8",
         "otherAbilities": {
+          "attackBonus": 6,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 8 },
+            { "type": "paralyze-stone", "value": 7 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 9 }
+          ],
           "spells": [
             5,
             5,
@@ -657,6 +1153,14 @@
         "experiencePoints": 1650000,
         "hitPoints": "9d4+9",
         "otherAbilities": {
+          "attackBonus": 6,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 7 },
+            { "type": "paralyze-stone", "value": 6 },
+            { "type": "dragon-breath", "value": 11 },
+            { "type": "spells", "value": 9 }
+          ],
           "spells": [
             6,
             5,
@@ -671,6 +1175,14 @@
         "experiencePoints": 1800000,
         "hitPoints": "9d4+10",
         "otherAbilities": {
+          "attackBonus": 7,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 7 },
+            { "type": "paralyze-stone", "value": 6 },
+            { "type": "dragon-breath", "value": 11 },
+            { "type": "spells", "value": 9 }
+          ],
           "spells": [
             6,
             5,
@@ -685,6 +1197,14 @@
         "experiencePoints": 1950000,
         "hitPoints": "9d4+11",
         "otherAbilities": {
+          "attackBonus": 7,
+          "savingThrows": [
+            { "type": "death-poison", "value": 8 },
+            { "type": "wands", "value": 6 },
+            { "type": "paralyze-stone", "value": 5 },
+            { "type": "dragon-breath", "value": 11 },
+            { "type": "spells", "value": 8 }
+          ],
           "spells": [
             6,
             5,
@@ -719,6 +1239,14 @@
         "experiencePoints": 0,
         "hitPoints": "1d4",
         "otherAbilities": {
+          "attackBonus": 1,
+          "savingThrows": [
+            { "type": "death-poison", "value": 13 },
+            { "type": "wands", "value": 14 },
+            { "type": "paralyze-stone", "value": 13 },
+            { "type": "dragon-breath", "value": 16 },
+            { "type": "spells", "value": 15 }
+          ],
           "openLocks": 25,
           "removeTraps": 20,
           "pickPockets": 30,
@@ -732,6 +1260,14 @@
         "experiencePoints": 1250,
         "hitPoints": "2d4",
         "otherAbilities": {
+          "attackBonus": 1,
+          "savingThrows": [
+            { "type": "death-poison", "value": 12 },
+            { "type": "wands", "value": 14 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 14 }
+          ],
           "openLocks": 30,
           "removeTraps": 25,
           "pickPockets": 35,
@@ -745,6 +1281,14 @@
         "experiencePoints": 2500,
         "hitPoints": "3d4",
         "otherAbilities": {
+          "attackBonus": 2,
+          "savingThrows": [
+            { "type": "death-poison", "value": 12 },
+            { "type": "wands", "value": 14 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 15 },
+            { "type": "spells", "value": 14 }
+          ],
           "openLocks": 35,
           "removeTraps": 30,
           "pickPockets": 40,
@@ -758,6 +1302,14 @@
         "experiencePoints": 5000,
         "hitPoints": "4d4",
         "otherAbilities": {
+          "attackBonus": 2,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 13 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 13 }
+          ],
           "openLocks": 40,
           "removeTraps": 35,
           "pickPockets": 45,
@@ -771,6 +1323,14 @@
         "experiencePoints": 10000,
         "hitPoints": "5d4",
         "otherAbilities": {
+          "attackBonus": 3,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 13 },
+            { "type": "paralyze-stone", "value": 12 },
+            { "type": "dragon-breath", "value": 14 },
+            { "type": "spells", "value": 13 }
+          ],
           "openLocks": 45,
           "removeTraps": 40,
           "pickPockets": 50,
@@ -784,6 +1344,14 @@
         "experiencePoints": 20000,
         "hitPoints": "6d4",
         "otherAbilities": {
+          "attackBonus": 3,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 13 },
+            { "type": "paralyze-stone", "value": 11 },
+            { "type": "dragon-breath", "value": 13 },
+            { "type": "spells", "value": 13 }
+          ],
           "openLocks": 50,
           "removeTraps": 45,
           "pickPockets": 55,
@@ -797,6 +1365,14 @@
         "experiencePoints": 40000,
         "hitPoints": "7d4",
         "otherAbilities": {
+          "attackBonus": 4,
+          "savingThrows": [
+            { "type": "death-poison", "value": 11 },
+            { "type": "wands", "value": 13 },
+            { "type": "paralyze-stone", "value": 11 },
+            { "type": "dragon-breath", "value": 13 },
+            { "type": "spells", "value": 13 }
+          ],
           "openLocks": 55,
           "removeTraps": 50,
           "pickPockets": 60,
@@ -810,6 +1386,14 @@
         "experiencePoints": 75000,
         "hitPoints": "8d4",
         "otherAbilities": {
+          "attackBonus": 4,
+          "savingThrows": [
+            { "type": "death-poison", "value": 10 },
+            { "type": "wands", "value": 12 },
+            { "type": "paralyze-stone", "value": 11 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 12 }
+          ],
           "openLocks": 60,
           "removeTraps": 55,
           "pickPockets": 65,
@@ -823,6 +1407,14 @@
         "experiencePoints": 150000,
         "hitPoints": "9d4",
         "otherAbilities": {
+          "attackBonus": 5,
+          "savingThrows": [
+            { "type": "death-poison", "value": 10 },
+            { "type": "wands", "value": 12 },
+            { "type": "paralyze-stone", "value": 11 },
+            { "type": "dragon-breath", "value": 12 },
+            { "type": "spells", "value": 12 }
+          ],
           "openLocks": 65,
           "removeTraps": 60,
           "pickPockets": 70,
@@ -836,6 +1428,14 @@
         "experiencePoints": 225000,
         "hitPoints": "9d4+2",
         "otherAbilities": {
+          "attackBonus": 5,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 12 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 11 },
+            { "type": "spells", "value": 11 }
+          ],
           "openLocks": 68,
           "removeTraps": 63,
           "pickPockets": 74,
@@ -849,6 +1449,14 @@
         "experiencePoints": 300000,
         "hitPoints": "9d4+4",
         "otherAbilities": {
+          "attackBonus": 5,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 12 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 11 },
+            { "type": "spells", "value": 11 }
+          ],
           "openLocks": 71,
           "removeTraps": 66,
           "pickPockets": 78,
@@ -862,6 +1470,14 @@
         "experiencePoints": 375000,
         "hitPoints": "9d4+6",
         "otherAbilities": {
+          "attackBonus": 6,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 10 },
+            { "type": "spells", "value": 11 }
+          ],
           "openLocks": 74,
           "removeTraps": 69,
           "pickPockets": 82,
@@ -875,6 +1491,14 @@
         "experiencePoints": 450000,
         "hitPoints": "9d4+8",
         "otherAbilities": {
+          "attackBonus": 6,
+          "savingThrows": [
+            { "type": "death-poison", "value": 9 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 10 },
+            { "type": "dragon-breath", "value": 10 },
+            { "type": "spells", "value": 11 }
+          ],
           "openLocks": 77,
           "removeTraps": 72,
           "pickPockets": 86,
@@ -888,6 +1512,14 @@
         "experiencePoints": 525000,
         "hitPoints": "9d4+10",
         "otherAbilities": {
+          "attackBonus": 6,
+          "savingThrows": [
+            { "type": "death-poison", "value": 8 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 9 },
+            { "type": "spells", "value": 10 }
+          ],
           "openLocks": 80,
           "removeTraps": 75,
           "pickPockets": 90,
@@ -901,6 +1533,14 @@
         "experiencePoints": 600000,
         "hitPoints": "9d4+12",
         "otherAbilities": {
+          "attackBonus": 7,
+          "savingThrows": [
+            { "type": "death-poison", "value": 8 },
+            { "type": "wands", "value": 10 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 9 },
+            { "type": "spells", "value": 10 }
+          ],
           "openLocks": 83,
           "removeTraps": 78,
           "pickPockets": 94,
@@ -914,6 +1554,14 @@
         "experiencePoints": 675000,
         "hitPoints": "9d4+14",
         "otherAbilities": {
+          "attackBonus": 7,
+          "savingThrows": [
+            { "type": "death-poison", "value": 7 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 8 },
+            { "type": "spells", "value": 9 }
+          ],
           "openLocks": 84,
           "removeTraps": 79,
           "pickPockets": 95,
@@ -927,6 +1575,14 @@
         "experiencePoints": 750000,
         "hitPoints": "9d4+16",
         "otherAbilities": {
+          "attackBonus": 7,
+          "savingThrows": [
+            { "type": "death-poison", "value": 7 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 9 },
+            { "type": "dragon-breath", "value": 8 },
+            { "type": "spells", "value": 9 }
+          ],
           "openLocks": 85,
           "removeTraps": 80,
           "pickPockets": 96,
@@ -940,6 +1596,14 @@
         "experiencePoints": 825000,
         "hitPoints": "9d4+18",
         "otherAbilities": {
+          "attackBonus": 8,
+          "savingThrows": [
+            { "type": "death-poison", "value": 7 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 8 },
+            { "type": "dragon-breath", "value": 7 },
+            { "type": "spells", "value": 9 }
+          ],
           "openLocks": 86,
           "removeTraps": 81,
           "pickPockets": 97,
@@ -953,6 +1617,14 @@
         "experiencePoints": 900000,
         "hitPoints": "9d4+20",
         "otherAbilities": {
+          "attackBonus": 8,
+          "savingThrows": [
+            { "type": "death-poison", "value": 7 },
+            { "type": "wands", "value": 9 },
+            { "type": "paralyze-stone", "value": 8 },
+            { "type": "dragon-breath", "value": 7 },
+            { "type": "spells", "value": 9 }
+          ],
           "openLocks": 87,
           "removeTraps": 82,
           "pickPockets": 98,
@@ -966,6 +1638,14 @@
         "experiencePoints": 975000,
         "hitPoints": "9d4+22",
         "otherAbilities": {
+          "attackBonus": 8,
+          "savingThrows": [
+            { "type": "death-poison", "value": 6 },
+            { "type": "wands", "value": 8 },
+            { "type": "paralyze-stone", "value": 8 },
+            { "type": "dragon-breath", "value": 6 },
+            { "type": "spells", "value": 8 }
+          ],
           "openLocks": 88,
           "removeTraps": 83,
           "pickPockets": 99,

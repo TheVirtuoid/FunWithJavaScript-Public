@@ -43,28 +43,28 @@
   },
   {
     "type": "death-poison",
-    "name": "Death poison",
+    "name": "Death Ray / Poison",
     "abbreviation": "",
     "category": "attribute-category-saving-throw",
-    "description": "Saving throw against death or poison"
+    "description": "Saving throw against death ray or poison"
   },
   {
     "type": "wands",
-    "name": "Wands",
+    "name": "Magic Wands",
     "abbreviation": "",
     "category": "attribute-category-saving-throw",
-    "description": "Saving throw against wands"
+    "description": "Saving throw against magic wands"
   },
   {
     "type": "paralyze-stone",
-    "name": "Paralyze stone",
+    "name": "Paralysis / Petrify",
     "abbreviation": "",
     "category": "attribute-category-saving-throw",
     "description": "Saving throw against paralysis or petrification"
   },
   {
     "type": "dragon-breath",
-    "name": "Dragon breath",
+    "name": "Dragon Breath",
     "abbreviation": "",
     "category": "attribute-category-saving-throw",
     "description": "Saving throw against dragon breath"
