@@ -18,13 +18,13 @@ export default class Character {
 	#inventory;
 
 	constructor(args = {}) {
-		const { name, race, characterClass  } = args;
+		const { name, race, characterClass, abilities = [], attributes = []  } = args;
 		this.setName(name);
 		this.#setRace(race);
 		this.setCharacterClass(characterClass);
+		this.#setAbilities(abilities);
+		this.#setAttributes(attributes);
 		this.#id = crypto.randomUUID();
-		this.#abilities = new Map();
-		this.#attributes = new Map();
 		this.#inventory = new Map();
 	}
 
@@ -72,6 +72,20 @@ export default class Character {
 			}
 			this.#raceData = new RaceData(Race.GetRaceData(id));
 		}
+	}
+
+	#setAbilities(abilities) {
+		if (!Array.isArray(abilities)) {
+			throw new Error('Abilities must be an array');
+		}
+		this.#abilities = new Map(abilities.map((ability) => [ability.id, ability]));
+	}
+
+	#setAttributes(attributes) {
+		if (!Array.isArray(attributes)) {
+			throw new Error('Attributes must be an array');
+		}
+		this.#attributes = new Map(attributes.map((attribute) => [attribute.id, attribute]));
 	}
 
 	setCharacterClass(id) {

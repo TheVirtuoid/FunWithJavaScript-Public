@@ -199,40 +199,44 @@ const generateCharacter = async (args) => {
 		}
 	})
 
+	const playerCharacter = new PlayerCharacter({ name, race, characterClass, abilities, attributes });
+
 	console.log('\n\n\n');
 	printLine('-', 'top');
-	printLine(` Name: ${name}`);
-	printLine(` Race: ${raceData.name}`);
-	printLine(` Class: ${characterClassData.name}`);
+	printLine(` Name: ${playerCharacter.name}`);
+	printLine(` Race: ${playerCharacter.race.name}`);
+	printLine(` Class: ${playerCharacter.characterClass.name}`);
 	printDoubleLine('-', 'middle', 'top');
 	printDoubleLine(' ABILITIES', ' ATTRIBUTES');
 
-	let displayAttributes = attributes.filter((attribute) => attribute.category === 'attribute-category-character');
+	let displayAttributes = playerCharacter.attributes.filter((attribute) => attribute.attribute.category === 'attribute-category-character');
 	displayAttributes.push(null);
-	displayAttributes.push(...attributes.filter((attribute) => attribute.category === 'attribute-category-money'));
+	displayAttributes.push(...playerCharacter.attributes.filter((attribute) => attribute.attribute.category === 'attribute-category-money'));
 
-	for (let i = 0; i < Math.max(abilities.length, displayAttributes.length); i++) {
-		const ability = abilities[i];
+	const displayAbilities = playerCharacter.abilities;
+
+	for (let i = 0; i < Math.max(displayAbilities.length, displayAttributes.length); i++) {
+		const ability = displayAbilities[i];
 		const attribute = displayAttributes[i];
 		const abilityData = ability ? database.get({ key: 'id', value: ability.id }) : null;
 		const attributeData = attribute ? database.get({ key: 'id', value: attribute.id }) : null;
-		const text1 = ability ? `   ${abilityData.abbreviation.toUpperCase()}: ${ability.value} ${ability.bonus !== 0 ? '('+ability.bonus+')' : ''}` : ' ';
-		const text2 = attribute ? `   ${attributeData.name}: ${attribute.value}` : ' ';
+		const text1 = ability ? `   ${abilityData.abbreviation.toUpperCase()}: ${ability.ability.value} ${ability.ability.bonus !== 0 ? '('+ability.ability.bonus+')' : ''}` : ' ';
+		const text2 = attribute ? `   ${attributeData.name}: ${attribute.attribute.value}` : ' ';
 		printDoubleLine(text1, text2);
 	}
 	printDoubleLine(' ', ' ');
 	printDoubleLine(' ', ' SAVING THROWS');
-	displayAttributes = attributes.filter((attribute) => attribute.category === 'attribute-category-saving-throw');
+	displayAttributes = playerCharacter.attributes.filter((attribute) => attribute.attribute.category === 'attribute-category-saving-throw');
 	displayAttributes.forEach((attribute) => {
 		const attributeData = database.get({ key: 'id', value: attribute.id });
-		printDoubleLine(' ', `  ${attributeData.name}: ${attribute.value}`);
+		printDoubleLine(' ', `  ${attributeData.name}: ${attribute.attribute.value}`);
 	});
 
 
 	printDoubleLine('-', 'bottom', 'bottom');
 	console.log('\n\n\n');
 
-	return { exit: false, result: abilities, hide: true };
+	return { exit: false, result: playerCharacter, hide: true };
 }
 
 export default generateCharacter;
