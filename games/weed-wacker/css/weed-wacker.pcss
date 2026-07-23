@@ -1,0 +1,223 @@
+
+body {
+    padding: 0;
+    /*font-family: "Pixelify Sans", system-ui;*/
+    font-family: "Press Start 2P", system-ui
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+
+    #panel {
+        background-color: var(--v-color-primary200);
+        height: stretch;
+        padding: .5rem;
+
+        h1 {
+            font-size: 1.25rem;
+            margin-block-end: .5em;
+        }
+
+        .stats, .weeds {
+            p {
+                margin: 0 0 .25em 0;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                &.time {
+                    margin-block-end: .5em;
+                }
+            }
+        }
+
+        .action-buttons {
+            margin-block: 2rem;
+
+            button {
+                margin-block: 1rem;
+                display: block;
+            }
+
+        }
+    }
+
+    #yard {
+        height: stretch;
+        background-color: var(--v-color-secondary200);
+        flex-grow: 1;
+        overflow: hidden;
+    }
+}
+/*
+.field {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    justify-content: space-around;
+
+    section:not(#pitch) {
+        flex: 1;
+    }
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    height: 90vh;
+
+    .stat {
+        border-radius: 1em;
+        border: 3px inset black;
+        font-size: 1.25rem;
+        padding: .5em;
+        font-weight: 500;
+        color: var(--v-color-primary900);
+
+        h4 {
+            margin: 0 0 .5em 0;
+        }
+    }
+
+    .information {
+        border-color: var(--v-color-primary50);
+        background-color: #aaccee;
+        height: 6rem;
+        font-size: 1rem;
+
+        p {
+            margin: 0 0 .5rem 0;
+            padding: 0;
+        }
+
+        ul {
+            margin: 0 0 .5rem 0;
+            padding: 0;
+            list-style-type: none;
+
+            &.information-stats {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            li {
+                display: flex;
+                flex-direction: column;
+                gap: .25rem;
+            }
+        }
+    }
+
+    .cursor-position {
+        border-color: var(--v-color-primary50);
+        background-color: var(--v-color-primary100);
+    }
+
+    .cash {
+        border-color: var(--v-color-secondary50);
+        background-color: var(--v-color-secondary100);
+    }
+
+    .level {
+        border-color: var(--v-color-quaternary50);
+        background-color: var(--v-color-quaternary100);
+    }
+
+    .inventory {
+        border-color: var(--v-color-tertiary50);
+        background-color: var(--v-color-tertiary100);
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+
+        ul {
+            flex: 1;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            height: 0;
+            gap: .25em;
+            overflow-x: auto;
+
+            li {
+                margin: 0;
+                display: flex;
+                flex-direction: row;
+                gap: 1.5em;
+                align-items: center;
+
+                img {
+                    width: 3rem;
+                }
+            }
+        }
+    }
+}
+
+.store {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-radius: 1em;
+    border: 3px inset  var(--v-color-secondary50);
+    font-size: 1.25rem;
+    padding: .5em;
+    font-weight: 500;
+    background-color: var(--v-color-secondary400);
+    color: var(--v-color-primary900);
+
+    h3 {
+        margin: 0 0 .5em 0;
+    }
+
+    .subsection {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        border-radius: 1em;
+        border: 2px outset  var(--v-color-tertiary50);
+        padding: .5em;
+
+        h5 {
+            margin: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0 0 0 1em;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 1em;
+
+            li {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+
+                img {
+                    width: 3rem;
+                }
+
+                button {
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+
+    .levels {
+        flex-direction: row;
+    }
+}
+
+*/
