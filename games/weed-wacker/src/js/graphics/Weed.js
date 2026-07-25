@@ -5,16 +5,16 @@ export default class Weed {
 	#sprite;
 	#hitPoints;
 	#maxHitPoints;
+	#index;
 
-	constructor(scene) {
+	constructor(scene, index) {
 		this.#scene = scene;
+		this.#index = index;
 	}
 
-	create(physicsGroup, x, y) {
-		this.#sprite = physicsGroup.create(x, y, 'weed-0');
+	create(physicsGroup, x, y, imageName) {
+		this.#sprite = physicsGroup.create(x, y, imageName);
 		this.#createHealthBar();
-		this.#hitPoints = 1000;
-		this.#maxHitPoints = 1000;
 	}
 
 	get sprite() {
@@ -42,18 +42,15 @@ export default class Weed {
 		this.#healthBarBlack.setPosition(this.#sprite.x + 30, this.#sprite.y - 30);
 	}
 
-	updateHitPoints(value) {
-		this.#hitPoints += value;
-		this.#updateHealthBar();
-		if (this.#hitPoints <= 0) {
-			this.#sprite.destroy();
-			this.#healthBarGreen.destroy();
-			this.#healthBarBlack.destroy();
-		}
+	destroy() {
+		this.#sprite.destroy();
+		this.#healthBarGreen.destroy();
+		this.#healthBarBlack.destroy();
+		this.#scene.events.emit('weedDestroyed', this.#index);
 	}
 
-	#updateHealthBar() {
-		const healthPercentage = this.#hitPoints / this.#maxHitPoints;
+	updateHealthBar(toughness, maxToughness) {
+		const healthPercentage = toughness / maxToughness;
 		this.#healthBarGreen.width = 30 * healthPercentage; // 30 is the original width
 		this.#healthBarBlack.width = 30 - this.#healthBarGreen.width; // 30 is the original width
 		this.#healthBarBlack.setPosition(this.#sprite.x + 30 - this.#healthBarBlack.width, this.#sprite.y - 30);
