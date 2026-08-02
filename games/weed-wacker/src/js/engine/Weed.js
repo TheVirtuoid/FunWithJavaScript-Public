@@ -1,26 +1,22 @@
 import WeedUI from '../graphics/Weed.js';
-import { weeds } from './../../../weed-wacker.config.js';
+import { weeds, weedTypes } from './../../../weed-wacker.config.js';
 
 export default class Weed {
 
-	static WEEDS = new Map(weeds.map(weed => [weed.type, {...weed }]));
+	/*static WEEDS = new Map(weeds.map(weed => [weed.type, {...weed }]));
 
-	static WEED_SYMBOLS = [...weeds.map(weed => weed.type)];
+	static WEED_SYMBOLS = [...weeds.map(weed => weed.type)];*/
 
-	static IsWeed(weedType) {
-		return Weed.WEEDS.has(weedType);
+	static IsWeed(type) {
+		return weedTypes.includes(type);
 	}
 
-	static getWeed(weedType) {
-		return Weed.WEEDS.get(weedType);
-	}
-
-	static getWeedUI(weedType) {
-		return Weed.WEEDS.get(weedType).weedUI;
+	static getWeed(type) {
+		return weeds.get(type);
 	}
 
 	static getWeedSpawnChances(level) {
-		const weedsToSpawn = [...Weed.WEEDS.values()].filter((weed) => level <= weed.minLevel);
+		const weedsToSpawn = [...weeds.values()].filter((weed) => level <= weed.minLevel);
 		return [...weedsToSpawn].map((weed) => 100 / weedsToSpawn.length);
 	}
 
@@ -28,11 +24,11 @@ export default class Weed {
 
 	constructor(args = {}) {
 		const { type, scene } = args;
-		const weedData = Weed.WEEDS.get(type);
+		const weedData = weeds.get(type);
 		if (!weedData) {
 			throw new Error('Invalid weed type');
 		}
-		this.#data = {...weedData, maxToughness: weedData.toughness, weedUI: new WeedUI(scene, 0) };
+		this.#data = {...weedData, maxToughness: weedData.toughness, weedUI: new WeedUI(scene, type) };
 	}
 
 	get type() {

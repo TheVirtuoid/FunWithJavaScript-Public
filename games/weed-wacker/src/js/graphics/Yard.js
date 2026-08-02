@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import Weed from "./../engine/Weed.js";
+import Weed from './../engine/Weed.js';
+import { weeds, weedTypes } from './../../../weed-wacker.config.js';
 
 export default class Yard extends Phaser.Scene {
 
@@ -31,21 +32,18 @@ export default class Yard extends Phaser.Scene {
 
 	newGame(timeRemaining) {
 		this.#timeRemaining = timeRemaining;
-		/*this.#stats.reset();
-		this.#stats.adjustStat('time', this.#timeRemaining);*/
 		this.scene.start();
 	}
 
 	continue(timeRemaining) {
 		this.#timeRemaining = timeRemaining;
-		// this.#stats.setStat('time', this.#timeRemaining);
 		this.scene.start();
 	}
 
 	preload() {
 		this.load.image('grass', '/src/img/grass.jpg');
 		this.load.image('cutters', '/src/img/cutters.png');
-		Weed.WEEDS.forEach(weed => {
+		weeds.forEach((weed) => {
 			this.load.image(weed.name, weed.image);
 		});
 	}
@@ -66,7 +64,7 @@ export default class Yard extends Phaser.Scene {
 		for (let i = 0; i < 5; i++) {
 			const randomX = Phaser.Math.Between(100, this.scale.width - 100);
 			const randomY = Phaser.Math.Between(100, this.scale.height - 100);
-			const weed = new Weed({ type: Weed.WEED_SYMBOLS[0], scene: this });
+			const weed = new Weed({ type: weedTypes[0], scene: this });
 			weed.create(this.#physicsWeeds, randomX, randomY);
 			this.#weeds.push(weed);
 		}

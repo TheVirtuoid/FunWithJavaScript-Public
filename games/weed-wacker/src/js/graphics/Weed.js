@@ -5,11 +5,11 @@ export default class Weed {
 	#sprite;
 	#hitPoints;
 	#maxHitPoints;
-	#index;
+	#type;
 
-	constructor(scene, index) {
+	constructor(scene, type) {
 		this.#scene = scene;
-		this.#index = index;
+		this.#type = type;
 	}
 
 	create(physicsGroup, x, y, imageName) {
@@ -46,7 +46,7 @@ export default class Weed {
 		this.#sprite.destroy();
 		this.#healthBarGreen.destroy();
 		this.#healthBarBlack.destroy();
-		this.#scene.events.emit('weedDestroyed', this.#index);
+		this.#scene.events.emit('weedDestroyed', this.#type);
 	}
 
 	updateHealthBar(toughness, maxToughness) {

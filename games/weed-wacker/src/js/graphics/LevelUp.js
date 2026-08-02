@@ -1,29 +1,12 @@
 import Phaser from 'phaser';
+import {levels as levelData, TIME} from './../../../weed-wacker.config.js';
 
 export default class LevelUp extends Phaser.Scene {
 
-	static LEVELS = {
-		'time': {
-			title: 'Time',
-			graphic: 'level-time',
-			activeFill: 0xffbbbb,
-			highlightFill: 0xffdddd,
-			levels: [
-				{ text: 'Increase time by 30%', adjustment: 0.3, cost: [1, 0, 0, 0, 0, 0] },
-				{ text: 'Increase time by 50%', adjustment: 0.5, cost: [4, 0, 0, 0, 0, 0] },
-				{ text: 'Increase time by 50%', adjustment: 0.5, cost: [8, 2, 0, 0, 0, 0] },
-			]
-		}
-	}
+	static NO_INVENTORY = Symbol('no-inventory');
+	static GOT_INVENTORY = Symbol('got-inventory');
+	static MAX_LEVEL = Symbol('max-level');
 
-	#boxTime;
-	#boxPower;
-	#boxSpeed;
-	#boxRange;
-	#boxDurability;
-	#boxSpawnRate;
-
-	#levelTime = 0;
 
 	#width = 200;
 	#height = 300;
@@ -44,21 +27,45 @@ export default class LevelUp extends Phaser.Scene {
 
 	#inventory;
 	#levels;
+	#values;
 
+	#containers = new Map();
 
 	constructor() {
 		super({
 			key: 'level-up'
 		});
-		this.#levels = structuredClone(LevelUp.LEVELS);
+		this.#levels = new Map();
+		levelData.forEach((keyData, key) => {
+			const entry = { ...keyData };
+			entry.levels = [];
+			for (const levelData of keyData.levels) {
+				const data = {...levelData}
+				data.cost = new Map();
+				levelData.cost.forEach((value, key) => data.cost.set(key, value));
+				entry.levels.push(data);
+			}
+			this.#levels.set(key, entry);
+		});
 	}
 
-	setInvetory(inventory) {
+	setInventory(inventory) {
 		this.#inventory = inventory;
 	}
 
+	setValues(values) {
+		this.#values = values;
+	}
+
+	get levels() {
+		return this.#levels;
+	}
+
 	preload() {
-		this.load.image('level-time', '/src/img/level-time.png');
+		this.#levels.forEach((levelData, key) => {
+			const entry = this.#levels[key];
+			this.load.image(levelData.graphic, `/src/img/${levelData.graphic}.png`);
+		});
 	}
 
 	create() {
@@ -71,93 +78,147 @@ export default class LevelUp extends Phaser.Scene {
 		this.#shift = this.#hg + this.#hw;
 		this.#startingX = this.#centerX - 2 * this.#db - this.#shift;
 		this.#startingY = this.#centerY;
-		this.#offsetX = this.#startingX + this.#width + this.#gap;
+		this.#offsetX = this.#width + this.#gap;
 		this.#offsetY = 0;
 
-		const name = 'time';
-		const value = 15;
-		const level = 0;
-		const position = 0;
-		this.#drawBox({ name, value, level, inventory: this.#inventory, position });
-
-		this.events.on('got-level-data', (levelData) => {
-			// console.log('got level data from the game', levelData);
-		})
-
-
-		//this.#boxTime = this.add.rectangle(centerX - 2 * db - shift, centerY, this.#width, this.#height, timeData.activeFill);
-		/*this.#boxPower = this.add.rectangle(centerX - 1 * db - shift, centerY, this.#width, this.#height, 0xbbffbb);
-		this.#boxSpeed = this.add.rectangle(centerX - shift, centerY, this.#width, this.#height, 0xbbbbff);
-		this.#boxRange = this.add.rectangle(centerX + shift, centerY, this.#width, this.#height, 0xffbbff, .25);
-		this.#boxDurability = this.add.rectangle(centerX + 1 * db + shift, centerY, this.#width, this.#height, 0xbbffff, .25);
-		this.#boxSpawnRate = this.add.rectangle(centerX + 2 * db + shift, centerY, this.#width, this.#height, 0xffffbb, .25);*/
-
-		/*this.add.text(centerX - 2 * db - shift - hw, centerY - hh + 2, timeData.title, { fontSize: '20px', fill: '#000000', fontFamily: '"Press Start 2P"', fontStyle: 'bold' });
-		this.add.image(centerX - 2 * db - shift, centerY - hh / 4, timeData.graphic);
-
-		this.add.text(centerX - 2 * db - shift - hw + 10, centerY + hh / 3, 'Increase time by 50%\n\n(15s -> 22s)', { fontSize: '14px', fill: '#000000', fontFamily: '"Press Start 2P"', wordWrap: { width: this.#width - 20 }  });
-*/
-
-
-		/*this.#boxTime.setInteractive();
-		this.#boxTime.on('pointerover', () => {
-			this.#boxTime.setFillStyle(timeData.highlightFill);
-			this.input.setDefaultCursor('pointer');
+		this.#levels.forEach((levelData, key) => {
+			const value = this.#values.get(key);
+			const position = levelData.position;
+			const nextLevel = levelData.levels[0];
+			const container = this.#drawBox({ key, value, inventory: this.#inventory, position, nextLevel });
+			this.#containers.set(key, container);
 		});
-		this.#boxTime.on('pointerout', () => {
-			this.#boxTime.setFillStyle(timeData.activeFill);
-			this.input.setDefaultCursor('default');
-		});
-		this.#boxTime.on('pointerdown', () => {
-			this.#boxTime.setFillStyle(timeData.activeFill);
-			this.input.setDefaultCursor('default');
-		});*/
+
+		this.events.on('update-boxes', this.#updateBoxes.bind(this));
 	}
 
 	update(time, delta) {
 	}
 
 	#drawBox(args = {}) {
-		const { name, value, inventory, position } = args
-		const data = this.#levels[name];
+		const { key, value, inventory, position, nextLevel } = args
+		const data = this.#levels.get(key);
 		const levelData = data.levels[0];
-		const gotInventory = !inventory.some((number, index) => number < levelData.cost[index]);
-		const fillAlpha = gotInventory ? 1 : .25;
+		const canWeUpgrade = this.#compareInventory(inventory, nextLevel);
+		const fillAlpha = canWeUpgrade === LevelUp.GOT_INVENTORY ? 1 : .25;
 		const x = this.#startingX + position * this.#offsetX;
 		const y = this.#startingY + position * this.#offsetY;
 		const newValue = value + value * levelData.adjustment;
-		const increaseText = `(${Math.floor(value)}s -> ${Math.floor(newValue)}s)`;
-		/*const box = this.add.rectangle(this.#centerX - 2 * this.#db - this.#shift, this.#centerY, this.#width, this.#height, data.activeFill, fillAlpha);
-		this.add.text(this.#centerX - 2 * this.#db - this.#shift - this.#hw, this.#centerY - this.#hh + 2, data.title, { fontSize: '20px', fill: '#000000', fontFamily: this.#fontFamily, fontStyle: 'bold' });
-		this.add.image(this.#centerX - 2 * this.#db - this.#shift, this.#centerY - this.#hh / 4, data.graphic);
-		this.add.text(this.#centerX - 2 * this.#db - this.#shift - this.#hw + 10, this.#centerY + this.#hh / 3, 'Increase time by 50%\n\n(15s -> 22s)', { fontSize: '14px', fill: '#000000', fontFamily: this.#fontFamily, wordWrap: { width: this.#width - 20 }  });*/
-		const box = this.add.rectangle(x, y, this.#width, this.#height, data.activeFill, fillAlpha);
-		this.add.text(x - this.#hw, y - this.#hh + 2, data.title, { fontSize: '20px', fill: '#000000', fontFamily: this.#fontFamily, fontStyle: 'bold' });
-		this.add.image(x, y - this.#hh / 4, data.graphic);
-		this.add.text(x - this.#hw + 10, y + this.#hh / 3, `${levelData.text}\n\n${increaseText}`, { fontSize: '14px', fill: '#000000', fontFamily: this.#fontFamily, wordWrap: { width: this.#width - 20 }  });
-		if (gotInventory) {
-			box.setInteractive();
-			box.on('pointerover', () => {
-				box.setFillStyle(data.highlightFill);
-				this.input.setDefaultCursor('pointer');
-			});
-			box.on('pointerout', () => {
-				box.setFillStyle(data.activeFill);
-				this.input.setDefaultCursor('default');
-			});
-			box.on('pointerdown', () => {
-				box.setFillStyle(data.activeFill);
-				this.input.setDefaultCursor('default');
-				this.#levels[name].levels.shift();
-				this.sys.game.events.emit('level-up', { field: 'time', value: newValue, cost: levelData.cost });
-			});
+		let increaseText;
+		if (key === TIME) {
+			increaseText = `(${Math.ceil(value / 1000)}s -> ${Math.ceil(newValue / 1000)}s)`;
+		} else {
+			increaseText = `(${Math.ceil(value)} -> ${Math.ceil(newValue)})`;
 		}
-		return box;
+		const box = this.add.rectangle(0, 0, this.#width, this.#height, data.activeFill, fillAlpha);
+		const titleText = this.add.text(0 - this.#hw + 2, 0 - this.#hh + 2, data.title, { fontSize: '18px', fill: '#000000', fontFamily: this.#fontFamily, fontStyle: 'bold' });
+		const boxImage = this.add.image(0, 0 - this.#hh / 4, data.graphic);
+		const upgradeText = this.add.text(0 - this.#hw + 10, this.#hh / 3, `${levelData.text}\n\n${increaseText}`, { fontSize: '14px', fill: '#000000', fontFamily: this.#fontFamily, wordWrap: { width: this.#width - 20 }  });
+		box.name = data.key;
+		box.setData('data', { ...data, newValue, levelData });
+		if (canWeUpgrade === LevelUp.GOT_INVENTORY) {
+			box.setInteractive();
+			box.on('pointerover', this.#onPointerOver);
+			box.on('pointerout', this.#onPointerOut);
+			box.on('pointerdown', this.#onPointerDown);
+		}
+		box.setName('box');
+		upgradeText.setName('upgradeText');
+		return this.add.container(x, y, [box, titleText, boxImage, upgradeText]);
 	}
 
-	#onPointOver() {
-		box.setFillStyle(data.highlightFill);
-		this.input.setDefaultCursor('pointer');
+	#updateBoxes(args = {}) {
+		const { key, value } = args;
+		this.#containers.forEach((container, containerKey) => {
+			const data = this.#levels.get(key);
+			const nextLevel = data.levels[0];
+			let box;
+			let upgradeText;
+			container.getAll().forEach((containerObject) => {
+				if (containerObject.name === 'box') {
+					box = containerObject;
+				}
+				if (containerObject.name === 'upgradeText') {
+					upgradeText = containerObject;
+				}
+			});
+			if (containerKey === key) {
+				const newValue = value + value * nextLevel.adjustment;
+				let increaseText;
+				if (key === TIME) {
+					increaseText = `(${Math.ceil(value / 1000)}s -> ${Math.ceil(newValue / 1000)}s)`;
+				} else {
+					increaseText = `(${Math.ceil(value)} -> ${Math.ceil(newValue)})`;
+				}
+				upgradeText.text = `${nextLevel.text}\n\n${increaseText}`
+			}
+			const canWeUpgrade = this.#compareInventory(this.#inventory, nextLevel);
+			const fillAlpha = canWeUpgrade === LevelUp.GOT_INVENTORY ? 1 : .25;
+			box.fillAlpha = fillAlpha;
+			if (canWeUpgrade !== LevelUp.GOT_INVENTORY) {
+				box.off('pointerover');
+				box.off('pointerout');
+				box.off('pointerdown');
+			}
+
+			/*const data = this.#levels.get(key);
+			const levelData = data.levels[0];
+			const canWeUpgrade = this.#compareInventory(inventory, nextLevel);
+			const fillAlpha = canWeUpgrade === LevelUp.GOT_INVENTORY ? 1 : .25;
+			const { key, newValue: value } = args;
+			const container = this.#containers.get(key);
+			let increaseText;
+			if (key === TIME) {
+				increaseText = `(${Math.ceil(value / 1000)}s -> ${Math.ceil(newValue / 1000)}s)`;
+			} else {
+				increaseText = `(${Math.ceil(value)} -> ${Math.ceil(newValue)})`;
+			}*/
+		});
+
+	}
+
+	#onPointerOver() {
+		const scene = this.scene;
+		const { key, highlightFill } = this.getData('data');
+		const container = scene.#containers.get(key);
+		this.setFillStyle(highlightFill);
+		scene.input.setDefaultCursor('pointer');
+	}
+
+	#onPointerOut() {
+		const scene = this.scene;
+		const { key, activeFill } = this.getData('data');
+		const container = scene.#containers.get(key);
+		this.setFillStyle(activeFill);
+		scene.input.setDefaultCursor('default');
+	}
+
+	#onPointerDown() {
+		const scene = this.scene;
+		const { key, activeFill, newValue, levelData } = this.getData('data');
+
+		const container = scene.#containers.get(key);
+		this.setFillStyle(activeFill);
+		scene.input.setDefaultCursor('default');
+		const targetLevel = scene.levels.get(key);
+		targetLevel.levels.shift();
+		scene.levels.set(key, targetLevel);
+		scene.sys.game.events.emit('on-level-up', { key, value: newValue, cost: levelData.cost });
+		// scene.updateBoxes({ key, value: newValue });
+		// container.destroy();
+	}
+
+	#compareInventory(inventory, nextLevel) {
+		if (!nextLevel) {
+			return LevelUp.MAX_LEVEL;
+		}
+		let gotInventory = LevelUp.GOT_INVENTORY;
+		nextLevel.cost.forEach((value, weedType) => {
+			if (value > inventory.get(weedType)) {
+				gotInventory = LevelUp.NO_INVENTORY;
+			}
+		});
+		return gotInventory;
 	}
 
 }

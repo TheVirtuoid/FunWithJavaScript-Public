@@ -4,33 +4,11 @@ import '../css/weed-wacker.pcss';
 import Phaser from 'phaser';
 import WebFont from 'webfontloader';
 import Yard from './graphics/Yard.js';
-// import Stats from './engine/Stats.js';
-
-// import { weeds as weedsConfig } from './../../weed-wacker.config.js';
 import LevelUp from "./graphics/LevelUp.js";
 import Panel from "./engine/Panel.js";
-
-// const weeds = weedsConfig.map((weed) => ({ ...weed, count: 0 }));
+import {TIME} from "../../weed-wacker.config.js";
 
 let timeRemaining = 15000;
-
-/*
-const weedList = document.querySelector('.weeds ul');
-weeds.forEach((weed) => {
-	weedList.insertAdjacentHTML('beforeend', `<li><span><img src="${weed.image}" /></span><span data-name="${weed.name}">${weed.count}</span></li>`);
-});
-*/
-/*const statsList = document.querySelector('.stats ul');
-Stats.FIELDS.forEach((field) => {
-	statsList.insertAdjacentHTML('beforeend', `<li class="${field.tag}"><span>${field.name}</span><span data-stat="${field.tag}">0</span></li>`);
-});*/
-/*weedList.addEventListener('change-weed-count', (event) => {
-	const { index, value } = event.detail;
-	weeds[index].count += value;
-	weedList.querySelector(`[data-name="${weeds[index].name}"]`).textContent = weeds[index].count;
-});*/
-
-// const stats = new Stats();
 
 const config = {
 	height: 600,
@@ -56,26 +34,41 @@ const config = {
 	width: 800
 };
 
+/* click on new game */
+const onSelectNewGame = () => {
+	sceneLevelUp.scene.stop();
+	panel.reset();
+	sceneYard.newGame(panel.time);
+}
+
+/* click on level up */
+const onSelectLevelUp = () => {
+	sceneYard.scene.stop();
+	sceneLevelUp.setInventory(panel.getWeedInventory());
+	const panelValues = panel.getStatValues();
+	panelValues.set(TIME, timeRemaining);
+	sceneLevelUp.setValues(panelValues);
+	sceneLevelUp.scene.start();
+}
+
+/* level up */
+const onLevelUp = (data) => {
+	const { key, value, cost } = data;
+	if (key === TIME) {
+		timeRemaining = Math.ceil(value);
+	}
+	panel.setStat(key, value);
+	panel.removeWeeds(cost);
+	sceneLevelUp.setInventory(panel.getWeedInventory());
+	sceneLevelUp.setValues(panel.getStatValues());
+	sceneLevelUp.events.emit('update-boxes', { key, value });
+}
+
 let sceneYard;
 let sceneLevelUp;
 const startGame = () => {
 	sceneYard.setPanel(panel);
 	panel.setScenes();
-	/*document.getElementById('new-game').addEventListener('click', () => {
-		sceneLevelUp.scene.stop();
-		sceneYard.setStats(stats);
-		sceneYard.newGame(timeRemaining);
-		// game.scene.start(scene);
-	});
-	document.getElementById('continue').addEventListener('click', () => {
-		sceneLevelUp.scene.stop();
-		sceneYard.continue(timeRemaining);
-	});
-	document.getElementById('level-up').addEventListener('click', () => {
-		sceneYard.scene.stop();
-		sceneLevelUp.setInvetory(weeds.map((weed) => weed.count));
-		game.scene.start('level-up');
-	});*/
 }
 
 const game = new Phaser.Game(config);
@@ -85,21 +78,16 @@ setTimeout(() => {
 	sceneYard = game.scene.getScene('yard');
 	sceneLevelUp = game.scene.getScene('level-up');
 }, 1);
-game.events.on('level-up', (data) => {
-	const { field, value, cost } = data;
-	if (field === 'time') {
-		timeRemaining = Math.floor(value) * 1000;
-		panel.setTime(timeRemaining);
-		panel.removeWeeds(cost);
-		console.log(timeRemaining, cost);
-	}
-	sceneLevelUp.events.emit('got-level-data', data);
-});
+
 game.events.on('change-weed-count', (index, value) => {
 	panel.adjustWeed(index, value);
 });
 
 const panel = new Panel(game);
+
+game.events.on('on-select-new-game', onSelectNewGame);
+game.events.on('on-select-level-up', onSelectLevelUp);
+game.events.on('on-level-up', onLevelUp);
 
 WebFont.load({
 	google: {

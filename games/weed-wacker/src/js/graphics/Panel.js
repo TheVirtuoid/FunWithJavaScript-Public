@@ -1,4 +1,4 @@
-import { statsDescription } from '../../../weed-wacker.config.js';
+import {TIME} from "../../../weed-wacker.config.js";
 
 export default class Panel {
 
@@ -19,7 +19,7 @@ export default class Panel {
 		this.#game = parent.game;
 
 		const statsList = document.querySelector('.stats ul');
-		stats.forEach((stat) => {
+		stats.forEach((stat, type) => {
 			const li = document.createElement('li');
 			const spanName = document.createElement('span');
 			const spanData = document.createElement('span');
@@ -29,7 +29,7 @@ export default class Panel {
 			li.classList.add(stat.tag);
 			li.append(spanName, spanData);
 			statsList.append(li);
-			this.#domStats.set(stat.type, spanData);
+			this.#domStats.set(type, spanData);
 		});
 
 		const weedList = document.querySelector('.weeds ul');
@@ -43,7 +43,7 @@ export default class Panel {
 			spanData.dataset.name = weed.name;
 			spanData.textContent = weed.count;
 			li.append(spanText, spanData);
-			this.#domStats.set(weed.type, spanData);
+			// this.#domStats.set(weed.type, spanData);
 			weedList.append(li);
 			this.#domWeeds.set(weed.type, spanData);
 		});
@@ -72,7 +72,7 @@ export default class Panel {
 	}
 
 	updateStat(type, value) {
-		const displayValue = type.description === 'time' ? Math.ceil(value / 1000) : value;
+		const displayValue = type === TIME ? Math.ceil(value / 1000) : value;
 		this.#domStats.get(type).textContent = displayValue;
 	}
 
@@ -81,14 +81,17 @@ export default class Panel {
 	}
 
 	#onNewGame() {
-		this.#sceneLevelUp.scene.stop();
+		this.#parent.onNewGame();
+		/*this.#sceneLevelUp.scene.stop();
 		this.#parent.reset();
-		this.#sceneYard.newGame(this.#parent.time);
+		this.#sceneYard.newGame(this.#parent.time);*/
 	}
 
 	#onLevelUp() {
-		this.#sceneYard.scene.stop();
-		this.#sceneLevelUp.setInvetory(this.#parent.getWeedInventory());
-		this.#sceneLevelUp.scene.start();
+		this.#parent.onLevelUp();
+		/*this.#sceneYard.scene.stop();
+		this.#sceneLevelUp.setInventory(this.#parent.getWeedInventory());
+		this.#sceneLevelUp.setValues(this.#parent.getStatValues());
+		this.#sceneLevelUp.scene.start();*/
 	}
 }
