@@ -9,7 +9,7 @@ import Panel from "./engine/Panel.js";
 import {TIME} from "../../weed-wacker.config.js";
 import Start from "./graphics/Start.js";
 
-let timeRemaining = 15000;
+let timeRemaining = Panel.START_TIME;
 
 const config = {
 	height: 600,
@@ -37,14 +37,22 @@ const config = {
 
 /* click on new game */
 const onSelectNewGame = () => {
+	panel.reset();
+	timeRemaining = Panel.START_TIME;
+	onSelectContinueGame();
+}
+
+/* click on new game */
+const onSelectContinueGame = () => {
 	sceneStart.scene.stop();
 	sceneLevelUp.scene.stop();
-	panel.reset();
-	sceneYard.newGame(panel.time);
+	panel.setStat(TIME, timeRemaining);
+	sceneYard.continueGame();
 }
 
 /* click on level up */
 const onSelectLevelUp = () => {
+	sceneStart.scene.stop();
 	sceneYard.scene.stop();
 	sceneLevelUp.setInventory(panel.getWeedInventory());
 	const panelValues = panel.getStatValues();
@@ -93,6 +101,7 @@ const panel = new Panel(game);
 
 game.events.on('on-select-new-game', onSelectNewGame);
 game.events.on('on-select-level-up', onSelectLevelUp);
+game.events.on('on-select-continue-game', onSelectContinueGame);
 game.events.on('on-level-up', onLevelUp);
 
 WebFont.load({

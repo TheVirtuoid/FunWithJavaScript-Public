@@ -9,8 +9,6 @@ export default class Panel {
 	#stats;
 	#game;
 
-	#baseTime = 15000;
-
 	constructor(game) {
 		this.#game = game;
 		this.#stats = new Map([...statsConfig.entries()].map(([type, stat]) => [ type, { ...stat, value: 0 }]));
@@ -62,8 +60,7 @@ export default class Panel {
 		[...this.#weeds.keys()].forEach(type => {
 			this.setWeed(type, 0);
 		});
-		this.#baseTime = Panel.START_TIME;
-		this.setStat(TIME, this.#baseTime);
+		this.setStat(TIME, Panel.START_TIME);
 	}
 
 	get time() {
@@ -108,6 +105,10 @@ export default class Panel {
 
 	onNewGame() {
 		this.game.events.emit('on-select-new-game');
+	}
+
+	onContinueGame() {
+		this.game.events.emit('on-select-continue-game');
 	}
 
 }

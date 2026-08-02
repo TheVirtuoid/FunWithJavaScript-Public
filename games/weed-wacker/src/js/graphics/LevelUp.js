@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import {levels as levelData, TIME} from './../../../weed-wacker.config.js';
+import {levels as levelData, TIME, weeds} from './../../../weed-wacker.config.js';
 
 export default class LevelUp extends Phaser.Scene {
 
@@ -9,7 +9,7 @@ export default class LevelUp extends Phaser.Scene {
 
 
 	#width = 200;
-	#height = 300;
+	#height = 320;
 	#gap = 50;
 	#fontFamily = `"Press Start 2P"`;
 
@@ -61,16 +61,12 @@ export default class LevelUp extends Phaser.Scene {
 		return this.#levels;
 	}
 
-	preload() {
-		/*this.#levels.forEach((levelData, key) => {
-			const entry = this.#levels[key];
-			this.load.image(levelData.graphic, `/src/img/${levelData.graphic}.png`);
-		});*/
-	}
+	preload() {}
 
 	create() {
 		this.#centerX = this.scale.width / 2;
 		this.#centerY = this.scale.height / 2;
+		this.add.tileSprite(this.#centerX, this.#centerY, this.scale.width, this.scale.height, 'grass');
 		this.#hw = this.#width / 2;
 		this.#hh = this.#height / 2;
 		this.#hg = this.#gap / 2;
@@ -110,12 +106,26 @@ export default class LevelUp extends Phaser.Scene {
 		} else {
 			increaseText = `(${Math.ceil(value)} -> ${Math.ceil(newValue)})`;
 		}
-		console.log(data.graphic);
+		const backgroundBox = this.add.rectangle(0, 0, this.#width, this.#height, 0x000000);
 		const box = this.add.rectangle(0, 0, this.#width, this.#height, data.activeFill, fillAlpha);
 		const titleText = this.add.text(0 - this.#hw + 2, 0 - this.#hh + 2, data.title, { fontSize: '18px', fill: '#000000', fontFamily: this.#fontFamily, fontStyle: 'bold' });
 		const boxImage = this.add.image(0, 0 - this.#hh / 4, data.graphic);
 		const upgradeText = this.add.text(0 - this.#hw + 10, this.#hh / 3, `${levelData.text}\n\n${increaseText}`, { fontSize: '14px', fill: '#000000', fontFamily: this.#fontFamily, wordWrap: { width: this.#width - 20 }  });
-		this.add.image(0, 0, 'Thistlebite');
+		const weedImages = [];
+		const weedImageText = [];
+		let index = 0;
+		nextLevel.cost.forEach((count, type) => {
+			const weedData = weeds.get(type);
+			const weedImage = this.add.image(0 - this.#hw + 10 + index * 55, this.#hh / 3 + 70, weedData.name);
+			weedImage.setOrigin(0);
+			weedImage.setScale(0.4);
+			weedImage.setName(`weed-${weedData.name}`);
+			weedImages.push(weedImage);
+			const weedText = this.add.text(0 - this.#hw + 35 + index * 55, this.#hh / 3 + 80, `${count}`, { fontSize: '12px', fill: '#000000', fontFamily: this.#fontFamily });
+			weedText.setName(`text-${weedData.name}`);
+			weedImageText.push(weedText);
+			index++;
+		});
 		box.name = data.key;
 		box.setData('data', { ...data, newValue, levelData });
 		if (canWeUpgrade === LevelUp.GOT_INVENTORY) {
@@ -126,7 +136,7 @@ export default class LevelUp extends Phaser.Scene {
 		}
 		box.setName('box');
 		upgradeText.setName('upgradeText');
-		return this.add.container(x, y, [box, titleText, boxImage, upgradeText]);
+		return this.add.container(x, y, [backgroundBox, box, titleText, boxImage, upgradeText, ...weedImages, ...weedImageText]);
 	}
 
 	#updateBoxes(args = {}) {
@@ -143,6 +153,11 @@ export default class LevelUp extends Phaser.Scene {
 				if (containerObject.name === 'upgradeText') {
 					upgradeText = containerObject;
 				}
+				if (containerKey === key) {
+					if (containerObject.name.startsWith('text-') || containerObject.name.startsWith('weed-')) {
+						container.remove(containerObject, true);
+					}
+				}
 			});
 			if (containerKey === key) {
 				const newValue = value + value * nextLevel.adjustment;
@@ -153,6 +168,22 @@ export default class LevelUp extends Phaser.Scene {
 					increaseText = `(${Math.ceil(value)} -> ${Math.ceil(newValue)})`;
 				}
 				upgradeText.text = `${nextLevel.text}\n\n${increaseText}`
+				let index = 0;
+				const weedImages = [];
+				const weedImageText = [];
+				nextLevel.cost.forEach((count, type) => {
+					const weedData = weeds.get(type);
+					const weedImage = this.add.image(0 - this.#hw + 10 + index * 55, this.#hh / 3 + 70, weedData.name);
+					weedImage.setOrigin(0);
+					weedImage.setScale(0.4);
+					weedImage.setName(`weed-${weedData.name}`);
+					weedImages.push(weedImage);
+					const weedText = this.add.text(0 - this.#hw + 35 + index * 55, this.#hh / 3 + 80, `${count}`, { fontSize: '12px', fill: '#000000', fontFamily: this.#fontFamily });
+					weedText.setName(`text-${weedData.name}`);
+					weedImageText.push(weedText);
+					index++;
+				});
+				container.add([...weedImages, ...weedImageText]);
 			}
 			const canWeUpgrade = this.#compareInventory(this.#inventory, nextLevel);
 			const fillAlpha = canWeUpgrade === LevelUp.GOT_INVENTORY ? 1 : .25;

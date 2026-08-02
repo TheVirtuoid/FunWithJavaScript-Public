@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import Weed from './../engine/Weed.js';
-import { weeds, weedTypes } from './../../../weed-wacker.config.js';
+import {TIME, weeds, weedTypes} from './../../../weed-wacker.config.js';
 
 export default class Yard extends Phaser.Scene {
 
@@ -14,7 +14,7 @@ export default class Yard extends Phaser.Scene {
 	#countdown = 3000;
 	#countdownText;
 
-	#timeRemaining = 15000;
+	#timeRemaining;
 	#timesUpText;
 
 	#panel;
@@ -30,23 +30,12 @@ export default class Yard extends Phaser.Scene {
 		this.#panel = panel;
 	}
 
-	newGame(timeRemaining) {
-		this.#timeRemaining = timeRemaining;
+	continueGame(timeRemaining) {
+		this.#timeRemaining = this.#panel.getStat(TIME);
 		this.scene.start();
 	}
 
-	continue(timeRemaining) {
-		this.#timeRemaining = timeRemaining;
-		this.scene.start();
-	}
-
-	preload() {
-		/*this.load.image('grass', '/src/img/grass.jpg');
-		this.load.image('cutters', '/src/img/cutters.png');
-		weeds.forEach((weed) => {
-			this.load.image(weed.name, weed.image);
-		});*/
-	}
+	preload() {}
 
 	create() {
 		this.events.on('weedDestroyed', this.#onWeedDestroyed, this);

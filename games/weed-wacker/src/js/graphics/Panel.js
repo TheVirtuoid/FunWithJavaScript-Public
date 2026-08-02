@@ -64,6 +64,7 @@ export default class Panel {
 
 		this.#domNewGame.addEventListener('click', this.#onNewGame.bind(this));
 		this.#domLevelUp.addEventListener('click', this.#onLevelUp.bind(this));
+		this.#domContinue.addEventListener('click', this.#onContinue.bind(this));
 	}
 
 	setScenes() {
@@ -86,5 +87,9 @@ export default class Panel {
 
 	#onLevelUp() {
 		this.#parent.onLevelUp();
+	}
+
+	#onContinue() {
+		this.#parent.onContinueGame();
 	}
 }
