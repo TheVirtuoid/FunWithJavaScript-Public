@@ -41,11 +41,11 @@ export default class Yard extends Phaser.Scene {
 	}
 
 	preload() {
-		this.load.image('grass', '/src/img/grass.jpg');
+		/*this.load.image('grass', '/src/img/grass.jpg');
 		this.load.image('cutters', '/src/img/cutters.png');
 		weeds.forEach((weed) => {
 			this.load.image(weed.name, weed.image);
-		});
+		});*/
 	}
 
 	create() {

@@ -82,16 +82,9 @@ export default class Panel {
 
 	#onNewGame() {
 		this.#parent.onNewGame();
-		/*this.#sceneLevelUp.scene.stop();
-		this.#parent.reset();
-		this.#sceneYard.newGame(this.#parent.time);*/
 	}
 
 	#onLevelUp() {
 		this.#parent.onLevelUp();
-		/*this.#sceneYard.scene.stop();
-		this.#sceneLevelUp.setInventory(this.#parent.getWeedInventory());
-		this.#sceneLevelUp.setValues(this.#parent.getStatValues());
-		this.#sceneLevelUp.scene.start();*/
 	}
 }

@@ -7,6 +7,7 @@ import Yard from './graphics/Yard.js';
 import LevelUp from "./graphics/LevelUp.js";
 import Panel from "./engine/Panel.js";
 import {TIME} from "../../weed-wacker.config.js";
+import Start from "./graphics/Start.js";
 
 let timeRemaining = 15000;
 
@@ -36,6 +37,7 @@ const config = {
 
 /* click on new game */
 const onSelectNewGame = () => {
+	sceneStart.scene.stop();
 	sceneLevelUp.scene.stop();
 	panel.reset();
 	sceneYard.newGame(panel.time);
@@ -66,17 +68,21 @@ const onLevelUp = (data) => {
 
 let sceneYard;
 let sceneLevelUp;
+let sceneStart;
 const startGame = () => {
 	sceneYard.setPanel(panel);
 	panel.setScenes();
+	sceneStart.scene.start();
 }
 
 const game = new Phaser.Game(config);
 game.scene.add('yard', Yard);
 game.scene.add('level-up', LevelUp);
+game.scene.add('start', Start);
 setTimeout(() => {
 	sceneYard = game.scene.getScene('yard');
 	sceneLevelUp = game.scene.getScene('level-up');
+	sceneStart = game.scene.getScene('start');
 }, 1);
 
 game.events.on('change-weed-count', (index, value) => {

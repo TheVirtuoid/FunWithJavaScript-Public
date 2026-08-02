@@ -46,16 +46,6 @@ const stats = new Map([
 
 const statTypes = [...stats.keys()];
 
-/*const stats = [
-	{ type: Symbol('time'), tag: 'time', name: 'Time' },
-	{ type: Symbol('score'), tag: 'score', name: 'Score' },
-	{ type: Symbol('power'), tag: 'power', name: 'Power' },
-	{ type: Symbol('speed'), tag: 'speed', name: 'Speed' },
-	{ type: Symbol('range'), tag: 'range', name: 'Range' },
-	{ type: Symbol('durability'), tag: 'durability', name: 'Durability' },
-	{ type: Symbol('spawn-rate'), tag: 'spawn-rate', name: 'Spawn Rate' }
-];*/
-
 const levels = new Map([
 	[time, {
 		title: 'Time',
@@ -136,10 +126,5 @@ const levels = new Map([
 		]
 	}]
 ]);
-
-
-
-// const statsDescription = new Map(stats.map((stat) => [stat.type.description, stat.type]));
-//  const weedsDescription = new Map(weeds.map((weed) => [weed.type.description, weed.type]));
 
 export { weeds, weedTypes, stats, statTypes, levels, TIME };

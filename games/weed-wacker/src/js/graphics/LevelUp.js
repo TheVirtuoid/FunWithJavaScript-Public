@@ -62,10 +62,10 @@ export default class LevelUp extends Phaser.Scene {
 	}
 
 	preload() {
-		this.#levels.forEach((levelData, key) => {
+		/*this.#levels.forEach((levelData, key) => {
 			const entry = this.#levels[key];
 			this.load.image(levelData.graphic, `/src/img/${levelData.graphic}.png`);
-		});
+		});*/
 	}
 
 	create() {
@@ -110,10 +110,12 @@ export default class LevelUp extends Phaser.Scene {
 		} else {
 			increaseText = `(${Math.ceil(value)} -> ${Math.ceil(newValue)})`;
 		}
+		console.log(data.graphic);
 		const box = this.add.rectangle(0, 0, this.#width, this.#height, data.activeFill, fillAlpha);
 		const titleText = this.add.text(0 - this.#hw + 2, 0 - this.#hh + 2, data.title, { fontSize: '18px', fill: '#000000', fontFamily: this.#fontFamily, fontStyle: 'bold' });
 		const boxImage = this.add.image(0, 0 - this.#hh / 4, data.graphic);
 		const upgradeText = this.add.text(0 - this.#hw + 10, this.#hh / 3, `${levelData.text}\n\n${increaseText}`, { fontSize: '14px', fill: '#000000', fontFamily: this.#fontFamily, wordWrap: { width: this.#width - 20 }  });
+		this.add.image(0, 0, 'Thistlebite');
 		box.name = data.key;
 		box.setData('data', { ...data, newValue, levelData });
 		if (canWeUpgrade === LevelUp.GOT_INVENTORY) {
@@ -160,21 +162,7 @@ export default class LevelUp extends Phaser.Scene {
 				box.off('pointerout');
 				box.off('pointerdown');
 			}
-
-			/*const data = this.#levels.get(key);
-			const levelData = data.levels[0];
-			const canWeUpgrade = this.#compareInventory(inventory, nextLevel);
-			const fillAlpha = canWeUpgrade === LevelUp.GOT_INVENTORY ? 1 : .25;
-			const { key, newValue: value } = args;
-			const container = this.#containers.get(key);
-			let increaseText;
-			if (key === TIME) {
-				increaseText = `(${Math.ceil(value / 1000)}s -> ${Math.ceil(newValue / 1000)}s)`;
-			} else {
-				increaseText = `(${Math.ceil(value)} -> ${Math.ceil(newValue)})`;
-			}*/
 		});
-
 	}
 
 	#onPointerOver() {
@@ -204,8 +192,6 @@ export default class LevelUp extends Phaser.Scene {
 		targetLevel.levels.shift();
 		scene.levels.set(key, targetLevel);
 		scene.sys.game.events.emit('on-level-up', { key, value: newValue, cost: levelData.cost });
-		// scene.updateBoxes({ key, value: newValue });
-		// container.destroy();
 	}
 
 	#compareInventory(inventory, nextLevel) {
