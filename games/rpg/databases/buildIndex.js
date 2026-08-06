@@ -70,7 +70,7 @@ const buildIndex = (filename, indexById, indexByName) => {
 		start += length + 2;
 		jsonl.push(JSON.stringify(item));
 	});
-	const finalJsonl = jsonl.join('\r\n');
+	const finalJsonl = jsonl.join('\n');
 	const outputFilename = `./jsonl/${filename}.jsonl`;
 	writeFileSync(outputFilename, finalJsonl);
 	console.log(`Wrote ${outputFilename}`);
@@ -79,25 +79,25 @@ const buildIndex = (filename, indexById, indexByName) => {
 baseFiles.forEach((filename) => buildIndex(filename, indexById, indexByName));
 
 const abilityDatabase = readFileSync('./jsonl/abilities.jsonl', 'utf-8');
-const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
+const abilityData = JSON.parse(`[${abilityDatabase.split('\n').join(',')}]`);
 const abilityByAbbreviations = new Map(abilityData.map((ability) => [ability.abbreviation, ability]));
 
 const abilityBonusAdjustmentDatabase = readFileSync('./jsonl/ability-bonus-adjustment.jsonl', 'utf-8');
-const abilityBonusAdjustmentData = JSON.parse(`[${abilityBonusAdjustmentDatabase.split('\r\n').join(',')}]`);
+const abilityBonusAdjustmentData = JSON.parse(`[${abilityBonusAdjustmentDatabase.split('\n').join(',')}]`);
 
 const attributesDatabase = readFileSync('./jsonl/attributes.jsonl', 'utf-8');
-const attributesData = JSON.parse(`[${attributesDatabase.split('\r\n').join(',')}]`);
+const attributesData = JSON.parse(`[${attributesDatabase.split('\n').join(',')}]`);
 
 const moneyDatabase = readFileSync('./jsonl/money.jsonl', 'utf-8');
-const moneyData = JSON.parse(`[${moneyDatabase.split('\r\n').join(',')}]`);
+const moneyData = JSON.parse(`[${moneyDatabase.split('\n').join(',')}]`);
 const moneyByAbbreviation = new Map(moneyData.map((money) => [money.abbreviation, money]));
 
 const restrictionsDatabase = readFileSync('./jsonl/restrictions.jsonl', 'utf-8');
-const restrictionsData = JSON.parse(`[${restrictionsDatabase.split('\r\n').join(',')}]`);
+const restrictionsData = JSON.parse(`[${restrictionsDatabase.split('\n').join(',')}]`);
 const restrictionsByType = new Map(restrictionsData.map((restriction) => [restriction.type, restriction]));
 
 const weaponDatabase = readFileSync('./jsonl/weapon.jsonl', 'utf-8');
-const weaponData = JSON.parse(`[${weaponDatabase.split('\r\n').join(',')}]`);
+const weaponData = JSON.parse(`[${weaponDatabase.split('\n').join(',')}]`);
 const weaponByType = new Map(weaponData.map((weapon) => [weapon.type, weapon]));
 const weaponBySize = new Map(weaponData.map((weapon) => [weapon.size, weapon]));
 
@@ -105,13 +105,13 @@ const weaponBySize = new Map(weaponData.map((weapon) => [weapon.size, weapon]));
 secondRunFiles.forEach((filename) => buildIndex(filename, indexById, indexByName));
 
 const armorDatabase = readFileSync('./jsonl/armor.jsonl', 'utf-8');
-const armorData = JSON.parse(`[${armorDatabase.split('\r\n').join(',')}]`);
+const armorData = JSON.parse(`[${armorDatabase.split('\n').join(',')}]`);
 const armorByType = new Map(armorData.map((armor) => [armor.type, armor]));
 
 thirdRunFiles.forEach((filename) => buildIndex(filename, indexById, indexByName));
 
 const characterClassDatabase = readFileSync('./jsonl/characterClass.jsonl', 'utf-8');
-const characterClassData = JSON.parse(`[${characterClassDatabase.split('\r\n').join(',')}]`);
+const characterClassData = JSON.parse(`[${characterClassDatabase.split('\n').join(',')}]`);
 const characterClassByType = new Map(characterClassData.map((characterClass) => [characterClass.type, characterClass]));
 
 fourthRunFiles.forEach((filename) => buildIndex(filename, indexById, indexByName));
