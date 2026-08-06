@@ -1,6 +1,6 @@
-{"type":"ability","name":"ability","id":"13cf6e6b-6b0e-4cb7-b256-9f5e1bcf1602"}
-{"type":"armor-type","name":"armor-type","id":"16e651d2-5f9c-49bb-a83a-1886c18cfc8b"}
-{"type":"weapon-type","name":"weapon-type","id":"d32a54fc-da32-4666-96fe-bf17d35d5c30"}
-{"type":"weapon-sharp","name":"weapon-sharp","id":"f7551307-e4f5-47ec-87ae-e9cac492204a"}
-{"type":"weapon-size","name":"weapon-size","id":"cb969348-4768-4a9c-b89a-b756fbb01150"}
-{"type":"hit-points","name":"hit-points","id":"de1db0b0-3e25-41c1-8d58-5be542c0cdf3"}
+{"type":"ability","name":"ability","id":"9e2e9542-088b-4eb0-8392-84875ea7de67"}
+{"type":"armor-type","name":"armor-type","id":"f9634b48-3a51-42fe-98c4-5590d349b32b"}
+{"type":"weapon-type","name":"weapon-type","id":"788df269-0415-4c57-832f-96d94f154e1e"}
+{"type":"weapon-sharp","name":"weapon-sharp","id":"190f929f-ee4d-4427-b951-eb70ec867200"}
+{"type":"weapon-size","name":"weapon-size","id":"8a849744-926d-44e0-821e-6624f2a82a6f"}
+{"type":"hit-points","name":"hit-points","id":"af12c1db-a34e-40c5-870f-7740d07aa45f"}

@@ -27,6 +27,8 @@ const fourthRunFiles = [
 const indexById = new Map();
 const indexByName = new Map();
 
+const delimiter = '\n';
+
 const buildIndex = (filename, indexById, indexByName) => {
 	const database = readFileSync(`./${filename}.json`, 'utf-8');
 	const itemData = JSON.parse(database);
@@ -67,10 +69,10 @@ const buildIndex = (filename, indexById, indexByName) => {
 		const length = lineData.length;
 		indexById.set(item.id, { start, length, filename });
 		indexByName.set(item.name, { start, length, filename });
-		start += length + 2;
+		start += length + delimiter.length;
 		jsonl.push(JSON.stringify(item));
 	});
-	const finalJsonl = jsonl.join('\n');
+	const finalJsonl = jsonl.join(delimiter);
 	const outputFilename = `./jsonl/${filename}.jsonl`;
 	writeFileSync(outputFilename, finalJsonl);
 	console.log(`Wrote ${outputFilename}`);
@@ -79,25 +81,25 @@ const buildIndex = (filename, indexById, indexByName) => {
 baseFiles.forEach((filename) => buildIndex(filename, indexById, indexByName));
 
 const abilityDatabase = readFileSync('./jsonl/abilities.jsonl', 'utf-8');
-const abilityData = JSON.parse(`[${abilityDatabase.split('\n').join(',')}]`);
+const abilityData = JSON.parse(`[${abilityDatabase.split(delimiter).join(',')}]`);
 const abilityByAbbreviations = new Map(abilityData.map((ability) => [ability.abbreviation, ability]));
 
 const abilityBonusAdjustmentDatabase = readFileSync('./jsonl/ability-bonus-adjustment.jsonl', 'utf-8');
-const abilityBonusAdjustmentData = JSON.parse(`[${abilityBonusAdjustmentDatabase.split('\n').join(',')}]`);
+const abilityBonusAdjustmentData = JSON.parse(`[${abilityBonusAdjustmentDatabase.split(delimiter).join(',')}]`);
 
 const attributesDatabase = readFileSync('./jsonl/attributes.jsonl', 'utf-8');
-const attributesData = JSON.parse(`[${attributesDatabase.split('\n').join(',')}]`);
+const attributesData = JSON.parse(`[${attributesDatabase.split(delimiter).join(',')}]`);
 
 const moneyDatabase = readFileSync('./jsonl/money.jsonl', 'utf-8');
-const moneyData = JSON.parse(`[${moneyDatabase.split('\n').join(',')}]`);
+const moneyData = JSON.parse(`[${moneyDatabase.split(delimiter).join(',')}]`);
 const moneyByAbbreviation = new Map(moneyData.map((money) => [money.abbreviation, money]));
 
 const restrictionsDatabase = readFileSync('./jsonl/restrictions.jsonl', 'utf-8');
-const restrictionsData = JSON.parse(`[${restrictionsDatabase.split('\n').join(',')}]`);
+const restrictionsData = JSON.parse(`[${restrictionsDatabase.split(delimiter).join(',')}]`);
 const restrictionsByType = new Map(restrictionsData.map((restriction) => [restriction.type, restriction]));
 
 const weaponDatabase = readFileSync('./jsonl/weapon.jsonl', 'utf-8');
-const weaponData = JSON.parse(`[${weaponDatabase.split('\n').join(',')}]`);
+const weaponData = JSON.parse(`[${weaponDatabase.split(delimiter).join(',')}]`);
 const weaponByType = new Map(weaponData.map((weapon) => [weapon.type, weapon]));
 const weaponBySize = new Map(weaponData.map((weapon) => [weapon.size, weapon]));
 
@@ -105,13 +107,13 @@ const weaponBySize = new Map(weaponData.map((weapon) => [weapon.size, weapon]));
 secondRunFiles.forEach((filename) => buildIndex(filename, indexById, indexByName));
 
 const armorDatabase = readFileSync('./jsonl/armor.jsonl', 'utf-8');
-const armorData = JSON.parse(`[${armorDatabase.split('\n').join(',')}]`);
+const armorData = JSON.parse(`[${armorDatabase.split(delimiter).join(',')}]`);
 const armorByType = new Map(armorData.map((armor) => [armor.type, armor]));
 
 thirdRunFiles.forEach((filename) => buildIndex(filename, indexById, indexByName));
 
 const characterClassDatabase = readFileSync('./jsonl/characterClass.jsonl', 'utf-8');
-const characterClassData = JSON.parse(`[${characterClassDatabase.split('\n').join(',')}]`);
+const characterClassData = JSON.parse(`[${characterClassDatabase.split(delimiter).join(',')}]`);
 const characterClassByType = new Map(characterClassData.map((characterClass) => [characterClass.type, characterClass]));
 
 fourthRunFiles.forEach((filename) => buildIndex(filename, indexById, indexByName));
