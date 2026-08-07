@@ -20,6 +20,7 @@ const spawnRate = Symbol('spawn-rate');
 const TIME = time;
 const POWER = power;
 const SPAWN_RATE = spawnRate;
+const SPEED = speed;
 
 const weeds = new Map([
 	[thistlebite, {type: thistlebite, name: 'Thistlebite', toughness: 1000, points: 1, minLevel: 1, image: '/src/img/weed-0.png' }],
@@ -40,7 +41,7 @@ const stats = new Map([
 	[time, { type: time, tag: 'time', name: 'Time', start: 15000 }],
 	[score, { type: score, tag: 'score', name: 'Score', start: 0 }],
 	[power, { type: power, tag: 'power', name: 'Power', start: 5 }],
-	[speed, { type: speed, tag: 'speed', name: 'Speed', start: 0 }],
+	[speed, { type: speed, tag: 'speed', name: 'Speed', start: 1 }],
 	[range, { type: range, tag: 'range', name: 'Range', start: 0 }],
 	[durability, { type: durability, tag: 'durability', name: 'Durability', start: 0 }],
 	[spawnRate, { type: spawnRate, tag: 'spawn-rate', name: 'Spawn Rate', start: 1 }]
@@ -83,9 +84,9 @@ const levels = new Map([
 		highlightFill: 0xddddff,
 		position: 2,
 		levels: [
-			{ text: 'Increase speed by 10%', adjustment: 0.1, cost: new Map([[thistlebite, 4], [gravelbane, 1]]) },
-			{ text: 'Increase speed by 20%', adjustment: 0.2, cost: new Map([[thistlebite, 6], [gravelbane, 2], [vileclover, 1]]) },
-			{ text: 'Increase speed by 30%', adjustment: 0.3, cost: new Map([[thistlebite, 3], [gravelbane, 4], [vileclover, 2], [brambleroot, 1]]) },
+			{ text: 'Increase speed by 20%', adjustment: 0.2, cost: new Map([[thistlebite, 4], [gravelbane, 1]]) },
+			{ text: 'Increase speed by 30%', adjustment: 0.3, cost: new Map([[thistlebite, 6], [gravelbane, 2], [vileclover, 1]]) },
+			{ text: 'Increase speed by 40%', adjustment: 0.4, cost: new Map([[thistlebite, 3], [gravelbane, 4], [vileclover, 2], [brambleroot, 1]]) },
 		]
 	}],
 	[range, {
@@ -240,4 +241,4 @@ const weedGeneration = [
 	},
 ];
 
-export { weeds, weedTypes, stats, statTypes, levels, weedGeneration, TIME, POWER, SPAWN_RATE};
+export { weeds, weedTypes, stats, statTypes, levels, weedGeneration, TIME, POWER, SPAWN_RATE, SPEED};

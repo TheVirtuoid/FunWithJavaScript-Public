@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import Weed from './../engine/Weed.js';
-import { POWER, TIME, weeds, weedTypes, weedGeneration, SPAWN_RATE } from './../../../weed-wacker.config.js';
+import {POWER, TIME, weeds, weedTypes, weedGeneration, SPAWN_RATE, SPEED} from './../../../weed-wacker.config.js';
 
 export default class Yard extends Phaser.Scene {
 
@@ -117,7 +117,7 @@ export default class Yard extends Phaser.Scene {
 					// this is using the Left Analog Stick
 					const xAxis = gamePad.axes[0].getValue();
 					const yAxis = gamePad.axes[1].getValue();
-					this.#cutter.setVelocity(xAxis * 200, yAxis * 200);
+					this.#cutter.setVelocity(xAxis * (200 * this.#panel.getStat(SPEED)), yAxis * (200 * this.#panel.getStat(SPEED)));
 				} else {
 					this.#cutter.setVelocity(0, 0);
 				}
