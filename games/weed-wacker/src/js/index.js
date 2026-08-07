@@ -9,7 +9,7 @@ import Panel from "./engine/Panel.js";
 import {TIME} from "../../weed-wacker.config.js";
 import Start from "./graphics/Start.js";
 
-let timeRemaining = Panel.START_TIME;
+let timeRemaining;
 
 const config = {
 	height: 600,
@@ -38,7 +38,7 @@ const config = {
 /* click on new game */
 const onSelectNewGame = () => {
 	panel.reset();
-	timeRemaining = Panel.START_TIME;
+	// timeRemaining = panel.getStartValue(TIME);
 	onSelectContinueGame();
 }
 
@@ -46,8 +46,10 @@ const onSelectNewGame = () => {
 const onSelectContinueGame = () => {
 	sceneStart.scene.stop();
 	sceneLevelUp.scene.stop();
-	panel.setStat(TIME, timeRemaining);
-	sceneYard.continueGame();
+	sceneLevelUp.setInventory(panel.getWeedInventory());
+	const panelValues = panel.getStatValues();
+	sceneLevelUp.setValues(panelValues);
+	sceneYard.continueGame(panelValues);
 }
 
 /* click on level up */
@@ -56,7 +58,6 @@ const onSelectLevelUp = () => {
 	sceneYard.scene.stop();
 	sceneLevelUp.setInventory(panel.getWeedInventory());
 	const panelValues = panel.getStatValues();
-	panelValues.set(TIME, timeRemaining);
 	sceneLevelUp.setValues(panelValues);
 	sceneLevelUp.scene.start();
 }
@@ -64,9 +65,9 @@ const onSelectLevelUp = () => {
 /* level up */
 const onLevelUp = (data) => {
 	const { key, value, cost } = data;
-	if (key === TIME) {
+	/*if (key === TIME) {
 		timeRemaining = Math.ceil(value);
-	}
+	}*/
 	panel.setStat(key, value);
 	panel.removeWeeds(cost);
 	sceneLevelUp.setInventory(panel.getWeedInventory());

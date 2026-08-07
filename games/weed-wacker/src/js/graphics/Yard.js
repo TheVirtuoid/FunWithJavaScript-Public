@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import Weed from './../engine/Weed.js';
-import {TIME, weeds, weedTypes} from './../../../weed-wacker.config.js';
+import { POWER, TIME, weeds, weedTypes, weedGeneration, SPAWN_RATE } from './../../../weed-wacker.config.js';
 
 export default class Yard extends Phaser.Scene {
 
@@ -19,6 +19,10 @@ export default class Yard extends Phaser.Scene {
 
 	#panel;
 
+	#stats;
+
+	#spawnDelta = 0;
+
 	constructor() {
 		super({
 			key: 'yard'
@@ -30,15 +34,26 @@ export default class Yard extends Phaser.Scene {
 		this.#panel = panel;
 	}
 
-	continueGame(timeRemaining) {
+	continueGame(stats) {
+		this.#stats = stats;
 		this.#timeRemaining = this.#panel.getStat(TIME);
+		this.#panel.setTime(this.#timeRemaining);
 		this.scene.start();
 	}
 
 	preload() {}
 
+	destroy() {
+		this.events.off('weedDestroyed', this.#onWeedDestroyed, this);
+	}
+
+	#shutdown() {
+		this.events.off('weedDestroyed', this.#onWeedDestroyed, this);
+	}
+
 	create() {
 		this.events.on('weedDestroyed', this.#onWeedDestroyed, this);
+		this.events.once('shutdown', this.#shutdown, this);
 		// this.cameras.main.setBackgroundColor('#396a1a');
 		const centerX = this.scale.width / 2;
 		const centerY = this.scale.height / 2;
@@ -50,10 +65,12 @@ export default class Yard extends Phaser.Scene {
 		this.#weeds = [];
 
 		this.#physicsWeeds = this.physics.add.group();
-		for (let i = 0; i < 5; i++) {
+		const {start: startCount, distribution } = weedGeneration[this.#panel.round];
+		for (let i = 0; i < startCount; i++) {
 			const randomX = Phaser.Math.Between(100, this.scale.width - 100);
 			const randomY = Phaser.Math.Between(100, this.scale.height - 100);
-			const weed = new Weed({ type: weedTypes[0], scene: this });
+			const weedType = this.#getWeedFromDistribution(distribution);
+			const weed = new Weed({ type: weedType, scene: this });
 			weed.create(this.#physicsWeeds, randomX, randomY);
 			this.#weeds.push(weed);
 		}
@@ -106,6 +123,18 @@ export default class Yard extends Phaser.Scene {
 				}
 				this.#cutter.angle += 90 * (delta / 200)
 			}
+			this.#spawnDelta += delta;
+			if (this.#spawnDelta >= 2000 / this.#panel.getStat(SPAWN_RATE)) {
+				const {start: startCount, distribution } = weedGeneration[this.#panel.round];
+				const randomX = Phaser.Math.Between(100, this.scale.width - 100);
+				const randomY = Phaser.Math.Between(100, this.scale.height - 100);
+				const weedType = this.#getWeedFromDistribution(distribution);
+				const weed = new Weed({ type: weedType, scene: this });
+				weed.create(this.#physicsWeeds, randomX, randomY);
+				this.#weeds.push(weed);
+				this.#spawnDelta = 0;
+			}
+			// spawn rate
 		}
 	}
 
@@ -113,7 +142,7 @@ export default class Yard extends Phaser.Scene {
 		const weed = this.#weeds.find(weed => {
 			return weed.sprite === weedSprite;
 		});
-		weed.adjustToughness(-5);
+		weed.adjustToughness(-this.#stats.get(POWER));
 	}
 
 	#onWeedDestroyed(index) {
@@ -123,5 +152,16 @@ export default class Yard extends Phaser.Scene {
 	#processCountdown(delta) {
 		this.#countdown -= delta;
 		this.#countdownText.setText(Math.ceil( this.#countdown / 1000));
+	}
+
+	#getWeedFromDistribution(distribution) {
+		const random = Math.random();
+		let cumulativePct = 0;
+		for (const weed of distribution) {
+			cumulativePct += weed.pct;
+			if (random <= cumulativePct) {
+				return weed.weed;
+			}
+		}
 	}
 }

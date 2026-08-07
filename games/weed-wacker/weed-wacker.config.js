@@ -18,6 +18,8 @@ const durability = Symbol('durability');
 const spawnRate = Symbol('spawn-rate');
 
 const TIME = time;
+const POWER = power;
+const SPAWN_RATE = spawnRate;
 
 const weeds = new Map([
 	[thistlebite, {type: thistlebite, name: 'Thistlebite', toughness: 1000, points: 1, minLevel: 1, image: '/src/img/weed-0.png' }],
@@ -35,13 +37,13 @@ const weeds = new Map([
 const weedTypes = [...weeds.keys()];
 
 const stats = new Map([
-	[time, { type: time, tag: 'time', name: 'Time' }],
-	[score, { type: score, tag: 'score', name: 'Score' }],
-	[power, { type: power, tag: 'power', name: 'Power' }],
-	[speed, { type: speed, tag: 'speed', name: 'Speed' }],
-	[range, { type: range, tag: 'range', name: 'Range' }],
-	[durability, { type: durability, tag: 'durability', name: 'Durability' }],
-	[spawnRate, { type: spawnRate, tag: 'spawn-rate', name: 'Spawn Rate' }]
+	[time, { type: time, tag: 'time', name: 'Time', start: 15000 }],
+	[score, { type: score, tag: 'score', name: 'Score', start: 0 }],
+	[power, { type: power, tag: 'power', name: 'Power', start: 5 }],
+	[speed, { type: speed, tag: 'speed', name: 'Speed', start: 0 }],
+	[range, { type: range, tag: 'range', name: 'Range', start: 0 }],
+	[durability, { type: durability, tag: 'durability', name: 'Durability', start: 0 }],
+	[spawnRate, { type: spawnRate, tag: 'spawn-rate', name: 'Spawn Rate', start: 1 }]
 ]);
 
 const statTypes = [...stats.keys()];
@@ -68,7 +70,7 @@ const levels = new Map([
 		highlightFill: 0xddffdd,
 		position: 1,
 		levels: [
-			{ text: 'Increase power by 20%', adjustment: 0.2, cost: new Map([[thistlebite, 3]]) },
+			{ text: 'Increase power by 100%', adjustment: 1, cost: new Map([[thistlebite, 3]]) },
 			{ text: 'Increase power by 30%', adjustment: 0.3, cost: new Map([[thistlebite, 4], [gravelbane, 1]]) },
 			{ text: 'Increase power by 40%', adjustment: 0.4, cost: new Map([[thistlebite, 2], [gravelbane, 3], [vileclover, 1]]) },
 		]
@@ -120,11 +122,122 @@ const levels = new Map([
 		highlightFill: 0xffffdd,
 		position: 5,
 		levels: [
-			{ text: 'Increase range by 5%', adjustment: 0.01, cost: new Map([[thistlebite, 6], [gravelbane, 1]]) },
-			{ text: 'Increase range by 10%', adjustment: 0.1, cost: new Map([[thistlebite, 8], [gravelbane, 3], [vileclover, 1]]) },
-			{ text: 'Increase range by 15%', adjustment: 0.15, cost: new Map([[thistlebite, 6], [gravelbane, 6], [vileclover, 3], [brambleroot, 2], [stingnettle, 1]]) },
+			{ text: 'Double the rate', adjustment: 1, cost: new Map([[thistlebite, 6], [gravelbane, 1]]) },
+			{ text: 'Double the rate', adjustment: 1, cost: new Map([[thistlebite, 8], [gravelbane, 3], [vileclover, 1]]) },
+			{ text: 'Double the rate', adjustment: 1, cost: new Map([[thistlebite, 6], [gravelbane, 6], [vileclover, 3], [brambleroot, 2], [stingnettle, 1]]) },
 		]
 	}]
 ]);
 
-export { weeds, weedTypes, stats, statTypes, levels, TIME };
+const weedGeneration = [
+	{
+		start: 5,
+		distribution: [
+			{ weed: thistlebite, pct: 1 },
+			{ weed: gravelbane, pct: 0 },
+			{ weed: vileclover, pct: 0 },
+			{ weed: brambleroot, pct: 0 },
+			{ weed: stingnettle, pct: 0 },
+			{ weed: prickleweed, pct: 0 },
+			{ weed: mosschoke, pct: 0 }
+		]
+	},
+	{
+		start: 7,
+		distribution: [
+			{ weed: thistlebite, pct: .9 },
+			{ weed: gravelbane, pct: .1 },
+			{ weed: vileclover, pct: 0 },
+			{ weed: brambleroot, pct: 0 },
+			{ weed: stingnettle, pct: 0 },
+			{ weed: prickleweed, pct: 0 },
+			{ weed: mosschoke, pct: 0 }
+		]
+	},
+	{
+		start: 9,
+		distribution: [
+			{ weed: thistlebite, pct: .8 },
+			{ weed: gravelbane, pct: .15 },
+			{ weed: vileclover, pct: .05 },
+			{ weed: brambleroot, pct: 0 },
+			{ weed: stingnettle, pct: 0 },
+			{ weed: prickleweed, pct: 0 },
+			{ weed: mosschoke, pct: 0 }
+		]
+	},
+	{
+		start: 11,
+		distribution: [
+			{ weed: thistlebite, pct: .7 },
+			{ weed: gravelbane, pct: .17 },
+			{ weed: vileclover, pct: .08 },
+			{ weed: brambleroot, pct: .05 },
+			{ weed: stingnettle, pct: 0 },
+			{ weed: prickleweed, pct: 0 },
+			{ weed: mosschoke, pct: 0 }
+		]
+	},
+	{
+		start: 13,
+		distribution: [
+			{ weed: thistlebite, pct: .6 },
+			{ weed: gravelbane, pct: .20 },
+			{ weed: vileclover, pct: .11 },
+			{ weed: brambleroot, pct: .07 },
+			{ weed: stingnettle, pct: .03 },
+			{ weed: prickleweed, pct: 0 },
+			{ weed: mosschoke, pct: 0 }
+		]
+	},
+	{
+		start: 15,
+		distribution: [
+			{ weed: thistlebite, pct: .4 },
+			{ weed: gravelbane, pct: .24 },
+			{ weed: vileclover, pct: .15 },
+			{ weed: brambleroot, pct: .11 },
+			{ weed: stingnettle, pct: .07 },
+			{ weed: prickleweed, pct: .03 },
+			{ weed: mosschoke, pct: 0 }
+		]
+	},
+	{
+		start: 17,
+		distribution: [
+			{ weed: thistlebite, pct: .3 },
+			{ weed: gravelbane, pct: .26 },
+			{ weed: vileclover, pct: .17 },
+			{ weed: brambleroot, pct: .12 },
+			{ weed: stingnettle, pct: .08 },
+			{ weed: prickleweed, pct: .04 },
+			{ weed: mosschoke, pct: .03 }
+		]
+	},
+	{
+		start: 19,
+		distribution: [
+			{ weed: thistlebite, pct: .2 },
+			{ weed: gravelbane, pct: .26 },
+			{ weed: vileclover, pct: .19 },
+			{ weed: brambleroot, pct: .14 },
+			{ weed: stingnettle, pct: .1 },
+			{ weed: prickleweed, pct: .06 },
+			{ weed: mosschoke, pct: .05 }
+		]
+	},
+	{
+		start: 21,
+		distribution: [
+			{ weed: thistlebite, pct: .1 },
+			{ weed: gravelbane, pct: .26 },
+			{ weed: vileclover, pct: .21 },
+			{ weed: brambleroot, pct: .16 },
+			{ weed: stingnettle, pct: .12 },
+			{ weed: prickleweed, pct: .08 },
+			{ weed: mosschoke, pct: .07 }
+		]
+	},
+];
+
+export { weeds, weedTypes, stats, statTypes, levels, weedGeneration, TIME, POWER, SPAWN_RATE};

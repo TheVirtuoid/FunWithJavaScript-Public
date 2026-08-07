@@ -3,17 +3,24 @@ import PanelUI from "./../graphics/Panel.js";
 
 export default class Panel {
 
-	static START_TIME = 15000;
 	#weeds;
 	#panelUI;
 	#stats;
 	#game;
+
+	#startValues;
+
+	#gameTime;
+
+	#round;
 
 	constructor(game) {
 		this.#game = game;
 		this.#stats = new Map([...statsConfig.entries()].map(([type, stat]) => [ type, { ...stat, value: 0 }]));
 		this.#weeds = new Map([...weedsConfig.entries()].map(([type, weed]) => [ type, { ...weed, count: 0 }]));
 		this.#panelUI = new PanelUI({ weeds: this.#weeds, stats: this.#stats, parent: this });
+		this.#startValues = new Map([...statsConfig.entries()].map(([type, stat]) => [ type, stat.start ]));
+		this.#round = 0;
 	}
 
 	get game() {
@@ -22,6 +29,10 @@ export default class Panel {
 
 	getStat(type) {
 		return this.#stats.get(type).value;
+	}
+
+	getStartValue(type) {
+		return this.#startValues.get(type);
 	}
 
 	setStat(type, value) {
@@ -54,25 +65,33 @@ export default class Panel {
 
 	reset() {
 		this.#stats.forEach((stat) => {
-			stat.value = 0;
+			stat.value = this.getStartValue(stat.type);
 			this.#panelUI.updateStat(stat.type, stat.value);
 		});
 		[...this.#weeds.keys()].forEach(type => {
 			this.setWeed(type, 0);
 		});
-		this.setStat(TIME, Panel.START_TIME);
+		this.setTime(this.getStartValue(TIME));
 	}
 
 	get time() {
-		return this.getStat(TIME);
+		return this.#gameTime;
+	}
+
+	get round() {
+		return this.#round;
 	}
 
 	setTime(value) {
-		this.setStat(TIME, value);
+		// this.setStat(TIME, value);
+		this.#gameTime = value;
+		this.#panelUI.updateStat(TIME, this.#gameTime);
 	}
 
 	adjustTime(value) {
-		this.adjustStat(TIME, value);
+		// this.adjustStat(TIME, value);
+		this.#gameTime += value;
+		this.#panelUI.updateStat(TIME, this.#gameTime);
 	}
 
 	getWeedInventory() {
@@ -104,10 +123,12 @@ export default class Panel {
 	}
 
 	onNewGame() {
+		this.#round = 0;
 		this.game.events.emit('on-select-new-game');
 	}
 
 	onContinueGame() {
+		this.#round++;
 		this.game.events.emit('on-select-continue-game');
 	}
 
