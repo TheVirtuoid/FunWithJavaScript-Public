@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { weeds, weedTypes, levels } from './../../../weed-wacker.config.js';
+import {weeds, weedTypes, levels, rocks} from './../../../weed-wacker.config.js';
 
 export default class Start extends Phaser.Scene {
 
@@ -14,6 +14,9 @@ export default class Start extends Phaser.Scene {
 		this.load.image('cutters', '/src/img/cutters.png');
 		weeds.forEach((weed) => {
 			this.load.image(weed.name, weed.image);
+		});
+		rocks.forEach((rock) => {
+			this.load.image(rock.name, rock.image);
 		});
 		levels.forEach((levelData, key) => {
 			this.load.image(levelData.graphic, `/src/img/${levelData.graphic}.png`);

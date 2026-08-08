@@ -1,6 +1,16 @@
 import Phaser from 'phaser';
 import Weed from './../engine/Weed.js';
-import {POWER, TIME, weeds, weedTypes, weedGeneration, SPAWN_RATE, SPEED} from './../../../weed-wacker.config.js';
+import {
+	POWER,
+	TIME,
+	weeds,
+	weedTypes,
+	weedGeneration,
+	SPAWN_RATE,
+	SPEED,
+	RANGE, rockTypes, DURABILITY
+} from './../../../weed-wacker.config.js';
+import Rock from "../engine/Rock.js";
 
 export default class Yard extends Phaser.Scene {
 
@@ -9,6 +19,8 @@ export default class Yard extends Phaser.Scene {
 	#grass;
 	#weeds;
 	#physicsWeeds;
+	#physicsRocks;
+	#rocks;
 
 	#weedList;
 	#countdown = 3000;
@@ -17,11 +29,14 @@ export default class Yard extends Phaser.Scene {
 	#timeRemaining;
 	#timesUpText;
 
+	#gameOverText;
+
 	#panel;
 
 	#stats;
 
 	#spawnDelta = 0;
+	#rockSpawnDelta = 0;
 
 	constructor() {
 		super({
@@ -61,8 +76,10 @@ export default class Yard extends Phaser.Scene {
 		this.#cutter = this.physics.add.image(centerX, centerY, 'cutters');
 		this.#cutter.setOrigin(0.5, 0.5);
 		this.#cutter.body.setCollideWorldBounds(true);
+		this.#cutter.scale = this.#panel.getStat(RANGE);
 
 		this.#weeds = [];
+		this.#rocks = [];
 
 		this.#physicsWeeds = this.physics.add.group();
 		const {start: startCount, distribution } = weedGeneration[this.#panel.round];
@@ -84,6 +101,15 @@ export default class Yard extends Phaser.Scene {
 			this
 		);
 
+		this.#physicsRocks = this.physics.add.group();
+		this.physics.add.overlap(
+			this.#cutter,
+			this.#physicsRocks,
+			this.#onHitRock,
+			null,
+			this
+		);
+
 		this.#countdown = 3000;
 		this.#countdownText = this.add.text(centerX, centerY, '0', { fontSize: '400px', fill: '#FF0000', fontFamily: '"Pixelify Sans"', fontStyle: 'bold' });
 		this.#countdownText.setOrigin(0.5, 0.5);
@@ -91,6 +117,10 @@ export default class Yard extends Phaser.Scene {
 		this.#timesUpText = this.add.text(centerX, centerY, `Time's Up!`, { fontSize: '300px', fill: '#882211', fontFamily: '"Pixelify Sans"', fontStyle: 'bold' });
 		this.#timesUpText.setOrigin(0.5, 0.5);
 		this.#timesUpText.visible = false;
+
+		this.#gameOverText = this.add.text(centerX, centerY, `GAME OVER`, { fontSize: '300px', fill: '#882211', fontFamily: '"Pixelify Sans"', fontStyle: 'bold' });
+		this.#gameOverText.setOrigin(0.5, 0.5);
+		this.#gameOverText.visible = false;
 	}
 
 	resize(gameSize, baseSize, displaySize, resolution) {
@@ -104,6 +134,9 @@ export default class Yard extends Phaser.Scene {
 	update(time, delta) {
 		if (this.#countdown > 0) {
 			this.#processCountdown(delta);
+		} else if (this.#panel.getStat(DURABILITY) <= 0) {
+				this.#gameOverText.visible = true;
+				this.scene.pause();
 		} else {
 			this.#timeRemaining -= delta;
 			this.#panel.adjustTime(-delta);
@@ -134,8 +167,33 @@ export default class Yard extends Phaser.Scene {
 				this.#weeds.push(weed);
 				this.#spawnDelta = 0;
 			}
-			// spawn rate
+			// starting at round 3, rocks appear
+			if (this.#panel.round >= 0) {
+				this.#rockSpawnDelta += delta;
+				if (this.#rockSpawnDelta >= 4000) {
+					const randomX = Phaser.Math.Between(100, this.scale.width - 100);
+					const randomY = Phaser.Math.Between(100, this.scale.height - 100);
+					const rockType = this.#getRockFromDistribution();
+					const rock = new Rock({ type: rockType, scene: this });
+					rock.create(this.#physicsRocks, randomX, randomY);
+					this.#rocks.push(rock);
+					this.#rockSpawnDelta = 0;
+				}
+			}
+			this.#rocks.forEach((rock) => {
+				if (!this.physics.overlap(this.#cutter, rock.sprite)) {
+					rock.sprite.clearTint();
+				}
+			});
 		}
+	}
+
+	#onHitRock(cutter, rockSprite) {
+		const rock = this.#rocks.find(rock => {
+			return rock.sprite === rockSprite;
+		});
+		rock.sprite.setTint(0xff0000);
+		this.game.events.emit('hit-rock', rock.toughness);
 	}
 
 	#onCutWeed(cutter, weedSprite) {
@@ -163,5 +221,17 @@ export default class Yard extends Phaser.Scene {
 				return weed.weed;
 			}
 		}
+	}
+
+	#getRockFromDistribution() {
+		return rockTypes[0];
+		/*const random = Math.random();
+		let cumulativePct = 0;
+		for (const rock of this.#rockDistribution) {
+			cumulativePct += rock.pct;
+			if (random <= cumulativePct) {
+				return rock.rock;
+			}
+		}*/
 	}
 }

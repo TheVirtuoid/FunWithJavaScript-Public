@@ -6,7 +6,7 @@ import WebFont from 'webfontloader';
 import Yard from './graphics/Yard.js';
 import LevelUp from "./graphics/LevelUp.js";
 import Panel from "./engine/Panel.js";
-import {TIME} from "../../weed-wacker.config.js";
+import {DURABILITY, TIME} from "../../weed-wacker.config.js";
 import Start from "./graphics/Start.js";
 
 let timeRemaining;
@@ -96,6 +96,10 @@ setTimeout(() => {
 
 game.events.on('change-weed-count', (index, value) => {
 	panel.adjustWeed(index, value);
+});
+
+game.events.on('hit-rock', (value) => {
+	panel.adjustStat(DURABILITY, -value);
 });
 
 const panel = new Panel(game);

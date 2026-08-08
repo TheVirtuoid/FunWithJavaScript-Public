@@ -3,10 +3,6 @@ import { weeds, weedTypes } from './../../../weed-wacker.config.js';
 
 export default class Weed {
 
-	/*static WEEDS = new Map(weeds.map(weed => [weed.type, {...weed }]));
-
-	static WEED_SYMBOLS = [...weeds.map(weed => weed.type)];*/
-
 	static IsWeed(type) {
 		return weedTypes.includes(type);
 	}
