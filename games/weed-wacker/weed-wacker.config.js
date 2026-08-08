@@ -129,9 +129,9 @@ const levels = new Map([
 		highlightFill: 0xddffff,
 		position: 4,
 		levels: [
-			{ text: 'Increase range by 5%', adjustment: 0.01, cost: new Map([[thistlebite, 6], [gravelbane, 1]]) },
-			{ text: 'Increase range by 10%', adjustment: 0.1, cost: new Map([[thistlebite, 8], [gravelbane, 3], [vileclover, 1]]) },
-			{ text: 'Increase range by 15%', adjustment: 0.15, cost: new Map([[thistlebite, 6], [gravelbane, 6], [vileclover, 3], [brambleroot, 2], [stingnettle, 1]]) },
+			{ text: 'Add 100 to current stat', adjustment: 100, cost: new Map([[thistlebite, 6], [gravelbane, 1]]) },
+			{ text: 'Add 100 to current stat', adjustment: 100, cost: new Map([[thistlebite, 8], [gravelbane, 3], [vileclover, 1]]) },
+			{ text: 'Add 100 to current stat', adjustment: 100, cost: new Map([[thistlebite, 6], [gravelbane, 6], [vileclover, 3], [brambleroot, 2], [stingnettle, 1]]) },
 		]
 	}],
 	[spawnRate, {

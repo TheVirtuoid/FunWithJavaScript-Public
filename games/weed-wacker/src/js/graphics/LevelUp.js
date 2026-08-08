@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import {levels as levelData, TIME, weeds} from './../../../weed-wacker.config.js';
+import {DURABILITY, levels as levelData, TIME, weeds} from './../../../weed-wacker.config.js';
 
 export default class LevelUp extends Phaser.Scene {
 
@@ -35,7 +35,8 @@ export default class LevelUp extends Phaser.Scene {
 		super({
 			key: 'level-up'
 		});
-		this.#levels = new Map();
+		this.reset();
+		/*this.#levels = new Map();
 		levelData.forEach((keyData, key) => {
 			const entry = { ...keyData };
 			entry.levels = [];
@@ -46,7 +47,7 @@ export default class LevelUp extends Phaser.Scene {
 				entry.levels.push(data);
 			}
 			this.#levels.set(key, entry);
-		});
+		});*/
 	}
 
 	setInventory(inventory) {
@@ -86,6 +87,24 @@ export default class LevelUp extends Phaser.Scene {
 		});
 
 		this.events.on('update-boxes', this.#updateBoxes.bind(this));
+	}
+
+	reset() {
+		this.#levels = new Map();
+		levelData.forEach((keyData, key) => {
+			const entry = { ...keyData };
+			entry.levels = [];
+			for (const levelData of keyData.levels) {
+				const data = {...levelData}
+				data.cost = new Map();
+				levelData.cost.forEach((value, key) => data.cost.set(key, value));
+				entry.levels.push(data);
+			}
+			this.#levels.set(key, entry);
+			if (this.#values) {
+				this.#updateBoxes({key, value: this.#values.get(key) });
+			}
+		});
 	}
 
 	update(time, delta) {
@@ -161,7 +180,11 @@ export default class LevelUp extends Phaser.Scene {
 		let increaseText;
 		let newValue;
 		if (canWeUpgrade !== LevelUp.MAX_LEVEL) {
-			newValue = value + value * nextLevel.adjustment;
+			if (key === DURABILITY) {
+				newValue = value + nextLevel.adjustment;
+			} else {
+				newValue = value + value * nextLevel.adjustment;
+			}
 			if (key === TIME) {
 				increaseText = `(${Math.ceil(value / 1000)}s -> ${Math.ceil(newValue / 1000)}s)`;
 			} else {

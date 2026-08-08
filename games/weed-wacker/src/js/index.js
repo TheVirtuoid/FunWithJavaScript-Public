@@ -38,6 +38,7 @@ const config = {
 /* click on new game */
 const onSelectNewGame = () => {
 	panel.reset();
+	sceneLevelUp.reset();
 	// timeRemaining = panel.getStartValue(TIME);
 	onSelectContinueGame();
 }
