@@ -11,6 +11,7 @@ import {
 	RANGE, rockTypes, DURABILITY
 } from './../../../weed-wacker.config.js';
 import Rock from "../engine/Rock.js";
+import Panel from "../engine/Panel.js";
 
 export default class Yard extends Phaser.Scene {
 
@@ -136,12 +137,14 @@ export default class Yard extends Phaser.Scene {
 			this.#processCountdown(delta);
 		} else if (this.#panel.getStat(DURABILITY) <= 0) {
 				this.#gameOverText.visible = true;
+			this.#panel.setState(Panel.STATE_GAME_OVER);
 				this.scene.pause();
 		} else {
 			this.#timeRemaining -= delta;
 			this.#panel.adjustTime(-delta);
 			if (this.#timeRemaining <= 0) {
 				this.#timesUpText.visible = true;
+				this.#panel.setState(Panel.STATE_TIME_UP);
 				this.scene.pause();
 			} else {
 				this.#countdownText.visible = false;

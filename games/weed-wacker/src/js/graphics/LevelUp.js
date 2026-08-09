@@ -140,7 +140,8 @@ export default class LevelUp extends Phaser.Scene {
 	#updateBoxes(args = {}) {
 		const { key, value } = args;
 		this.#containers.forEach((container, containerKey) => {
-			const data = this.#levels.get(key);
+			// const data = this.#levels.get(key);
+			const data = this.#levels.get(containerKey);
 			const nextLevel = data.levels[0];
 			let box;
 			let upgradeText;
@@ -163,8 +164,7 @@ export default class LevelUp extends Phaser.Scene {
 				upgradeText.text = increaseText;
 				container.add([...weedImages, ...weedImageText]);
 			}
-			const fillAlpha = canWeUpgrade === LevelUp.GOT_INVENTORY ? 1 : .25;
-			box.fillAlpha = fillAlpha;
+			box.fillAlpha = canWeUpgrade === LevelUp.GOT_INVENTORY ? 1 : .25;
 			if (canWeUpgrade !== LevelUp.GOT_INVENTORY) {
 				box.off('pointerover');
 				box.off('pointerout');

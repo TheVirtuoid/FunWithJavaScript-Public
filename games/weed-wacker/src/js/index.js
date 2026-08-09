@@ -39,12 +39,12 @@ const config = {
 const onSelectNewGame = () => {
 	panel.reset();
 	sceneLevelUp.reset();
-	// timeRemaining = panel.getStartValue(TIME);
 	onSelectContinueGame();
 }
 
 /* click on new game */
 const onSelectContinueGame = () => {
+	panel.setState(Panel.STATE_IN_ROUND);
 	sceneStart.scene.stop();
 	sceneLevelUp.scene.stop();
 	sceneLevelUp.setInventory(panel.getWeedInventory());
@@ -55,6 +55,7 @@ const onSelectContinueGame = () => {
 
 /* click on level up */
 const onSelectLevelUp = () => {
+	panel.setState(Panel.STATE_LEVEL_UP);
 	sceneStart.scene.stop();
 	sceneYard.scene.stop();
 	sceneLevelUp.setInventory(panel.getWeedInventory());
@@ -66,9 +67,6 @@ const onSelectLevelUp = () => {
 /* level up */
 const onLevelUp = (data) => {
 	const { key, value, cost } = data;
-	/*if (key === TIME) {
-		timeRemaining = Math.ceil(value);
-	}*/
 	panel.setStat(key, value);
 	panel.removeWeeds(cost);
 	sceneLevelUp.setInventory(panel.getWeedInventory());
@@ -82,6 +80,7 @@ let sceneStart;
 const startGame = () => {
 	sceneYard.setPanel(panel);
 	panel.setScenes();
+	panel.setState(Panel.STATE_START);
 	sceneStart.scene.start();
 }
 

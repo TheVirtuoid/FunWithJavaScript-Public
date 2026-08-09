@@ -3,6 +3,12 @@ import PanelUI from "./../graphics/Panel.js";
 
 export default class Panel {
 
+	static STATE_START = Symbol('state-start');
+	static STATE_IN_ROUND = Symbol('state-in-round');
+	static STATE_TIME_UP = Symbol('state-time-up');
+	static STATE_GAME_OVER = Symbol('state-game-over');
+	static STATE_LEVEL_UP = Symbol('state-level-up');
+
 	#weeds;
 	#panelUI;
 	#stats;
@@ -13,6 +19,8 @@ export default class Panel {
 	#gameTime;
 
 	#round;
+
+	#state;
 
 	constructor(game) {
 		this.#game = game;
@@ -130,6 +138,11 @@ export default class Panel {
 	onContinueGame() {
 		this.#round++;
 		this.game.events.emit('on-select-continue-game');
+	}
+
+	setState(state) {
+		this.#state = state;
+		this.#panelUI.setState(state);
 	}
 
 }

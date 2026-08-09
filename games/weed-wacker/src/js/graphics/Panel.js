@@ -1,6 +1,7 @@
 import {TIME} from "../../../weed-wacker.config.js";
+import Panel from "../engine/Panel.js";
 
-export default class Panel {
+export default class PanelUI {
 
 	#domStats = new Map();
 	#domWeeds = new Map();
@@ -79,6 +80,36 @@ export default class Panel {
 
 	updateWeed(type, count) {
 		this.#domWeeds.get(type).textContent = count;
+	}
+
+	setState(state) {
+		switch (state) {
+			case Panel.STATE_START:
+				this.#domLevelUp.disabled = true;
+				this.#domContinue.disabled = true;
+				this.#domNewGame.disabled = false;
+				break;
+			case Panel.STATE_LEVEL_UP:
+				this.#domLevelUp.disabled = true;
+				this.#domContinue.disabled = false;
+				this.#domNewGame.disabled = false;
+				break;
+			case Panel.STATE_IN_ROUND:
+				this.#domLevelUp.disabled = true;
+				this.#domContinue.disabled = true;
+				this.#domNewGame.disabled = true;
+				break;
+			case Panel.STATE_TIME_UP:
+				this.#domLevelUp.disabled = false;
+				this.#domContinue.disabled = false;
+				this.#domNewGame.disabled = false;
+				break;
+			case Panel.STATE_GAME_OVER:
+				this.#domLevelUp.disabled = true;
+				this.#domContinue.disabled = true;
+				this.#domNewGame.disabled = false;
+				break;
+		}
 	}
 
 	#onNewGame() {
