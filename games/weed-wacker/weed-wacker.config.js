@@ -16,6 +16,7 @@ const speed = Symbol('speed');
 const range = Symbol('range');
 const durability = Symbol('durability');
 const spawnRate = Symbol('spawn-rate');
+const round = Symbol('round');
 
 const basaltusk = Symbol('basaltusk');
 const cragmantle = Symbol('cragmantle');
@@ -30,6 +31,7 @@ const SPAWN_RATE = spawnRate;
 const SPEED = speed;
 const RANGE = range;
 const DURABILITY = durability;
+const ROUND = round;
 
 const rocks = new Map([
 	[basaltusk, { type: basaltusk, name: 'Basaltusk', toughness: 2, minLevel: 10, image: '/src/img/rock-1.png' }],
@@ -58,12 +60,13 @@ const weedTypes = [...weeds.keys()];
 
 const stats = new Map([
 	[time, { type: time, tag: 'time', name: 'Time', start: 15000 }],
-	[score, { type: score, tag: 'score', name: 'Score', start: 0 }],
+	// [score, { type: score, tag: 'score', name: 'Score', start: 0 }],
 	[power, { type: power, tag: 'power', name: 'Power', start: 5 }],
 	[speed, { type: speed, tag: 'speed', name: 'Speed', start: 1 }],
 	[range, { type: range, tag: 'range', name: 'Range', start: .5 }],
 	[durability, { type: durability, tag: 'durability', name: 'Durability', start: 100 }],
-	[spawnRate, { type: spawnRate, tag: 'spawn-rate', name: 'Spawn Rate', start: 1 }]
+	[spawnRate, { type: spawnRate, tag: 'spawn-rate', name: 'Spawn Rate', start: 1 }],
+	[round, { type: round, tag: 'round', name: 'Round', start: 0 }]
 ]);
 
 const statTypes = [...stats.keys()];
@@ -364,5 +367,5 @@ const weedGeneration = [
 export {
 	weeds, weedTypes, stats, statTypes, levels, weedGeneration,
 	rocks, rockTypes, rockGeneration,
-	TIME, POWER, SPAWN_RATE, SPEED, RANGE, DURABILITY
+	TIME, POWER, SPAWN_RATE, SPEED, RANGE, DURABILITY, ROUND
 };

@@ -74,7 +74,7 @@ export default class PanelUI {
 	}
 
 	updateStat(type, value) {
-		const displayValue = type === TIME ? Math.ceil(value / 1000) : value;
+		const displayValue = type === TIME ? Math.ceil(value / 1000) : Math.max(0, value);
 		this.#domStats.get(type).textContent = displayValue;
 	}
 

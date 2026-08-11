@@ -53,7 +53,7 @@ export default class Wacker {
 	}
 
 	adjustDurability(amount) {
-		this.#durability += amount;
+		this.#durability = Math.max(0, this.#durability + amount);
 	}
 
 	addWeed(weed) {

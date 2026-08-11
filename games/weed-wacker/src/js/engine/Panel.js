@@ -1,4 +1,4 @@
-import {weeds as weedsConfig, stats as statsConfig, TIME} from './../../../weed-wacker.config.js';
+import {weeds as weedsConfig, stats as statsConfig, TIME, ROUND} from './../../../weed-wacker.config.js';
 import PanelUI from "./../graphics/Panel.js";
 
 export default class Panel {
@@ -132,11 +132,13 @@ export default class Panel {
 
 	onNewGame() {
 		this.#round = 0;
+		this.#panelUI.updateStat(ROUND, this.#round + 1);
 		this.game.events.emit('on-select-new-game');
 	}
 
 	onContinueGame() {
 		this.#round++;
+		this.#panelUI.updateStat(ROUND, this.#round + 1);
 		this.game.events.emit('on-select-continue-game');
 	}
 

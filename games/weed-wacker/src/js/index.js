@@ -6,7 +6,7 @@ import WebFont from 'webfontloader';
 import Yard from './graphics/Yard.js';
 import LevelUp from "./graphics/LevelUp.js";
 import Panel from "./engine/Panel.js";
-import {DURABILITY, TIME} from "../../weed-wacker.config.js";
+import {DURABILITY, ROUND, TIME} from "../../weed-wacker.config.js";
 import Start from "./graphics/Start.js";
 
 let timeRemaining;
@@ -39,6 +39,7 @@ const config = {
 const onSelectNewGame = () => {
 	panel.reset();
 	sceneLevelUp.reset();
+	panel.setStat(ROUND, panel.round + 1);
 	onSelectContinueGame();
 }
 
