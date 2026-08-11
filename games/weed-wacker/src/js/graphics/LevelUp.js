@@ -36,18 +36,6 @@ export default class LevelUp extends Phaser.Scene {
 			key: 'level-up'
 		});
 		this.reset();
-		/*this.#levels = new Map();
-		levelData.forEach((keyData, key) => {
-			const entry = { ...keyData };
-			entry.levels = [];
-			for (const levelData of keyData.levels) {
-				const data = {...levelData}
-				data.cost = new Map();
-				levelData.cost.forEach((value, key) => data.cost.set(key, value));
-				entry.levels.push(data);
-			}
-			this.#levels.set(key, entry);
-		});*/
 	}
 
 	setInventory(inventory) {

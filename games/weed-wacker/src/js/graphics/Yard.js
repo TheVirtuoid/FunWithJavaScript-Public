@@ -8,7 +8,7 @@ import {
 	weedGeneration,
 	SPAWN_RATE,
 	SPEED,
-	RANGE, rockTypes, DURABILITY
+	RANGE, rockTypes, DURABILITY, rockGeneration
 } from './../../../weed-wacker.config.js';
 import Rock from "../engine/Rock.js";
 import Panel from "../engine/Panel.js";
@@ -83,7 +83,7 @@ export default class Yard extends Phaser.Scene {
 		this.#rocks = [];
 
 		this.#physicsWeeds = this.physics.add.group();
-		const {start: startCount, distribution } = weedGeneration[this.#panel.round];
+		const {start: startCount, distribution } = weedGeneration[this.#panel.round] || weedGeneration.at(-1);
 		for (let i = 0; i < startCount; i++) {
 			const randomX = Phaser.Math.Between(100, this.scale.width - 100);
 			const randomY = Phaser.Math.Between(100, this.scale.height - 100);
@@ -118,10 +118,12 @@ export default class Yard extends Phaser.Scene {
 		this.#timesUpText = this.add.text(centerX, centerY, `Time's Up!`, { fontSize: '300px', fill: '#882211', fontFamily: '"Pixelify Sans"', fontStyle: 'bold' });
 		this.#timesUpText.setOrigin(0.5, 0.5);
 		this.#timesUpText.visible = false;
+		this.#timesUpText.setDepth(1000);
 
 		this.#gameOverText = this.add.text(centerX, centerY, `GAME OVER`, { fontSize: '300px', fill: '#882211', fontFamily: '"Pixelify Sans"', fontStyle: 'bold' });
 		this.#gameOverText.setOrigin(0.5, 0.5);
 		this.#gameOverText.visible = false;
+		this.#gameOverText.setDepth(1000);
 	}
 
 	resize(gameSize, baseSize, displaySize, resolution) {
@@ -161,7 +163,7 @@ export default class Yard extends Phaser.Scene {
 			}
 			this.#spawnDelta += delta;
 			if (this.#spawnDelta >= 2000 / this.#panel.getStat(SPAWN_RATE)) {
-				const {start: startCount, distribution } = weedGeneration[this.#panel.round];
+				const {start: startCount, distribution } = (weedGeneration[this.#panel.round] ?? weedGeneration.at(-1));
 				const randomX = Phaser.Math.Between(100, this.scale.width - 100);
 				const randomY = Phaser.Math.Between(100, this.scale.height - 100);
 				const weedType = this.#getWeedFromDistribution(distribution);
@@ -170,18 +172,17 @@ export default class Yard extends Phaser.Scene {
 				this.#weeds.push(weed);
 				this.#spawnDelta = 0;
 			}
-			// starting at round 3, rocks appear
-			if (this.#panel.round >= 0) {
-				this.#rockSpawnDelta += delta;
-				if (this.#rockSpawnDelta >= 4000) {
-					const randomX = Phaser.Math.Between(100, this.scale.width - 100);
-					const randomY = Phaser.Math.Between(100, this.scale.height - 100);
-					const rockType = this.#getRockFromDistribution();
+			this.#rockSpawnDelta += delta;
+			if (this.#rockSpawnDelta >= 4000 - 50 * (this.#panel.round - 2)) {
+				const randomX = Phaser.Math.Between(100, this.scale.width - 100);
+				const randomY = Phaser.Math.Between(100, this.scale.height - 100);
+				const rockType = this.#getRockFromDistribution(rockGeneration[this.#panel.round] || rockGeneration.at(-1));
+				if (rockType) {
 					const rock = new Rock({ type: rockType, scene: this });
 					rock.create(this.#physicsRocks, randomX, randomY);
 					this.#rocks.push(rock);
-					this.#rockSpawnDelta = 0;
 				}
+				this.#rockSpawnDelta = 0;
 			}
 			this.#rocks.forEach((rock) => {
 				if (!this.physics.overlap(this.#cutter, rock.sprite)) {
@@ -226,15 +227,14 @@ export default class Yard extends Phaser.Scene {
 		}
 	}
 
-	#getRockFromDistribution() {
-		return rockTypes[0];
-		/*const random = Math.random();
+	#getRockFromDistribution(distribution) {
+		const random = Math.random();
 		let cumulativePct = 0;
-		for (const rock of this.#rockDistribution) {
+		for (const rock of distribution) {
 			cumulativePct += rock.pct;
 			if (random <= cumulativePct) {
 				return rock.rock;
 			}
-		}*/
+		}
 	}
 }

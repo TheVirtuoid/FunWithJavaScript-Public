@@ -149,6 +149,107 @@ const levels = new Map([
 	}]
 ]);
 
+const rockGeneration = [
+	[
+		{ rock: basaltusk, pct: 0 },
+		{ rock: cragmantle, pct: 0 },
+		{ rock: shalecore, pct: 0 },
+		{ rock: flintspire, pct: 0 },
+		{ rock: ironvein, pct: 0 }
+	],
+	[
+		{ rock: basaltusk, pct: 0 },
+		{ rock: cragmantle, pct: 0 },
+		{ rock: shalecore, pct: 0 },
+		{ rock: flintspire, pct: 0 },
+		{ rock: ironvein, pct: 0 }
+	],
+	[
+		{ rock: basaltusk, pct: 0 },
+		{ rock: cragmantle, pct: 0 },
+		{ rock: shalecore, pct: 0 },
+		{ rock: flintspire, pct: 0 },
+		{ rock: ironvein, pct: 0 }
+	],
+	[
+		{ rock: basaltusk, pct: 1 },
+		{ rock: cragmantle, pct: 0 },
+		{ rock: shalecore, pct: 0 },
+		{ rock: flintspire, pct: 0 },
+		{ rock: ironvein, pct: 0 }
+	],
+	[
+		{ rock: basaltusk, pct: 1 },
+		{ rock: cragmantle, pct: 0 },
+		{ rock: shalecore, pct: 0 },
+		{ rock: flintspire, pct: 0 },
+		{ rock: ironvein, pct: 0 }
+	],
+	[
+		{ rock: basaltusk, pct: .9 },
+		{ rock: cragmantle, pct: .1 },
+		{ rock: shalecore, pct: 0 },
+		{ rock: flintspire, pct: 0 },
+		{ rock: ironvein, pct: 0 }
+	],
+	[
+		{ rock: basaltusk, pct: .8 },
+		{ rock: cragmantle, pct: .2 },
+		{ rock: shalecore, pct: 0 },
+		{ rock: flintspire, pct: 0 },
+		{ rock: ironvein, pct: 0 }
+	],
+	[
+		{ rock: basaltusk, pct: .7 },
+		{ rock: cragmantle, pct: .2 },
+		{ rock: shalecore, pct: .1 },
+		{ rock: flintspire, pct: 0 },
+		{ rock: ironvein, pct: 0 }
+	],
+	[
+		{ rock: basaltusk, pct: .6 },
+		{ rock: cragmantle, pct: .25 },
+		{ rock: shalecore, pct: .15 },
+		{ rock: flintspire, pct: 0 },
+		{ rock: ironvein, pct: 0 }
+	],
+	[
+		{ rock: basaltusk, pct: .5 },
+		{ rock: cragmantle, pct: .25 },
+		{ rock: shalecore, pct: .15 },
+		{ rock: flintspire, pct: .1 },
+		{ rock: ironvein, pct: 0 }
+	],
+	[
+		{ rock: basaltusk, pct: .4 },
+		{ rock: cragmantle, pct: .25 },
+		{ rock: shalecore, pct: .2 },
+		{ rock: flintspire, pct: .15 },
+		{ rock: ironvein, pct: 0 }
+	],
+	[
+		{ rock: basaltusk, pct: .3 },
+		{ rock: cragmantle, pct: .25 },
+		{ rock: shalecore, pct: .2 },
+		{ rock: flintspire, pct: .15 },
+		{ rock: ironvein, pct: .1 }
+	],
+	[
+		{ rock: basaltusk, pct: .2 },
+		{ rock: cragmantle, pct: .25 },
+		{ rock: shalecore, pct: .2 },
+		{ rock: flintspire, pct: .2 },
+		{ rock: ironvein, pct: .15 }
+	],
+	[
+		{ rock: basaltusk, pct: .2 },
+		{ rock: cragmantle, pct: .2 },
+		{ rock: shalecore, pct: .2 },
+		{ rock: flintspire, pct: .2 },
+		{ rock: ironvein, pct: .2 }
+	],
+]
+
 const weedGeneration = [
 	{
 		start: 5,
@@ -260,4 +361,8 @@ const weedGeneration = [
 	},
 ];
 
-export { weeds, weedTypes, stats, statTypes, levels, weedGeneration, rocks, rockTypes, TIME, POWER, SPAWN_RATE, SPEED, RANGE, DURABILITY};
+export {
+	weeds, weedTypes, stats, statTypes, levels, weedGeneration,
+	rocks, rockTypes, rockGeneration,
+	TIME, POWER, SPAWN_RATE, SPEED, RANGE, DURABILITY
+};
