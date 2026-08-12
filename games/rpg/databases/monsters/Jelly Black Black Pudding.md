@@ -34,3 +34,11 @@ the preferred method of killing one usually involves fire.
 The typical black jelly measures 10 feet across and 2 feet thick, and
 weighs about 10,000 pounds. Black jellies of smaller sizes may be
 encountered, possibly as a result of the splitting described above.
+
+Jellies are strange creatures made of amorphous protoplasm. They are
+similar to tiny single-celled creatures such as a few wizards may have
+studied using magic, but far larger. Jellies are always completely
+non-intelligent, and are thus immune to **sleep** or **charm** magic as
+well as any form or **mind reading** or telepathy. Generally they also
+do not check morale, but simply move toward any potential meal and
+attack automatically.

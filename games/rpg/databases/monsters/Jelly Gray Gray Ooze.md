@@ -1,4 +1,4 @@
-### Jelly, Gray (Gray Ooze)
+### Jelly, Gray
 
   ----------------- -------------
 Armor Class:      12
@@ -28,3 +28,11 @@ immediately. Any non-magical weapon made of metal or wood which hits a
 gray jelly will be similarly destroyed. Magical weapons, armor, and
 clothing are allowed a saving throw (use the wearer's save vs. Death
 Ray, adding any magical \"plus\" value to the roll if applicable).
+
+Jellies are strange creatures made of amorphous protoplasm. They are
+similar to tiny single-celled creatures such as a few wizards may have
+studied using magic, but far larger. Jellies are always completely
+non-intelligent, and are thus immune to **sleep** or **charm** magic as
+well as any form or **mind reading** or telepathy. Generally they also
+do not check morale, but simply move toward any potential meal and
+attack automatically.

@@ -25,3 +25,4 @@ dead).
 
 The horns of the giant horned chameleon are used only in mating rituals,
 not in combat.
+

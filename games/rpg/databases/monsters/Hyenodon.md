@@ -1,17 +1,18 @@
 ### Hyena (and Hyenodon)
 
-// i removed the dashes for now, as there were three of them.
-                    Hyena        Hyenodon
-Armor Class:      13           13
-Hit Dice:         2+1          3+1
-No. of Attacks:   1 bite       1 bite
-Damage:           1d6 bite     1d8 bite
-Movement:         60'         40'
-No. Appearing:    1d8          1d6 Wild/Lair 1d8
-Save As:          Fighter: 2   Fighter: 3
-Morale:           8            8
-Treasure Type:    None         None
-XP:               75           145
+  ----------------- ------------------------------------------------------------------------------------------------
+                    Hyenodon
+Armor Class:      13
+Hit Dice:         3+1
+No. of Attacks:   1 bite
+Damage:           1d8 bite
+Movement:         40'
+No. Appearing:    1d6 Wild/Lair 1d8
+Save As:          Fighter: 3
+Morale:           8
+Treasure Type:    None
+XP:               145
+  ----------------- ------------------------------------------------------------------------------------------------
 
 Hyenas are doglike carnivores who exhibit some of the behaviors of
 canines but are not related. They not only hunt but also scavenge and
