@@ -91,13 +91,11 @@ export default class Panel {
 	}
 
 	setTime(value) {
-		// this.setStat(TIME, value);
 		this.#gameTime = value;
 		this.#panelUI.updateStat(TIME, this.#gameTime);
 	}
 
 	adjustTime(value) {
-		// this.adjustStat(TIME, value);
 		this.#gameTime += value;
 		this.#panelUI.updateStat(TIME, this.#gameTime);
 	}
