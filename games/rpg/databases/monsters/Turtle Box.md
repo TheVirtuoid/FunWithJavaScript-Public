@@ -1,17 +1,17 @@
 ### Turtle or Tortoise
 
-// i removed the dashes for now, as there were three of them.
-                    Box Turtle           Snapping Turtle
-Armor Class:      15                   16
-Hit Dice:         .5 (1d4 hit points)   1
-No. of Attacks:   1 bite               1 bite
-Damage:           1d2                  1d6
-Movement:         5' Swim 20'        5' Swim 20'
-No. Appearing:    Wild 1d4             Wild 1d4
-Save As:          Normal Man           Fighter: 1
-Morale:           5                    6
-Treasure Type:    None                 None
-XP:               10                   25
+  ----------------- -----------------------------
+Armor Class:      15
+Hit Dice:         .5 (1d4 hit points)
+No. of Attacks:   1 bite
+Damage:           1d2
+Movement:         5' Swim 20'
+No. Appearing:    Wild 1d4
+Save As:          Normal Man
+Morale:           5
+Treasure Type:    None
+XP:               10
+  ----------------- -----------------------------
 
 Turtles and tortoises are reptiles with a hard shell into which the
 animal can pull its head and legs if threatened. Turtles will be found

@@ -30,3 +30,12 @@ will attack anyone attempting to gain unauthorized access to the
 protected area. Those which arrive through natural rifts may have any
 goals or motivations the GM wishes, and thus may choose to parley,
 fight, or even ignore adventurers.
+
+Salamanders are large, lizard-like creatures from the elemental planes.
+They are sometimes found on the material plane; they can arrive through
+naturally-occurring dimensional rifts, or they may be summoned by
+high-level Magic-Users. Due to their highly magical nature, they cannot
+be harmed by non-magical weapons.
+
+Flame, frost, and lightning salamanders hate each other, and each type
+will attack the others on sight in preference to any other nearby foe.

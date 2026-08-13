@@ -1,17 +1,17 @@
-### Weasel, Normal and Giant (or Ferret)
+### Weasel, Giant
 
-// i removed the dashes for now, as there were three of them.
-                    Normal                     Giant
-Armor Class:      14                         17
-Hit Dice:         1d2 hit points             5
-No. of Attacks:   1 bite + hold              1 bite + hold
-Damage:           1d4 + 1d4/round            2d4 + 2d4/round
-Movement:         40'                        50'
-No. Appearing:    1d6, Wild 1d8, Lair 1d8    1d4, Wild 1d6, Lair 1d6
-Save As:          Fighter: 1                 Fighter: 5
-Morale:           7                          8
-Treasure Type:    None                       V
-XP:               10                         360
+  ----------------- -----------------------------
+Armor Class:      17
+Hit Dice:         5
+No. of Attacks:   1 bite + hold
+Damage:           2d4 + 2d4/round
+Movement:         50'
+No. Appearing:    1d4, Wild 1d6, Lair 1d6
+Save As:          Fighter: 5
+Morale:           8
+Treasure Type:    V
+XP:               360
+----------------- -----------------------------
 
 Normal weasels (or ferrets, see below) are small mammals with long
 bodies, short legs, and pointed, toothy snouts. They are predatory

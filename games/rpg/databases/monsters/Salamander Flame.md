@@ -22,3 +22,12 @@ points of damage per round from the heat. They are immune to damage from
 any fire or heat attack. Flame salamanders are intelligent; they speak
 the language of the Plane of Fire, and many will also know Elvish,
 Common, and/or Dragon.
+
+Salamanders are large, lizard-like creatures from the elemental planes.
+They are sometimes found on the material plane; they can arrive through
+naturally-occurring dimensional rifts, or they may be summoned by
+high-level Magic-Users. Due to their highly magical nature, they cannot
+be harmed by non-magical weapons.
+
+Flame, frost, and lightning salamanders hate each other, and each type
+will attack the others on sight in preference to any other nearby foe.
