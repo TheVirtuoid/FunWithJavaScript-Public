@@ -1,17 +1,17 @@
-### Snake, Pit Viper (and Rattlesnake)
+### Snake, Giant
 
-// i removed the dashes for now, as there were three of them.
-                    Normal                    Giant
-Armor Class:      14                        15
-Hit Dice:         1\*                       2\*
-No. of Attacks:   1 bite                    1 bite
-Damage:           1d4 + poison              1d8 + poison
-Movement:         30'                      40'
-No. Appearing:    1d4, Wild 1d4, Lair 1d4   1d2, Wild 1d2, Lair 1d2
-Save As:          Fighter: 1                Fighter: 2
-Morale:           7                         8
-Treasure Type:    None                      None
-XP:               37                        100
+  ----------------- -----------------------------
+Armor Class:      15
+Hit Dice:         2\*
+No. of Attacks:   1 bite
+Damage:           1d8 + poison
+Movement:         40'
+No. Appearing:    1d2, Wild 1d2, Lair 1d2
+Save As:          Fighter: 2
+Morale:           8
+Treasure Type:    None
+XP:               100
+----------------- -----------------------------
 
 Pit vipers are highly venomous snakes. There are many varieties ranging
 in size from 2' to 12' at adulthood; the statistics above are for an
