@@ -89,13 +89,10 @@ export default class LevelUp extends Phaser.Scene {
 				entry.levels.push(data);
 			}
 			this.#levels.set(key, entry);
-			if (this.#values) {
+			/*if (this.#values) {
 				this.#updateBoxes({key, value: this.#values.get(key) });
-			}
+			}*/
 		});
-	}
-
-	update(time, delta) {
 	}
 
 	#drawBox(args = {}) {
