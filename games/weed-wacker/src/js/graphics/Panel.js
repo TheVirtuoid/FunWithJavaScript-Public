@@ -74,7 +74,17 @@ export default class PanelUI {
 	}
 
 	updateStat(type, value) {
-		const displayValue = type === TIME ? Math.ceil(value / 1000) : Math.max(0, value);
+		const adjustedValue = type === TIME ? Math.ceil(value / 1000) : Math.max(0, value);
+		let displayValue;
+		if (+adjustedValue.toFixed(2) == Math.round(adjustedValue)) {
+			displayValue = adjustedValue.toFixed(0);
+		} else if (adjustedValue < 10) {
+			displayValue = adjustedValue.toFixed(2);
+		} else if (adjustedValue < 100) {
+			displayValue = adjustedValue.toFixed(1);
+		} else {
+			displayValue = adjustedValue.toFixed(0);
+		}
 		this.#domStats.get(type).textContent = displayValue;
 	}
 

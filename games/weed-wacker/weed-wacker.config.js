@@ -34,26 +34,26 @@ const DURABILITY = durability;
 const ROUND = round;
 
 const rocks = new Map([
-	[basaltusk, { type: basaltusk, name: 'Basaltusk', toughness: 2, minLevel: 10, image: '/src/img/rock-1.png' }],
-	[cragmantle, { type: cragmantle, name: 'Cragmantle', toughness: 4, minLevel: 20, image: '/src/img/rock-2.png' }],
-	[shalecore, { type: shalecore, name: 'Shalecore', toughness: 6, minLevel: 30, image: '/src/img/rock-3.png' }],
-	[flintspire, { type: flintspire, name: 'Flintspire', toughness: 9, minLevel: 40, image: '/src/img/rock-4.png' }],
-	[ironvein, { type: ironvein, name: 'Ironvein', toughness: 13, minLevel: 50, image: '/src/img/rock-5.png' }]
+	[basaltusk, { type: basaltusk, name: 'Basaltusk', toughness: 1, image: '/src/img/rock-1.png' }],
+	[cragmantle, { type: cragmantle, name: 'Cragmantle', toughness: 2, image: '/src/img/rock-2.png' }],
+	[shalecore, { type: shalecore, name: 'Shalecore', toughness: 3, image: '/src/img/rock-3.png' }],
+	[flintspire, { type: flintspire, name: 'Flintspire', toughness: 5, image: '/src/img/rock-4.png' }],
+	[ironvein, { type: ironvein, name: 'Ironvein', toughness: 7, image: '/src/img/rock-5.png' }]
 ]);
 
 const rockTypes = [...rocks.keys()];
 
 const weeds = new Map([
-	[thistlebite, { type: thistlebite, name: 'Thistlebite', toughness: 1000, points: 1, minLevel: 1, image: '/src/img/weed-0.png' }],
-	[gravelbane, { type: gravelbane, name: 'Gravelbane', toughness: 1500, points: 2, minLevel: 3, image: '/src/img/weed-1.png' }],
-	[vileclover, { type: vileclover, name: 'Vileclover', toughness: 2500, points: 3, minLevel: 5, image: '/src/img/weed-2.png' }],
-	[brambleroot, { type: brambleroot, name: 'Brambleroot', toughness: 4000, points: 4, minLevel: 8, image: '/src/img/weed-3.png' }],
-	[stingnettle, { type: stingnettle, name: 'Stingnettle', toughness: 6000, points: 5, minLevel: 11, image: '/src/img/weed-4.png' }],
-	[prickleweed, { type: prickleweed, name: 'Prickleweed', toughness: 8500, points: 6, minLevel: 14, image: '/src/img/weed-5.png' }],
-	[mosschoke, { type: mosschoke, name: 'Mosschoke', toughness: 11000, points: 8, minLevel: 17, image: '/src/img/weed-6.png' }],
-	/*[crabvine, {type: crabvine, name: 'Crabvine', toughness: 25, points: 10, minLevel: 21}],
-	[flameleaf, {type: flameleaf, name: 'Flameleaf', toughness: 29, points: 13, minLevel: 25}],
-	[dreadstalk, {type: dreadstalk, name: 'Dreadstalk', toughness: 34, points: 18, minLevel: 30}]*/
+	[thistlebite, { type: thistlebite, name: 'Thistlebite', toughness: 1000, points: 1, image: '/src/img/weed-0.png' }],
+	[gravelbane, { type: gravelbane, name: 'Gravelbane', toughness: 1500, points: 2, image: '/src/img/weed-1.png' }],
+	[vileclover, { type: vileclover, name: 'Vileclover', toughness: 2500, points: 3, image: '/src/img/weed-2.png' }],
+	[brambleroot, { type: brambleroot, name: 'Brambleroot', toughness: 4000, points: 4, image: '/src/img/weed-3.png' }],
+	[stingnettle, { type: stingnettle, name: 'Stingnettle', toughness: 6000, points: 5, image: '/src/img/weed-4.png' }],
+	[prickleweed, { type: prickleweed, name: 'Prickleweed', toughness: 8500, points: 6, image: '/src/img/weed-5.png' }],
+	[mosschoke, { type: mosschoke, name: 'Mosschoke', toughness: 11000, points: 8, image: '/src/img/weed-6.png' }],
+	/*[crabvine, { type: crabvine, name: 'Crabvine', toughness: 25, points: 10 }],
+	[flameleaf, { type: flameleaf, name: 'Flameleaf', toughness: 29, points: 13 }],
+	[dreadstalk, { type: dreadstalk, name: 'Dreadstalk', toughness: 34, points: 18 }]*/
 ]);
 
 const weedTypes = [...weeds.keys()];
@@ -96,6 +96,9 @@ const levels = new Map([
 			{ text: 'Increase power by 100%', adjustment: 1, cost: new Map([[thistlebite, 3]]) },
 			{ text: 'Increase power by 30%', adjustment: 0.3, cost: new Map([[thistlebite, 4], [gravelbane, 1]]) },
 			{ text: 'Increase power by 40%', adjustment: 0.4, cost: new Map([[thistlebite, 2], [gravelbane, 3], [vileclover, 1]]) },
+			{ text: 'Increase power by 50%', adjustment: 0.5, cost: new Map([[gravelbane, 3], [vileclover, 1], [brambleroot, 1]]) },
+			{ text: 'Increase power by 50%', adjustment: 0.5, cost: new Map([[vileclover, 3], [brambleroot, 2], [stingnettle, 2]]) },
+			{ text: 'Increase power by 50%', adjustment: 0.5, cost: new Map([[brambleroot, 3], [stingnettle, 2], [prickleweed, 1]]) },
 		]
 	}],
 	[speed, {

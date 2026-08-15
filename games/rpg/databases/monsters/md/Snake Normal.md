@@ -1,4 +1,4 @@
-### Snake, Pit Viper (and Rattlesnake)
+### Snake, Normal
 
   ----------------- -----------------------------
 Armor Class:      14

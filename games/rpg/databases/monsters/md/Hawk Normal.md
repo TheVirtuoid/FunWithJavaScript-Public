@@ -1,8 +1,6 @@
 ### Hawk Normal
 
   ----------------- -----------------------------------------
-
-                    Normal
 Armor Class:      12
 Hit Dice:         .5 (1d4 hit points)
 No. of Attacks:   1 claw or bite

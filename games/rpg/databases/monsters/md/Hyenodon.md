@@ -1,7 +1,6 @@
-### Hyena (and Hyenodon)
+### Hyenodon
 
   ----------------- ------------------------------------------------------------------------------------------------
-                    Hyenodon
 Armor Class:      13
 Hit Dice:         3+1
 No. of Attacks:   1 bite

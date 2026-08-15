@@ -1,7 +1,6 @@
 ### Hawk Giant
 
   ----------------- -----------------------------------------
-                    Giant
 Armor Class:      14
 Hit Dice:         4
 No. of Attacks:   1 claw or bite

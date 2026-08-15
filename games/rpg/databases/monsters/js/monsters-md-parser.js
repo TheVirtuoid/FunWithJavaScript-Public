@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'fs';
 import path from 'path';
 
-const directoryPath = './monsters';
+const directoryPath = './../md';
 
 const attributes = new Map([
 	['Armor Class', 'armorClass'],
