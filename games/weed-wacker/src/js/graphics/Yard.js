@@ -8,7 +8,8 @@ import {
 	weedGeneration,
 	SPAWN_RATE,
 	SPEED,
-	RANGE, rockTypes, DURABILITY, rockGeneration
+	RANGE, rockTypes, DURABILITY, rockGeneration, sounds, SOUND_CUTTER_IDLE, SOUND_WEED_CUT, SOUND_WEED_CUTTING,
+	SOUND_ROCK_HIT
 } from './../../../weed-wacker.config.js';
 import Rock from "../engine/Rock.js";
 import Panel from "../engine/Panel.js";
@@ -38,6 +39,8 @@ export default class Yard extends Phaser.Scene {
 
 	#spawnDelta = 0;
 	#rockSpawnDelta = 0;
+
+	#soundHandles = new Map();
 
 	constructor() {
 		super({
@@ -124,6 +127,11 @@ export default class Yard extends Phaser.Scene {
 		this.#gameOverText.setOrigin(0.5, 0.5);
 		this.#gameOverText.visible = false;
 		this.#gameOverText.setDepth(1000);
+
+		sounds.forEach(sound => {
+			const newSounds = this.sound.add(sound.name, { volume: 0.5 });
+			this.#soundHandles.set(sound.type, newSounds);
+		});
 	}
 
 	resize(gameSize, baseSize, displaySize, resolution) {
@@ -138,13 +146,19 @@ export default class Yard extends Phaser.Scene {
 		if (this.#countdown > 0) {
 			this.#processCountdown(delta);
 		} else if (this.#panel.getStat(DURABILITY) <= 0) {
-				this.#gameOverText.visible = true;
+			this.#soundHandles.get(SOUND_CUTTER_IDLE).stop();
+			this.#soundHandles.get(SOUND_WEED_CUTTING).stop();
+			this.#soundHandles.get(SOUND_ROCK_HIT).stop();
+			this.#gameOverText.visible = true;
 			this.#panel.setState(Panel.STATE_GAME_OVER);
-				this.scene.pause();
+			this.scene.pause();
 		} else {
 			this.#timeRemaining -= delta;
 			this.#panel.adjustTime(-delta);
 			if (this.#timeRemaining <= 0) {
+				this.#soundHandles.get(SOUND_CUTTER_IDLE).stop();
+				this.#soundHandles.get(SOUND_WEED_CUTTING).stop();
+				this.#soundHandles.get(SOUND_ROCK_HIT).stop();
 				this.#timesUpText.visible = true;
 				this.#panel.setState(Panel.STATE_TIME_UP);
 				this.scene.pause();
@@ -184,11 +198,22 @@ export default class Yard extends Phaser.Scene {
 				}
 				this.#rockSpawnDelta = 0;
 			}
+			let foundRock = false;
 			this.#rocks.forEach((rock) => {
 				if (!this.physics.overlap(this.#cutter, rock.sprite)) {
 					rock.sprite.clearTint();
+				} else {
+					foundRock = true;
 				}
 			});
+			if (!foundRock && this.#soundHandles.get(SOUND_ROCK_HIT).isPlaying) {
+				this.#soundHandles.get(SOUND_ROCK_HIT).stop();
+			}
+			if (!this.#weeds.some((weed) => this.physics.overlap(this.#cutter, weed.sprite))) {
+				if (this.#soundHandles.get(SOUND_WEED_CUTTING).isPlaying) {
+					this.#soundHandles.get(SOUND_WEED_CUTTING).stop();
+				}
+			}
 		}
 	}
 
@@ -196,6 +221,9 @@ export default class Yard extends Phaser.Scene {
 		const rock = this.#rocks.find(rock => {
 			return rock.sprite === rockSprite;
 		});
+		if (!this.#soundHandles.get(SOUND_ROCK_HIT).isPlaying) {
+			this.#soundHandles.get(SOUND_ROCK_HIT).play({ loop: true });
+		}
 		rock.sprite.setTint(0xff0000);
 		this.game.events.emit('hit-rock', rock.toughness);
 	}
@@ -204,16 +232,24 @@ export default class Yard extends Phaser.Scene {
 		const weed = this.#weeds.find(weed => {
 			return weed.sprite === weedSprite;
 		});
+		if (!this.#soundHandles.get(SOUND_WEED_CUTTING).isPlaying) {
+			this.#soundHandles.get(SOUND_WEED_CUTTING).play({ loop: true });
+		}
 		weed.adjustToughness(-this.#stats.get(POWER));
 	}
 
 	#onWeedDestroyed(index) {
+		this.#soundHandles.get(SOUND_WEED_CUTTING).stop();
+		this.#soundHandles.get(SOUND_WEED_CUT).play();
 		this.game.events.emit('change-weed-count', index, 1);
 	}
 
 	#processCountdown(delta) {
 		this.#countdown -= delta;
 		this.#countdownText.setText(Math.ceil( this.#countdown / 1000));
+		if (this.#countdown <= 0) {
+			this.#soundHandles.get(SOUND_CUTTER_IDLE).play({ loop: true });
+		}
 	}
 
 	#getWeedFromDistribution(distribution) {

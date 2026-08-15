@@ -24,6 +24,15 @@ const shalecore = Symbol('shalecore');
 const flintspire = Symbol('flintspire');
 const ironvein = Symbol('ironvein');
 
+const cutterIdle = Symbol('cutter-idle');
+const weedCutting = Symbol('weed-cutting');
+const weedCut = Symbol('weed-cut');
+const rockHit = Symbol('rock-hit');
+
+const SOUND_CUTTER_IDLE = cutterIdle;
+const SOUND_WEED_CUTTING = weedCutting;
+const SOUND_WEED_CUT = weedCut;
+const SOUND_ROCK_HIT = rockHit;
 
 const TIME = time;
 const POWER = power;
@@ -70,6 +79,15 @@ const stats = new Map([
 ]);
 
 const statTypes = [...stats.keys()];
+
+const sounds = new Map([
+	[cutterIdle, { type: cutterIdle, name: 'cutter-idle', audio: '/src/sounds/idle.mp3' }],
+	[weedCutting, { type: weedCutting, name: 'weed-cutting', audio: '/src/sounds/weeds.mp3' }],
+	[weedCut, { type: weedCut, name: 'weed-cut', audio: '/src/sounds/weed-cut.mp3' }],
+	[rockHit, { type: rockHit, name: 'rock-hit', audio: '/src/sounds/rocks.mp3' }]
+]);
+
+const soundTypes = [...sounds.keys()];
 
 const levels = new Map([
 	[time, {
@@ -370,5 +388,6 @@ const weedGeneration = [
 export {
 	weeds, weedTypes, stats, statTypes, levels, weedGeneration,
 	rocks, rockTypes, rockGeneration,
+	sounds, soundTypes, SOUND_CUTTER_IDLE, SOUND_WEED_CUTTING, SOUND_WEED_CUT, SOUND_ROCK_HIT,
 	TIME, POWER, SPAWN_RATE, SPEED, RANGE, DURABILITY, ROUND
 };
