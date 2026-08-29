@@ -2,7 +2,7 @@ import config from "../../../config.json" with { type: "json" };
 import Database from "../Database/Database.js";
 import Dice from "../Dice/Dice.js";
 
-const databasePath = config.databasePath;
+const databasePath = config.database.path;
 const database = new Database(databasePath);
 
 /*

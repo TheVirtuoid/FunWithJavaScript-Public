@@ -2,9 +2,10 @@ import { readFileSync } from "fs";
 import { describe, it, expect, beforeEach } from 'vitest';
 import Armor from './Armor';
 import Item from './../Item/Item';
+import config from './../../../config.json' with { type: 'json' };
 
 const armorDatabase = readFileSync('./databases/jsonl/armor.jsonl', 'utf-8');
-const armorData = JSON.parse(`[${armorDatabase.split('\r\n').join(',')}]`);
+const armorData = JSON.parse(`[${armorDatabase.split(config.database.delimiter).join(',')}]`);
 
 const VALID_ARMOR_ID = armorData[0]['id'];
 const VALID_ARMOR_CATEGORY = armorData[0]['category'][0];

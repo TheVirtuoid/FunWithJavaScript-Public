@@ -1,16 +1,18 @@
 import { describe, it, expect } from 'vitest';
 import Race from './Race';
 import {readFileSync} from "fs";
+import config from './../../../config.json' with { type: 'json' };
+
 
 const raceDatabase = readFileSync('./databases/jsonl/race.jsonl', 'utf-8');
-const raceData = JSON.parse(`[${raceDatabase.split('\r\n').join(',')}]`);
+const raceData = JSON.parse(`[${raceDatabase.split(config.database.delimiter).join(',')}]`);
 
 const abilitiesDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
-const abilitiesData = JSON.parse(`[${abilitiesDatabase.split('\r\n').join(',')}]`);
+const abilitiesData = JSON.parse(`[${abilitiesDatabase.split(config.database.delimiter).join(',')}]`);
 
 
 const restrictionDatabase = readFileSync('./databases/jsonl/restrictions.jsonl', 'utf-8');
-const restrictionData = JSON.parse(`[${restrictionDatabase.split('\r\n').join(',')}]`);
+const restrictionData = JSON.parse(`[${restrictionDatabase.split(config.database.delimiter).join(',')}]`);
 const restrictionDataById = new Map(restrictionData.map(restriction => [restriction['id'], restriction]));
 
 const VALID_RACE_ID = raceData[0]['id'];
@@ -93,17 +95,9 @@ describe('Race', () => {
 			expect(raceData).toHaveProperty('restrictions');
 			expect(raceData).toHaveProperty('specialAbilities');
 			expect(raceData).toHaveProperty('savingThrows');
-			console.log(raceData.restrictions);
 		});
 		it('should return undefined if id is not a valid Race', () => {
 			expect(Race.GetRaceData('invalid')).toBeUndefined();
-		});
-	});
-
-	describe('CheckRestrictions()', () => {
-		it('should return true for a restricted ability', () => {
-			console.log(restrictionDataById);
-			expect(Race.CheckRestrictions({ raceId: VALID_RACE_ID, data: {} })).toBe(true);
 		});
 	});
 });

@@ -3,12 +3,14 @@ import Weapon from './Weapon';
 import Item from './../Item/Item';
 import Size from "../../static/Size/Size.js";
 import {readFileSync} from "fs";
+import config from './../../../config.json' with { type: 'json' };
+
 
 describe('Weapon', () => {
 	let weapon;
 
 	const database = readFileSync('./databases/jsonl/weapon.jsonl', 'utf-8');
-	const data = JSON.parse(`[${database.split('\r\n').join(',')}]`);
+	const data = JSON.parse(`[${database.split(config.database.delimiter).join(',')}]`);
 
 	const VALID_WEAPON_ID = data[0]['id'];
 	const VALID_WEAPON_TYPE = data[0]['type'];

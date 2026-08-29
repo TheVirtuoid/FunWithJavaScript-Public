@@ -1,17 +1,18 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import {readFileSync} from "fs";
 import PlayerCharacter from "./PlayerCharacter.js";
+import config from './../../../config.json' with { type: 'json' };
+
 
 const raceDatabase = readFileSync('./databases/jsonl/race.jsonl', 'utf-8');
-const raceData = JSON.parse(`[${raceDatabase.split('\r\n').join(',')}]`);
+const raceData = JSON.parse(`[${raceDatabase.split(config.database.delimiter).join(',')}]`);
 
 const characterClassDatabase = readFileSync('./databases/jsonl/characterClass.jsonl', 'utf-8');
-const characterClassData = JSON.parse(`[${characterClassDatabase.split('\r\n').join(',')}]`);
+const characterClassData = JSON.parse(`[${characterClassDatabase.split(config.database.delimiter).join(',')}]`);
 
 const abilitiesDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
-const abilitiesData = JSON.parse(`[${abilitiesDatabase.split('\r\n').join(',')}]`);
+const abilitiesData = JSON.parse(`[${abilitiesDatabase.split(config.database.delimiter).join(',')}]`);
 const abilitiesByAbbreviation = new Map(abilitiesData.map((ability) => [ability.abbreviation, ability]));
-// const abilitiesById = new Map(abilitiesData.map((ability) => [ability.id, ability]));
 
 const VALID_NAME = 'Alfred';
 const VALID_RACE_ID = raceData[0]['id'];

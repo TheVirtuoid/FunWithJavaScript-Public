@@ -1,18 +1,19 @@
 import { describe, it, expect } from 'vitest';
 import Restriction from './Restriction.js';
 import {readFileSync} from "fs";
+import config from './../../../config.json' with { type: 'json' };
 
 const restrictionDatabase = readFileSync('./databases/jsonl/restrictions.jsonl', 'utf-8');
-const restrictionData = JSON.parse(`[${restrictionDatabase.split('\r\n').join(',')}]`);
+const restrictionData = JSON.parse(`[${restrictionDatabase.split(config.database.delimiter).join(',')}]`);
 
 const abilityDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
-const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
+const abilityData = JSON.parse(`[${abilityDatabase.split(config.database.delimiter).join(',')}]`);
 
 const armorDatabase = readFileSync('./databases/jsonl/armor.jsonl', 'utf-8');
-const armorData = JSON.parse(`[${armorDatabase.split('\r\n').join(',')}]`);
+const armorData = JSON.parse(`[${armorDatabase.split(config.database.delimiter).join(',')}]`);
 
 const weaponDatabase = readFileSync('./databases/jsonl/weapon.jsonl', 'utf-8');
-const weaponData = JSON.parse(`[${weaponDatabase.split('\r\n').join(',')}]`);
+const weaponData = JSON.parse(`[${weaponDatabase.split(config.database.delimiter).join(',')}]`);
 
 const RESTRICTION_ABILITY_ID = restrictionData.find(restriction => restriction.type === 'ability').id;
 const RESTRICTION_ARMOR_TYPE_ID = restrictionData.find(restriction => restriction.type === 'armor-type').id;

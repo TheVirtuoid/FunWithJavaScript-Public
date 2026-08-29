@@ -1,9 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import CharacterClass from './CharacterClass.js';
 import {readFileSync} from "fs";
+import config from './../../../config.json' with { type: 'json' };
+
 
 const characterClassDatabase = readFileSync('./databases/jsonl/characterClass.jsonl', 'utf-8');
-const characterCLassData = JSON.parse(`[${characterClassDatabase.split('\r\n').join(',')}]`);
+const characterCLassData = JSON.parse(`[${characterClassDatabase.split(config.database.delimiter).join(',')}]`);
 
 const VALID_CHARACTER_CLASS_ID = characterCLassData[0].id;
 const VALID_CHARACTER_CLASS_NAME = characterCLassData[0].name;

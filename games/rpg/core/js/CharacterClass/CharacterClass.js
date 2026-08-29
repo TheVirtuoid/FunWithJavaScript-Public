@@ -5,7 +5,7 @@ import Armor from "../Armor/Armor.js";
 import Weapon from "../Weapon/Weapon.js";
 import Database from "../Database/Database.js";
 import config from "./../../../config.json" with { type: 'json' };
-const databasePath = config.databasePath;
+const databasePath = config.database.path;
 
 const database = new Database(databasePath);
 const characterClassCollection = database.getAll({ databaseName: 'characterClass' });

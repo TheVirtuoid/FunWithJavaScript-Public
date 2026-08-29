@@ -19,7 +19,7 @@ import Equation from "../../../core/js/Equation/Equation.js";
 const prompt = new CommandPrompt();
 
 
-const databasePath = config.databasePath;
+const databasePath = config.database.path;
 const database = new Database(databasePath);
 const raceCollection = database.getAll({ databaseName: 'race' });
 const characterClassCollection = database.getAll({ databaseName: 'characterClass' });

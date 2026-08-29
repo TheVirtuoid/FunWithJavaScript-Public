@@ -5,7 +5,7 @@ import config from "./../../../config.json" with { type: 'json' };
 import Dice from "../Dice/Dice.js";
 import Ability from "../Ability/Ability.js";
 
-const databasePath = config.databasePath;
+const databasePath = config.database.path;
 const database = new Database(databasePath);
 const abilitiesCollection = database.getAll({ databaseName: 'abilities' });
 const abilities = new Map(abilitiesCollection.map((ability) => [ability.id, ability]));

@@ -2,9 +2,11 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import Equipment from './Equipment';
 import Item from "../Item/Item.js";
 import {readFileSync} from "fs";
+import config from './../../../config.json' with { type: 'json' };
+
 
 const database = readFileSync('./databases/jsonl/equipment.jsonl', 'utf-8');
-const data = JSON.parse(`[${database.split('\r\n').join(',')}]`);
+const data = JSON.parse(`[${database.split(config.database.delimiter).join(',')}]`);
 
 const VALID_EQUIPMENT_ID = data[0]['id'];
 

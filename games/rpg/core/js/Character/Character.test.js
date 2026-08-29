@@ -4,25 +4,25 @@ import Character from './Character.js';
 import Ability from '../Ability/Ability.js';
 import Attribute from '../Attribute/Attribute.js';
 import Equipment from '../Equipment/Equipment.js';
-import Race from '../Race/Race.js';
-import CharacterClass from '../CharacterClass/CharacterClass.js';
 import RaceData from "../RaceData/RaceData.js";
 import CharacterClassData from "../CharacterClassData/CharacterClassData.js";
+import config from './../../../config.json' with { type: 'json' };
+
 
 const abilityDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
-const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
+const abilityData = JSON.parse(`[${abilityDatabase.split(config.database.delimiter).join(',')}]`);
 
 const attributeDatabase = readFileSync('./databases/jsonl/attributes.jsonl', 'utf-8');
-const attributeData = JSON.parse(`[${attributeDatabase.split('\r\n').join(',')}]`);
+const attributeData = JSON.parse(`[${attributeDatabase.split(config.database.delimiter).join(',')}]`);
 
 const equipmentDatabase = readFileSync('./databases/jsonl/equipment.jsonl', 'utf-8');
-const equipmentData = JSON.parse(`[${equipmentDatabase.split('\r\n').join(',')}]`);
+const equipmentData = JSON.parse(`[${equipmentDatabase.split(config.database.delimiter).join(',')}]`);
 
 const raceDatabase = readFileSync('./databases/jsonl/race.jsonl', 'utf-8');
-const raceDataRaw = JSON.parse(`[${raceDatabase.split('\r\n').join(',')}]`);
+const raceDataRaw = JSON.parse(`[${raceDatabase.split(config.database.delimiter).join(',')}]`);
 
 const characterClassDatabase = readFileSync('./databases/jsonl/characterClass.jsonl', 'utf-8');
-const characterClassData = JSON.parse(`[${characterClassDatabase.split('\r\n').join(',')}]`);
+const characterClassData = JSON.parse(`[${characterClassDatabase.split(config.database.delimiter).join(',')}]`);
 
 const VALID_ABILITY_ID = abilityData[0]['id'];
 const VALID_ABILITY_ID_2 = abilityData[1]['id'];

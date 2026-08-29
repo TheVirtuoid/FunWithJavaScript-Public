@@ -3,7 +3,7 @@ import Attribute from "../Attribute/Attribute.js";
 import Ability from "../Ability/Ability.js";*/
 import Database from "../Database/Database.js";
 import config from "./../../../config.json" with { type: 'json' };
-const databasePath = config.databasePath;
+const databasePath = config.database.path;
 
 const database = new Database(databasePath);
 const raceCollection = database.getAll({ databaseName: 'race' });

@@ -1,7 +1,7 @@
 import Database from "../Database/Database.js";
 import config from "./../../../config.json" with { type: 'json' };
 import Dice from "../Dice/Dice.js";
-const databasePath = config.databasePath;
+const databasePath = config.database.path;
 
 const database = new Database(databasePath);
 const attributeCollection = database.getAll({ databaseName: 'attributes' });

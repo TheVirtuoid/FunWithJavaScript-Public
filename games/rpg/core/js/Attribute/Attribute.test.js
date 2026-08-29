@@ -1,9 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import Attribute from './Attribute.js';
 import {readFileSync} from "fs";
+import config from './../../../config.json' with { type: 'json' };
+
 
 const database = readFileSync('./databases/jsonl/attributes.jsonl', 'utf-8');
-const data = JSON.parse(`[${database.split('\r\n').join(',')}]`);
+const data = JSON.parse(`[${database.split(config.database.delimiter).join(',')}]`);
 
 // A known-valid attribute type for use across tests
 const VALID_ID = data[0]['id'];

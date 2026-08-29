@@ -2,6 +2,8 @@ import { writeFileSync, readFileSync } from 'fs';
 import { open } from 'fs/promises'
 import crypto from 'crypto';
 
+import config from '../config.json' with { type: 'json' };
+
 const baseFiles = [
 	'abilities',
 	'ability-bonus-adjustment',
@@ -27,7 +29,7 @@ const fourthRunFiles = [
 const indexById = new Map();
 const indexByName = new Map();
 
-const delimiter = '\n';
+const delimiter = config.database.delimiter;
 
 const buildIndex = (filename, indexById, indexByName) => {
 	const database = readFileSync(`./${filename}.json`, 'utf-8');

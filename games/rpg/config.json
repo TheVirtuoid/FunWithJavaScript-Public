@@ -1,3 +1,6 @@
 {
-  "databasePath": "./databases/jsonl"
+  "database": {
+    "path": "./databases/jsonl",
+    "delimiter" : "\n"
+  }
 }

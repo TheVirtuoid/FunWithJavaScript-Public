@@ -1,9 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import Ability from './Ability.js';
 import {readFileSync} from "fs";
+import config from './../../../config.json' with { type: 'json' };
 
 const abilityDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
-const abilityData = JSON.parse(`[${abilityDatabase.split('\r\n').join(',')}]`);
+const abilityData = JSON.parse(`[${abilityDatabase.split(config.database.delimiter).join(',')}]`);
 
 const VALID_ID = abilityData[0]['id'];
 const VALID_TYPE = abilityData[0]['type'];
