@@ -232,6 +232,12 @@ const generateCharacter = async (args) => {
 		printDoubleLine(' ', `  ${attributeData.name}: ${attribute.attribute.value}`);
 	});
 
+	printDoubleLine(' ', ' ');
+	printDoubleLine(' ', ' LANGUAGES');
+	for(const language of playerCharacter.languages) {
+		printDoubleLine(' ', `   ${language.fullName}`);
+	}
+
 
 	printDoubleLine('-', 'bottom', 'bottom');
 	console.log('\n\n\n');
