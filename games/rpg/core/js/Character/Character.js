@@ -5,7 +5,7 @@ import RaceData from "../RaceData/RaceData.js";
 import CharacterClassData from "../CharacterClassData/CharacterClassData.js";
 import Ability from "../Ability/Ability.js";
 import Attribute from "../Attribute/Attribute.js";
-import Equipment from "../Equipment/Equipment.js";
+import Language from "../Language/Language.js";
 
 export default class Character {
 
@@ -16,9 +16,11 @@ export default class Character {
 	#abilities;
 	#attributes;
 	#inventory;
+	#languages;
 
 	constructor(args = {}) {
 		const { name, race, characterClass, abilities = [], attributes = []  } = args;
+		this.#languages = [Language.GetLanguageByName('common').id];
 		this.setName(name);
 		this.#setRace(race);
 		this.setCharacterClass(characterClass);
@@ -56,6 +58,13 @@ export default class Character {
 		return [...this.#inventory.entries()].map(([id, item]) => ({ id, item }));
 	}
 
+	get languages() {
+		return this.#languages.map((languageId) => {
+			const record = Language.GetLanguage(languageId);
+			return record;
+		})
+	}
+
 	setName(name) {
 		if (typeof name !== 'string' || name.trim() === '') {
 			throw new Error('Name must be a string');
@@ -71,6 +80,8 @@ export default class Character {
 				throw new Error('Invalid race id');
 			}
 			this.#raceData = new RaceData(Race.GetRaceData(id));
+			const raceLanguage = Language.GetLanguageByName(this.#raceData.language);
+			this.#languages.push(raceLanguage.id);
 		}
 	}
 
@@ -212,4 +223,39 @@ export default class Character {
 		return item ? item : { id: undefined, quantity: 0 };
 	}
 
+	addLanguage(id) {
+		if (typeof id !== 'string') {
+			throw new Error('LanguageId must be a string');
+		}
+		if (id.trim() === '') {
+			throw new Error('LanguageId cannot be empty');
+		}
+		const language = Language.GetLanguage(id);
+		if (!language) {
+			throw new Error('LanguageId is not a valid language');
+		}
+		if (!this.#languages.includes(id)) {
+			this.#languages.push(id);
+		}
+	}
+
+	removeLanguage(id) {
+		if (typeof id !== 'string') {
+			throw new Error('LanguageId must be a string');
+		}
+		if (id.trim() === '') {
+			throw new Error('LanguageId cannot be empty');
+		}
+		const language = Language.GetLanguage(id);
+		if (!language) {
+			throw new Error('LanguageId is not a valid language');
+		}
+		if (language.name === 'common') {
+			throw new Error('Cannot remove the common language');
+		}
+		const languageIndex = this.#languages.indexOf(id);
+		if (languageIndex >= 0) {
+			this.#languages.splice(languageIndex, 1);
+		}
+	}
 }

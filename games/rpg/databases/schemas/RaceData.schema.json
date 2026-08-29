@@ -18,6 +18,9 @@
     "age": {
       "type": "number"
     },
+    "language": {
+      "type": "string"
+    },
     "classes": {
       "type": "array",
       "items": {

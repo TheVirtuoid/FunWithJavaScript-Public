@@ -4,24 +4,28 @@ import Character from './Character.js';
 import Ability from '../Ability/Ability.js';
 import Attribute from '../Attribute/Attribute.js';
 import Equipment from '../Equipment/Equipment.js';
+import Language from '../Language/Language.js';
 import RaceData from "../RaceData/RaceData.js";
 import CharacterClassData from "../CharacterClassData/CharacterClassData.js";
 import config from './../../../config.json' with { type: 'json' };
 
 
-const abilityDatabase = readFileSync('./databases/jsonl/abilities.jsonl', 'utf-8');
+const abilityDatabase = readFileSync(`${config.database.path}/abilities.jsonl`, 'utf-8');
 const abilityData = JSON.parse(`[${abilityDatabase.split(config.database.delimiter).join(',')}]`);
 
-const attributeDatabase = readFileSync('./databases/jsonl/attributes.jsonl', 'utf-8');
+const attributeDatabase = readFileSync(`${config.database.path}/attributes.jsonl`, 'utf-8');
 const attributeData = JSON.parse(`[${attributeDatabase.split(config.database.delimiter).join(',')}]`);
 
-const equipmentDatabase = readFileSync('./databases/jsonl/equipment.jsonl', 'utf-8');
+const equipmentDatabase = readFileSync(`${config.database.path}/equipment.jsonl`, 'utf-8');
 const equipmentData = JSON.parse(`[${equipmentDatabase.split(config.database.delimiter).join(',')}]`);
 
-const raceDatabase = readFileSync('./databases/jsonl/race.jsonl', 'utf-8');
+const languageDatabase = readFileSync(`${config.database.path}/languages.jsonl`, 'utf-8');
+const languageData = JSON.parse(`[${languageDatabase.split(config.database.delimiter).join(',')}]`);
+
+const raceDatabase = readFileSync(`${config.database.path}/race.jsonl`, 'utf-8');
 const raceDataRaw = JSON.parse(`[${raceDatabase.split(config.database.delimiter).join(',')}]`);
 
-const characterClassDatabase = readFileSync('./databases/jsonl/characterClass.jsonl', 'utf-8');
+const characterClassDatabase = readFileSync(`${config.database.path}/characterClass.jsonl`, 'utf-8');
 const characterClassData = JSON.parse(`[${characterClassDatabase.split(config.database.delimiter).join(',')}]`);
 
 const VALID_ABILITY_ID = abilityData[0]['id'];
@@ -33,8 +37,13 @@ const VALID_EQUIPMENT_ID = equipmentData[0]['id'];
 const VALID_EQUIPMENT_ID_2 = equipmentData[1]['id'];
 const VALID_EQUIPMENT_NAME = equipmentData[0]['name'];
 
-const VALID_RACE_ID = raceDataRaw[0]['id'];
+const VALID_RACE_ID = raceDataRaw[0]['id'];		//dwarf
 const VALID_RACE_NAME = raceDataRaw[0]['name'];
+
+const VALID_LANGUAGE_COMMON = languageData[0]['id']; // common
+const VALID_LANGUAGE = languageData[1]['id']; // dwarf
+const VALID_LANGUAGE_OTHER = languageData[2]['id']; // elf
+
 const VALID_CHARACTER_CLASS_ID = characterClassData[0]['id'];
 const VALID_CHARACTER_CLASS_ID_2 = characterClassData[1]['id'];
 const VALID_CHARACTER_CLASS_NAME = characterClassData[0]['name'];
@@ -180,6 +189,14 @@ describe('Character', () => {
 			expect(character.inventory).toBeInstanceOf(Array);
 		});
 
+		it('languages is an Array and contains two languages', () => {
+			expect(character.languages).toBeInstanceOf(Array);
+			expect(character.languages.some((characterLanguage) => characterLanguage.id === VALID_LANGUAGE_COMMON)).toBe(true);
+			expect(character.languages.some((characterLanguage) => characterLanguage.id === VALID_LANGUAGE)).toBe(true);
+		})
+
+		it('langauges')
+
 		describe('read-only', () => {
 			it('id cannot be reassigned', () => {
 				expect(() => { character.id = 'new-id'; }).toThrow();
@@ -208,6 +225,10 @@ describe('Character', () => {
 			it('inventory cannot be reassigned', () => {
 				expect(() => { character.inventory = new Map(); }).toThrow();
 			});
+
+			it('languages cannot be reassigned', () => {
+				expect(() => { character.languages = []; }).toThrow();
+			})
 		});
 	});
 
@@ -498,6 +519,52 @@ describe('Character', () => {
 
 			it('throws when given a non-string', () => {
 				expect(() => character.getInventory(123)).toThrow();
+			});
+		});
+
+		describe('addLanguage', () => {
+			it('throws error if language is not a valid language id', () => {
+				expect(() => character.addLanguage('bad one')).toThrow();
+			});
+
+			it('does not change if the language is already there', () => {
+				const languageToAdd = VALID_LANGUAGE;
+				const numberOfLanguages = character.languages.length;
+				character.addLanguage(languageToAdd);
+				expect(numberOfLanguages).toBe(character.languages.length);
+			});
+
+			it('adds the language', () => {
+				const languageToAdd = VALID_LANGUAGE_OTHER;
+				const numberOfLanguages = character.languages.length;
+				character.addLanguage(languageToAdd);
+				expect(character.languages.some((language) => language.id === VALID_LANGUAGE_OTHER)).toBe(true);
+				expect(character.languages.length).toBe(numberOfLanguages + 1);
+			});
+		});
+
+		describe('removeLanguage', () => {
+			it('throws error if language is not a valid language id', () => {
+				expect(() => character.removeLanguage('bad one')).toThrow();
+			});
+
+			it('throws error if attempting to remove the common language', () => {
+				expect(() => character.removeLanguage(VALID_LANGUAGE_COMMON)).toThrow();
+			});
+
+			it('does not change if the language is not there', () => {
+				const languageToAdd = VALID_LANGUAGE_OTHER;
+				const numberOfLanguages = character.languages.length;
+				character.removeLanguage(languageToAdd);
+				expect(numberOfLanguages).toBe(character.languages.length);
+			});
+
+			it('removes the language', () => {
+				const languageToAdd = VALID_LANGUAGE;
+				const numberOfLanguages = character.languages.length;
+				character.removeLanguage(languageToAdd);
+				expect(character.languages.some((language) => language.id === VALID_LANGUAGE)).toBe(false);
+				expect(character.languages.length).toBe(numberOfLanguages - 1);
 			});
 		});
 

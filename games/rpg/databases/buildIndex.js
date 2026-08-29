@@ -1,5 +1,4 @@
 import { writeFileSync, readFileSync } from 'fs';
-import { open } from 'fs/promises'
 import crypto from 'crypto';
 
 import config from '../config.json' with { type: 'json' };
@@ -9,7 +8,8 @@ const baseFiles = [
 	'ability-bonus-adjustment',
 	'attributes',
 	'money',
-	'restrictions'
+	'restrictions',
+	'languages'
 ];
 
 const secondRunFiles = [

@@ -3,6 +3,7 @@
     "name": "Dwarf",
     "description": "Dwarves are a short, stocky race; both male and female Dwarves stand around four feet tall and typically weigh around 120 pounds. Their long hair and thick beards are dark brown, gray or black. They take great pride in their beards, sometimes braiding or forking them. They have a fair to ruddy complexion. Dwarves have stout frames and a strong, muscular build. They are rugged and resilient, with the capacity to endure great hardships. Dwarves are typically practical, stubborn and courageous. They can also be introspective, suspicious and possessive. They have a lifespan of three to four centuries.",
     "weight": 120,
+    "language": "dwarvish",
     "height": 48,
     "age": 400,
     "classes": [
@@ -54,6 +55,7 @@
     "name": "Elf",
     "description": "Elves are a slender race, with both males and females standing around five feet tall and weighing around 130 pounds. Most have dark hair, with little or no body or facial hair. Their skin is pale, and they have pointed ears and delicate features. Elves are lithe and graceful. They have keen eyesight and hearing. Elves are typically inquisitive, passionate, self-assured, and sometimes haughty. Their typical lifespan is a dozen centuries or more.",
     "weight": 130,
+    "language": "elvish",
     "height": 60,
     "age": 1200,
     "classes": [
@@ -101,6 +103,7 @@
     "weight": 60,
     "height": 36,
     "age": 100,
+    "language": "halfling",
     "classes": [
       "fighter",
       "cleric",
@@ -156,6 +159,7 @@
     "weight": 165,
     "height": 72,
     "age": 75,
+    "language": "human",
     "classes": [
       "fighter",
       "cleric",

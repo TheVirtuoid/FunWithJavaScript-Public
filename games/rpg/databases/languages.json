@@ -1,0 +1,7 @@
+[
+  { "name": "common", "fullName": "Common" },
+  { "name": "dwarvish", "fullName": "Dwarvish" },
+  { "name": "elvish", "fullName": "Elvish" },
+  { "name": "halfling", "fullName": "Halfling" },
+  { "name": "human", "fullName": "Human" }
+]
