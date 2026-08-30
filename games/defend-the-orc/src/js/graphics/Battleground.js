@@ -4,6 +4,9 @@ import {DOWN, GARZ, LEFT, orcAnimation, orcs, RIGHT, STILL, UP} from "../../../d
 export default class Battleground extends Phaser.Scene {
 	#pad;
 	#orcDirection;
+	#image;
+	#x;
+	#y;
 
 	constructor() {
 		super({
@@ -12,33 +15,38 @@ export default class Battleground extends Phaser.Scene {
 	}
 
 	preload() {
-		const orc = GARZ;
-		const spriteConfig = {
-			frameWidth: 64,
-			frameHeight: 64,
-			columnsPerRow: 6,
-		};
-		orcAnimation.forEach((anim, key) => {
-			this.load.spritesheet(`${orc.description}-${key.description}`, `${orcs.get(orc).path}/${anim.img}`, spriteConfig);
+		orcs.forEach((orcData, orc) => {
+			orcAnimation.forEach((anim, key) => {
+				this.load.spritesheet(`${orc.description}-${key.description}`, `${orcData.path}/${anim.img}`, anim.config);
+			});
 		});
 	}
 
 	create() {
-		const image = this.physics.add.sprite(600, 400, `garz-walk`);
-		image.setScale(2);
-		this.anims.create({
-			key: `garz-walk-anim`,
-			frames: this.anims.generateFrameNumbers(`garz-walk`, {
-				start: 6,
-				end: 11
-			}),
-			frameRate: 8,
-			repeat: -1
+		orcs.forEach((orcData, orc) => {
+			orcAnimation.forEach((anim, key) => {
+				anim.frames.forEach((frameData, direction) => {
+					this.anims.create({
+						key: `${orc.description}-${key.description}-${direction.description}-anim`,
+						frames: this.anims.generateFrameNumbers(`${orc.description}-${key.description}`, {
+							start: frameData.start,
+							end: frameData.end
+						}),
+						frameRate: anim.frameRate,
+						repeat: anim.repeat
+					});
+				});
+			});
 		});
-		image.play(`garz-walk-anim`);
+		this.#x = 600;
+		this.#y = 400;
+		this.#image = this.physics.add.sprite(this.#x, this.#y);
+		this.#image.setScale(2);
+		this.#image.play(`garz-idle-right-anim`);
 		this.input.gamepad.once('connected', (pad) => {
 			this.#pad = pad;
 		});
+		this.#orcDirection = RIGHT;
 	}
 
 	update() {
@@ -53,12 +61,31 @@ export default class Battleground extends Phaser.Scene {
 			let moveX = this.#pad.leftStick.x;
 			let moveY = this.#pad.leftStick.y;
 
+			let direction = STILL;
 			if (Math.abs(moveX) > 0.1 || Math.abs(moveY) > 0.1) {
 				const spin = Math.abs(moveX) - Math.abs(moveY);
-				this.#orcDirection = spin > 0 ? moveX > 0 ? RIGHT : LEFT : moveY > 0 ? DOWN : UP;
-			} else {
-				this.#orcDirection = STILL;
+				direction = spin > 0 ? moveX > 0 ? RIGHT : LEFT : moveY > 0 ? DOWN : UP;
 			}
+			if (direction === STILL) {
+				// this.#image.anims.stop();
+				this.#image.play(`garz-idle-${this.#orcDirection.description}-anim`);
+
+			} else if (direction !== this.#orcDirection) {
+				this.#image.anims.stop();
+				this.#image.play(`garz-walk-${direction.description}-anim`);
+				this.#orcDirection = direction;
+			}
+			if (direction === DOWN) {
+				this.#y += 1;
+			} else if (direction === LEFT) {
+				this.#x -= 1;
+			} else if (direction === RIGHT) {
+				this.#x += 1;
+			} else if (direction === UP) {
+				this.#y += -1;
+			}
+			this.#image.x = this.#x;
+			this.#image.y = this.#y;
 		}
 	}
 }

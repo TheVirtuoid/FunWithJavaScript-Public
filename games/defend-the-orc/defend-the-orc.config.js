@@ -23,26 +23,139 @@ const orcs = new Map([
 	[VORG, { path: 'src/img/orcs/Vorg' }],
 ]);
 
-const orcAnimationDirection = new Map([
-	[DOWN, { start: 0, end: 5 }],
-	[UP, { start: 6, end: 11 }],
-	[LEFT, { start: 12, end: 17 }],
-	[RIGHT, { start: 18, end: 23 }],
-]);
-
 const orcAnimation = new Map([
-	[ATTACK, { img: 'attack.png', repeat: 0 }],
-	[DEATH, { img: 'death.png', repeat: 0 }],
-	[HURT, { img: 'hurt.png', repeat: 0 }],
-	[IDLE, { img: 'idle.png', repeat: -1 }],
-	[RUN, { img: 'run.png', repeat: 0 }],
-	[RUN_ATTACK, { img: 'run_attack.png', repeat: 0 }],
-	[WALK, { img: 'walk.png', repeat: 0 }],
-	[WALK_ATTACK, { img: 'walk_attack.png', repeat: 0 }]
+	[ATTACK,
+		{ img: 'attack.png',
+			repeat: 0,
+			frameRate: 8,
+			config: {
+				frameWidth: 64,
+				frameHeight: 64,
+				columnsPerRow: 8,
+			},
+			frames: new Map([
+				[DOWN, { start: 0, end: 7 }],
+				[UP, { start: 8, end: 15 }],
+				[LEFT, { start: 16, end: 23 }],
+				[RIGHT, { start: 24, end: 31 }],
+			])
+		}],
+	[DEATH,
+		{ img: 'death.png',
+			repeat: 0,
+			frameRate: 8,
+			config: {
+				frameWidth: 64,
+				frameHeight: 64,
+				columnsPerRow: 8,
+			},
+			frames: new Map([
+				[DOWN, { start: 0, end: 7 }],
+				[UP, { start: 8, end: 15 }],
+				[LEFT, { start: 16, end: 23 }],
+				[RIGHT, { start: 24, end: 31 }],
+			])
+		}],
+	[HURT,
+		{ img: 'hurt.png',
+			repeat: 0,
+			frameRate: 8,
+			config: {
+				frameWidth: 64,
+				frameHeight: 64,
+				columnsPerRow: 6,
+			},
+			frames: new Map([
+				[DOWN, { start: 0, end: 5 }],
+				[UP, { start: 6, end: 11 }],
+				[LEFT, { start: 12, end: 17 }],
+				[RIGHT, { start: 18, end: 23 }],
+			])
+		}],
+	[IDLE,
+		{ img: 'idle.png',
+			repeat: -1,
+			frameRate: 8,
+			config: {
+				frameWidth: 64,
+				frameHeight: 64,
+				columnsPerRow: 4,
+			},
+			frames: new Map([
+				[DOWN, { start: 0, end: 3 }],
+				[UP, { start: 4, end: 7 }],
+				[LEFT, { start: 8, end: 11 }],
+				[RIGHT, { start: 12, end: 15 }],
+			])
+		}],
+	[RUN,
+		{ img: 'run.png',
+			repeat: -1,
+			frameRate: 8,
+			config: {
+				frameWidth: 64,
+				frameHeight: 64,
+				columnsPerRow: 8,
+			},
+			frames: new Map([
+				[DOWN, { start: 0, end: 7 }],
+				[UP, { start: 8, end: 15 }],
+				[LEFT, { start: 16, end: 23 }],
+				[RIGHT, { start: 24, end: 31 }],
+			])
+		}],
+	[RUN_ATTACK,
+		{ img: 'run_attack.png',
+			repeat: 0,
+			frameRate: 8,
+			config: {
+				frameWidth: 64,
+				frameHeight: 64,
+				columnsPerRow: 8,
+			},
+			frames: new Map([
+				[DOWN, { start: 0, end: 7 }],
+				[UP, { start: 8, end: 15 }],
+				[LEFT, { start: 16, end: 23 }],
+				[RIGHT, { start: 24, end: 31 }],
+			])
+		}],
+	[WALK,
+		{ img: 'walk.png',
+			repeat: -1,
+			frameRate: 8,
+			config: {
+				frameWidth: 64,
+				frameHeight: 64,
+				columnsPerRow: 6,
+			},
+			frames: new Map([
+				[DOWN, { start: 0, end: 5 }],
+				[UP, { start: 6, end: 11 }],
+				[LEFT, { start: 12, end: 17 }],
+				[RIGHT, { start: 18, end: 23 }],
+			])
+		}],
+	[WALK_ATTACK,
+		{ img: 'walk_attack.png',
+			repeat: 0,
+			frameRate: 8,
+			config: {
+				frameWidth: 64,
+				frameHeight: 64,
+				columnsPerRow: 6,
+			},
+			frames: new Map([
+				[DOWN, { start: 0, end: 5 }],
+				[UP, { start: 6, end: 11 }],
+				[LEFT, { start: 12, end: 17 }],
+				[RIGHT, { start: 18, end: 23 }],
+			])
+		}]
 ]);
 
 export {
 	GARZ, THOKK, VORG, ATTACK, DEATH, HURT, IDLE, RUN, RUN_ATTACK, WALK, WALK_ATTACK,
 	UP, DOWN, LEFT, RIGHT, STILL,
-	orcs, orcAnimation, orcAnimationDirection
+	orcs, orcAnimation
 };
