@@ -25,10 +25,7 @@ export default class Language {
 	#data;
 
 	constructor(args = {}) {
-		const { id, name } = args;
-		if (!!id && !!name) {
-			throw new Error('Must specify an id or name, but not both.');
-		}
+		const { id } = args;
 		if (!Language.IsLanguage(id)) {
 			throw new Error('Invalid language id');
 		}
