@@ -1,0 +1,64 @@
+
+body {
+    padding: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+main {
+
+    #panel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: var(--v-color-primary200);
+        padding: .5rem;
+
+        h1 {
+            font-size: 1.25rem;
+            margin-block-end: .5em;
+        }
+
+        .stats {
+
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+
+                li {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    &.time {
+                        margin-block-end: .5em;
+                    }
+
+                    img {
+                        width: 2rem;
+                    }
+                }
+            }
+        }
+
+        .action-buttons {
+            margin-block: 2rem;
+
+            button {
+                margin-block: 1rem;
+                display: block;
+            }
+
+        }
+    }
+
+    .field {
+        height: stretch;
+        background-color: black;
+        flex-grow: 1;
+        overflow: hidden;
+        width: stretch;
+        height: stretch;
+    }
+}
