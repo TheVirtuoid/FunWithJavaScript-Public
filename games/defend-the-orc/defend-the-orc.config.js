@@ -17,6 +17,9 @@ const LEFT = Symbol('left');
 const RIGHT = Symbol('right');
 const STILL = Symbol('still');
 
+const CONTROLLER_RUN = 2;
+const CONTROLLER_ATTACK = 7;
+
 const orcs = new Map([
 	[GARZ, { path: 'src/img/orcs/Garz' }],
 	[THOKK, { path: 'src/img/orcs/Thokk' }],
@@ -157,5 +160,6 @@ const orcAnimation = new Map([
 export {
 	GARZ, THOKK, VORG, ATTACK, DEATH, HURT, IDLE, RUN, RUN_ATTACK, WALK, WALK_ATTACK,
 	UP, DOWN, LEFT, RIGHT, STILL,
+	CONTROLLER_RUN, CONTROLLER_ATTACK,
 	orcs, orcAnimation
 };

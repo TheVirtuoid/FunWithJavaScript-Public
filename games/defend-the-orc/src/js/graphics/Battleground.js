@@ -1,5 +1,16 @@
 import Phaser from "phaser";
-import {DOWN, GARZ, LEFT, orcAnimation, orcs, RIGHT, STILL, UP} from "../../../defend-the-orc.config.js";
+import {
+	CONTROLLER_ATTACK,
+	CONTROLLER_RUN,
+	DOWN,
+	GARZ,
+	LEFT,
+	orcAnimation,
+	orcs,
+	RIGHT,
+	STILL,
+	UP
+} from "../../../defend-the-orc.config.js";
 
 export default class Battleground extends Phaser.Scene {
 	#pad;
@@ -7,6 +18,10 @@ export default class Battleground extends Phaser.Scene {
 	#image;
 	#x;
 	#y;
+
+	#orcSprinting;
+	#orcIdleDirection;
+	#orcAttacking;
 
 	constructor() {
 		super({
@@ -47,6 +62,9 @@ export default class Battleground extends Phaser.Scene {
 			this.#pad = pad;
 		});
 		this.#orcDirection = RIGHT;
+		this.#orcSprinting = false;
+		this.#orcAttacking = false;
+		this.#orcIdleDirection = RIGHT;
 	}
 
 	update() {
@@ -55,9 +73,13 @@ export default class Battleground extends Phaser.Scene {
 		}
 
 		if (this.#pad) {
-			/*if (this.pad.A) {
-				console.log("A button pressed!");
-			}*/
+			this.#orcSprinting = !!this.#pad.buttons[CONTROLLER_RUN].value;
+			if (this.#pad.buttons[CONTROLLER_ATTACK].value && !this.#orcAttacking) {
+				this.#image.play(`garz-attack-${this.#orcIdleDirection.description}-anim`);
+				this.#orcAttacking = true;
+			} else if (!this.#pad.buttons[CONTROLLER_ATTACK].value) {
+				this.#orcAttacking = false;
+			}
 			let moveX = this.#pad.leftStick.x;
 			let moveY = this.#pad.leftStick.y;
 
@@ -67,25 +89,17 @@ export default class Battleground extends Phaser.Scene {
 				direction = spin > 0 ? moveX > 0 ? RIGHT : LEFT : moveY > 0 ? DOWN : UP;
 			}
 			if (direction === STILL) {
-				// this.#image.anims.stop();
-				this.#image.play(`garz-idle-${this.#orcDirection.description}-anim`);
+				this.#image.play(`garz-idle-${this.#orcIdleDirection.description}-anim`);
 
 			} else if (direction !== this.#orcDirection) {
-				this.#image.anims.stop();
-				this.#image.play(`garz-walk-${direction.description}-anim`);
-				this.#orcDirection = direction;
+				this.#image.play(`garz-${this.#orcSprinting ? 'run' : 'walk'}-${direction.description}-anim`);
+				this.#orcIdleDirection = direction;
 			}
-			if (direction === DOWN) {
-				this.#y += 1;
-			} else if (direction === LEFT) {
-				this.#x -= 1;
-			} else if (direction === RIGHT) {
-				this.#x += 1;
-			} else if (direction === UP) {
-				this.#y += -1;
+			this.#orcDirection = direction;
+			const multiplier = this.#orcSprinting ? 1.5 : 1;
+			if (!this.#orcAttacking) {
+				this.#image.setVelocity(moveX * 200 * multiplier, moveY * 200 * multiplier);
 			}
-			this.#image.x = this.#x;
-			this.#image.y = this.#y;
 		}
 	}
 }
