@@ -30,7 +30,7 @@ const orcAnimation = new Map([
 	[ATTACK,
 		{ img: 'attack.png',
 			repeat: 0,
-			frameRate: 8,
+			frameRate: 16,
 			config: {
 				frameWidth: 64,
 				frameHeight: 64,
@@ -110,7 +110,7 @@ const orcAnimation = new Map([
 	[RUN_ATTACK,
 		{ img: 'run_attack.png',
 			repeat: 0,
-			frameRate: 8,
+			frameRate: 16,
 			config: {
 				frameWidth: 64,
 				frameHeight: 64,
@@ -142,7 +142,7 @@ const orcAnimation = new Map([
 	[WALK_ATTACK,
 		{ img: 'walk_attack.png',
 			repeat: 0,
-			frameRate: 8,
+			frameRate: 12,
 			config: {
 				frameWidth: 64,
 				frameHeight: 64,

@@ -11,6 +11,8 @@ import {
 	STILL,
 	UP
 } from "../../../defend-the-orc.config.js";
+import Orc from "../engines/Orc.js";
+import Gamepad from "../engines/Gamepad.js";
 
 export default class Battleground extends Phaser.Scene {
 	#pad;
@@ -22,6 +24,10 @@ export default class Battleground extends Phaser.Scene {
 	#orcSprinting;
 	#orcIdleDirection;
 	#orcAttacking;
+	#orcAnimationRunning;
+
+	#orc;
+	#gamepad;
 
 	constructor() {
 		super({
@@ -41,6 +47,7 @@ export default class Battleground extends Phaser.Scene {
 		orcs.forEach((orcData, orc) => {
 			orcAnimation.forEach((anim, key) => {
 				anim.frames.forEach((frameData, direction) => {
+					// console.log(`key: ${orc.description}-${key.description}-${direction.description}-anim`);
 					this.anims.create({
 						key: `${orc.description}-${key.description}-${direction.description}-anim`,
 						frames: this.anims.generateFrameNumbers(`${orc.description}-${key.description}`, {
@@ -53,7 +60,18 @@ export default class Battleground extends Phaser.Scene {
 				});
 			});
 		});
-		this.#x = 600;
+		this.#orc = new Orc({ who: GARZ, scene: this });
+		this.#orc.setPosition(600, 400);
+		// this.#orc.setState(Orc.STATE_IDLE);
+
+		this.#gamepad = new Gamepad({ scene: this });
+		this.#gamepad.create();
+
+		this.events.on(Gamepad.CHARACTER_ACTION.description, (event) => {
+			this.#orc.setState(event);
+		})
+
+		/*this.#x = 600;
 		this.#y = 400;
 		this.#image = this.physics.add.sprite(this.#x, this.#y);
 		this.#image.setScale(2);
@@ -64,9 +82,15 @@ export default class Battleground extends Phaser.Scene {
 		this.#orcDirection = RIGHT;
 		this.#orcSprinting = false;
 		this.#orcAttacking = false;
-		this.#orcIdleDirection = RIGHT;
+		this.#orcAnimationRunning = false;
+		this.#orcIdleDirection = RIGHT;*/
 	}
 
+	update() {
+		this.#gamepad.update();
+	}
+
+/*
 	update() {
 		if (!this.#pad && this.input.gamepad.total > 0) {
 			this.#pad = this.input.gamepad.getPad(0);
@@ -75,8 +99,18 @@ export default class Battleground extends Phaser.Scene {
 		if (this.#pad) {
 			this.#orcSprinting = !!this.#pad.buttons[CONTROLLER_RUN].value;
 			if (this.#pad.buttons[CONTROLLER_ATTACK].value && !this.#orcAttacking) {
-				this.#image.play(`garz-attack-${this.#orcIdleDirection.description}-anim`);
-				this.#orcAttacking = true;
+				if (!this.#orcAnimationRunning) {
+					this.#image.once('animationcomplete', () => {
+						console.log('done');
+						this.#orcAttacking = false;
+						this.#orcAnimationRunning = false;
+					});
+					console.log(`garz-attack-${this.#orcIdleDirection.description}-anim`);
+					this.#image.play(`garz-attack-${this.#orcIdleDirection.description}-anim`);
+					console.log('here');
+					this.#orcAnimationRunning = true;
+					this.#orcAttacking = true;
+				}
 			} else if (!this.#pad.buttons[CONTROLLER_ATTACK].value) {
 				this.#orcAttacking = false;
 			}
@@ -89,17 +123,18 @@ export default class Battleground extends Phaser.Scene {
 				direction = spin > 0 ? moveX > 0 ? RIGHT : LEFT : moveY > 0 ? DOWN : UP;
 			}
 			if (direction === STILL) {
-				this.#image.play(`garz-idle-${this.#orcIdleDirection.description}-anim`);
-
+				if (direction !== this.#orcDirection) {
+					this.#image.play(`garz-idle-${this.#orcIdleDirection.description}-anim`);
+				}
 			} else if (direction !== this.#orcDirection) {
+				console.log(direction, this.#orcDirection);
 				this.#image.play(`garz-${this.#orcSprinting ? 'run' : 'walk'}-${direction.description}-anim`);
 				this.#orcIdleDirection = direction;
 			}
 			this.#orcDirection = direction;
 			const multiplier = this.#orcSprinting ? 1.5 : 1;
-			if (!this.#orcAttacking) {
-				this.#image.setVelocity(moveX * 200 * multiplier, moveY * 200 * multiplier);
-			}
+			this.#image.setVelocity(moveX * 200 * multiplier, moveY * 200 * multiplier);
 		}
 	}
+*/
 }

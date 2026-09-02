@@ -2,7 +2,7 @@ import '../css/common.pcss';
 import '../css/defend-the-orc.pcss';
 
 import Phaser from 'phaser';
-import Battleground from "./graphics/Battleground.js";
+import Battleground from "./scenes/Battleground.js";
 
 const config = {
 	height: 600,
