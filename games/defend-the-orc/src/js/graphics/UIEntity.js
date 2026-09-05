@@ -63,6 +63,8 @@ export default class UIEntity{
 		const direction = state.direction ? state.direction : this.#lastState.direction;
 		const stickX = state.stickX ? state.stickX : this.#lastState.stickX;
 		const stickY = state.stickY ? state.stickY : this.#lastState.stickY;
+		const actualX = state.actualX;
+		const actualY = state.actualY;
 		this.#image.play(`${this.#who.description}-${movement.description}-${direction.description}-anim`);
 		// console.log(this.#image.width, this.#image.height);
 		/*const square = this.#scene.add.rectangle(
@@ -73,16 +75,27 @@ export default class UIEntity{
 		square.setStrokeStyle(1, 0x00ff00, 1.0);
 		square.setFillStyle();
 		square.setOrigin(.5, .6);*/
-		this.#lastState = new StateEvent({ movement, direction, stickX, stickY });
+		this.#lastState = new StateEvent({ movement, direction, stickX, stickY, actualX, actualY });
 		if (state.attacking) {
-			const attack = movement === WALK || movement === RUN ? `${movement.description}-${ATTACK.description}` : ATTACK.description;
+			let attack = movement === WALK || movement === RUN ? `${movement.description}-${ATTACK.description}` : ATTACK.description;
+			if (!this.#scene.anims.exists(attack)) {
+				attack = ATTACK.description;
+			}
 			this.#image.play(`${this.#who.description}-${attack}-${direction.description}-anim`);
 		}
-		const speed = (movement === IDLE ? 0 : this.#walkSpeed) * (movement === RUN ? this.#runMultiplier : 1);
-		const velocity = new Phaser.Math.Vector2(stickX ?? 0, stickY ?? 0);
+		this.updateVelocity(this.#lastState);
+	}
+
+	updateVelocity(state) {
+		const speed = (state.movement === IDLE ? 0 : this.#walkSpeed) * (state.movement === RUN ? this.#runMultiplier : 1);
+		const x = state.actualX ?? 0;
+		const y = state.actualY ?? 0;
+		const velocity = new Phaser.Math.Vector2(x, y);
 		if (velocity.lengthSq() > 0) {
+			console.log(x,y,velocity.normalize());
 			velocity.normalize().scale(speed);
 		}
 		this.#image.setVelocity(velocity.x, velocity.y);
+
 	}
 }

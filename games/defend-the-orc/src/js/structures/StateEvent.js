@@ -4,14 +4,18 @@ export default class StateEvent {
 	#attacking;
 	#stickX;
 	#stickY;
+	#actualX;
+	#actualY;
 
 	constructor(args = {}) {
-		const { attacking = null, direction = null, movement = null, stickX = null, stickY = null } = args;
+		const { attacking = null, direction = null, movement = null, stickX = null, stickY = null, actualX = null, actualY = null } = args;
 		this.#direction = direction;
 		this.#movement = movement;
 		this.#stickX = stickX;
 		this.#stickY = stickY;
 		this.#attacking = attacking;
+		this.#actualX = actualX;
+		this.#actualY = actualY;
 	}
 
 	get direction() {
@@ -34,6 +38,14 @@ export default class StateEvent {
 		return this.#attacking;
 	}
 
+	get actualX() {
+		return this.#actualX;
+	}
+
+	get actualY() {
+		return this.#actualY;
+	}
+
 	diff(oldEvent) {
 		return new StateEvent({
 			attacking: this.#attacking !== oldEvent.attacking ? this.#attacking : null,
@@ -41,6 +53,8 @@ export default class StateEvent {
 			movement: this.#movement !== oldEvent.movement ? this.#movement : null,
 			stickX: this.#stickX !== oldEvent.stickX ? this.#stickX : null,
 			stickY: this.#stickY !== oldEvent.stickY ? this.#stickY : null,
+			actualX: this.#actualX,
+			actualY: this.#actualY
 		});
 	}
 
@@ -51,6 +65,8 @@ export default class StateEvent {
 			movement: this.#movement,
 			stickX: this.#stickX,
 			stickY: this.#stickY,
+			actualX: this.#actualX,
+			actualY: this.#actualY,
 		}
 	}
 

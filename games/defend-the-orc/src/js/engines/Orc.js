@@ -52,4 +52,8 @@ export default class Orc {
 		this.#state = state;
 		this.#ui.setState(state);
 	}
+
+	updateVelocity(state) {
+		this.#ui.updateVelocity(state);
+	}
 }

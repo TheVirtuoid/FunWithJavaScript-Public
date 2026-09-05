@@ -53,13 +53,42 @@ export default class Swordsman {
 		this.#ui.setPosition(this.x, this.y);
 	}
 
-	setState(state, orcPosition) {
-		const diffX = orcPosition.x - this.imagePosition.x;
-		const diffY = orcPosition.y - this.imagePosition.y;
-		const spin = Math.abs(diffX) - Math.abs(diffY);
-		const direction = spin > 0 ? diffX > 0 ? RIGHT : LEFT : diffY > 0 ? DOWN : UP;
-		const newState = new StateEvent({...state.toObject(), attacking: false, direction, stickX: diffX, stickY: diffY, movement: state.movement === IDLE ? WALK : state.movement });
-		this.#state = newState;
-		this.#ui.setState(newState);
+	setState(state, directionChange) {
+		this.#state = state;
+		this.#ui.setState(state, directionChange);
+	}
+
+	updateVelocity(state, orcPosition) {
+		const stickX = orcPosition.x - this.imagePosition.x;
+		const stickY = orcPosition.y - this.imagePosition.y;
+		const newState = new StateEvent( { ...state, stickX, stickY, actualX: stickX, actualY: stickY } );
+		console.log(stickX, stickY, newState.actualX, newState.actualY);
+		this.#ui.updateVelocity(newState);
+	}
+
+	updateState(orcPosition) {
+		const stickX = orcPosition.x - this.imagePosition.x;
+		const stickY = orcPosition.y - this.imagePosition.y;
+		const spin = Math.abs(stickX) - Math.abs(stickY);
+		const direction = spin > 0 ? stickX > 0 ? RIGHT : LEFT : stickY > 0 ? DOWN : UP;
+		const movement = this.state?.movement === IDLE ? WALK : this.state?.movement;
+		const attacking = false;
+		if (this.state) {
+			if (direction !== this.state.direction) {
+				const newState = new StateEvent({
+					attacking,
+					direction,
+					stickX,
+					stickY,
+					movement,
+					activeX: stickX,
+					activeY: stickY,
+				});
+				this.setState(newState, direction !== this.state.direction);
+			} else if (stickX !== this.state.stickX || stickY !== this.state.stickY) {
+				this.#ui.updateVelocity(this.state);
+			}
+		}
+
 	}
 }

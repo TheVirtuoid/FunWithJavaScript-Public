@@ -91,29 +91,27 @@ export default class Battleground extends Phaser.Scene {
 		this.#orc = new Orc({ who: VORG, scene: this });
 		this.#orc.setPosition(600, 400);
 
-		this.#swordsman = new Swordsman({ scene: this, who: DAREK });
-		this.#swordsman.setPosition(800, 400);
+		/*this.#swordsman = new Swordsman({ scene: this, who: DAREK });
+		this.#swordsman.setPosition(800, 400);*/
 
 		this.#gamepad = new Gamepad({ scene: this });
 		this.#gamepad.create();
 
 		this.events.on(Gamepad.CHARACTER_ACTION.description, (event) => {
 			this.#orc.setState(event);
-			this.#swordsman.setState(event, this.#orc.imagePosition);
-		})
+			// this.#swordsman.setState(event, this.#orc.imagePosition);
+		});
+
+		this.events.on(Gamepad.CHARACTER_MOVEMENT.description, (event) => {
+			this.#orc.updateVelocity(event);
+			// this.#swordsman.updateVelocity(event, this.#orc.imagePosition);
+		});
+
 	}
 
 	update() {
 		this.#gamepad.update();
-		const diffX = this.#orc.imagePosition.x - this.#swordsman.imagePosition.x;
-		const diffY = this.#orc.imagePosition.y - this.#swordsman.imagePosition.y;
-		const spin = Math.abs(diffX) - Math.abs(diffY);
-		const direction = spin > 0 ? diffX > 0 ? RIGHT : LEFT : diffY > 0 ? DOWN : UP;
-		if (this.#swordsman.state) {
-			if (direction !== this.#swordsman.state.direction) {
-				this.#swordsman.setState(new StateEvent(this.#swordsman.state), this.#orc.imagePosition);
-			}
-		}
+		// this.#swordsman.updateState(this.#orc.imagePosition);
 	}
 
 }

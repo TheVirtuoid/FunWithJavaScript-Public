@@ -13,6 +13,7 @@ import StateEvent from "../structures/StateEvent.js";
 export default class Gamepad {
 
 	static CHARACTER_ACTION = Symbol('character-action');
+	static CHARACTER_MOVEMENT = Symbol('character-movement');
 
 	#scene;
 	#pad;
@@ -41,12 +42,15 @@ export default class Gamepad {
 				const spin = Math.abs(moveX) - Math.abs(moveY);
 				direction = spin > 0 ? moveX > 0 ? RIGHT : LEFT : moveY > 0 ? DOWN : UP;
 			}
-			const gamepadEvent = new StateEvent({ attacking, direction, movement, stickX: moveX, stickY: moveY });
+			const gamepadEvent = new StateEvent({ attacking, direction, movement, stickX: moveX, stickY: moveY, actualX: moveX, actualY: moveY });
 			const eventToSend = gamepadEvent.diff(this.#oldEvent);
 			// we don't check the sticks on purpose
 			if (eventToSend.direction !== null || eventToSend.movement !== null || eventToSend.attacking !== null) {
 				this.#scene.events.emit(Gamepad.CHARACTER_ACTION.description, eventToSend);
 			}
+			// if (eventToSend.stickX || eventToSend.stickY) {
+				this.#scene.events.emit(Gamepad.CHARACTER_MOVEMENT.description, eventToSend);
+			// }
 			this.#oldEvent = gamepadEvent;
 		}
 	}
