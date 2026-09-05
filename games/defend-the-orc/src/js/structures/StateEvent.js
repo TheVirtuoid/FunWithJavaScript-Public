@@ -57,4 +57,5 @@ export default class StateEvent {
 	toString() {
 		return JSON.stringify(this.toObject());
 	}
+
 }

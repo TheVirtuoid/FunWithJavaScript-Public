@@ -1,35 +1,61 @@
-import UIEntity from "./UIEntity.js";
-
-export default class OrcUi extends UIEntity {
-	constructor(args) {
-		super(args);
-	}
-}
-
-
-/*
-import {RIGHT, IDLE, RUN, WALK, LEFT, UP, DOWN, ATTACK} from "../../../defend-the-orc.config.js";
+import {RIGHT, IDLE, RUN, WALK, ATTACK} from "../../../defend-the-orc.config.js";
 import StateEvent from "../structures/StateEvent.js";
 import Phaser from "phaser";
 
-export default class {
+export default class UIEntity{
 	#scene;
 	#image;
 	#lastState;
 	#who;
+	#scale;
+	#walkSpeed;
+	#runMultiplier;
 
 	constructor(args = {}) {
-		const { scene, who } = args;
+		const { scene, who, scale = 2, walkSpeed = 200, runMultiplier = 2 } = args;
 		this.#scene = scene;
 		this.#who = who;
 		this.#image = this.#scene.physics.add.sprite();
-		this.#image.setScale(2);
+		this.#scale = scale;
+		this.#image.setScale(scale);
 		this.#lastState = new StateEvent({ movement: IDLE, direction: RIGHT, stickX: null, stickY: null });
+		this.#walkSpeed = walkSpeed;
+		this.#runMultiplier = runMultiplier;
+		this.setState(this.#lastState);
+	}
+
+	get scale() {
+		return this.#scale;
+	}
+
+	get walkSpeed() {
+		return this.#walkSpeed;
+	}
+
+	get runMultiplier() {
+		return this.#runMultiplier;
+	}
+
+	get imagePosition() {
+		return { x: this.#image.x, y: this.#image.y };
 	}
 
 	setPosition(x, y) {
 		this.#image.x = x;
 		this.#image.y = y;
+	}
+
+	setScale(scale) {
+		this.#scale = scale;
+		this.#image.setScale(scale);
+	}
+
+	setWalkSpeed(speed) {
+		this.#walkSpeed = speed;
+	}
+
+	setRunMultiplier(runMultiplier) {
+		this.#runMultiplier = runMultiplier;
 	}
 
 	setState(state) {
@@ -38,16 +64,25 @@ export default class {
 		const stickX = state.stickX ? state.stickX : this.#lastState.stickX;
 		const stickY = state.stickY ? state.stickY : this.#lastState.stickY;
 		this.#image.play(`${this.#who.description}-${movement.description}-${direction.description}-anim`);
+		// console.log(this.#image.width, this.#image.height);
+		/*const square = this.#scene.add.rectangle(
+			this.#image.x, this.#image.y,
+			this.#image.width,
+			this.#image.height
+		);
+		square.setStrokeStyle(1, 0x00ff00, 1.0);
+		square.setFillStyle();
+		square.setOrigin(.5, .6);*/
 		this.#lastState = new StateEvent({ movement, direction, stickX, stickY });
 		if (state.attacking) {
 			const attack = movement === WALK || movement === RUN ? `${movement.description}-${ATTACK.description}` : ATTACK.description;
 			this.#image.play(`${this.#who.description}-${attack}-${direction.description}-anim`);
 		}
-		const speed = (movement === IDLE ? 0 : 200) * (movement === RUN ? 2 : 1);
+		const speed = (movement === IDLE ? 0 : this.#walkSpeed) * (movement === RUN ? this.#runMultiplier : 1);
 		const velocity = new Phaser.Math.Vector2(stickX ?? 0, stickY ?? 0);
 		if (velocity.lengthSq() > 0) {
 			velocity.normalize().scale(speed);
 		}
 		this.#image.setVelocity(velocity.x, velocity.y);
 	}
-}*/
+}

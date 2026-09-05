@@ -29,7 +29,7 @@ export default class Gamepad {
 
 	update() {
 		if (!this.#pad && this.#scene.input.gamepad.total > 0) {
-			this.#pad = this.#scene.input.gamepad.getPad(0);
+			this.#pad = this.#scene.input.gamepad.getAll()[0];
 		}
 		if (this.#pad) {
 			const { x: moveX, y: moveY } = this.#pad.leftStick;

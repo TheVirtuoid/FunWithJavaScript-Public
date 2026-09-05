@@ -23,7 +23,7 @@ export default class Orc {
 		}
 		this.#scene = scene;
 		this.#who = who;
-		this.#ui = new OrcUi({ scene, who });
+		this.#ui = new OrcUi({ scene, who, scale: 2 });
 	}
 
 	get scene() {
@@ -38,6 +38,10 @@ export default class Orc {
 		return this.#y;
 	}
 
+	get imagePosition() {
+		return { x: this.#ui.imagePosition.x, y: this.#ui.imagePosition.y };
+	}
+
 	setPosition(x, y) {
 		this.#x = x;
 		this.#y = y;
@@ -47,9 +51,5 @@ export default class Orc {
 	setState(state) {
 		this.#state = state;
 		this.#ui.setState(state);
-		/*if (Orc.states.includes(state)) {
-			this.#state = state;
-			this.#ui.setState(state);
-		}*/
 	}
 }

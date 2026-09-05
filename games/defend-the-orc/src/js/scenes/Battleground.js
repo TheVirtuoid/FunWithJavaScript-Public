@@ -4,15 +4,19 @@ import {
 	CONTROLLER_RUN,
 	DOWN,
 	GARZ,
+	THOKK,
 	LEFT,
 	orcAnimation,
 	orcs,
 	RIGHT,
 	STILL,
-	UP
+	UP, VORG, DAREK, swordsmanAnimation, swordsmen, WALK
 } from "../../../defend-the-orc.config.js";
 import Orc from "../engines/Orc.js";
 import Gamepad from "../engines/Gamepad.js";
+import Swordsman from "../engines/Swordsman.js";
+import StateEvent from "../structures/StateEvent.js";
+import * as Direction from "../../../defend-the-orc.config.js";
 
 export default class Battleground extends Phaser.Scene {
 	#pad;
@@ -29,6 +33,8 @@ export default class Battleground extends Phaser.Scene {
 	#orc;
 	#gamepad;
 
+	#swordsman;
+
 	constructor() {
 		super({
 			key: 'battleground'
@@ -39,6 +45,11 @@ export default class Battleground extends Phaser.Scene {
 		orcs.forEach((orcData, orc) => {
 			orcAnimation.forEach((anim, key) => {
 				this.load.spritesheet(`${orc.description}-${key.description}`, `${orcData.path}/${anim.img}`, anim.config);
+			});
+		});
+		swordsmen.forEach((swordsmanData, swordsman) => {
+			swordsmanAnimation.forEach((anim, key) => {
+				this.load.spritesheet(`${swordsman.description}-${key.description}`, `${swordsmanData.path}/${anim.img}`, anim.config);
 			});
 		});
 	}
@@ -60,81 +71,49 @@ export default class Battleground extends Phaser.Scene {
 				});
 			});
 		});
-		this.#orc = new Orc({ who: GARZ, scene: this });
+
+		swordsmen.forEach((swordsmanData, swordsman) => {
+			swordsmanAnimation.forEach((anim, key) => {
+				anim.frames.forEach((frameData, direction) => {
+					this.anims.create({
+						key: `${swordsman.description}-${key.description}-${direction.description}-anim`,
+						frames: this.anims.generateFrameNumbers(`${swordsman.description}-${key.description}`, {
+							start: frameData.start,
+							end: frameData.end
+						}),
+						frameRate: anim.frameRate,
+						repeat: anim.repeat
+					});
+				});
+			});
+		});
+
+		this.#orc = new Orc({ who: VORG, scene: this });
 		this.#orc.setPosition(600, 400);
-		// this.#orc.setState(Orc.STATE_IDLE);
+
+		this.#swordsman = new Swordsman({ scene: this, who: DAREK });
+		this.#swordsman.setPosition(800, 400);
 
 		this.#gamepad = new Gamepad({ scene: this });
 		this.#gamepad.create();
 
 		this.events.on(Gamepad.CHARACTER_ACTION.description, (event) => {
 			this.#orc.setState(event);
+			this.#swordsman.setState(event, this.#orc.imagePosition);
 		})
-
-		/*this.#x = 600;
-		this.#y = 400;
-		this.#image = this.physics.add.sprite(this.#x, this.#y);
-		this.#image.setScale(2);
-		this.#image.play(`garz-idle-right-anim`);
-		this.input.gamepad.once('connected', (pad) => {
-			this.#pad = pad;
-		});
-		this.#orcDirection = RIGHT;
-		this.#orcSprinting = false;
-		this.#orcAttacking = false;
-		this.#orcAnimationRunning = false;
-		this.#orcIdleDirection = RIGHT;*/
 	}
 
 	update() {
 		this.#gamepad.update();
-	}
-
-/*
-	update() {
-		if (!this.#pad && this.input.gamepad.total > 0) {
-			this.#pad = this.input.gamepad.getPad(0);
-		}
-
-		if (this.#pad) {
-			this.#orcSprinting = !!this.#pad.buttons[CONTROLLER_RUN].value;
-			if (this.#pad.buttons[CONTROLLER_ATTACK].value && !this.#orcAttacking) {
-				if (!this.#orcAnimationRunning) {
-					this.#image.once('animationcomplete', () => {
-						console.log('done');
-						this.#orcAttacking = false;
-						this.#orcAnimationRunning = false;
-					});
-					console.log(`garz-attack-${this.#orcIdleDirection.description}-anim`);
-					this.#image.play(`garz-attack-${this.#orcIdleDirection.description}-anim`);
-					console.log('here');
-					this.#orcAnimationRunning = true;
-					this.#orcAttacking = true;
-				}
-			} else if (!this.#pad.buttons[CONTROLLER_ATTACK].value) {
-				this.#orcAttacking = false;
+		const diffX = this.#orc.imagePosition.x - this.#swordsman.imagePosition.x;
+		const diffY = this.#orc.imagePosition.y - this.#swordsman.imagePosition.y;
+		const spin = Math.abs(diffX) - Math.abs(diffY);
+		const direction = spin > 0 ? diffX > 0 ? RIGHT : LEFT : diffY > 0 ? DOWN : UP;
+		if (this.#swordsman.state) {
+			if (direction !== this.#swordsman.state.direction) {
+				this.#swordsman.setState(new StateEvent(this.#swordsman.state), this.#orc.imagePosition);
 			}
-			let moveX = this.#pad.leftStick.x;
-			let moveY = this.#pad.leftStick.y;
-
-			let direction = STILL;
-			if (Math.abs(moveX) > 0.1 || Math.abs(moveY) > 0.1) {
-				const spin = Math.abs(moveX) - Math.abs(moveY);
-				direction = spin > 0 ? moveX > 0 ? RIGHT : LEFT : moveY > 0 ? DOWN : UP;
-			}
-			if (direction === STILL) {
-				if (direction !== this.#orcDirection) {
-					this.#image.play(`garz-idle-${this.#orcIdleDirection.description}-anim`);
-				}
-			} else if (direction !== this.#orcDirection) {
-				console.log(direction, this.#orcDirection);
-				this.#image.play(`garz-${this.#orcSprinting ? 'run' : 'walk'}-${direction.description}-anim`);
-				this.#orcIdleDirection = direction;
-			}
-			this.#orcDirection = direction;
-			const multiplier = this.#orcSprinting ? 1.5 : 1;
-			this.#image.setVelocity(moveX * 200 * multiplier, moveY * 200 * multiplier);
 		}
 	}
-*/
+
 }
