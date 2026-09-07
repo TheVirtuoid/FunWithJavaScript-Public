@@ -25,7 +25,7 @@ export default class Gamepad {
 	}
 
 	create() {
-		this.#oldEvent = new StateEvent({ direction: null, movement: null, stickX: null, stickY: null });
+		this.#oldEvent = new StateEvent();
 	}
 
 	update() {
@@ -33,24 +33,21 @@ export default class Gamepad {
 			this.#pad = this.#scene.input.gamepad.getAll()[0];
 		}
 		if (this.#pad) {
-			const { x: moveX, y: moveY } = this.#pad.leftStick;
+			const { x, y } = this.#pad.leftStick;
 			const running = !!this.#pad.buttons[CONTROLLER_RUN].value;
 			const attacking = !!this.#pad.buttons[CONTROLLER_ATTACK].value;
-			const movement = (Math.abs(moveX) + Math.abs(moveY)) / 2 <= 0.1 ? IDLE : running ? RUN : WALK;
+			const movement = (Math.abs(x) + Math.abs(y)) / 2 <= 0.1 ? IDLE : running ? RUN : WALK;
 			let direction = null;
-			if (Math.abs(moveX) > 0.1 || Math.abs(moveY) > 0.1) {
-				const spin = Math.abs(moveX) - Math.abs(moveY);
-				direction = spin > 0 ? moveX > 0 ? RIGHT : LEFT : moveY > 0 ? DOWN : UP;
+			if (Math.abs(x) > 0.1 || Math.abs(y) > 0.1) {
+				const spin = Math.abs(x) - Math.abs(y);
+				direction = spin > 0 ? x > 0 ? RIGHT : LEFT : y > 0 ? DOWN : UP;
 			}
-			const gamepadEvent = new StateEvent({ attacking, direction, movement, stickX: moveX, stickY: moveY, actualX: moveX, actualY: moveY });
+			const gamepadEvent = new StateEvent({ attacking, direction, movement, running, x, y });
 			const eventToSend = gamepadEvent.diff(this.#oldEvent);
-			// we don't check the sticks on purpose
 			if (eventToSend.direction !== null || eventToSend.movement !== null || eventToSend.attacking !== null) {
 				this.#scene.events.emit(Gamepad.CHARACTER_ACTION.description, eventToSend);
 			}
-			// if (eventToSend.stickX || eventToSend.stickY) {
-				this.#scene.events.emit(Gamepad.CHARACTER_MOVEMENT.description, eventToSend);
-			// }
+			this.#scene.events.emit(Gamepad.CHARACTER_MOVEMENT.description, eventToSend);
 			this.#oldEvent = gamepadEvent;
 		}
 	}

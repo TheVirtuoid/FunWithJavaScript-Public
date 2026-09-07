@@ -2,20 +2,25 @@ export default class StateEvent {
 	#direction;
 	#movement;
 	#attacking;
-	#stickX;
-	#stickY;
-	#actualX;
-	#actualY;
+	#running;
+	#x;
+	#y;
 
 	constructor(args = {}) {
-		const { attacking = null, direction = null, movement = null, stickX = null, stickY = null, actualX = null, actualY = null } = args;
+		const {
+			attacking = null,
+			direction = null,
+			movement = null,
+			running = false,
+			x = 0,
+			y = 0
+		} = args;
 		this.#direction = direction;
 		this.#movement = movement;
-		this.#stickX = stickX;
-		this.#stickY = stickY;
 		this.#attacking = attacking;
-		this.#actualX = actualX;
-		this.#actualY = actualY;
+		this.#running = running;
+		this.#x = x;
+		this.#y = y;
 	}
 
 	get direction() {
@@ -26,24 +31,20 @@ export default class StateEvent {
 		return this.#movement;
 	}
 
-	get stickX() {
-		return this.#stickX;
-	}
-
-	get stickY() {
-		return this.#stickY;
-	}
-
 	get attacking() {
 		return this.#attacking;
 	}
 
-	get actualX() {
-		return this.#actualX;
+	get x() {
+		return this.#x;
 	}
 
-	get actualY() {
-		return this.#actualY;
+	get y() {
+		return this.#y;
+	}
+
+	get running() {
+		return this.#running;
 	}
 
 	diff(oldEvent) {
@@ -51,10 +52,9 @@ export default class StateEvent {
 			attacking: this.#attacking !== oldEvent.attacking ? this.#attacking : null,
 			direction: this.#direction !== oldEvent.direction ? this.#direction : null,
 			movement: this.#movement !== oldEvent.movement ? this.#movement : null,
-			stickX: this.#stickX !== oldEvent.stickX ? this.#stickX : null,
-			stickY: this.#stickY !== oldEvent.stickY ? this.#stickY : null,
-			actualX: this.#actualX,
-			actualY: this.#actualY
+			running: this.#running,
+			x: this.#x,
+			y: this.#y
 		});
 	}
 
@@ -63,10 +63,9 @@ export default class StateEvent {
 			attacking: this.#attacking,
 			direction: this.#direction,
 			movement: this.#movement,
-			stickX: this.#stickX,
-			stickY: this.#stickY,
-			actualX: this.#actualX,
-			actualY: this.#actualY,
+			running: this.#running,
+			x: this.#x,
+			y: this.#y
 		}
 	}
 

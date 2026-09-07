@@ -88,30 +88,30 @@ export default class Battleground extends Phaser.Scene {
 			});
 		});
 
-		this.#orc = new Orc({ who: VORG, scene: this });
+		this.#orc = new Orc({ who: VORG, scene: this, runMultiplier: 3 });
 		this.#orc.setPosition(600, 400);
 
-		/*this.#swordsman = new Swordsman({ scene: this, who: DAREK });
-		this.#swordsman.setPosition(800, 400);*/
+		this.#swordsman = new Swordsman({ scene: this, who: DAREK });
+		this.#swordsman.setPosition(800, 400);
 
 		this.#gamepad = new Gamepad({ scene: this });
 		this.#gamepad.create();
 
 		this.events.on(Gamepad.CHARACTER_ACTION.description, (event) => {
 			this.#orc.setState(event);
-			// this.#swordsman.setState(event, this.#orc.imagePosition);
+			this.#swordsman.setState(event, this.#orc.imagePosition);
 		});
 
 		this.events.on(Gamepad.CHARACTER_MOVEMENT.description, (event) => {
 			this.#orc.updateVelocity(event);
-			// this.#swordsman.updateVelocity(event, this.#orc.imagePosition);
+			this.#swordsman.updateVelocity(event, this.#orc.imagePosition);
 		});
 
 	}
 
 	update() {
 		this.#gamepad.update();
-		// this.#swordsman.updateState(this.#orc.imagePosition);
+		this.#swordsman.updateState(this.#orc.imagePosition);
 	}
 
 }

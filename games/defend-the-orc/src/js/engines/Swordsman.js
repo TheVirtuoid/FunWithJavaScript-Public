@@ -1,6 +1,7 @@
 import {DOWN, IDLE, LEFT, RIGHT, swordsmen, UP, WALK} from "../../../defend-the-orc.config.js";
 import SwordsmanUi from './../graphics/Swordsman.js';
 import StateEvent from "../structures/StateEvent.js";
+import Phaser from "phaser";
 
 export default class Swordsman {
 
@@ -59,34 +60,37 @@ export default class Swordsman {
 	}
 
 	updateVelocity(state, orcPosition) {
-		const stickX = orcPosition.x - this.imagePosition.x;
-		const stickY = orcPosition.y - this.imagePosition.y;
-		const newState = new StateEvent( { ...state, stickX, stickY, actualX: stickX, actualY: stickY } );
-		console.log(stickX, stickY, newState.actualX, newState.actualY);
+		const x = orcPosition.x - this.imagePosition.x;
+		const y = orcPosition.y - this.imagePosition.y;
+		const newState = new StateEvent( { ...state, x, y } );
 		this.#ui.updateVelocity(newState);
 	}
 
 	updateState(orcPosition) {
-		const stickX = orcPosition.x - this.imagePosition.x;
-		const stickY = orcPosition.y - this.imagePosition.y;
-		const spin = Math.abs(stickX) - Math.abs(stickY);
-		const direction = spin > 0 ? stickX > 0 ? RIGHT : LEFT : stickY > 0 ? DOWN : UP;
-		const movement = this.state?.movement === IDLE ? WALK : this.state?.movement;
+		const x = orcPosition.x - this.imagePosition.x;
+		const y = orcPosition.y - this.imagePosition.y;
+
+
+		// move swordsman
+		const vector = new Phaser.Math.Vector2(x, y).normalize();
+		const velocityState = new StateEvent({ x: vector.x, y: vector.y });
+		this.#ui.updateVelocity(velocityState);
+
+		const spin = Math.abs(x) - Math.abs(y);
+		const direction = spin > 0 ? x > 0 ? RIGHT : LEFT : y > 0 ? DOWN : UP;
+		// const movement = this.state?.movement === IDLE ? WALK : this.state?.movement;
+		const movement = WALK;
 		const attacking = false;
 		if (this.state) {
 			if (direction !== this.state.direction) {
 				const newState = new StateEvent({
 					attacking,
 					direction,
-					stickX,
-					stickY,
 					movement,
-					activeX: stickX,
-					activeY: stickY,
+					x,
+					y
 				});
 				this.setState(newState, direction !== this.state.direction);
-			} else if (stickX !== this.state.stickX || stickY !== this.state.stickY) {
-				this.#ui.updateVelocity(this.state);
 			}
 		}
 
