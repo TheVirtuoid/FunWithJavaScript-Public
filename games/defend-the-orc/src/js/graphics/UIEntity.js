@@ -64,14 +64,18 @@ export default class UIEntity{
 		const x = state.x ? state.x : this.#lastState.x;
 		const y = state.y ? state.y : this.#lastState.y;
 		this.#image.play(`${this.#who.description}-${movement.description}-${direction.description}-anim`);
-		/*const square = this.#scene.add.rectangle(
-			this.#image.x, this.#image.y,
-			this.#image.width,
-			this.#image.height
-		);
-		square.setStrokeStyle(1, 0x00ff00, 1.0);
-		square.setFillStyle();
-		square.setOrigin(.5, .6);*/
+
+		/*if (this.#image.x > 0 || this.#image.y > 0) {
+			const square = this.#scene.add.rectangle(
+				this.#image.x, this.#image.y,
+				this.#image.width * this.#scale,
+				this.#image.height * this.#scale
+			);
+			square.setStrokeStyle(1, 0x00ff00, 1.0);
+			square.setFillStyle();
+		}*/
+
+
 		this.#lastState = new StateEvent({ movement, direction, x, y });
 		if (state.attacking) {
 			let attack = movement === WALK || movement === RUN ? `${movement.description}-${ATTACK.description}` : ATTACK.description;
@@ -80,7 +84,7 @@ export default class UIEntity{
 			}
 			this.#image.play(`${this.#who.description}-${attack}-${direction.description}-anim`);
 		}
-		this.updateVelocity(this.#lastState);
+		// this.updateVelocity(this.#lastState);
 	}
 
 	updateVelocity(state) {

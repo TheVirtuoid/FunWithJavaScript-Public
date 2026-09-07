@@ -2,6 +2,7 @@ import { DOWN, LEFT, RIGHT, swordsmen, UP, WALK } from "../../../defend-the-orc.
 import SwordsmanUi from './../graphics/Swordsman.js';
 import StateEvent from "../structures/StateEvent.js";
 import Phaser from "phaser";
+import {Vector3} from "@babylonjs/core";
 
 export default class Swordsman {
 
@@ -61,20 +62,24 @@ export default class Swordsman {
 	}
 
 	updateState(orcPosition) {
-		const x = orcPosition.x - this.imagePosition.x;
-		const y = orcPosition.y - this.imagePosition.y;
-
-
-		// move swordsman
-		const vector = new Phaser.Math.Vector2(x, y).normalize();
-		const velocityState = new StateEvent({ x: vector.x, y: vector.y });
-		this.#ui.updateVelocity(velocityState);
-
+		let x = orcPosition.x - this.imagePosition.x;
+		let y = orcPosition.y - this.imagePosition.y;
 		const spin = Math.abs(x) - Math.abs(y);
 		const direction = spin > 0 ? x > 0 ? RIGHT : LEFT : y > 0 ? DOWN : UP;
 		// const movement = this.state?.movement === IDLE ? WALK : this.state?.movement;
 		const movement = WALK;
 		const attacking = false;
+
+		// move swordsman
+		if (Phaser.Math.Distance.BetweenPoints(orcPosition, this.imagePosition) <= 60) {
+			x = 0;
+			y = 0;
+		}
+		const vector = new Phaser.Math.Vector2(x, y).normalize();
+		const velocityState = new StateEvent({ x: vector.x, y: vector.y });
+		this.#ui.updateVelocity(velocityState);
+
+		// change direction
 		if (this.state) {
 			if (direction !== this.state.direction) {
 				const newState = new StateEvent({
