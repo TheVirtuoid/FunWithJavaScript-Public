@@ -1,35 +1,14 @@
 import Phaser from "phaser";
 import {
-	CONTROLLER_ATTACK,
-	CONTROLLER_RUN,
-	DOWN,
-	GARZ,
-	THOKK,
-	LEFT,
 	orcAnimation,
 	orcs,
-	RIGHT,
-	STILL,
-	UP, VORG, DAREK, swordsmanAnimation, swordsmen, WALK
+	VORG, DAREK, swordsmanAnimation, swordsmen
 } from "../../../defend-the-orc.config.js";
 import Orc from "../engines/Orc.js";
 import Gamepad from "../engines/Gamepad.js";
 import Swordsman from "../engines/Swordsman.js";
-import StateEvent from "../structures/StateEvent.js";
-import * as Direction from "../../../defend-the-orc.config.js";
 
 export default class Battleground extends Phaser.Scene {
-	#pad;
-	#orcDirection;
-	#image;
-	#x;
-	#y;
-
-	#orcSprinting;
-	#orcIdleDirection;
-	#orcAttacking;
-	#orcAnimationRunning;
-
 	#orc;
 	#gamepad;
 

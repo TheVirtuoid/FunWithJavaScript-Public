@@ -5,8 +5,7 @@ import {
 	DOWN,
 	LEFT,
 	RIGHT,
-	STILL,
-	UP, WALK, RUN, ATTACK
+	UP, WALK, RUN
 } from "../../../defend-the-orc.config.js";
 import StateEvent from "../structures/StateEvent.js";
 

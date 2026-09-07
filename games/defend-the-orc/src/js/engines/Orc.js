@@ -3,12 +3,6 @@ import OrcUi from './../graphics/Orc.js';
 
 export default class Orc {
 
-	static STATE_IDLE = Symbol('state-idle');
-	static STATE_ATTACKING = Symbol('state-attacking');
-	static STATE_MOVING = Symbol('state-moving');
-
-	static states = [Orc.STATE_ATTACKING, Orc.STATE_IDLE, Orc.STATE_MOVING];
-
 	#who;
 	#scene;
 	#ui;

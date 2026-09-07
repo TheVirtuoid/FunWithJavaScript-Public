@@ -1,15 +1,9 @@
-import {DOWN, IDLE, LEFT, RIGHT, swordsmen, UP, WALK} from "../../../defend-the-orc.config.js";
+import { DOWN, LEFT, RIGHT, swordsmen, UP, WALK } from "../../../defend-the-orc.config.js";
 import SwordsmanUi from './../graphics/Swordsman.js';
 import StateEvent from "../structures/StateEvent.js";
 import Phaser from "phaser";
 
 export default class Swordsman {
-
-	static STATE_IDLE = Symbol('state-idle');
-	static STATE_ATTACKING = Symbol('state-attacking');
-	static STATE_MOVING = Symbol('state-moving');
-
-	static states = [Swordsman.STATE_ATTACKING, Swordsman.STATE_IDLE, Swordsman.STATE_MOVING];
 
 	#who;
 	#scene;
