@@ -1,5 +1,6 @@
-import {orcs} from "../../../defend-the-orc.config.js";
+import {orcs, HIT_POINTS, DAMAGE, STAMINA} from "../../../defend-the-orc.config.js";
 import OrcUi from './../graphics/Orc.js';
+import Attributes from "../structures/Attributes.js";
 
 export default class Orc {
 
@@ -10,6 +11,8 @@ export default class Orc {
 	#y;
 	#state;
 
+	#attributes;
+
 	constructor(args = {}) {
 		const { who, scene } = args;
 		if (![...orcs.keys()].includes(who)) {
@@ -18,6 +21,11 @@ export default class Orc {
 		this.#scene = scene;
 		this.#who = who;
 		this.#ui = new OrcUi({ scene, who, scale: 2 });
+		this.#attributes = new Attributes([
+			[HIT_POINTS, 1000],
+			[DAMAGE, 100],
+			[STAMINA, 10],
+		]);
 	}
 
 	get scene() {

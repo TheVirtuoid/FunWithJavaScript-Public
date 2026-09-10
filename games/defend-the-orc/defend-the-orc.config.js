@@ -22,10 +22,21 @@ const UP = Symbol('up');
 const DOWN = Symbol('down');
 const LEFT = Symbol('left');
 const RIGHT = Symbol('right');
-const STILL = Symbol('still');
 
 const CONTROLLER_RUN = 2;
 const CONTROLLER_ATTACK = 7;
+
+const HIT_POINTS = Symbol('hit-points');
+const STAMINA = Symbol('stamina');
+const DAMAGE = Symbol('damage');
+
+const attributes = new Map([
+	[HIT_POINTS, { name: 'Hit points' }],
+	[STAMINA, { name: 'Stamina' }],
+	[DAMAGE, { name: 'Damage' }],
+]);
+
+const isAttribute = (key) => [...attributes.keys()].includes(key);
 
 const swordsmen = new Map([
 	[DAREK, {	path: 'src/img/enemies/Darek' }],
@@ -404,8 +415,9 @@ const orcAnimation = new Map([
 export {
 	GARZ, THOKK, VORG, ATTACK, DEATH, HURT, IDLE, RUN, RUN_ATTACK, WALK, WALK_ATTACK,
 	DAREK, GARETH, MALAKOR, MOROS, ORLOK, TORIN,
-	UP, DOWN, LEFT, RIGHT, STILL,
+	UP, DOWN, LEFT, RIGHT,
 	CONTROLLER_RUN, CONTROLLER_ATTACK,
 	orcs, orcAnimation,
-	swordsmen, swordsmanAnimation, vampires, vampireAnimation
+	swordsmen, swordsmanAnimation, vampires, vampireAnimation,
+	attributes, isAttribute, HIT_POINTS, STAMINA, DAMAGE
 };

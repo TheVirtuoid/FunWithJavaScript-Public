@@ -1,4 +1,4 @@
-import { DOWN, LEFT, RIGHT, swordsmen, UP, WALK } from "../../../defend-the-orc.config.js";
+import {DOWN, IDLE, LEFT, RIGHT, swordsmen, UP, WALK} from "../../../defend-the-orc.config.js";
 import SwordsmanUi from './../graphics/Swordsman.js';
 import StateEvent from "../structures/StateEvent.js";
 import Phaser from "phaser";
@@ -66,22 +66,23 @@ export default class Swordsman {
 		let y = orcPosition.y - this.imagePosition.y;
 		const spin = Math.abs(x) - Math.abs(y);
 		const direction = spin > 0 ? x > 0 ? RIGHT : LEFT : y > 0 ? DOWN : UP;
-		// const movement = this.state?.movement === IDLE ? WALK : this.state?.movement;
-		const movement = WALK;
-		const attacking = false;
+		let attacking = false;
+		let movement = WALK;
 
 		// move swordsman
 		if (Phaser.Math.Distance.BetweenPoints(orcPosition, this.imagePosition) <= 60) {
 			x = 0;
 			y = 0;
+			movement = IDLE;
 		}
 		const vector = new Phaser.Math.Vector2(x, y).normalize();
-		const velocityState = new StateEvent({ x: vector.x, y: vector.y });
+		const velocityState = new StateEvent({ x: vector.x, y: vector.y, movement });
 		this.#ui.updateVelocity(velocityState);
 
 		// change direction
 		if (this.state) {
-			if (direction !== this.state.direction) {
+			if (direction !== this.state.direction || movement !== this.state.movement) {
+				attacking = movement === IDLE ? true : false;
 				const newState = new StateEvent({
 					attacking,
 					direction,
