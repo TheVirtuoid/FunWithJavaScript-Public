@@ -1,6 +1,7 @@
 import {orcs, HIT_POINTS, DAMAGE, STAMINA} from "../../../defend-the-orc.config.js";
 import OrcUi from './../graphics/Orc.js';
 import Attributes from "../structures/Attributes.js";
+import Panel from './Panel.js';
 
 export default class Orc {
 
@@ -12,6 +13,7 @@ export default class Orc {
 	#state;
 
 	#attributes;
+	#panel;
 
 	constructor(args = {}) {
 		const { who, scene } = args;
@@ -26,6 +28,12 @@ export default class Orc {
 			[DAMAGE, 100],
 			[STAMINA, 10],
 		]);
+		this.#panel = new Panel({ entries: this.#attributes.getKeys()});
+		this.#attributes.getKeys().forEach((key) => {
+			const value = this.#attributes.getValue(key);
+			const displayValue = key !== DAMAGE ? `${value} / ${value}` : value;
+			this.#panel.set(key, displayValue);
+		});
 	}
 
 	get scene() {

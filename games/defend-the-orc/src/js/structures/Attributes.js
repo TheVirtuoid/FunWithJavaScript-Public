@@ -26,4 +26,8 @@ export default class Attributes {
 			return value;
 		}
 	}
+
+	getKeys() {
+		return [...this.#data.keys()];
+	}
 }

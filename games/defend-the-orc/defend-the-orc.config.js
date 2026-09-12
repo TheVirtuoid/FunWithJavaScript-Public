@@ -31,9 +31,9 @@ const STAMINA = Symbol('stamina');
 const DAMAGE = Symbol('damage');
 
 const attributes = new Map([
-	[HIT_POINTS, { name: 'Hit points' }],
-	[STAMINA, { name: 'Stamina' }],
-	[DAMAGE, { name: 'Damage' }],
+	[HIT_POINTS, { name: 'Hit points', img: 'hit-points.png' }],
+	[STAMINA, { name: 'Stamina', img: 'stamina.png' }],
+	[DAMAGE, { name: 'Damage', img: 'damage.png' }],
 ]);
 
 const isAttribute = (key) => [...attributes.keys()].includes(key);
@@ -411,6 +411,8 @@ const orcAnimation = new Map([
 			])
 		}]
 ]);
+
+const upgrades = []
 
 export {
 	GARZ, THOKK, VORG, ATTACK, DEATH, HURT, IDLE, RUN, RUN_ATTACK, WALK, WALK_ATTACK,
