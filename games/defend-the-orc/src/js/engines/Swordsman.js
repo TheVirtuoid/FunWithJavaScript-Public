@@ -43,6 +43,10 @@ export default class Swordsman {
 		return { x: this.#ui.imagePosition.x, y: this.#ui.imagePosition.y };
 	}
 
+	get image() {
+		return this.#ui.image;
+	}
+
 	setPosition(x, y) {
 		this.#x = x;
 		this.#y = y;

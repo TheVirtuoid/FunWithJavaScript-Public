@@ -13,6 +13,8 @@ export default class Battleground extends Phaser.Scene {
 	#gamepad;
 
 	#swordsman;
+	#enemyGroup;
+	#orcGroup;
 
 	constructor() {
 		super({
@@ -34,12 +36,20 @@ export default class Battleground extends Phaser.Scene {
 	}
 
 	create() {
+		this.#orcGroup = this.physics.add.group({
+			classType: Phaser.Physics.Arcade.Sprite,
+			runChildUpdate: true
+		});
+		this.#enemyGroup = this.physics.add.group({
+			classType: Phaser.Physics.Arcade.Sprite,
+			runChildUpdate: true
+		});
 		orcs.forEach((orcData, orc) => {
 			orcAnimation.forEach((anim, key) => {
 				anim.frames.forEach((frameData, direction) => {
-					// console.log(`key: ${orc.description}-${key.description}-${direction.description}-anim`);
+					const keyName = `${orc.description}-${key.description}-${direction.description}`;
 					this.anims.create({
-						key: `${orc.description}-${key.description}-${direction.description}-anim`,
+						key: `${keyName}-anim`,
 						frames: this.anims.generateFrameNumbers(`${orc.description}-${key.description}`, {
 							start: frameData.start,
 							end: frameData.end
@@ -47,6 +57,8 @@ export default class Battleground extends Phaser.Scene {
 						frameRate: anim.frameRate,
 						repeat: anim.repeat
 					});
+					/*const image = this.physics.add.sprite(keyName);
+					this.#orcGroup.add(image);*/
 				});
 			});
 		});
@@ -54,8 +66,9 @@ export default class Battleground extends Phaser.Scene {
 		swordsmen.forEach((swordsmanData, swordsman) => {
 			swordsmanAnimation.forEach((anim, key) => {
 				anim.frames.forEach((frameData, direction) => {
+					const keyName = `${swordsman.description}-${key.description}-${direction.description}`;
 					this.anims.create({
-						key: `${swordsman.description}-${key.description}-${direction.description}-anim`,
+						key: `${keyName}-anim`,
 						frames: this.anims.generateFrameNumbers(`${swordsman.description}-${key.description}`, {
 							start: frameData.start,
 							end: frameData.end
@@ -63,15 +76,24 @@ export default class Battleground extends Phaser.Scene {
 						frameRate: anim.frameRate,
 						repeat: anim.repeat
 					});
+					/*const image = this.physics.add.sprite(keyName);
+					this.#enemyGroup.add(image);*/
 				});
 			});
 		});
 
 		this.#orc = new Orc({ who: VORG, scene: this, runMultiplier: 3 });
 		this.#orc.setPosition(600, 400);
+		this.#orcGroup.add(this.#orc.image);
 
 		this.#swordsman = new Swordsman({ scene: this, who: DAREK });
 		this.#swordsman.setPosition(800, 400);
+		this.#enemyGroup.add(this.#swordsman.image);
+
+		this.physics.add.overlap(this.#orcGroup, this.#enemyGroup, (group1, group2) => {
+			console.log('collider');
+		});
+
 
 		this.#gamepad = new Gamepad({ scene: this });
 		this.#gamepad.create();
@@ -85,7 +107,6 @@ export default class Battleground extends Phaser.Scene {
 			this.#orc.updateVelocity(event);
 			this.#swordsman.updateVelocity(event, this.#orc.imagePosition);
 		});
-
 	}
 
 	update() {

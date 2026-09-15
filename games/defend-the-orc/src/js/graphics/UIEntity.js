@@ -28,6 +28,11 @@ export default class UIEntity{
 		return this.#scale;
 	}
 
+	get image() {
+		return this.#image;
+	}
+
+
 	get walkSpeed() {
 		return this.#walkSpeed;
 	}
