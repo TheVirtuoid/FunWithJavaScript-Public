@@ -13,6 +13,8 @@ export default class Swordsman {
 	#y;
 	#state;
 
+	#engaged;
+
 	constructor(args = {}) {
 		const { who, scene } = args;
 		if (![...swordsmen.keys()].includes(who)) {
@@ -21,6 +23,7 @@ export default class Swordsman {
 		this.#scene = scene;
 		this.#who = who;
 		this.#ui = new SwordsmanUi({ scene, who, scale: 2, walkSpeed: 150 });
+		this.#engaged = false;
 	}
 
 	get scene() {
@@ -39,12 +42,20 @@ export default class Swordsman {
 		return this.#state?.toObject();
 	}
 
+	get engaged() {
+		return this.#engaged;
+	}
+
 	get imagePosition() {
 		return { x: this.#ui.imagePosition.x, y: this.#ui.imagePosition.y };
 	}
 
 	get image() {
 		return this.#ui.image;
+	}
+
+	setEngaged(value) {
+		this.#engaged = value;
 	}
 
 	setPosition(x, y) {
@@ -72,7 +83,6 @@ export default class Swordsman {
 		const direction = spin > 0 ? x > 0 ? RIGHT : LEFT : y > 0 ? DOWN : UP;
 		let attacking = false;
 		let movement = WALK;
-
 		// move swordsman
 		if (Phaser.Math.Distance.BetweenPoints(orcPosition, this.imagePosition) <= 60) {
 			x = 0;
@@ -86,7 +96,8 @@ export default class Swordsman {
 		// change direction
 		if (this.state) {
 			if (direction !== this.state.direction || movement !== this.state.movement) {
-				attacking = movement === IDLE ? true : false;
+				// attacking = movement === IDLE ? true : false;
+				attacking = false;
 				const newState = new StateEvent({
 					attacking,
 					direction,

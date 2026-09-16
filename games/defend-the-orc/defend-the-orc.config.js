@@ -54,7 +54,7 @@ const swordsmanAnimation = new Map([
 	[ATTACK,
 		{ img: 'attack.png',
 			repeat: 0,
-			frameRate: 16,
+			frameRate: 6,
 			config: {
 				frameWidth: 64,
 				frameHeight: 64,

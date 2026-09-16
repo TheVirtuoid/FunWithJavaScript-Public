@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import {
 	orcAnimation,
 	orcs,
-	VORG, DAREK, swordsmanAnimation, swordsmen
+	VORG, DAREK, swordsmanAnimation, swordsmen, IDLE
 } from "../../../defend-the-orc.config.js";
 import Orc from "../engines/Orc.js";
 import Gamepad from "../engines/Gamepad.js";
@@ -87,12 +87,19 @@ export default class Battleground extends Phaser.Scene {
 		this.#orcGroup.add(this.#orc.image);
 
 		this.#swordsman = new Swordsman({ scene: this, who: DAREK });
+		this.#swordsman.image.data = this.#swordsman;
 		this.#swordsman.setPosition(800, 400);
 		this.#enemyGroup.add(this.#swordsman.image);
 
-		this.physics.add.overlap(this.#orcGroup, this.#enemyGroup, (group1, group2) => {
-			console.log('collider');
-		});
+		this.test = false;
+
+		/*this.physics.add.overlap(this.#orcGroup, this.#enemyGroup, (orcImage, swordsmanImage) => {
+			if (!this.test) {
+				const swordsman = swordsmanImage.data;
+				console.log(swordsman.state);
+				this.test = true;
+			}
+		});*/
 
 
 		this.#gamepad = new Gamepad({ scene: this });
@@ -106,6 +113,11 @@ export default class Battleground extends Phaser.Scene {
 		this.events.on(Gamepad.CHARACTER_MOVEMENT.description, (event) => {
 			this.#orc.updateVelocity(event);
 			this.#swordsman.updateVelocity(event, this.#orc.imagePosition);
+			/*if (this.physics.overlap(this.#orc.image, this.#swordsman.image)) {
+				console.log('yes');
+			} else {
+				console.log('no');
+			}*/
 		});
 	}
 
