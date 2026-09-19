@@ -5,7 +5,7 @@ export default class SwordsmanUi extends UIEntity {
 		super(args);
 	}
 
-	setState(state, directionChange) {
-		super.setState(state);
+	setCollisionState(orc) {
+		return this.scene.physics.overlap(this.image, orc.image);
 	}
 }

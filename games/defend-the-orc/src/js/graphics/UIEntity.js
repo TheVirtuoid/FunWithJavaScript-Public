@@ -32,6 +32,10 @@ export default class UIEntity{
 		return this.#image;
 	}
 
+	get scene() {
+		return this.#scene;
+	}
+
 
 	get walkSpeed() {
 		return this.#walkSpeed;
@@ -63,33 +67,35 @@ export default class UIEntity{
 		this.#runMultiplier = runMultiplier;
 	}
 
+	// state documentation
+	//		runnning (boolean) - if the RUNNING button is pressed
+	//		direction (enum) - the direction entity is facing
+	//		moving (enum) - WALK, RUN or IDLE
+	//		attacking (boolean) - if the ATTACK button is pressed
+	//		attckInProcess (boolean) - if there is an attack swing underway
+
 	setState(state) {
 		const movement = state.movement ? state.movement : this.#lastState.movement;
 		const direction = state.direction ? state.direction : this.#lastState.direction;
+		const attackInProcess = state.attackInProcess ? state.attackInProcess : this.#lastState.attackInProcess;
 		const x = state.x ? state.x : this.#lastState.x;
 		const y = state.y ? state.y : this.#lastState.y;
-		this.#image.play(`${this.#who.description}-${movement.description}-${direction.description}-anim`);
-
-		/*if (this.#image.x > 0 || this.#image.y > 0) {
-			const square = this.#scene.add.rectangle(
-				this.#image.x, this.#image.y,
-				this.#image.width * this.#scale,
-				this.#image.height * this.#scale
-			);
-			square.setStrokeStyle(1, 0x00ff00, 1.0);
-			square.setFillStyle();
-		}*/
-
-
-		this.#lastState = new StateEvent({ movement, direction, x, y });
-		if (state.attacking) {
-			let attack = movement === WALK || movement === RUN ? `${movement.description}-${ATTACK.description}` : ATTACK.description;
-			if (!this.#scene.anims.exists(attack)) {
-				attack = ATTACK.description;
+		if (!this.#lastState.attackInProcess) {
+			this.#image.play(`${this.#who.description}-${movement.description}-${direction.description}-anim`);
+			this.#lastState = new StateEvent({ movement, direction, attackInProcess, x, y });
+			if (state.attacking) {
+				this.#lastState.setAttackInProcess();
+				let attack = movement === WALK || movement === RUN ? `${movement.description}-${ATTACK.description}` : ATTACK.description;
+				if (!this.#scene.anims.exists(attack)) {
+					attack = ATTACK.description;
+				}
+				this.#image.play(`${this.#who.description}-${attack}-${direction.description}-anim`);
+				this.#image.once(`animationcomplete`, (event) => {
+					this.#image.play(`${this.#who.description}-${movement.description}-${direction.description}-anim`);
+					this.#lastState = new StateEvent({ movement, direction, attackInProcess: false, x, y });
+				});
 			}
-			this.#image.play(`${this.#who.description}-${attack}-${direction.description}-anim`);
 		}
-		// this.updateVelocity(this.#lastState);
 	}
 
 	updateVelocity(state) {

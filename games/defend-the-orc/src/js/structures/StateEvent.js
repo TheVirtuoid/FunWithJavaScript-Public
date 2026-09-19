@@ -3,6 +3,7 @@ export default class StateEvent {
 	#movement;
 	#attacking;
 	#running;
+	#attackInProcess;
 	#x;
 	#y;
 
@@ -12,6 +13,7 @@ export default class StateEvent {
 			direction = null,
 			movement = null,
 			running = false,
+			attackInProcess = false,
 			x = 0,
 			y = 0
 		} = args;
@@ -19,6 +21,7 @@ export default class StateEvent {
 		this.#movement = movement;
 		this.#attacking = attacking;
 		this.#running = running;
+		this.#attackInProcess = attackInProcess;
 		this.#x = x;
 		this.#y = y;
 	}
@@ -47,12 +50,25 @@ export default class StateEvent {
 		return this.#running;
 	}
 
+	get attackInProcess() {
+		return this.#attackInProcess;
+	}
+
+	setAttackInProcess() {
+		this.#attackInProcess = true;
+	}
+
+	clearAttackInProcess() {
+		this.#attackInProcess = false;
+	}
+
 	diff(oldEvent) {
 		return new StateEvent({
 			attacking: this.#attacking !== oldEvent.attacking ? this.#attacking : null,
 			direction: this.#direction !== oldEvent.direction ? this.#direction : null,
 			movement: this.#movement !== oldEvent.movement ? this.#movement : null,
 			running: this.#running,
+			attackInProcess: this.#attackInProcess !== oldEvent.attackInProcess ? this.#attackInProcess: null,
 			x: this.#x,
 			y: this.#y
 		});
@@ -64,6 +80,7 @@ export default class StateEvent {
 			direction: this.#direction,
 			movement: this.#movement,
 			running: this.#running,
+			attackInProcess: this.#attackInProcess,
 			x: this.#x,
 			y: this.#y
 		}

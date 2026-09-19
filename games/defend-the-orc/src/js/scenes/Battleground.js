@@ -7,6 +7,7 @@ import {
 import Orc from "../engines/Orc.js";
 import Gamepad from "../engines/Gamepad.js";
 import Swordsman from "../engines/Swordsman.js";
+import StateEvent from "../structures/StateEvent.js";
 
 export default class Battleground extends Phaser.Scene {
 	#orc;
@@ -15,6 +16,8 @@ export default class Battleground extends Phaser.Scene {
 	#swordsman;
 	#enemyGroup;
 	#orcGroup;
+
+	#enemies;
 
 	constructor() {
 		super({
@@ -36,6 +39,7 @@ export default class Battleground extends Phaser.Scene {
 	}
 
 	create() {
+		this.#enemies = [];
 		this.#orcGroup = this.physics.add.group({
 			classType: Phaser.Physics.Arcade.Sprite,
 			runChildUpdate: true
@@ -57,8 +61,6 @@ export default class Battleground extends Phaser.Scene {
 						frameRate: anim.frameRate,
 						repeat: anim.repeat
 					});
-					/*const image = this.physics.add.sprite(keyName);
-					this.#orcGroup.add(image);*/
 				});
 			});
 		});
@@ -76,8 +78,6 @@ export default class Battleground extends Phaser.Scene {
 						frameRate: anim.frameRate,
 						repeat: anim.repeat
 					});
-					/*const image = this.physics.add.sprite(keyName);
-					this.#enemyGroup.add(image);*/
 				});
 			});
 		});
@@ -91,39 +91,27 @@ export default class Battleground extends Phaser.Scene {
 		this.#swordsman.setPosition(800, 400);
 		this.#enemyGroup.add(this.#swordsman.image);
 
-		this.test = false;
-
-		/*this.physics.add.overlap(this.#orcGroup, this.#enemyGroup, (orcImage, swordsmanImage) => {
-			if (!this.test) {
-				const swordsman = swordsmanImage.data;
-				console.log(swordsman.state);
-				this.test = true;
-			}
-		});*/
-
+		this.#enemies.push(this.#swordsman);
 
 		this.#gamepad = new Gamepad({ scene: this });
 		this.#gamepad.create();
 
 		this.events.on(Gamepad.CHARACTER_ACTION.description, (event) => {
 			this.#orc.setState(event);
-			this.#swordsman.setState(event, this.#orc.imagePosition);
+			this.#enemies.forEach((enemy) => enemy.setState(event));
 		});
 
 		this.events.on(Gamepad.CHARACTER_MOVEMENT.description, (event) => {
 			this.#orc.updateVelocity(event);
-			this.#swordsman.updateVelocity(event, this.#orc.imagePosition);
-			/*if (this.physics.overlap(this.#orc.image, this.#swordsman.image)) {
-				console.log('yes');
-			} else {
-				console.log('no');
-			}*/
+			this.#enemies.forEach((enemy) => {
+				enemy.updateVelocity(event, this.#orc);
+			});
 		});
 	}
 
 	update() {
 		this.#gamepad.update();
-		this.#swordsman.updateState(this.#orc.imagePosition);
+		this.#enemies.forEach((enemy) => enemy.updateState(this.#orc));
 	}
 
 }
