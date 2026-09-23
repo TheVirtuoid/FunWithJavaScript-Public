@@ -11,6 +11,8 @@ export default class UIEntity{
 	#walkSpeed;
 	#runMultiplier;
 
+	#animationUpdateHandle;
+
 	constructor(args = {}) {
 		const { scene, who, scale = 2, walkSpeed = 200, runMultiplier = 2 } = args;
 		this.#scene = scene;
@@ -21,6 +23,7 @@ export default class UIEntity{
 		this.#lastState = new StateEvent({ movement: IDLE, direction: RIGHT, stickX: null, stickY: null });
 		this.#walkSpeed = walkSpeed;
 		this.#runMultiplier = runMultiplier;
+		this.#animationUpdateHandle = this.#animationUpdate.bind(this);
 		this.setState(this.#lastState);
 	}
 
@@ -67,6 +70,13 @@ export default class UIEntity{
 		this.#runMultiplier = runMultiplier;
 	}
 
+	// NOTE: Any overrides MUST call super.animationComplete() so that proper event cleanup can occur
+	animationComplete() {
+		this.#image.off('animationupdate', this.#animationUpdateHandle);
+	}
+
+	checkForHit() {}
+
 	// state documentation
 	//		runnning (boolean) - if the RUNNING button is pressed
 	//		direction (enum) - the direction entity is facing
@@ -93,7 +103,9 @@ export default class UIEntity{
 				this.#image.once(`animationcomplete`, (event) => {
 					this.#image.play(`${this.#who.description}-${movement.description}-${direction.description}-anim`);
 					this.#lastState = new StateEvent({ movement, direction, attackInProcess: false, x, y });
+					this.animationComplete();
 				});
+				this.#image.on('animationupdate', this.#animationUpdateHandle);
 			}
 		}
 	}
@@ -107,4 +119,13 @@ export default class UIEntity{
 		}
 		this.#image.setVelocity(velocity.x, velocity.y);
 	}
+
+	#animationUpdate(animation, frame) {
+		const totalFrames = animation.frames.length;
+		const halfwayPoint = Math.floor(totalFrames / 2);
+		if (frame.index === halfwayPoint) {
+			this.checkForHit();
+		}
+	}
+
 }

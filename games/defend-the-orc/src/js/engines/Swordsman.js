@@ -15,6 +15,7 @@ export default class Swordsman {
 
 	#engaged;
 	#attacking;
+	#orcBeingAttacked;
 
 	constructor(args = {}) {
 		const { who, scene } = args;
@@ -23,7 +24,7 @@ export default class Swordsman {
 		}
 		this.#scene = scene;
 		this.#who = who;
-		this.#ui = new SwordsmanUi({ scene, who, scale: 2, walkSpeed: 150 });
+		this.#ui = new SwordsmanUi({ scene, who, scale: 2, walkSpeed: 150 }, this);
 		this.#engaged = false;
 		this.#attacking = false;
 	}
@@ -60,6 +61,24 @@ export default class Swordsman {
 		this.#engaged = value;
 	}
 
+	animationComplete() {
+		this.#attacking = false;
+	}
+
+	checkForHit() {
+		if (this.#orcBeingAttacked) {
+			let x = this.#orcBeingAttacked.imagePosition.x - this.imagePosition.x;
+			let y = this.#orcBeingAttacked.imagePosition.y - this.imagePosition.y;
+			const spin = Math.abs(x) - Math.abs(y);
+			const facingOrc = spin > 0 ? x > 0 ? RIGHT : LEFT : y > 0 ? DOWN : UP;
+			const collisionState = this.#ui.setCollisionState(this.#orcBeingAttacked);
+			const hit = collisionState && (facingOrc === this.#state.direction)
+			console.log(collisionState, facingOrc, this.#state.direction, hit);
+		} else {
+			console.log('whoopsie');
+		}
+	}
+
 	setPosition(x, y) {
 		this.#x = x;
 		this.#y = y;
@@ -72,37 +91,38 @@ export default class Swordsman {
 	}
 
 	updateVelocity(state, orc) {
-		const x = orc.imagePosition.x - this.imagePosition.x;
-		const y = orc.imagePosition.y - this.imagePosition.y;
-		const newState = new StateEvent( { ...state, x, y } );
-		this.#ui.updateVelocity(newState);
+		if (!this.#attacking) {
+			const x = orc.imagePosition.x - this.imagePosition.x;
+			const y = orc.imagePosition.y - this.imagePosition.y;
+			const newState = new StateEvent( { ...state, x, y } );
+			this.#ui.updateVelocity(newState);
+		}
 	}
 
 	updateState(orc) {
-		let x = orc.imagePosition.x - this.imagePosition.x;
-		let y = orc.imagePosition.y - this.imagePosition.y;
-		const spin = Math.abs(x) - Math.abs(y);
-		const direction = spin > 0 ? x > 0 ? RIGHT : LEFT : y > 0 ? DOWN : UP;
-		let attacking = false;
-		let movement = WALK;
-		// move swordsman
-		const collisionState = this.#ui.setCollisionState(orc);
-		// console.log(collisionState, this.#attacking, this.state?.attacking);
-		if (collisionState && !this.#attacking && !this.state?.attacking) {
-			x = 0;
-			y = 0;
-			movement = WALK;
-			attacking = true;
-			this.#attacking = true;
-		}
-		const vector = new Phaser.Math.Vector2(x, y).normalize();
-		const velocityState = new StateEvent({ x: vector.x, y: vector.y, movement });
-		this.#ui.updateVelocity(velocityState);
+		if (!this.#attacking) {
+			let x = orc.imagePosition.x - this.imagePosition.x;
+			let y = orc.imagePosition.y - this.imagePosition.y;
+			const spin = Math.abs(x) - Math.abs(y);
+			const direction = spin > 0 ? x > 0 ? RIGHT : LEFT : y > 0 ? DOWN : UP;
+			let attacking = false;
+			let movement = WALK;
+			// move swordsman
+			const collisionState = this.#ui.setCollisionState(orc);
+			if (collisionState && !this.#attacking && !this.state?.attacking) {
+				x = 0;
+				y = 0;
+				movement = WALK;
+				attacking = true;
+				this.#attacking = true;
+				this.#orcBeingAttacked = orc;
+			}
+			const vector = new Phaser.Math.Vector2(x, y).normalize();
+			const velocityState = new StateEvent({ x: vector.x, y: vector.y, movement });
+			this.#ui.updateVelocity(velocityState);
 
-		// change direction
-		if (this.state) {
-			if (direction !== this.state.direction || movement !== this.state.movement || attacking !== this.state.attacking) {
-				// console.log('-set', attacking, direction, movement, x, y, this.state.movement);
+			// change direction
+			if (direction !== this.state?.direction || movement !== this.state?.movement || attacking !== this.state?.attacking) {
 				const newState = new StateEvent({
 					attacking,
 					direction,
@@ -110,9 +130,8 @@ export default class Swordsman {
 					x,
 					y
 				});
-				this.setState(newState, direction !== this.state.direction);
+				this.setState(newState);
 			}
 		}
-
 	}
 }

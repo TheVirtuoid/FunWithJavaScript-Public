@@ -98,7 +98,9 @@ export default class Battleground extends Phaser.Scene {
 
 		this.events.on(Gamepad.CHARACTER_ACTION.description, (event) => {
 			this.#orc.setState(event);
-			this.#enemies.forEach((enemy) => enemy.setState(event));
+			this.#enemies.forEach((enemy) => {
+				enemy.updateState(this.#orc);
+			});
 		});
 
 		this.events.on(Gamepad.CHARACTER_MOVEMENT.description, (event) => {
